@@ -78,6 +78,7 @@ description: "Lançamentos contábeis e conciliação bancária da J A R DE ALME
 | 366 | Serviços de Assessoria e Gerenciamento | Marketing, assessoria (ex.: Agência de Ideias) |
 | 369 | Despesas Bancárias | Tarifas, pacote de serviços, seguro prestamista, juros cheque especial |
 | 373 | IOF | IOF — lançar separadamente, nunca embutir |
+| 512 | ICMS Antecipado | GR-PR "GOVERNO DO PARANA" (76.416.890/0001-89) — valor total da guia, inclusive multa/juros (contadora, 24/09/2026) |
 | 470 | CMV | Compras de mercadorias para revenda |
 | 479 | Simples Nacional a Recolher | DAS — Receita Federal >R$1.000 |
 | 493 | Despesas Diversas | Despesas não classificadas especificamente |
@@ -231,7 +232,7 @@ Quando solicitado, gerar planilha `.xlsx` com as datas e valores pagos/recebidos
 | Competência | Bancos | Lançamentos | Status |
 |---|---|---|---|
 | Julho/2026 | Sicredi (8) + Sicoob (9) | 343 | ✅ TXT entregue (v3) |
-| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 | ✅ TXT gerado em 24/09/2026 — saldos fecham; pró-labore confirmado pela contadora: R$ 1.621,00 − INSS 11% = líquido R$ 1.442,69; 9 itens na aba "Conferir" |
+| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 (v2) | ✅ TXT gerado em 24/09/2026 — saldos fecham; pró-labore confirmado pela contadora: R$ 1.621,00 − INSS 11% = líquido R$ 1.442,69; ICMS Antecipado 04 e 05/2026 na 512; Receita R$ 672,60 na 191 (mantido); DAS 07/2026 R$ 961,04 NÃO pago em agosto (em aberto) |
 
 ---
 
