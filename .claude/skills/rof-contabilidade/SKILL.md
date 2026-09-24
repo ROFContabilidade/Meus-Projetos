@@ -103,7 +103,7 @@ Cada skill de empresa contém o plano de contas, regras de sócios e classifica�
 | `rof-contabilidade-dck` | DCK / WEB41 | — | — |
 | `rof-contabilidade-fwsgoncalves` | F W S GONCALVES LTDA (CNPJ 22.147.527/0001-86, móveis) | Simples Nacional | Sicredi / SicrediInvest |
 | `rof-contabilidade-imperiobaggio` | MARIA P S BAGGIO RESTAURANTE — Império Baggio (CNPJ 20.632.522/0001-13) | Simples Nacional | Sicredi |
-| `rof-contabilidade-jar-almeida` | J A R DE ALMEIDA LTDA (CNPJ 59.888.774/0001-43, doces) | Simples Nacional | — |
+| `rof-contabilidade-jar-almeida` | J A R DE ALMEIDA LTDA (CNPJ 59.888.774/0001-43, doces) — ROF, ligada à Guria Chic; não é a 85 Letícia Doces | Simples Nacional | — |
 | `rof-contabilidade-kopp` | INSTITUTO KOPP S/S LTDA. (CNPJ 08.109.599/0001-08, clínica odontológica) | Lucro Presumido | Sisprime / Stone |
 | `rof-contabilidade-lucasromano` | LUCAS ROMANO SANTOS LTDA (CNPJ 43.534.615/0001-00, serviços) | Simples Nacional | Nubank |
 | `rof-contabilidade-lumus` | LUMUS ESPECIALIDADES TERAPÊUTICAS (CNPJ 50.724.260/0001-88, saúde) | Simples Nacional | Mercado Pago |

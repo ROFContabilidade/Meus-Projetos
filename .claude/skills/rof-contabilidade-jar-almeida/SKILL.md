@@ -11,6 +11,7 @@ description: "Lançamentos contábeis e conciliação bancária da J A R DE ALME
 |---|---|
 | Razão social | J A R DE ALMEIDA LTDA |
 | CNPJ | 59.888.774/0001-43 |
+| Carteira | Contabilidade **ROF** — empresa ligada à **Guria Chic** (mesma sócia Junia). **Não confundir** com a 85 - Letícia Doces (contabilidade RENATA), confirmado pela contadora em 24/09/2026 |
 | CNPJ sem formatação | 59888774000143 |
 | CNAE principal | 4721-1/04 — Comércio varejista de doces, balas, bombons e semelhantes |
 | CNAE secundário 1 | 4712-1/00 — Comércio varejista de mercadorias em geral, com predominância de produtos alimentícios |

@@ -4,7 +4,7 @@ Escopo definido pela Rosangela em 24/09/2026: todas as empresas ativas da contab
 
 Fonte da lista: varredura das pastas `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos <contabilidade> Dominio` em 24/09/2026 (pastas INATIVAS excluídas).
 
-**Total no escopo: 104 empresas — 19 com skill, 85 a fazer.**
+**Total no escopo: 105 empresas — 19 com skill, 86 a fazer.** (Guria Chic tem dois CNPJs: Ribeiro Fast Fashion e J A R de Almeida.)
 
 Para criar cada skill faltante (via `rof-nova-empresa`): CNPJ, regime tributário, plano de contas (Contas.xls), razão dos últimos meses e um extrato recente de cada banco.
 
@@ -49,7 +49,7 @@ Para criar cada skill faltante (via `rof-nova-empresa`): CNPJ, regime tributári
 | RENATA | 82 | F W S | ✅ Tem skill | `rof-contabilidade-fwsgoncalves` |
 | RENATA | 83 | R J A | ⬜ A fazer |  |
 | RENATA | 84 | Lucas Advocacia | ⬜ A fazer |  |
-| RENATA | 85 | Leticia Doces | ✅ Tem skill | `rof-contabilidade-jar-almeida` (confirmar) |
+| RENATA | 85 | Leticia Doces | ⬜ A fazer |  |
 | RENATA | 86 | KG Odontologia | ⬜ A fazer |  |
 | RENATA | 87 | Home Nursing | ⬜ A fazer |  |
 | RENATA | 88 | Flavio L B | ⬜ A fazer |  |
@@ -105,7 +105,8 @@ Para criar cada skill faltante (via `rof-nova-empresa`): CNPJ, regime tributári
 | ROF | 105 | Soares Veiculos | ⬜ A fazer |  |
 | ROF | 106 | Everton Soares Advocacia | ⬜ A fazer |  |
 | ROF | 110 | Cacau Ribeiro | ⬜ A fazer |  |
-| ROF | 120 | Guria Chic | ✅ Tem skill | `rof-contabilidade-ribeiro` |
+| ROF | 120 | Guria Chic (RIBEIRO FAST FASHION LTDA) | ✅ Tem skill | `rof-contabilidade-ribeiro` |
+| ROF | 120 | Guria Chic (J A R DE ALMEIDA LTDA — mesma sócia Junia) | ✅ Tem skill | `rof-contabilidade-jar-almeida` |
 | ROF | 1000 | ROF | ⬜ A fazer |  |
 | ROF | 1004 | Lumus | ✅ Tem skill | `rof-contabilidade-lumus` |
 | ROF | 1005 | Mohr Group Ltda | ✅ Tem skill | `rof-contabilidade-mohrgroup` |
