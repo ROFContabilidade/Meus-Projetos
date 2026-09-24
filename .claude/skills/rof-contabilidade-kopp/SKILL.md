@@ -42,8 +42,9 @@ description: "INSTITUTO KOPP S/S LTDA., CNPJ 08.109.599/0001-08, Lucro Presumido
 
 > Definida pela contadora Rosangela em 24/09/2026. Vale para **toda** competência do Instituto Kopp.
 
-- **Todo mês a contadora envia, junto com o extrato, a planilha de conferência do cliente** (.xlsx baixada do Google Drive que o cliente compartilha na conversa do WhatsApp **+55 41 9746-1817**).
-- Link da planilha no Google Drive (referência, 24/09/2026): https://docs.google.com/spreadsheets/d/1Atii1b__8SsuLHtcRIKoCceafrCw4mfk/edit?usp=sharing
+- **Todo mês usar, junto com o extrato, a planilha de conferência do cliente** (.xlsx baixada do Google Drive que o cliente compartilha na conversa do WhatsApp **+55 41 9746-1817**).
+- Planilha no Google Drive: **"Fluxo de caixa novo.xlsx"** (dona: institutokopp@gmail.com, compartilhada com a contadora; ID `1Atii1b__8SsuLHtcRIKoCceafrCw4mfk`) — https://docs.google.com/spreadsheets/d/1Atii1b__8SsuLHtcRIKoCceafrCw4mfk/edit?usp=sharing
+- **Com o conector do Google Drive ligado, ler a planilha direto pelo ID** (sem precisar que a contadora envie o arquivo). Conteúdo: recebíveis do sistema por data, tipo, emissor, transação, valor, taxas, valor final e paciente(s) — usar para identificar os recebimentos do extrato (Stone/Sisprime) e seus pacientes. Sem o conector, pedir o .xlsx à contadora.
 - **Conferir cada lançamento do extrato com a planilha** (valor, data, favorecido, natureza) antes de classificar e antes de gerar o TXT. Usar a planilha para identificar favorecidos e a natureza das despesas.
 - Lançamento do extrato que não consta na planilha, ou com divergência de valor/data → registrar na aba "Conferir" e sinalizar para a contadora.
 - **Se a planilha do mês não foi enviada, pedir à contadora antes de prosseguir** — não pular esta conferência.
