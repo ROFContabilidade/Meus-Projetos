@@ -38,6 +38,15 @@ description: "INSTITUTO KOPP S/S LTDA., CNPJ 08.109.599/0001-08, Lucro Presumido
 4. **Histórico**: copiar o texto exatamente como aparece no extrato bancário
 5. Os lançamentos de jan–jun/2026 **não foram conferidos** — não usar o razão antigo como verdade quando contrariar as regras abaixo (ex.: salários na 362, impostos na 359).
 
+## Regra Inviolável — Conferência pelo Drive do WhatsApp
+
+> Definida pela contadora Rosangela em 24/09/2026. Vale para **toda** competência do Instituto Kopp.
+
+- **Sempre** acessar o **WhatsApp Web**, abrir a conversa com o contato **+55 41 9746-1817** e entrar no **link do Drive** compartilhado nessa conversa.
+- Usar os documentos desse Drive para **conferir os lançamentos do extrato** (comprovantes, notas, guias) antes de classificar e antes de gerar o TXT.
+- Lançamento do extrato sem documento correspondente no Drive → registrar na aba "Conferir" e sinalizar para a contadora.
+- Se não for possível acessar o WhatsApp Web ou o Drive (sem navegador, sem login, link indisponível), **avisar a contadora antes de prosseguir** — não pular esta conferência.
+
 ## Leiaute do Arquivo TXT para Domínio
 
 Confirmado pelo TXT Otimizza da empresa (cada lançamento precedido de `|6000|X||||`):
@@ -245,13 +254,14 @@ Despesa pessoal paga e reembolsada pelo sócio no mesmo dia (ex.: 20/07/2026, Gi
 ## Fluxo de Trabalho
 
 1. Ler OFX Sisprime + OFX/PDF Stone da pasta `<MM_AAAA>\Extrato`
-2. Para cada lançamento: identificar natureza → favorecido → classificar → registrar histórico
-3. Conferir impostos com as guias da pasta `Guias` e salários com o extrato da folha
-4. Aplicar a regra dos R$ 50 mil por sócio no mês
-5. Sinalizar lançamentos não identificados para revisão
-6. Verificar aplicações financeiras, IOF e IRRF
-7. Conferir saldo por banco: entradas − saídas = variação do extrato
-8. Gerar TXT único ordenado por data
+2. Acessar o WhatsApp Web → conversa com **+55 41 9746-1817** → link do Drive, e conferir os lançamentos do extrato com os documentos de lá
+3. Para cada lançamento: identificar natureza → favorecido → classificar → registrar histórico
+4. Conferir impostos com as guias da pasta `Guias` e salários com o extrato da folha
+5. Aplicar a regra dos R$ 50 mil por sócio no mês
+6. Sinalizar lançamentos não identificados para revisão
+7. Verificar aplicações financeiras, IOF e IRRF
+8. Conferir saldo por banco: entradas − saídas = variação do extrato
+9. Gerar TXT único ordenado por data
 
 ## Pendências a Confirmar com a Contadora
 
