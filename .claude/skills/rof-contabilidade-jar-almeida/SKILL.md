@@ -185,6 +185,8 @@ Quando a empresa transferir dinheiro entre suas próprias contas (ex.: Sicredi �
 
 - **Sicredi e Sicoob** — contas correntes padrão
 - Sem banco intermediário (Mercado Pago, Stone, PagSeguro etc.)
+- Sicoob: conta garantida (cheque especial contratado R$ 5.000,00) — saldo pode ficar devedor; juros da conta garantida → 369
+- Transferência Sicredi → Sicoob aparece como "PAGAMENTO PIX 59888774000143 CACAU RIBEIRO" no Sicredi e "PIX REC.OUTRA IF" no Sicoob → D 9 / C 8, uma linha só
 - Sem aplicações financeiras cadastradas
 - Tarifas bancárias: classificar conforme plano de contas
 
@@ -228,6 +230,7 @@ Quando solicitado, gerar planilha `.xlsx` com as datas e valores pagos/recebidos
 | Competência | Bancos | Lançamentos | Status |
 |---|---|---|---|
 | Julho/2026 | Sicredi (8) + Sicoob (9) | 343 | ✅ TXT entregue (v3) |
+| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 | ✅ TXT gerado em 24/09/2026 — saldos fecham; pró-labore PROVISÓRIO (líquido de julho R$ 1.442,69) e 9 itens na aba "Conferir" |
 
 ---
 
