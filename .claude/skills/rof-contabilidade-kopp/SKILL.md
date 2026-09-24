@@ -38,15 +38,15 @@ description: "INSTITUTO KOPP S/S LTDA., CNPJ 08.109.599/0001-08, Lucro Presumido
 4. **Histórico**: copiar o texto exatamente como aparece no extrato bancário
 5. Os lançamentos de jan–jun/2026 **não foram conferidos** — não usar o razão antigo como verdade quando contrariar as regras abaixo (ex.: salários na 362, impostos na 359).
 
-## Regra Inviolável — Conferência pelo Drive do WhatsApp
+## Regra Inviolável — Conferência com a Planilha do Cliente
 
 > Definida pela contadora Rosangela em 24/09/2026. Vale para **toda** competência do Instituto Kopp.
 
-- **Sempre** acessar o **WhatsApp Web**, abrir a conversa com o contato **+55 41 9746-1817** e entrar no **link do Drive** compartilhado nessa conversa.
-- Link do Drive recebido da contadora em 24/09/2026 (planilha de conferência): https://docs.google.com/spreadsheets/d/1Atii1b__8SsuLHtcRIKoCceafrCw4mfk/edit?usp=sharing — se o cliente enviar um link novo na conversa, usar o mais recente e avisar a contadora para atualizar esta skill.
-- Usar os documentos desse Drive para **conferir os lançamentos do extrato** (comprovantes, notas, guias) antes de classificar e antes de gerar o TXT.
-- Lançamento do extrato sem documento correspondente no Drive → registrar na aba "Conferir" e sinalizar para a contadora.
-- Se não for possível acessar o WhatsApp Web ou o Drive (sem navegador, sem login, link indisponível), **avisar a contadora antes de prosseguir** — não pular esta conferência.
+- **Todo mês a contadora envia, junto com o extrato, a planilha de conferência do cliente** (.xlsx baixada do Google Drive que o cliente compartilha na conversa do WhatsApp **+55 41 9746-1817**).
+- Link da planilha no Google Drive (referência, 24/09/2026): https://docs.google.com/spreadsheets/d/1Atii1b__8SsuLHtcRIKoCceafrCw4mfk/edit?usp=sharing
+- **Conferir cada lançamento do extrato com a planilha** (valor, data, favorecido, natureza) antes de classificar e antes de gerar o TXT. Usar a planilha para identificar favorecidos e a natureza das despesas.
+- Lançamento do extrato que não consta na planilha, ou com divergência de valor/data → registrar na aba "Conferir" e sinalizar para a contadora.
+- **Se a planilha do mês não foi enviada, pedir à contadora antes de prosseguir** — não pular esta conferência.
 
 ## Leiaute do Arquivo TXT para Domínio
 
@@ -255,7 +255,7 @@ Despesa pessoal paga e reembolsada pelo sócio no mesmo dia (ex.: 20/07/2026, Gi
 ## Fluxo de Trabalho
 
 1. Ler OFX Sisprime + OFX/PDF Stone da pasta `<MM_AAAA>\Extrato`
-2. Acessar o WhatsApp Web → conversa com **+55 41 9746-1817** → link do Drive, e conferir os lançamentos do extrato com os documentos de lá
+2. Conferir os lançamentos do extrato com a **planilha de conferência do cliente** enviada pela contadora no mês (pedir se não vier)
 3. Para cada lançamento: identificar natureza → favorecido → classificar → registrar histórico
 4. Conferir impostos com as guias da pasta `Guias` e salários com o extrato da folha
 5. Aplicar a regra dos R$ 50 mil por sócio no mês
