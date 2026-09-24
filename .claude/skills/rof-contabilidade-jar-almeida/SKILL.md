@@ -188,6 +188,7 @@ Quando a empresa transferir dinheiro entre suas próprias contas (ex.: Sicredi �
 - Sicoob: conta garantida (cheque especial contratado R$ 5.000,00) — saldo pode ficar devedor; juros da conta garantida → 369
 - Transferência Sicredi → Sicoob aparece como "PAGAMENTO PIX 59888774000143 CACAU RIBEIRO" no Sicredi e "PIX REC.OUTRA IF" no Sicoob → D 9 / C 8, uma linha só
 - Sem aplicações financeiras cadastradas
+- Guias ficam em `Fiscal_Contabil\2026\<MM_AAAA>\Guias` (DAS, ICMS Antecipado GR-PR, GNRE ST, DeSTDA). Pagamentos ao "GOVERNO DO PARANA" (CNPJ 76.416.890/0001-89) são ICMS Antecipado (GR-PR). Ex.: 28/08/2026 R$ 23,49 = ICMS Antecipado 04/2026 e R$ 37,05 = ICMS Antecipado 05/2026 (receita 32,96 + multa 3,29 + juros 0,80), pagos em atraso
 - Tarifas bancárias: classificar conforme plano de contas
 
 ## Fluxo de Trabalho

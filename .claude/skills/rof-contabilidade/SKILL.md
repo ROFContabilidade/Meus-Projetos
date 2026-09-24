@@ -86,6 +86,16 @@ Este é o **motor genérico** do escritório. Ele contém o fluxo de trabalho, o
 - **Lançamento único direto: D banco destino / C banco origem.** Ignorar a contrapartida no outro extrato (não lançar em dobro). Nunca em conta de resultado.
 - Par que não fecha (sem contrapartida ou valor diferente) → pendência para a contadora.
 
+## Regra Padrão do Escritório — Impostos: conferir sempre na pasta Guias
+
+> Definida pela contadora Rosangela em 24/09/2026. Vale para **todas** as empresas.
+
+- Todo pagamento de imposto no extrato (DAS, INSS/DCTFWeb, FGTS, ICMS antecipado/ST, GR-PR, GNRE, DARF etc.) deve ser **identificado pela guia** na pasta `Guias` antes de classificar.
+- Ao lançar a competência **MM/AAAA**, olhar as guias da **competência anterior** (MM−1), porque o imposto apurado num mês é pago no mês seguinte. Ex.: lançando 08/2026 → pasta `07_2026\Guias`. Se o valor não bater, procurar também em meses anteriores (guias pagas em atraso, com multa e juros).
+- Conferir valor, vencimento e composição (principal, multa, juros). Guia paga com atraso: registrar a composição na aba "Conferir".
+- Guia do mês anterior que **não aparece paga** no extrato → sinalizar à contadora (possível débito em aberto).
+- Pagamento de imposto sem guia correspondente → sinalizar; não presumir o tributo pelo valor.
+
 ## Regra Padrão do Escritório — Leitura de Extratos em PDF (Python 3.12)
 
 > Combinado com a contadora Rosangela em 24/09/2026. **Nunca** subir extrato para site de conversão (sigilo/LGPD) e **não** ler o PDF como imagem.
