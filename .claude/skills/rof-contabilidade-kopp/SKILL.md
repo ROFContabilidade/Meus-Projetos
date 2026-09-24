@@ -43,6 +43,7 @@ description: "INSTITUTO KOPP S/S LTDA., CNPJ 08.109.599/0001-08, Lucro Presumido
 > Definida pela contadora Rosangela em 24/09/2026. Vale para **toda** competência do Instituto Kopp.
 
 - **Sempre** acessar o **WhatsApp Web**, abrir a conversa com o contato **+55 41 9746-1817** e entrar no **link do Drive** compartilhado nessa conversa.
+- Link do Drive recebido da contadora em 24/09/2026 (planilha de conferência): https://docs.google.com/spreadsheets/d/1Atii1b__8SsuLHtcRIKoCceafrCw4mfk/edit?usp=sharing — se o cliente enviar um link novo na conversa, usar o mais recente e avisar a contadora para atualizar esta skill.
 - Usar os documentos desse Drive para **conferir os lançamentos do extrato** (comprovantes, notas, guias) antes de classificar e antes de gerar o TXT.
 - Lançamento do extrato sem documento correspondente no Drive → registrar na aba "Conferir" e sinalizar para a contadora.
 - Se não for possível acessar o WhatsApp Web ou o Drive (sem navegador, sem login, link indisponível), **avisar a contadora antes de prosseguir** — não pular esta conferência.
