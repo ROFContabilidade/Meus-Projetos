@@ -86,6 +86,20 @@ Este é o **motor genérico** do escritório. Ele contém o fluxo de trabalho, o
 - **Lançamento único direto: D banco destino / C banco origem.** Ignorar a contrapartida no outro extrato (não lançar em dobro). Nunca em conta de resultado.
 - Par que não fecha (sem contrapartida ou valor diferente) → pendência para a contadora.
 
+## Regra Padrão do Escritório — Leitura de Extratos em PDF (Python 3.12)
+
+> Combinado com a contadora Rosangela em 24/09/2026. **Nunca** subir extrato para site de conversão (sigilo/LGPD) e **não** ler o PDF como imagem.
+
+- **No PC do escritório (Claude desktop):** usar o **Python 3.12** instalado (winget, python.org) com `pdfplumber` e `openpyxl`, e as rotinas em `G:\Meu Drive\Trabalho ROF\Diversos\rotinas\`:
+  - `pdf_texto.py arquivo.pdf [saida.txt]` → extrai o texto do PDF localmente (linhas com data, histórico, CPF/CNPJ, valor, saldo)
+  - `ler_ofx.py arquivo.ofx` → transações + saldo final do OFX
+  - `motor_lancamentos.py` → gera o TXT Domínio (`|0000|`, `|6000|X||||`, `|6100|`), planilha de sócios e `conferir_saldo()` por banco
+  - scripts por empresa em `rotinas\empresas\<empresa>_AAAAMM.py`
+- **Em sessão na nuvem (sem acesso ao PC):** ler o PDF como **texto** pelo conector do Google Drive (`read_file_content`) ou, se o arquivo for enviado na conversa, com `pdfplumber` na própria sessão.
+- Com OFX e PDF do mesmo banco: **OFX para os lançamentos, PDF para os saldos**.
+- PDF escaneado/foto (sem texto): avisar a contadora e pedir o PDF baixado do app/internet banking ou o OFX.
+- Em qualquer caso, o TXT só é entregue com o **saldo fechando no centavo por banco**.
+
 ## Parâmetros Adicionais
 - Razão do Banco dos últimos 3 meses como referência histórica de classificação
 - Qualquer dúvida ou divergência: pontuar para a contadora ANTES de prosseguir
