@@ -105,6 +105,8 @@ description: "Lançamentos contábeis e conciliação bancária da J A R DE ALME
 
 > Classificações validadas pela contadora têm prioridade sobre a classificação automática por CNPJ.
 
+> **Fornecedores do relatório de Entradas → 506** (contadora, 24/09/2026): todo pagamento a fornecedor que conste no relatório de notas de entrada da empresa (Entradas.xls / "NF Entrada_MM.AA_Cacau.xlsx" na pasta Relatorios do mês) vai para a conta **506**. Conferir o favorecido do extrato com a lista de emitentes desse relatório antes de classificar.
+
 ## Regra de Classificação das Contrapartes — LEIA ANTES DE CLASSIFICAR
 
 Para cada lançamento do extrato, siga esta ordem:
