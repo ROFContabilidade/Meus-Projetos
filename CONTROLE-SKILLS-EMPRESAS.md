@@ -4,7 +4,7 @@ Escopo definido pela Rosangela em 24/09/2026: todas as empresas ativas da contab
 
 Fonte da lista: varredura das pastas `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos <contabilidade> Dominio` em 24/09/2026 (pastas INATIVAS excluídas).
 
-**Total no escopo: 105 empresas — 19 com skill, 86 a fazer.** (Guria Chic tem dois CNPJs: Ribeiro Fast Fashion e J A R de Almeida.)
+**Total no escopo: 104 empresas — 19 com skill, 85 a fazer.**
 
 Para criar cada skill faltante (via `rof-nova-empresa`): CNPJ, regime tributário, plano de contas (Contas.xls), razão dos últimos meses e um extrato recente de cada banco.
 
@@ -104,9 +104,8 @@ Para criar cada skill faltante (via `rof-nova-empresa`): CNPJ, regime tributári
 | RENATA | 158 | DNM Leite | ⬜ A fazer |  |
 | ROF | 105 | Soares Veiculos | ⬜ A fazer |  |
 | ROF | 106 | Everton Soares Advocacia | ⬜ A fazer |  |
-| ROF | 110 | Cacau Ribeiro | ⬜ A fazer |  |
+| ROF | 110 | Cacau Ribeiro (J A R DE ALMEIDA LTDA — BR Cacau) | ✅ Tem skill | `rof-contabilidade-jar-almeida` |
 | ROF | 120 | Guria Chic (RIBEIRO FAST FASHION LTDA) | ✅ Tem skill | `rof-contabilidade-ribeiro` |
-| ROF | 120 | Guria Chic (J A R DE ALMEIDA LTDA — mesma sócia Junia) | ✅ Tem skill | `rof-contabilidade-jar-almeida` |
 | ROF | 1000 | ROF | ⬜ A fazer |  |
 | ROF | 1004 | Lumus | ✅ Tem skill | `rof-contabilidade-lumus` |
 | ROF | 1005 | Mohr Group Ltda | ✅ Tem skill | `rof-contabilidade-mohrgroup` |
