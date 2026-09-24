@@ -230,7 +230,7 @@ Quando solicitado, gerar planilha `.xlsx` com as datas e valores pagos/recebidos
 | Competência | Bancos | Lançamentos | Status |
 |---|---|---|---|
 | Julho/2026 | Sicredi (8) + Sicoob (9) | 343 | ✅ TXT entregue (v3) |
-| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 | ✅ TXT gerado em 24/09/2026 — saldos fecham; pró-labore PROVISÓRIO (líquido de julho R$ 1.442,69) e 9 itens na aba "Conferir" |
+| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 | ✅ TXT gerado em 24/09/2026 — saldos fecham; pró-labore confirmado pela contadora: R$ 1.621,00 − INSS 11% = líquido R$ 1.442,69; 9 itens na aba "Conferir" |
 
 ---
 
