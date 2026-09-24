@@ -1,0 +1,493 @@
+#!/usr/bin/env python3
+"""Extrato bancário -> lançamentos contábeis em TXT para o sistema Domínio.
+
+Subcomandos:
+  ler         Lê extrato (OFX ou CSV) e gera CSV normalizado.
+  classificar Aplica as regras da empresa e gera CSV classificado.
+  analisar    Relatório de conferência (totais, saldo, duplicidades, pendências).
+  gerar       Gera o TXT de importação do Domínio a partir do CSV classificado.
+
+Exemplos:
+  python extrato_dominio.py ler extrato.ofx -o normalizado.csv
+  python extrato_dominio.py classificar normalizado.csv -e empresas/123.json -o classificado.csv
+  python extrato_dominio.py analisar classificado.csv -e empresas/123.json
+  python extrato_dominio.py gerar classificado.csv -e empresas/123.json -o lancamentos.txt
+"""
+import argparse
+import csv
+import json
+import re
+import sys
+import unicodedata
+from collections import Counter, defaultdict
+from datetime import datetime
+from decimal import Decimal, InvalidOperation
+from pathlib import Path
+
+CSV_SEP = ";"
+CAMPOS_NORMALIZADO = ["data", "descricao", "documento", "valor", "id"]
+CAMPOS_CLASSIFICADO = CAMPOS_NORMALIZADO + ["conta", "historico", "complemento", "regra"]
+
+LAYOUT_PADRAO = {
+    "separador": ";",
+    "campos": ["data", "conta_debito", "conta_credito", "valor", "historico", "complemento"],
+    "formato_data": "%d/%m/%Y",
+    "decimal": ",",
+    "encoding": "cp1252",
+    "quebra_linha": "\r\n",
+    "tam_max_complemento": 200,
+    "cabecalho": False,
+}
+
+
+# ---------------------------------------------------------------- utilidades
+
+def normalizar_texto(s):
+    s = unicodedata.normalize("NFKD", s or "")
+    s = "".join(c for c in s if not unicodedata.combining(c))
+    return re.sub(r"\s+", " ", s).strip().upper()
+
+
+def ler_arquivo_texto(caminho):
+    dados = Path(caminho).read_bytes()
+    for enc in ("utf-8-sig", "cp1252", "latin-1"):
+        try:
+            return dados.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return dados.decode("latin-1", errors="replace")
+
+
+def parse_valor(texto):
+    """Aceita '1.234,56', '1234.56', '-1.234,56', '1.234,56 D', '(1.234,56)', 'R$ 10,00'."""
+    if texto is None:
+        return None
+    t = str(texto).strip().upper().replace("R$", "").replace(" ", "")
+    if not t or t in ("-", "--"):
+        return None
+    negativo = False
+    if t.endswith("D") or t.endswith("-"):
+        negativo, t = True, t[:-1]
+    elif t.endswith("C") or t.endswith("+"):
+        t = t[:-1]
+    if t.startswith("(") and t.endswith(")"):
+        negativo, t = True, t[1:-1]
+    if t.startswith("-"):
+        negativo, t = not negativo, t[1:]
+    if "," in t and "." in t:
+        if t.rfind(",") > t.rfind("."):
+            t = t.replace(".", "").replace(",", ".")
+        else:
+            t = t.replace(",", "")
+    elif "," in t:
+        t = t.replace(",", ".")
+    elif t.count(".") > 1:
+        t = t.replace(".", "")
+    try:
+        v = Decimal(t)
+    except InvalidOperation:
+        return None
+    return -v if negativo else v
+
+
+def parse_data(texto):
+    t = (texto or "").strip()
+    for fmt in ("%d/%m/%Y", "%d/%m/%y", "%Y-%m-%d", "%d-%m-%Y", "%d.%m.%Y", "%Y%m%d"):
+        try:
+            return datetime.strptime(t[:10] if fmt != "%Y%m%d" else t[:8], fmt).date()
+        except ValueError:
+            continue
+    return None
+
+
+def ler_csv(caminho):
+    with open(caminho, encoding="utf-8-sig", newline="") as f:
+        return list(csv.DictReader(f, delimiter=CSV_SEP))
+
+
+def gravar_csv(caminho, linhas, campos):
+    with open(caminho, "w", encoding="utf-8-sig", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=campos, delimiter=CSV_SEP, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(linhas)
+
+
+def carregar_empresa(caminho):
+    with open(caminho, encoding="utf-8") as f:
+        emp = json.load(f)
+    layout = dict(LAYOUT_PADRAO)
+    layout.update(emp.get("layout_txt") or {})
+    emp["layout_txt"] = layout
+    emp.setdefault("regras", [])
+    return emp
+
+
+def fmt_brl(v):
+    s = f"{abs(v):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    return ("-" if v < 0 else "") + s
+
+
+# ---------------------------------------------------------------- leitura
+
+def ler_ofx(texto):
+    def tag(bloco, nome):
+        m = re.search(rf"<{nome}>([^<\r\n]*)", bloco, re.I)
+        return m.group(1).strip() if m else ""
+
+    info = {
+        "banco": tag(texto, "BANKID"),
+        "agencia": tag(texto, "BRANCHID"),
+        "conta": tag(texto, "ACCTID"),
+        "inicio": tag(texto, "DTSTART")[:8],
+        "fim": tag(texto, "DTEND")[:8],
+    }
+    m = re.search(r"<LEDGERBAL>(.*?)(</LEDGERBAL>|<AVAILBAL>|</STMTRS>)", texto, re.I | re.S)
+    if m:
+        info["saldo_final"] = tag(m.group(1), "BALAMT")
+        info["data_saldo"] = tag(m.group(1), "DTASOF")[:8]
+
+    linhas = []
+    for bloco in re.findall(r"<STMTTRN>(.*?)(?=</STMTTRN>|<STMTTRN>|</BANKTRANLIST>)", texto, re.I | re.S):
+        valor = parse_valor(tag(bloco, "TRNAMT").replace(",", "."))
+        data = parse_data(tag(bloco, "DTPOSTED")[:8])
+        if valor is None or data is None:
+            continue
+        memo = tag(bloco, "MEMO")
+        nome = tag(bloco, "NAME")
+        descricao = memo if not nome or nome in memo else (f"{nome} {memo}".strip() if memo else nome)
+        linhas.append({
+            "data": data.strftime("%d/%m/%Y"),
+            "descricao": re.sub(r"\s+", " ", descricao),
+            "documento": tag(bloco, "CHECKNUM") or tag(bloco, "REFNUM"),
+            "valor": str(valor),
+            "id": tag(bloco, "FITID"),
+        })
+    return linhas, info
+
+
+def _achar_coluna(cabecalho, candidatos):
+    norm = {normalizar_texto(c): c for c in cabecalho}
+    for cand in candidatos:
+        for n, original in norm.items():
+            if n == cand:
+                return original
+    for cand in candidatos:
+        for n, original in norm.items():
+            if cand in n:
+                return original
+    return None
+
+
+def ler_csv_banco(texto):
+    amostra = "\n".join(texto.splitlines()[:20])
+    try:
+        sep = csv.Sniffer().sniff(amostra, delimiters=";,\t|").delimiter
+    except csv.Error:
+        sep = ";"
+    todas = list(csv.reader(texto.splitlines(), delimiter=sep))
+    # pula linhas de título até achar um cabeçalho com "data"
+    inicio = next((i for i, l in enumerate(todas) if any("DATA" in normalizar_texto(c) for c in l)), 0)
+    cab = [c.strip() for c in todas[inicio]]
+    c_data = _achar_coluna(cab, ["DATA", "DATA LANCAMENTO", "DT"])
+    c_desc = _achar_coluna(cab, ["DESCRICAO", "HISTORICO", "LANCAMENTO", "MEMO", "DETALHE"])
+    c_doc = _achar_coluna(cab, ["DOCUMENTO", "DOC", "N DOCUMENTO", "NUMERO"])
+    c_valor = _achar_coluna(cab, ["VALOR", "VALOR (R$)", "MONTANTE", "QUANTIA"])
+    c_cred = _achar_coluna(cab, ["CREDITO", "ENTRADA", "ENTRADAS"])
+    c_deb = _achar_coluna(cab, ["DEBITO", "SAIDA", "SAIDAS"])
+    c_tipo = _achar_coluna(cab, ["TIPO", "D/C", "DC", "NATUREZA"])
+    if not c_data or not (c_valor or c_cred or c_deb):
+        raise SystemExit(f"CSV sem colunas reconhecíveis de data/valor. Cabeçalho encontrado: {cab}")
+
+    linhas = []
+    for bruto in todas[inicio + 1:]:
+        if not any(x.strip() for x in bruto):
+            continue
+        reg = dict(zip(cab, bruto))
+        data = parse_data(reg.get(c_data, ""))
+        if data is None:
+            continue
+        desc = (reg.get(c_desc) or "").strip()
+        if "SALDO" in normalizar_texto(desc) and ("ANTERIOR" in normalizar_texto(desc) or "DO DIA" in normalizar_texto(desc)):
+            continue
+        if c_valor:
+            valor = parse_valor(reg.get(c_valor))
+            if valor is not None and c_tipo and normalizar_texto(reg.get(c_tipo, "")).startswith("D") and valor > 0:
+                valor = -valor
+        else:
+            cr = parse_valor(reg.get(c_cred)) if c_cred else None
+            db = parse_valor(reg.get(c_deb)) if c_deb else None
+            valor = (cr or Decimal(0)) - abs(db or Decimal(0))
+            if not cr and not db:
+                valor = None
+        if valor is None or valor == 0:
+            continue
+        linhas.append({
+            "data": data.strftime("%d/%m/%Y"),
+            "descricao": re.sub(r"\s+", " ", desc),
+            "documento": (reg.get(c_doc) or "").strip() if c_doc else "",
+            "valor": str(valor),
+            "id": "",
+        })
+    return linhas, {}
+
+
+def cmd_ler(a):
+    texto = ler_arquivo_texto(a.arquivo)
+    if "<OFX>" in texto.upper() or "OFXHEADER" in texto.upper():
+        linhas, info = ler_ofx(texto)
+        origem = "OFX"
+    else:
+        linhas, info = ler_csv_banco(texto)
+        origem = "CSV"
+    linhas.sort(key=lambda l: datetime.strptime(l["data"], "%d/%m/%Y"))
+    for i, l in enumerate(linhas, 1):
+        l["id"] = l["id"] or f"L{i:05d}"
+    gravar_csv(a.saida, linhas, CAMPOS_NORMALIZADO)
+    ent = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) > 0)
+    sai = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) < 0)
+    print(f"Origem: {origem} | Movimentos: {len(linhas)}")
+    if linhas:
+        print(f"Período: {linhas[0]['data']} a {linhas[-1]['data']}")
+    print(f"Entradas: {fmt_brl(ent)} | Saídas: {fmt_brl(sai)} | Líquido: {fmt_brl(ent + sai)}")
+    for k, v in info.items():
+        if v:
+            print(f"{k}: {v}")
+    print(f"Arquivo gerado: {a.saida}")
+
+
+# ---------------------------------------------------------------- classificação
+
+def regra_casa(regra, desc_norm, valor):
+    tipo = regra.get("tipo", "ambos")
+    if tipo == "entrada" and valor <= 0:
+        return False
+    if tipo == "saida" and valor >= 0:
+        return False
+    termos = regra.get("contem") or []
+    if isinstance(termos, str):
+        termos = [termos]
+    if termos and not any(normalizar_texto(t) in desc_norm for t in termos):
+        return False
+    excluir = regra.get("nao_contem") or []
+    if isinstance(excluir, str):
+        excluir = [excluir]
+    if any(normalizar_texto(t) in desc_norm for t in excluir):
+        return False
+    if "regex" in regra and not re.search(regra["regex"], desc_norm, re.I):
+        return False
+    return bool(termos) or "regex" in regra
+
+
+def cmd_classificar(a):
+    emp = carregar_empresa(a.empresa)
+    linhas = ler_csv(a.arquivo)
+    pend = []
+    for l in linhas:
+        valor = Decimal(l["valor"])
+        dn = normalizar_texto(l["descricao"])
+        l.setdefault("conta", "")
+        if l.get("conta"):  # já classificado manualmente: preserva
+            continue
+        for i, r in enumerate(emp["regras"]):
+            if regra_casa(r, dn, valor):
+                l["conta"] = str(r["conta"])
+                l["historico"] = str(r.get("historico", emp.get("historico_padrao", "")))
+                l["complemento"] = r.get("complemento") or l["descricao"]
+                l["regra"] = r.get("nome") or f"regra {i + 1}"
+                break
+        else:
+            l["historico"] = str(emp.get("historico_padrao", ""))
+            l["complemento"] = l["descricao"]
+            l["regra"] = ""
+            pend.append(l)
+    gravar_csv(a.saida, linhas, CAMPOS_CLASSIFICADO)
+    print(f"Classificados: {len(linhas) - len(pend)} de {len(linhas)} | Pendentes: {len(pend)}")
+    if pend:
+        grupos = defaultdict(list)
+        for l in pend:
+            chave = re.sub(r"[\d\W_]+", " ", normalizar_texto(l["descricao"])).strip()[:40]
+            grupos[(chave, "E" if Decimal(l["valor"]) > 0 else "S")].append(l)
+        print("\nPENDENTES agrupados (descrição | E=entrada S=saída | qtd | total):")
+        for (chave, t), itens in sorted(grupos.items(), key=lambda kv: -len(kv[1])):
+            tot = sum(Decimal(i["valor"]) for i in itens)
+            print(f"  {chave or '(sem descrição)'} | {t} | {len(itens)} | {fmt_brl(tot)}")
+    print(f"Arquivo gerado: {a.saida}")
+
+
+# ---------------------------------------------------------------- análise
+
+def cmd_analisar(a):
+    emp = carregar_empresa(a.empresa) if a.empresa else {}
+    linhas = ler_csv(a.arquivo)
+    if not linhas:
+        print("Nenhum movimento.")
+        return
+    valores = [Decimal(l["valor"]) for l in linhas]
+    ent = sum(v for v in valores if v > 0)
+    sai = sum(v for v in valores if v < 0)
+    datas = [datetime.strptime(l["data"], "%d/%m/%Y").date() for l in linhas]
+    print("=== RESUMO DO EXTRATO ===")
+    print(f"Período: {min(datas):%d/%m/%Y} a {max(datas):%d/%m/%Y} | Movimentos: {len(linhas)}")
+    print(f"Entradas: {fmt_brl(ent)} ({sum(1 for v in valores if v > 0)})")
+    print(f"Saídas:   {fmt_brl(sai)} ({sum(1 for v in valores if v < 0)})")
+    print(f"Líquido:  {fmt_brl(ent + sai)}")
+    if a.saldo_inicial is not None:
+        si = parse_valor(a.saldo_inicial)
+        calc = si + ent + sai
+        print(f"Saldo inicial informado: {fmt_brl(si)} -> saldo final calculado: {fmt_brl(calc)}")
+        if a.saldo_final is not None:
+            sf = parse_valor(a.saldo_final)
+            dif = calc - sf
+            print(f"Saldo final do extrato: {fmt_brl(sf)} | Diferença: {fmt_brl(dif)}"
+                  + ("  OK" if dif == 0 else "  <<< DIVERGENTE"))
+
+    # duplicidades: mesma data, valor e descrição
+    cont = Counter((l["data"], l["valor"], normalizar_texto(l["descricao"])) for l in linhas)
+    dups = [(k, n) for k, n in cont.items() if n > 1]
+    print("\n=== POSSÍVEIS DUPLICIDADES ===")
+    if dups:
+        for (d, v, desc), n in dups:
+            print(f"  {d} | {fmt_brl(Decimal(v))} | {desc[:60]} | {n}x")
+    else:
+        print("  Nenhuma.")
+
+    if "conta" in linhas[0]:
+        pend = [l for l in linhas if not l.get("conta")]
+        print(f"\n=== PENDENTES DE CLASSIFICAÇÃO: {len(pend)} ===")
+        for l in pend[: a.max_itens]:
+            print(f"  {l['id']} | {l['data']} | {fmt_brl(Decimal(l['valor']))} | {l['descricao'][:70]}")
+        if len(pend) > a.max_itens:
+            print(f"  ... e mais {len(pend) - a.max_itens}")
+        por_conta = defaultdict(lambda: [0, Decimal(0)])
+        for l in linhas:
+            if l.get("conta"):
+                por_conta[l["conta"]][0] += 1
+                por_conta[l["conta"]][1] += Decimal(l["valor"])
+        nomes = {str(k): v for k, v in (emp.get("contas") or {}).items()}
+        print("\n=== TOTAL POR CONTA (contrapartida) ===")
+        for conta, (n, tot) in sorted(por_conta.items(), key=lambda kv: kv[1][1]):
+            print(f"  {conta:>8} {nomes.get(conta, '')[:40]:40} | {n:4} | {fmt_brl(tot)}")
+
+    print(f"\n=== MAIORES VALORES (top {min(10, len(linhas))}) ===")
+    for l in sorted(linhas, key=lambda l: -abs(Decimal(l["valor"])))[:10]:
+        print(f"  {l['data']} | {fmt_brl(Decimal(l['valor']))} | {l['descricao'][:70]}")
+
+
+# ---------------------------------------------------------------- geração TXT
+
+def limpar_campo(texto, sep, tam=None):
+    t = unicodedata.normalize("NFC", str(texto or ""))
+    t = t.replace(sep, " ").replace("\r", " ").replace("\n", " ").replace('"', "'")
+    t = re.sub(r"\s+", " ", t).strip()
+    return t[:tam] if tam else t
+
+
+def cmd_gerar(a):
+    emp = carregar_empresa(a.empresa)
+    lay = emp["layout_txt"]
+    conta_banco = str(emp.get("conta_banco") or "").strip()
+    if not conta_banco:
+        raise SystemExit("Configure 'conta_banco' (código reduzido da conta do banco no Domínio) no arquivo da empresa.")
+    linhas = ler_csv(a.arquivo)
+    transitoria = str(emp.get("conta_transitoria") or "").strip()
+    pend = [l for l in linhas if not (l.get("conta") or "").strip()]
+    if pend and not a.usar_transitoria:
+        print(f"ERRO: {len(pend)} movimento(s) sem conta. Classifique-os ou use --usar-transitoria.")
+        for l in pend[:20]:
+            print(f"  {l['id']} | {l['data']} | {l['valor']} | {l['descricao'][:60]}")
+        sys.exit(1)
+    if pend and not transitoria:
+        raise SystemExit("--usar-transitoria exige 'conta_transitoria' no arquivo da empresa.")
+    modelo = [l for l in linhas if (l.get("conta") or "").strip("0 ") == ""
+              and (l.get("conta") or "").strip()]
+    if modelo:
+        raise SystemExit(f"{len(modelo)} movimento(s) com conta '0000' do modelo. "
+                         "Troque pelos códigos reais do plano de contas no JSON da empresa.")
+
+    sep = lay["separador"]
+    saida = []
+    if lay.get("cabecalho"):
+        saida.append(sep.join(c.upper() for c in lay["campos"]))
+    tot_d = Decimal(0)
+    for l in linhas:
+        valor = Decimal(l["valor"])
+        contra = (l.get("conta") or "").strip() or transitoria
+        if valor > 0:   # entrada: D banco / C contrapartida
+            deb, cred = conta_banco, contra
+        else:           # saída: D contrapartida / C banco
+            deb, cred = contra, conta_banco
+        v = f"{abs(valor):.2f}"
+        if lay["decimal"] == ",":
+            v = v.replace(".", ",")
+        data = datetime.strptime(l["data"], "%d/%m/%Y").strftime(lay["formato_data"])
+        comp = l.get("complemento") or l["descricao"]
+        if l.get("documento") and emp.get("documento_no_complemento", True) and l["documento"] not in comp:
+            comp = f"{comp} DOC {l['documento']}"
+        valores = {
+            "data": data,
+            "conta_debito": deb,
+            "conta_credito": cred,
+            "valor": v,
+            "historico": l.get("historico") or emp.get("historico_padrao", ""),
+            "complemento": limpar_campo(comp, sep, lay.get("tam_max_complemento")),
+            "documento": limpar_campo(l.get("documento"), sep),
+            "codigo_empresa": emp.get("codigo_empresa", ""),
+            "cnpj": re.sub(r"\D", "", str(emp.get("cnpj", ""))),
+            "filial": emp.get("filial", ""),
+            "vazio": "",
+        }
+        faltando = [c for c in lay["campos"] if c not in valores]
+        if faltando:
+            raise SystemExit(f"Campo(s) de layout desconhecido(s): {faltando}. Válidos: {sorted(valores)}")
+        saida.append(sep.join(limpar_campo(valores[c], sep) for c in lay["campos"]))
+        tot_d += abs(valor)
+
+    conteudo = lay["quebra_linha"].join(saida) + lay["quebra_linha"]
+    with open(a.saida, "w", encoding=lay["encoding"], errors="replace", newline="") as f:
+        f.write(conteudo)
+    print(f"Lançamentos gerados: {len(linhas)} | Total débitos = créditos: {fmt_brl(tot_d)}")
+    if pend:
+        print(f"ATENÇÃO: {len(pend)} lançamento(s) na conta transitória {transitoria}.")
+    print(f"Layout: {sep.join(lay['campos'])} | encoding {lay['encoding']}")
+    print(f"Arquivo gerado: {a.saida}")
+
+
+# ---------------------------------------------------------------- CLI
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = p.add_subparsers(dest="cmd", required=True)
+
+    s = sub.add_parser("ler", help="OFX/CSV -> CSV normalizado")
+    s.add_argument("arquivo")
+    s.add_argument("-o", "--saida", default="extrato_normalizado.csv")
+    s.set_defaults(func=cmd_ler)
+
+    s = sub.add_parser("classificar", help="aplica regras da empresa")
+    s.add_argument("arquivo")
+    s.add_argument("-e", "--empresa", required=True)
+    s.add_argument("-o", "--saida", default="extrato_classificado.csv")
+    s.set_defaults(func=cmd_classificar)
+
+    s = sub.add_parser("analisar", help="relatório de conferência")
+    s.add_argument("arquivo")
+    s.add_argument("-e", "--empresa")
+    s.add_argument("--saldo-inicial")
+    s.add_argument("--saldo-final")
+    s.add_argument("--max-itens", type=int, default=50)
+    s.set_defaults(func=cmd_analisar)
+
+    s = sub.add_parser("gerar", help="gera TXT para importação no Domínio")
+    s.add_argument("arquivo")
+    s.add_argument("-e", "--empresa", required=True)
+    s.add_argument("-o", "--saida", default="lancamentos_dominio.txt")
+    s.add_argument("--usar-transitoria", action="store_true",
+                   help="lança pendentes na conta_transitoria em vez de abortar")
+    s.set_defaults(func=cmd_gerar)
+
+    a = p.parse_args()
+    a.func(a)
+
+
+if __name__ == "__main__":
+    main()

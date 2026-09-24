@@ -1,0 +1,38 @@
+{
+  "codigo_empresa": "0000",
+  "razao_social": "EMPRESA MODELO LTDA",
+  "cnpj": "00.000.000/0001-00",
+  "regime": "Simples Nacional",
+  "banco": "Banco XYZ - Ag 0001 - CC 12345-6",
+  "conta_banco": "7",
+  "conta_transitoria": "9999",
+  "historico_padrao": "",
+  "documento_no_complemento": true,
+
+  "contas": {
+    "7": "Banco XYZ conta movimento",
+    "9999": "Conta transitória - a classificar",
+    "0000": "Substitua pelos códigos reduzidos do plano de contas desta empresa no Domínio"
+  },
+
+  "regras": [
+    {"nome": "Tarifas bancárias", "tipo": "saida", "contem": ["TARIFA", "TAR ", "CESTA", "MANUT CONTA", "PACOTE SERV"], "conta": "0000", "complemento": ""},
+    {"nome": "IOF", "tipo": "saida", "contem": ["IOF"], "conta": "0000"},
+    {"nome": "Juros bancários pagos", "tipo": "saida", "contem": ["JUROS", "ENCARGOS", "MORA"], "conta": "0000"},
+    {"nome": "Rendimento de aplicação", "tipo": "entrada", "contem": ["REND", "RENDIMENTO"], "conta": "0000"},
+    {"nome": "Aplicação financeira", "tipo": "saida", "contem": ["APLICACAO", "APLIC "], "conta": "0000"},
+    {"nome": "Resgate de aplicação", "tipo": "entrada", "contem": ["RESGATE", "RESG "], "conta": "0000"},
+    {"nome": "DAS Simples Nacional", "tipo": "saida", "contem": ["DAS ", "SIMPLES NACIONAL", "PGDAS"], "conta": "0000"}
+  ],
+
+  "layout_txt": {
+    "separador": ";",
+    "campos": ["data", "conta_debito", "conta_credito", "valor", "historico", "complemento"],
+    "formato_data": "%d/%m/%Y",
+    "decimal": ",",
+    "encoding": "cp1252",
+    "quebra_linha": "\r\n",
+    "tam_max_complemento": 200,
+    "cabecalho": false
+  }
+}
