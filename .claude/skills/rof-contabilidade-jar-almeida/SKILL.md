@@ -105,7 +105,7 @@ description: "Lançamentos contábeis e conciliação bancária da J A R DE ALME
 
 > Classificações validadas pela contadora têm prioridade sobre a classificação automática por CNPJ.
 
-> **Fornecedores do relatório de Entradas → 506** (contadora, 24/09/2026): todo pagamento a fornecedor que conste no relatório de notas de entrada da empresa (Entradas.xls / "NF Entrada_MM.AA_Cacau.xlsx" na pasta Relatorios do mês) vai para a conta **506**. Conferir o favorecido do extrato com a lista de emitentes desse relatório antes de classificar.
+> **Fornecedores do relatório de Entradas → 506** (contadora, 24/09/2026): **todo mês**, antes de classificar, ler a planilha de notas de entrada na pasta `Fiscal_Contabil\2026\<MM_AAAA>\Relatorios` (nome usual: "NF Entrada_MM.AA_Cacau.xlsx"; contém "NFE - Consultas Sincronizadas" e "Acompanhamento de Entradas" do Domínio). Todo pagamento a um **emitente** dessa planilha → **506**. Exceções que prevalecem: R O F da Silva → **510** (honorários). Emitentes que aparecem como recebimento no extrato (BNC Cadastros, iFood) continuam **504** — as notas deles são tarifas de serviço, não compras. Fornecedores recorrentes já vistos (08/2026): CRM Indústria e Com. de Alimentos (61.158.283/0174-07), Nestlé Brasil (60.409.075), Supricorp Suprimentos (54.651.716), CISS Consultoria (82.213.604), Pluxee (69.034.668), NIBS Participações (35.539.362/0001-30 — NFS-e de serviço, 2-933).
 
 ## Regra de Classificação das Contrapartes — LEIA ANTES DE CLASSIFICAR
 
