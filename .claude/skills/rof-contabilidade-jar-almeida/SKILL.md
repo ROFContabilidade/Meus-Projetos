@@ -74,7 +74,7 @@ description: "Lançamentos contábeis e conciliação bancária da J A R DE ALME
 | 356 | Telefone | Internet, telefone, recarga celular |
 | 359 | Despesas Administrativas | Despesas fixas administrativas (ex.: Claudia Elisa Cantador Kravetz) |
 | 362 | Serviços Prestados por Terceiros | Serviços PF (ex.: Luciana Aparecida Rangel) |
-| 364 | Despesas com Cartão de Crédito | PJBank e adquirentes |
+| 364 | Despesas com Cartão de Crédito | PJBank, adquirentes e **débito de fatura de cartão Sicredi ("DEB.CTA.FATURA")** — confirmado pela contadora 24/09/2026 |
 | 366 | Serviços de Assessoria e Gerenciamento | Marketing, assessoria (ex.: Agência de Ideias) |
 | 369 | Despesas Bancárias | Tarifas, pacote de serviços, seguro prestamista, juros cheque especial |
 | 373 | IOF | IOF — lançar separadamente, nunca embutir |
@@ -234,7 +234,7 @@ Quando solicitado, gerar planilha `.xlsx` com as datas e valores pagos/recebidos
 | Competência | Bancos | Lançamentos | Status |
 |---|---|---|---|
 | Julho/2026 | Sicredi (8) + Sicoob (9) | 343 | ✅ TXT entregue (v3) |
-| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 (v2) | ✅ Importar `CACAU_RIBEIRO_JAR_202608_v2.txt` + `CacauRibeiro_JAR_ProLabore_Retiradas_202608_v2.xlsx` (pasta 08_2026\Extratos). Gerado em 24/09/2026 — saldos fecham; pró-labore confirmado pela contadora: R$ 1.621,00 − INSS 11% = líquido R$ 1.442,69; ICMS Antecipado 04 e 05/2026 na 512; Receita R$ 672,60 na 191 (mantido); DAS 07/2026 R$ 961,04 NÃO pago em agosto (em aberto) |
+| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 (v3) | ✅ Importar `CACAU_RIBEIRO_JAR_202608_v3.txt` + `CacauRibeiro_JAR_ProLabore_Retiradas_202608_v3.xlsx` (pasta 08_2026\Extratos). Gerado em 24/09/2026 — saldos fecham; pró-labore confirmado pela contadora: R$ 1.621,00 − INSS 11% = líquido R$ 1.442,69; ICMS Antecipado 04 e 05/2026 na 512; Receita R$ 672,60 na 191 (mantido); DAS 07/2026 R$ 961,04 NÃO pago em agosto (em aberto); PIX Santander R$ 2.064,42 (03/08) na 506 provisoriamente — contadora vai conferir |
 
 ---
 
