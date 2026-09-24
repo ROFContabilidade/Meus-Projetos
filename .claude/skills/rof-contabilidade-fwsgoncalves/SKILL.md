@@ -1,19 +1,19 @@
 ---
 name: rof-contabilidade-fwsgoncalves
-description: Conciliação bancária, classificação contábil e geração de TXT no leiaute Domínio para a F W GONCALVES LTDA, CNPJ 22.147.527/0001-86, fabricante/montadora/comércio de móveis. Usar automaticamente quando o usuário enviar extratos, relatórios, razões, plano de contas ou pedir lançamentos, conferência de favorecidos, conciliação entre Sicredi, SicrediInvest e poupança, ou arquivo TXT dessa empresa.
+description: Conciliação bancária, classificação contábil e geração de TXT no leiaute Domínio para a F W S GONCALVES LTDA (Simples Nacional), CNPJ 22.147.527/0001-86, fabricante/montadora/comércio de móveis. Usar automaticamente quando o usuário enviar extratos, relatórios, razões, plano de contas ou pedir lançamentos, conferência de favorecidos, conciliação entre Sicredi, SicrediInvest e poupança, ou arquivo TXT dessa empresa.
 ---
 
-# ROF Contabilidade — F W GONCALVES LTDA
+# ROF Contabilidade — F W S GONCALVES LTDA
 
 ## Dados da Empresa
 
 | Campo             | Valor                                           |
 |-------------------|-------------------------------------------------|
-| Razão Social      | F W GONCALVES LTDA                              |
-| Nome Fantasia     | Art&Stilo Móveis Sob Medida (provisório)        |
+| Razão Social      | F W S GONCALVES LTDA                            |
+| Nome Fantasia     | Art&Stilo Móveis Sob Medida                     |
 | CNPJ              | 22147527000186                                  |
 | CNPJ formatado    | 22.147.527/0001-86                              |
-| Regime Tributário | Não confirmado — não inventar alíquota nem regime |
+| Regime Tributário | Simples Nacional (optante desde 29/03/2015; confirmado por Elen em 24/09/2026) |
 
 **CNAEs:**
 - 3101-2/00 — Fabricação de móveis com predominância de madeira *(principal)*
@@ -22,7 +22,7 @@ description: Conciliação bancária, classificação contábil e geração de T
 
 **Sócio:** Fernando Willian dos Santos Gonçalves — CPF 036.587.709-37
 
-**Ativar esta skill** ao identificar: **F W GONCALVES LTDA**, **22.147.527/0001-86**, **22147527000186**, **Art&Stilo Móveis Sob Medida**, conta Sicredi cooperativa 0730/52431-6, ou arquivos com `Fwsgoncalves`. Não misturar dados, contas ou históricos de outras empresas.
+**Ativar esta skill** ao identificar: **F W S GONCALVES LTDA**, **F W GONCALVES LTDA**, **22.147.527/0001-86**, **22147527000186**, **Art&Stilo Móveis Sob Medida**, conta Sicredi cooperativa 0730/52431-6, ou arquivos com `Fwsgoncalves`. Não misturar dados, contas ou históricos de outras empresas.
 
 ---
 
@@ -66,6 +66,7 @@ description: Conciliação bancária, classificação contábil e geração de T
 | 521    | 3.2.2.04.016       | Despesas com alimentação                          |
 | 541    | 1.2.2.04.001       | Fernando Willian dos Santos Gonçalves (036.587.709-37) |
 | 586    | 3.2.2.05.010       | IRRF sobre aplicação                              |
+| 590    | 3.2.2.04.019       | Bens de pequeno valor (criada no Domínio em 09/2026, cadastro 01/01/2026) |
 
 > As contas **362** e **541** foram confirmadas no razão e reconhecidas no Domínio. Se o plano exportado não exibir uma delas, confrontar com o razão e registrar a divergência — não declarar inexistência.
 
@@ -100,6 +101,8 @@ Em toda competência, analisar conjuntamente as três frentes:
 | Poupança             | Poupança Tradicional Sicredi, conta 52431-6  | **167**| Aplicações, resgates, capitalizações, IRRF, saldo e posição  |
 
 Não concluir a conciliação apenas pelo extrato da conta 14. Confrontar saldo inicial, saldo final, aportes, resgates, transferências, rendimentos e IRRF entre as três frentes e seus razões. Não incluir lançamentos de meses fora da competência no TXT; registrar que ficaram para o período correto.
+
+**Referência agosto/2026:** conta corrente saldo 31/07 R$ 83.940,33 → 31/08 R$ 15.564,00 (fechou). Poupança 401,53 → 503,10 (aplicação 100,00; rendimentos 1,51 + 0,52; IRRF 0,46 em 11/08). SicrediInvest sem movimento, R$ 29.640,69. Recebimentos via Barte Brasil são repasses de vendas no cartão (links de pagamento) → 504. Atenção: no PDF do extrato Sicredi as colunas saem desalinhadas — usar o OFX como fonte dos lançamentos e o PDF para os saldos.
 
 **Referência julho/2026:** SicrediInvest permaneceu com saldo de R$ 29.640,69 sem movimentação. Poupança: aplicação de R$ 100,00, rendimentos de R$ 1,51 e R$ 0,47 e IRRF de R$ 0,45 em 10/07.
 
@@ -184,6 +187,21 @@ Classificar cada item como `CONFIRMADO`, `PROVÁVEL`, `NÃO CRUZADO` ou `DIVERGE
 | Receita Federal — 14/07/2026, R$ 1.402,93             | 479   |
 | Integralização de R$ 20,00                             | 369   |
 | Cesta de relacionamento                                | 369   |
+| Teck Plast / Unipar Ind. e Com. de Embalagens (CNPJ 11.191.719/0001-73) | 506 |
+| Bigfer Ind. e Com. de Ferragens                        | 506   |
+| Indusflex Comércio de Ferramentas                      | 506   |
+| JKB Comércio de Ferragens e Ferramentas                | 506   |
+| Materiais Elétricos Zé (NF emitida por Zetta Distrib. Materiais Elétricos) | 506 |
+| R L de Castro / Compensados Colombo (CNPJ 81.254.906/0001-34) | 506 |
+| R R Leo Comércio de Madeiras — custo (validado por Elen, 08/2026) | 470 |
+| Connectamais / Singular Soluções em Tecnologia — suporte de TI | 366 |
+| Moviar Ar Condicionados — bens de pequeno valor (validado por Elen, 08/2026) | 590 |
+| DAS Simples Nacional pago via PIX à Receita Federal     | 479   |
+| INSS pago via PIX à Receita Federal (pró-labore R$ 178,31 e outras guias de INSS) | 191 |
+
+> **INSS em atraso:** DARF código 1099 (CP segurado contribuinte individual 11%). Ex.: 20/08/2026, R$ 198,33 = PA 06/2026, principal 178,31 + multa 18,24 + juros 1,78 (comprovante de arrecadação e-CAC nº 07162623215870377). Lançado integralmente na 191 em 08/2026; confirmar com a contadora se multa/juros devem ir para conta de despesa.
+
+> **Pagamento a fornecedor maior que a NF do mês** (orientação de Elen, 08/2026): valor da NF → **506**; excedente sem nota → **470** (custo). Ex.: Rudegon 26/08/2026 — NF 588713 R$ 7.952,35 na 506, R$ 1.428,54 + R$ 750,00 na 470.
 
 > As classificações recorrentes não substituem a verificação dos documentos do período. Orientação nova da contadora prevalece e deve ser registrada.
 

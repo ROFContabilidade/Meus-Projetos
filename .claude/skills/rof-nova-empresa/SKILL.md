@@ -181,8 +181,8 @@ description: "<razão social>, CNPJ <CNPJ>, <regime>, <setor>, banco principal: 
 
 1. Identificar natureza (entrada / saída)
 2. Identificar favorecido (nome, CNPJ/CPF)
-3. Se tiver CNPJ → pesquisar na Receita Federal → verificar atividade → classificar conforme plano de contas
-4. Se Pessoa Física (exceto sócios) → conta <código PF>
+3. Se tiver CNPJ → pesquisar a atividade (CNAE) → fornecedor coerente com o ramo = conta de fornecedores (506); não coerente = conta pela natureza da despesa (ex.: transportadora pagando farmácia → despesas diversas). A atividade prevalece sobre o histórico
+4. Se Pessoa Física (exceto sócios e colaboradores) → conta **362** (Serviços Prestados por Terceiros)
 5. Se sócio → aplicar Regra de Retiradas
 6. Se banco intermediário → regra automática (se aplicável)
 7. Histórico: copiar exatamente como aparece no extrato

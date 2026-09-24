@@ -6,7 +6,7 @@
 
 | Campo | Informação | Status e fonte |
 |---|---|---|
-| Razão social | F W GONCALVES LTDA | Confirmada no plano de contas, razões e consulta pública auxiliar |
+| Razão social | F W S GONCALVES LTDA | Confirmada na Receita Federal e por Elen em 24/09/2026 |
 | Nome fantasia | Art&Stilo Móveis Sob Medida | Consulta pública auxiliar; confirmar em cadastro oficial |
 | CNPJ | 22.147.527/0001-86 | Confirmado no plano, razões, TXT e informado por Rosangela |
 | CNPJ sem formatação | 22147527000186 | Confirmado no TXT e no plano |
@@ -14,7 +14,7 @@
 | CNAE secundário | 3329-5/01 — Serviços de montagem de móveis de qualquer material | Informado por Rosangela e descrito no IBGE/CONCLA |
 | CNAE secundário | 4754-7/01 — Comércio varejista de móveis | Informado por Rosangela e descrito no IBGE/CONCLA |
 | Setor econômico | Indústria de transformação de móveis, com montagem e comércio varejista de móveis | Inferência operacional baseada nos CNAEs; confirmar cadastralmente |
-| Regime tributário | Não informado nesta etapa | PENDENTE |
+| Regime tributário | Simples Nacional (desde 29/03/2015) | Confirmado por Elen e Receita Federal em 24/09/2026 |
 | Período do razão histórico | 01/01/2026 a 30/06/2026 | Confirmado nos arquivos Razão.xls e razões específicos |
 | Período do extrato principal recebido | 01/07/2026 a 04/08/2026 | Confirmado no extrato Sicredi |
 
@@ -130,7 +130,7 @@ Para uma partida com dois débitos e um crédito, cada linha `6100` deverá repr
 | Razão social | CONFIRMADO | F W GONCALVES LTDA consta nos arquivos |
 | Nome fantasia | PROVISÓRIO | Art&Stilo indicado em fonte pública auxiliar |
 | CNAEs | PARCIALMENTE CONFIRMADOS | Códigos informados e descrições confirmadas no IBGE/CONCLA; situação cadastral oficial ainda pendente |
-| Regime tributário | PENDENTE | Não consta nos materiais lidos |
+| Regime tributário | CONFIRMADO | Simples Nacional |
 | Plano e razão | RECEBIDOS E CRUZADOS | As contas 362 e 541 foram confirmadas no razão; a cópia do plano exportado não exibiu essas linhas, configurando divergência entre arquivos |
 | Conta Sicredi corrente | CONFIRMADA | Conta 14, cooperativa 0730, conta 52431-6 |
 | Poupança Sicredi | CONFIRMADA | Conta 167 |

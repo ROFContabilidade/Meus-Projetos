@@ -70,6 +70,16 @@ Este é o **motor genérico** do escritório. Ele contém o fluxo de trabalho, o
 8. **Provisão do pró-labore e do INSS não entra no TXT** — é importada da folha do Domínio. O TXT registra só o pagamento.
 9. **Relatório XLSX de Pró-labore e Retiradas é entrega obrigatória junto com todo TXT**, mesmo sem movimentação do sócio no mês: aba Resumo (parâmetros e totais por sócio: pró-labore, retiradas, aportes, retirada líquida, INSS, pró-labore não pago) + uma aba por sócio com cada movimento, acumulado e rateio por fórmula. A soma da planilha deve bater com as linhas do TXT nas contas de pró-labore e do sócio.
 
+## Regra Padrão do Escritório — Quem recebeu ou pagou (análise de favorecido)
+
+> Validada pela contadora Rosangela em 24/09/2026. Analisar **cada lançamento como analista contábil experiente**, não só por palavra-chave.
+
+1. **Pessoa física** que não é sócio nem colaborador → **362 (Serviços Prestados por Terceiros)**. Sócio → regra de pró-labore/retirada. Colaborador (lista CLT da skill da empresa ou pasta Folha de PGTO) → salários a pagar (187).
+2. **CNPJ identificado no extrato** → **consultar a atividade (CNAE) do CNPJ** e julgar se é fornecedor coerente com o ramo da empresa:
+   - Coerente (ex.: confecção pagando malharia; loja de roupa pagando atacado de vestuário) → **conta de fornecedores** (506, ou a conta de fornecedor definida na skill da empresa).
+   - Não coerente → classificar pela **natureza da despesa**. Ex.: transportadora pagando farmácia → despesas diversas; supermercado/padaria → alimentação; posto → combustível/deslocamento; salão/estética → despesas diversas; advogado/software/cobrança → serviços de terceiros ou despesas administrativas.
+3. A atividade do CNPJ **prevalece sobre o histórico** quando o histórico não fizer sentido para o ramo. Toda reclassificação vai para a aba "Conferir" com a atividade encontrada.
+
 ## Regra Padrão do Escritório — Transferências entre Contas da Própria Empresa
 
 - Processar todos os extratos da empresa juntos e parear saída × entrada (mesmo valor, data D+0/D+1, CNPJ próprio ou "mesma titularidade").
@@ -89,10 +99,12 @@ Cada skill de empresa contém o plano de contas, regras de sócios e classifica�
 | `rof-contabilidade-aptransportes` | ADRIANA PINHEIRO TRANSPORTES LTDA — AP TRANSPORTES (CNPJ 46.293.830/0001-55, transporte) | Simples Nacional | Sicredi / Nu Financeira / C6Bank |
 | `rof-contabilidade-artsu` | ARTSU BRAZILIAN JIU-JITSU LTDA (CNPJ 36.021.287/0001-83) | Simples Nacional | — |
 | `rof-contabilidade-cosmetici` | COSMETICI (indústria de cosméticos) | Lucro Presumido | — |
+| `rof-contabilidade-edificio-violeta` | EDIFICIO VIOLETA (CNPJ 52.178.386/0001-20, condomínio edilício) | — | Cora / Sicoob (aplicação) |
 | `rof-contabilidade-dck` | DCK / WEB41 | — | — |
-| `rof-contabilidade-fwsgoncalves` | F W GONCALVES LTDA (CNPJ 22.147.527/0001-86, móveis) | — | Sicredi / SicrediInvest |
+| `rof-contabilidade-fwsgoncalves` | F W S GONCALVES LTDA (CNPJ 22.147.527/0001-86, móveis) | Simples Nacional | Sicredi / SicrediInvest |
 | `rof-contabilidade-imperiobaggio` | MARIA P S BAGGIO RESTAURANTE — Império Baggio (CNPJ 20.632.522/0001-13) | Simples Nacional | Sicredi |
 | `rof-contabilidade-jar-almeida` | J A R DE ALMEIDA LTDA (CNPJ 59.888.774/0001-43, doces) | Simples Nacional | — |
+| `rof-contabilidade-kopp` | INSTITUTO KOPP S/S LTDA. (CNPJ 08.109.599/0001-08, clínica odontológica) | Lucro Presumido | Sisprime / Stone |
 | `rof-contabilidade-lucasromano` | LUCAS ROMANO SANTOS LTDA (CNPJ 43.534.615/0001-00, serviços) | Simples Nacional | Nubank |
 | `rof-contabilidade-lumus` | LUMUS ESPECIALIDADES TERAPÊUTICAS (CNPJ 50.724.260/0001-88, saúde) | Simples Nacional | Mercado Pago |
 | `rof-contabilidade-mohrgroup` | MOHR GROUP | — | — |
