@@ -96,6 +96,15 @@ Este é o **motor genérico** do escritório. Ele contém o fluxo de trabalho, o
 - Guia do mês anterior que **não aparece paga** no extrato → sinalizar à contadora (possível débito em aberto).
 - Pagamento de imposto sem guia correspondente → sinalizar; não presumir o tributo pelo valor.
 
+## Regra Padrão do Escritório — Arquivos no Drive (versões)
+
+> Definida pela contadora Rosangela em 24/09/2026.
+
+- Salvar o TXT e a planilha do sócio **direto na pasta Extrato/Extratos do mês** no Google Drive.
+- **Nunca renomear nem excluir** arquivos existentes. Correção = **nova versão ao lado** (`_v2`, `_v3`...), mantendo a anterior intacta. Informar à contadora qual versão importar.
+- TXT enviado ao Drive sem acentos no histórico (ç→c, á→a) para evitar problema de codificação no Domínio; valores, contas e datas inalterados.
+- A planilha do sócio acompanha a versão do TXT (mesmo sufixo) e traz a aba "Conferir" atualizada.
+
 ## Regra Padrão do Escritório — Leitura de Extratos em PDF (Python 3.12)
 
 > Combinado com a contadora Rosangela em 24/09/2026. **Nunca** subir extrato para site de conversão (sigilo/LGPD) e **não** ler o PDF como imagem.

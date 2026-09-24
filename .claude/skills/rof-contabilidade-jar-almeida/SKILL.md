@@ -234,7 +234,7 @@ Quando solicitado, gerar planilha `.xlsx` com as datas e valores pagos/recebidos
 | Competência | Bancos | Lançamentos | Status |
 |---|---|---|---|
 | Julho/2026 | Sicredi (8) + Sicoob (9) | 343 | ✅ TXT entregue (v3) |
-| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 (v2) | ✅ TXT gerado em 24/09/2026 — saldos fecham; pró-labore confirmado pela contadora: R$ 1.621,00 − INSS 11% = líquido R$ 1.442,69; ICMS Antecipado 04 e 05/2026 na 512; Receita R$ 672,60 na 191 (mantido); DAS 07/2026 R$ 961,04 NÃO pago em agosto (em aberto) |
+| Agosto/2026 | Sicredi (8) + Sicoob (9) | 361 (v2) | ✅ Importar `CACAU_RIBEIRO_JAR_202608_v2.txt` + `CacauRibeiro_JAR_ProLabore_Retiradas_202608_v2.xlsx` (pasta 08_2026\Extratos). Gerado em 24/09/2026 — saldos fecham; pró-labore confirmado pela contadora: R$ 1.621,00 − INSS 11% = líquido R$ 1.442,69; ICMS Antecipado 04 e 05/2026 na 512; Receita R$ 672,60 na 191 (mantido); DAS 07/2026 R$ 961,04 NÃO pago em agosto (em aberto) |
 
 ---
 
