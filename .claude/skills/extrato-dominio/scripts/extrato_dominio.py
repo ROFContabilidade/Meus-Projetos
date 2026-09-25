@@ -2,7 +2,7 @@
 """Extrato bancário -> lançamentos contábeis em TXT para o sistema Domínio.
 
 Subcomandos:
-  ler         Lê extrato (OFX ou CSV) e gera CSV normalizado.
+  ler         Lê extrato (OFX, CSV ou TXT já importado no Domínio) e gera CSV.
   classificar Aplica as regras da empresa e gera CSV classificado.
   analisar    Relatório de conferência (totais, saldo, duplicidades, pendências).
   gerar       Gera o TXT de importação do Domínio a partir do CSV classificado.
@@ -12,6 +12,7 @@ Exemplos:
   python extrato_dominio.py classificar normalizado.csv -e empresas/123.json -o classificado.csv
   python extrato_dominio.py analisar classificado.csv -e empresas/123.json
   python extrato_dominio.py gerar classificado.csv -e empresas/123.json -o lancamentos.txt
+  python extrato_dominio.py ler antigo_PAGAR.txt --juntar antigo_RECEBER.txt -e empresas/123.json -o historico.csv
 """
 import argparse
 import csv
@@ -29,6 +30,7 @@ CAMPOS_NORMALIZADO = ["data", "descricao", "documento", "valor", "id"]
 CAMPOS_CLASSIFICADO = CAMPOS_NORMALIZADO + ["conta", "historico", "complemento", "regra"]
 
 LAYOUT_PADRAO = {
+    "formato": "dominio",   # "dominio" (|0000|/|6000|/|6100|) ou "delimitado"
     "separador": ";",
     "campos": ["data", "conta_debito", "conta_credito", "valor", "historico", "complemento"],
     "formato_data": "%d/%m/%Y",
@@ -231,18 +233,54 @@ def ler_csv_banco(texto):
     return linhas, {}
 
 
+PREFIXO_REF = re.compile(r"^REF\.?\s*A\.?\s*", re.I)
+
+
+def ler_txt_dominio(texto, conta_banco):
+    """Lê TXT já importado no Domínio (registros 6100) e devolve movimentos já classificados."""
+    if not conta_banco:
+        raise SystemExit("Para ler TXT do Domínio informe a empresa (-e), que define a conta_banco.")
+    linhas = []
+    for bruto in texto.splitlines():
+        campos = bruto.strip().split("|")
+        if len(campos) < 8 or campos[1] != "6100":
+            continue
+        _, _, data, deb, cred, valor, hist, comp = campos[:8]
+        v = parse_valor(valor)
+        if deb == conta_banco:
+            contra = cred
+        elif cred == conta_banco:
+            contra, v = deb, -v
+        else:
+            print(f"AVISO: lançamento sem a conta do banco {conta_banco}, ignorado: {bruto.strip()}")
+            continue
+        desc = PREFIXO_REF.sub("", comp).strip()
+        linhas.append({"data": data, "descricao": desc, "documento": "", "valor": str(v), "id": "",
+                       "conta": contra, "historico": hist, "complemento": "", "regra": "TXT Domínio"})
+    return linhas
+
+
 def cmd_ler(a):
     texto = ler_arquivo_texto(a.arquivo)
-    if "<OFX>" in texto.upper() or "OFXHEADER" in texto.upper():
+    info = {}
+    campos = CAMPOS_NORMALIZADO
+    if texto.lstrip().startswith("|0000|"):
+        emp = carregar_empresa(a.empresa) if a.empresa else {}
+        linhas = ler_txt_dominio(texto, str(emp.get("conta_banco") or ""))
+        origem, campos = "TXT Domínio (já classificado)", CAMPOS_CLASSIFICADO
+    elif "<OFX>" in texto.upper() or "OFXHEADER" in texto.upper():
         linhas, info = ler_ofx(texto)
         origem = "OFX"
     else:
         linhas, info = ler_csv_banco(texto)
         origem = "CSV"
+    for extra in a.juntar or []:
+        emp = carregar_empresa(a.empresa) if a.empresa else {}
+        linhas += ler_txt_dominio(ler_arquivo_texto(extra), str(emp.get("conta_banco") or ""))
     linhas.sort(key=lambda l: datetime.strptime(l["data"], "%d/%m/%Y"))
     for i, l in enumerate(linhas, 1):
         l["id"] = l["id"] or f"L{i:05d}"
-    gravar_csv(a.saida, linhas, CAMPOS_NORMALIZADO)
+    gravar_csv(a.saida, linhas, campos)
     ent = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) > 0)
     sai = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) < 0)
     print(f"Origem: {origem} | Movimentos: {len(linhas)}")
@@ -382,16 +420,14 @@ def limpar_campo(texto, sep, tam=None):
     return t[:tam] if tam else t
 
 
-def cmd_gerar(a):
-    emp = carregar_empresa(a.empresa)
+def montar_lancamentos(linhas, emp, usar_transitoria):
     lay = emp["layout_txt"]
     conta_banco = str(emp.get("conta_banco") or "").strip()
     if not conta_banco:
         raise SystemExit("Configure 'conta_banco' (código reduzido da conta do banco no Domínio) no arquivo da empresa.")
-    linhas = ler_csv(a.arquivo)
     transitoria = str(emp.get("conta_transitoria") or "").strip()
     pend = [l for l in linhas if not (l.get("conta") or "").strip()]
-    if pend and not a.usar_transitoria:
+    if pend and not usar_transitoria:
         print(f"ERRO: {len(pend)} movimento(s) sem conta. Classifique-os ou use --usar-transitoria.")
         for l in pend[:20]:
             print(f"  {l['id']} | {l['data']} | {l['valor']} | {l['descricao'][:60]}")
@@ -404,11 +440,8 @@ def cmd_gerar(a):
         raise SystemExit(f"{len(modelo)} movimento(s) com conta '0000' do modelo. "
                          "Troque pelos códigos reais do plano de contas no JSON da empresa.")
 
-    sep = lay["separador"]
-    saida = []
-    if lay.get("cabecalho"):
-        saida.append(sep.join(c.upper() for c in lay["campos"]))
-    tot_d = Decimal(0)
+    prefixo = emp.get("prefixo_complemento", "")
+    lancs = []
     for l in linhas:
         valor = Decimal(l["valor"])
         contra = (l.get("conta") or "").strip() or transitoria
@@ -419,37 +452,89 @@ def cmd_gerar(a):
         v = f"{abs(valor):.2f}"
         if lay["decimal"] == ",":
             v = v.replace(".", ",")
-        data = datetime.strptime(l["data"], "%d/%m/%Y").strftime(lay["formato_data"])
         comp = l.get("complemento") or l["descricao"]
         if l.get("documento") and emp.get("documento_no_complemento", True) and l["documento"] not in comp:
             comp = f"{comp} DOC {l['documento']}"
-        valores = {
-            "data": data,
+        if prefixo and not comp.upper().startswith(prefixo.strip().upper()):
+            comp = prefixo + comp
+        lancs.append({
+            "entrada": valor > 0,
+            "valor_abs": abs(valor),
+            "data": datetime.strptime(l["data"], "%d/%m/%Y").strftime(lay["formato_data"]),
             "conta_debito": deb,
             "conta_credito": cred,
             "valor": v,
-            "historico": l.get("historico") or emp.get("historico_padrao", ""),
-            "complemento": limpar_campo(comp, sep, lay.get("tam_max_complemento")),
-            "documento": limpar_campo(l.get("documento"), sep),
-            "codigo_empresa": emp.get("codigo_empresa", ""),
+            "historico": str(l.get("historico") or emp.get("historico_padrao", "")),
+            "complemento": comp,
+            "documento": l.get("documento") or "",
+            "codigo_empresa": str(emp.get("codigo_empresa", "")),
             "cnpj": re.sub(r"\D", "", str(emp.get("cnpj", ""))),
-            "filial": emp.get("filial", ""),
+            "filial": str(emp.get("filial", "")),
             "vazio": "",
-        }
-        faltando = [c for c in lay["campos"] if c not in valores]
-        if faltando:
-            raise SystemExit(f"Campo(s) de layout desconhecido(s): {faltando}. Válidos: {sorted(valores)}")
-        saida.append(sep.join(limpar_campo(valores[c], sep) for c in lay["campos"]))
-        tot_d += abs(valor)
+        })
+    return lancs, pend, transitoria
 
-    conteudo = lay["quebra_linha"].join(saida) + lay["quebra_linha"]
-    with open(a.saida, "w", encoding=lay["encoding"], errors="replace", newline="") as f:
-        f.write(conteudo)
-    print(f"Lançamentos gerados: {len(linhas)} | Total débitos = créditos: {fmt_brl(tot_d)}")
+
+def linhas_delimitado(lancs, lay):
+    sep = lay["separador"]
+    saida = [sep.join(c.upper() for c in lay["campos"])] if lay.get("cabecalho") else []
+    for x in lancs:
+        faltando = [c for c in lay["campos"] if c not in x]
+        if faltando:
+            raise SystemExit(f"Campo(s) de layout desconhecido(s): {faltando}.")
+        saida.append(sep.join(
+            limpar_campo(x[c], sep, lay.get("tam_max_complemento") if c == "complemento" else None)
+            for c in lay["campos"]))
+    return saida
+
+
+def linhas_dominio(lancs, lay, emp):
+    """Leiaute padrão do Domínio (registros 0000 / 6000 / 6100), lote tipo X = 1 débito x 1 crédito."""
+    cnpj = re.sub(r"\D", "", str(emp.get("cnpj", "")))
+    if len(cnpj) not in (11, 14):
+        raise SystemExit("O formato 'dominio' exige o CNPJ (ou CPF) da empresa no JSON.")
+    saida = [f"|0000|{cnpj}|"]
+    for x in lancs:
+        comp = limpar_campo(x["complemento"], "|", lay.get("tam_max_complemento"))
+        saida.append("|6000|X||||")
+        saida.append(f"|6100|{x['data']}|{x['conta_debito']}|{x['conta_credito']}|{x['valor']}|"
+                     f"{limpar_campo(x['historico'], '|')}|{comp}||||")
+    return saida
+
+
+def gravar_txt(caminho, linhas_txt, lay):
+    with open(caminho, "w", encoding=lay["encoding"], errors="replace", newline="") as f:
+        f.write(lay["quebra_linha"].join(linhas_txt) + lay["quebra_linha"])
+
+
+def cmd_gerar(a):
+    emp = carregar_empresa(a.empresa)
+    lay = emp["layout_txt"]
+    lancs, pend, transitoria = montar_lancamentos(ler_csv(a.arquivo), emp, a.usar_transitoria)
+
+    def render(grupo):
+        if lay.get("formato", "delimitado") == "dominio":
+            return linhas_dominio(grupo, lay, emp)
+        return linhas_delimitado(grupo, lay)
+
+    separar = a.separar or emp.get("separar_pagar_receber", False)
+    base = Path(a.saida)
+    if separar:
+        arquivos = [(base.with_name(f"{base.stem}_PAGAR{base.suffix}"), [x for x in lancs if not x["entrada"]]),
+                    (base.with_name(f"{base.stem}_RECEBER{base.suffix}"), [x for x in lancs if x["entrada"]])]
+    else:
+        arquivos = [(base, lancs)]
+    for caminho, grupo in arquivos:
+        if not grupo:
+            continue
+        gravar_txt(caminho, render(grupo), lay)
+        tot = sum(x["valor_abs"] for x in grupo)
+        print(f"Arquivo gerado: {caminho} | {len(grupo)} lançamento(s) | total {fmt_brl(tot)}")
     if pend:
         print(f"ATENÇÃO: {len(pend)} lançamento(s) na conta transitória {transitoria}.")
-    print(f"Layout: {sep.join(lay['campos'])} | encoding {lay['encoding']}")
-    print(f"Arquivo gerado: {a.saida}")
+    formato = lay.get("formato", "delimitado")
+    print(f"Formato: {formato}" + ("" if formato == "dominio" else f" ({lay['separador'].join(lay['campos'])})")
+          + f" | encoding {lay['encoding']}")
 
 
 # ---------------------------------------------------------------- CLI
@@ -458,8 +543,10 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("ler", help="OFX/CSV -> CSV normalizado")
+    s = sub.add_parser("ler", help="OFX/CSV/TXT Domínio -> CSV normalizado")
     s.add_argument("arquivo")
+    s.add_argument("-e", "--empresa", help="JSON da empresa (obrigatório para TXT do Domínio)")
+    s.add_argument("--juntar", nargs="*", help="outros TXT do Domínio a juntar (ex.: _RECEBER com _PAGAR)")
     s.add_argument("-o", "--saida", default="extrato_normalizado.csv")
     s.set_defaults(func=cmd_ler)
 
@@ -483,6 +570,8 @@ def main():
     s.add_argument("-o", "--saida", default="lancamentos_dominio.txt")
     s.add_argument("--usar-transitoria", action="store_true",
                    help="lança pendentes na conta_transitoria em vez de abortar")
+    s.add_argument("--separar", action="store_true",
+                   help="gera dois arquivos: _PAGAR (saídas) e _RECEBER (entradas)")
     s.set_defaults(func=cmd_gerar)
 
     a = p.parse_args()

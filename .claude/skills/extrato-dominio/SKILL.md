@@ -31,11 +31,21 @@ aprendidas nos meses anteriores. É isso que faz o trabalho ficar mais rápido a
     ou crie um JSON por conta bancária);
   - `conta_transitoria`: conta para itens não identificados (opcional);
   - `contas`: código reduzido → nome. Se o usuário mandar o plano de contas exportado
-    do Domínio (PDF, Excel, TXT), extraia dele. Sem plano de contas, **pergunte** os
+    do Domínio (`Contas.xls`), converta com `python scripts/plano_contas.py Contas.xls -o contas.json`
+    (precisa de `pip install olefile`) e cole no JSON. Sem plano de contas, **pergunte** os
     códigos; nunca invente código de conta, porque um código errado faz o Domínio
     rejeitar a importação ou, pior, lançar na conta errada.
   - Troque os `"0000"` das regras-modelo pelos códigos reais, ou remova as regras
     que não se aplicam.
+  - **Se o usuário tiver TXT de meses anteriores já importados no Domínio**, que é o melhor
+    ponto de partida, leia-os como histórico e monte as regras a partir do que o
+    escritório já fez:
+    `python scripts/extrato_dominio.py ler MES_PAGAR.txt --juntar MES_RECEBER.txt -e empresas/<empresa>.json -o historico.csv`.
+    Agrupe por descrição e conta. Depois valide: apague a coluna `conta`, rode `classificar`
+    e compare com o histórico. As diferenças são regras faltando ou possíveis erros do
+    mês anterior; mostre-as ao usuário.
+    A conta do banco e o CNPJ também aparecem nesses TXT (a conta que se repete em
+    todos os lançamentos; o CNPJ no registro `|0000|`).
 
 ## 2. Ler o extrato
 
@@ -89,15 +99,16 @@ usuário um resumo curto com o que pede atenção, não o relatório inteiro.
 ## 5. Gerar o TXT do Domínio
 
 ```bash
-python scripts/extrato_dominio.py gerar trabalho/classificado.csv -e empresas/<empresa>.json -o <EMPRESA>_<AAAA-MM>_lancamentos.txt
+python scripts/extrato_dominio.py gerar trabalho/classificado.csv -e empresas/<empresa>.json -o <EMPRESA>_<AAAA-MM>.txt
 ```
 
 - Entrada: **D banco / C contrapartida**. Saída: **D contrapartida / C banco**.
+- Formato padrão = leiaute do Domínio (`|0000|CNPJ|`, `|6000|X||||`, `|6100|data|déb|créd|valor||REF. A descrição||||`),
+  que é o formato que o Domínio já aceitou no escritório. Com `separar_pagar_receber` saem dois
+  arquivos: `<nome>_PAGAR.txt` (saídas) e `<nome>_RECEBER.txt` (entradas). Detalhes e
+  formato alternativo em `references/dominio.md`.
 - O script recusa gerar com pendentes. Com o aval do usuário, `--usar-transitoria`
   lança os pendentes na conta transitória, e isso deve ser avisado no resumo final.
-- O formato (ordem dos campos, separador, data, decimal, encoding) vem de `layout_txt`
-  no JSON. Leia `references/dominio.md` para ajustar o layout e para as instruções de
-  importação. Se o usuário tiver um TXT que o Domínio já aceitou, alinhe o layout a ele.
 
 ## Entrega
 

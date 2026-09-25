@@ -1,55 +1,64 @@
 # Importação de lançamentos no Domínio (Thomson Reuters)
 
-## Formato gerado
+## Formato padrão do escritório (`"formato": "dominio"`)
 
-Por padrão o script gera um TXT **delimitado por ponto e vírgula**, uma linha por
-lançamento (uma partida simples: 1 débito × 1 crédito), sem cabeçalho:
+É o leiaute padrão de lançamentos contábeis do Domínio, confirmado com arquivos que o
+Domínio já aceitou (empresa 60, Kopp, 02/2026). Campos separados por `|`, encoding
+Windows (cp1252), quebra de linha CRLF:
 
 ```
-DATA;CONTA_DEBITO;CONTA_CREDITO;VALOR;HISTORICO;COMPLEMENTO
-05/08/2026;7;512;1250,00;;PIX RECEBIDO JOAO DA SILVA
-06/08/2026;415;7;39,90;;TARIFA PACOTE SERVICOS
+|0000|02967738000158|
+|6000|X||||
+|6100|02/02/2026|651|8|180,00||REF. A SISPAG FORNECEDORES||||
+|6000|X||||
+|6100|02/02/2026|8|504|3384,84||REF. A RECEBIMENTO MOV TIT COB DISP 02/02S||||
 ```
 
-- Data `dd/mm/aaaa`; valor com vírgula decimal e sem separador de milhar.
-- Contas = **código reduzido** do plano de contas da empresa no Domínio.
-- Histórico = código de histórico padrão do Domínio (pode ficar vazio; o texto vai no complemento).
-- Encoding Windows (ANSI/cp1252) e quebra de linha CRLF, que é o que o Domínio lê sem
-  estragar acentos.
+| Registro | Conteúdo |
+|---|---|
+| `0000` | CNPJ da empresa, só números (uma vez, no início) |
+| `6000` | abre um lote; `X` = um débito para um crédito |
+| `6100` | data · conta débito · conta crédito · valor (vírgula, sem milhar) · código do histórico (vazio) · complemento · 4 campos vazios |
+
+- Contas = **código reduzido** do plano de contas da empresa.
+- O complemento leva o prefixo `REF. A ` (campo `prefixo_complemento` no JSON da empresa)
+  mais a descrição do extrato.
+- O escritório gera **dois arquivos por extrato**, `_PAGAR` (saídas: D despesa / C banco)
+  e `_RECEBER` (entradas: D banco / C cliente). É o `separar_pagar_receber: true` do JSON.
+  Os arquivos saem com o nome `<saída>_PAGAR.txt` e `<saída>_RECEBER.txt`.
+
+## Histórico: ler TXT antigos do Domínio
+
+Os TXT de meses anteriores servem de histórico. Com eles dá para criar as regras de uma empresa
+nova ou conferir se as regras reproduzem o que o escritório fez:
+
+```bash
+python scripts/extrato_dominio.py ler MES_PAGAR.txt --juntar MES_RECEBER.txt -e empresas/<empresa>.json -o historico.csv
+```
+
+O CSV sai já com a coluna `conta` (a contrapartida). O sinal do valor vem de qual lado
+está a `conta_banco`. Agrupe por descrição e conta para montar as regras.
+
+## Plano de contas
+
+```bash
+pip install olefile   # só na primeira vez
+python scripts/plano_contas.py Contas.xls -o contas.json
+```
+
+Gera `{codigo_reduzido: "classificação nome"}` só com as contas analíticas. Cole o resultado
+no campo `contas` do JSON da empresa. O .xls exportado pelo Domínio costuma vir com estrutura
+interna inconsistente, e o Excel antigo, o xlrd e o LibreOffice recusam abrir; o script tem leitor próprio.
 
 ## Como importar no Domínio
 
-1. Módulo **Contabilidade**, com a empresa correta aberta.
-2. Menu **Arquivo → Importação → Importação de Lançamentos** (o nome exato pode variar
-   um pouco conforme a versão).
-3. Na primeira vez, cadastre um **leiaute de importação** do tipo *separado por caractere*,
-   com separador `;` e os campos **na mesma ordem** do `layout_txt.campos` da empresa
-   (data, conta débito, conta crédito, valor, código do histórico, complemento).
-   Depois é só reutilizar o leiaute.
-4. Selecione o TXT, confira a prévia e importe. O Domínio aponta contas inexistentes ou
-   inválidas; se isso ocorrer, corrija o código no JSON da empresa e gere de novo.
+Módulo **Contabilidade**, com a empresa aberta, na rotina de importação de lançamentos
+(Arquivo → Importação), usando o leiaute padrão do Domínio. Importe o `_PAGAR` e o `_RECEBER`.
+O Domínio avisa se alguma conta não existir.
 
-## Ajustando o layout
+## Formato alternativo (`"formato": "delimitado"`)
 
-Se o escritório já tem um leiaute cadastrado no Domínio com outra ordem ou outros
-campos, ajuste `layout_txt` no JSON da empresa em vez de mudar o Domínio.
-Campos disponíveis para `layout_txt.campos`:
-
-| Campo | Conteúdo |
-|---|---|
-| `data` | data do movimento (formato em `formato_data`) |
-| `conta_debito` / `conta_credito` | códigos reduzidos |
-| `valor` | valor absoluto (decimal em `decimal`) |
-| `historico` | código do histórico padrão |
-| `complemento` | texto do lançamento (limitado a `tam_max_complemento`) |
-| `documento` | número do documento do extrato |
-| `codigo_empresa` | código da empresa no Domínio |
-| `cnpj` | CNPJ só com números |
-| `filial` | valor do campo `filial` do JSON |
-| `vazio` | coluna vazia (para pular posições) |
-
-Outras opções: `separador`, `formato_data` (sintaxe Python, ex. `%d%m%Y`), `decimal`
-(`,` ou `.`), `encoding`, `quebra_linha`, `cabecalho` (true/false).
-
-Se o usuário tiver um TXT que o Domínio já aceitou, compare com ele e ajuste o
-`layout_txt` para ficar idêntico. Esse é o jeito mais seguro de acertar o formato.
+Para leiautes personalizados, com uma linha por lançamento e separador configurável, use
+`layout_txt.formato = "delimitado"` e defina `campos` (ordem), `separador`, `cabecalho`.
+Campos disponíveis: `data`, `conta_debito`, `conta_credito`, `valor`, `historico`,
+`complemento`, `documento`, `codigo_empresa`, `cnpj`, `filial`, `vazio`.
