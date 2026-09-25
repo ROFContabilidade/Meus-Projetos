@@ -19,6 +19,12 @@ Siga `.claude/skills/extrato-dominio/references/nova_empresa.md`: responsável (
 Rosangela) → CNPJ e cartão CNPJ → usa o Domínio? → perguntas → balancete, relatório de
 entradas, razão, folha → confirmação → skill da empresa.
 
+## Lançamento mensal (conversa nova)
+Quando a usuária mandar o CNPJ de uma empresa já cadastrada (ou `/lancar-extrato <CNPJ>`), use a skill
+`.claude/skills/lancar-extrato`: peça o pacote `rof-contabilidade-<empresa>.skill` mais recente, restaure
+com `scripts/restaurar_empresa.py`, carregue o padrão ROF e o histórico da empresa e siga a rotina do mês.
+No fim, entregue o pacote atualizado para ela guardar.
+
 ## Sigilo
 Este repositório é **público**. Nunca faça commit de dados de clientes (CPF, folha, extratos,
 plano de contas, TXT de lançamentos, JSON de empresas). A pasta `empresas/` está no `.gitignore`;

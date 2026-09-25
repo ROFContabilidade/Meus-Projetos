@@ -289,6 +289,13 @@ D banco / C contrapartida). Detalhes em `references/dominio.md`.
 
 ## Entrega
 
+**Conversa nova / mês seguinte:** a pasta `empresas/` não vai para o GitHub e começa vazia em cada
+conversa. A usuária anexa o pacote `rof-contabilidade-<empresa>.skill` do mês anterior e
+`python scripts/restaurar_empresa.py <pacote> --cnpj <CNPJ>` devolve JSON, folha, entradas e impostos
+para `empresas/` (ver a skill `lancar-extrato`). Por isso, todo mês fechado termina com o pacote da
+empresa regerado e entregue, com decisões, `saldos_conferidos` e `meses_lancados` atualizados.
+
+
 1. Os arquivos `_PAGAR.txt` e `_RECEBER.txt`.
 2. Um resumo com responsável (Elen/Rosangela), período, quantidade de lançamentos,
    entradas, saídas, conferência de saldo, total por conta, itens em transitória e alertas.
