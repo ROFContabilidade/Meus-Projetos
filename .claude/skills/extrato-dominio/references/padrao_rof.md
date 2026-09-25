@@ -57,6 +57,11 @@ mensal de conciliação** que o usuário envia junto com o extrato: valor da not
 retenções ou parcela. **Nome + valor** = CONFIRMADO; **só valor** = PROVÁVEL (mostrar na lista).
 **Pagamento sem nota fiscal: informe o usuário** e identifiquem juntos; nunca lance por suposição.
 
+**Pagamento em lote sem nome (SISPAG):** o extrato não diz para quem foi pago. O favorecido sai dos
+**comprovantes de pagamento** do mês. Com o nome, aplica-se o **razão modelo** (período conferido
+que o escritório usa como padrão, lido por `razao_dominio.py aprender`). A conta transitória
+(Despesas a identificar) é o último recurso, só com autorização.
+
 ## 3. Regras invioláveis
 
 - **Conferência de saldo por banco**: saldo final − saldo inicial do extrato = entradas −

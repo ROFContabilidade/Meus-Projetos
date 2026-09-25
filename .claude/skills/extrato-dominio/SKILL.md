@@ -23,6 +23,7 @@ Scripts (Python 3; `plano_contas.py` precisa de `pip install olefile`; `folha_ex
 - `scripts/plano_contas.py`: converte o `Contas.xls` exportado do Domínio.
 - `scripts/extrato_dominio.py`: `ler`, `classificar`, `analisar`, `gerar` (`--help` mostra as opções).
 - `scripts/folha_extrato_mensal.py`: `ler` (Extrato Mensal da folha do Domínio → registro) e `conferir` (folha × extrato).
+- `scripts/razao_dominio.py`: `aprender` (razão modelo do Domínio → regras "favorecido → conta" da conta do banco).
 - `scripts/impostos_dominio.py`: `ler` (demonstrativos XLS e Resumo dos Impostos PDF) e `conferir` (guias × extrato).
 - `scripts/entradas_dominio.py`: `ler` (Acompanhamento de Entradas do Domínio → notas com retenções) e `conferir` (notas × pagamentos).
 - `scripts/gerar_skill_empresa.py`: gera a skill da empresa `rof-contabilidade-<empresa>` a partir do JSON.
@@ -105,6 +106,27 @@ específicas ficam antes das genéricas). Para os **pendentes**, que o script li
 4. Grave regras novas no JSON para os padrões recorrentes, com termos específicos o
    bastante para não capturar movimento errado (`nao_contem` e `regex` ajudam;
    `dia_de`/`dia_ate` limitam a regra a dias do mês).
+
+### Razão modelo e comprovantes de pagamento
+
+O razão de um período **conferido** (ex.: 4º trimestre do ano anterior) é o **modelo** de lançamentos:
+
+```bash
+python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empresas/<empresa>.json -o trabalho/regras_razao.json
+```
+
+- O script gera as regras "favorecido → conta" (CONFIRMADO se o padrão se repetiu sempre na mesma
+  conta; PROVÁVEL se apareceu 1 vez) e lista os **lançamentos com várias partidas** (guia dividida,
+  multa/juros) e os **padrões com mais de uma conta**, que viram perguntas.
+- Junte as regras ao JSON **depois** das decisões já confirmadas pelo usuário e **antes** das regras
+  genéricas/transitória. Se o modelo divergir de uma decisão do usuário, **pergunte** qual vale.
+- Cada regra vale pelo **nome do favorecido** em qualquer forma de pagamento (SISPAG, boleto, PIX, TED).
+- **SISPAG sem nome no extrato:** o favorecido sai dos **comprovantes de pagamento** que o usuário
+  envia. Com o nome, reescreva a descrição como `SISPAG FORNECEDORES <FAVORECIDO>` e as regras do
+  razão valem. Nunca deixe na conta transitória por falta de nome sem antes pedir os comprovantes.
+- **Aplicação automática:** se o banco do modelo fica com saldo mínimo (ex.: R$ 1,00), há aplicação e
+  resgate automáticos todo dia. O extrato do mês precisa trazer esses movimentos; sem eles, o saldo
+  não fecha.
 
 ### Notas de fornecedores (relatório de entradas)
 

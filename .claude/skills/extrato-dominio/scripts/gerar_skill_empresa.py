@@ -212,7 +212,7 @@ def main():
         shutil.copy(a.impostos, destino / "references" / "impostos.csv")
     for ref in ("padrao_rof.md", "dominio.md", "classificacao.md"):
         shutil.copy(BASE / "references" / ref, destino / "references" / ref)
-    for sc in ("extrato_dominio.py", "folha_extrato_mensal.py", "entradas_dominio.py", "impostos_dominio.py", "consulta_cnpj.py", "plano_contas.py"):
+    for sc in ("extrato_dominio.py", "folha_extrato_mensal.py", "entradas_dominio.py", "impostos_dominio.py", "razao_dominio.py", "consulta_cnpj.py", "plano_contas.py"):
         shutil.copy(BASE / "scripts" / sc, destino / "scripts" / sc)
     pacote = Path(a.saida) / f"{nome_skill}.skill"
     with zipfile.ZipFile(pacote, "w", zipfile.ZIP_DEFLATED) as z:
