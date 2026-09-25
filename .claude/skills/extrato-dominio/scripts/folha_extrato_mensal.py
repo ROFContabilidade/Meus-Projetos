@@ -18,6 +18,7 @@ Uso:
 Requer: pip install pdfplumber (ou pypdf).
 """
 import argparse
+from collections import defaultdict
 import csv
 import json
 import os
@@ -216,14 +217,39 @@ def cmd_conferir(a):
                         break
                 if comb:
                     break
+        if not cand and not comb:
+            # pagamento em LOTE: uma linha do extrato = soma dos líquidos de vários funcionários do mesmo cálculo
+            from itertools import combinations
+            por_calc = defaultdict(list)
+            for it in itens:
+                if it.get("cpf"):
+                    por_calc[(it["_tipo"], it["competencia"])].append(it)
+            for (tipo, comp_i), grupo in sorted(por_calc.items(), key=lambda kv: pref(l, kv[1][0])):
+                if len(grupo) > 16:
+                    continue
+                tot = round(sum(x["_v"] for x in grupo), 2)
+                for tira in range(0, min(3, len(grupo))):  # o lote inteiro ou faltando até 2 pessoas
+                    for fora in combinations(grupo, tira):
+                        if abs(tot - sum(x["_v"] for x in fora) - v) < 0.005:
+                            comb = [x for x in grupo if x not in fora]
+                            break
+                    if comb:
+                        break
+                if comb:
+                    break
         partes = [cand[0]] if cand else comb
         if partes:
             for it in partes:
                 itens.remove(it)
             resultado[l["id"]] = partes
-            desc = " + ".join(f"{rotulo[it['_tipo']]} {it['competencia']} {brl(it['_v'])}"
-                              f" → conta {contas.get(it['_tipo']) or '?'}" for it in partes)
-            print(f"  OK  {l['data']} {brl(v):>10} = {partes[0]['nome'][:32]}: {desc}")
+            if len(partes) > 2:
+                desc = (f"LOTE de {len(partes)} funcionários, {rotulo[partes[0]['_tipo']]} {partes[0]['competencia']}"
+                        f" → conta {contas.get(partes[0]['_tipo']) or '?'}")
+                print(f"  OK  {l['data']} {brl(v):>10} = {desc}: " + ", ".join(p['nome'].split()[0] for p in partes))
+            else:
+                desc = " + ".join(f"{rotulo[it['_tipo']]} {it['competencia']} {brl(it['_v'])}"
+                                  f" → conta {contas.get(it['_tipo']) or '?'}" for it in partes)
+                print(f"  OK  {l['data']} {brl(v):>10} = {partes[0]['nome'][:32]}: {desc}")
         else:
             sobra.append(l)
             pessoa = next((r for r in folha if primeiro_nome(r["nome"]) in l["descricao"].upper()), None)
@@ -301,6 +327,12 @@ def cmd_conferir(a):
             partes = resultado.get(l["id"])
             if not partes:
                 saida.append(l)
+                continue
+            if len({(x["_tipo"], x["competencia"]) for x in partes}) == 1 and len(partes) > 1:
+                it = partes[0]
+                n = dict(l, conta=contas[it["_tipo"]], status="CONFIRMADO",
+                         regra=f"Folha: lote {rotulo[it['_tipo']]} {it['competencia']} ({len(partes)} funcionários)")
+                saida.append(n)
                 continue
             for k, it in enumerate(partes, 1):
                 n = dict(l)

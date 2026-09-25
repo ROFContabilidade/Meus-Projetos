@@ -262,7 +262,83 @@ def ler_txt_dominio(texto, conta_banco):
     return linhas
 
 
+def ler_pdf_itau(caminho):
+    """Extrato PDF do Itaú Empresas: "DD/MM DESCRIÇÃO [AG] VALOR [SALDO]". Guarda o saldo diário
+    "SDO CTA/APL AUTOMATICAS" (conta + aplicação automática) para montar a aplicação."""
+    try:
+        import pdfplumber
+        with pdfplumber.open(caminho) as pdf:
+            texto = "\n".join(p.extract_text() or "" for p in pdf.pages)
+    except ImportError:
+        from pypdf import PdfReader
+        texto = "\n".join(p.extract_text() or "" for p in PdfReader(caminho).pages)
+    ano = re.search(r"Extrato de \d{2}/\d{2}/(\d{4})", texto)
+    ano = ano.group(1) if ano else str(datetime.now().year)
+    linhas, saldos, info = [], {}, {}
+    for l in texto.splitlines():
+        m = re.match(r"^(\d{2}/\d{2}) (.+?) (-?[\d.]+,\d{2})(?: (-?[\d.]+,\d{2}))?$", l.strip())
+        if not m:
+            continue
+        dm, desc, v1, v2 = m.groups()
+        data = f"{dm}/{ano}"
+        d = desc.strip()
+        if "SALDO ANTERIOR" in d:
+            info["saldo_inicial"] = v1
+            continue
+        if d.replace(" ", "") == "SALDO":
+            info["saldo_final"] = v1
+            continue
+        if d.startswith("SDO CTA/APL"):
+            saldos[data] = parse_valor(v1)
+            continue
+        ag = re.search(r" (\d{3,4})$", d)
+        doc = ""
+        if ag:
+            d, doc = d[:ag.start()].strip(), ag.group(1)
+        linhas.append({"data": data, "descricao": d, "documento": "", "valor": str(parse_valor(v1)), "id": ""})
+    return linhas, info, saldos
+
+
+def aplicacao_automatica(linhas, saldos, saldo_aplic_inicial):
+    """Conta que fica com saldo fixo (ex.: R$ 1,00): o líquido de cada dia vai para a aplicação (saldo sobrou)
+    ou sai dela (faltou). Confere com o saldo diário "conta + aplicação" do extrato."""
+    por_dia = defaultdict(Decimal)
+    for l in linhas:
+        por_dia[l["data"]] += Decimal(l["valor"])
+    novos, difs, aplic = [], [], Decimal(str(saldo_aplic_inicial))
+    for data in sorted(por_dia, key=lambda d: datetime.strptime(d, "%d/%m/%Y")):
+        liq = por_dia[data]
+        aplic += liq
+        if liq > 0:
+            novos.append({"data": data, "descricao": "APLICACAO AUT MAIS", "documento": "", "valor": str(-liq), "id": ""})
+        elif liq < 0:
+            novos.append({"data": data, "descricao": "RESGATE APLIC AUT MAIS", "documento": "", "valor": str(-liq), "id": ""})
+        if data in saldos and Decimal(str(saldos[data])) != aplic + 1:
+            difs.append((data, saldos[data], aplic + 1))
+    return novos, difs, aplic
+
+
 def cmd_ler(a):
+    if a.arquivo.lower().endswith(".pdf"):
+        linhas, info, saldos = ler_pdf_itau(a.arquivo)
+        if a.aplicacao_inicial is not None:
+            novos, difs, aplic = aplicacao_automatica(linhas, saldos, parse_valor(a.aplicacao_inicial))
+            linhas += novos
+            info["aplicacao_final"] = fmt_brl(aplic)
+            info["aplicacao_movimentos"] = len(novos)
+            info["aplicacao_conferencia"] = "OK: bate com o saldo diário do extrato" if not difs else \
+                f"DIVERGE em {len(difs)} dia(s), 1º: {difs[0][0]} extrato {fmt_brl(difs[0][1])} x calculado {fmt_brl(difs[0][2])}"
+        linhas.sort(key=lambda l: (datetime.strptime(l["data"], "%d/%m/%Y"), "APLIC" in l["descricao"] or "RESGATE" in l["descricao"]))
+        for i, l in enumerate(linhas, 1):
+            l["id"] = f"L{i:05d}"
+        gravar_csv(a.saida, linhas, CAMPOS_NORMALIZADO)
+        ent = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) > 0)
+        sai = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) < 0)
+        print(f"Origem: PDF Itaú | Movimentos: {len(linhas)} | Entradas: {fmt_brl(ent)} | Saídas: {fmt_brl(sai)} | Líquido: {fmt_brl(ent + sai)}")
+        for k, v in info.items():
+            print(f"{k}: {v}")
+        print(f"Arquivo gerado: {a.saida}")
+        return
     texto = ler_arquivo_texto(a.arquivo)
     info = {}
     campos = CAMPOS_NORMALIZADO
@@ -589,6 +665,8 @@ def main():
     s.add_argument("arquivo")
     s.add_argument("-e", "--empresa", help="JSON da empresa (obrigatório para TXT do Domínio)")
     s.add_argument("--juntar", nargs="*", help="outros TXT do Domínio a juntar (ex.: _RECEBER com _PAGAR)")
+    s.add_argument("--aplicacao-inicial", help="PDF Itaú com aplicação automática: saldo da aplicação no início "
+                   "(balancete); gera as linhas APLICACAO/RESGATE diárias e confere com o saldo do extrato")
     s.add_argument("-o", "--saida", default="extrato_normalizado.csv")
     s.set_defaults(func=cmd_ler)
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Comprovantes de pagamento do Itaú (PDF ou texto) → favorecido de cada pagamento do extrato.
 
-  ler      python comprovantes_itau.py ler Comprovante*.pdf [texto.txt] -o trabalho/comprovantes.csv
+  ler      python comprovantes_itau.py ler "Relatório pagamentos realizados.xls" Comprovante*.pdf -o trabalho/comprovantes.csv
+           (o relatório de pagamentos do Itaú é a fonte principal; os comprovantes completam juros/multa)
            Uma linha por comprovante: tipo (boleto, PIX, QR Code, tributo), data, valor pago, favorecido,
            CPF/CNPJ, valor original, desconto, juros/multa.
   aplicar  python comprovantes_itau.py aplicar trabalho/normalizado.csv -c trabalho/comprovantes.csv \
@@ -78,13 +79,50 @@ def extrair(texto, arquivo=""):
     return regs
 
 
+def ler_relatorio_pagamentos(caminho):
+    """XLS "Relatório de pagamentos realizados" do Itaú: favorecido, CPF/CNPJ, tipo, data, valor, status."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from plano_contas import linhas_planilha
+    regs, cab = [], None
+    for row in linhas_planilha(caminho):
+        low = [c.lower() for c in row]
+        if any("favorecido" in c for c in low):
+            cab = {c: i for i, c in enumerate(low)}
+            continue
+        if not cab or len(row) < 6 or not re.match(r"\d{2}/\d{2}/\d{4}", row[cab.get("data do pagamento", 4)] or ""):
+            continue
+        g = lambda nome, pad: row[cab[nome]] if nome in cab and cab[nome] < len(row) else pad
+        if "efetuad" not in g("status", "efetuado").lower():
+            continue
+        v = float(str(g("valor (r$)", "0")).replace(",", "."))
+        tipo = g("tipo de pagamento", "")
+        regs.append({"tipo": "boleto" if "boleto" in tipo.lower() else "PIX QR Code" if "qr" in tipo.lower()
+                     else "PIX" if "pix" in tipo.lower() else tipo,
+                     "data": g("data do pagamento", ""), "valor": f"{v:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
+                     "favorecido": g("favorecido / beneficiário", "").strip(), "cpf_cnpj": g("cpf/cnpj", ""),
+                     "valor_documento": "", "desconto": "0,00", "juros_multa": "0,00", "arquivo": os.path.basename(caminho)})
+    return regs
+
+
 def cmd_ler(a):
     regs = []
     for f in a.arquivos:
+        if f.lower().endswith((".xls", ".xlsx", ".csv")):
+            regs += ler_relatorio_pagamentos(f)
+            continue
         regs += extrair(texto_arquivo(f), f)
     # o mesmo comprovante pode aparecer em dois arquivos: remove repetidos
-    unicos = {(r["tipo"], r["data"], r["valor"], r["favorecido"]): r for r in regs}
-    regs = sorted(unicos.values(), key=lambda r: (r["data"][6:] + r["data"][3:5] + r["data"][:2], r["favorecido"]))
+    # O mesmo pagamento pode estar no relatório (XLS) e num comprovante (PDF): conta-se o maior número de
+    # ocorrências entre as fontes (dois pagamentos iguais no mesmo dia continuam dois), preferindo o PDF.
+    grupos = defaultdict(lambda: {"xls": [], "pdf": []})
+    for r in regs:
+        k = (r["data"], r["valor"])  # o nome muda entre relatório e comprovante (ex.: ACNIS BRASIL x ACNIS DO BRASIL)
+        grupos[k]["pdf" if r["arquivo"].lower().endswith(".pdf") else "xls"].append(r)
+    unicos = []
+    for g in grupos.values():
+        n = max(len(g["xls"]), len(g["pdf"]))
+        unicos += (g["pdf"] + g["xls"])[:n]
+    regs = sorted(unicos, key=lambda r: (r["data"][6:] + r["data"][3:5] + r["data"][:2], r["favorecido"]))
     with open(a.saida, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=CAMPOS, delimiter=";", extrasaction="ignore")
         w.writeheader()

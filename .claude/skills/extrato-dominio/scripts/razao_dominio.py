@@ -141,7 +141,8 @@ def cmd_aprender(a):
         termos = [k]
         if p["nome"] and tipo == "saida" and re.match(r"(SISPAG FORNECEDORES|SISPAG|PIX ENVIADO|BOLETO PAGO|TED ENVIADA|PAGTO|PAG) ", k):
             # o mesmo favorecido pode ser pago por SISPAG, boleto ou PIX
-            termos = [f"{t} {p['nome']}" for t in ("SISPAG FORNECEDORES", "BOLETO PAGO", "PIX ENVIADO", "TED ENVIADA")]
+            termos = [f"{t} {p['nome']}" for t in ("SISPAG FORNECEDORES", "BOLETO PAGO", "PIX ENVIADO", "TED ENVIADA",
+                                                    "PIX QR CODE", "SISPAG TRIBUTOS")]
         regras.append({"nome": f"Razão modelo: {k.title()}", "tipo": tipo, "contem": termos,
                        "conta": conta, "status": "CONFIRMADO" if qtd >= 2 else "PROVÁVEL",
                        "origem": f"razão {os.path.basename(a.arquivo)} ({qtd}x)"})

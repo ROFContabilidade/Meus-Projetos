@@ -120,13 +120,14 @@ APELIDOS = {"VIVO": "TELEFONICA", "COPEL": "COPEL", "SANEPAR": "COMPANHIA DE SAN
 
 
 def chave_nome(texto):
-    """Palavras significativas do nome, para casar a descrição truncada do extrato com o fornecedor."""
-    return [p for p in normalizar(texto).split() if p not in PALAVRAS_VAZIAS and len(p) > 1]
+    """Palavras significativas do nome, para casar a descrição truncada do extrato com o fornecedor.
+    O CNPJ que o MEI leva no começo do nome (ex.: "61.173.722 CAROLINE RIBEIRO") é ignorado."""
+    return [p for p in normalizar(texto).split() if p not in PALAVRAS_VAZIAS and len(p) > 1 and not p.isdigit()]
 
 
 def nome_no_extrato(desc):
     d = normalizar(desc)
-    m = (re.search(r"\b(BOLETO PAGO|PIX ENVIADO|TED ENVIADA|PAGTO)\s+(.*)", d)
+    m = (re.search(r"\b(BOLETO PAGO|PIX ENVIADO|PIX QR CODE|TED ENVIADA|PAGTO)\s+(.*)", d)
          or re.match(r"(DA|PAG|DEB AUT|DEBITO AUT)\s+(.*)", d))  # "DA COPEL" = débito automático
     nome = m.group(2).strip() if m else ""
     for apelido, nome_nf in APELIDOS.items():  # nome comercial no extrato x razão social na nota
