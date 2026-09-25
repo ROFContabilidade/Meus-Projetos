@@ -1,0 +1,7 @@
+# Dados de clientes (CPF, folha, plano de contas, extratos) NUNCA vão para o GitHub
+empresas/
+*.ofx
+*_PAGAR.txt
+*_RECEBER.txt
+*folha*.csv
+__pycache__/
