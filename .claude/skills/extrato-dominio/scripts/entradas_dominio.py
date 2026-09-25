@@ -10,8 +10,9 @@
              NOME + VALOR  → fornecedor da descrição do extrato e valor da nota (cheio, líquido ou parcela)
              SÓ VALOR      → pagamento sem nome (ex.: SISPAG FORNECEDORES) com valor igual a uma única nota
              SÓ NOME       → fornecedor encontrado, mas o valor não bate (parcela, juros, várias notas)
-           --aplicar grava a conta de fornecedores (JSON: conta_fornecedores) com status PROVÁVEL e a nota
-           na coluna complemento. A confirmação final é da contadora (padrão ROF).
+           --aplicar grava a conta de fornecedores (JSON: conta_fornecedores; padrão do escritório 506, pois a
+           nota já foi contabilizada pela Escrita Fiscal): NOME + VALOR = CONFIRMADO; SÓ VALOR = PROVÁVEL.
+           Os demais casos (só nome, várias notas, sem nota) são informados ao usuário para identificar junto.
 
 Lê .xls (leitor tolerante do plano_contas.py; precisa de olefile) ou CSV com ';'.
 """
@@ -219,6 +220,10 @@ def cmd_conferir(a):
           f"só valor {len(grupos['SÓ VALOR'])} | só nome {len(grupos['SÓ NOME'])} | "
           f"várias notas {len(grupos['VÁRIAS NOTAS'])} | sem nota {len(sem)}")
 
+    if sem or grupos["SÓ NOME"] or grupos["VÁRIAS NOTAS"]:
+        print("\n>>> Informar ao usuário os pagamentos SEM NOTA, SÓ NOME e VÁRIAS NOTAS para identificar junto "
+              "(use também a planilha mensal de conciliação enviada com o extrato).")
+
     if a.aplicar:
         if not conta:
             raise SystemExit("Defina 'conta_fornecedores' no JSON da empresa (confirmar com a contadora).")
@@ -226,7 +231,9 @@ def cmd_conferir(a):
         for l in extrato:
             r = res.get(l["id"])
             if r and r[0] in ("NOME + VALOR", "SÓ VALOR"):
-                l = dict(l, conta=conta, status="PROVÁVEL",
+                # nome + valor = nota identificada (CONFIRMADO); só valor = PROVÁVEL, vai para a lista de conferência
+                status = "CONFIRMADO" if r[0] == "NOME + VALOR" else "PROVÁVEL"
+                l = dict(l, conta=conta, status=status,
                          regra=f"NF {r[1]['nota']} {r[1]['fornecedor']} ({r[0]}; {r[2]})")
             saida.append(l)
         campos = list(extrato[0].keys()) + [c for c in ("conta", "regra", "status") if c not in extrato[0]]
@@ -234,7 +241,7 @@ def cmd_conferir(a):
             w = csv.DictWriter(f, fieldnames=campos, delimiter=";", extrasaction="ignore")
             w.writeheader()
             w.writerows(saida)
-        print(f"Notas aplicadas (status PROVÁVEL) em: {a.aplicar}")
+        print(f"Notas aplicadas em: {a.aplicar} (nome + valor = CONFIRMADO; só valor = PROVÁVEL)")
 
 
 def main():

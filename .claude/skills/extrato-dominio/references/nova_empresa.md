@@ -76,8 +76,9 @@ Confirme e complete o que o cartão CNPJ não responde. Pergunte em blocos:
    ou lançados direto em receita?
 
 **Pagamentos**
-7. Os pagamentos a fornecedores são baixados em **Fornecedores** (notas de entrada
-   integradas) ou lançados direto em despesa/estoque?
+7. Pagamentos a fornecedores: o padrão do escritório é a nota vir contabilizada pela **Escrita
+   Fiscal** e o pagamento ir para **506 Fornecedor Modelo**. Confirme que a 506 existe no plano da
+   empresa e que a Escrita Fiscal é integrada.
 8. Há funcionários? Quem faz a folha? Como os salários são pagos (SISPAG, lote, PIX)?
    **Calendário da folha**: o padrão do escritório são dois pagamentos por mês, o
    **salário líquido no início do mês** (Salários a pagar) e o **adiantamento de salário

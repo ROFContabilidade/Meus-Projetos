@@ -29,7 +29,7 @@
   ],
   "praticas": {
     "recebimentos": "baixa Clientes | direto em receita",
-    "pagamentos": "baixa Fornecedores | direto em despesa",
+    "pagamentos": "Nota de entrada contabilizada pela Escrita Fiscal; pagamento: D 506 Fornecedor Modelo / C Banco. Sem nota: informar o usuário.",
     "folha": "Salário líquido no início do mês (Salários a pagar) e adiantamento do dia 15 ao 20 (Adiantamento de salário). Conferir com o relatório da folha todo mês.",
     "cartao_credito": "",
     "emprestimos": ""
@@ -44,7 +44,7 @@
     "inss": "",
     "irrf": ""
   },
-  "conta_fornecedores": "",
+  "conta_fornecedores": "506",
   "documentos_recebidos": {
     "cartao_cnpj": "",
     "balancete": "",
@@ -52,7 +52,8 @@
     "razao": "",
     "plano_contas": "",
     "txt_anteriores": "",
-    "relatorio_folha": "todo mês"
+    "relatorio_folha": "todo mês",
+    "planilha_conciliacao": "todo mês, junto com o extrato e o relatório de entradas"
   },
   "pendencias": [],
   "observacoes": [],

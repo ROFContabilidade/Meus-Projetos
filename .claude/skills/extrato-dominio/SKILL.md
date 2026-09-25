@@ -122,8 +122,13 @@ python scripts/entradas_dominio.py conferir trabalho/classificado.csv -n empresa
   SISPAG, com uma única nota possível), **SÓ NOME** (valor não bate: parcela, juros ou várias
   notas), **VÁRIAS NOTAS** (perguntar) e **SEM NOTA** (nota fora do período do relatório,
   adiantamento, securitizadora ou despesa sem nota: perguntar).
-- `--aplicar` grava `conta_fornecedores` com status **PROVÁVEL**. A contadora confirma a conta
-  e os casos antes do TXT definitivo.
+- **Padrão do escritório:** a nota já é contabilizada pela Escrita Fiscal, então o pagamento é
+  **D 506 Fornecedor Modelo / C Banco** (`conta_fornecedores`). `--aplicar` grava NOME + VALOR como
+  CONFIRMADO e SÓ VALOR como PROVÁVEL.
+- **Sem nota fiscal** (e só nome ou várias notas): **informe o usuário** numa tabela e identifiquem
+  juntos. Nunca lance por suposição.
+- Todo mês o usuário envia, junto com o extrato, o **relatório de entradas** e uma **planilha
+  mensal de conciliação**: use os dois como evidência antes de perguntar.
 
 ### Folha de pagamento
 

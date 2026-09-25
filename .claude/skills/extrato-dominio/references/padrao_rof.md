@@ -47,9 +47,15 @@ O TXT definitivo só leva itens CONFIRMADOS. Com qualquer outro, o arquivo sai m
 Não classifique toda pessoa jurídica como fornecedor: a conta de fornecedores só serve
 quando o favorecido fornece algo coerente com a atividade e há nota fiscal.
 
-Para identificar favorecido em pagamento em lote (SISPAG, sem nome), cruze com o **relatório
-de entradas**: valor da nota, líquido das retenções ou parcela. Pagamento só pelo valor é
-**PROVÁVEL** até a contadora confirmar.
+**Fornecedores com nota fiscal (padrão de todas as empresas):** as notas de entrada já são
+contabilizadas pela **Escrita Fiscal** do Domínio, a crédito de fornecedores. Por isso o pagamento
+de nota é **D 506 Fornecedor Modelo / C Banco**, e nunca direto em despesa ou custo (seria lançar a
+despesa em dobro). Confirme que a 506 existe no plano da empresa; se o código for outro, pergunte.
+
+Para identificar o favorecido, cruze com o **relatório de entradas** do mês e com a **planilha
+mensal de conciliação** que o usuário envia junto com o extrato: valor da nota, líquido das
+retenções ou parcela. **Nome + valor** = CONFIRMADO; **só valor** = PROVÁVEL (mostrar na lista).
+**Pagamento sem nota fiscal: informe o usuário** e identifiquem juntos; nunca lance por suposição.
 
 ## 3. Regras invioláveis
 
