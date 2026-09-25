@@ -132,6 +132,10 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
   **Comprovantes escaneados (PDF só com imagem):** faça OCR antes (`pdftoppm -r 200 -gray -png arquivo.pdf pag`
   e `OMP_THREAD_LIMIT=1 tesseract pag-N.png pag-N -l por --psm 6`, um processo por núcleo; se faltar,
   `apt-get update && apt-get install -y tesseract-ocr tesseract-ocr-por poppler-utils`) e passe os `.txt` ao `ler`.
+  **Extrato novo do Itaú (a partir de jul/2026):** o OFX já traz a aplicação automática (APL/RES APLIC
+  AUT MAIS, lidas como APLICACAO/RESGATE) e linhas de saldo (SALDO ANTERIOR/TOTAL/APLIC.), que o `ler`
+  ignora; use o OFX (não precisa de `--aplicacao-inicial`). Recebimentos passam a vir como "BOLETO
+  RECEBIDO", "PIX RECEBIDO" e "PIX QR CODE RECEBIDO": inclua esses termos nas regras de recebimento.
   **Layout novo do Itaú (a partir de abr/2026):** comprovantes em minúsculas ("comprovante de pagamento
   de boleto", "comprovante de transferência", "comprovante de pagamento QR Code") são lidos com
   `pdftotext -layout`; mora, multa e juros de boleto/QR somados em juros_multa.
