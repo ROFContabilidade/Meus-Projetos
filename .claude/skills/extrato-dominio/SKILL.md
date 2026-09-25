@@ -132,6 +132,12 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
   **Comprovantes escaneados (PDF só com imagem):** faça OCR antes (`pdftoppm -r 200 -gray -png arquivo.pdf pag`
   e `OMP_THREAD_LIMIT=1 tesseract pag-N.png pag-N -l por --psm 6`, um processo por núcleo; se faltar,
   `apt-get update && apt-get install -y tesseract-ocr tesseract-ocr-por poppler-utils`) e passe os `.txt` ao `ler`.
+  **Comprovantes em Word (.docx) convertidos de PDF** (texto em pedaços de imagem): `docx_ocr.py`
+  gera o texto; procure "(+)Mora/Multa" / "(+)Juros/Mora/Multa" com valor diferente de 0,00 e
+  complete a coluna juros_multa do comprovante no CSV antes do `aplicar`.
+  Pagamento feito em fim de semana/feriado entra no extrato no dia útil seguinte: o `aplicar` casa
+  até 3 dias depois. **Guia do FGTS só é aceita se o favorecido for a Caixa** (QR Code com outro
+  favorecido, como prefeitura, não é FGTS).
   Boleto pago com atraso vira duas linhas: principal na conta do favorecido e "JUROS/MULTA ..." na
   conta de juros de mora. Boleto de intermediador (PagCerto etc.) usa o **beneficiário final**.
   O **Relatório de pagamentos realizados** (XLS do Itaú) é a fonte principal: uma linha por pagamento

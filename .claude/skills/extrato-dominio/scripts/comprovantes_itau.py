@@ -19,6 +19,7 @@ import os
 import re
 import sys
 from collections import defaultdict
+from datetime import datetime, timedelta
 
 CAMPOS = ["tipo", "data", "valor", "favorecido", "cpf_cnpj", "valor_documento", "desconto", "juros_multa", "arquivo"]
 V = r"([\d.]+,\d{2})"
@@ -150,6 +151,27 @@ def cmd_ler(a):
     print(f"Total pago: {sum(num(r['valor']) for r in regs):,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
 
 
+def _aplicar_comp(l, c, v, nomes_folha, novas):
+    """Reescreve a linha do extrato com o favorecido do comprovante; juros/multa viram linha própria."""
+    prefixo = {"boleto": "BOLETO PAGO", "PIX": "PIX ENVIADO", "PIX QR Code": "PIX QR CODE"}.get(c["tipo"], "SISPAG")
+    if c["tipo"].startswith(("Tributos", "DARF", "GPS", "FGTS")):
+        prefixo = "SISPAG TRIBUTOS"
+    if c["tipo"] in ("DARE",) or c["tipo"].lower().startswith(("concession", "com código")):
+        prefixo = "SISPAG TRIBUTOS" if c["tipo"] == "DARE" else "SISPAG"
+    l["descricao"] = f"{prefixo} {c['favorecido']}".strip()
+    # pessoa física (CPF) que não está na folha: marcada para a regra de serviços de terceiros
+    if re.fullmatch(r"[\d*]{3}\.[\d*]{3}\.[\d*]{3}-[\d*]{2}", c["cpf_cnpj"] or "") and nomes_folha is not None:
+        nome = re.sub(r"[^A-Z ]", "", c["favorecido"].upper()).split()
+        if not any(" ".join(nome[:2]) in f for f in nomes_folha):
+            l["descricao"] += " (PESSOA FISICA)"
+    l["documento"] = c["cpf_cnpj"] or l.get("documento", "")
+    juros = num(c["juros_multa"])
+    if juros > 0:  # pago com atraso: principal na conta do favorecido, juros/multa em linha própria
+        l["valor"] = f"{-(v - juros):.2f}"
+        novas.append(dict(l, id=l["id"] + "-J", valor=f"{-juros:.2f}",
+                          descricao=f"JUROS/MULTA {prefixo} {c['favorecido']}".strip()))
+
+
 def cmd_aplicar(a):
     with open(a.comprovantes, encoding="utf-8-sig") as f:
         comps = list(csv.DictReader(f, delimiter=";"))
@@ -163,35 +185,27 @@ def cmd_aplicar(a):
     for c in comps:
         livres[(c["data"], num(c["valor"]))].append(c)
     usados = casados = 0
-    sem, novas = [], []
+    sem, novas, pendentes = [], [], []
     for l in extrato:
         v = round(-float(l["valor"]), 2)
         if v <= 0:
             continue
         lista = livres.get((l["data"], v))
-        if not lista:
-            if re.search(r"SISPAG (FORNECEDORES|TRIBUTOS)|^REF A\.?$|^$", l["descricao"].strip()):
-                sem.append(l)
-            continue
-        c = lista.pop(0)
-        casados += 1
-        prefixo = {"boleto": "BOLETO PAGO", "PIX": "PIX ENVIADO", "PIX QR Code": "PIX QR CODE"}.get(c["tipo"], "SISPAG")
-        if c["tipo"].startswith(("Tributos", "DARF", "GPS", "FGTS")):
-            prefixo = "SISPAG TRIBUTOS"
-        if c["tipo"] in ("DARE",) or c["tipo"].lower().startswith(("concession", "com código")):
-            prefixo = "SISPAG TRIBUTOS" if c["tipo"] == "DARE" else "SISPAG"
-        l["descricao"] = f"{prefixo} {c['favorecido']}".strip()
-        # pessoa física (CPF) que não está na folha: marcada para a regra de serviços de terceiros
-        if re.fullmatch(r"[\d*]{3}\.[\d*]{3}\.[\d*]{3}-[\d*]{2}", c["cpf_cnpj"] or "") and nomes_folha is not None:
-            nome = re.sub(r"[^A-Z ]", "", c["favorecido"].upper()).split()
-            if not any(" ".join(nome[:2]) in f for f in nomes_folha):
-                l["descricao"] += " (PESSOA FISICA)"
-        l["documento"] = c["cpf_cnpj"] or l.get("documento", "")
-        juros = num(c["juros_multa"])
-        if juros > 0:  # pago com atraso: principal na conta do favorecido, juros/multa em linha própria
-            l["valor"] = f"{-(v - juros):.2f}"
-            novas.append(dict(l, id=l["id"] + "-J", valor=f"{-juros:.2f}",
-                              descricao=f"JUROS/MULTA {prefixo} {c['favorecido']}".strip()))
+        if lista:
+            casados += 1
+            _aplicar_comp(l, lista.pop(0), v, nomes_folha, novas)
+        else:
+            pendentes.append((l, v))
+    # pagamento feito no fim de semana/feriado entra no extrato no dia útil seguinte (até 3 dias depois)
+    for l, v in pendentes:
+        d = datetime.strptime(l["data"], "%d/%m/%Y")
+        lista = next((livres[k] for k in (((d - timedelta(days=n)).strftime("%d/%m/%Y"), v) for n in (1, 2, 3))
+                      if livres.get(k)), None)
+        if lista:
+            casados += 1
+            _aplicar_comp(l, lista.pop(0), v, nomes_folha, novas)
+        elif re.search(r"SISPAG (FORNECEDORES|TRIBUTOS)|^REF A\.?$|^$", l["descricao"].strip()):
+            sem.append(l)
     for n in novas:  # linha de juros logo depois do pagamento
         extrato.insert(next(i for i, x in enumerate(extrato) if x["id"] == n["id"][:-2]) + 1, n)
     if novas:
@@ -204,6 +218,9 @@ def cmd_aplicar(a):
         w.writerows(extrato)
     print(f"{casados} pagamento(s) identificados pelos comprovantes -> {a.saida}")
     print(f"Comprovantes sem pagamento no extrato: {usados}")
+    for lista in livres.values():
+        for c in lista:
+            print(f"  {c['data']} {c['valor']:>12} {c['tipo']} {c['favorecido'][:40]}")
     print(f"Pagamentos SISPAG ainda sem comprovante: {len(sem)}")
     for l in sem[:40]:
         print(f"  {l['data']} {l['valor']:>12} {l['descricao'][:40]}")

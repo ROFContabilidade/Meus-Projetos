@@ -296,7 +296,10 @@ def cmd_conferir(a):
                         continue
                     v = -num(l["valor"])
                     base = max(fg_ops, key=lambda o: o[0]["_v"])[0]
-                    if base["_v"] < v <= base["_v"] * 2 and any(t in l["descricao"].upper() for t in ("FGTS", "CEF", "CAIXA", "PIX QR", "GFD")):
+                    d = l["descricao"].upper()
+                    # QR Code com favorecido identificado (comprovante) só vale se for a Caixa; sem nome, ainda é candidato
+                    pix_qr_sem_nome = re.fullmatch(r"(SISPAG\s+)?PIX\s+QR[- ]CODE", d.strip()) is not None
+                    if base["_v"] < v <= base["_v"] * 2 and (any(t in d for t in ("FGTS", "CEF", "CAIXA", "GFD")) or pix_qr_sem_nome):
                         dif = round(v - base["_v"], 2)
                         op = [base, dict(base, nome="Consignado (FGTS Digital)", _tipo="consignado", _v=dif)]
                         resultado[l["id"]] = op
