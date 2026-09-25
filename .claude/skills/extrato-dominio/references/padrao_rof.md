@@ -62,6 +62,16 @@ retenções ou parcela. **Nome + valor** = CONFIRMADO; **só valor** = PROVÁVEL
 que o escritório usa como padrão, lido por `razao_dominio.py aprender`). A conta transitória
 (Despesas a identificar) é o último recurso, só com autorização.
 
+**Nunca identificar o favorecido só pelo "SISPAG FORNECEDORES <nome>" nem só pelo primeiro nome**
+(Rosangela, 25/09/2026). O extrato corta o nome ("SISPAG FORNECEDORES EMERSON") e o razão modelo
+guarda só esse pedaço; em 08/2026 a regra "PIX ENVIADO EMERSON" levou para a conta do sócio (603)
+dois PIX para **EMERSON PAULINO**, outra pessoa, com outro CPF. Por isso:
+- leia o **comprovante**: nome completo **e** CPF/CNPJ do recebedor; sem comprovante, pergunte;
+- regra que casa por parte do nome (as do razão modelo) só vale para os favorecidos já
+  confirmados na lista `favorecidos` da regra (nome e documento); **outro nome ou outro CPF/CNPJ
+  com o mesmo primeiro nome é pergunta**, nunca lançamento automático;
+- na dúvida, **sempre perguntar** à usuária antes de lançar.
+
 ## 3. Regras invioláveis
 
 - **Conferência de saldo por banco**: saldo final − saldo inicial do extrato = entradas −

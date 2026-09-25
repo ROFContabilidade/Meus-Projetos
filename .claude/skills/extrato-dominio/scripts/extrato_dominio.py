@@ -408,6 +408,42 @@ def regra_casa(regra, desc_norm, valor, data=None):
     return bool(termos) or "regex" in regra
 
 
+def _digitos_visiveis(doc):
+    """Trechos de dígitos de um CPF/CNPJ, mesmo mascarado (***532809** → ['532809'])."""
+    return [t for t in re.split(r"\*+", re.sub(r"[^\d*]", "", doc or "")) if len(t) >= 3]
+
+
+def _mesmo_documento(doc_linha, doc_conhecido):
+    cheio = re.sub(r"\D", "", doc_conhecido or "")
+    partes = _digitos_visiveis(doc_linha)
+    return bool(cheio and partes) and all(t in cheio for t in partes)
+
+
+def conferir_favorecido(regra, linha, desc_norm):
+    """Aviso quando a regra casou sem confirmar QUEM recebeu (padrão ROF: nome completo e documento).
+
+    - "SISPAG FORNECEDORES ..." do extrato traz só o começo do nome: sem o comprovante, perguntar.
+    - Regras do razão modelo (origem "razão ...") ou com "conferir_favorecido" casam por um nome truncado
+      ("PIX ENVIADO EMERSON" pegou "EMERSON PAULINO", que não é o sócio). Só valem para os favorecidos
+      já confirmados em regra["favorecidos"] ([{"nome": ..., "documento": ...}]); outro nome ou outro
+      CPF/CNPJ vira PROVÁVEL e vai para as perguntas.
+    """
+    if desc_norm.startswith("SISPAG FORNECEDORES"):
+        return "SISPAG FORNECEDORES sem comprovante: ler o comprovante (nome completo e CPF/CNPJ) e perguntar"
+    if not (str(regra.get("origem", "")).startswith("razão") or regra.get("conferir_favorecido")):
+        return ""
+    doc = linha.get("documento") or ""
+    for f in regra.get("favorecidos") or []:
+        doc_ok = _mesmo_documento(doc, f.get("documento"))
+        nome_ok = bool(f.get("nome")) and normalizar_texto(f["nome"]) in desc_norm
+        if doc_ok and (nome_ok or not f.get("nome")):
+            return ""
+        if nome_ok and not (doc and f.get("documento")):
+            return ""
+    return (f"favorecido não confirmado: a regra casou só por parte do nome; conferir nome completo e "
+            f"CPF/CNPJ ({linha.get('descricao', '')} {doc}) e perguntar")
+
+
 def cmd_classificar(a):
     emp = carregar_empresa(a.empresa)
     linhas = ler_csv(a.arquivo)
@@ -425,6 +461,10 @@ def cmd_classificar(a):
                 l["complemento"] = r.get("complemento") or l["descricao"]
                 l["regra"] = r.get("nome") or f"regra {i + 1}"
                 l["status"] = r.get("status", STATUS_OK)
+                aviso = conferir_favorecido(r, l, dn)
+                if aviso:
+                    l["status"] = "PROVÁVEL"
+                    l["regra"] = f"{l['regra']} — {aviso}"
                 break
         else:
             l["historico"] = str(emp.get("historico_padrao", ""))

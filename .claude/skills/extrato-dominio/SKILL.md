@@ -122,6 +122,12 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
 - Junte as regras ao JSON **depois** das decisões já confirmadas pelo usuário e **antes** das regras
   genéricas/transitória. Se o modelo divergir de uma decisão do usuário, **pergunte** qual vale.
 - Cada regra vale pelo **nome do favorecido** em qualquer forma de pagamento (SISPAG, boleto, PIX, TED).
+- **Nome completo e documento, nunca só o primeiro nome** (Rosangela, 25/09/2026): o `classificar` deixa
+  PROVÁVEL (vai para as perguntas) toda linha "SISPAG FORNECEDORES ..." sem comprovante e toda linha
+  que casou numa regra do razão modelo (`origem` "razão ...") ou com `"conferir_favorecido": true`
+  cujo favorecido não está em `favorecidos` (`[{"nome": "EMERSON HENR", "documento": "085..."}]`;
+  CPF mascarado confere pelos dígitos visíveis). Quando a usuária confirmar um favorecido novo,
+  acrescente-o em `favorecidos` da regra.
 - **SISPAG sem nome no extrato:** o favorecido sai dos **comprovantes de pagamento** que o usuário
   envia: `comprovantes_itau.py ler Comprovante*.pdf -o trabalho/comprovantes.csv` e
   `comprovantes_itau.py aplicar trabalho/normalizado.csv -c trabalho/comprovantes.csv -o trabalho/normalizado_nomes.csv`
