@@ -10,7 +10,11 @@ Padrão ROF: só o primeiro nome não basta. Linha com o primeiro nome do sócio
 pelo nome completo nem pelo CPF vai para a aba "A conferir" (amarelo) e vira pergunta.
 
 Uso:
-  python socios_extrato.py -e empresas/60-kopp-industria.json -o socios_2026.xlsx jan/c4.csv fev/c4.csv ...
+  python socios_extrato.py -e empresas/<cod>-<empresa>.json -o <COD>_<ANO>_socios.xlsx \
+      [--historico empresas/<cod>-<empresa>-socios.csv] <classificado final do mês>...
+Com --historico, os movimentos dos meses informados substituem os mesmos meses no histórico e a
+planilha sai com o ano todo: numa conversa nova basta o classificado do mês (o histórico vem no
+pacote da skill da empresa).
 Abas: "Resumo" (mês × sócio: entradas, saídas, líquido e acumulado), "Movimentos" (cada linha,
 verde = confirmado) e "A conferir" (amarelo), se houver.
 """
@@ -51,10 +55,10 @@ def carregar_socios(emp):
     for s in emp.get("socios", []):
         nome = norm(s.get("nome"))
         p = nome.split()
-        # o extrato corta o nome ("EMERSON HENR"): primeiro nome + 4 letras do segundo
+        # o extrato corta o nome ("JOAO SILV"): primeiro nome + 4 letras do segundo
         chave = f"{p[0]} {p[1][:4]}" if len(p) > 1 else nome
         socios.append({"nome": s.get("nome", ""), "cpf": s.get("cpf", ""), "chave": chave, "primeiro": p[0] if p else ""})
-        # contas do plano com o nome do sócio (ex.: 603 EMERSON HENRIQUE..., 665 MUTUO ESTHER TROETSCH)
+        # contas do plano com o nome do sócio (ex.: conta "JOAO SILVA", "MUTUO JOAO SILVA")
         for c, nome_conta in (emp.get("contas") or {}).items():
             if f" {chave}" in f" {norm(nome_conta)}":
                 contas[str(c)] = s.get("nome", "")
@@ -98,6 +102,7 @@ def main():
     ap.add_argument("classificados", nargs="+", help="CSV final de cada mês (separador ;)")
     ap.add_argument("-e", "--empresa", required=True)
     ap.add_argument("-o", "--saida", required=True)
+    ap.add_argument("--historico", help="CSV acumulado dos movimentos com sócios (lido e atualizado)")
     a = ap.parse_args()
 
     emp = json.load(open(a.empresa, encoding="utf-8"))
@@ -121,6 +126,26 @@ def main():
                  "tipo": tipo_mov(l.get("conta", ""), nome_conta, v, contas), "status": l.get("status", ""),
                  "origem": l.get("regra", "")}
             (movs if ok and r["status"] == "CONFIRMADO" else conferir).append(r)
+    if a.historico:
+        campos = ["mes", "data", "socio", "descricao", "documento", "entrada", "saida", "conta", "nome_conta",
+                  "tipo", "status", "origem", "conferir"]
+        novos_meses = {r["mes"] for r in movs + conferir}
+        antigos = []
+        try:
+            antigos = [x for x in csv.DictReader(open(a.historico, encoding="utf-8-sig"), delimiter=";")
+                       if x["mes"] not in novos_meses]
+        except FileNotFoundError:
+            pass
+        for x in antigos:
+            x["entrada"], x["saida"] = Decimal(x["entrada"]), Decimal(x["saida"])
+            (conferir if x.pop("conferir") == "1" else movs).append(x)
+        with open(a.historico, "w", encoding="utf-8-sig", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=campos, delimiter=";")
+            w.writeheader()
+            for lista, flag in ((movs, "0"), (conferir, "1")):
+                for r in lista:
+                    w.writerow({**r, "conferir": flag})
+        print(f"Histórico: {a.historico} ({len(antigos)} movimento(s) de meses anteriores mantidos)")
     movs.sort(key=lambda r: (r["data"][6:] + r["data"][3:5] + r["data"][:2], r["socio"]))
     conferir.sort(key=lambda r: (r["data"][6:] + r["data"][3:5] + r["data"][:2], r["socio"]))
 

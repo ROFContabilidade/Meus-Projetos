@@ -9,7 +9,7 @@ para `empresas/`, com os nomes usados pelos outros scripts.
 Uso:
   python restaurar_empresa.py rof-contabilidade-kopp-industria.skill [--cnpj 00.000.000/0000-00]
 Grava empresas/<código>-<nome>.json e, se existirem no pacote, empresas/<código>-<nome>-folha.csv,
--folha-encargos.csv, -entradas.csv e -impostos.csv. Com --cnpj, confere se o pacote é da empresa
+-folha-encargos.csv, -entradas.csv, -impostos.csv e -socios.csv (histórico de sócios). Com --cnpj, confere se o pacote é da empresa
 informada antes de gravar. No fim imprime o comando para gerar a skill atualizada.
 """
 import argparse, json, os, re, sys, zipfile
@@ -17,7 +17,7 @@ import argparse, json, os, re, sys, zipfile
 RAIZ = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 EMPRESAS = os.path.join(RAIZ, "empresas")
 ARQUIVOS = {"folha.csv": "-folha.csv", "folha-encargos.csv": "-folha-encargos.csv",
-            "entradas.csv": "-entradas.csv", "impostos.csv": "-impostos.csv"}
+            "entradas.csv": "-entradas.csv", "impostos.csv": "-impostos.csv", "socios.csv": "-socios.csv"}
 
 
 def main():
@@ -57,7 +57,8 @@ def main():
     if emp.get("meses_lancados"):
         print("  meses lançados:", emp["meses_lancados"])
     cmd = [f"python3 .claude/skills/extrato-dominio/scripts/gerar_skill_empresa.py {rel['json']}"]
-    for chave, opc in (("folha.csv", "--folha"), ("entradas.csv", "--entradas"), ("impostos.csv", "--impostos")):
+    for chave, opc in (("folha.csv", "--folha"), ("entradas.csv", "--entradas"), ("impostos.csv", "--impostos"),
+                        ("socios.csv", "--socios")):
         if chave in rel:
             cmd.append(f"{opc} {rel[chave]}")
     cmd.append(f"--nome {base.replace('rof-contabilidade-', '')} -o <scratchpad>/skills_empresas")

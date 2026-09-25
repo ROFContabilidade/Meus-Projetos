@@ -189,6 +189,7 @@ def main():
     ap.add_argument("--folha")
     ap.add_argument("--entradas", help="CSV de notas gerado por entradas_dominio.py ler")
     ap.add_argument("--impostos", help="CSV de impostos gerado por impostos_dominio.py ler")
+    ap.add_argument("--socios", help="CSV acumulado de movimentos com sócios (socios_extrato.py --historico)")
     ap.add_argument("--nome", help="sufixo do nome da skill (padrão: derivado da razão social)")
     ap.add_argument("-o", "--saida", default=".")
     a = ap.parse_args()
@@ -208,6 +209,8 @@ def main():
             shutil.copy(enc, destino / "references" / "folha-encargos.csv")
     if a.entradas:
         shutil.copy(a.entradas, destino / "references" / "entradas.csv")
+    if a.socios:
+        shutil.copy(a.socios, destino / "references" / "socios.csv")
     if a.impostos:
         shutil.copy(a.impostos, destino / "references" / "impostos.csv")
     for ref in ("padrao_rof.md", "dominio.md", "classificacao.md"):
