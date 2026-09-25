@@ -9,7 +9,8 @@ IRPJ, CSLL) x pagamentos do extrato.
                [-e empresas/<empresa>.json] [--aplicar trabalho/classificado_impostos.csv]
            Procura no extrato, pelo valor exato, a guia de cada imposto com valor a recolher: mensais da
            competência anterior ao mês do pagamento; IRPJ/CSLL do trimestre anterior (cota única ou 3 quotas).
-           --aplicar grava a conta de 'contas_impostos' do JSON com status PROVÁVEL (confirmar com a contadora).
+           --aplicar grava a conta de 'contas_impostos' do JSON: CONFIRMADO se a empresa tiver
+           "contas_impostos_confirmadas": true (contadora já confirmou as contas); senão PROVÁVEL.
 
 Guia com multa/juros não bate pelo valor: é listada como "não encontrada" para conferir com o comprovante.
 """
@@ -183,9 +184,11 @@ def cmd_conferir(a):
         imp = [r for r in csv.DictReader(f, delimiter=";") if num(r["a_recolher"]) > 0]
     with open(a.extrato, encoding="utf-8-sig") as f:
         extrato = list(csv.DictReader(f, delimiter=";"))
-    contas = dict(CONTAS_PADRAO)
+    contas, confirmadas = dict(CONTAS_PADRAO), False
     if a.empresa:
-        contas.update(json.load(open(a.empresa, encoding="utf-8")).get("contas_impostos") or {})
+        emp = json.load(open(a.empresa, encoding="utf-8"))
+        contas.update(emp.get("contas_impostos") or {})
+        confirmadas = bool(emp.get("contas_impostos_confirmadas"))  # contadora confirmou as contas desta empresa
     termos = [t.upper() for t in a.termos]
     pags = [l for l in extrato if num(l["valor"]) < 0 and (l.get("status") or "").upper() != "CONFIRMADO"
             and any(t in l["descricao"].upper() for t in termos)]
@@ -228,7 +231,7 @@ def cmd_conferir(a):
         for l in extrato:
             r = res.get(l["id"])
             if r:
-                l = dict(l, conta=contas.get(r["imposto"], ""), status="PROVÁVEL",
+                l = dict(l, conta=contas.get(r["imposto"], ""), status="CONFIRMADO" if confirmadas else "PROVÁVEL",
                          regra=f"Imposto: {r['imposto']} {r['competencia']} {r['codigo_receita']} (demonstrativo)")
             saida.append(l)
         campos = list(extrato[0].keys()) + [c for c in ("conta", "regra", "status") if c not in extrato[0]]
@@ -236,7 +239,7 @@ def cmd_conferir(a):
             w = csv.DictWriter(f, fieldnames=campos, delimiter=";", extrasaction="ignore")
             w.writeheader()
             w.writerows(saida)
-        print(f"Guias aplicadas (status PROVÁVEL) em: {a.aplicar}")
+        print(f"Guias aplicadas em: {a.aplicar} (status {'CONFIRMADO' if confirmadas else 'PROVÁVEL: contas ainda não confirmadas'})")
 
 
 def main():

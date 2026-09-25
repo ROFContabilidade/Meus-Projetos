@@ -57,6 +57,7 @@
     "PIS": "179",
     "COFINS": "180"
   },
+  "contas_impostos_confirmadas": false,
   "documentos_recebidos": {
     "cartao_cnpj": "",
     "balancete": "",

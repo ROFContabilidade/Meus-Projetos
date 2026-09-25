@@ -145,7 +145,9 @@ python scripts/impostos_dominio.py conferir trabalho/classificado.csv -i empresa
 - A guia do mês M é da competência M−1 (IRPJ/CSLL: do trimestre, em cota única ou 3 quotas).
   Cada guia vai na **sua** conta (`contas_impostos`; padrão do plano do escritório: ICMS 172,
   IPI 171, IRRF 178, CRF 182, ISS retido 183, INSS retido 184, IRPJ 176, CSLL 177, PIS 179,
-  COFINS 180), com status PROVÁVEL até a contadora confirmar.
+  COFINS 180). Enquanto a contadora não confirmar as contas da empresa, o status é PROVÁVEL; depois
+  de confirmadas, grave `"contas_impostos_confirmadas": true` no JSON e as guias que batem com o
+  demonstrativo entram como CONFIRMADO.
 - Guia sem demonstrativo (valor não bate: multa/juros, parcelamento, DIFAL, outra competência):
   **informe o usuário** e peça o comprovante.
 
