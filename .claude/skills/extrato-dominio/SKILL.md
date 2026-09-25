@@ -132,6 +132,11 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
   **Comprovantes escaneados (PDF só com imagem):** faça OCR antes (`pdftoppm -r 200 -gray -png arquivo.pdf pag`
   e `OMP_THREAD_LIMIT=1 tesseract pag-N.png pag-N -l por --psm 6`, um processo por núcleo; se faltar,
   `apt-get update && apt-get install -y tesseract-ocr tesseract-ocr-por poppler-utils`) e passe os `.txt` ao `ler`.
+  **Layout novo do Itaú (a partir de abr/2026):** comprovantes em minúsculas ("comprovante de pagamento
+  de boleto", "comprovante de transferência", "comprovante de pagamento QR Code") são lidos com
+  `pdftotext -layout`; mora, multa e juros de boleto/QR somados em juros_multa.
+  **Arquivos no Google Drive:** baixe com `download_file_content`; quando o resultado é grande, ele é
+  salvo em arquivo JSON (campo `content` em base64): decodifique com Python, sem copiar o conteúdo.
   **Comprovantes em Word (.docx) convertidos de PDF** (texto em pedaços de imagem): `docx_ocr.py`
   gera o texto; procure "(+)Mora/Multa" / "(+)Juros/Mora/Multa" com valor diferente de 0,00 e
   complete a coluna juros_multa do comprovante no CSV antes do `aplicar`.

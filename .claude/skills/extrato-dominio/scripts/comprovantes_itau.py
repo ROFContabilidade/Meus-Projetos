@@ -44,6 +44,62 @@ def texto_arquivo(caminho):
         return f.read()
 
 
+def texto_layout(caminho):
+    """Texto do PDF preservando colunas (pdftotext -layout), para o layout novo do Itaú (2026)."""
+    import shutil
+    import subprocess
+    if caminho.lower().endswith(".pdf") and shutil.which("pdftotext"):
+        return subprocess.run(["pdftotext", "-layout", caminho, "-"], capture_output=True, text=True).stdout
+    return ""
+
+
+def extrair_novo(texto, arquivo=""):
+    """Layout novo do Itaú (a partir de abr/2026): blocos "comprovante de ..." com linhas "rótulo   valor".
+
+    Tipos: pagamento de boleto (Itaú ou outro banco), transferência (PIX), pagamento QR Code.
+    Débito automático é ignorado: o extrato já traz o nome (DA COPEL, DA VIVO...).
+    """
+    regs = []
+    blocos = re.split(r"(?m)^\s*(?=comprovante de )", texto)
+    for b in blocos:
+        tit = b.split("\n", 1)[0].strip().lower()
+        if not tit.startswith("comprovante de"):
+            continue
+        secao, campos = "", {}
+        for linha in b.splitlines()[1:]:
+            ls = linha.strip()
+            if ls.lower().startswith("dados d"):
+                secao = ls.lower()
+                continue
+            m = re.match(r"^\s*(\S.*?)\s{2,}(\S.*)$", linha)
+            if m:
+                campos.setdefault((secao, m.group(1).strip().lower()), m.group(2).strip())
+                campos.setdefault(("", m.group(1).strip().lower()), m.group(2).strip())
+        g = lambda k, sec="": campos.get((sec, k), "")
+        val = lambda k, sec="": (re.search(V, g(k, sec)) or [None, "0,00"])[1]
+        dt = lambda x: (re.search(D, x or "") or [None, ""])[1]
+        if "boleto" in tit:
+            sec = "dados do beneficiário"
+            fav = g("razão social", sec) or g("nome", sec)
+            juros = num(val("mora")) + num(val("multa")) + num(val("juros"))
+            regs.append({"tipo": "boleto", "data": dt(g("data do pagamento")), "valor": val("valor do pagamento"),
+                         "favorecido": fav, "cpf_cnpj": g("cpf/cnpj", sec), "valor_documento": val("valor do documento"),
+                         "desconto": val("desconto"), "juros_multa": f"{juros:.2f}".replace(".", ","), "arquivo": arquivo})
+        elif "qr code" in tit:
+            efet = re.search(r"efetuad[oa] em " + D, b)
+            juros = num(val("juros")) + num(val("multa"))
+            regs.append({"tipo": "PIX QR Code", "data": efet.group(1) if efet else "", "valor": val("valor da transação") if g("valor da transação") else val("valor"),
+                         "favorecido": g("nome do recebedor"), "cpf_cnpj": g("cpf/cnpj do recebedor"),
+                         "valor_documento": val("valor do documento"), "desconto": val("desconto"),
+                         "juros_multa": f"{juros:.2f}".replace(".", ","), "arquivo": arquivo,
+                         "devedor": g("nome do devedor")})
+        elif "transferência" in tit or "transferencia" in tit:
+            regs.append({"tipo": "PIX", "data": dt(g("data da transferência")), "valor": val("valor"),
+                         "favorecido": g("nome do recebedor"), "cpf_cnpj": g("cpf/cnpj do recebedor"),
+                         "valor_documento": "", "desconto": "0,00", "juros_multa": "0,00", "arquivo": arquivo})
+    return [r for r in regs if r["data"] and r["valor"] != "0,00"]
+
+
 def extrair(texto, arquivo=""):
     t = re.sub(r"\s+", " ", texto.replace("\\*", "*"))
     regs = []
@@ -127,7 +183,8 @@ def cmd_ler(a):
         if f.lower().endswith((".xls", ".xlsx", ".csv")):
             regs += ler_relatorio_pagamentos(f)
             continue
-        regs += extrair(texto_arquivo(f), f)
+        achados = extrair(texto_arquivo(f), f)
+        regs += achados or extrair_novo(texto_layout(f), f)
     # o mesmo comprovante pode aparecer em dois arquivos: remove repetidos
     # O mesmo pagamento pode estar no relatório (XLS) e num comprovante (PDF): conta-se o maior número de
     # ocorrências entre as fontes (dois pagamentos iguais no mesmo dia continuam dois), preferindo o PDF.
