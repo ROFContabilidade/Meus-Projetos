@@ -95,7 +95,7 @@ def extrair_novo(texto, arquivo=""):
             regs.append({"tipo": "boleto", "data": dt(g("data do pagamento")), "valor": val("valor do pagamento"),
                          "favorecido": fav, "cpf_cnpj": g("cpf/cnpj", sec), "valor_documento": val("valor do documento"),
                          "desconto": val("desconto"), "juros_multa": f"{juros:.2f}".replace(".", ","), "arquivo": arquivo})
-        elif "qr code" in tit:
+        elif "qr code" in tit or "or code" in tit:  # OCR às vezes lê "QR" como "OR"
             efet = re.search(r"efetuad[oa] em " + D, b)
             juros = num(val("juros")) + num(val("multa"))
             regs.append({"tipo": "PIX QR Code", "data": efet.group(1) if efet else "", "valor": val("valor da transação") if g("valor da transação") else val("valor"),
