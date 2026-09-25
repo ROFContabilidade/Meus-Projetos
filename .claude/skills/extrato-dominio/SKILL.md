@@ -23,6 +23,7 @@ Scripts (Python 3; `plano_contas.py` precisa de `pip install olefile`; `folha_ex
 - `scripts/plano_contas.py`: converte o `Contas.xls` exportado do Domínio.
 - `scripts/extrato_dominio.py`: `ler`, `classificar`, `analisar`, `gerar` (`--help` mostra as opções).
 - `scripts/folha_extrato_mensal.py`: `ler` (Extrato Mensal da folha do Domínio → registro) e `conferir` (folha × extrato).
+- `scripts/comprovantes_itau.py`: `ler` (comprovantes do Itaú: boleto, PIX, QR Code, tributos) e `aplicar` (põe o nome do favorecido nas saídas do extrato).
 - `scripts/razao_dominio.py`: `aprender` (razão modelo do Domínio → regras "favorecido → conta" da conta do banco).
 - `scripts/impostos_dominio.py`: `ler` (demonstrativos XLS e Resumo dos Impostos PDF) e `conferir` (guias × extrato).
 - `scripts/entradas_dominio.py`: `ler` (Acompanhamento de Entradas do Domínio → notas com retenções) e `conferir` (notas × pagamentos).
@@ -122,8 +123,10 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
   genéricas/transitória. Se o modelo divergir de uma decisão do usuário, **pergunte** qual vale.
 - Cada regra vale pelo **nome do favorecido** em qualquer forma de pagamento (SISPAG, boleto, PIX, TED).
 - **SISPAG sem nome no extrato:** o favorecido sai dos **comprovantes de pagamento** que o usuário
-  envia. Com o nome, reescreva a descrição como `SISPAG FORNECEDORES <FAVORECIDO>` e as regras do
-  razão valem. Nunca deixe na conta transitória por falta de nome sem antes pedir os comprovantes.
+  envia: `comprovantes_itau.py ler Comprovante*.pdf -o trabalho/comprovantes.csv` e
+  `comprovantes_itau.py aplicar trabalho/normalizado.csv -c trabalho/comprovantes.csv -o trabalho/normalizado_nomes.csv`
+  (casa por data + valor e reescreve a descrição com o favorecido; CNPJ e juros/multa vão no campo
+  documento). Depois rode o `classificar` no arquivo com os nomes, e as regras do razão valem. Nunca deixe na conta transitória por falta de nome sem antes pedir os comprovantes.
 - **Aplicação automática:** se o banco do modelo fica com saldo mínimo (ex.: R$ 1,00), há aplicação e
   resgate automáticos todo dia. O extrato do mês precisa trazer esses movimentos; sem eles, o saldo
   não fecha.
