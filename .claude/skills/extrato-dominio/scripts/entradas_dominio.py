@@ -179,7 +179,8 @@ def cmd_conferir(a):
     for n in notas:
         n["_dt"] = datetime.strptime(n["entrada"] or n["emissao"], "%d/%m/%Y")
     alvo = [l for l in extrato if num(l["valor"]) < 0 and ((l.get("status") or "").upper() != "CONFIRMADO"
-                                                         or (l.get("conta") or "") in com_nf)]
+                                                         or (l.get("conta") or "") in com_nf
+                                                         or "(PESSOA FISICA)" in l["descricao"])]
     if a.somente:
         alvo = [l for l in alvo if any(t.upper() in l["descricao"].upper() for t in a.somente)]
     res, usadas = {}, set()
@@ -189,6 +190,12 @@ def cmd_conferir(a):
         janela = [n for n in notas if dt - timedelta(days=a.dias) <= n["_dt"] <= dt + timedelta(days=5)]
         nome_ext = nome_no_extrato(l["descricao"])
         por_nome = [n for n in janela if nome_ext and casa_nome(nome_ext, n["fornecedor"])]
+        # CNPJ do favorecido (vindo do relatório de pagamentos/comprovante) casa com o CNPJ da nota,
+        # mesmo quando o nome é diferente (ex.: PIX para o dono "GILMAR PEDRO..." = nota da "GP EXPRESS")
+        cnpj_pag = re.search(r"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}", l.get("documento") or "")
+        if cnpj_pag:
+            alvo_cnpj = re.sub(r"\D", "", cnpj_pag.group(0))
+            por_nome += [n for n in janela if re.sub(r"\D", "", n["cnpj"]) == alvo_cnpj and n not in por_nome]
 
         def com_valor(lista):
             out = []
@@ -246,7 +253,11 @@ def cmd_conferir(a):
         saida = []
         for l in extrato:
             r = res.get(l["id"])
-            if r and (l.get("conta") or "") in com_nf:
+            if r and "(PESSOA FISICA)" in l["descricao"]:
+                if r[0] == "NOME + VALOR":  # pessoa física com nota fiscal (MEI/autônomo com nota) → fornecedores
+                    l = dict(l, conta=conta, status="CONFIRMADO",
+                             regra=f"NF {r[1]['nota']} {r[1]['fornecedor']} (pessoa física com nota → fornecedores)")
+            elif r and (l.get("conta") or "") in com_nf:
                 if r[0] == "NOME + VALOR":
                     l = dict(l, conta=com_nf[l["conta"]], status="CONFIRMADO",
                              regra=f"NF {r[1]['nota']} {r[1]['fornecedor']} (com nota → conta {com_nf[l['conta']]})")

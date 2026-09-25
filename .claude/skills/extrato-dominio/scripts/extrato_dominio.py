@@ -386,12 +386,15 @@ def regra_casa(regra, desc_norm, valor, data=None):
     termos = regra.get("contem") or []
     if isinstance(termos, str):
         termos = [termos]
-    if termos and not any(normalizar_texto(t) in desc_norm for t in termos):
+    # o espaço no começo/fim do termo é significativo ("TAR " não pode casar com "SECRETARIA")
+    desc_esp = f" {desc_norm} "
+    termo = lambda t: normalizar_texto(t).join((" " if t[:1] == " " else "", " " if t[-1:] == " " else ""))
+    if termos and not any(termo(t) in desc_esp for t in termos):
         return False
     excluir = regra.get("nao_contem") or []
     if isinstance(excluir, str):
         excluir = [excluir]
-    if any(normalizar_texto(t) in desc_norm for t in excluir):
+    if any(termo(t) in desc_esp for t in excluir):
         return False
     if "regex" in regra and not re.search(regra["regex"], desc_norm, re.I):
         return False
