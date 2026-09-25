@@ -145,6 +145,12 @@ def montar_skill_md(emp, nome_skill, tem_folha):
            "`python scripts/entradas_dominio.py conferir <classificado.csv> -n references/entradas.csv -e references/empresa.json "
            "--aplicar <classificado_nf.csv>`. Conta de fornecedores: "
            f"**{emp.get('conta_fornecedores') or 'a confirmar com a contadora'}**. Pagamento só pelo valor fica PROVÁVEL.\n"]
+    md += ["\n## Impostos\n",
+           "Registro das guias (demonstrativos e Resumo dos Impostos do Domínio) em `references/impostos.csv`. Todo mês: "
+           "`python scripts/impostos_dominio.py ler <XLS/PDF> -o references/impostos.csv --acrescentar` e "
+           "`python scripts/impostos_dominio.py conferir <classificado.csv> -i references/impostos.csv -e references/empresa.json "
+           "--aplicar <classificado_impostos.csv>`. Guia sem demonstrativo: informar o usuário.\n\n"
+           + tabela(["Imposto", "Conta"], [[k, f"{v} {nome_conta(emp, v)}"] for k, v in (emp.get("contas_impostos") or {}).items()])]
     md += ["\n## Classificações Recorrentes Confirmadas\n",
            tabela(["Descrição no extrato", "Tipo", "Conta", "Observação"],
                   [[", ".join(r.get("contem") or []) or r.get("regex", ""), r.get("tipo", ""),
@@ -182,6 +188,7 @@ def main():
     ap.add_argument("empresa")
     ap.add_argument("--folha")
     ap.add_argument("--entradas", help="CSV de notas gerado por entradas_dominio.py ler")
+    ap.add_argument("--impostos", help="CSV de impostos gerado por impostos_dominio.py ler")
     ap.add_argument("--nome", help="sufixo do nome da skill (padrão: derivado da razão social)")
     ap.add_argument("-o", "--saida", default=".")
     a = ap.parse_args()
@@ -201,9 +208,11 @@ def main():
             shutil.copy(enc, destino / "references" / "folha-encargos.csv")
     if a.entradas:
         shutil.copy(a.entradas, destino / "references" / "entradas.csv")
+    if a.impostos:
+        shutil.copy(a.impostos, destino / "references" / "impostos.csv")
     for ref in ("padrao_rof.md", "dominio.md", "classificacao.md"):
         shutil.copy(BASE / "references" / ref, destino / "references" / ref)
-    for sc in ("extrato_dominio.py", "folha_extrato_mensal.py", "entradas_dominio.py", "consulta_cnpj.py", "plano_contas.py"):
+    for sc in ("extrato_dominio.py", "folha_extrato_mensal.py", "entradas_dominio.py", "impostos_dominio.py", "consulta_cnpj.py", "plano_contas.py"):
         shutil.copy(BASE / "scripts" / sc, destino / "scripts" / sc)
     pacote = Path(a.saida) / f"{nome_skill}.skill"
     with zipfile.ZipFile(pacote, "w", zipfile.ZIP_DEFLATED) as z:

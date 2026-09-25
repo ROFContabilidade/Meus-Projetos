@@ -117,6 +117,7 @@ Peça os documentos dos **últimos meses (ideal: 3 a 6 meses)**:
 | **Balancete** | Saldos de abertura, contas em uso, saldo da conta banco para conferir o extrato |
 | **Relatório de entradas** (notas fiscais de entrada) | Nomes de fornecedores e valores, para identificar boletos e PIX pagos e saber se baixam Fornecedores ou despesa |
 | **Razão** (principalmente das contas de banco) | O padrão de lançamento que o escritório usa: que conta cada tipo de movimento recebe |
+| **Demonstrativos de impostos** (XLS) e **Resumo dos Impostos** (PDF) do Domínio | Valor e código de cada guia (ICMS, IPI, IRRF, CRF, ISS, PIS, COFINS, IRPJ, CSLL), para identificar os tributos pagos |
 | **Plano de contas** (`Contas.xls` exportado do Domínio) | Códigos reduzidos: `python scripts/plano_contas.py Contas.xls -o contas.json` |
 | TXT de importação de meses anteriores (se houver) | Histórico exato; leia com `ler ... --juntar` |
 | Extrato do mês a lançar (OFX de preferência) | O trabalho do mês |

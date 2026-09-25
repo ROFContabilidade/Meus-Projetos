@@ -45,22 +45,37 @@ def ler_xls(caminho):
             while ci < len(chunks) and off > len(chunks[ci]): off -= len(chunks[ci]); ci += 1
             sst.append(s)
         break
-    cells = defaultdict(dict)
     def rk(v):
         if v & 2: x = struct.unpack('<i', struct.pack('<I', v))[0] >> 2
         else: x = struct.unpack('<d', struct.pack('<Q', (v & 0xFFFFFFFC) << 32))[0]
         return x / 100 if v & 1 else x
+    # cada aba começa com um registro BOF (0x0809); o primeiro BOF é o bloco global do arquivo
+    nomes, abas, cells, bofs = [], [], None, 0
     for t, b in recs:
-        if t == 0x00FD:
+        if t == 0x0085:  # BOUNDSHEET: nome da aba
+            n, fl = b[6], b[7]
+            nomes.append(b[8:8 + 2 * n].decode('utf-16-le') if fl & 1 else b[8:8 + n].decode('latin-1'))
+        elif t == 0x0809:
+            bofs += 1
+            if bofs > 1:
+                cells = defaultdict(dict)
+                abas.append((nomes[len(abas)] if len(abas) < len(nomes) else f"Aba{len(abas) + 1}", cells))
+        elif cells is None:
+            continue
+        elif t == 0x00FD:
             r, c, _, k = struct.unpack_from('<HHHI', b); cells[r][c] = sst[k]
         elif t == 0x0203:
             r, c, _ = struct.unpack_from('<HHH', b); cells[r][c] = struct.unpack_from('<d', b, 6)[0]
         elif t == 0x027E:
             r, c, _, v = struct.unpack_from('<HHHI', b); cells[r][c] = rk(v)
+        elif t == 0x00BD:  # MULRK: várias células numéricas na mesma linha
+            r, c0 = struct.unpack_from('<HH', b)
+            for i in range((len(b) - 6) // 6):
+                cells[r][c0 + i] = rk(struct.unpack_from('<I', b, 4 + 6 * i + 2)[0])
         elif t == 0x0204:
             r, c, _, n = struct.unpack_from('<HHHH', b); fl = b[8]
             cells[r][c] = b[9:9+2*n].decode('utf-16-le') if fl & 1 else b[9:9+n].decode('latin-1')
-    return cells
+    return abas
 
 
 def linhas_planilha(caminho):
@@ -69,11 +84,12 @@ def linhas_planilha(caminho):
             import olefile  # noqa: F401
         except ImportError:
             raise SystemExit("Instale o olefile: pip install olefile")
-        cells = ler_xls(caminho)
-        for r in sorted(cells):
-            mx = max(cells[r])
-            yield [(str(int(x)) if isinstance(x, float) and x.is_integer() else str(x)).strip()
-                   for x in (cells[r].get(c, "") for c in range(mx + 1))]
+        for nome, cells in ler_xls(caminho):
+            yield ["#ABA", nome]
+            for r in sorted(cells):
+                mx = max(cells[r])
+                yield [(str(int(x)) if isinstance(x, float) and x.is_integer() else str(x)).strip()
+                       for x in (cells[r].get(c, "") for c in range(mx + 1))]
     else:
         with open(caminho, encoding="utf-8-sig", errors="replace") as f:
             for row in csv.reader(f, delimiter=";"):

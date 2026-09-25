@@ -23,6 +23,7 @@ Scripts (Python 3; `plano_contas.py` precisa de `pip install olefile`; `folha_ex
 - `scripts/plano_contas.py`: converte o `Contas.xls` exportado do Domínio.
 - `scripts/extrato_dominio.py`: `ler`, `classificar`, `analisar`, `gerar` (`--help` mostra as opções).
 - `scripts/folha_extrato_mensal.py`: `ler` (Extrato Mensal da folha do Domínio → registro) e `conferir` (folha × extrato).
+- `scripts/impostos_dominio.py`: `ler` (demonstrativos XLS e Resumo dos Impostos PDF) e `conferir` (guias × extrato).
 - `scripts/entradas_dominio.py`: `ler` (Acompanhamento de Entradas do Domínio → notas com retenções) e `conferir` (notas × pagamentos).
 - `scripts/gerar_skill_empresa.py`: gera a skill da empresa `rof-contabilidade-<empresa>` a partir do JSON.
 
@@ -129,6 +130,24 @@ python scripts/entradas_dominio.py conferir trabalho/classificado.csv -n empresa
   juntos. Nunca lance por suposição.
 - Todo mês o usuário envia, junto com o extrato, o **relatório de entradas** e uma **planilha
   mensal de conciliação**: use os dois como evidência antes de perguntar.
+
+### Impostos (demonstrativos e resumo do Domínio)
+
+```bash
+python scripts/impostos_dominio.py ler Demonst*.xls Resumo_impostos.pdf -o empresas/<cod>-impostos.csv [--acrescentar]
+python scripts/impostos_dominio.py conferir trabalho/classificado.csv -i empresas/<cod>-impostos.csv \
+    -e empresas/<empresa>.json [--aplicar trabalho/classificado_impostos.csv]
+```
+
+- O **XLS de demonstrativos** traz uma aba por imposto e competência (ICMS, IPI, IRRF, CRF, ISS
+  retido, INSS retido, IRPJ e CSLL trimestrais), com o código da receita no nome da aba. O **PDF
+  "Resumo dos Impostos"** traz também **PIS e COFINS**. Leia os dois.
+- A guia do mês M é da competência M−1 (IRPJ/CSLL: do trimestre, em cota única ou 3 quotas).
+  Cada guia vai na **sua** conta (`contas_impostos`; padrão do plano do escritório: ICMS 172,
+  IPI 171, IRRF 178, CRF 182, ISS retido 183, INSS retido 184, IRPJ 176, CSLL 177, PIS 179,
+  COFINS 180), com status PROVÁVEL até a contadora confirmar.
+- Guia sem demonstrativo (valor não bate: multa/juros, parcelamento, DIFAL, outra competência):
+  **informe o usuário** e peça o comprovante.
 
 ### Folha de pagamento
 

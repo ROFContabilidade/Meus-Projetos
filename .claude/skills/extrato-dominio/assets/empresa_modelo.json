@@ -45,6 +45,18 @@
     "irrf": ""
   },
   "conta_fornecedores": "506",
+  "contas_impostos": {
+    "ICMS": "172",
+    "IPI": "171",
+    "IRRF": "178",
+    "CRF": "182",
+    "ISS_RET": "183",
+    "INSS_RET": "184",
+    "IRPJ": "176",
+    "CSLL": "177",
+    "PIS": "179",
+    "COFINS": "180"
+  },
   "documentos_recebidos": {
     "cartao_cnpj": "",
     "balancete": "",
@@ -53,7 +65,8 @@
     "plano_contas": "",
     "txt_anteriores": "",
     "relatorio_folha": "todo mês",
-    "planilha_conciliacao": "todo mês, junto com o extrato e o relatório de entradas"
+    "planilha_conciliacao": "todo mês, junto com o extrato e o relatório de entradas",
+    "impostos": "demonstrativos (XLS) e Resumo dos Impostos (PDF) do mês"
   },
   "pendencias": [],
   "observacoes": [],
