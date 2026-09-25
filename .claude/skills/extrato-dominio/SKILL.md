@@ -148,6 +148,10 @@ python scripts/entradas_dominio.py conferir trabalho/classificado.csv -n empresa
 - **Padrão do escritório:** a nota já é contabilizada pela Escrita Fiscal, então o pagamento é
   **D 506 Fornecedor Modelo / C Banco** (`conta_fornecedores`). `--aplicar` grava NOME + VALOR como
   CONFIRMADO e SÓ VALOR como PROVÁVEL.
+- **Contas de consumo:** `contas_com_nf` troca a conta de despesa pela de passivo quando a nota existe
+  (ex.: `{"354": "584", "356": "588"}`: energia/telefone com NF → 584/588; sem NF → 354/356). O
+  débito automático ("DA COPEL") é reconhecido, e `apelidos_fornecedor` liga o nome do extrato à razão
+  social da nota (padrão: VIVO → TELEFONICA).
 - **Sem nota fiscal** (e só nome ou várias notas): **informe o usuário** numa tabela e identifiquem
   juntos. Nunca lance por suposição.
 - Todo mês o usuário envia, junto com o extrato, o **relatório de entradas** e uma **planilha
@@ -210,7 +214,9 @@ Ele lista o que bateu, os pagamentos sem correspondente e os valores da folha se
 **Guias da folha**: o `ler` também grava `<cod>-folha-encargos.csv` (FGTS, FGTS rescisório,
 INSS e IRRF de cada competência), e o `conferir` acha no extrato a guia do **FGTS Digital**
 (FGTS a recolher) e a da **DCTFWeb**, que **sempre é dividida em duas linhas: INSS a recolher +
-IRRF a recolher** (padrão do escritório). As contas ficam em `contas_folha` (`fgts`, `inss`, `irrf`).
+**IRRF sobre folha** (padrão do escritório; o IRRF retido de terceiros, 1708, é outra conta). A
+guia do FGTS maior que o FGTS da folha é dividida: FGTS + **consignado** dos empregados. As contas
+ficam em `contas_folha` (`fgts`, `inss`, `irrf`, `consignado`).
 **Pró-labore de sócio**: o líquido vai para Pró-labore a pagar; qualquer diferença é retirada
 de sócio e exige **avisar o usuário antes de lançar**. Depois:
 - confira cada pagamento do extrato com o líquido ou o adiantamento de cada funcionário

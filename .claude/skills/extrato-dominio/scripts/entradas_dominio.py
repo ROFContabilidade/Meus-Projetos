@@ -114,6 +114,11 @@ def cmd_ler(a):
     print(f"Conferência com o 'Total Geral' do relatório: some o valor contábil ({brl(tot)}) e compare.")
 
 
+# nome no extrato → começo da razão social na nota (acrescente no JSON: "apelidos_fornecedor")
+APELIDOS = {"VIVO": "TELEFONICA", "COPEL": "COPEL", "SANEPAR": "COMPANHIA DE SANEAMENTO", "CLARO": "CLARO",
+            "TIM": "TIM"}
+
+
 def chave_nome(texto):
     """Palavras significativas do nome, para casar a descrição truncada do extrato com o fornecedor."""
     return [p for p in normalizar(texto).split() if p not in PALAVRAS_VAZIAS and len(p) > 1]
@@ -121,8 +126,13 @@ def chave_nome(texto):
 
 def nome_no_extrato(desc):
     d = normalizar(desc)
-    m = re.search(r"(BOLETO PAGO|PIX ENVIADO|TED ENVIADA|PAGTO|PAG )\s+(.*)", d)
-    return m.group(2).strip() if m else ""
+    m = (re.search(r"\b(BOLETO PAGO|PIX ENVIADO|TED ENVIADA|PAGTO)\s+(.*)", d)
+         or re.match(r"(DA|PAG|DEB AUT|DEBITO AUT)\s+(.*)", d))  # "DA COPEL" = débito automático
+    nome = m.group(2).strip() if m else ""
+    for apelido, nome_nf in APELIDOS.items():  # nome comercial no extrato x razão social na nota
+        if re.match(apelido + r"\b", nome):
+            nome = nome_nf + " " + nome[len(apelido):]
+    return nome.strip()
 
 
 def casa_nome(nome_ext, fornecedor):
@@ -158,12 +168,17 @@ def cmd_conferir(a):
         notas = list(csv.DictReader(f, delimiter=";"))
     with open(a.extrato, encoding="utf-8-sig") as f:
         extrato = list(csv.DictReader(f, delimiter=";"))
-    conta = ""
+    conta, com_nf = "", {}
     if a.empresa:
-        conta = str(json.load(open(a.empresa, encoding="utf-8")).get("conta_fornecedores") or "")
+        emp = json.load(open(a.empresa, encoding="utf-8"))
+        conta = str(emp.get("conta_fornecedores") or "")
+        # despesa lançada sem nota → conta de passivo quando a nota existe (ex.: 354 energia → 584)
+        com_nf = {str(k): str(v) for k, v in (emp.get("contas_com_nf") or {}).items()}
+        APELIDOS.update({normalizar(k).strip(): normalizar(v).strip() for k, v in (emp.get("apelidos_fornecedor") or {}).items()})
     for n in notas:
         n["_dt"] = datetime.strptime(n["entrada"] or n["emissao"], "%d/%m/%Y")
-    alvo = [l for l in extrato if num(l["valor"]) < 0 and (l.get("status") or "").upper() != "CONFIRMADO"]
+    alvo = [l for l in extrato if num(l["valor"]) < 0 and ((l.get("status") or "").upper() != "CONFIRMADO"
+                                                         or (l.get("conta") or "") in com_nf)]
     if a.somente:
         alvo = [l for l in alvo if any(t.upper() in l["descricao"].upper() for t in a.somente)]
     res, usadas = {}, set()
@@ -230,7 +245,11 @@ def cmd_conferir(a):
         saida = []
         for l in extrato:
             r = res.get(l["id"])
-            if r and r[0] in ("NOME + VALOR", "SÓ VALOR"):
+            if r and (l.get("conta") or "") in com_nf:
+                if r[0] == "NOME + VALOR":
+                    l = dict(l, conta=com_nf[l["conta"]], status="CONFIRMADO",
+                             regra=f"NF {r[1]['nota']} {r[1]['fornecedor']} (com nota → conta {com_nf[l['conta']]})")
+            elif r and r[0] in ("NOME + VALOR", "SÓ VALOR"):
                 # nome + valor = nota identificada (CONFIRMADO); só valor = PROVÁVEL, vai para a lista de conferência
                 status = "CONFIRMADO" if r[0] == "NOME + VALOR" else "PROVÁVEL"
                 l = dict(l, conta=conta, status=status,

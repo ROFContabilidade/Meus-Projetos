@@ -42,9 +42,11 @@
     "pro_labore": "",
     "fgts": "",
     "inss": "",
-    "irrf": ""
+    "irrf": "",
+    "consignado": ""
   },
   "conta_fornecedores": "506",
+  "contas_com_nf": {},
   "contas_impostos": {
     "ICMS": "172",
     "IPI": "171",

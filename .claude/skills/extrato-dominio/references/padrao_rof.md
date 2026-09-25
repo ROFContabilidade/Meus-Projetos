@@ -84,8 +84,16 @@ que o escritório usa como padrão, lido por `razao_dominio.py aprender`). A con
   retido, DCTFWeb/INSS, FGTS, ISS, ISS retido...). Nunca em despesas diversas.
 - Confira o valor com a guia da competência (pasta `Guias`, ou o comprovante no e-CAC).
 - **DCTFWeb** (INSS + IRRF da folha na mesma guia): **sempre dividida** em INSS a recolher e
-  IRRF a recolher, com os valores do resumo do Extrato Mensal da folha. **FGTS Digital** → FGTS
-  a recolher.
+  **IRRF sobre folha** (conta própria, ex.: 594), com os valores do resumo do Extrato Mensal da folha.
+  O **IRRF retido de terceiros** (serviços, código 1708) tem outra conta (ex.: 178). Não misture.
+- **FGTS Digital** → FGTS a recolher. Se a guia for maior que o FGTS da folha, a diferença é o
+  **consignado dos empregados** (Crédito do Trabalhador) → conta de crédito/empréstimo de empregado
+  (ex.: 659). Sempre dividir.
+- **Contas de consumo (energia, telefone, internet):** com nota fiscal (a nota vem da Escrita
+  Fiscal), o pagamento vai para a conta de passivo "a pagar" (ex.: 584 energia, 588 telefone);
+  sem nota, direto na despesa (ex.: 354, 356). No JSON: `contas_com_nf`.
+- **Saques em dinheiro** → Caixa. A transferência do saldo do caixa é decidida com o cliente no
+  fim do exercício; não lance baixa do caixa por conta própria.
 - Guia paga com atraso: principal na conta do imposto; **multa** e **juros** nas contas de
   multa/juros de mora, com os valores da própria guia. Se a empresa não tiver essas contas,
   pergunte.

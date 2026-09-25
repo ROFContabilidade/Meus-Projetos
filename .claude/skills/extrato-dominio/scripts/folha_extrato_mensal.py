@@ -115,7 +115,7 @@ def num(s):
 
 
 CONTAS_FOLHA_PADRAO = {"salario": "", "adiantamento": "", "rescisao": "", "pro_labore": "",
-                       "fgts": "", "inss": "", "irrf": ""}
+                       "fgts": "", "inss": "", "irrf": "", "consignado": ""}
 
 
 def mes_anterior(comp):
@@ -192,7 +192,8 @@ def cmd_conferir(a):
     print("Meses de pagamento no extrato: " + ", ".join(comps))
     print("\n=== PAGAMENTOS DO EXTRATO x FOLHA ===")
     rotulo = {"salario": "Salário", "adiantamento": "Adiantamento", "rescisao": "Rescisão", "pro_labore": "Pró-labore",
-              "fgts": "FGTS", "inss": "INSS (DCTFWeb)", "irrf": "IRRF (DCTFWeb)"}
+              "fgts": "FGTS", "inss": "INSS (DCTFWeb)", "irrf": "IRRF s/ folha (DCTFWeb)",
+              "consignado": "Consignado (guia do FGTS)"}
     resultado, sobra = {}, []
 
     def pref(l, it):
@@ -256,6 +257,23 @@ def cmd_conferir(a):
                     guias_ok.append(l)
                     desc = " + ".join(f"{x['_tipo'].upper()} {brl(x['_v'])} → conta {contas.get(x['_tipo']) or '?'}" for x in op)
                     print(f"  OK  {l['data']} {brl(v):>10} = {op[0]['nome']} {op[0]['competencia']}: {desc}")
+            # guia do FGTS Digital com consignado (Crédito do Trabalhador): FGTS da folha + diferença no consignado
+            fg_ops = [o for o in opcoes if o[0]["_tipo"] == "fgts" and o[0]["_esperado"]]
+            if "fgts" not in achou and fg_ops and contas.get("consignado"):
+                for l in cand_pags:
+                    if l["id"] in resultado or l["data"][3:] != c:
+                        continue
+                    v = -num(l["valor"])
+                    base = max(fg_ops, key=lambda o: o[0]["_v"])[0]
+                    if base["_v"] < v <= base["_v"] * 2 and any(t in l["descricao"].upper() for t in ("FGTS", "CEF", "CAIXA", "PIX QR", "GFD")):
+                        dif = round(v - base["_v"], 2)
+                        op = [base, dict(base, nome="Consignado (FGTS Digital)", _tipo="consignado", _v=dif)]
+                        resultado[l["id"]] = op
+                        achou.add("fgts")
+                        guias_ok.append(l)
+                        print(f"  OK? {l['data']} {brl(v):>10} = FGTS {base['competencia']} {brl(base['_v'])} → conta "
+                              f"{contas.get('fgts')} + consignado {brl(dif)} → conta {contas['consignado']} (conferir o valor do consignado)")
+                        break
             for tipo, rot in (("fgts", "FGTS"), ("inss", "DCTFWeb/INSS")):
                 if tipo not in achou and any(o[0]["_tipo"] == tipo and o[0]["_esperado"] for o in opcoes):
                     vals = sorted({brl(sum(x['_v'] for x in o)) for o in opcoes if o[0]["_tipo"] == tipo})
