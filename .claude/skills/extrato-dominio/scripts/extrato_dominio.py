@@ -419,7 +419,7 @@ def _mesmo_documento(doc_linha, doc_conhecido):
     return bool(cheio and partes) and all(t in cheio for t in partes)
 
 
-def conferir_favorecido(regra, linha, desc_norm):
+def conferir_favorecido(regra, linha, desc_norm, socios=()):
     """Aviso quando a regra casou sem confirmar QUEM recebeu (padrão ROF: nome completo e documento).
 
     - "SISPAG FORNECEDORES ..." do extrato traz só o começo do nome: sem o comprovante, perguntar.
@@ -427,19 +427,35 @@ def conferir_favorecido(regra, linha, desc_norm):
       ("PIX ENVIADO JOAO" pegaria "JOAO PEREIRA", que não é o sócio "JOAO SILVA"). Só valem para os favorecidos
       já confirmados em regra["favorecidos"] ([{"nome": ..., "documento": ...}]); outro nome ou outro
       CPF/CNPJ vira PROVÁVEL e vai para as perguntas.
+    - Nome de sócio (emp["socios"]) na descrição, casado por regra que não é a do sócio (ex.: "PIX TRANSF
+      <primeiro nome do sócio>" pego pela regra genérica de recebimento de clientes): perguntar se é o
+      sócio (retirada, aporte, mútuo) ou outra pessoa, e qual conta.
     """
     if desc_norm.startswith("SISPAG FORNECEDORES"):
         return "SISPAG FORNECEDORES sem comprovante: ler o comprovante (nome completo e CPF/CNPJ) e perguntar"
-    if not (str(regra.get("origem", "")).startswith("razão") or regra.get("conferir_favorecido")):
-        return ""
     doc = linha.get("documento") or ""
+    fav_ok = False
     for f in regra.get("favorecidos") or []:
         doc_ok = _mesmo_documento(doc, f.get("documento"))
         nome_ok = bool(f.get("nome")) and normalizar_texto(f["nome"]) in desc_norm
-        if doc_ok and (nome_ok or not f.get("nome")):
-            return ""
-        if nome_ok and not (doc and f.get("documento")):
-            return ""
+        if (doc_ok and (nome_ok or not f.get("nome"))) or (nome_ok and not (doc and f.get("documento"))):
+            fav_ok = True
+            break
+    termos_regra = " " + " ".join(normalizar_texto(t) for t in (regra.get("contem") or []))
+    for so in socios:
+        partes = normalizar_texto(so.get("nome")).split()
+        if fav_ok or not partes or not re.search(rf"(?<![A-Z]){re.escape(partes[0])}(?![A-Z])", desc_norm):
+            continue
+        chave = f"{partes[0]} {partes[1][:4]}" if len(partes) > 1 else partes[0]
+        doc_socio = not doc or _mesmo_documento(doc, so.get("cpf"))
+        if f" {chave}" in termos_regra and doc_socio:
+            continue  # regra específica do sócio e documento confere
+        return (f"a descrição cita o nome do sócio {so.get('nome')}: confirmar se é o sócio (retirada, aporte, "
+                f"mútuo) ou outra pessoa, e a conta; perguntar")
+    if not (str(regra.get("origem", "")).startswith("razão") or regra.get("conferir_favorecido")):
+        return ""
+    if fav_ok:
+        return ""
     return (f"favorecido não confirmado: a regra casou só por parte do nome; conferir nome completo e "
             f"CPF/CNPJ ({linha.get('descricao', '')} {doc}) e perguntar")
 
@@ -461,7 +477,7 @@ def cmd_classificar(a):
                 l["complemento"] = r.get("complemento") or l["descricao"]
                 l["regra"] = r.get("nome") or f"regra {i + 1}"
                 l["status"] = r.get("status", STATUS_OK)
-                aviso = conferir_favorecido(r, l, dn)
+                aviso = conferir_favorecido(r, l, dn, emp.get("socios") or ())
                 if aviso:
                     l["status"] = "PROVÁVEL"
                     l["regra"] = f"{l['regra']} — {aviso}"

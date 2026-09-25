@@ -295,6 +295,13 @@ D banco / C contrapartida). Detalhes em `references/dominio.md`.
 
 ## Entrega
 
+**Planilha de sócios (todo mês):** `python scripts/socios_extrato.py -e empresas/<cod>-<empresa>.json
+-o <saida>/<COD>_<EMPRESA>_<ANO>_socios.xlsx <classificado final de cada mês do ano...>` gera o
+resumo mês a mês de entradas e saídas com os sócios (`socios` do JSON: nome e CPF; contas com o
+nome do sócio no plano; contas extras em `contas_socios`). O que aparecer em "A conferir" é
+pergunta. No `classificar`, linha com o nome de um sócio que caiu numa regra que não é a dele (ex.:
+"PIX TRANSF <sócio>" na regra de recebimento de clientes) fica PROVÁVEL.
+
 **Conversa nova / mês seguinte:** a pasta `empresas/` não vai para o GitHub e começa vazia em cada
 conversa. A usuária anexa o pacote `rof-contabilidade-<empresa>.skill` do mês anterior e
 `python scripts/restaurar_empresa.py <pacote> --cnpj <CNPJ>` devolve JSON, folha, entradas e impostos

@@ -131,6 +131,15 @@ do sócio PIX de outra pessoa com o mesmo primeiro nome e outro CPF. Por isso:
 
 ## 6. Sócios
 
+**Planilha de movimentos com sócios, mês a mês** (Rosangela, 25/09/2026): todo mês fechado, junto
+com o TXT, entregue a planilha de tudo o que entrou e saiu do banco para os sócios cadastrados
+(`scripts/socios_extrato.py`, sobre os classificados finais do ano): aba **Resumo** (mês × sócio:
+entradas, retiradas, líquido e acumulado; o que foi pago ao sócio como despesa da empresa, como
+reembolso, fica em coluna separada), aba **Movimentos** (verde) e aba **A conferir** (amarelo).
+O sócio é reconhecido pelo nome completo ou CPF, ou pela conta dele no plano; só o primeiro nome
+não basta e vira pergunta. Valor recebido com o nome do sócio numa conta que não é dele (ex.:
+Clientes) é sempre pergunta: aporte, mútuo, devolução de retirada?
+
 Antes de lançar qualquer pagamento a sócio, confirme a regra da empresa e o total pago no mês.
 **Regra geral do escritório:** quando o sócio retirar pró-labore, o **líquido do pró-labore** (da
 folha) vai para Pró-labore a pagar e **a diferença é retirada de sócio**. Qualquer valor além do

@@ -52,6 +52,10 @@ Siga o `rotina_mensal` da empresa, na ordem. Em resumo, o mesmo roteiro dos mese
    `--separar` se a empresa usa _PAGAR/_RECEBER, e a auditoria completa (linhas 6100 válidas,
    CRLF, banco débito = crédito, conta transitória zerada, aplicação fechando com o extrato).
 6. Planilha verde.
+7. Planilha de sócios do ano, atualizada com o mês (`socios_extrato.py` sobre os classificados
+   finais de todos os meses já lançados): entradas e saídas de cada sócio, mês a mês. Guarde o
+   classificado final de cada mês (o CSV que gerou o TXT) para a planilha do ano; o que cair em
+   "A conferir" é pergunta.
 
 ## 4. Fechar o mês (sempre)
 
