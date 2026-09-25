@@ -13,10 +13,21 @@ do extrato.
 Fale em português do Brasil, em linguagem de escritório contábil (não de programador).
 Mostre tabelas curtas, nunca CSV bruto.
 
-Scripts (Python 3; `plano_contas.py` precisa de `pip install olefile`):
+**Leia `references/padrao_rof.md` antes de qualquer trabalho.** São as regras do escritório
+que valem para todas as empresas e todas as skills: acordo com a contadora, validação de cada
+lançamento (CONFIRMADO/PROVÁVEL/NÃO CRUZADO/DIVERGENTE), regras invioláveis, impostos, folha,
+sócios e a estrutura da skill de cada empresa.
+
+Scripts (Python 3; `plano_contas.py` precisa de `pip install olefile`; `folha_extrato_mensal.py`, de `pip install pdfplumber`):
 - `scripts/consulta_cnpj.py`: consulta e analisa o cartão CNPJ.
 - `scripts/plano_contas.py`: converte o `Contas.xls` exportado do Domínio.
 - `scripts/extrato_dominio.py`: `ler`, `classificar`, `analisar`, `gerar` (`--help` mostra as opções).
+- `scripts/folha_extrato_mensal.py`: `ler` (Extrato Mensal da folha do Domínio → registro) e `conferir` (folha × extrato).
+- `scripts/gerar_skill_empresa.py`: gera a skill da empresa `rof-contabilidade-<empresa>` a partir do JSON.
+
+**Dados de clientes são sigilosos** (CPF, salários, extratos, plano de contas): nunca os envie
+para repositório público nem para serviço externo. A pasta `empresas/` fica fora do git e é
+entregue ao usuário como arquivo.
 
 ## Postura: atenção máxima e perguntar sempre na dúvida
 
@@ -52,6 +63,10 @@ Quando o usuário disser "nova empresa" ou trouxer um cliente sem cadastro, siga
    plano de contas e os TXT antigos, se houver), para seguir o padrão de lançamentos do escritório.
 6. **Confirmação**: mostre o resumo do cadastro, salve `empresas/<codigo>-<nome>.json`
    (modelo em `assets/empresa_modelo.json`) e entregue ao usuário.
+7. **Skill da empresa**: gere a skill própria no padrão ROF e entregue o `.skill` para instalar:
+   `python scripts/gerar_skill_empresa.py empresas/<arquivo>.json [--folha empresas/<cod>-folha.csv] --nome <empresa> -o saida/`.
+   Nos meses seguintes, o trabalho daquela empresa usa essa skill. Regere a skill sempre que
+   uma decisão nova for registrada no JSON.
 
 Se a empresa já tem JSON em `empresas/`, use-o. Confira `pendencias` e pergunte o que
 ainda estiver em aberto antes de lançar.
@@ -102,8 +117,20 @@ As regras usam a data (`"dia_de": 1, "dia_ate": 10` e `"dia_de": 15, "dia_ate": 
 Um pagamento de salário **fora dessas datas** fica pendente de propósito: pode ser
 rescisão, férias, 13º, pensão ou um acerto. Pergunte.
 
-O usuário envia o **relatório da folha** todo mês. Se ele ainda não veio, peça antes de
-fechar os lançamentos de folha. Com o relatório:
+O usuário envia o **relatório da folha** (Extrato Mensal do Domínio: Adiantamento e Folha
+Mensal) todo mês. Se ele ainda não veio, peça antes de fechar os lançamentos de folha.
+Registre e confira:
+
+```bash
+python scripts/folha_extrato_mensal.py ler Extrato_Mensal*.pdf -o empresas/<cod>-folha.csv --acrescentar
+python scripts/folha_extrato_mensal.py conferir trabalho/classificado.csv -f empresas/<cod>-folha.csv
+```
+
+O `conferir` casa o pagamento do início do mês com a Folha Mensal da competência anterior
+e o dos dias 15 a 20 com o Adiantamento do mês, pelo valor exato. Ele lista o que bateu, os
+pagamentos sem correspondente, os líquidos sem pagamento e as demissões (o líquido da rescisão
+sai em cálculo à parte). Procure explicação por soma antes de perguntar: um pagamento pode ser
+a soma de dois líquidos da mesma pessoa. Depois:
 - confira cada pagamento do extrato com o líquido ou o adiantamento de cada funcionário
   (valor exato) e o total de cada lote;
 - aponte quem está no relatório e não foi pago, pagamentos sem funcionário
@@ -134,8 +161,12 @@ nele: `|0000|CNPJ|`, depois, para cada lançamento, `|6000|X||||` e
 dividido em `_PAGAR.txt` (saídas: D contrapartida / C banco) e `_RECEBER.txt` (entradas:
 D banco / C contrapartida). Detalhes em `references/dominio.md`.
 
-- O script recusa gerar com pendentes. `--usar-transitoria` só com o aval explícito do
-  usuário, e isso deve ser avisado no resumo.
+- **TXT definitivo** exige `--saldo-inicial` e `--saldo-final` (o saldo tem que fechar) e
+  todos os lançamentos com status **CONFIRMADO**. Sem isso, o `gerar` recusa. `--previa`
+  gera o arquivo com `_PREVIA` no nome, só para conferência, nunca para importar.
+- O status vem da regra (`"status"` no JSON; padrão CONFIRMADO). Ao preencher conta à mão,
+  preencha também a coluna `status` conforme a resposta da contadora.
+- `--usar-transitoria` só com o aval explícito do usuário, e isso deve ser avisado no resumo.
 - Empresa que **não** usa o Domínio: siga a etapa 3 de `references/nova_empresa.md`.
 
 ## Entrega

@@ -27,7 +27,8 @@ from pathlib import Path
 
 CSV_SEP = ";"
 CAMPOS_NORMALIZADO = ["data", "descricao", "documento", "valor", "id"]
-CAMPOS_CLASSIFICADO = CAMPOS_NORMALIZADO + ["conta", "historico", "complemento", "regra"]
+CAMPOS_CLASSIFICADO = CAMPOS_NORMALIZADO + ["conta", "historico", "complemento", "regra", "status"]
+STATUS_OK = "CONFIRMADO"  # demais: PROVÁVEL, NÃO CRUZADO, DIVERGENTE (padrão ROF)
 
 LAYOUT_PADRAO = {
     "formato": "dominio",   # "dominio" (|0000|/|6000|/|6100|) ou "delimitado"
@@ -256,7 +257,8 @@ def ler_txt_dominio(texto, conta_banco):
             continue
         desc = PREFIXO_REF.sub("", comp).strip()
         linhas.append({"data": data, "descricao": desc, "documento": "", "valor": str(v), "id": "",
-                       "conta": contra, "historico": hist, "complemento": "", "regra": "TXT Domínio"})
+                       "conta": contra, "historico": hist, "complemento": "", "regra": "TXT Domínio",
+                       "status": STATUS_OK})
     return linhas
 
 
@@ -336,11 +338,13 @@ def cmd_classificar(a):
                 l["historico"] = str(r.get("historico", emp.get("historico_padrao", "")))
                 l["complemento"] = r.get("complemento") or l["descricao"]
                 l["regra"] = r.get("nome") or f"regra {i + 1}"
+                l["status"] = r.get("status", STATUS_OK)
                 break
         else:
             l["historico"] = str(emp.get("historico_padrao", ""))
             l["complemento"] = l["descricao"]
             l["regra"] = ""
+            l["status"] = ""
             pend.append(l)
     gravar_csv(a.saida, linhas, CAMPOS_CLASSIFICADO)
     print(f"Classificados: {len(linhas) - len(pend)} de {len(linhas)} | Pendentes: {len(pend)}")
@@ -511,10 +515,44 @@ def gravar_txt(caminho, linhas_txt, lay):
         f.write(lay["quebra_linha"].join(linhas_txt) + lay["quebra_linha"])
 
 
+def conferir_para_entrega(linhas, a):
+    """Regras invioláveis do padrão ROF: saldo fechando e só lançamentos CONFIRMADOS no TXT definitivo."""
+    problemas = []
+    ent = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) > 0)
+    sai = sum(Decimal(l["valor"]) for l in linhas if Decimal(l["valor"]) < 0)
+    if a.saldo_inicial is None or a.saldo_final is None:
+        problemas.append("saldo inicial/final do extrato não informado (--saldo-inicial / --saldo-final)")
+    else:
+        si, sf = parse_valor(a.saldo_inicial), parse_valor(a.saldo_final)
+        dif = (sf - si) - (ent + sai)
+        print(f"Conferência de saldo: {fmt_brl(si)} + entradas {fmt_brl(ent)} + saídas {fmt_brl(sai)} "
+              f"= {fmt_brl(si + ent + sai)} | extrato {fmt_brl(sf)} | diferença {fmt_brl(dif)}")
+        if dif != 0:
+            problemas.append(f"saldo NÃO fecha (diferença {fmt_brl(dif)})")
+    nao_ok = [l for l in linhas if "status" in l and (l.get("status") or "").upper() != STATUS_OK]
+    if nao_ok:
+        cont = Counter((l.get("status") or "PENDENTE").upper() for l in nao_ok)
+        problemas.append("lançamentos não confirmados: " + ", ".join(f"{k} {v}" for k, v in cont.items()))
+    return problemas
+
+
 def cmd_gerar(a):
     emp = carregar_empresa(a.empresa)
     lay = emp["layout_txt"]
-    lancs, pend, transitoria = montar_lancamentos(ler_csv(a.arquivo), emp, a.usar_transitoria)
+    linhas = ler_csv(a.arquivo)
+    problemas = conferir_para_entrega(linhas, a)
+    if problemas and not a.previa:
+        print("TXT DEFINITIVO NÃO GERADO (padrão ROF):")
+        for p in problemas:
+            print(f"  - {p}")
+        print("Resolva as pendências ou gere uma prévia com --previa.")
+        sys.exit(1)
+    if problemas:
+        a.saida = str(Path(a.saida).with_name(Path(a.saida).stem + "_PREVIA" + Path(a.saida).suffix))
+        print("ATENÇÃO: arquivo gerado como PRÉVIA. Não importar como definitivo:")
+        for p in problemas:
+            print(f"  - {p}")
+    lancs, pend, transitoria = montar_lancamentos(linhas, emp, a.usar_transitoria)
 
     def render(grupo):
         if lay.get("formato", "delimitado") == "dominio":
@@ -574,6 +612,10 @@ def main():
     s.add_argument("-o", "--saida", default="lancamentos_dominio.txt")
     s.add_argument("--usar-transitoria", action="store_true",
                    help="lança pendentes na conta_transitoria em vez de abortar")
+    s.add_argument("--saldo-inicial", help="saldo inicial do extrato (obrigatório no TXT definitivo)")
+    s.add_argument("--saldo-final", help="saldo final do extrato (obrigatório no TXT definitivo)")
+    s.add_argument("--previa", action="store_true",
+                   help="gera mesmo com saldo não conferido ou itens não confirmados (arquivo _PREVIA)")
     s.add_argument("--separar", action="store_true",
                    help="gera dois arquivos: _PAGAR (saídas) e _RECEBER (entradas)")
     s.set_defaults(func=cmd_gerar)

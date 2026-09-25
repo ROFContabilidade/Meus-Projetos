@@ -15,8 +15,8 @@ Primeira pergunta, sempre:
 
 > Com quem será feito o lançamento contábil desta empresa? **Elen** ou **Rosangela**?
 
-Grave em `responsavel_lancamento`. Coloque o nome da responsável no resumo final e nos
-nomes dos arquivos entregues.
+Grave em `responsavel_lancamento` e registre também quem cadastrou e a data. Coloque o
+nome da responsável no resumo final.
 
 ## Etapa 2: CNPJ e análise do cartão CNPJ
 
@@ -91,7 +91,16 @@ Confirme e complete o que o cartão CNPJ não responde. Pergunte em blocos:
 12. Sócios pagam despesas pessoais pela conta da empresa, ou a empresa recebe dinheiro
     dos sócios? Como o escritório lança isso?
 13. Qual conta o escritório usa para o que não se identifica (ex.: "Despesas a
-    identificar")? Grave em `conta_transitoria`.
+    identificar")? Grave em `conta_transitoria`. Lembre que o padrão é perguntar antes de usá-la.
+14. Regra dos sócios: há pró-labore fixo (valor líquido)? As retiradas passam de
+    R$ 50.000,00/mês por sócio (regra do excedente em empréstimo, Lei 15.270/2025)? Quais
+    contas: retirada, empréstimo, pró-labore? Existem contas que **não** devem ser usadas?
+15. Impostos: quais guias a empresa paga e onde ficam (pasta `Guias`)? Contas de multa e
+    juros de mora?
+16. **Pasta dos arquivos** no Google Drive (padrão
+    `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio\<cód> - <empresa>\<ano>\<MM_AAAA>\Extrato`)
+    e se o TXT sai em **arquivo único** por mês ou separado em `_PAGAR`/`_RECEBER`
+    (`separar_pagar_receber`).
 
 **Dúvidas adicionais**: pergunte o que mais a análise do CNPJ, do balancete ou do razão
 levantar (atividade incomum, filial, contas com saldo estranho, etc.). Cada resposta que
@@ -122,8 +131,10 @@ Ao receber:
   costuma cortar o nome do beneficiário (ex.: "ALSCO BRASIL" vira "ALSCO BRASI"), então use o
   começo do nome. Ao conciliar, confira nome **e valor** com a nota.
 
-## Etapa 6: Confirmação do cadastro
+## Etapa 6: Confirmação do cadastro e skill da empresa
 
 Mostre um resumo do cadastro (responsável, empresa, regime, sócios, sistema, código,
 bancos, contas principais, regras criadas, pendências) e peça confirmação antes de
-lançar o primeiro extrato. Salve o JSON e entregue-o ao usuário.
+lançar o primeiro extrato. Salve o JSON e entregue-o ao usuário. Depois gere a skill da
+empresa (`scripts/gerar_skill_empresa.py`), no padrão de `references/padrao_rof.md`
+(seção 9), e entregue o `.skill` para instalar.
