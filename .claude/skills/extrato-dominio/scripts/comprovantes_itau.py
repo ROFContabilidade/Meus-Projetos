@@ -53,6 +53,14 @@ def texto_layout(caminho):
     return ""
 
 
+ROTULOS_NOVO = sorted(["nome", "nome do recebedor", "nome do pagador", "nome do devedor", "CPF/CNPJ", "CPF/CNPJ do recebedor",
+                       "CPF/CNPJ do pagador", "CPF/CNPJ do devedor", "razão social", "valor", "valor do documento",
+                       "valor do pagamento", "valor da transação", "desconto", "abatimento", "mora", "multa", "juros",
+                       "data do pagamento", "data do vencimento", "data da transferência", "código de barras",
+                       "tipo de pagamento", "tipo de transação", "chave", "instituição", "agência/conta"],
+                      key=len, reverse=True)
+
+
 def extrair_novo(texto, arquivo=""):
     """Layout novo do Itaú (a partir de abr/2026): blocos "comprovante de ..." com linhas "rótulo   valor".
 
@@ -72,6 +80,8 @@ def extrair_novo(texto, arquivo=""):
                 secao = ls.lower()
                 continue
             m = re.match(r"^\s*(\S.*?)\s{2,}(\S.*)$", linha)
+            if not m:  # texto de OCR: rótulo e valor separados por um espaço só
+                m = re.match(r"^\s*(" + "|".join(map(re.escape, ROTULOS_NOVO)) + r")\s+(\S.*)$", linha, re.I)
             if m:
                 campos.setdefault((secao, m.group(1).strip().lower()), m.group(2).strip())
                 campos.setdefault(("", m.group(1).strip().lower()), m.group(2).strip())
@@ -184,7 +194,7 @@ def cmd_ler(a):
             regs += ler_relatorio_pagamentos(f)
             continue
         achados = extrair(texto_arquivo(f), f)
-        regs += achados or extrair_novo(texto_layout(f), f)
+        regs += achados or extrair_novo(texto_layout(f) if f.lower().endswith(".pdf") else texto_arquivo(f), f)
     # o mesmo comprovante pode aparecer em dois arquivos: remove repetidos
     # O mesmo pagamento pode estar no relatório (XLS) e num comprovante (PDF): conta-se o maior número de
     # ocorrências entre as fontes (dois pagamentos iguais no mesmo dia continuam dois), preferindo o PDF.
