@@ -409,7 +409,7 @@ def regra_casa(regra, desc_norm, valor, data=None):
 
 
 def _digitos_visiveis(doc):
-    """Trechos de dígitos de um CPF/CNPJ, mesmo mascarado (***532809** → ['532809'])."""
+    """Trechos de dígitos de um CPF/CNPJ, mesmo mascarado (***123456** → ['123456'])."""
     return [t for t in re.split(r"\*+", re.sub(r"[^\d*]", "", doc or "")) if len(t) >= 3]
 
 
@@ -424,7 +424,7 @@ def conferir_favorecido(regra, linha, desc_norm):
 
     - "SISPAG FORNECEDORES ..." do extrato traz só o começo do nome: sem o comprovante, perguntar.
     - Regras do razão modelo (origem "razão ...") ou com "conferir_favorecido" casam por um nome truncado
-      ("PIX ENVIADO EMERSON" pegou "EMERSON PAULINO", que não é o sócio). Só valem para os favorecidos
+      ("PIX ENVIADO JOAO" pegaria "JOAO PEREIRA", que não é o sócio "JOAO SILVA"). Só valem para os favorecidos
       já confirmados em regra["favorecidos"] ([{"nome": ..., "documento": ...}]); outro nome ou outro
       CPF/CNPJ vira PROVÁVEL e vai para as perguntas.
     """

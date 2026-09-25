@@ -125,7 +125,7 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
 - **Nome completo e documento, nunca só o primeiro nome** (Rosangela, 25/09/2026): o `classificar` deixa
   PROVÁVEL (vai para as perguntas) toda linha "SISPAG FORNECEDORES ..." sem comprovante e toda linha
   que casou numa regra do razão modelo (`origem` "razão ...") ou com `"conferir_favorecido": true`
-  cujo favorecido não está em `favorecidos` (`[{"nome": "EMERSON HENR", "documento": "085..."}]`;
+  cujo favorecido não está em `favorecidos` (`[{"nome": "JOAO DA SILVA", "documento": "000.000.000-00"}]`;
   CPF mascarado confere pelos dígitos visíveis). Quando a usuária confirmar um favorecido novo,
   acrescente-o em `favorecidos` da regra.
 - **SISPAG sem nome no extrato:** o favorecido sai dos **comprovantes de pagamento** que o usuário

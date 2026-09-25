@@ -63,9 +63,9 @@ que o escritório usa como padrão, lido por `razao_dominio.py aprender`). A con
 (Despesas a identificar) é o último recurso, só com autorização.
 
 **Nunca identificar o favorecido só pelo "SISPAG FORNECEDORES <nome>" nem só pelo primeiro nome**
-(Rosangela, 25/09/2026). O extrato corta o nome ("SISPAG FORNECEDORES EMERSON") e o razão modelo
-guarda só esse pedaço; em 08/2026 a regra "PIX ENVIADO EMERSON" levou para a conta do sócio (603)
-dois PIX para **EMERSON PAULINO**, outra pessoa, com outro CPF. Por isso:
+(Rosangela, 25/09/2026). O extrato corta o nome ("SISPAG FORNECEDORES JOAO") e o razão modelo
+guarda só esse pedaço; já aconteceu de uma regra pelo primeiro nome do sócio levar para a conta
+do sócio PIX de outra pessoa com o mesmo primeiro nome e outro CPF. Por isso:
 - leia o **comprovante**: nome completo **e** CPF/CNPJ do recebedor; sem comprovante, pergunte;
 - regra que casa por parte do nome (as do razão modelo) só vale para os favorecidos já
   confirmados na lista `favorecidos` da regra (nome e documento); **outro nome ou outro CPF/CNPJ
