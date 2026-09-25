@@ -158,7 +158,7 @@ def ler_ofx(texto):
         memo = tag(bloco, "MEMO")
         nome = tag(bloco, "NAME")
         # Itaú (a partir de 07/2026): o OFX traz linhas de saldo como se fossem lançamentos; não são movimento
-        if re.match(r"\s*SALDO\b", memo, re.I):
+        if re.match(r"\s*(SALDO|SDO)\b", memo, re.I):
             continue
         # aplicação automática no novo formato: mesmo histórico do extrato antigo, para as regras da empresa
         memo = re.sub(r"^APL APLIC AUT MAIS", "APLICACAO AUT MAIS", memo)
