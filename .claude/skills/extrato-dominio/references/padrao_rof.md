@@ -92,6 +92,10 @@ que o escritório usa como padrão, lido por `razao_dominio.py aprender`). A con
 - **Contas de consumo (energia, telefone, internet):** com nota fiscal (a nota vem da Escrita
   Fiscal), o pagamento vai para a conta de passivo "a pagar" (ex.: 584 energia, 588 telefone);
   sem nota, direto na despesa (ex.: 354, 356). No JSON: `contas_com_nf`.
+- **IPVA de veículo** → sempre na conta **Despesa com veículos** (Kopp: 493), nunca na conta de
+  tributo IPVA nem em taxas diversas. A guia vem por código de barras da Sefaz (ex.: "SISPAG TRIBUTOS
+  SEFAZ PARANA-GRPR"), igual à GNRE/ICMS: confira no relatório de pagamentos do cliente antes de
+  lançar na conta de ICMS. (Rosangela, 25/09/2026)
 - **Saques em dinheiro** → Caixa. A transferência do saldo do caixa é decidida com o cliente no
   fim do exercício; não lance baixa do caixa por conta própria.
 - Guia paga com atraso: principal na conta do imposto; **multa** e **juros** nas contas de

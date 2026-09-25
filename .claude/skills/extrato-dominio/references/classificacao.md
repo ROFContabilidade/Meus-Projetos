@@ -50,6 +50,7 @@ conta do outro lado do lançamento.
 | CARTÃO DE CRÉDITO (fatura) | Cartão de crédito a pagar | A fatura em si não é despesa; as despesas estão nos itens da fatura. |
 | TRANSF para conta da própria empresa | Outra conta bancária da empresa | |
 | SAQUE | Caixa | |
+| IPVA (guia da Sefaz por código de barras) | Despesa com veículos (sempre) | conferir no relatório de pagamentos do cliente |
 | CHEQUE COMPENSADO | Depende do beneficiário | Peça ao usuário se não houver informação. |
 
 ## Pontos de atenção na análise
