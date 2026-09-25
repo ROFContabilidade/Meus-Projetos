@@ -126,7 +126,14 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
   envia: `comprovantes_itau.py ler Comprovante*.pdf -o trabalho/comprovantes.csv` e
   `comprovantes_itau.py aplicar trabalho/normalizado.csv -c trabalho/comprovantes.csv -o trabalho/normalizado_nomes.csv`
   (casa por data + valor e reescreve a descrição com o favorecido; CNPJ e juros/multa vão no campo
-  documento). Depois rode o `classificar` no arquivo com os nomes, e as regras do razão valem. Nunca deixe na conta transitória por falta de nome sem antes pedir os comprovantes.
+  documento). Com `-f empresas/<cod>-folha.csv`, o PIX para **pessoa física (CPF) que não está na
+  folha** ganha "(PESSOA FISICA)" na descrição, e a regra da empresa manda para Serviços de terceiros
+  (padrão: 362). Quem tem CNPJ não é pessoa física: pede nota ou pergunta.
+  O **Relatório de pagamentos realizados** (XLS do Itaú) é a fonte principal: uma linha por pagamento
+  com favorecido, CPF/CNPJ, tipo e valor. Leia-o junto com os comprovantes no `ler`.
+- **Extrato em PDF do Itaú com aplicação automática:** `extrato_dominio.py ler Extrato.pdf
+  --aplicacao-inicial <saldo da aplicação no balancete>` monta as linhas APLICACAO/RESGATE de cada dia
+  e confere com o saldo diário "SDO CTA/APL AUTOMATICAS" do extrato. Depois rode o `classificar` no arquivo com os nomes, e as regras do razão valem. Nunca deixe na conta transitória por falta de nome sem antes pedir os comprovantes.
 - **Aplicação automática:** se o banco do modelo fica com saldo mínimo (ex.: R$ 1,00), há aplicação e
   resgate automáticos todo dia. O extrato do mês precisa trazer esses movimentos; sem eles, o saldo
   não fecha.

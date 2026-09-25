@@ -165,6 +165,11 @@ def itens_encargos(encargos, comp_pag):
                 opcoes.append([dict(base, nome="INSS", _tipo="inss", _v=inss)])
         if ir:
             opcoes.append([dict(base, nome="IRRF", _tipo="irrf", _v=ir, _esperado=False)])
+    # FGTS rescisório é recolhido logo após a rescisão, muitas vezes no próprio mês
+    for e in encargos:
+        if e["competencia"] == comp_pag and e["calculo"] == "Folha Mensal" and num(e.get("fgts_rescisorio")):
+            opcoes.append([{"competencia": comp_pag, "cpf": "", "_esperado": False, "nome": "FGTS rescisório (mês)",
+                            "_tipo": "fgts", "_v": num(e["fgts_rescisorio"])}])
     return opcoes
 
 
@@ -275,11 +280,11 @@ def cmd_conferir(a):
                 if l["id"] in resultado or l["data"][3:] != c:
                     continue
                 v = -num(l["valor"])
-                op = next((o for o in opcoes if o[0]["_tipo"] not in achou
+                op = next((o for o in opcoes if (o[0]["_tipo"] not in achou or "rescis" in o[0]["nome"])
                            and abs(sum(x["_v"] for x in o) - v) < 0.005), None)
                 if op:
                     resultado[l["id"]] = op
-                    achou.add(op[0]["_tipo"])
+                    achou.add(op[0]["_tipo"] if "rescis" not in op[0]["nome"] else "fgts_rescisorio")
                     guias_ok.append(l)
                     desc = " + ".join(f"{x['_tipo'].upper()} {brl(x['_v'])} → conta {contas.get(x['_tipo']) or '?'}" for x in op)
                     print(f"  OK  {l['data']} {brl(v):>10} = {op[0]['nome']} {op[0]['competencia']}: {desc}")

@@ -139,6 +139,10 @@ def cmd_aplicar(a):
         comps = list(csv.DictReader(f, delimiter=";"))
     with open(a.extrato, encoding="utf-8-sig") as f:
         extrato = list(csv.DictReader(f, delimiter=";"))
+    nomes_folha = None
+    if a.folha:
+        with open(a.folha, encoding="utf-8-sig") as f:
+            nomes_folha = {re.sub(r"[^A-Z ]", "", r["nome"].upper()) for r in csv.DictReader(f, delimiter=";")}
     livres = defaultdict(list)
     for c in comps:
         livres[(c["data"], num(c["valor"]))].append(c)
@@ -159,6 +163,11 @@ def cmd_aplicar(a):
         if c["tipo"].startswith(("Tributos", "DARF", "GPS", "FGTS")):
             prefixo = "SISPAG TRIBUTOS"
         l["descricao"] = f"{prefixo} {c['favorecido']}".strip()
+        # pessoa física (CPF) que não está na folha: marcada para a regra de serviços de terceiros
+        if re.fullmatch(r"[\d*]{3}\.[\d*]{3}\.[\d*]{3}-[\d*]{2}", c["cpf_cnpj"] or "") and nomes_folha is not None:
+            nome = re.sub(r"[^A-Z ]", "", c["favorecido"].upper()).split()
+            if not any(" ".join(nome[:2]) in f for f in nomes_folha):
+                l["descricao"] += " (PESSOA FISICA)"
         extras = [c["cpf_cnpj"]] if c["cpf_cnpj"] else []
         if num(c["juros_multa"]) > 0:
             extras.append(f"JUROS/MULTA {c['juros_multa']}")
@@ -185,6 +194,7 @@ def main():
     s = sub.add_parser("aplicar")
     s.add_argument("extrato")
     s.add_argument("-c", "--comprovantes", required=True)
+    s.add_argument("-f", "--folha", help="CSV da folha: PIX a pessoa física fora da folha ganha '(PESSOA FISICA)'")
     s.add_argument("-o", "--saida", required=True)
     a = ap.parse_args()
     return cmd_ler(a) if a.cmd == "ler" else cmd_aplicar(a)
