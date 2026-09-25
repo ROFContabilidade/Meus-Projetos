@@ -74,6 +74,37 @@ def ler_extrato_mensal(caminho):
     return regs
 
 
+CAMPOS_ENC = ["competencia", "calculo", "fgts", "fgts_rescisorio", "inss", "inss_alternativos", "irrf", "arquivo"]
+
+
+def ler_encargos(caminho):
+    """Resumo de cada competência: FGTS, FGTS rescisório, total do INSS e IRRF (base da guia do FGTS
+    Digital e da DCTFWeb). O relatório traz o resumo do serviço e o da empresa; os valores do INSS
+    podem diferir por centavos, por isso todos são guardados em inss_alternativos."""
+    enc = {}
+    for pagina in texto_pdf(caminho):
+        if "Valor do FGTS" not in pagina:
+            continue
+        c = re.search(r"C[áa]lculo:\s*(.+?)\s{2,}", pagina)
+        m = re.search(r"Compet[êe]ncia:\s*(\d{2}/\d{4})", pagina)
+        if not (c and m):
+            continue
+        g = lambda rot: (re.search(rot + r":\s*([\d.,]+)", pagina) or [None, "0,00"])[1]
+        k = (m.group(1), c.group(1).strip())
+        e = enc.setdefault(k, {"competencia": k[0], "calculo": k[1], "inss_alternativos": "",
+                               "arquivo": os.path.basename(caminho)})
+        e["fgts"], e["fgts_rescisorio"], e["irrf"] = g("Valor do FGTS"), g("Valor FGTS Rescis[óo]rio"), g("Valor Total do IRRF")
+        e["inss"] = g("Total INSS")  # o último resumo (empresa) prevalece
+        alts = [x for x in e["inss_alternativos"].split("|") if x] + [e["inss"]]
+        e["inss_alternativos"] = "|".join(dict.fromkeys(alts))
+    return list(enc.values())
+
+
+def caminho_encargos(folha_csv):
+    base, ext = os.path.splitext(folha_csv)
+    return f"{base}-encargos{ext or '.csv'}"
+
+
 def brl(v):
     return f"{v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
@@ -83,7 +114,8 @@ def num(s):
     return round(float(s.replace(".", "").replace(",", ".")) if "," in s else float(s), 2)
 
 
-CONTAS_FOLHA_PADRAO = {"salario": "", "adiantamento": "", "rescisao": "", "pro_labore": ""}
+CONTAS_FOLHA_PADRAO = {"salario": "", "adiantamento": "", "rescisao": "", "pro_labore": "",
+                       "fgts": "", "inss": "", "irrf": ""}
 
 
 def mes_anterior(comp):
@@ -109,6 +141,32 @@ def itens_folha(folha, comp_pag):
     return itens
 
 
+def itens_encargos(encargos, comp_pag):
+    """Guias pagas no mês comp_pag, da competência anterior: FGTS Digital e DCTFWeb (INSS + IRRF numa guia só)."""
+    ant = mes_anterior(comp_pag)
+    opcoes = []
+    for e in encargos:
+        if e["competencia"] != ant or e["calculo"] != "Folha Mensal":
+            continue
+        fg, fr, ir = num(e.get("fgts")), num(e.get("fgts_rescisorio")), num(e.get("irrf"))
+        base = {"competencia": ant, "cpf": "", "_esperado": True}
+        if fg:
+            opcoes.append([dict(base, nome="FGTS", _tipo="fgts", _v=fg)])
+            if fr:
+                opcoes.append([dict(base, nome="FGTS + rescisório", _tipo="fgts", _v=round(fg + fr, 2))])
+        if fr:
+            opcoes.append([dict(base, nome="FGTS rescisório", _tipo="fgts", _v=fr, _esperado=False)])
+        for inss in dict.fromkeys(num(x) for x in (e.get("inss_alternativos") or e.get("inss") or "").split("|") if x):
+            if inss and ir:
+                opcoes.append([dict(base, nome="DCTFWeb", _tipo="inss", _v=inss),
+                               dict(base, nome="DCTFWeb", _tipo="irrf", _v=ir)])
+            if inss:
+                opcoes.append([dict(base, nome="INSS", _tipo="inss", _v=inss)])
+        if ir:
+            opcoes.append([dict(base, nome="IRRF", _tipo="irrf", _v=ir, _esperado=False)])
+    return opcoes
+
+
 def primeiro_nome(nome):
     return " ".join(nome.split()[:2]).upper()
 
@@ -126,15 +184,15 @@ def cmd_conferir(a):
     pags = [l for l in extrato if num(l["valor"]) < 0 and (
         any(t in l["descricao"].upper() for t in termos) or any(n in l["descricao"].upper() for n in nomes))]
     if not pags:
-        print("Nenhum pagamento de folha encontrado no extrato.")
-        return
-    comps = sorted({l["data"][3:] for l in pags})
+        print("Nenhum pagamento de pessoal encontrado no extrato.")
+    comps = sorted({l["data"][3:] for l in extrato if num(l["valor"]) < 0})
     itens = []
     for c in comps:
         itens += itens_folha(folha, c)
     print("Meses de pagamento no extrato: " + ", ".join(comps))
     print("\n=== PAGAMENTOS DO EXTRATO x FOLHA ===")
-    rotulo = {"salario": "Salário", "adiantamento": "Adiantamento", "rescisao": "Rescisão", "pro_labore": "Pró-labore"}
+    rotulo = {"salario": "Salário", "adiantamento": "Adiantamento", "rescisao": "Rescisão", "pro_labore": "Pró-labore",
+              "fgts": "FGTS", "inss": "INSS (DCTFWeb)", "irrf": "IRRF (DCTFWeb)"}
     resultado, sobra = {}, []
 
     def pref(l, it):
@@ -173,6 +231,38 @@ def cmd_conferir(a):
                 extra = ("  <<< SÓCIO/CONTRIBUINTE: valor diferente do pró-labore líquido. O líquido vai para "
                          "pró-labore e a diferença é RETIRADA DE SÓCIO: avisar o usuário antes de lançar")
             print(f"  ??  {l['data']} {brl(v):>10} {l['descricao'][:40]}  SEM correspondente na folha{extra}")
+    # --- guias da folha: FGTS Digital e DCTFWeb (INSS + IRRF), sempre divididas por conta
+    enc_csv = caminho_encargos(a.folha)
+    guias_ok = []
+    if os.path.exists(enc_csv):
+        with open(enc_csv, encoding="utf-8-sig") as f:
+            encargos = list(csv.DictReader(f, delimiter=";"))
+        termos_g = [t.upper() for t in a.termos_guias]
+        cand_pags = [l for l in extrato if num(l["valor"]) < 0 and l["id"] not in resultado
+                     and any(t in l["descricao"].upper() for t in termos_g)]
+        print("\n=== GUIAS DA FOLHA (FGTS / DCTFWeb) x EXTRATO ===")
+        for c in comps or sorted({l["data"][3:] for l in cand_pags}):
+            opcoes = itens_encargos(encargos, c)
+            achou = set()
+            for l in cand_pags:
+                if l["id"] in resultado or l["data"][3:] != c:
+                    continue
+                v = -num(l["valor"])
+                op = next((o for o in opcoes if o[0]["_tipo"] not in achou
+                           and abs(sum(x["_v"] for x in o) - v) < 0.005), None)
+                if op:
+                    resultado[l["id"]] = op
+                    achou.add(op[0]["_tipo"])
+                    guias_ok.append(l)
+                    desc = " + ".join(f"{x['_tipo'].upper()} {brl(x['_v'])} → conta {contas.get(x['_tipo']) or '?'}" for x in op)
+                    print(f"  OK  {l['data']} {brl(v):>10} = {op[0]['nome']} {op[0]['competencia']}: {desc}")
+            for tipo, rot in (("fgts", "FGTS"), ("inss", "DCTFWeb/INSS")):
+                if tipo not in achou and any(o[0]["_tipo"] == tipo and o[0]["_esperado"] for o in opcoes):
+                    vals = sorted({brl(sum(x['_v'] for x in o)) for o in opcoes if o[0]["_tipo"] == tipo})
+                    print(f"  ??  {rot} {mes_anterior(c)} não encontrado no extrato de {c} (valores possíveis: {', '.join(vals)})")
+    else:
+        print(f"\n(Sem {os.path.basename(enc_csv)}: rode o 'ler' de novo para registrar FGTS/INSS/IRRF.)")
+
     print("\n=== NA FOLHA, SEM PAGAMENTO NESTE EXTRATO ===")
     faltam = [it for it in itens if it["_esperado"]]
     for it in faltam:
@@ -180,8 +270,9 @@ def cmd_conferir(a):
         print(f"  {rotulo[it['_tipo']]:12} {it['competencia']} {it['nome'][:35]:35} {brl(it['_v']):>10}{obs}")
     if not faltam:
         print("  Nenhum.")
-    print(f"\nResumo: {len(resultado)} de {len(pags)} pagamentos conferidos; {len(sobra)} sem correspondente; "
-          f"{len(faltam)} valor(es) da folha sem pagamento neste extrato.")
+    print(f"\nResumo: {len(resultado) - len(guias_ok)} de {len(pags)} pagamentos de pessoal conferidos; "
+          f"{len(sobra)} sem correspondente; {len(faltam)} valor(es) da folha sem pagamento neste extrato; "
+          f"{len(guias_ok)} guia(s) FGTS/DCTFWeb identificada(s).")
 
     if a.aplicar:
         faltando = sorted({it["_tipo"] for ps in resultado.values() for it in ps if not contas.get(it["_tipo"])})
@@ -198,7 +289,7 @@ def cmd_conferir(a):
                 n["id"] = l["id"] if len(partes) == 1 else f"{l['id']}-{k}"
                 n["valor"] = f"{-it['_v']:.2f}"
                 n["conta"] = contas[it["_tipo"]]
-                n["regra"] = f"Folha: {rotulo[it['_tipo']]} {it['competencia']} {it['nome']}"
+                n["regra"] = f"Folha: {rotulo[it['_tipo']]} {it['competencia']}" + (f" {it['nome']}" if it.get("cpf") else "")
                 n["status"] = "CONFIRMADO"
                 saida.append(n)
         campos = list(extrato[0].keys()) + [c for c in ("conta", "historico", "complemento", "regra", "status")
@@ -223,6 +314,8 @@ def main():
     s.add_argument("-e", "--empresa", help="JSON da empresa (contas_folha: salario, adiantamento, rescisao, pro_labore)")
     s.add_argument("--aplicar", help="grava um CSV classificado com as contas da folha (divide pagamentos somados)")
     s.add_argument("--termos", nargs="*", default=["SALARIO", "FOLHA", "PAGTO SAL", "PRO LABORE", "PRO-LABORE", "RESCIS"])
+    s.add_argument("--termos-guias", nargs="*",
+                   default=["TRIB", "PIX QR", "FGTS", "DARF", "DCTF", "GPS", "INSS", "RECEITA", "CAIXA", "GRF", "GFD"])
     a = ap.parse_args()
     if a.cmd == "conferir":
         return cmd_conferir(a)
@@ -242,7 +335,23 @@ def main():
         w.writeheader()
         w.writerows(todos)
 
+    enc_novos = []
+    for f in a.pdfs:
+        enc_novos += ler_encargos(f)
+    ch_enc = {(e["competencia"], e["calculo"]) for e in enc_novos}
+    enc_path = caminho_encargos(a.saida)
+    enc_antigos = []
+    if a.acrescentar and os.path.exists(enc_path):
+        with open(enc_path, encoding="utf-8-sig") as f:
+            enc_antigos = [e for e in csv.DictReader(f, delimiter=";") if (e["competencia"], e["calculo"]) not in ch_enc]
+    enc_todos = sorted(enc_antigos + enc_novos, key=lambda e: (e["competencia"][3:] + e["competencia"][:2], e["calculo"]))
+    with open(enc_path, "w", encoding="utf-8-sig", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=CAMPOS_ENC, delimiter=";", extrasaction="ignore")
+        w.writeheader()
+        w.writerows(enc_todos)
+
     print(f"{len(novos)} registro(s) lidos | total no arquivo: {len(todos)} -> {a.saida}")
+    print(f"Encargos (FGTS/INSS/IRRF) de {len(enc_novos)} cálculo(s) -> {enc_path}")
     resumo = {}
     for r in novos:
         k = (r["competencia"], r["calculo"])

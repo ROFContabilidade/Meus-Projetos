@@ -47,6 +47,10 @@ O TXT definitivo só leva itens CONFIRMADOS. Com qualquer outro, o arquivo sai m
 Não classifique toda pessoa jurídica como fornecedor: a conta de fornecedores só serve
 quando o favorecido fornece algo coerente com a atividade e há nota fiscal.
 
+Para identificar favorecido em pagamento em lote (SISPAG, sem nome), cruze com o **relatório
+de entradas**: valor da nota, líquido das retenções ou parcela. Pagamento só pelo valor é
+**PROVÁVEL** até a contadora confirmar.
+
 ## 3. Regras invioláveis
 
 - **Conferência de saldo por banco**: saldo final − saldo inicial do extrato = entradas −
@@ -68,6 +72,9 @@ quando o favorecido fornece algo coerente com a atividade e há nota fiscal.
 - Cada guia na **sua** conta de passivo (Simples, PIS, COFINS, IRPJ, CSLL, IRRF, CSRF, INSS
   retido, DCTFWeb/INSS, FGTS, ISS, ISS retido...). Nunca em despesas diversas.
 - Confira o valor com a guia da competência (pasta `Guias`, ou o comprovante no e-CAC).
+- **DCTFWeb** (INSS + IRRF da folha na mesma guia): **sempre dividida** em INSS a recolher e
+  IRRF a recolher, com os valores do resumo do Extrato Mensal da folha. **FGTS Digital** → FGTS
+  a recolher.
 - Guia paga com atraso: principal na conta do imposto; **multa** e **juros** nas contas de
   multa/juros de mora, com os valores da própria guia. Se a empresa não tiver essas contas,
   pergunte.

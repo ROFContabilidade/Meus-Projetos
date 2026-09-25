@@ -39,8 +39,12 @@
     "adiantamento": "",
     "rescisao": "",
     "ferias": "",
-    "pro_labore": ""
+    "pro_labore": "",
+    "fgts": "",
+    "inss": "",
+    "irrf": ""
   },
+  "conta_fornecedores": "",
   "documentos_recebidos": {
     "cartao_cnpj": "",
     "balancete": "",

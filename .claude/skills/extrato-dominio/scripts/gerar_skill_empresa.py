@@ -139,6 +139,12 @@ def montar_skill_md(emp, nome_skill, tem_folha):
                "de pró-labore; a diferença é retirada, e é preciso **avisar antes de lançar**.\n\n"
                + tabela(["Evento", "Conta"], [[k.replace("_", " ").capitalize(), f"{v} {nome_conta(emp, v)}"]
                                              for k, v in (emp.get("contas_folha") or {}).items() if v])]
+    md += ["\n## Notas de Fornecedores\n",
+           "Registro das notas (Acompanhamento de Entradas do Domínio) em `references/entradas.csv`. Todo mês: "
+           "`python scripts/entradas_dominio.py ler <Entradas.xls> -o references/entradas.csv --acrescentar` e "
+           "`python scripts/entradas_dominio.py conferir <classificado.csv> -n references/entradas.csv -e references/empresa.json "
+           "--aplicar <classificado_nf.csv>`. Conta de fornecedores: "
+           f"**{emp.get('conta_fornecedores') or 'a confirmar com a contadora'}**. Pagamento só pelo valor fica PROVÁVEL.\n"]
     md += ["\n## Classificações Recorrentes Confirmadas\n",
            tabela(["Descrição no extrato", "Tipo", "Conta", "Observação"],
                   [[", ".join(r.get("contem") or []) or r.get("regex", ""), r.get("tipo", ""),
@@ -175,6 +181,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("empresa")
     ap.add_argument("--folha")
+    ap.add_argument("--entradas", help="CSV de notas gerado por entradas_dominio.py ler")
     ap.add_argument("--nome", help="sufixo do nome da skill (padrão: derivado da razão social)")
     ap.add_argument("-o", "--saida", default=".")
     a = ap.parse_args()
@@ -189,9 +196,14 @@ def main():
     shutil.copy(a.empresa, destino / "references" / "empresa.json")
     if a.folha:
         shutil.copy(a.folha, destino / "references" / "folha.csv")
+        enc = Path(a.folha).with_name(Path(a.folha).stem + "-encargos.csv")
+        if enc.exists():
+            shutil.copy(enc, destino / "references" / "folha-encargos.csv")
+    if a.entradas:
+        shutil.copy(a.entradas, destino / "references" / "entradas.csv")
     for ref in ("padrao_rof.md", "dominio.md", "classificacao.md"):
         shutil.copy(BASE / "references" / ref, destino / "references" / ref)
-    for sc in ("extrato_dominio.py", "folha_extrato_mensal.py", "consulta_cnpj.py", "plano_contas.py"):
+    for sc in ("extrato_dominio.py", "folha_extrato_mensal.py", "entradas_dominio.py", "consulta_cnpj.py", "plano_contas.py"):
         shutil.copy(BASE / "scripts" / sc, destino / "scripts" / sc)
     pacote = Path(a.saida) / f"{nome_skill}.skill"
     with zipfile.ZipFile(pacote, "w", zipfile.ZIP_DEFLATED) as z:

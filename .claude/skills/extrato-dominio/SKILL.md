@@ -23,6 +23,7 @@ Scripts (Python 3; `plano_contas.py` precisa de `pip install olefile`; `folha_ex
 - `scripts/plano_contas.py`: converte o `Contas.xls` exportado do Domínio.
 - `scripts/extrato_dominio.py`: `ler`, `classificar`, `analisar`, `gerar` (`--help` mostra as opções).
 - `scripts/folha_extrato_mensal.py`: `ler` (Extrato Mensal da folha do Domínio → registro) e `conferir` (folha × extrato).
+- `scripts/entradas_dominio.py`: `ler` (Acompanhamento de Entradas do Domínio → notas com retenções) e `conferir` (notas × pagamentos).
 - `scripts/gerar_skill_empresa.py`: gera a skill da empresa `rof-contabilidade-<empresa>` a partir do JSON.
 
 **Dados de clientes são sigilosos** (CPF, salários, extratos, plano de contas): nunca os envie
@@ -104,6 +105,26 @@ específicas ficam antes das genéricas). Para os **pendentes**, que o script li
    bastante para não capturar movimento errado (`nao_contem` e `regex` ajudam;
    `dia_de`/`dia_ate` limitam a regra a dias do mês).
 
+### Notas de fornecedores (relatório de entradas)
+
+O relatório **Acompanhamento de Entradas** do Domínio identifica a quem foi cada pagamento:
+
+```bash
+python scripts/entradas_dominio.py ler Entradas.xls -o empresas/<cod>-entradas.csv [--acrescentar]
+python scripts/entradas_dominio.py conferir trabalho/classificado.csv -n empresas/<cod>-entradas.csv \
+    -e empresas/<empresa>.json [--aplicar trabalho/classificado_nf.csv]
+```
+
+- Confira o total lido com o "Total Geral" do relatório.
+- O valor pago pode ser o **valor da nota**, o **líquido das retenções** (IRRF, CRF, ISS e INSS
+  retidos, que vêm logo abaixo da nota) ou uma **parcela** do boleto.
+- Níveis de evidência: **NOME + VALOR** (forte), **SÓ VALOR** (pagamento em lote sem nome, como
+  SISPAG, com uma única nota possível), **SÓ NOME** (valor não bate: parcela, juros ou várias
+  notas), **VÁRIAS NOTAS** (perguntar) e **SEM NOTA** (nota fora do período do relatório,
+  adiantamento, securitizadora ou despesa sem nota: perguntar).
+- `--aplicar` grava `conta_fornecedores` com status **PROVÁVEL**. A contadora confirma a conta
+  e os casos antes do TXT definitivo.
+
 ### Folha de pagamento
 
 Padrão do escritório: **dois pagamentos por mês** aos funcionários.
@@ -138,6 +159,10 @@ O `conferir` casa pelo valor exato e pela competência esperada:
   é dividido em duas linhas, uma por conta.
 
 Ele lista o que bateu, os pagamentos sem correspondente e os valores da folha sem pagamento.
+**Guias da folha**: o `ler` também grava `<cod>-folha-encargos.csv` (FGTS, FGTS rescisório,
+INSS e IRRF de cada competência), e o `conferir` acha no extrato a guia do **FGTS Digital**
+(FGTS a recolher) e a da **DCTFWeb**, que **sempre é dividida em duas linhas: INSS a recolher +
+IRRF a recolher** (padrão do escritório). As contas ficam em `contas_folha` (`fgts`, `inss`, `irrf`).
 **Pró-labore de sócio**: o líquido vai para Pró-labore a pagar; qualquer diferença é retirada
 de sócio e exige **avisar o usuário antes de lançar**. Depois:
 - confira cada pagamento do extrato com o líquido ou o adiantamento de cada funcionário
