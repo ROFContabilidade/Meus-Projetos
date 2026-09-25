@@ -1,51 +1,60 @@
 ---
 name: extrato-dominio
-description: Lança e analisa extratos bancários de empresas clientes de escritório de contabilidade e gera o arquivo TXT de lançamentos contábeis para importar no sistema Domínio (Thomson Reuters). Lê OFX, CSV e PDF de qualquer banco, classifica cada movimento na conta contábil (débito/crédito), faz conferência de saldo, duplicidades e itens pendentes, e cadastra nova empresa com as suas regras de classificação. Use sempre que o usuário mencionar extrato bancário, conciliação bancária, lançamentos do banco, arquivo OFX, importação no Domínio, "lançar o extrato", "nova empresa" para o escritório, ou pedir um TXT para o Domínio, mesmo sem citar a skill pelo nome.
+description: Padrão do escritório de contabilidade para cadastrar NOVA EMPRESA e para lançar e conciliar extratos bancários, gerando o TXT de lançamentos contábeis aceito pelo sistema Domínio (Thomson Reuters). Cadastro de nova empresa com responsável (Elen ou Rosangela), análise do cartão CNPJ, perguntas sobre regime, sócios e práticas, e pedido de balancete, relatório de entradas e razão. Lê extratos OFX, CSV e PDF de qualquer banco, classifica cada movimento em débito/crédito, confere saldo e duplicidades e pergunta tudo o que gerar dúvida. Use sempre que o usuário disser "nova empresa", mandar CNPJ para cadastrar cliente, mencionar extrato bancário, conciliação bancária, lançamentos do banco, OFX, importação no Domínio, "lançar o extrato", razão ou balancete de cliente, ou pedir TXT para o Domínio, mesmo sem citar a skill.
 ---
 
-# Extrato bancário → lançamentos no Domínio
+# Padrão do escritório: nova empresa e extrato bancário → Domínio
 
-Serve para o trabalho de rotina do escritório contábil: pegar o extrato do banco de
-uma empresa cliente, transformar cada movimento em lançamento contábil (partida
-simples: banco × contrapartida) e entregar um **TXT pronto para importar no Domínio**,
-junto com uma análise do extrato.
+Esta skill segue o padrão de trabalho do escritório contábil. Ela cadastra cada empresa
+cliente do mesmo jeito e transforma o extrato bancário em lançamentos contábeis (banco ×
+contrapartida), entregues num **TXT pronto para importar no Domínio**, junto com a análise
+do extrato.
 
-Fale com o usuário em português do Brasil, em linguagem de escritório contábil
-(não de programador). Mostre tabelas curtas, não despeje CSV bruto.
+Fale em português do Brasil, em linguagem de escritório contábil (não de programador).
+Mostre tabelas curtas, nunca CSV bruto.
 
-Tudo roda pelo script `scripts/extrato_dominio.py` (Python 3, sem dependências):
-`ler`, `classificar`, `analisar`, `gerar`. Rode `--help` se tiver dúvida.
+Scripts (Python 3; `plano_contas.py` precisa de `pip install olefile`):
+- `scripts/consulta_cnpj.py`: consulta e analisa o cartão CNPJ.
+- `scripts/plano_contas.py`: converte o `Contas.xls` exportado do Domínio.
+- `scripts/extrato_dominio.py`: `ler`, `classificar`, `analisar`, `gerar` (`--help` mostra as opções).
 
-## 1. Identificar a empresa (ou cadastrar uma nova)
+## Postura: atenção máxima e perguntar sempre na dúvida
 
-Cada empresa tem um arquivo de configuração JSON em `empresas/` na pasta de trabalho
-(ex.: `empresas/0123-padaria-pao-doce.json`). Ele guarda o código da empresa no
-Domínio, a conta do banco, o plano de contas usado e as **regras de classificação**
-aprendidas nos meses anteriores. É isso que faz o trabalho ficar mais rápido a cada mês.
+Um lançamento errado custa mais do que uma pergunta. A conciliação só fecha se cada
+movimento estiver na conta certa. Por isso:
 
-- Se já existir o arquivo da empresa, use-o.
-- Se for **nova empresa**, copie `assets/empresa_modelo.json` e preencha com o usuário:
-  - código da empresa no Domínio, razão social, CNPJ, regime tributário;
-  - `conta_banco`: código reduzido da conta do banco no plano de contas do Domínio
-    (uma empresa com vários bancos tem uma conta para cada banco; use a do extrato atual,
-    ou crie um JSON por conta bancária);
-  - `conta_transitoria`: conta para itens não identificados (opcional);
-  - `contas`: código reduzido → nome. Se o usuário mandar o plano de contas exportado
-    do Domínio (`Contas.xls`), converta com `python scripts/plano_contas.py Contas.xls -o contas.json`
-    (precisa de `pip install olefile`) e cole no JSON. Sem plano de contas, **pergunte** os
-    códigos; nunca invente código de conta, porque um código errado faz o Domínio
-    rejeitar a importação ou, pior, lançar na conta errada.
-  - Troque os `"0000"` das regras-modelo pelos códigos reais, ou remova as regras
-    que não se aplicam.
-  - **Se o usuário tiver TXT de meses anteriores já importados no Domínio**, que é o melhor
-    ponto de partida, leia-os como histórico e monte as regras a partir do que o
-    escritório já fez:
-    `python scripts/extrato_dominio.py ler MES_PAGAR.txt --juntar MES_RECEBER.txt -e empresas/<empresa>.json -o historico.csv`.
-    Agrupe por descrição e conta. Depois valide: apague a coluna `conta`, rode `classificar`
-    e compare com o histórico. As diferenças são regras faltando ou possíveis erros do
-    mês anterior; mostre-as ao usuário.
-    A conta do banco e o CNPJ também aparecem nesses TXT (a conta que se repete em
-    todos os lançamentos; o CNPJ no registro `|0000|`).
+- **Nunca adivinhe conta.** Se a descrição do movimento não deixa claro o que é, pergunte.
+  Mandar para a conta transitória em silêncio não resolve: é adiar o problema.
+- Pergunte **em lote**: agrupe as dúvidas numa tabela numerada (data, valor, descrição,
+  o que você acha que é, opções de conta). Não faça uma pergunta por movimento.
+- Sempre confirme: movimentos com **sócios** ou pessoas físicas, **empresas ligadas**,
+  empréstimos, transferências entre contas, estornos, valores fora do padrão do mês,
+  pagamentos sem descrição, contas usadas de forma incoerente (ex.: conta de receita
+  num pagamento) e qualquer padrão do histórico que pareça erro.
+- Cada resposta do usuário vira **regra** ou **observação** no JSON da empresa, para a
+  pergunta não se repetir no mês seguinte. Registre a decisão e a data em `observacoes`.
+- Revise o resultado antes de entregar: total por conta, maiores valores, itens na
+  transitória. Pergunte se algo parecer estranho.
+
+## 1. Nova empresa (roteiro padrão)
+
+Quando o usuário disser "nova empresa" ou trouxer um cliente sem cadastro, siga
+**`references/nova_empresa.md`** na ordem:
+
+1. **Responsável**: "Com quem será feito o lançamento contábil: **Elen** ou **Rosangela**?"
+2. **CNPJ**: peça o número, rode `consulta_cnpj.py` e apresente a análise do cartão CNPJ
+   com o que ela muda na contabilização.
+3. **Sistema**: pergunte sempre se a empresa **utiliza o Domínio** (e o código da empresa nele).
+4. **Perguntas sobre a empresa**: regime tributário, CPF dos sócios, pró-labore, bancos,
+   formas de recebimento e pagamento, folha, empréstimos, empresas ligadas, e as dúvidas
+   adicionais que a análise levantar.
+5. **Documentos**: balancete, relatório de entradas e razão dos últimos meses (mais o
+   plano de contas e os TXT antigos, se houver), para seguir o padrão de lançamentos do escritório.
+6. **Confirmação**: mostre o resumo do cadastro, salve `empresas/<codigo>-<nome>.json`
+   (modelo em `assets/empresa_modelo.json`) e entregue ao usuário.
+
+Se a empresa já tem JSON em `empresas/`, use-o. Confira `pendencias` e pergunte o que
+ainda estiver em aberto antes de lançar.
 
 ## 2. Ler o extrato
 
@@ -54,13 +63,13 @@ python scripts/extrato_dominio.py ler <extrato.ofx|.csv> -o trabalho/normalizado
 ```
 
 - **OFX** é o melhor formato (todo banco exporta, vem com saldo). Prefira pedir OFX.
-- **CSV/Excel**: o script detecta as colunas de data, descrição, valor ou crédito/débito.
-  Para `.xlsx`, converta para CSV antes.
-- **PDF**: extraia as linhas (use a skill de PDF, se disponível, ou `pdftotext -layout`)
-  e monte um CSV `data;descricao;documento;valor` com saídas negativas, depois rode `ler`
-  nele. Confira o total com o PDF, pois a extração de PDF pode perder linhas.
-
-Anote o período, o total de entradas e saídas e, no OFX, o saldo final.
+- **CSV**: o script detecta as colunas de data, descrição e valor (ou crédito/débito).
+  Converta `.xlsx` para CSV antes.
+- **PDF**: extraia as linhas (skill de PDF ou `pdftotext -layout`), monte um CSV
+  `data;descricao;documento;valor` com saídas negativas e rode `ler` nele. Confira os totais
+  com o PDF.
+- **TXT antigo do Domínio** (histórico): `ler MES_PAGAR.txt --juntar MES_RECEBER.txt -e <empresa.json>`
+  gera o CSV já com as contas usadas. Serve para criar e validar regras.
 
 ## 3. Classificar
 
@@ -68,22 +77,16 @@ Anote o período, o total de entradas e saídas e, no OFX, o saldo final.
 python scripts/extrato_dominio.py classificar trabalho/normalizado.csv -e empresas/<empresa>.json -o trabalho/classificado.csv
 ```
 
-As regras do JSON classificam o que já é conhecido. Para os **pendentes** (o script os
-lista agrupados por descrição):
+As regras do JSON classificam o que já é conhecido (a primeira que casa vence; as
+específicas ficam antes das genéricas). Para os **pendentes**, que o script lista agrupados:
 
-1. Leia `references/classificacao.md` e sugira a contrapartida de cada grupo usando o
-   plano de contas da empresa.
-2. Mostre ao usuário uma tabela: descrição | entrada/saída | qtd | total | conta sugerida.
-   Marque com ⚠️ o que exige confirmação: sócios, pessoas físicas, empréstimos,
-   transferências e valores atípicos.
-3. Com a confirmação, preencha as colunas `conta` (e `historico`/`complemento`, se quiser)
-   no `classificado.csv`. Linhas que já têm conta são preservadas se o `classificar`
-   for rodado de novo.
-4. **Grave regras novas no JSON da empresa** para os padrões que se repetem
-   (ex.: `{"nome": "Energia", "tipo": "saida", "contem": ["CEMIG"], "conta": "452"}`).
-   Use termos específicos o bastante para não capturar movimento errado; `nao_contem`
-   e `regex` ajudam. A primeira regra que casa vence, então regras específicas vão antes
-   das genéricas. Não crie regra para um movimento isolado de natureza incerta.
+1. Use `references/classificacao.md`, o plano de contas (`contas` no JSON), o razão e o
+   relatório de entradas da empresa para sugerir a conta.
+2. Monte a tabela de dúvidas (ver "Postura") e **pergunte**.
+3. Preencha a coluna `conta` no `classificado.csv` com as respostas. Linhas que já têm
+   conta são preservadas se o `classificar` for rodado de novo.
+4. Grave regras novas no JSON para os padrões recorrentes, com termos específicos o
+   bastante para não capturar movimento errado (`nao_contem` e `regex` ajudam).
 
 ## 4. Analisar
 
@@ -91,31 +94,30 @@ lista agrupados por descrição):
 python scripts/extrato_dominio.py analisar trabalho/classificado.csv -e empresas/<empresa>.json --saldo-inicial "10.000,00" --saldo-final "12.345,67"
 ```
 
-Informe os saldos quando tiver (OFX traz o final; o inicial vem do extrato ou do
-balancete do mês anterior). O relatório mostra totais, conferência de saldo,
-possíveis duplicidades, pendentes, total por conta e maiores valores. Traga para o
-usuário um resumo curto com o que pede atenção, não o relatório inteiro.
+O saldo inicial vem do balancete ou razão do mês anterior; o final, do extrato ou OFX.
+Uma diferença de saldo significa lançamento faltando ou duplicado: investigue e aponte.
+Traga um resumo curto com o que pede atenção.
 
 ## 5. Gerar o TXT do Domínio
 
 ```bash
-python scripts/extrato_dominio.py gerar trabalho/classificado.csv -e empresas/<empresa>.json -o <EMPRESA>_<AAAA-MM>.txt
+python scripts/extrato_dominio.py gerar trabalho/classificado.csv -e empresas/<empresa>.json -o <CODIGO>_<EMPRESA>_<AAAA-MM>.txt
 ```
 
-- Entrada: **D banco / C contrapartida**. Saída: **D contrapartida / C banco**.
-- Formato padrão = leiaute do Domínio (`|0000|CNPJ|`, `|6000|X||||`, `|6100|data|déb|créd|valor||REF. A descrição||||`),
-  que é o formato que o Domínio já aceitou no escritório. Com `separar_pagar_receber` saem dois
-  arquivos: `<nome>_PAGAR.txt` (saídas) e `<nome>_RECEBER.txt` (entradas). Detalhes e
-  formato alternativo em `references/dominio.md`.
-- O script recusa gerar com pendentes. Com o aval do usuário, `--usar-transitoria`
-  lança os pendentes na conta transitória, e isso deve ser avisado no resumo final.
+O modelo aceito pelo Domínio é **o mesmo para todas as empresas**, e o script já gera
+nele: `|0000|CNPJ|`, depois, para cada lançamento, `|6000|X||||` e
+`|6100|data|débito|crédito|valor||REF. A descrição||||`. O arquivo sai em cp1252 com CRLF,
+dividido em `_PAGAR.txt` (saídas: D contrapartida / C banco) e `_RECEBER.txt` (entradas:
+D banco / C contrapartida). Detalhes em `references/dominio.md`.
+
+- O script recusa gerar com pendentes. `--usar-transitoria` só com o aval explícito do
+  usuário, e isso deve ser avisado no resumo.
+- Empresa que **não** usa o Domínio: siga a etapa 3 de `references/nova_empresa.md`.
 
 ## Entrega
 
-Entregue:
-1. o arquivo `.txt` para importação;
-2. um resumo: período, quantidade de lançamentos, entradas, saídas, conferência de saldo,
-   itens em transitória ou pendentes e alertas (sócios, duplicidades, valores atípicos);
-3. o JSON da empresa atualizado com as regras novas, dizendo que ele deve ser guardado
-   para o próximo mês;
-4. na primeira vez, o passo a passo curto de importação no Domínio (`references/dominio.md`).
+1. Os arquivos `_PAGAR.txt` e `_RECEBER.txt`.
+2. Um resumo com responsável (Elen/Rosangela), período, quantidade de lançamentos,
+   entradas, saídas, conferência de saldo, total por conta, itens em transitória e alertas.
+3. As perguntas que ficaram em aberto, se houver.
+4. O JSON da empresa atualizado (regras, decisões e pendências), para guardar para o próximo mês.
