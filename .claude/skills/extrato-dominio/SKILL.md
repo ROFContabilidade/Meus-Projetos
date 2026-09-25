@@ -86,7 +86,31 @@ específicas ficam antes das genéricas). Para os **pendentes**, que o script li
 3. Preencha a coluna `conta` no `classificado.csv` com as respostas. Linhas que já têm
    conta são preservadas se o `classificar` for rodado de novo.
 4. Grave regras novas no JSON para os padrões recorrentes, com termos específicos o
-   bastante para não capturar movimento errado (`nao_contem` e `regex` ajudam).
+   bastante para não capturar movimento errado (`nao_contem` e `regex` ajudam;
+   `dia_de`/`dia_ate` limitam a regra a dias do mês).
+
+### Folha de pagamento
+
+Padrão do escritório: **dois pagamentos por mês** aos funcionários.
+
+| Quando | O que é | Lançamento |
+|---|---|---|
+| Início do mês (dia 1 a 10) | Salário líquido do mês anterior | D Salários a pagar / C Banco |
+| Dia 15 a 20 | Adiantamento de salário | D Adiantamento de salário (ativo) / C Banco |
+
+As regras usam a data (`"dia_de": 1, "dia_ate": 10` e `"dia_de": 15, "dia_ate": 20`).
+Um pagamento de salário **fora dessas datas** fica pendente de propósito: pode ser
+rescisão, férias, 13º, pensão ou um acerto. Pergunte.
+
+O usuário envia o **relatório da folha** todo mês. Se ele ainda não veio, peça antes de
+fechar os lançamentos de folha. Com o relatório:
+- confira cada pagamento do extrato com o líquido ou o adiantamento de cada funcionário
+  (valor exato) e o total de cada lote;
+- aponte quem está no relatório e não foi pago, pagamentos sem funcionário
+  correspondente, e diferenças de valor;
+- identifique rescisões, férias e 13º no relatório para classificar os pagamentos fora
+  do calendário (contas próprias do plano, ex.: 13º a pagar, adiantamento de férias).
+  Pergunte se a conta não estiver clara.
 
 ## 4. Analisar
 
@@ -119,5 +143,6 @@ D banco / C contrapartida). Detalhes em `references/dominio.md`.
 1. Os arquivos `_PAGAR.txt` e `_RECEBER.txt`.
 2. Um resumo com responsável (Elen/Rosangela), período, quantidade de lançamentos,
    entradas, saídas, conferência de saldo, total por conta, itens em transitória e alertas.
-3. As perguntas que ficaram em aberto, se houver.
-4. O JSON da empresa atualizado (regras, decisões e pendências), para guardar para o próximo mês.
+3. A conferência da folha com o relatório (quando houver pagamento de salário).
+4. As perguntas que ficaram em aberto, se houver.
+5. O JSON da empresa atualizado (regras, decisões e pendências), para guardar para o próximo mês.

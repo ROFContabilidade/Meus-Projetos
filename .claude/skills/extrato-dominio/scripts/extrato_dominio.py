@@ -295,8 +295,12 @@ def cmd_ler(a):
 
 # ---------------------------------------------------------------- classificação
 
-def regra_casa(regra, desc_norm, valor):
+def regra_casa(regra, desc_norm, valor, data=None):
     tipo = regra.get("tipo", "ambos")
+    if data and ("dia_de" in regra or "dia_ate" in regra):
+        dia = datetime.strptime(data, "%d/%m/%Y").day
+        if not int(regra.get("dia_de", 1)) <= dia <= int(regra.get("dia_ate", 31)):
+            return False
     if tipo == "entrada" and valor <= 0:
         return False
     if tipo == "saida" and valor >= 0:
@@ -327,7 +331,7 @@ def cmd_classificar(a):
         if l.get("conta"):  # já classificado manualmente: preserva
             continue
         for i, r in enumerate(emp["regras"]):
-            if regra_casa(r, dn, valor):
+            if regra_casa(r, dn, valor, l["data"]):
                 l["conta"] = str(r["conta"])
                 l["historico"] = str(r.get("historico", emp.get("historico_padrao", "")))
                 l["complemento"] = r.get("complemento") or l["descricao"]

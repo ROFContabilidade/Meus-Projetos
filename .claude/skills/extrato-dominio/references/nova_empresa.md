@@ -78,8 +78,12 @@ Confirme e complete o que o cartão CNPJ não responde. Pergunte em blocos:
 **Pagamentos**
 7. Os pagamentos a fornecedores são baixados em **Fornecedores** (notas de entrada
    integradas) ou lançados direto em despesa/estoque?
-8. Há funcionários? Quem faz a folha e em que dia paga? Salários são pagos pelo banco
-   (SISPAG, lote)?
+8. Há funcionários? Quem faz a folha? Como os salários são pagos (SISPAG, lote, PIX)?
+   **Calendário da folha**: o padrão do escritório são dois pagamentos por mês, o
+   **salário líquido no início do mês** (Salários a pagar) e o **adiantamento de salário
+   do dia 15 ao 20** (Adiantamento de salário). Confirme se a empresa segue esse padrão,
+   anote os códigos das duas contas no plano e crie as regras com `dia_de`/`dia_ate`.
+   Avise que o **relatório da folha** será pedido todo mês para a conferência.
 9. Há empréstimos, financiamentos, consórcio, leasing ou parcelamentos de tributos
    (REFIS, parcelamento simplificado)?
 10. Há cartão de crédito empresarial? A fatura é lançada por item ou pelo total?

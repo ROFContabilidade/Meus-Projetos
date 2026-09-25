@@ -30,7 +30,7 @@
   "praticas": {
     "recebimentos": "baixa Clientes | direto em receita",
     "pagamentos": "baixa Fornecedores | direto em despesa",
-    "folha": "",
+    "folha": "Salário líquido no início do mês (Salários a pagar) e adiantamento do dia 15 ao 20 (Adiantamento de salário). Conferir com o relatório da folha todo mês.",
     "cartao_credito": "",
     "emprestimos": ""
   },
@@ -40,7 +40,8 @@
     "relatorio_entradas": "",
     "razao": "",
     "plano_contas": "",
-    "txt_anteriores": ""
+    "txt_anteriores": "",
+    "relatorio_folha": "todo mês"
   },
   "pendencias": [],
   "observacoes": [],
@@ -55,6 +56,29 @@
     "0000": "Substitua pelos códigos reduzidos do plano de contas desta empresa no Domínio"
   },
   "regras": [
+    {
+      "nome": "Folha: salário líquido (início do mês)",
+      "tipo": "saida",
+      "contem": [
+        "SALARIO",
+        "FOLHA"
+      ],
+      "dia_de": 1,
+      "dia_ate": 10,
+      "conta": "0000"
+    },
+    {
+      "nome": "Folha: adiantamento de salário (dia 15 a 20)",
+      "tipo": "saida",
+      "contem": [
+        "SALARIO",
+        "FOLHA",
+        "ADIANT"
+      ],
+      "dia_de": 15,
+      "dia_ate": 20,
+      "conta": "0000"
+    },
     {
       "nome": "Tarifas bancárias",
       "tipo": "saida",
