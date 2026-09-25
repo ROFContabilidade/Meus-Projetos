@@ -47,11 +47,19 @@ def extrair(texto, arquivo=""):
     t = re.sub(r"\s+", " ", texto.replace("\\*", "*"))
     regs = []
     # boletos
-    for m in re.finditer(r"Beneficiário: (.+?) CPF/CNPJ do beneficiário: .*?Razão Social: .*? " + DOC + r" " + D +
-                         r" Valor do boleto \(R\$\); " + V + r" \(-\) Desconto \(R\$\): " + V +
-                         r" \(\+\) ?Mora/Multa \(R\$\): " + V + r".{0,160}?\(=\) Valor do pagamento \(R\$\):.{0,120}?"
-                         r"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2} " + V + r".{0,200}?Data de pagamento: ?.{0,120}?" + D, t):
-        fav, doc, _venc, vdoc, desc, mora, vpag, dpag = m.groups()
+    PAGADOR = r"(?:\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}|\d{3}\.\d{3}\.\d{3}-\d{2})"  # CNPJ da empresa ou CPF (boleto em nome de funcionário)
+    for m in re.finditer(r"Beneficiário: (.+?) CPF/CNPJ do beneficiário: (.{0,160}?)"
+                         r"Valor do boleto \(R\$\); ?" + V + r" \(-\) Desconto \(R\$\): ?" + V +
+                         r" \(\+\) ?(?:Juros/)?Mora/Multa \(R\$\): ?" + V + r".{0,160}?\(=\) Valor do pagamento \(R\$\):.{0,120}?"
+                         + PAGADOR + r" " + V + r".{0,400}?Data de pagamento: ?.{0,200}?" + D, t):
+        fav, meio, vdoc, desc, mora, vpag, dpag = m.groups()
+        dm = re.search(DOC, meio)
+        doc = dm.group(1) if dm else ""
+        # boleto de intermediador (PagCerto, Asaas...): o fornecedor de verdade é o "Beneficiário Final"
+        bf = re.search(r"Beneficiário Final: CPF/CNPJ do beneficiário final: \(=\) Data de pagamento: (.+?) " + DOC,
+                       t[m.start():m.end() + 300])
+        if bf and bf.group(1).strip():
+            fav, doc = bf.group(1).strip(), bf.group(2)
         regs.append({"tipo": "boleto", "data": dpag, "valor": vpag, "favorecido": fav.strip(), "cpf_cnpj": doc,
                      "valor_documento": vdoc, "desconto": desc, "juros_multa": mora})
     # transferências PIX / TED
@@ -69,11 +77,19 @@ def extrair(texto, arquivo=""):
         regs.append({"tipo": "PIX QR Code", "data": d, "valor": v, "favorecido": fav.strip(), "cpf_cnpj": doc,
                      "valor_documento": v, "desconto": desc, "juros_multa": f"{num(juros) + num(multa):.2f}".replace(".", ",")})
     # tributos (municipais, estaduais, federais, concessionárias)
-    for m in re.finditer(r"Comprovante de Pagamento (Tributos [A-Za-zçãõé ]+?|DARF[^ ]*|GPS|FGTS[^ ]*|Concessionárias?)"
-                         r" .*?Valor do documento: R\$ " + V + r".*?efetuada em " + D, t):
+    for m in re.finditer(r"Comprovante de Pagamento (?:de )?(Tributos [A-Za-zçãõé ]+?|DARF[^ ]*|GPS|FGTS[^ ]*|"
+                         r"[Cc]oncessionárias?|com código de barras)"
+                         r" .{0,300}?Valor do documento: R\$ " + V + r".{0,400}?efetuada em " + D, t):
         tp, v, d = m.groups()
         regs.append({"tipo": tp.strip(), "data": d, "valor": v, "favorecido": tp.strip().upper(), "cpf_cnpj": "",
                      "valor_documento": v, "desconto": "0,00", "juros_multa": "0,00"})
+    # DARE da Sefaz-SP (ICMS SP)
+    for m in re.finditer(r"Comprovante de pagamento - (SEFAZ-[A-Z]{2})/DARE.{0,600}?valor: R\$ " + V, t):
+        uf, v = m.groups()
+        d = re.search(r"(?:data de pagamento|pago em|efetuad[oa] em)[: ]*" + D, t[m.start():m.start() + 1500], re.I) \
+            or re.search(D, t[max(0, m.start() - 400):m.start()])
+        regs.append({"tipo": "DARE", "data": d.group(1) if d else "", "valor": v, "favorecido": f"{uf} DARE (ICMS)",
+                     "cpf_cnpj": "", "valor_documento": v, "desconto": "0,00", "juros_multa": "0,00"})
     for r in regs:
         r["arquivo"] = os.path.basename(arquivo)
     return regs
@@ -147,7 +163,7 @@ def cmd_aplicar(a):
     for c in comps:
         livres[(c["data"], num(c["valor"]))].append(c)
     usados = casados = 0
-    sem = []
+    sem, novas = [], []
     for l in extrato:
         v = round(-float(l["valor"]), 2)
         if v <= 0:
@@ -162,16 +178,24 @@ def cmd_aplicar(a):
         prefixo = {"boleto": "BOLETO PAGO", "PIX": "PIX ENVIADO", "PIX QR Code": "PIX QR CODE"}.get(c["tipo"], "SISPAG")
         if c["tipo"].startswith(("Tributos", "DARF", "GPS", "FGTS")):
             prefixo = "SISPAG TRIBUTOS"
+        if c["tipo"] in ("DARE",) or c["tipo"].lower().startswith(("concession", "com código")):
+            prefixo = "SISPAG TRIBUTOS" if c["tipo"] == "DARE" else "SISPAG"
         l["descricao"] = f"{prefixo} {c['favorecido']}".strip()
         # pessoa física (CPF) que não está na folha: marcada para a regra de serviços de terceiros
         if re.fullmatch(r"[\d*]{3}\.[\d*]{3}\.[\d*]{3}-[\d*]{2}", c["cpf_cnpj"] or "") and nomes_folha is not None:
             nome = re.sub(r"[^A-Z ]", "", c["favorecido"].upper()).split()
             if not any(" ".join(nome[:2]) in f for f in nomes_folha):
                 l["descricao"] += " (PESSOA FISICA)"
-        extras = [c["cpf_cnpj"]] if c["cpf_cnpj"] else []
-        if num(c["juros_multa"]) > 0:
-            extras.append(f"JUROS/MULTA {c['juros_multa']}")
-        l["documento"] = " ".join(extras) or l.get("documento", "")
+        l["documento"] = c["cpf_cnpj"] or l.get("documento", "")
+        juros = num(c["juros_multa"])
+        if juros > 0:  # pago com atraso: principal na conta do favorecido, juros/multa em linha própria
+            l["valor"] = f"{-(v - juros):.2f}"
+            novas.append(dict(l, id=l["id"] + "-J", valor=f"{-juros:.2f}",
+                              descricao=f"JUROS/MULTA {prefixo} {c['favorecido']}".strip()))
+    for n in novas:  # linha de juros logo depois do pagamento
+        extrato.insert(next(i for i, x in enumerate(extrato) if x["id"] == n["id"][:-2]) + 1, n)
+    if novas:
+        print(f"{len(novas)} pagamento(s) com juros/multa separados em linha própria (JUROS/MULTA ...)")
     for lista in livres.values():
         usados += len(lista)
     with open(a.saida, "w", encoding="utf-8-sig", newline="") as f:

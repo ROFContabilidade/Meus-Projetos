@@ -129,6 +129,11 @@ python scripts/razao_dominio.py aprender Razao.xls --conta-banco <cód> -e empre
   documento). Com `-f empresas/<cod>-folha.csv`, o PIX para **pessoa física (CPF) que não está na
   folha** ganha "(PESSOA FISICA)" na descrição, e a regra da empresa manda para Serviços de terceiros
   (padrão: 362). Quem tem CNPJ não é pessoa física: pede nota ou pergunta.
+  **Comprovantes escaneados (PDF só com imagem):** faça OCR antes (`pdftoppm -r 200 -gray -png arquivo.pdf pag`
+  e `OMP_THREAD_LIMIT=1 tesseract pag-N.png pag-N -l por --psm 6`, um processo por núcleo; se faltar,
+  `apt-get update && apt-get install -y tesseract-ocr tesseract-ocr-por poppler-utils`) e passe os `.txt` ao `ler`.
+  Boleto pago com atraso vira duas linhas: principal na conta do favorecido e "JUROS/MULTA ..." na
+  conta de juros de mora. Boleto de intermediador (PagCerto etc.) usa o **beneficiário final**.
   O **Relatório de pagamentos realizados** (XLS do Itaú) é a fonte principal: uma linha por pagamento
   com favorecido, CPF/CNPJ, tipo e valor. Leia-o junto com os comprovantes no `ler`.
 - **Extrato em PDF do Itaú com aplicação automática:** `extrato_dominio.py ler Extrato.pdf
