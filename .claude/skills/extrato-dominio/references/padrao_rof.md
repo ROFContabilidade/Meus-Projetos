@@ -79,10 +79,17 @@ quando o favorecido fornece algo coerente com a atividade e há nota fiscal.
   Rescisão a pagar. Pró-labore → Pró-labore a pagar.
 - Confira sempre com o **Extrato Mensal da folha do Domínio** (`folha_extrato_mensal.py`),
   funcionário por funcionário, pelo valor exato.
+- O **líquido da rescisão sai junto com a Folha Mensal** (rubrica `LIQUIDO RESCISAO`), sem
+  relatório à parte.
+- Um pagamento pode somar dois valores da mesma pessoa (ex.: adiantamento atrasado pago com
+  o salário). Nesse caso ele é dividido em uma linha `|6100|` por conta (Salários + Adiantamento).
 
 ## 6. Sócios
 
-Antes de lançar qualquer pagamento a sócio, confirme a regra da empresa e o total pago no mês:
+Antes de lançar qualquer pagamento a sócio, confirme a regra da empresa e o total pago no mês.
+**Regra geral do escritório:** quando o sócio retirar pró-labore, o **líquido do pró-labore** (da
+folha) vai para Pró-labore a pagar e **a diferença é retirada de sócio**. Qualquer valor além do
+pró-labore exige **avisar o usuário antes de lançar**, mesmo quando a conta já existe.
 - **Pró-labore fixo** (ex.: salário mínimo − INSS 11%): o acumulado do mês até o líquido vai
   para Pró-labore a pagar; o excedente vai para a conta do sócio (retirada/lucro). Uma
   operação que ultrapasse o limite vira **duas linhas `|6100|`** na mesma data.

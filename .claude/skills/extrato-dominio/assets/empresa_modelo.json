@@ -34,6 +34,13 @@
     "cartao_credito": "",
     "emprestimos": ""
   },
+  "contas_folha": {
+    "salario": "",
+    "adiantamento": "",
+    "rescisao": "",
+    "ferias": "",
+    "pro_labore": ""
+  },
   "documentos_recebidos": {
     "cartao_cnpj": "",
     "balancete": "",

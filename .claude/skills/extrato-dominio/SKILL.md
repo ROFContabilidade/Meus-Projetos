@@ -126,11 +126,20 @@ python scripts/folha_extrato_mensal.py ler Extrato_Mensal*.pdf -o empresas/<cod>
 python scripts/folha_extrato_mensal.py conferir trabalho/classificado.csv -f empresas/<cod>-folha.csv
 ```
 
-O `conferir` casa o pagamento do início do mês com a Folha Mensal da competência anterior
-e o dos dias 15 a 20 com o Adiantamento do mês, pelo valor exato. Ele lista o que bateu, os
-pagamentos sem correspondente, os líquidos sem pagamento e as demissões (o líquido da rescisão
-sai em cálculo à parte). Procure explicação por soma antes de perguntar: um pagamento pode ser
-a soma de dois líquidos da mesma pessoa. Depois:
+Com `-e empresas/<empresa>.json --aplicar trabalho/classificado_folha.csv`, grava o CSV já com as
+contas de `contas_folha` (salario, adiantamento, rescisao, ferias, pro_labore) e status CONFIRMADO.
+
+O `conferir` casa pelo valor exato e pela competência esperada:
+- início do mês → salário (e pró-labore) da Folha Mensal da competência anterior;
+- dias 15 a 20 → Adiantamento do próprio mês;
+- fora do calendário → rescisão. O **líquido da rescisão sai junto com a Folha Mensal**
+  (rubrica `LIQUIDO RESCISAO`);
+- um pagamento que soma dois valores da mesma pessoa (ex.: adiantamento atrasado + salário)
+  é dividido em duas linhas, uma por conta.
+
+Ele lista o que bateu, os pagamentos sem correspondente e os valores da folha sem pagamento.
+**Pró-labore de sócio**: o líquido vai para Pró-labore a pagar; qualquer diferença é retirada
+de sócio e exige **avisar o usuário antes de lançar**. Depois:
 - confira cada pagamento do extrato com o líquido ou o adiantamento de cada funcionário
   (valor exato) e o total de cada lote;
 - aponte quem está no relatório e não foi pago, pagamentos sem funcionário

@@ -131,8 +131,14 @@ def montar_skill_md(emp, nome_skill, tem_folha):
         md += ["\n## Folha de Pagamento\n",
                "O registro da folha (Extrato Mensal do Domínio) está em `references/folha.csv`. Todo mês:\n"
                "1. Acrescente o relatório novo: `python scripts/folha_extrato_mensal.py ler <PDF> -o references/folha.csv --acrescentar`.\n"
-               "2. Confira: `python scripts/folha_extrato_mensal.py conferir <classificado.csv> -f references/folha.csv`.\n"
-               "3. Pagamento sem correspondente, líquido sem pagamento ou rescisão: pergunte.\n"]
+               "2. Confira e aplique as contas: `python scripts/folha_extrato_mensal.py conferir <classificado.csv> "
+               "-f references/folha.csv -e references/empresa.json --aplicar <classificado_folha.csv>`.\n"
+               "3. O líquido da rescisão sai na Folha Mensal (rubrica LIQUIDO RESCISAO). Pagamento que soma dois valores "
+               "da mesma pessoa é dividido por conta.\n"
+               "4. Pagamento sem correspondente ou líquido sem pagamento: pergunte. Pró-labore de sócio: líquido na conta "
+               "de pró-labore; a diferença é retirada, e é preciso **avisar antes de lançar**.\n\n"
+               + tabela(["Evento", "Conta"], [[k.replace("_", " ").capitalize(), f"{v} {nome_conta(emp, v)}"]
+                                             for k, v in (emp.get("contas_folha") or {}).items() if v])]
     md += ["\n## Classificações Recorrentes Confirmadas\n",
            tabela(["Descrição no extrato", "Tipo", "Conta", "Observação"],
                   [[", ".join(r.get("contem") or []) or r.get("regex", ""), r.get("tipo", ""),

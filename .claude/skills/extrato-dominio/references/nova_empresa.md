@@ -82,7 +82,8 @@ Confirme e complete o que o cartão CNPJ não responde. Pergunte em blocos:
    **Calendário da folha**: o padrão do escritório são dois pagamentos por mês, o
    **salário líquido no início do mês** (Salários a pagar) e o **adiantamento de salário
    do dia 15 ao 20** (Adiantamento de salário). Confirme se a empresa segue esse padrão,
-   anote os códigos das duas contas no plano e crie as regras com `dia_de`/`dia_ate`.
+   anote no JSON, em `contas_folha`, os códigos de salário, adiantamento, rescisão, férias
+   e pró-labore, e crie as regras com `dia_de`/`dia_ate`.
    Avise que o **relatório da folha** será pedido todo mês para a conferência.
 9. Há empréstimos, financiamentos, consórcio, leasing ou parcelamentos de tributos
    (REFIS, parcelamento simplificado)?
