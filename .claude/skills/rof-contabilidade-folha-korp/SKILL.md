@@ -70,9 +70,11 @@ Tabela da Korp: 320 ADM GERAL · 337 DESENVOLVIMENTO EM GERAL · 345 SUPORTE EM 
 
 CC novo sem de-para: não inventar — perguntar ao usuário e acrescentar aqui.
 
-**Formato:** código Korp alinhado à esquerda com espaços até 7 caracteres (`CC337  `). No registro 05 o CC vai no lado débito (col. 10–16) **e** no lado crédito (col. 17–23), conforme a conta; o lado sem CC fica `0000000`.
+**Formato:** código Korp alinhado à esquerda com espaços até 7 caracteres (`CC337  `). Cada lançamento 03 leva **dois** registros 05: um com o CC no lado débito (col. 10–16, crédito `0000000`) e outro com o CC no lado crédito (col. 17–23, débito `0000000`).
 
-**Quais contas levam CC** (regra observada na Matriz, aplicada à Filial): todas, **exceto 2530, 2531, 2533 e 3137**. Isso inclui 2521, 2523, 2524, 2526 e 2463. Um 05 por lado com CC (débito primeiro, depois crédito).
+**TODAS as contas levam CC, dos dois lados — inclusive 2530, 2531, 2533 e 3137.** Confirmado na Korp em 09/2026: **a Korp só grava o lado do lançamento que tem registro 05**. No TXT de 05/2026 da Filial (e no padrão antigo da Matriz) as contas 2530/2531/2533/3137 ficaram sem 05 e a Korp não gravou os créditos de FGTS, INSS, IRRF e consignado (ex.: lançamento 150672 só com D 2885 56,80, sem o C 2531). O lado que não tem CC no Domínio herda o CC do outro lado do mesmo lançamento.
+
+**TXT já importado com lado faltando:** não reimportar o TXT inteiro (duplicaria o lado já gravado). Gerar um **complemento** com `"complemento": [contas]` no `gera_txt_korp.py`: só os lançamentos dessas contas, com 05 apenas no lado delas — a Korp grava só o lado que faltou. Arquivo: `Folha_Korp_<Empresa>_MM-AAAA_COMPLEMENTO_encargos.txt`. Verificar a Matriz: os TXTs já importados no padrão antigo têm o mesmo problema.
 
 **Filial — como achar o CC de cada lançamento:** o TXT vem em blocos por CC, na ordem do extrato. Cada bloco da folha mensal termina com o INSS patronal (INSS Empresa/Terceiros/Acid. Trabalho). Confirmar o bloco batendo o `I.N.S.S.` descontado do bloco com o "Segurados" do CC no extrato. Blocos com outra data no registro 02 (férias, rescisões) pertencem ao CC do funcionário no extrato.
 
@@ -107,7 +109,7 @@ Com `scripts/extrato.py` somar por CC/funcionário/rubrica e comparar com o TXT 
 4. FGTS 2530 = "Valor do FGTS"; conferir o FGTS rescisório à parte. IRRF 2533; consignado 3137 (rubricas 714/717/721/730/9750); adiantamento de férias 2463 (937).
 5. Toda rubrica do extrato tem lançamento no TXT (procurar férias, rescisões e adiantamentos que não saíram).
 6. Toda conta do TXT existe no plano Korp (ex.: 252/253 não existem — código truncado de 2523).
-7. Após gerar o TXT: mesmo tamanho de registro (01=55, 02=165, 03=664, 05=138, 99=100), cp1252 + CRLF, nenhum CC numérico remanescente, passivos fechando com o extrato.
+7. Após gerar o TXT: todo lançamento com 05 nos dois lados; mesmo tamanho de registro (01=55, 02=165, 03=664, 05=138, 99=100), cp1252 + CRLF, nenhum CC numérico remanescente, passivos fechando com o extrato.
 
 ## Erros recorrentes da integração da Filial (verificar primeiro — 05 e 06/2026)
 
