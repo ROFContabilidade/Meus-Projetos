@@ -8,6 +8,7 @@ config.json:
   "cnpj": "03623045000291",             # CNPJ do cabeçalho (registro 01)
   "cc_blocos": [[700, 708, "CC345"]],   # faixas de seq (registro 03 original) -> CC Korp  (Filial: sem 05 no Domínio)
   "cc_map": {"0000001": "CC337"},       # OU: troca de CC numérico existente (Matriz: 05 já vem do Domínio)
+  "cc_seq": {"2": "CC644"},             # CC para lançamento que o Domínio exportou sem nenhum 05 (seq original)
   "complemento": ["2530","2531"],       # opcional: gera só os lançamentos com essas contas e só o lado delas (ver abaixo)
   "corrigir": {"752": [null, 2521]},    # seq -> [nova conta débito|null, nova conta crédito|null]
   "excluir": [734, 736],                # seq a remover
@@ -63,7 +64,15 @@ def main(src, cfg_path, dst):
             cs = [M.get(c, c) for d, c, v in e['cc'] if c != '0000000']
             ccD = ds[0] if ds else (cs[0] if cs else None)
             ccC = cs[0] if cs else ccD
-        assert ccD and ccC, f"lançamento {e['seq']} sem centro de custo"
+        if not (ccD and ccC):                          # Domínio exportou sem 05 (ex.: INSS de rescisão, compensação sal.-maternidade)
+            forc = cfg.get('cc_seq', {}).get(str(e['seq']))
+            if forc: ccD = ccC = forc
+            else:                                      # herda do lançamento vizinho do mesmo bloco e avisa
+                i = E.index(e); viz = [x for x in E[i - 1::-1] + E[i + 1:] if x['cc'] or x['ccK']]
+                v0 = viz[0]; x0 = next(d if d != '0000000' else c for d, c, _ in v0['cc']) if v0['cc'] else None; cv = v0['ccK'] or M.get(x0, x0)
+                ccD = ccC = cv.strip()
+                assert ccD, f"seq {e['seq']}: não achei CC vizinho"
+                print(f"AVISO: seq {e['seq']} ({e['l03'][45:80].strip()}) veio sem CC do Domínio -> {ccD} (vizinho); confirmar ou usar cc_seq")
         lados = [('D', ccD), ('C', ccC)]
         if comp: lados = [x for x in lados if (e['d'] if x[0] == 'D' else e['c']) in comp]
         for lado, cc in lados:
