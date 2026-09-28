@@ -93,6 +93,7 @@ Decisões já confirmadas pelo usuário:
 - Bolsa de estagiário (8797/8813) do DES e do CC 16: **D 2910 / C 2526**; do ADM: D 2995 / C 2526.
 - Contribuição assistencial é desconto: **D 2521 (ou 2523 na rescisão) / C conta de contribuição do grupo**.
 - Adiantamento de férias (937) descontado na folha: **D 2524 / C 2463**.
+- Reembolso (617) pago ao funcionário do Suporte na folha: **D 2891 / C 2521** (mantido).
 - Vale-refeição não utilizado (657) na rescisão do Suporte (CC 8): **D 2523 / C 3146** (Ajuda de Custo do Suporte).
 - Rescisão: proventos a crédito de **2523**; INSS da rescisão D 2523 / C 2531.
 
@@ -139,7 +140,6 @@ Erros novos em 07/2026 (Filial):
 | 7 (rescisão) | 250 Reflexo extras DSR | D 2905 | D 2904 |
 | 10 | 8490/8496 Bolsa auxílio férias (rescisão estágio) | D 3017 / C 2524 | D 2995 / C 2526 |
 | 16 | 8490/8496/8797 (rescisão estágio) | D 3146 / C 2521 | D 2910 / C 2526 |
-| 8 | 617 Reembolso | D 2891 | a confirmar |
 
 Rescisões inteiras podem não sair no TXT (06/2026: Antônio Henrique, CC 7, demitido em 30/06) — conferir cada funcionário "Demitido" do extrato. O FGTS da rescisão está no "Valor FGTS" da linha do funcionário e no "Valor FGTS Rescisório" do total do extrato (fica fora do "Valor do FGTS" geral).
 
