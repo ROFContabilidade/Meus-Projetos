@@ -90,6 +90,7 @@ Decisões já confirmadas pelo usuário:
 - Bolsa de estagiário (8797/8813) do DES e do CC 16: **D 2910 / C 2526**; do ADM: D 2995 / C 2526.
 - Contribuição assistencial é desconto: **D 2521 (ou 2523 na rescisão) / C conta de contribuição do grupo**.
 - Adiantamento de férias (937) descontado na folha: **D 2524 / C 2463**.
+- Vale-refeição não utilizado (657) na rescisão do Suporte (CC 8): **D 2523 / C 3146** (Ajuda de Custo do Suporte).
 - Rescisão: proventos a crédito de **2523**; INSS da rescisão D 2523 / C 2531.
 
 ## Conferência obrigatória (extrato × TXT × balancete)
