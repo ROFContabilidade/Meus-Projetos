@@ -175,6 +175,8 @@ No Domínio a integração é por **centro de custo → lançamento (conta débi
 - `gera_txt_korp.py <Folha.txt> <config.json> <saida.txt>` — gera o TXT da empresa: filtra pelo código, corrige contas por seq, exclui/inclui lançamentos, monta os 05 (Filial por blocos de seq; Matriz por `cc_map`), renumera e troca o cabeçalho. Ver docstring para o formato do `config.json`.
 - `planilhas.py correcoes|fechamento <json> <saida.xlsx>` — gera as duas planilhas no padrão acima.
 
+As planilhas gravam **valores já calculados** (não fórmulas): o visualizador do app/Drive não calcula fórmulas e mostrava as colunas vazias. Só o contador "Corrigidos: X de N" é fórmula.
+
 Dependências: `openpyxl`, `python-calamine` (`pip install python-calamine` se faltar).
 
 ## Layout do TXT (Domínio — lançamentos contábeis)

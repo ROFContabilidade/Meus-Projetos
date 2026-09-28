@@ -45,7 +45,7 @@ def correcoes(cfg, dst):
             if v in ('Confirmar', '?'): x.fill = ASK
         ws.cell(i, 1).number_format = '#,##0.00'; ws.cell(i, 1).alignment = Alignment(horizontal='right', vertical='center')
     last = hr + len(cfg['linhas']); t = last + 1
-    ws.cell(t, 1, f'=SUM(A{hr+1}:A{last})').font = F(bold=True); ws.cell(t, 1).number_format = '#,##0.00'
+    ws.cell(t, 1, round(sum(r[0] for r in cfg['linhas']), 2)).font = F(bold=True); ws.cell(t, 1).number_format = '#,##0.00'
     ws.cell(t, 2, 'Total').font = F(bold=True)
     ws.cell(t, 10, 'Corrigidos:').font = F(bold=True); ws.cell(t, 10).alignment = Alignment(horizontal='right')
     ws.cell(t, 11, f'=COUNTIF(K{hr+1}:K{last},"Sim")&" de "&ROWS(K{hr+1}:K{last})').font = F(bold=True)
@@ -66,12 +66,17 @@ def fechamento(cfg, dst):
     for i, (ct, nm) in enumerate(CONTAS, 5):
         rs.cell(i, 1, ct); rs.cell(i, 2, nm)
         for j, m in enumerate(cols, 3):
-            if m in meses: rs.cell(i, j, f"='{m}'!F{i}")
+            if m in meses:
+                v = list(meses[m].get(ct, [0, 0, 0, ''])) + [0]
+                rs.cell(i, j, round(v[1] + v[2], 2))
             rs.cell(i, j).number_format = MOEDA
         for c in range(1, len(cols) + 3): rs.cell(i, c).font = F(); rs.cell(i, c).border = B
     r = 5 + n; rs.cell(r, 2, 'Confere com a folha?').font = F(bold=True)
     for j, m in enumerate(cols, 3):
-        if m in meses: rs.cell(r, j, f"=IF(COUNTIF('{m}'!H5:H{4+n},\"Não\")=0,\"Sim\",\"Não\")").font = F(bold=True)
+        if m in meses:
+            ok = all(abs((list(meses[m].get(ct, [0, 0, 0, ''])) + [0])[0] + (list(meses[m].get(ct, [0, 0, 0, ''])) + [0])[4]
+                         - (list(meses[m].get(ct, [0, 0, 0, ''])) + [0])[1] - (list(meses[m].get(ct, [0, 0, 0, ''])) + [0])[2]) < 1 for ct, _ in CONTAS)
+            rs.cell(r, j, 'Sim' if ok else 'Não').font = F(bold=True)
         rs.cell(r, j).alignment = Alignment(horizontal='center')
     rs.column_dimensions['A'].width = 8; rs.column_dimensions['B'].width = 38
     for j in range(3, 3 + len(cols)): rs.column_dimensions[rs.cell(4, j).column_letter].width = 13
@@ -86,7 +91,8 @@ def fechamento(cfg, dst):
         for i, (ct, nm) in enumerate(CONTAS, 5):
             v = list(d.get(ct, [0, 0, 0, ''])) + [0]
             fo, tx, aj, ex, ou = v[:5]
-            vals = [ct, nm, fo, tx, aj, f'=D{i}+E{i}', ou, f'=IF(ABS(C{i}+G{i}-F{i})<1,"Sim","Não")', ex]
+            cor = round(tx + aj, 2)
+            vals = [ct, nm, fo, tx, aj, cor, ou, 'Sim' if abs(fo + ou - cor) < 1 else 'Não', ex]
             for c, v in enumerate(vals, 1):
                 x = ws.cell(i, c, v); x.font = F(); x.border = B
                 x.alignment = Alignment(horizontal='left' if c in (2, 9) else 'center', vertical='center', wrap_text=c == 9)
@@ -95,8 +101,8 @@ def fechamento(cfg, dst):
         t = 6 + n
         ws.cell(t, 1, 'Salários + Indenizações + Férias + Estágios a pagar').font = F(bold=True)
         ws.cell(t + 1, 2, 'Total').font = F(bold=True)
-        for c, col in ((3, 'C'), (4, 'D'), (6, 'F'), (7, 'G')):
-            x = ws.cell(t + 1, c, f'={col}5+{col}6+{col}7+{col}8'); x.font = F(bold=True); x.number_format = '#,##0.00'
+        for c in (3, 4, 6, 7):
+            x = ws.cell(t + 1, c, round(sum(ws.cell(rr, c).value or 0 for rr in (5, 6, 7, 8)), 2)); x.font = F(bold=True); x.number_format = '#,##0.00'
         for c, w in zip('ABCDEFGHI', [8, 34, 16, 15, 13, 16, 16, 10, 90]): ws.column_dimensions[c].width = w
         ws.freeze_panes = 'C5'
     wb.calculation.fullCalcOnLoad = True; wb.save(dst)
