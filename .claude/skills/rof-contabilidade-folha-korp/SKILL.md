@@ -19,13 +19,27 @@ O TXT de um mês pode trazer lançamentos de competência de outro mês (rescis�
 
 Antes de gerar o TXT, **avaliar os lançamentos e apresentar as correções**; perguntar só o que não dá para decidir (CC novo, lançamento sem origem no extrato, conta inexistente no grupo). Não inventar conta nem centro de custo.
 
+## REGRA OBRIGATÓRIA — centro de custo nos DOIS lados de TODO lançamento (Matriz e Filial)
+
+**A Korp só grava o lado do lançamento que tem registro 05 (centro de custo).** Lado sem 05 = valor que não entra na Korp. Confirmado em 09/2026: Filial 05/2026 importada sem CC nas contas 2530/2531/2533/3137 → a Korp gravou só os débitos (ex.: lançamento 150672 com D 2885 56,80 e sem o C 2531) e ficaram de fora os créditos de FGTS, INSS, IRRF e consignado; Matriz 08/2026 → 3 lançamentos sem nenhum 05 tiveram de ser lançados à mão.
+
+Vale igualmente para **Matriz e Filial**, em todo TXT gerado:
+1. Cada registro 03 leva **dois** registros 05: um com o CC no lado débito e outro com o CC no lado crédito.
+2. **Todas as contas** levam CC — inclusive **2530 FGTS, 2531 INSS, 2533 IRRF, 3137 consignado**, 2521, 2523, 2524, 2526 e 2463.
+3. O lado que vem **sem CC do Domínio** herda o CC do outro lado do mesmo lançamento (ex.: D 2885 CC337 / C 2531 CC337). Na Matriz o Domínio manda o CC só de um lado nesses lançamentos — completar sempre.
+4. Lançamento que o Domínio exporta **sem nenhum 05** (ex.: compensação de salário-maternidade D 2531 / C 2996; INSS de rescisão D 2523 / C 2531): dar o CC do funcionário/bloco (`cc_seq` no config; se não houver, o gerador herda do lançamento vizinho e imprime AVISO — conferir).
+5. Completar o CC **não altera valor nenhum**: ao regerar um TXT já entregue, comparar com a versão anterior — mesmos lançamentos 03 (contas, valores, datas, históricos, cabeçalho) e só registros 05 a mais. Os saldos de 2530/2531/2533/3137 na Korp sobem porque passam a entrar, não porque mudaram.
+6. Se um TXT já foi importado sem esses 05: o preferido é **apagar a importação na Korp e subir o TXT completo corrigido** (feito em 05/2026 da Filial). Se não der para apagar, gerar o **complemento** (`"complemento": [contas]` no `gera_txt_korp.py`), que traz só os lados que faltaram — nunca reimportar o TXT inteiro por cima.
+
+O `scripts/gera_txt_korp.py` já aplica os itens 1–4 automaticamente para as duas empresas.
+
 ## Empresas
 
 | | Matriz | Filial |
 |---|---|---|
 | Código Domínio | 0000140 | 0000145 |
 | CNPJ (registro 01) | 03623045000100 | 03623045000291 |
-| Registro 05 (CC) no TXT do Domínio | vem preenchido (CC 1–6) | **não vem** — reconstruir |
+| Registro 05 (CC) no TXT do Domínio | vem com CC 1–6, mas só de um lado em FGTS/INSS/IRRF/consignado e às vezes ausente — completar os dois lados | **não vem** — reconstruir os dois lados |
 
 O Domínio exporta **um único TXT com as duas empresas** sob o cabeçalho da Matriz. O código da empresa está no final do histórico do registro 03 (**colunas 558–564**). Separar por empresa e gerar um TXT para cada, com o cabeçalho (código + CNPJ) da própria empresa.
 
@@ -70,13 +84,7 @@ Tabela da Korp: 320 ADM GERAL · 337 DESENVOLVIMENTO EM GERAL · 345 SUPORTE EM 
 
 CC novo sem de-para: não inventar — perguntar ao usuário e acrescentar aqui.
 
-**Formato:** código Korp alinhado à esquerda com espaços até 7 caracteres (`CC337  `). Cada lançamento 03 leva **dois** registros 05: um com o CC no lado débito (col. 10–16, crédito `0000000`) e outro com o CC no lado crédito (col. 17–23, débito `0000000`).
-
-**TODAS as contas levam CC, dos dois lados — inclusive 2530, 2531, 2533 e 3137.** Confirmado na Korp em 09/2026: **a Korp só grava o lado do lançamento que tem registro 05**. No TXT de 05/2026 da Filial (e no padrão antigo da Matriz) as contas 2530/2531/2533/3137 ficaram sem 05 e a Korp não gravou os créditos de FGTS, INSS, IRRF e consignado (ex.: lançamento 150672 só com D 2885 56,80, sem o C 2531). O lado que não tem CC no Domínio herda o CC do outro lado do mesmo lançamento.
-
-**Lançamento que o Domínio exporta sem nenhum registro 05** (visto na Matriz 08/2026: compensação da dedução de salário-maternidade D 2531 / C 2996 e INSS de rescisão D 2523 / C 2531): a Korp não grava nada desse lançamento e ele teve de ser lançado à mão. O gerador agora dá CC a eles — pelo `cc_seq` do config ou, se não houver, herdando o CC do lançamento vizinho (imprime AVISO para conferir). Salário-maternidade: CC do funcionário afastado (08/2026: CC644); INSS de rescisão: CC do bloco da rescisão.
-
-**TXT já importado com lado faltando:** não reimportar o TXT inteiro (duplicaria o lado já gravado). Gerar um **complemento** com `"complemento": [contas]` no `gera_txt_korp.py`: só os lançamentos dessas contas, com 05 apenas no lado delas — a Korp grava só o lado que faltou. Arquivo: `Folha_Korp_<Empresa>_MM-AAAA_COMPLEMENTO_encargos.txt`. Verificar a Matriz: os TXTs já importados no padrão antigo têm o mesmo problema.
+**Formato:** código Korp alinhado à esquerda com espaços até 7 caracteres (`CC337  `). Cada lançamento 03 leva **dois** registros 05: um com o CC no lado débito (col. 10–16, crédito `0000000`) e outro com o CC no lado crédito (col. 17–23, débito `0000000`) — ver a REGRA OBRIGATÓRIA acima.
 
 **Filial — como achar o CC de cada lançamento:** o TXT vem em blocos por CC, na ordem do extrato. Cada bloco da folha mensal termina com o INSS patronal (INSS Empresa/Terceiros/Acid. Trabalho). Confirmar o bloco batendo o `I.N.S.S.` descontado do bloco com o "Segurados" do CC no extrato. Blocos com outra data no registro 02 (férias, rescisões) pertencem ao CC do funcionário no extrato.
 
@@ -111,7 +119,7 @@ Com `scripts/extrato.py` somar por CC/funcionário/rubrica e comparar com o TXT 
 4. FGTS 2530 = "Valor do FGTS"; conferir o FGTS rescisório à parte. IRRF 2533; consignado 3137 (rubricas 714/717/721/730/9750); adiantamento de férias 2463 (937).
 5. Toda rubrica do extrato tem lançamento no TXT (procurar férias, rescisões e adiantamentos que não saíram).
 6. Toda conta do TXT existe no plano Korp (ex.: 252/253 não existem — código truncado de 2523).
-7. Após gerar o TXT: todo lançamento com 05 nos dois lados; mesmo tamanho de registro (01=55, 02=165, 03=664, 05=138, 99=100), cp1252 + CRLF, nenhum CC numérico remanescente, passivos fechando com o extrato.
+7. Após gerar o TXT: **todo lançamento com 05 nos dois lados (Matriz e Filial)**; simular o que a Korp grava (somar só os lados com 05) e bater com o fechamento; mesmo tamanho de registro (01=55, 02=165, 03=664, 05=138, 99=100), cp1252 + CRLF, nenhum CC numérico remanescente, passivos fechando com o extrato.
 
 ## Erros recorrentes da integração da Filial (verificar primeiro — 05 e 06/2026)
 
