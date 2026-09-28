@@ -107,7 +107,10 @@ Decisões já confirmadas pelo usuário:
 - Adiantamento de férias (937) descontado na folha: **D 2524 / C 2463**.
 - Reembolso (617) pago ao funcionário do Suporte na folha: **D 2891 / C 2521** (mantido).
 - Vale-refeição não utilizado (657) na rescisão do Suporte (CC 8): **D 2523 / C 3146** (Ajuda de Custo do Suporte).
-- Rescisão: proventos a crédito de **2523**; INSS da rescisão D 2523 / C 2531.
+- Rescisão: proventos (saldo, aviso, férias, 13º, médias, HE, ajuda) a crédito de **2523** — mesmo quando o Domínio manda para 2521/2524/2525; descontos da rescisão (contribuição, faltas, VR/VA/ajuda não utilizados, INSS) a débito de **2523**. FGTS da rescisão (inclusive de aviso prévio) C **2530**.
+- VR/VA/ajuda de custo não utilizados na rescisão: **D 2523 / C Ajuda de Custo do grupo** (DES 2888; Suporte 3146).
+- Consignado (crédito do trabalhador) com provisão/estorno (9752/9754) e "PROVISAO DESC. EMP. CRED. TRAB." no cálculo de férias: **excluir do TXT** a provisão e o estorno; manter só os descontos efetivos (9750/9751, 714/717/721/730) — o 3137 tem de fechar com o extrato (confirmado em 08/2026).
+- Diferença de férias paga na folha (940/8112/8189): D conta de férias do grupo / **C 2521**.
 
 ## Conferência obrigatória (extrato × TXT × balancete)
 
@@ -152,6 +155,8 @@ Erros novos em 07/2026 (Filial):
 | 7 (rescisão) | 250 Reflexo extras DSR | D 2905 | D 2904 |
 | 10 | 8490/8496 Bolsa auxílio férias (rescisão estágio) | D 3017 / C 2524 | D 2995 / C 2526 |
 | 16 | 8490/8496/8797 (rescisão estágio) | D 3146 / C 2521 | D 2910 / C 2526 |
+
+Erros novos em 08/2026 (Filial): rescisão (CC 7) com verbas creditadas em 2521/2524/2525; INSS da rescisão (826) D 2885; VR não utilizado (657) D 2888 / C 2934 (invertido e em conta da Qualidade); FGTS de aviso prévio C 2533 (IRRF); conta **2855** inexistente no INSS patronal (é 2885); FGTS férias D 2885 (é 2886); horas extras do ADM (CC 10) C 2524; adiantamentos de férias (937) não exportados; consignado com provisão/estorno lançados no cálculo de férias.
 
 Rescisões inteiras podem não sair no TXT (06/2026: Antônio Henrique, CC 7, demitido em 30/06) — conferir cada funcionário "Demitido" do extrato. O FGTS da rescisão está no "Valor FGTS" da linha do funcionário e no "Valor FGTS Rescisório" do total do extrato (fica fora do "Valor do FGTS" geral).
 
