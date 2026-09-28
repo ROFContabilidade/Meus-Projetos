@@ -65,7 +65,7 @@ Tabela da Korp: 320 ADM GERAL · 337 DESENVOLVIMENTO EM GERAL · 345 SUPORTE EM 
 | 8, 16 | SD SUPORTE, SD INFRAESTRUTURA | CC345 |
 | 9 | CONSULTORIA INTERNA E GP | CC644 |
 | 10 | ADM FINANCEIRO | CC320 |
-| 1 | GERAL (estagiário, contas do ADM) | CC320 (usado em 07/2026 — confirmar com o usuário) |
+| 1 | GERAL (estagiário, contas do ADM) | CC320 |
 | 14 | QUALIDADE | CC506 |
 
 CC novo sem de-para: não inventar — perguntar ao usuário e acrescentar aqui.
