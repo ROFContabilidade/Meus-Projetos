@@ -1,3 +1,4 @@
+# Uso: python txt_dominio.py Folha.txt [empresa]  (140 Matriz, 145 Filial)
 import sys,pickle
 from collections import Counter
 def parse(path):
@@ -15,4 +16,4 @@ if __name__=='__main__':
     print(repr(L[0]), Counter((l[:2],len(l)) for l in L))
     print(Counter(e['e'] for e in ents), Counter(e['date'] for e in ents))
     for e in ents:
-        if e['e']=='0000145': print(e['seq'],e['date'][:5],e['d'][3:],e['c'][3:],f"{e['v']/100:10.2f}",e['h'][:34], 'CC' if e['cc'] else '')
+        if len(sys.argv)<3 or e['e']==sys.argv[2].zfill(7): print(e['e'][3:],e['seq'],e['date'][:5],e['d'][3:],e['c'][3:],f"{e['v']/100:10.2f}",e['h'][:34], 'CC' if e['cc'] else '')
