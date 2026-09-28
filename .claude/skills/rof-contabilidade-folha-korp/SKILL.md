@@ -10,10 +10,12 @@ Use quando Everton/Rosangela enviarem o TXT da folha exportado do Domínio para 
 ## Entregas padrão (sempre as 3, para Matriz e Filial)
 
 1. **Planilha de correções** da integração no Domínio — `Integracao_Dominio_Korp_<Empresa>_MM-AAAA.xlsx`
-2. **Planilha de fechamento das contas patrimoniais** — `Fechamento_Folha_Korp_<Empresa>_AAAA.xlsx` (um arquivo por ano; cada mês novo vira uma aba e uma coluna no Resumo)
+2. **Planilha de fechamento das contas patrimoniais** — `Fechamento_Folha_Korp_<Empresa>_MM-AAAA.xlsx` (um arquivo por mês)
 3. **TXT corrigido** — `Folha_Korp_<Empresa>_MM-AAAA.txt` (só a empresa em questão)
 
-Salvar em `Korp/<Matriz|Filial>/<AAAA-MM>/` no repositório (o fechamento anual em `Korp/<Empresa>/`), fazer commit/push e enviar os arquivos ao usuário (SendUserFile). O TXT não vai para o Google Drive pelo conector (tamanho + precisa manter ANSI).
+**Cada mês é separado — não misturar meses.** Os 3 arquivos de cada mês ficam em `Korp/<Matriz|Filial>/<AAAA-MM>/` no repositório; fazer commit/push e enviar os arquivos ao usuário (SendUserFile). O TXT não vai para o Google Drive pelo conector (tamanho + precisa manter ANSI).
+
+O TXT de um mês pode trazer lançamentos de competência de outro mês (rescisão com demissão no último dia exportada no mês seguinte; férias pagas no fim do mês para gozo no mês seguinte; rescisão que só sai no TXT do mês seguinte). **Não mover lançamentos entre TXTs**: o TXT corrigido de cada mês contém o que o Domínio exportou naquele mês (com as contas corrigidas). Na planilha de fechamento esses valores ficam na coluna "Competência de outros meses", e na planilha de correções como nota.
 
 Antes de gerar o TXT, **avaliar os lançamentos e apresentar as correções**; perguntar só o que não dá para decidir (CC novo, lançamento sem origem no extrato, conta inexistente no grupo). Não inventar conta nem centro de custo.
 
@@ -63,6 +65,7 @@ Tabela da Korp: 320 ADM GERAL · 337 DESENVOLVIMENTO EM GERAL · 345 SUPORTE EM 
 | 8, 16 | SD SUPORTE, SD INFRAESTRUTURA | CC345 |
 | 9 | CONSULTORIA INTERNA E GP | CC644 |
 | 10 | ADM FINANCEIRO | CC320 |
+| 1 | GERAL (estagiário, contas do ADM) | CC320 (usado em 07/2026 — confirmar com o usuário) |
 | 14 | QUALIDADE | CC506 |
 
 CC novo sem de-para: não inventar — perguntar ao usuário e acrescentar aqui.
@@ -125,6 +128,19 @@ Com `scripts/extrato.py` somar por CC/funcionário/rubrica e comparar com o TXT 
 | 13 | 8781 histórico | "DESC VALE REFEIÇÃO" | "DIAS NORMAIS" (só histórico) |
 | 5 | 302 histórico | "HORAS EXTRAS 50%" | "HORAS EXTRAS 75%" (só histórico) |
 
+Erros novos em 07/2026 (Filial):
+
+| CC | Rubrica | Como vem | Correto |
+|---|---|---|---|
+| 5 | 853 Reflexo comissões DSR | C 2524 | C 2521 |
+| 5 | 940/8112/8189 Diferença de férias | D 2867 / C 2524 | D 2576 / C 2521 |
+| 5, 8 | 812 INSS férias (cálculo de férias) | C conta de despesa (2576/3017) | C 2531 |
+| 8 | Férias pagas no fim do mês (cálculo de férias) | D 3017 | D 3152 |
+| 7 (rescisão) | 250 Reflexo extras DSR | D 2905 | D 2904 |
+| 10 | 8490/8496 Bolsa auxílio férias (rescisão estágio) | D 3017 / C 2524 | D 2995 / C 2526 |
+| 16 | 8490/8496/8797 (rescisão estágio) | D 3146 / C 2521 | D 2910 / C 2526 |
+| 8 | 617 Reembolso | D 2891 | a confirmar |
+
 Rescisões inteiras podem não sair no TXT (06/2026: Antônio Henrique, CC 7, demitido em 30/06) — conferir cada funcionário "Demitido" do extrato. O FGTS da rescisão está no "Valor FGTS" da linha do funcionário e no "Valor FGTS Rescisório" do total do extrato (fica fora do "Valor do FGTS" geral).
 
 No Domínio a integração é por **centro de custo → lançamento (conta débito, conta crédito, histórico) → rubricas selecionadas**; abas Folha (rubricas), Rescisão, Empresa (encargos patronais), Provisão de Férias/13º etc. A planilha de correções indica CC + rubrica + aba para o usuário corrigir lá.
@@ -133,7 +149,7 @@ No Domínio a integração é por **centro de custo → lançamento (conta débi
 
 **Correções** (uma linha por CC + rubrica, com o CC como aparece no extrato): Valor · CC Domínio · Rubrica (código - nome do extrato) · Aba Domínio · Débito atual · Crédito atual · Débito sugerido · Crédito sugerido · Já ocorreu no mês anterior? · Nota · **Corrigido?** (Sim/Não, amarelo) · **Observação** (amarelo). Rodapé: total (fórmula) e "Corrigidos: X de N". "Não lançado" quando a rubrica não saiu no TXT; "Confirmar" (laranja) quando depende do usuário. Simples, sem poluição.
 
-**Fechamento patrimonial** — contas 2521, 2523, 2524, 2526, 2530, 2531, 2533, 3137, 2463 (sem contas de resultado). Aba "Resumo" (contas × meses) + uma aba por mês com: Valor pela folha (extrato) · Valor no TXT · Diferença · Ajustes identificados · TXT após ajustes · Confere? · Composição dos ajustes. Valores = movimento do mês (crédito − débito).
+**Fechamento patrimonial** (um arquivo por mês) — contas 2521, 2523, 2524, 2526, 2530, 2531, 2533, 3137, 2463 (sem contas de resultado). Colunas: Valor pela folha (extrato do mês) · Valor no TXT do Domínio · Correções de conta · TXT corrigido (lançado na Korp) · Competência de outros meses no TXT · Confere? (folha + outros meses = TXT corrigido, tolerância R$ 1) · Composição. Valores = movimento do mês (crédito − débito).
 
 ## Scripts (`scripts/`)
 
