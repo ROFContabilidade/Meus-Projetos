@@ -19,6 +19,16 @@ O TXT de um mês pode trazer lançamentos de competência de outro mês (rescis�
 
 Antes de gerar o TXT, **avaliar os lançamentos e apresentar as correções**; perguntar só o que não dá para decidir (CC novo, lançamento sem origem no extrato, conta inexistente no grupo). Não inventar conta nem centro de custo.
 
+## Passo a passo de cada mês (Matriz e Filial)
+
+1. **Pedir/receber:** TXT do Domínio (`Folha.txt`, vem com Matriz 140 e Filial 145 juntas) e balancete do mês (`Balancete_MM.AA.xls`). **Buscar no Google Drive** o extrato da folha: `Filial_Extrato Mensal_MM.AA.xlsx` / `Matriz_Extrato Mensal_MM.AA.xlsx` (pasta Korp, id `1qjpoKwo5uI4PtIKBkCLpuE7tf9h6tNcY`).
+2. **Separar a empresa** pedida (colunas 558–564 do registro 03) — nunca misturar Matriz e Filial.
+3. `scripts/extrato.py` no extrato e `scripts/txt_dominio.py <Folha.txt> 145|140` no TXT; mapear os blocos de CC (Filial) e comparar funcionário × rubrica × conta.
+4. **Primeiro verificar a tabela de erros recorrentes** (abaixo) e as **pendências do mês anterior** (seção Histórico); depois procurar erros novos: conta errada para o grupo, lançamento invertido, conta inexistente, rubrica que não saiu, rescisões/férias/adiantamentos.
+5. Apresentar as correções e perguntar só o que não dá para decidir. Registrar aqui toda decisão nova do usuário.
+6. Montar `txt_config.json`, `correcoes.json`, `fechamento.json` e gerar as 3 entregas (`gera_txt_korp.py`, `planilhas.py`). Conferir: CC nos 2 lados, simulação do que a Korp grava = coluna "TXT corrigido" do fechamento, "Confere? = Sim" em todas as contas.
+7. Salvar em `Korp/<Empresa>/<AAAA-MM>/` (as 3 entregas) e `.../config/` (os 3 JSON + `Folha_Dominio_original.txt`), commit/push, enviar os arquivos (SendUserFile) e **atualizar a seção Histórico** desta skill com status e pendências.
+
 ## REGRA OBRIGATÓRIA — centro de custo nos DOIS lados de TODO lançamento (Matriz e Filial)
 
 **A Korp só grava o lado do lançamento que tem registro 05 (centro de custo).** Lado sem 05 = valor que não entra na Korp. Confirmado em 09/2026: Filial 05/2026 importada sem CC nas contas 2530/2531/2533/3137 → a Korp gravou só os débitos (ex.: lançamento 150672 com D 2885 56,80 e sem o C 2531) e ficaram de fora os créditos de FGTS, INSS, IRRF e consignado; Matriz 08/2026 → 3 lançamentos sem nenhum 05 tiveram de ser lançados à mão.
@@ -47,7 +57,7 @@ O Domínio exporta **um único TXT com as duas empresas** sob o cabeçalho da Ma
 
 | Arquivo | Onde | Como ler |
 |---|---|---|
-| Extrato Mensal da folha (`Filial_Extrato Mensal_MM.AA.xlsx`) | Google Drive (buscar pelo título) | `scripts/extrato.py` — CC, funcionário, rubrica (código, nome, P/D), encargos por CC |
+| Extrato Mensal da folha (`Filial_Extrato Mensal_MM.AA.xlsx` / `Matriz_Extrato Mensal_MM.AA.xlsx`) | Google Drive, pasta Korp (buscar pelo título; baixar com `download_file_content` e decodificar o base64) | `scripts/extrato.py` — CC, funcionário, rubrica (código, nome, P/D), encargos por CC |
 | TXT da folha (`Folha.txt`) | anexo do usuário | `scripts/txt_dominio.py` — registros 02/03/05, cp1252 |
 | Balancete (`Balancete_MM.AA.xls`) | anexo do usuário | `python_calamine` (o xls do Domínio não abre com xlrd/LibreOffice) |
 | Plano de contas Korp (`Plano_de_Contas.xls`) | anexo do usuário | `python_calamine`; conferir se a conta existe, é analítica e não é "NAO USAR" |
@@ -124,7 +134,7 @@ Com `scripts/extrato.py` somar por CC/funcionário/rubrica e comparar com o TXT 
 6. Toda conta do TXT existe no plano Korp (ex.: 252/253 não existem — código truncado de 2523).
 7. Após gerar o TXT: **todo lançamento com 05 nos dois lados (Matriz e Filial)**; simular o que a Korp grava (somar só os lados com 05) e bater com o fechamento; mesmo tamanho de registro (01=55, 02=165, 03=664, 05=138, 99=100), cp1252 + CRLF, nenhum CC numérico remanescente, passivos fechando com o extrato.
 
-## Erros recorrentes da integração da Filial (verificar primeiro — 05 e 06/2026)
+## Erros recorrentes da integração da Filial (verificar primeiro — vistos de 05 a 08/2026; enquanto o Domínio não for corrigido, repetem todo mês)
 
 | CC | Rubrica | Como vem | Correto |
 |---|---|---|---|
@@ -162,9 +172,33 @@ Rescisões inteiras podem não sair no TXT (06/2026: Antônio Henrique, CC 7, de
 
 No Domínio a integração é por **centro de custo → lançamento (conta débito, conta crédito, histórico) → rubricas selecionadas**; abas Folha (rubricas), Rescisão, Empresa (encargos patronais), Provisão de Férias/13º etc. A planilha de correções indica CC + rubrica + aba para o usuário corrigir lá.
 
+## Histórico e status (atualizar a cada mês)
+
+**Filial (145)** — arquivos em `Korp/Filial/<AAAA-MM>/`; configs para regerar em `.../config/` (regerar com `gera_txt_korp.py config/Folha_Dominio_original.txt config/txt_config.json saída.txt` reproduz o TXT entregue byte a byte).
+
+| Mês | Situação | Observações |
+|---|---|---|
+| 05/2026 | TXT corrigido **reimportado** na Korp (a 1ª importação, sem CC em 2530/2531/2533/3137, foi apagada) | Férias da Atalia e adiantamentos de férias (Ana, Atalia, Fernanda) incluídos; Fernanda com férias lançadas em 3017 → 3152 |
+| 06/2026 | TXT corrigido entregue (CC nos 2 lados) | Horas extras 100% do Bruno (165,36 + DSR 39,37) mantidas por decisão, apesar de fora do extrato; rescisão do Antônio Henrique (competência 06) saiu no TXT de 07; VR não utilizado do CC 8 → C 3146 |
+| 07/2026 | TXT corrigido entregue | Contém a rescisão do Antônio (09/07, competência 06) e as férias da Fernanda pagas em 31/07 (gozo em 08); faltou a rescisão de estágio da Isabele (veio no TXT de 08); reembolso 617 mantido em 2891; CC 1 GERAL = CC320 |
+| 08/2026 | TXT corrigido entregue | Consignado da Ana: estorno (459,65) e provisão de férias (919,30) excluídos; rescisão Alyson/Wendel reclassificada para 2523; adiantamentos (Matheus, Ana, Fernanda) incluídos; Isabele recontratada em 03/08 como celetista no CC 10 (contas ADM 2994/2996/2997/3144) |
+
+**Pendências para 09/2026 (Filial) — conferir no TXT de setembro:**
+- Rescisões de **Guilherme Tinti (CC 4, 24/08)**, **Enzo Muniz (CC 8, 27/08)** e **Wellington Cordeiro (CC 8, 28/08)** não saíram no TXT de 08: líquido 9.151,01 / 6.958,54 / 8.591,25; FGTS 1.669,39 / 1.988,87 / 595,93; INSS 311,41 / 344,70 / 367,54; consignado do Enzo 2.416,71. Devem vir no TXT de 09 — lançar em 2523 (CC379 / CC345) e tratar como "competência de outros meses".
+- Férias do **Matheus (CC 7)** e da **Ana Paula (CC 8)** foram pagas inteiras em 08 (TXT de 08); a parte de 09 aparece no extrato de 09 sem lançamento novo — não duplicar (INSS 223,90 / 308,26; IRRF 228,13 / 146,48).
+- Integração do Domínio ainda não corrigida (a usuária está corrigindo pela planilha de correções) — verificar se os erros recorrentes sumiram.
+
+**Matriz (140)** — extratos no Drive: `Matriz_Extrato Mensal_05.26/06.26/07.26.xlsx` (08 não está no Drive).
+
+| Mês | Situação | Observações |
+|---|---|---|
+| até 08/2026 | Importados na Korp pelo padrão antigo (só troca de CC 1–6 → Korp) | Contrapartidas sem CC não entraram e foram **lançadas à mão** pela usuária — **não gerar complemento** para esses meses (duplicaria) |
+| 08/2026 | `Folha_Korp_140_corrigida.txt` (cópia em `Korp/Matriz/2026-08/config/`) | 248 de 251 lançamentos com CC nos 2 lados; 3 sem nenhum 05 ficaram fora e foram lançados à mão: compensação de salário-maternidade D 2531 / C 2996 8.124,60 (CC644) e INSS de rescisão D 2523 / C 2531 319,41 + 230,81 (CC337). Observação a revisar: rescisão com conta 3012 (Provisões Qualidade) e CC337 (Desenvolvimento) — conta e CC de grupos diferentes |
+| 09/2026 em diante | Gerar pelo padrão completo (3 entregas) com `cc_map` 1–6 e CC nos dois lados | Config de exemplo: `{"empresa":"0000140","cnpj":"03623045000100","cc_map":{"0000001":"CC337","0000002":"CC506","0000003":"CC345","0000004":"CC644","0000005":"CC320","0000006":"CC379"}}` |
+
 ## Formato das planilhas
 
-**Correções** (uma linha por CC + rubrica, com o CC como aparece no extrato): Valor · CC Domínio · Rubrica (código - nome do extrato) · Aba Domínio · Débito atual · Crédito atual · Débito sugerido · Crédito sugerido · Já ocorreu no mês anterior? · Nota · **Corrigido?** (Sim/Não, amarelo) · **Observação** (amarelo). Rodapé: total (fórmula) e "Corrigidos: X de N". "Não lançado" quando a rubrica não saiu no TXT; "Confirmar" (laranja) quando depende do usuário. Simples, sem poluição.
+**Correções** (uma linha por CC + rubrica, com o CC como aparece no extrato): Valor · CC Domínio · Rubrica (código - nome do extrato) · Aba Domínio · Débito atual · Crédito atual · Débito sugerido · Crédito sugerido · Já ocorreu no mês anterior? · Nota · **Corrigido?** (Sim/Não, amarelo) · **Observação** (amarelo). Rodapé: total (valor) e "Corrigidos: X de N" (fórmula). "Não lançado" quando a rubrica não saiu no TXT; "Confirmar" (laranja) quando depende do usuário. Simples, sem poluição.
 
 **Fechamento patrimonial** (um arquivo por mês) — contas 2521, 2523, 2524, 2526, 2530, 2531, 2533, 3137, 2463 (sem contas de resultado). Colunas: Valor pela folha (extrato do mês) · Valor no TXT do Domínio · Correções de conta · TXT corrigido (lançado na Korp) · Competência de outros meses no TXT · Confere? (folha + outros meses = TXT corrigido, tolerância R$ 1) · Composição. Valores = movimento do mês (crédito − débito).
 
