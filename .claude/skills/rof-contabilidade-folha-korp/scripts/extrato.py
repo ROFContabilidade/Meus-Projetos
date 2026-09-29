@@ -4,7 +4,9 @@ def num(x):
     if isinstance(x,(int,float)): return float(x)
     return float(str(x).replace('.','').replace(',','.'))
 def parse(path):
-    ws=openpyxl.load_workbook(path,data_only=True).active
+    wb=openpyxl.load_workbook(path,data_only=True)
+    # usar a aba do extrato (o arquivo do Drive pode ter abas extras, ex.: fechamento colado pela usuária)
+    ws=next((w for w in wb if w.title.strip().lower().startswith('extrato')), wb.worksheets[0])
     cc=None; emp=None; mode=None
     E=defaultdict(lambda: defaultdict(float))   # (cc,emp) -> {(cod,nome,PD):valor}
     CCS={}; enc=defaultdict(dict); resumo={}
