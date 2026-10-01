@@ -11,6 +11,9 @@ copy /Y "%~dp0agendar_tarefa.ps1"     "%DESTINO%\" >nul || goto erro
 copy /Y "%~dp0EXECUTAR_AGORA.bat"     "%DESTINO%\" >nul
 copy /Y "%~dp0TESTAR_SIMULACAO.bat"   "%DESTINO%\" >nul
 copy /Y "%~dp0LEIA-ME.md"             "%DESTINO%\" >nul
+copy /Y "%~dp0desfazer_copia.ps1"     "%DESTINO%\" >nul
+copy /Y "%~dp0DESFAZER_EMPRESA_ERRADA.bat" "%DESTINO%\" >nul
+copy /Y "%~dp0DESFAZER_TUDO.bat"      "%DESTINO%\" >nul
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem '%DESTINO%' | Unblock-File"
 
 echo.

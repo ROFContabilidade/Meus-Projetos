@@ -5,8 +5,9 @@
 
   Para cada empresa da origem, procura no destino a pasta com o MESMO NUMERO.
   Procura (em qualquer subpasta da empresa na origem) as pastas mensais no
-  formato MM_AAAA (ex.: 08_2026) e copia para FISCAL\AAAA as que ainda NAO
-  existem no destino. Meses que ja existem no destino nao sao alterados.
+  formato MM_AAAA (ex.: 08_2026) e copia para FISCAL\AAAA somente os meses
+  POSTERIORES ao ultimo mes que ja existe no destino e anteriores ao mes atual.
+  Meses que ja existem no destino nao sao alterados.
   Nunca apaga nem sobrescreve nada.
 
   Uso:
@@ -31,11 +32,15 @@ function Escrever([string]$msg) {
     Add-Content -Path $log -Value $linha -Encoding UTF8
 }
 
-# Numero da empresa = digitos no inicio do nome da pasta ("67 - X" ou "67_X" -> 67)
+# Numero da empresa = digitos no inicio do nome, seguidos de " ", "-" ou "_"
+# ("67 - X" ou "67_X" -> 67). "01.2_Backup" NAO vira 1.
 function NumeroEmpresa([string]$nome) {
-    if ($nome -match '^\s*(\d+)') { return [int]$Matches[1] }
+    if ($nome -match '^\s*(\d+)\s*[-_ ]') { return [int]$Matches[1] }
     return $null
 }
+
+# 08_2026 -> 202608
+function ChaveMes([string]$nome) { return [int]$nome.Substring(3, 4) * 100 + [int]$nome.Substring(0, 2) }
 
 Escrever "==== Inicio $(if ($Simular) {'(SIMULACAO - nada sera copiado)'}) ===="
 
@@ -54,11 +59,13 @@ foreach ($p in @($Origem, $Destino)) {
 }
 
 # Indexa as empresas do destino pelo numero
-$destinos = @{}
+$destinos = @{}; $duplicados = @{}
 foreach ($d in Get-ChildItem -LiteralPath $Destino -Directory) {
     $n = NumeroEmpresa $d.Name
-    if ($null -ne $n -and -not $destinos.ContainsKey($n)) { $destinos[$n] = $d.FullName }
+    if ($null -eq $n) { continue }
+    if ($destinos.ContainsKey($n)) { $duplicados[$n] = $true } else { $destinos[$n] = $d.FullName }
 }
+$mesAtual = (Get-Date).Year * 100 + (Get-Date).Month
 
 $totalMeses = 0; $semDestino = @(); $erros = 0
 foreach ($emp in Get-ChildItem -LiteralPath $Origem -Directory | Sort-Object Name) {
@@ -66,7 +73,21 @@ foreach ($emp in Get-ChildItem -LiteralPath $Origem -Directory | Sort-Object Nam
     if ($null -eq $n) { Escrever "Ignorada (nome sem numero): $($emp.Name)"; continue }
     if (-not $destinos.ContainsKey($n)) { $semDestino += $emp.Name; continue }
 
+    if ($duplicados.ContainsKey($n)) {
+        Escrever "  ATENCAO [$($emp.Name)] mais de uma pasta com o numero $n em '$Destino' - empresa ignorada"
+        continue
+    }
     $alvoEmpresa = $destinos[$n]
+
+    # Ultimo mes que ja existe no destino (FISCAL\AAAA\MM_AAAA). So copia meses DEPOIS dele.
+    $existentes = @(Get-ChildItem -LiteralPath (Join-Path $alvoEmpresa $SubpastaDestino) -Directory -ErrorAction SilentlyContinue |
+        Get-ChildItem -Directory -ErrorAction SilentlyContinue |
+        Where-Object { $_.Name -match '^(0[1-9]|1[0-2])_(\d{4})$' } | ForEach-Object { ChaveMes $_.Name })
+    if ($existentes.Count -eq 0) {
+        Escrever "  ATENCAO [$($emp.Name)] nenhum mes em '$alvoEmpresa\$SubpastaDestino' - empresa ignorada (copie o primeiro mes manualmente)"
+        continue
+    }
+    $ultimo = ($existentes | Measure-Object -Maximum).Maximum
     $meses = Get-ChildItem -LiteralPath $emp.FullName -Directory -Recurse -ErrorAction SilentlyContinue |
         Where-Object { $_.Name -match '^(0[1-9]|1[0-2])_(\d{4})$' } |
         Sort-Object Name, FullName
@@ -80,7 +101,9 @@ foreach ($emp in Get-ChildItem -LiteralPath $Origem -Directory | Sort-Object Nam
             continue
         }
         $vistos[$alvoMes] = $m.FullName
-        if (Test-Path -LiteralPath $alvoMes) { continue }   # mes ja existe no destino
+        $chave = ChaveMes $m.Name
+        if ($chave -le $ultimo -or $chave -ge $mesAtual) { continue }   # mes antigo ou mes em andamento
+        if (Test-Path -LiteralPath $alvoMes) { continue }                # mes ja existe no destino
 
         $arquivos = @(Get-ChildItem -LiteralPath $m.FullName -File -Recurse -ErrorAction SilentlyContinue)
         $totalMeses++

@@ -6,7 +6,9 @@ para `I:\Meu Drive\EMPRESAS ATIVAS\<NUMERO_Nome>\FISCAL\<ANO>\`.
 
 - As empresas são casadas pelo **número** no início do nome (`67 - Ligiane Siqueira` ↔ `67_Ligiane Siqueira Estofados`).
 - Na origem, as pastas `MM_AAAA` são procuradas em qualquer subpasta da empresa.
-- Só copia meses que **ainda não existem** no destino. Nunca apaga nem sobrescreve nada.
+- Só copia os meses **depois do último mês que já existe** no destino (ex.: o I: tem até `07_2026` → copia `08_2026`, `09_2026`...), sem o mês em andamento. Nunca apaga nem sobrescreve nada.
+- Empresa sem nenhum mês no destino, ou com mais de uma pasta com o mesmo número, é ignorada (aparece como ATENÇÃO no log).
+- O número precisa vir seguido de espaço, `-` ou `_` (`01.2_Backup` **não** é a empresa 01).
 - Outras pastas (ex.: `Demonstrações Contabeis`) não são copiadas.
 - Grava um log de cada execução na pasta `logs`.
 
@@ -27,3 +29,10 @@ para `I:\Meu Drive\EMPRESAS ATIVAS\<NUMERO_Nome>\FISCAL\<ANO>\`.
 - O computador precisa estar ligado e com o usuário logado. Se estiver desligado às 07:00 do dia 2,
   a tarefa roda assim que o computador for ligado.
 - Para mudar o horário, altere `$horario` em `agendar_tarefa.ps1` e rode de novo.
+
+## Desfazer uma cópia
+
+- **DESFAZER_EMPRESA_ERRADA.bat**: apaga só as pastas que a última execução copiou para a empresa errada.
+- **DESFAZER_TUDO.bat**: apaga todas as pastas que a última execução copiou (volta como estava).
+
+Os dois mostram a lista antes e só apagam se você digitar `SIM`. No Google Drive, o que for apagado vai para a Lixeira do Drive.
