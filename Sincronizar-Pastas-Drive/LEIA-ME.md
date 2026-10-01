@@ -7,7 +7,8 @@ para `I:\Meu Drive\EMPRESAS ATIVAS\<NUMERO_Nome>\FISCAL\<ANO>\`.
 - As empresas são casadas pelo **número** no início do nome (`67 - Ligiane Siqueira` ↔ `67_Ligiane Siqueira Estofados`).
 - Na origem, as pastas `MM_AAAA` são procuradas em qualquer subpasta da empresa.
 - Só copia os meses **depois do último mês que já existe** no destino (ex.: o I: tem até `07_2026` → copia `08_2026`, `09_2026`...), sem o mês em andamento. Nunca apaga nem sobrescreve nada.
-- Empresa sem nenhum mês no destino, ou com mais de uma pasta com o mesmo número, é ignorada (aparece como ATENÇÃO no log).
+- Se houver mais de uma pasta com o mesmo número no destino (ex.: `01_Paes e Bastos` e `1_RBA Contabilidade`), usa a que tem o número escrito igual (`01`↔`01`, `1`↔`1`) ou, se ainda empatar, a que tem mais palavras do nome em comum.
+- Empresa sem nenhum mês no destino é ignorada (aparece como ATENÇÃO no log).
 - O número precisa vir seguido de espaço, `-` ou `_` (`01.2_Backup` **não** é a empresa 01).
 - Outras pastas (ex.: `Demonstrações Contabeis`) não são copiadas.
 - Grava um log de cada execução na pasta `logs`.

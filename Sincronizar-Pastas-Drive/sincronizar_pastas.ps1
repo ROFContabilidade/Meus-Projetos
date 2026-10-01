@@ -58,14 +58,34 @@ foreach ($p in @($Origem, $Destino)) {
     }
 }
 
-# Indexa as empresas do destino pelo numero
-$destinos = @{}; $duplicados = @{}
+# Indexa as empresas do destino pelo numero (pode haver mais de uma: "01_Paes e Bastos" e "1_RBA")
+$destinos = @{}
 foreach ($d in Get-ChildItem -LiteralPath $Destino -Directory) {
     $n = NumeroEmpresa $d.Name
     if ($null -eq $n) { continue }
-    if ($destinos.ContainsKey($n)) { $duplicados[$n] = $true } else { $destinos[$n] = $d.FullName }
+    if (-not $destinos.ContainsKey($n)) { $destinos[$n] = @() }
+    $destinos[$n] += $d
 }
 $mesAtual = (Get-Date).Year * 100 + (Get-Date).Month
+
+# Quando ha mais de uma pasta com o mesmo numero no destino:
+#  1o) usa a que tem o numero escrito igual ("01" com "01", "1" com "1")
+#  2o) senao, a que tem mais palavras do nome em comum ("Paes", "Bastos"...)
+#  senao, nao escolhe (empresa ignorada)
+function EscolherDestino($emp, $lista) {
+    if ($lista.Count -eq 1) { return $lista[0].FullName }
+    $null = $emp.Name -match '^\s*(\d+)'; $txt = $Matches[1]
+    $iguais = @($lista | Where-Object { $_.Name -match "^\s*$txt\s*[-_ ]" })
+    if ($iguais.Count -eq 1) { return $iguais[0].FullName }
+    $palavras = @(($emp.Name -replace '^\s*\d+\s*[-_ ]\s*', '').ToLower() -split '[^\p{L}\p{N}]+' | Where-Object { $_.Length -ge 3 })
+    $notas = foreach ($c in $lista) {
+        $nomeC = $c.Name.ToLower()
+        [pscustomobject]@{ Pasta = $c.FullName; Nota = @($palavras | Where-Object { $nomeC.Contains($_) }).Count }
+    }
+    $melhor = @($notas | Sort-Object Nota -Descending)
+    if ($melhor[0].Nota -gt 0 -and ($melhor.Count -eq 1 -or $melhor[0].Nota -gt $melhor[1].Nota)) { return $melhor[0].Pasta }
+    return $null
+}
 
 $totalMeses = 0; $semDestino = @(); $erros = 0
 foreach ($emp in Get-ChildItem -LiteralPath $Origem -Directory | Sort-Object Name) {
@@ -73,11 +93,11 @@ foreach ($emp in Get-ChildItem -LiteralPath $Origem -Directory | Sort-Object Nam
     if ($null -eq $n) { Escrever "Ignorada (nome sem numero): $($emp.Name)"; continue }
     if (-not $destinos.ContainsKey($n)) { $semDestino += $emp.Name; continue }
 
-    if ($duplicados.ContainsKey($n)) {
-        Escrever "  ATENCAO [$($emp.Name)] mais de uma pasta com o numero $n em '$Destino' - empresa ignorada"
+    $alvoEmpresa = EscolherDestino $emp $destinos[$n]
+    if (-not $alvoEmpresa) {
+        Escrever "  ATENCAO [$($emp.Name)] mais de uma pasta com o numero $n em '$Destino' e nao deu para saber qual e a certa - empresa ignorada"
         continue
     }
-    $alvoEmpresa = $destinos[$n]
 
     # Ultimo mes que ja existe no destino (FISCAL\AAAA\MM_AAAA). So copia meses DEPOIS dele.
     $existentes = @(Get-ChildItem -LiteralPath (Join-Path $alvoEmpresa $SubpastaDestino) -Directory -ErrorAction SilentlyContinue |
