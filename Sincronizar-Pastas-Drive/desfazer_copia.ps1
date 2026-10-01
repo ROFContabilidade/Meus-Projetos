@@ -17,7 +17,15 @@ function NumeroEmpresa([string]$nome) {
     return $null
 }
 
-$logs = Get-ChildItem (Join-Path $PSScriptRoot 'logs') -Filter 'sincronizacao_*.log' -ErrorAction SilentlyContinue |
+# O EXECUTAR_AGORA pode ter sido rodado da pasta extraida (Downloads/Desktop): procura os logs la tambem
+$locais = @((Join-Path $PSScriptRoot 'logs'), 'C:\ROF',
+            (Join-Path $env:USERPROFILE 'Downloads'), (Join-Path $env:USERPROFILE 'Desktop'),
+            [Environment]::GetFolderPath('Desktop'))
+$todos = foreach ($l in $locais | Select-Object -Unique) {
+    if (Test-Path -LiteralPath $l) { Get-ChildItem -LiteralPath $l -Filter 'sincronizacao_*.log' -Recurse -ErrorAction SilentlyContinue }
+}
+Write-Host "Logs encontrados: $(@($todos).Count)"
+$logs = $todos |
     Where-Object { Select-String -LiteralPath $_.FullName -Pattern 'arquivo\(s\) copiando' -Quiet } |
     Sort-Object LastWriteTime -Descending
 if (-not $logs) { Write-Host 'Nenhum log de copia encontrado.'; exit 1 }
