@@ -1,13 +1,14 @@
-# Sincronizar pastas das empresas (Drive G: → Drive I:)
+# Sincronizar pastas mensais das empresas (Drive G: → Drive I:)
 
-Copia as subpastas (meses) que faltam de
-`G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio`
-para `I:\Meu Drive\EMPRESAS ATIVAS`, casando as empresas pelo **número** no início do nome da pasta
-(ex.: `012 - EMPRESA X` na origem ↔ `12 - EMPRESA X` no destino).
+Copia as pastas mensais (`08_2026`, `09_2026`, ...) que faltam de
+`G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio\<NUMERO - Nome>`
+para `I:\Meu Drive\EMPRESAS ATIVAS\<NUMERO_Nome>\FISCAL\<ANO>\`.
 
-- Só **copia** o que falta (pastas e arquivos novos). Nunca apaga nem sobrescreve nada no destino.
+- As empresas são casadas pelo **número** no início do nome (`67 - Ligiane Siqueira` ↔ `67_Ligiane Siqueira Estofados`).
+- Na origem, as pastas `MM_AAAA` são procuradas em qualquer subpasta da empresa.
+- Só copia meses que **ainda não existem** no destino. Nunca apaga nem sobrescreve nada.
+- Outras pastas (ex.: `Demonstrações Contabeis`) não são copiadas.
 - Grava um log de cada execução na pasta `logs`.
-- Empresas que não têm pasta no destino aparecem no log como "ATENÇÃO" (não são criadas automaticamente).
 
 ## Instalação (uma vez, no computador do escritório)
 
