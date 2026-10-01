@@ -7,7 +7,46 @@ set "DESTINO=C:\ROF\Sincronizar-Pastas-Drive"
 set "ESTE=%~f0"
 echo.
 echo  1/4  Instalando em %DESTINO% ...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=$env:DESTINO; New-Item -ItemType Directory -Force -Path $d | Out-Null; $nome=$null; $b=@{}; foreach($l in Get-Content -LiteralPath $env:ESTE){ if($l -match '^::ARQ sincronizar_pastas.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=$env:DESTINO; New-Item -ItemType Directory -Force -Path $d | Out-Null; $nome=$null; $b=@{}; foreach($l in Get-Content -LiteralPath $env:ESTE){ if($l -match '^::ARQ (.+)$'){ $nome=$Matches[1]; $b[$nome]=New-Object Text.StringBuilder } elseif($nome -and $l -match '^::B (.+)$'){ [void]$b[$nome].Append($Matches[1]) } }; foreach($k in $b.Keys){ [IO.File]::WriteAllBytes((Join-Path $d $k),[Convert]::FromBase64String($b[$k].ToString())); Write-Host ('       ' + $k) }; if($b.Count -lt 8){ exit 1 }" || goto erro
+
+echo.
+echo  2/4  Criando a tarefa mensal (todo dia 2 as 07:00) ...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%DESTINO%\agendar_tarefa.ps1" || goto erro
+
+echo.
+echo  3/4  CONFERENCIA - o que sera copiado (nada foi copiado ainda):
+echo.
+powershell -NoProfile -ExecutionPolicy Bypass -File "%DESTINO%\sincronizar_pastas.ps1" -Simular
+
+echo.
+echo  Confira a lista acima (linhas "de:" e "para:").
+set "RESP="
+set /p "RESP=  Digite SIM e Enter para copiar agora (qualquer outra coisa nao copia): "
+if /I not "%RESP%"=="SIM" (
+  echo.
+  echo  Nada foi copiado. A tarefa do dia 2 ficou criada.
+  goto fim
+)
+
+echo.
+echo  4/4  Copiando ...
+echo.
+powershell -NoProfile -ExecutionPolicy Bypass -File "%DESTINO%\sincronizar_pastas.ps1"
+
+echo.
+echo  PRONTO! Nos proximos meses roda sozinho todo dia 2 as 07:00.
+:fim
+echo.
+pause
+exit /b 0
+
+:erro
+echo.
+echo  ERRO. Tire um print desta tela e envie.
+pause
+exit /b 1
+
+::ARQ sincronizar_pastas.ps1
 ::B 77u/PCMKICBTaW5jcm9uaXphciBwYXN0YXMgbWVuc2FpcyBkYXMgZW1wcmVzYXMKICBPcmlnZW0g
 ::B OiBHOlxNZXUgRHJpdmVcVHJhYmFsaG8gUk9GXENvbnRhYmlsaWRhZGVcQXJxdWl2b3MgUkVOQVRB
 ::B IERvbWluaW9cPE5VTUVSTyAtIE5vbWU+XC4uLlxNTV9BQUFBCiAgRGVzdGlubzogSTpcTWV1IERy
@@ -254,35 +293,38 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=$env:DESTINO; New-Ite
 ::B ZXBvaXMgZG8gw7psdGltbyBtw6pzIHF1ZSBqw6EgZXhpc3RlKiogbm8gZGVzdGlubyAoZXguOiBv
 ::B IEk6IHRlbSBhdMOpIGAwN18yMDI2YCDihpIgY29waWEgYDA4XzIwMjZgLCBgMDlfMjAyNmAuLi4p
 ::B LCBzZW0gbyBtw6pzIGVtIGFuZGFtZW50by4gTnVuY2EgYXBhZ2EgbmVtIHNvYnJlc2NyZXZlIG5h
-::B ZGEuCi0gRW1wcmVzYSBzZW0gbmVuaHVtIG3DqnMgbm8gZGVzdGlubywgb3UgY29tIG1haXMgZGUg
-::B dW1hIHBhc3RhIGNvbSBvIG1lc21vIG7Dum1lcm8sIMOpIGlnbm9yYWRhIChhcGFyZWNlIGNvbW8g
-::B QVRFTsOHw4NPIG5vIGxvZykuCi0gTyBuw7ptZXJvIHByZWNpc2EgdmlyIHNlZ3VpZG8gZGUgZXNw
-::B YcOnbywgYC1gIG91IGBfYCAoYDAxLjJfQmFja3VwYCAqKm7Do28qKiDDqSBhIGVtcHJlc2EgMDEp
-::B LgotIE91dHJhcyBwYXN0YXMgKGV4LjogYERlbW9uc3RyYcOnw7VlcyBDb250YWJlaXNgKSBuw6Nv
-::B IHPDo28gY29waWFkYXMuCi0gR3JhdmEgdW0gbG9nIGRlIGNhZGEgZXhlY3XDp8OjbyBuYSBwYXN0
-::B YSBgbG9nc2AuCgojIyBJbnN0YWxhw6fDo28gKHVtYSB2ZXosIG5vIGNvbXB1dGFkb3IgZG8gZXNj
-::B cml0w7NyaW8pCgoxLiBCYWl4ZSBvIGFycXVpdm8gKipTaW5jcm9uaXphci1QYXN0YXMtRHJpdmUu
-::B emlwKiouCjIuIE5hIHBhc3RhIERvd25sb2FkcywgY2xpcXVlIGNvbSBvIGJvdMOjbyBkaXJlaXRv
-::B IG5vIFpJUCDihpIgKipFeHRyYWlyIHR1ZG8uLi4qKiDihpIgKipFeHRyYWlyKiouCjMuIE5hIHBh
-::B c3RhIGV4dHJhw61kYSwgZMOqIGRvaXMgY2xpcXVlcyBlbSAqKklOU1RBTEFSLmJhdCoqLgogICAo
-::B U2UgYXBhcmVjZXIgIk8gV2luZG93cyBwcm90ZWdldSBvIGNvbXB1dGFkb3IiLCBjbGlxdWUgZW0g
-::B KipNYWlzIGluZm9ybWHDp8O1ZXMg4oaSIEV4ZWN1dGFyIGFzc2ltIG1lc21vKiouKQo0LiBPIGlu
-::B c3RhbGFkb3IgY29waWEgdHVkbyBwYXJhIGBDOlxST0ZcU2luY3Jvbml6YXItUGFzdGFzLURyaXZl
-::B YCwgY3JpYSBhIHRhcmVmYQogICAqKiJST0YgLSBTaW5jcm9uaXphciBwYXN0YXMgZGFzIGVtcHJl
-::B c2FzIioqICh0b2RvICoqZGlhIDIgZGUgY2FkYSBtw6pzIMOgcyAwNzowMCoqKSBlIG1vc3RyYSB1
-::B bWEgc2ltdWxhw6fDo28uCjUuIFNlIGEgc2ltdWxhw6fDo28gZXN0aXZlciBjZXJ0YSwgYWJyYSBg
-::B QzpcUk9GXFNpbmNyb25pemFyLVBhc3Rhcy1Ecml2ZWAgZSBkw6ogZG9pcyBjbGlxdWVzIGVtCiAg
-::B ICoqRVhFQ1VUQVJfQUdPUkEuYmF0KiogcGFyYSBjb3BpYXIgasOhIG8gcXVlIGZhbHRhIGhvamUu
-::B CgojIyBSZXF1aXNpdG9zCgotIE8gR29vZ2xlIERyaXZlIHBhcmEgY29tcHV0YWRvciBwcmVjaXNh
-::B IGVzdGFyIGFiZXJ0byBlIGxvZ2FkbyBuYXMgZHVhcyBjb250YXMgKEc6IGUgSTopLgotIE8gY29t
-::B cHV0YWRvciBwcmVjaXNhIGVzdGFyIGxpZ2FkbyBlIGNvbSBvIHVzdcOhcmlvIGxvZ2Fkby4gU2Ug
-::B ZXN0aXZlciBkZXNsaWdhZG8gw6BzIDA3OjAwIGRvIGRpYSAyLAogIGEgdGFyZWZhIHJvZGEgYXNz
-::B aW0gcXVlIG8gY29tcHV0YWRvciBmb3IgbGlnYWRvLgotIFBhcmEgbXVkYXIgbyBob3LDoXJpbywg
-::B YWx0ZXJlIGAkaG9yYXJpb2AgZW0gYGFnZW5kYXJfdGFyZWZhLnBzMWAgZSByb2RlIGRlIG5vdm8u
-::B CgojIyBEZXNmYXplciB1bWEgY8OzcGlhCgotICoqREVTRkFaRVJfRU1QUkVTQV9FUlJBREEuYmF0
-::B Kio6IGFwYWdhIHPDsyBhcyBwYXN0YXMgcXVlIGEgw7psdGltYSBleGVjdcOnw6NvIGNvcGlvdSBw
-::B YXJhIGEgZW1wcmVzYSBlcnJhZGEuCi0gKipERVNGQVpFUl9UVURPLmJhdCoqOiBhcGFnYSB0b2Rh
-::B cyBhcyBwYXN0YXMgcXVlIGEgw7psdGltYSBleGVjdcOnw6NvIGNvcGlvdSAodm9sdGEgY29tbyBl
-::B c3RhdmEpLgoKT3MgZG9pcyBtb3N0cmFtIGEgbGlzdGEgYW50ZXMgZSBzw7MgYXBhZ2FtIHNlIHZv
-::B Y8OqIGRpZ2l0YXIgYFNJTWAuIE5vIEdvb2dsZSBEcml2ZSwgbyBxdWUgZm9yIGFwYWdhZG8gdmFp
-::B IHBhcmEgYSBMaXhlaXJhIGRvIERyaXZlLgo=
+::B ZGEuCi0gU2UgaG91dmVyIG1haXMgZGUgdW1hIHBhc3RhIGNvbSBvIG1lc21vIG7Dum1lcm8gbm8g
+::B ZGVzdGlubyAoZXguOiBgMDFfUGFlcyBlIEJhc3Rvc2AgZSBgMV9SQkEgQ29udGFiaWxpZGFkZWAp
+::B LCB1c2EgYSBxdWUgdGVtIG8gbsO6bWVybyBlc2NyaXRvIGlndWFsIChgMDFg4oaUYDAxYCwgYDFg
+::B 4oaUYDFgKSBvdSwgc2UgYWluZGEgZW1wYXRhciwgYSBxdWUgdGVtIG1haXMgcGFsYXZyYXMgZG8g
+::B bm9tZSBlbSBjb211bS4KLSBFbXByZXNhIHNlbSBuZW5odW0gbcOqcyBubyBkZXN0aW5vIMOpIGln
+::B bm9yYWRhIChhcGFyZWNlIGNvbW8gQVRFTsOHw4NPIG5vIGxvZykuCi0gTyBuw7ptZXJvIHByZWNp
+::B c2EgdmlyIHNlZ3VpZG8gZGUgZXNwYcOnbywgYC1gIG91IGBfYCAoYDAxLjJfQmFja3VwYCAqKm7D
+::B o28qKiDDqSBhIGVtcHJlc2EgMDEpLgotIE91dHJhcyBwYXN0YXMgKGV4LjogYERlbW9uc3RyYcOn
+::B w7VlcyBDb250YWJlaXNgKSBuw6NvIHPDo28gY29waWFkYXMuCi0gR3JhdmEgdW0gbG9nIGRlIGNh
+::B ZGEgZXhlY3XDp8OjbyBuYSBwYXN0YSBgbG9nc2AuCgojIyBJbnN0YWxhw6fDo28gKHVtYSB2ZXos
+::B IG5vIGNvbXB1dGFkb3IgZG8gZXNjcml0w7NyaW8pCgoxLiBCYWl4ZSBvIGFycXVpdm8gKipTaW5j
+::B cm9uaXphci1QYXN0YXMtRHJpdmUuemlwKiouCjIuIE5hIHBhc3RhIERvd25sb2FkcywgY2xpcXVl
+::B IGNvbSBvIGJvdMOjbyBkaXJlaXRvIG5vIFpJUCDihpIgKipFeHRyYWlyIHR1ZG8uLi4qKiDihpIg
+::B KipFeHRyYWlyKiouCjMuIE5hIHBhc3RhIGV4dHJhw61kYSwgZMOqIGRvaXMgY2xpcXVlcyBlbSAq
+::B KklOU1RBTEFSLmJhdCoqLgogICAoU2UgYXBhcmVjZXIgIk8gV2luZG93cyBwcm90ZWdldSBvIGNv
+::B bXB1dGFkb3IiLCBjbGlxdWUgZW0gKipNYWlzIGluZm9ybWHDp8O1ZXMg4oaSIEV4ZWN1dGFyIGFz
+::B c2ltIG1lc21vKiouKQo0LiBPIGluc3RhbGFkb3IgY29waWEgdHVkbyBwYXJhIGBDOlxST0ZcU2lu
+::B Y3Jvbml6YXItUGFzdGFzLURyaXZlYCwgY3JpYSBhIHRhcmVmYQogICAqKiJST0YgLSBTaW5jcm9u
+::B aXphciBwYXN0YXMgZGFzIGVtcHJlc2FzIioqICh0b2RvICoqZGlhIDIgZGUgY2FkYSBtw6pzIMOg
+::B cyAwNzowMCoqKSBlIG1vc3RyYSB1bWEgc2ltdWxhw6fDo28uCjUuIFNlIGEgc2ltdWxhw6fDo28g
+::B ZXN0aXZlciBjZXJ0YSwgYWJyYSBgQzpcUk9GXFNpbmNyb25pemFyLVBhc3Rhcy1Ecml2ZWAgZSBk
+::B w6ogZG9pcyBjbGlxdWVzIGVtCiAgICoqRVhFQ1VUQVJfQUdPUkEuYmF0KiogcGFyYSBjb3BpYXIg
+::B asOhIG8gcXVlIGZhbHRhIGhvamUuCgojIyBSZXF1aXNpdG9zCgotIE8gR29vZ2xlIERyaXZlIHBh
+::B cmEgY29tcHV0YWRvciBwcmVjaXNhIGVzdGFyIGFiZXJ0byBlIGxvZ2FkbyBuYXMgZHVhcyBjb250
+::B YXMgKEc6IGUgSTopLgotIE8gY29tcHV0YWRvciBwcmVjaXNhIGVzdGFyIGxpZ2FkbyBlIGNvbSBv
+::B IHVzdcOhcmlvIGxvZ2Fkby4gU2UgZXN0aXZlciBkZXNsaWdhZG8gw6BzIDA3OjAwIGRvIGRpYSAy
+::B LAogIGEgdGFyZWZhIHJvZGEgYXNzaW0gcXVlIG8gY29tcHV0YWRvciBmb3IgbGlnYWRvLgotIFBh
+::B cmEgbXVkYXIgbyBob3LDoXJpbywgYWx0ZXJlIGAkaG9yYXJpb2AgZW0gYGFnZW5kYXJfdGFyZWZh
+::B LnBzMWAgZSByb2RlIGRlIG5vdm8uCgojIyBEZXNmYXplciB1bWEgY8OzcGlhCgotICoqREVTRkFa
+::B RVJfRU1QUkVTQV9FUlJBREEuYmF0Kio6IGFwYWdhIHPDsyBhcyBwYXN0YXMgcXVlIGEgw7psdGlt
+::B YSBleGVjdcOnw6NvIGNvcGlvdSBwYXJhIGEgZW1wcmVzYSBlcnJhZGEuCi0gKipERVNGQVpFUl9U
+::B VURPLmJhdCoqOiBhcGFnYSB0b2RhcyBhcyBwYXN0YXMgcXVlIGEgw7psdGltYSBleGVjdcOnw6Nv
+::B IGNvcGlvdSAodm9sdGEgY29tbyBlc3RhdmEpLgoKT3MgZG9pcyBtb3N0cmFtIGEgbGlzdGEgYW50
+::B ZXMgZSBzw7MgYXBhZ2FtIHNlIHZvY8OqIGRpZ2l0YXIgYFNJTWAuIE5vIEdvb2dsZSBEcml2ZSwg
+::B byBxdWUgZm9yIGFwYWdhZG8gdmFpIHBhcmEgYSBMaXhlaXJhIGRvIERyaXZlLgo=
