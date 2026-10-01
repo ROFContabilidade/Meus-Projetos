@@ -2,25 +2,40 @@
 chcp 65001 >nul
 title ROF - Instalar e copiar os meses que faltam
 rem Arquivo unico: nao precisa extrair nada. Instala em C:\ROF\Sincronizar-Pastas-Drive,
-rem cria a tarefa do dia 2 as 07:00 e ja copia os meses que faltam.
+rem cria a tarefa do dia 2 as 07:00, mostra o que vai copiar e so copia se digitar SIM.
 set "DESTINO=C:\ROF\Sincronizar-Pastas-Drive"
 set "ESTE=%~f0"
 echo.
-echo  1/3  Instalando em %DESTINO% ...
+echo  1/4  Instalando em %DESTINO% ...
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=$env:DESTINO; New-Item -ItemType Directory -Force -Path $d | Out-Null; $nome=$null; $b=@{}; foreach($l in Get-Content -LiteralPath $env:ESTE){ if($l -match '^::ARQ (.+)$'){ $nome=$Matches[1]; $b[$nome]=New-Object Text.StringBuilder } elseif($nome -and $l -match '^::B (.+)$'){ [void]$b[$nome].Append($Matches[1]) } }; foreach($k in $b.Keys){ [IO.File]::WriteAllBytes((Join-Path $d $k),[Convert]::FromBase64String($b[$k].ToString())); Write-Host ('       ' + $k) }; if($b.Count -lt 8){ exit 1 }" || goto erro
 
 echo.
-echo  2/3  Criando a tarefa mensal (todo dia 2 as 07:00) ...
+echo  2/4  Criando a tarefa mensal (todo dia 2 as 07:00) ...
 powershell -NoProfile -ExecutionPolicy Bypass -File "%DESTINO%\agendar_tarefa.ps1" || goto erro
 
 echo.
-echo  3/3  Copiando agora os meses que faltam ...
+echo  3/4  CONFERENCIA - o que sera copiado (nada foi copiado ainda):
+echo.
+powershell -NoProfile -ExecutionPolicy Bypass -File "%DESTINO%\sincronizar_pastas.ps1" -Simular
+
+echo.
+echo  Confira a lista acima (linhas "de:" e "para:").
+set "RESP="
+set /p "RESP=  Digite SIM e Enter para copiar agora (qualquer outra coisa nao copia): "
+if /I not "%RESP%"=="SIM" (
+  echo.
+  echo  Nada foi copiado. A tarefa do dia 2 ficou criada.
+  goto fim
+)
+
+echo.
+echo  4/4  Copiando ...
 echo.
 powershell -NoProfile -ExecutionPolicy Bypass -File "%DESTINO%\sincronizar_pastas.ps1"
 
 echo.
-echo  PRONTO! Programa em %DESTINO%
-echo  Nos proximos meses roda sozinho todo dia 2 as 07:00.
+echo  PRONTO! Nos proximos meses roda sozinho todo dia 2 as 07:00.
+:fim
 echo.
 pause
 exit /b 0
