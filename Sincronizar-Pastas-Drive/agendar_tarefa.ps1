@@ -34,4 +34,3 @@ $a.Arguments = $acao.Arguments
 $svc.GetFolder('\').RegisterTaskDefinition($nome, $def, 6, $null, $null, 3) | Out-Null
 Write-Host "Tarefa '$nome' criada: todo dia 2 as $horario."
 Write-Host "Para testar agora: Start-ScheduledTask -TaskName '$nome'"
-Read-Host 'Pressione Enter para fechar'
