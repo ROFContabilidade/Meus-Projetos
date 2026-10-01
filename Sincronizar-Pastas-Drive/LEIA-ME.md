@@ -11,11 +11,14 @@ para `I:\Meu Drive\EMPRESAS ATIVAS`, casando as empresas pelo **número** no in�
 
 ## Instalação (uma vez, no computador do escritório)
 
-1. Copie esta pasta para o computador (ex.: `C:\ROF\Sincronizar-Pastas-Drive`).
-2. Dê dois cliques em **TESTAR_SIMULACAO.bat** — mostra o que seria copiado, sem copiar nada. Confira.
-3. Se estiver certo, dê dois cliques em **EXECUTAR_AGORA.bat** para copiar o que falta hoje.
-4. Clique com o botão direito em **agendar_tarefa.ps1** → *Executar com o PowerShell*.
-   Isso cria a tarefa **"ROF - Sincronizar pastas das empresas"**: todo **dia 2 de cada mês às 07:00**.
+1. Baixe o arquivo **Sincronizar-Pastas-Drive.zip**.
+2. Na pasta Downloads, clique com o botão direito no ZIP → **Extrair tudo...** → **Extrair**.
+3. Na pasta extraída, dê dois cliques em **INSTALAR.bat**.
+   (Se aparecer "O Windows protegeu o computador", clique em **Mais informações → Executar assim mesmo**.)
+4. O instalador copia tudo para `C:\ROF\Sincronizar-Pastas-Drive`, cria a tarefa
+   **"ROF - Sincronizar pastas das empresas"** (todo **dia 2 de cada mês às 07:00**) e mostra uma simulação.
+5. Se a simulação estiver certa, abra `C:\ROF\Sincronizar-Pastas-Drive` e dê dois cliques em
+   **EXECUTAR_AGORA.bat** para copiar já o que falta hoje.
 
 ## Requisitos
 
