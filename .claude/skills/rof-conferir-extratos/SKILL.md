@@ -36,22 +36,32 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
 - `title = '2026'` / `title = '08_2026'` só é exato **combinado com parentId**; sozinho a busca é aproximada.
 - `title contains 'Extrato'` pega "Extrato" e "Extratos".
 - Resposta muito grande é salva em arquivo → extrair com `jq -r '.files[] | [.parentId, .title] | @tsv'`.
-- Se vier `nextPageToken`, em vez de paginar: refazer a consulta só com os pais que ainda não apareceram (os que não voltarem estão vazios).
+- **Sempre paginar** a listagem de arquivos: se vier `nextPageToken`, repetir a mesma consulta com `pageToken`
+  até não vir mais (em 02/10/2026 a 1ª varredura sem paginar perdeu ~146 arquivos de 08/09, ex.: Sicoob da Pai e Filhos).
+- Truque para a resposta ir para arquivo (e ler com jq em vez de copiar à mão): usar `snippetVerbosity: DETAILED`
+  ou `MAX_ALLOWED` nas listagens de arquivos; ~35 pastas por consulta. O snippet também traz o texto (OCR) das imagens.
 - Ordem: raiz → empresas → (ano | FISCAL…) → `MM_AAAA` → `Extrato` → arquivos. Guardar tudo em TSV no scratchpad.
 
 ## Snapshot e relatório
 1. Montar `snapshot_AAAA-MM-DD.json` (formato no cabeçalho do script): para cada empresa e mês
    `pasta_mes`, `pasta_extrato`, `arquivos` (nomes) e `obs` opcional; e `inativas_no_drive`.
 2. Rodar: `python Conferencia-Extratos/conferir_extratos.py rotina.xlsm snapshot.json Extratos_faltantes_AAAA-MM-DD.xlsx`
-3. Meses: conferir o **mês que acabou de fechar** e o **anterior** (ex.: em 02/10 → 08_2026 e 09_2026).
+3. Meses: por padrão o **mês que acabou de fechar** e o **anterior** (ex.: em 02/10 → 08_2026 e 09_2026);
+   se pedirem histórico, incluir mais meses no snapshot (em 02/10/2026 foi feito 04_2026 a 09_2026).
+   Mês anterior à primeira pasta de mês da empresa sai como "—" (ainda não era cliente).
 4. Salvar a planilha e o snapshot em `Conferencia-Extratos/relatorios/`, mandar para a usuária e resumir no chat
    (quantas faltam por mês + lista das que faltam).
 
 ## Regras de classificação
 - **Recebido**: OFX/PDF/CSV/XLS/ZIP na pasta Extrato do mês; ou só TXT do escritório (= já lançado, extrato original fora da pasta).
 - **FALTANDO**: pasta Extrato vazia, sem pasta Extrato, ou pasta do mês não criada.
-- **Verificar**: só imagem/comprovante, ou só planilhas do escritório.
-- **S/MOV**: todas as contas da empresa marcadas S/MOV na Rotina.
+- **Recebido (já conciliado)**: só planilha de Retiradas/Conciliação/Pró-labore do escritório na pasta — a conciliação
+  foi feita com o extrato (regra da Rosangela, caso Pai e Filhos). Antes, procurar o extrato original na pasta.
+- **Verificar**: só imagem/comprovante, ou só arquivos do escritório.
+- **S/MOV**: todas as contas da empresa marcadas S/MOV na Rotina, **ou** print/imagem na pasta Extrato dizendo que o
+  período não teve movimento ("não houve movimentações", "nenhuma movimentação", "empresa sem movimento").
+  Ler o texto da imagem (snippet da busca ou `read_file_content`) e marcar `"sem_movimento": true` + `obs` no snapshot.
+  Ex.: 141 TML Leite 08/2026 (print Cora), 67 Ligiane 05/2026.
 - Ignorar como extrato: `.txt`, Retiradas, Conciliacao, Lancamentos, Balancete, ProLabore, comprovantes, NF/DANFE.
 - Banco pelo nome do arquivo: `sicredi_*`/`relato_rio` Sicredi; uuid `xxxxxxxx-…-AAAA-MM-DD-AAAA-MM-DD` Nubank;
   `Nome_ddmmaaaa_a_ddmmaaaa_hash` Cora; `Extrato-dd-mm-aaaa-a-…` Inter; `extrato-da-sua-conta-*` C6;
@@ -63,3 +73,5 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
   `Arquivos RENATA Dominio\Controle de Extratos`) só com autorização da Rosangela, como arquivo novo.
 - Em 09/2026 muitas pastas do mês ainda não existiam (02/10): é normal no início do mês; repetir a conferência depois.
 - Empresas 160–163 e 165–167 estavam na Rotina mas sem pasta no Drive (02/10/2026) — avisar.
+- Pasta `Extrato` dentro de `Extrato` (ex.: 132 em 05/2026): listar também a subpasta.
+- Ao citar empresas para a Rosangela, conferir o código: 141 (TML Leite) e 142 (F B da Rocha) ficam lado a lado.

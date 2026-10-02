@@ -10,14 +10,20 @@ Uso:
 Formato do snapshot (montado pelo Claude ao varrer o Drive):
     {
       "gerado_em": "2026-10-02",
-      "meses": ["08_2026", "09_2026"],
+      "meses": ["04_2026", ..., "09_2026"],
       "empresas": [
         {"raiz": "Arquivos RENATA Dominio", "pasta": "17 - AP Transportes",
          "meses": {"08_2026": {"pasta_mes": true, "pasta_extrato": true,
-                               "arquivos": ["sicredi_123.ofx", ...], "obs": "..."}}}
+                               "arquivos": ["sicredi_123.ofx", ...], "obs": "...",
+                               "sem_movimento": false}}}
       ],
       "inativas_no_drive": ["68 - Face Doctor", ...]
     }
+
+"sem_movimento": true quando o Claude abriu um print/imagem da pasta Extrato e ele diz que o
+período não teve movimento (ex.: "não houve movimentações") — o mês vira S/MOV.
+Meses anteriores à primeira pasta de mês da empresa aparecem como "—" (ainda não era cliente
+ou a estrutura de pastas foi criada depois).
 """
 import json
 import re
@@ -71,6 +77,7 @@ BANCOS = OrderedDict([
 GERADO_ESCRITORIO = re.compile(
     r"\.txt$|retirad|concilia|pagamentos_soci|lancamentos|balancete|_txt_|dominio|prolabore|^\[pasta\]",
     re.I)
+PLANILHA_CONCILIACAO = re.compile(r"retirad|concilia|prolabore|pro_labore|lancamentos", re.I)
 COMPROVANTE = re.compile(r"comprovante|comprov\.|^nf_|danfe|energia", re.I)
 IMAGEM = re.compile(r"\.(jpe?g|png|heic)$", re.I)
 EXTRATO = re.compile(r"\.(ofx|pdf|csv|xlsx?|zip)$", re.I)
@@ -140,20 +147,24 @@ def status_mes(info):
     """Devolve (status, motivo, arquivos_de_extrato)."""
     if info is None or not info.get("pasta_mes"):
         return "FALTANDO", "pasta do mês não criada", []
-    arquivos = info.get("arquivos", [])
+    arquivos = [a for a in info.get("arquivos", []) if not a.startswith("[pasta]")]
     extratos = [a for a in arquivos if EXTRATO.search(a) and not GERADO_ESCRITORIO.search(a)
                 and not COMPROVANTE.search(a)]
     imagens = [a for a in arquivos if IMAGEM.search(a) or COMPROVANTE.search(a)]
     if extratos:
         return "Recebido", "", extratos
+    if info.get("sem_movimento"):
+        return "S/MOV", info.get("obs") or "print do banco na pasta: período sem movimento", []
     if not info.get("pasta_extrato") and not arquivos:
         return "FALTANDO", info.get("obs") or "sem pasta Extrato", []
     if any(re.search(r"\.txt$", a, re.I) for a in arquivos):
         return "Recebido", "já lançado (TXT do escritório na pasta); extrato original não está na pasta", []
+    if any(PLANILHA_CONCILIACAO.search(a) for a in arquivos) and not imagens:
+        return "Recebido", "já conciliado (planilha de retiradas/conciliação na pasta); extrato original não está na pasta", []
     if imagens:
         return "Verificar", "só imagem/comprovante na pasta Extrato", []
     if arquivos:
-        return "Verificar", "só planilhas do escritório, sem o extrato original", []
+        return "Verificar", "só arquivos do escritório, sem o extrato original", []
     return "FALTANDO", info.get("obs") or "pasta Extrato vazia", []
 
 
@@ -181,13 +192,20 @@ def montar(empresas, snap):
             if b and b not in bancos_esperados:
                 bancos_esperados.append(b)
         lin = {"empresa": e, "bancos_esperados": bancos_esperados, "meses": {}}
+        inicio = None
+        if e["drive"]:
+            inicio = next((m for m in meses if (e["drive"]["meses"].get(m) or {}).get("pasta_mes")), None)
         for m in meses:
+            if inicio and chave_mes(m) < chave_mes(inicio):
+                lin["meses"][m] = {"status": "—", "motivo": "sem pasta do mês no Drive (ainda não era cliente ou pastas criadas depois)",
+                                   "arquivos": [], "bancos": [], "bancos_nao_vistos": []}
+                continue
             if e["drive"] is None:
                 st, mot, arqs = ("S/MOV", "marcada S/MOV na Rotina", []) if so_smov else (
                     "FALTANDO", "empresa inativa no Drive" if e["inativa"] else "pasta da empresa não encontrada no Drive", [])
             else:
                 st, mot, arqs = status_mes(e["drive"]["meses"].get(m))
-                if st != "Recebido" and so_smov:
+                if st in ("FALTANDO", "Verificar") and so_smov:
                     st, mot = "S/MOV", "marcada S/MOV na Rotina"
             achados = bancos_nos_arquivos(arqs)
             faltam = [b for b in bancos_esperados if b not in achados] if st == "Recebido" else []
@@ -195,6 +213,11 @@ def montar(empresas, snap):
                                "bancos": sorted(achados), "bancos_nao_vistos": faltam}
         linhas.append(lin)
     return linhas
+
+
+def chave_mes(m):
+    mm, aa = m.split("_")
+    return (int(aa), int(mm))
 
 
 def rotulo_mes(m):
@@ -245,27 +268,38 @@ def gerar_xlsx(linhas, snap, saida):
     meses = snap["meses"]
     wb = openpyxl.Workbook()
 
-    # Resumo
+    # Resumo: uma linha por empresa, uma coluna de status por mês
     ws = wb.active
     ws.title = "Resumo"
-    cab = ["Grupo", "Cód.", "Empresa (Rotina)", "Pasta no Drive"]
-    for m in meses:
-        cab += [rotulo_mes(m), f"Motivo {rotulo_mes(m)}", f"Bancos achados {rotulo_mes(m)}",
-                f"Bancos da Rotina não vistos {rotulo_mes(m)}"]
-    cab += ["Bancos na Rotina"]
-    ws.append(cab)
+    ws.append(["Grupo", "Cód.", "Empresa (Rotina)", "Pasta no Drive"] + [rotulo_mes(m) for m in meses]
+              + ["Meses faltando", "Observações", "Bancos na Rotina"])
     for lin in linhas:
         e = lin["empresa"]
         row = [e["grupo"], e["cod"], nome_curto(e["nome"]),
                e["drive"]["pasta"] if e["drive"] else ("INATIVAS" if e["inativa"] else "não encontrada")]
-        for m in meses:
-            d = lin["meses"][m]
-            row += [d["status"], d["motivo"], ", ".join(d["bancos"]), ", ".join(d["bancos_nao_vistos"])]
-        row += [", ".join(lin["bancos_esperados"])]
+        row += [lin["meses"][m]["status"] for m in meses]
+        falt = [rotulo_mes(m) for m in meses if lin["meses"][m]["status"] == "FALTANDO"]
+        obs = [f"{rotulo_mes(m)}: {lin['meses'][m]['motivo']}" for m in meses
+               if lin["meses"][m]["motivo"] and lin["meses"][m]["status"] not in ("—",)]
+        row += [", ".join(falt), " | ".join(obs), ", ".join(lin["bancos_esperados"])]
         ws.append(row)
         for i, _ in enumerate(meses):
-            pintar(ws.cell(ws.max_row, 5 + 4 * i))
-    ajustar(ws, [14, 6, 34, 30] + [12, 30, 24, 24] * len(meses) + [30])
+            c = ws.cell(ws.max_row, 5 + i)
+            c.alignment = Alignment(horizontal="center")
+            pintar(c)
+    ajustar(ws, [14, 6, 34, 30] + [11] * len(meses) + [24, 70, 26])
+
+    # Detalhes: uma linha por empresa x mês
+    wsd = wb.create_sheet("Detalhes")
+    wsd.append(["Cód.", "Empresa", "Mês", "Status", "Motivo", "Bancos achados", "Bancos da Rotina não vistos"])
+    for lin in linhas:
+        e = lin["empresa"]
+        for m in meses:
+            d = lin["meses"][m]
+            wsd.append([e["cod"], nome_curto(e["nome"]), rotulo_mes(m), d["status"], d["motivo"],
+                        ", ".join(d["bancos"]), ", ".join(d["bancos_nao_vistos"])])
+            pintar(wsd.cell(wsd.max_row, 4))
+    ajustar(wsd, [6, 32, 12, 12, 60, 24, 24])
 
     # Por banco
     wb2 = wb.create_sheet("Por banco")
@@ -291,7 +325,7 @@ def gerar_xlsx(linhas, snap, saida):
             wb2.append(row)
             for i, _ in enumerate(meses):
                 pintar(wb2.cell(wb2.max_row, 6 + i))
-    ajustar(wb2, [6, 32, 40, 14, 16] + [26] * len(meses))
+    ajustar(wb2, [6, 32, 40, 14, 16] + [22] * len(meses))
 
     # Mensagens
     ws3 = wb.create_sheet("Mensagens")
@@ -323,22 +357,29 @@ def gerar_xlsx(linhas, snap, saida):
     ws5.append([f"Conferência de extratos — gerado em {snap['gerado_em']}"])
     ws5["A1"].font = Font(bold=True, size=14)
     ws5.append([])
-    ws5.append(["Mês", "Recebido", "FALTANDO", "Verificar", "S/MOV", "Total"])
+    ws5.append(["Mês", "Recebido", "FALTANDO", "Verificar", "S/MOV", "—", "Total"])
     for m in meses:
-        cont = {k: 0 for k in ["Recebido", "FALTANDO", "Verificar", "S/MOV"]}
+        cont = {k: 0 for k in ["Recebido", "FALTANDO", "Verificar", "S/MOV", "—"]}
         for lin in linhas:
             cont[lin["meses"][m]["status"]] += 1
         ws5.append([rotulo_mes(m)] + list(cont.values()) + [sum(cont.values())])
     ws5.append([])
     ws5.append(["Legenda"])
-    for k, t in [("Recebido", "extrato (OFX/PDF/CSV/XLS) na pasta Extrato do mês"),
+    for k, t in [("Recebido", "extrato (OFX/PDF/CSV/XLS) na pasta Extrato do mês, ou já lançado/conciliado pelo escritório"),
                  ("FALTANDO", "pasta Extrato vazia, sem pasta Extrato ou pasta do mês não criada — pedir ao cliente"),
                  ("Verificar", "só imagem/comprovante ou só arquivos gerados pelo escritório"),
-                 ("S/MOV", "todas as contas marcadas S/MOV na Rotina")]:
+                 ("S/MOV", "contas marcadas S/MOV na Rotina, ou print do banco na pasta dizendo que o período não teve movimento"),
+                 ("—", "sem pasta do mês no Drive antes do 1º mês da empresa (ainda não era cliente)")]:
         ws5.append([k, t])
         ws5.cell(ws5.max_row, 1).fill = FILL[k]
+        ws5.merge_cells(start_row=ws5.max_row, start_column=2, end_row=ws5.max_row, end_column=10)
+    for c in ws5[3]:
+        c.font = Font(bold=True)
+    for i, k in enumerate(["Recebido", "FALTANDO", "Verificar", "S/MOV", "—"], 2):
+        ws5.cell(3, i).fill = FILL[k]
     ws5.column_dimensions["A"].width = 16
-    ws5.column_dimensions["B"].width = 80
+    for col in "BCDEFG":
+        ws5.column_dimensions[col].width = 12
     wb.save(saida)
 
 

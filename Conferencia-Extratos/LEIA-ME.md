@@ -12,8 +12,9 @@ O Claude:
 3. gera a planilha **Extratos_faltantes_AAAA-MM-DD.xlsx** em `relatorios/`.
 
 ## O que tem na planilha
-- **Painel** — totais por mês (Recebido / FALTANDO / Verificar / S/MOV) e legenda de cores.
-- **Resumo** — uma linha por empresa, com o status de cada mês, o motivo e os bancos encontrados.
+- **Painel** — totais por mês (Recebido / FALTANDO / Verificar / S/MOV / —) e legenda de cores.
+- **Resumo** — uma linha por empresa, uma coluna de status por mês, meses faltando e observações.
+- **Detalhes** — uma linha por empresa e mês, com motivo e bancos encontrados.
 - **Por banco** — cada linha de extrato da Rotina (Sicredi, Nubank...) e se o arquivo daquele banco foi achado.
 - **Mensagens** — texto pronto para WhatsApp pedindo os extratos que faltam.
 - **Arquivos encontrados** — lista dos arquivos vistos em cada pasta.
