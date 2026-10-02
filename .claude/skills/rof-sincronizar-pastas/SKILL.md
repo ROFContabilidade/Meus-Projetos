@@ -18,7 +18,7 @@ O conector Google Drive desta sessão só enxerga o **G:**; o **I:** não é ace
 - Origem: procura pastas `MM_AAAA` em qualquer subpasta da empresa no G: (normalmente `<ANO>\MM_AAAA`).
 - Destino: `<empresa no I:>\FISCAL-CONTABIL\<ANO>\MM_AAAA` (ou `FISCAL`, a primeira das duas que já tiver meses).
 - Copia **só meses depois do último mês que já existe** em `FISCAL\*\` no I: e **antes do mês atual**.
-- Empresa com `FISCAL` sem nenhum mês → ignorada (ATENCAO: copiar o primeiro mês à mão).
+- Empresa sem nenhum mês no destino → copia a partir de `08_2026` (parâmetro `InicioSemHistorico`) para FISCAL-CONTABIL (ou FISCAL; cria FISCAL-CONTABIL se nenhuma existir).
 - Nunca apaga nem sobrescreve (robocopy `/E /XC /XN /XO /XX`). Log em `C:\ROF\Sincronizar-Pastas-Drive\logs`.
 
 ## Instalação / reinstalação

@@ -19,6 +19,8 @@ param(
     [string]$Destino = 'I:\Meu Drive\EMPRESAS ATIVAS',
     # Subpasta dos meses na empresa do destino: usa a primeira que existir (ex.: FISCAL-CONTABIL, senao FISCAL)
     [string[]]$SubpastasDestino = @('FISCAL-CONTABIL', 'FISCAL'),
+    # Empresa sem nenhum mes no destino: copia a partir deste mes (MM_AAAA)
+    [string]$InicioSemHistorico = '08_2026',
     [switch]$Simular
 )
 
@@ -110,8 +112,11 @@ foreach ($emp in Get-ChildItem -LiteralPath $Origem -Directory | Sort-Object Nam
         if ($chaves.Count -gt 0) { $SubpastaDestino = $sub; $existentes = $chaves; break }
     }
     if (-not $SubpastaDestino) {
-        Escrever "  ATENCAO [$($emp.Name)] nenhum mes em '$alvoEmpresa\($($SubpastasDestino -join ' ou '))' - empresa ignorada (copie o primeiro mes manualmente)"
-        continue
+        # Sem nenhum mes no destino: usa a subpasta que existir (senao cria a primeira) e comeca em $InicioSemHistorico
+        $SubpastaDestino = $SubpastasDestino | Where-Object { Test-Path -LiteralPath (Join-Path $alvoEmpresa $_) } | Select-Object -First 1
+        if (-not $SubpastaDestino) { $SubpastaDestino = $SubpastasDestino[0] }
+        $existentes = @((ChaveMes $InicioSemHistorico) - 1)
+        Escrever "  [$($emp.Name)] sem meses no destino - copiando a partir de $InicioSemHistorico para '$alvoEmpresa\$SubpastaDestino'"
     }
     $ultimo = ($existentes | Measure-Object -Maximum).Maximum
     $meses = Get-ChildItem -LiteralPath $emp.FullName -Directory -Recurse -ErrorAction SilentlyContinue |
