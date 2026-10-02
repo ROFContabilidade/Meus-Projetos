@@ -17,7 +17,8 @@
 param(
     [string]$Origem  = 'G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio',
     [string]$Destino = 'I:\Meu Drive\EMPRESAS ATIVAS',
-    [string]$SubpastaDestino = 'FISCAL',
+    # Subpasta dos meses na empresa do destino: usa a primeira que existir (ex.: FISCAL-CONTABIL, senao FISCAL)
+    [string[]]$SubpastasDestino = @('FISCAL-CONTABIL', 'FISCAL'),
     [switch]$Simular
 )
 
@@ -100,11 +101,16 @@ foreach ($emp in Get-ChildItem -LiteralPath $Origem -Directory | Sort-Object Nam
     }
 
     # Ultimo mes que ja existe no destino (FISCAL\AAAA\MM_AAAA). So copia meses DEPOIS dele.
-    $existentes = @(Get-ChildItem -LiteralPath (Join-Path $alvoEmpresa $SubpastaDestino) -Directory -ErrorAction SilentlyContinue |
-        Get-ChildItem -Directory -ErrorAction SilentlyContinue |
-        Where-Object { $_.Name -match '^(0[1-9]|1[0-2])_(\d{4})$' } | ForEach-Object { ChaveMes $_.Name })
-    if ($existentes.Count -eq 0) {
-        Escrever "  ATENCAO [$($emp.Name)] nenhum mes em '$alvoEmpresa\$SubpastaDestino' - empresa ignorada (copie o primeiro mes manualmente)"
+    # Usa a primeira subpasta (FISCAL-CONTABIL, depois FISCAL) que ja tenha meses MM_AAAA
+    $SubpastaDestino = $null; $existentes = @()
+    foreach ($sub in $SubpastasDestino) {
+        $chaves = @(Get-ChildItem -LiteralPath (Join-Path $alvoEmpresa $sub) -Directory -ErrorAction SilentlyContinue |
+            Get-ChildItem -Directory -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -match '^(0[1-9]|1[0-2])_(\d{4})$' } | ForEach-Object { ChaveMes $_.Name })
+        if ($chaves.Count -gt 0) { $SubpastaDestino = $sub; $existentes = $chaves; break }
+    }
+    if (-not $SubpastaDestino) {
+        Escrever "  ATENCAO [$($emp.Name)] nenhum mes em '$alvoEmpresa\($($SubpastasDestino -join ' ou '))' - empresa ignorada (copie o primeiro mes manualmente)"
         continue
     }
     $ultimo = ($existentes | Measure-Object -Maximum).Maximum
