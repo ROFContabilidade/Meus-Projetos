@@ -14,6 +14,8 @@ O Claude:
 ## O que tem na planilha
 - **Painel** — totais por mês (Recebido / FALTANDO / Verificar / S/MOV / —) e legenda de cores.
 - **Resumo** — uma linha por empresa, uma coluna de status por mês, meses faltando e observações.
+- **Skills prontas** — empresas que já têm skill de lançamento: mês a mês, se o extrato está na pasta e ainda não
+  foi lançado ("Pronto para lançar" = fazer junto), já lançado ou faltando.
 - **Detalhes** — uma linha por empresa e mês, com motivo e bancos encontrados.
 - **Por banco** — cada linha de extrato da Rotina (Sicredi, Nubank...) e se o arquivo daquele banco foi achado.
 - **Mensagens** — texto pronto para WhatsApp pedindo os extratos que faltam.
@@ -22,6 +24,6 @@ O Claude:
 ## Rodar manualmente
 ```
 pip install openpyxl
-python conferir_extratos.py "Rotinas tarefas do mes.xlsm" relatorios/snapshot_2026-10-02.json saida.xlsx
+python conferir_extratos.py "Rotinas tarefas do mes.xlsm" relatorios/snapshot_2026-10-02.json saida.xlsx skills_empresas.json
 ```
 O snapshot (JSON) é a "fotografia" das pastas do Drive feita pelo Claude no dia da conferência.

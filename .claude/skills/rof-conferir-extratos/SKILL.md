@@ -42,10 +42,21 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
   ou `MAX_ALLOWED` nas listagens de arquivos; ~35 pastas por consulta. O snippet também traz o texto (OCR) das imagens.
 - Ordem: raiz → empresas → (ano | FISCAL…) → `MM_AAAA` → `Extrato` → arquivos. Guardar tudo em TSV no scratchpad.
 
+## Atualizar depois que a Rosangela salvar mais extratos
+- Não precisa varrer tudo de novo: buscar só o que mudou —
+  `(createdTime > 'AAAA-MM-DDTHH:MM:SSZ' or modifiedTime > '...') and mimeType != 'application/vnd.google-apps.folder'`
+  (paginando), casar o `parentId` com as pastas Extrato já conhecidas e, para pasta desconhecida, subir com
+  `get_file_metadata` (Extrato → MM_AAAA → ano/empresa). Baixar a Rotina de novo se ela também mudou.
+
 ## Snapshot e relatório
 1. Montar `snapshot_AAAA-MM-DD.json` (formato no cabeçalho do script): para cada empresa e mês
    `pasta_mes`, `pasta_extrato`, `arquivos` (nomes) e `obs` opcional; e `inativas_no_drive`.
-2. Rodar: `python Conferencia-Extratos/conferir_extratos.py rotina.xlsm snapshot.json Extratos_faltantes_AAAA-MM-DD.xlsx`
+2. Rodar: `python Conferencia-Extratos/conferir_extratos.py rotina.xlsm snapshot.json Extratos_faltantes_AAAA-MM-DD.xlsx Conferencia-Extratos/skills_empresas.json`
+   - O 4º argumento gera a aba **Skills prontas**: para cada empresa que tem skill `rof-contabilidade-*`, mostra por mês
+     "Pronto para lançar" (extrato na pasta e nenhum TXT/planilha de retiradas do escritório), "Já lançado", "Falta extrato".
+     A coluna "Fazer juntos" é a lista para lançar com a Rosangela. Quando surgir skill nova de empresa, incluir em
+     `skills_empresas.json` (skill → [[grupo, código]], achar o código pelo CNPJ na aba Contabil).
+   - "Pronto para lançar" em mês antigo pode ser TXT salvo fora da pasta Extrato — confirmar com a Rosangela.
 3. Meses: por padrão o **mês que acabou de fechar** e o **anterior** (ex.: em 02/10 → 08_2026 e 09_2026);
    se pedirem histórico, incluir mais meses no snapshot (em 02/10/2026 foi feito 04_2026 a 09_2026).
    Mês anterior à primeira pasta de mês da empresa sai como "—" (ainda não era cliente).
@@ -62,6 +73,10 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
   período não teve movimento ("não houve movimentações", "nenhuma movimentação", "empresa sem movimento").
   Ler o texto da imagem (snippet da busca ou `read_file_content`) e marcar `"sem_movimento": true` + `obs` no snapshot.
   Ex.: 141 TML Leite 08/2026 (print Cora), 67 Ligiane 05/2026.
+- **Extrato com nome de comprovante/imagem**: abrir o texto (snippet/`read_file_content`); se for extrato do mês
+  (cabeçalho "Extrato", período, saldo — mesmo com uma única movimentação), marcar `"extrato_conferido": "motivo"`
+  no snapshot → Recebido. Ex.: 81 Marcos Viana 07/2026 (extrato Caixa salvo como comprovante...pdf),
+  94 E M Dammroze 06/2026 (extrato com só a tarifa).
 - Ignorar como extrato: `.txt`, Retiradas, Conciliacao, Lancamentos, Balancete, ProLabore, comprovantes, NF/DANFE.
 - Banco pelo nome do arquivo: `sicredi_*`/`relato_rio` Sicredi; uuid `xxxxxxxx-…-AAAA-MM-DD-AAAA-MM-DD` Nubank;
   `Nome_ddmmaaaa_a_ddmmaaaa_hash` Cora; `Extrato-dd-mm-aaaa-a-…` Inter; `extrato-da-sua-conta-*` C6;

@@ -5,7 +5,10 @@ das pastas do Google Drive (snapshot JSON gerado pelo Claude) e gera uma planilh
 mostrando, empresa a empresa e banco a banco, quais extratos chegaram e quais faltam.
 
 Uso:
-    python conferir_extratos.py "Rotinas tarefas do mes.xlsm" snapshot.json saida.xlsx
+    python conferir_extratos.py "Rotinas tarefas do mes.xlsm" snapshot.json saida.xlsx [skills_empresas.json]
+
+skills_empresas.json (opcional): {"rof-contabilidade-xxx": [["KON CONTABILIDADE", 62]], ...} — empresas que já têm
+skill de lançamento; gera a aba "Skills prontas" (extrato na pasta e ainda não lançado = fazer junto).
 
 Formato do snapshot (montado pelo Claude ao varrer o Drive):
     {
@@ -15,11 +18,13 @@ Formato do snapshot (montado pelo Claude ao varrer o Drive):
         {"raiz": "Arquivos RENATA Dominio", "pasta": "17 - AP Transportes",
          "meses": {"08_2026": {"pasta_mes": true, "pasta_extrato": true,
                                "arquivos": ["sicredi_123.ofx", ...], "obs": "...",
-                               "sem_movimento": false}}}
+                               "sem_movimento": false, "extrato_conferido": ""}}}
       ],
       "inativas_no_drive": ["68 - Face Doctor", ...]
     }
 
+"extrato_conferido": "motivo" quando o Claude abriu um arquivo com nome de comprovante/imagem e
+confirmou que é o extrato do mês (ex.: extrato salvo como "comprovante...pdf") — o mês vira Recebido.
 "sem_movimento": true quando o Claude abriu um print/imagem da pasta Extrato e ele diz que o
 período não teve movimento (ex.: "não houve movimentações") — o mês vira S/MOV.
 Meses anteriores à primeira pasta de mês da empresa aparecem como "—" (ainda não era cliente
@@ -153,6 +158,8 @@ def status_mes(info):
     imagens = [a for a in arquivos if IMAGEM.search(a) or COMPROVANTE.search(a)]
     if extratos:
         return "Recebido", "", extratos
+    if info.get("extrato_conferido"):
+        return "Recebido", info["extrato_conferido"], arquivos
     if info.get("sem_movimento"):
         return "S/MOV", info.get("obs") or "print do banco na pasta: período sem movimento", []
     if not info.get("pasta_extrato") and not arquivos:
@@ -209,7 +216,8 @@ def montar(empresas, snap):
                     st, mot = "S/MOV", "marcada S/MOV na Rotina"
             achados = bancos_nos_arquivos(arqs)
             faltam = [b for b in bancos_esperados if b not in achados] if st == "Recebido" else []
-            lin["meses"][m] = {"status": st, "motivo": mot, "arquivos": arqs,
+            todos = ((e["drive"]["meses"].get(m) or {}).get("arquivos", [])) if e["drive"] else []
+            lin["meses"][m] = {"status": st, "motivo": mot, "arquivos": arqs, "todos": todos,
                                "bancos": sorted(achados), "bancos_nao_vistos": faltam}
         linhas.append(lin)
     return linhas
@@ -264,7 +272,42 @@ def pintar(cell):
             break
 
 
-def gerar_xlsx(linhas, snap, saida):
+def situacao_skill(d):
+    """Situação de um mês para quem tem skill: pronto para lançar, já lançado, falta extrato..."""
+    if d["status"] != "Recebido":
+        return {"FALTANDO": "Falta extrato", "Verificar": "Verificar extrato"}.get(d["status"], d["status"])
+    lancado = any(re.search(r"\.txt$", a, re.I) or PLANILHA_CONCILIACAO.search(a) for a in d["todos"])
+    if lancado or not d["arquivos"]:
+        return "Já lançado"
+    return "Pronto para lançar"
+
+
+def aba_skills(wb, linhas, meses, skills):
+    por_empresa = {}
+    for skill, empresas in skills.items():
+        for grupo, cod in empresas:
+            por_empresa[(grupo, cod)] = skill
+    ws = wb.create_sheet("Skills prontas", 1)
+    ws.append(["Cód.", "Empresa", "Skill"] + [rotulo_mes(m) for m in meses] + ["Fazer juntos (extrato na pasta, não lançado)"])
+    cores = {"Pronto para lançar": "BDD7EE", "Já lançado": "C6EFCE", "Falta extrato": "FFC7CE",
+             "Verificar extrato": "FFEB9C", "S/MOV": "D9D9D9", "—": "EDEDED"}
+    for lin in linhas:
+        e = lin["empresa"]
+        skill = por_empresa.get((e["grupo"], e["cod"]))
+        if not skill:
+            continue
+        sit = {m: situacao_skill(lin["meses"][m]) for m in meses}
+        prontos = [rotulo_mes(m) for m in meses if sit[m] == "Pronto para lançar"]
+        ws.append([e["cod"], nome_curto(e["nome"]), skill] + [sit[m] for m in meses] + [", ".join(prontos)])
+        for i, m in enumerate(meses):
+            c = ws.cell(ws.max_row, 4 + i)
+            if sit[m] in cores:
+                c.fill = PatternFill("solid", fgColor=cores[sit[m]])
+    ajustar(ws, [6, 30, 36] + [16] * len(meses) + [40])
+    return ws
+
+
+def gerar_xlsx(linhas, snap, saida, skills=None):
     meses = snap["meses"]
     wb = openpyxl.Workbook()
 
@@ -352,6 +395,9 @@ def gerar_xlsx(linhas, snap, saida):
                 ws4.append([e["cod"], nome_curto(e["nome"]), rotulo_mes(m), a])
     ajustar(ws4, [6, 32, 12, 70])
 
+    if skills:
+        aba_skills(wb, linhas, meses, skills)
+
     # Painel
     ws5 = wb.create_sheet("Painel", 0)
     ws5.append([f"Conferência de extratos — gerado em {snap['gerado_em']}"])
@@ -385,11 +431,12 @@ def gerar_xlsx(linhas, snap, saida):
 
 def main():
     rotina, snapshot, saida = sys.argv[1:4]
+    skills = json.load(open(sys.argv[4], encoding="utf-8")) if len(sys.argv) > 4 else None
     snap = json.load(open(snapshot, encoding="utf-8"))
     empresas = ler_rotina(rotina)
     casar_pastas(empresas, snap)
     linhas = montar(empresas, snap)
-    gerar_xlsx(linhas, snap, saida)
+    gerar_xlsx(linhas, snap, saida, skills)
     for m in snap["meses"]:
         falt = [f"{l['empresa']['cod']} {nome_curto(l['empresa']['nome'])}" for l in linhas
                 if l["meses"][m]["status"] == "FALTANDO"]
