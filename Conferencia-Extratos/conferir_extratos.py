@@ -272,11 +272,20 @@ def pintar(cell):
             break
 
 
+# TXT de lançamento do escritório (solto ou zipado). O "Extrato-dd-mm-aaaa-a-...-TXT.txt" é exportação do banco Inter.
+TXT_LANCAMENTO = re.compile(r"\.txt$|_txt[_.].*\.zip$|txt.*\.zip$", re.I)
+TXT_DO_BANCO = re.compile(r"^extrato-\d\d-\d\d-\d{4}-a-", re.I)
+
+CORES_SITUACAO = {"Pronto para lançar": "BDD7EE", "Já lançado": "C6EFCE", "Falta extrato": "FFC7CE",
+                  "Verificar extrato": "FFEB9C", "S/MOV": "D9D9D9", "—": "EDEDED"}
+
+
 def situacao_skill(d):
-    """Situação de um mês para quem tem skill: pronto para lançar, já lançado, falta extrato..."""
+    """Situação de lançamento de um mês: já lançado, pronto para lançar, falta extrato..."""
     if d["status"] != "Recebido":
         return {"FALTANDO": "Falta extrato", "Verificar": "Verificar extrato"}.get(d["status"], d["status"])
-    lancado = any(re.search(r"\.txt$", a, re.I) or PLANILHA_CONCILIACAO.search(a) for a in d["todos"])
+    lancado = any(TXT_LANCAMENTO.search(a) and not TXT_DO_BANCO.search(a) or PLANILHA_CONCILIACAO.search(a)
+                  for a in d["todos"])
     if lancado or not d["arquivos"]:
         return "Já lançado"
     return "Pronto para lançar"
@@ -289,8 +298,7 @@ def aba_skills(wb, linhas, meses, skills):
             por_empresa[(grupo, cod)] = skill
     ws = wb.create_sheet("Skills prontas", 1)
     ws.append(["Cód.", "Empresa", "Skill"] + [rotulo_mes(m) for m in meses] + ["Fazer juntos (extrato na pasta, não lançado)"])
-    cores = {"Pronto para lançar": "BDD7EE", "Já lançado": "C6EFCE", "Falta extrato": "FFC7CE",
-             "Verificar extrato": "FFEB9C", "S/MOV": "D9D9D9", "—": "EDEDED"}
+    cores = CORES_SITUACAO
     for lin in linhas:
         e = lin["empresa"]
         skill = por_empresa.get((e["grupo"], e["cod"]))
@@ -305,6 +313,32 @@ def aba_skills(wb, linhas, meses, skills):
                 c.fill = PatternFill("solid", fgColor=cores[sit[m]])
     ajustar(ws, [6, 30, 36] + [16] * len(meses) + [40])
     return ws
+
+
+def aba_lancamentos(wb, linhas, meses, skills):
+    """Todas as empresas: o que já foi lançado, o que tem extrato para lançar e o que falta o cliente enviar."""
+    por_empresa = {}
+    for skill, empresas in (skills or {}).items():
+        for grupo, cod in empresas:
+            por_empresa[(grupo, cod)] = skill
+    ws = wb.create_sheet("Lançamentos", 1)
+    ws.append(["Grupo", "Cód.", "Empresa", "Skill"] + [rotulo_mes(m) for m in meses]
+              + ["Para lançar (extrato na pasta)", "Falta o cliente enviar", "Já lançados"])
+    totais = {m: {} for m in meses}
+    for lin in linhas:
+        e = lin["empresa"]
+        sit = {m: situacao_skill(lin["meses"][m]) for m in meses}
+        for m in meses:
+            totais[m][sit[m]] = totais[m].get(sit[m], 0) + 1
+        lista = lambda k: ", ".join(rotulo_mes(m) for m in meses if sit[m] == k)
+        ws.append([e["grupo"], e["cod"], nome_curto(e["nome"]), por_empresa.get((e["grupo"], e["cod"]), "")]
+                  + [sit[m] for m in meses] + [lista("Pronto para lançar"), lista("Falta extrato"), lista("Já lançado")])
+        for i, m in enumerate(meses):
+            c = ws.cell(ws.max_row, 5 + i)
+            if sit[m] in CORES_SITUACAO:
+                c.fill = PatternFill("solid", fgColor=CORES_SITUACAO[sit[m]])
+    ajustar(ws, [14, 6, 32, 30] + [16] * len(meses) + [30, 30, 30])
+    return totais
 
 
 def gerar_xlsx(linhas, snap, saida, skills=None):
@@ -397,6 +431,7 @@ def gerar_xlsx(linhas, snap, saida, skills=None):
 
     if skills:
         aba_skills(wb, linhas, meses, skills)
+    totais_lanc = aba_lancamentos(wb, linhas, meses, skills)
 
     # Painel
     ws5 = wb.create_sheet("Painel", 0)
@@ -409,6 +444,17 @@ def gerar_xlsx(linhas, snap, saida, skills=None):
         for lin in linhas:
             cont[lin["meses"][m]["status"]] += 1
         ws5.append([rotulo_mes(m)] + list(cont.values()) + [sum(cont.values())])
+    ws5.append([])
+    ws5.append(["Lançamento", "Já lançado", "Para lançar", "Falta extrato", "Verificar", "S/MOV", "—"])
+    lin_cab = ws5.max_row
+    for c in ws5[lin_cab]:
+        c.font = Font(bold=True)
+    for i, k in enumerate(["Já lançado", "Pronto para lançar", "Falta extrato", "Verificar extrato", "S/MOV", "—"], 2):
+        ws5.cell(lin_cab, i).fill = PatternFill("solid", fgColor=CORES_SITUACAO[k])
+    for m in meses:
+        t = totais_lanc[m]
+        ws5.append([rotulo_mes(m)] + [t.get(k, 0) for k in ["Já lançado", "Pronto para lançar", "Falta extrato",
+                                                            "Verificar extrato", "S/MOV", "—"]])
     ws5.append([])
     ws5.append(["Legenda"])
     for k, t in [("Recebido", "extrato (OFX/PDF/CSV/XLS) na pasta Extrato do mês, ou já lançado/conciliado pelo escritório"),

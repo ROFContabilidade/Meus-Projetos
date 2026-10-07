@@ -57,6 +57,10 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
      A coluna "Fazer juntos" é a lista para lançar com a Rosangela. Quando surgir skill nova de empresa, incluir em
      `skills_empresas.json` (skill → [[grupo, código]], achar o código pelo CNPJ na aba Contabil).
    - "Pronto para lançar" em mês antigo pode ser TXT salvo fora da pasta Extrato — confirmar com a Rosangela.
+   - A aba **Lançamentos** faz o mesmo para TODAS as empresas (com ou sem skill) e o Painel traz a tabela
+     Já lançado / Para lançar / Falta extrato por mês. "Lançado" = TXT do escritório na pasta Extrato (solto ou em
+     .zip com "TXT" no nome) ou planilha de retiradas/conciliação; o `Extrato-dd-mm-aaaa-a-...-TXT.txt` do Inter é extrato.
+   - A coluna "Realizado?" da Rotina não serve para saber o que foi lançado (em 07/10/2026 só tinha "Em execução"/"S/MOV").
 3. Meses: por padrão o **mês que acabou de fechar** e o **anterior** (ex.: em 02/10 → 08_2026 e 09_2026);
    se pedirem histórico, incluir mais meses no snapshot (em 02/10/2026 foi feito 04_2026 a 09_2026).
    Mês anterior à primeira pasta de mês da empresa sai como "—" (ainda não era cliente).
