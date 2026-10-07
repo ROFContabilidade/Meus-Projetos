@@ -1,0 +1,27 @@
+|0000|14757847000120|
+|6000|X||||
+|6100|01/09/2026|566|8|400,00||REF. A Pix enviado via chave: Denios Da Cunha Leite||||
+|6000|X||||
+|6100|04/09/2026|566|8|550,00||REF. A Pix enviado via chave: Denios Da Cunha Leite||||
+|6000|X||||
+|6100|04/09/2026|566|8|200,00||REF. A Pix enviado via chave: Denios Da Cunha Leite||||
+|6000|X||||
+|6100|04/09/2026|566|8|750,00||REF. A Pix enviado via chave: Denios Da Cunha Leite||||
+|6000|X||||
+|6100|09/09/2026|566|8|150,80||REF. A Pix enviado via chave: Denios Da Cunha Leite||||
+|6000|X||||
+|6100|09/09/2026|550|8|3,45||REF. A Tarifa confirmação Boleto: 57429296 Parc 8 de SINDICATO DE HOTEIS E SIMILARES DE CURITIBA||||
+|6000|X||||
+|6100|10/09/2026|596|8|1146,54||REF. A Pagamento de fatura cartão de crédito: Mês Referência 09/2026||||
+|6000|X||||
+|6100|10/09/2026|566|8|138,51||REF. A Pix enviado via chave: Denios Da Cunha Leite||||
+|6000|X||||
+|6100|15/09/2026|550|8|3,45||REF. A Tarifa confirmação Bolix: 57428691 Parc 9 de CONTABIL SOLOGICA CONTADORES ASSOCIADOS SS LTDA - ME||||
+|6000|X||||
+|6100|15/09/2026|550|8|3,45||REF. A Tarifa confirmação Boleto: 59567208 Parc 5 de MOLDURAMA DO BRASIL IND E COM E IMP/EXP||||
+|6000|X||||
+|6100|21/09/2026|566|8|1013,10||REF. A Pix enviado via chave: Denios Da Cunha Leite||||
+|6000|X||||
+|6100|30/09/2026|596|8|1172,11||REF. A Pagamento de fatura cartão de crédito: Mês Referência 10/2026||||
+|6000|X||||
+|6100|30/09/2026|566|8|375,93||REF. A Pix enviado via chave: Denios Da Cunha Leite||||

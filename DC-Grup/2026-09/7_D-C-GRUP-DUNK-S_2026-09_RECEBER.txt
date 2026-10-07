@@ -1,0 +1,39 @@
+|0000|14757847000120|
+|6000|X||||
+|6100|04/09/2026|8|504|550,00||REF. A Pix recebido via chave: Associacao M Parana||||
+|6000|X||||
+|6100|04/09/2026|8|504|200,00||REF. A Pix recebido via chave: Gmark Marketing Digital Ltda||||
+|6000|X||||
+|6100|04/09/2026|8|504|750,80||REF. A Pix recebido via chave: Centerrol Industria E Comercio Ltda||||
+|6000|X||||
+|6100|08/09/2026|8|504|150,00||REF. A Pix recebido via chave: Clube De Beneficios A Aproville||||
+|6000|X||||
+|6100|09/09/2026|8|504|150,00||REF. A Recebimento de cobrança: 57429296 Parc 8 de SINDICATO DE HOTEIS E SIMILARES DE CURITIBA||||
+|6000|X||||
+|6100|10/09/2026|8|504|200,00||REF. A Pix recebido via chave: Pf F L Eireli - Me||||
+|6000|X||||
+|6100|10/09/2026|8|504|938,50||REF. A Pix recebido via chave: Jornal Aqui Regional Eireli||||
+|6000|X||||
+|6100|11/09/2026|8|504|100,00||REF. A Pix recebido via chave: De Biasi Sociedade Individual De Advocacia||||
+|6000|X||||
+|6100|15/09/2026|8|504|100,00||REF. A Recebimento de cobrança: 57428691 Parc 9 de CONTABIL SOLOGICA CONTADORES ASSOCIADOS SS LTDA - ME||||
+|6000|X||||
+|6100|15/09/2026|8|504|100,00||REF. A Pix recebido via chave: Seripar Comunicacao Visual Ltda||||
+|6000|X||||
+|6100|15/09/2026|8|504|250,00||REF. A Recebimento de cobrança: 59567208 Parc 5 de MOLDURAMA DO BRASIL IND E COM E IMP/EXP||||
+|6000|X||||
+|6100|15/09/2026|8|504|120,00||REF. A Pix recebido via chave: Swt Teleinformatica E Manutencao Ltda||||
+|6000|X||||
+|6100|18/09/2026|8|504|250,00||REF. A Pix recebido via chave: Silsi De Oliveira Mendes H Barbosa Sociedade Individual De Advocacia||||
+|6000|X||||
+|6100|21/09/2026|8|504|100,00||REF. A Pix recebido via chave: Ki Kacau Comercio De Doces Ltda||||
+|6000|X||||
+|6100|25/09/2026|8|504|150,00||REF. A Pix recebido via chave: Thiago Calandrini Sociedade Individual De Advocacia||||
+|6000|X||||
+|6100|25/09/2026|8|504|563,10||REF. A Pix recebido via chave: Centerrol Industria E Comercio Ltda||||
+|6000|X||||
+|6100|28/09/2026|8|504|125,00||REF. A Pix recebido via chave: Rt Comercio Importacao E G F Ltda||||
+|6000|X||||
+|6100|30/09/2026|8|504|400,00||REF. A Pix recebido via chave: Vinicola Araucaria Ltda||||
+|6000|X||||
+|6100|30/09/2026|8|504|309,94||REF. A Pix recebido via chave: Fonseca Alves Tecnologia Ltda||||
