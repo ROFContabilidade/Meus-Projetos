@@ -23,6 +23,8 @@ Formato do snapshot (montado pelo Claude ao varrer o Drive):
       "inativas_no_drive": ["68 - Face Doctor", ...]
     }
 
+"lancado_confirmado": "quem/quando" quando a Rosangela confirma que o mês já foi lançado mas o TXT
+não está na pasta Extrato — a aba Lançamentos passa a mostrar "Já lançado".
 "extrato_conferido": "motivo" quando o Claude abriu um arquivo com nome de comprovante/imagem e
 confirmou que é o extrato do mês (ex.: extrato salvo como "comprovante...pdf") — o mês vira Recebido.
 "sem_movimento": true quando o Claude abriu um print/imagem da pasta Extrato e ele diz que o
@@ -217,7 +219,11 @@ def montar(empresas, snap):
             achados = bancos_nos_arquivos(arqs)
             faltam = [b for b in bancos_esperados if b not in achados] if st == "Recebido" else []
             todos = ((e["drive"]["meses"].get(m) or {}).get("arquivos", [])) if e["drive"] else []
+            info_m = (e["drive"]["meses"].get(m) or {}) if e["drive"] else {}
+            if info_m.get("lancado_confirmado"):
+                mot = (mot + " | " if mot else "") + "lançado: " + info_m["lancado_confirmado"]
             lin["meses"][m] = {"status": st, "motivo": mot, "arquivos": arqs, "todos": todos,
+                               "lancado_confirmado": info_m.get("lancado_confirmado"),
                                "bancos": sorted(achados), "bancos_nao_vistos": faltam}
         linhas.append(lin)
     return linhas
@@ -284,6 +290,8 @@ def situacao_skill(d):
     """Situação de lançamento de um mês: já lançado, pronto para lançar, falta extrato..."""
     if d["status"] != "Recebido":
         return {"FALTANDO": "Falta extrato", "Verificar": "Verificar extrato"}.get(d["status"], d["status"])
+    if d.get("lancado_confirmado"):
+        return "Já lançado"
     lancado = any(TXT_LANCAMENTO.search(a) and not TXT_DO_BANCO.search(a) or PLANILHA_CONCILIACAO.search(a)
                   for a in d["todos"])
     if lancado or not d["arquivos"]:

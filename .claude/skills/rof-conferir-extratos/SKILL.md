@@ -60,6 +60,8 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
    - A aba **Lançamentos** faz o mesmo para TODAS as empresas (com ou sem skill) e o Painel traz a tabela
      Já lançado / Para lançar / Falta extrato por mês. "Lançado" = TXT do escritório na pasta Extrato (solto ou em
      .zip com "TXT" no nome) ou planilha de retiradas/conciliação; o `Extrato-dd-mm-aaaa-a-...-TXT.txt` do Inter é extrato.
+   - Quando a Rosangela disser que um mês já foi lançado (ex.: "lançamos junto julho e setembro" da 75 em 07/10/2026),
+     marcar `"lancado_confirmado": "quem/quando"` no mês do snapshot → aba Lançamentos mostra "Já lançado".
    - A coluna "Realizado?" da Rotina não serve para saber o que foi lançado (em 07/10/2026 só tinha "Em execução"/"S/MOV").
 3. Meses: por padrão o **mês que acabou de fechar** e o **anterior** (ex.: em 02/10 → 08_2026 e 09_2026);
    se pedirem histórico, incluir mais meses no snapshot (em 02/10/2026 foi feito 04_2026 a 09_2026).
