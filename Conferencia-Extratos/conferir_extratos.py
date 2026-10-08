@@ -279,7 +279,7 @@ def pintar(cell):
 
 
 # TXT de lançamento do escritório (solto ou zipado). O "Extrato-dd-mm-aaaa-a-...-TXT.txt" é exportação do banco Inter.
-TXT_LANCAMENTO = re.compile(r"\.txt$|_txt[_.].*\.zip$|txt.*\.zip$", re.I)
+TXT_LANCAMENTO = re.compile(r"\.txt$|txt.*\.zip$|_(pagar|receber)\.zip$", re.I)
 TXT_DO_BANCO = re.compile(r"^extrato-\d\d-\d\d-\d{4}-a-", re.I)
 
 CORES_SITUACAO = {"Pronto para lançar": "BDD7EE", "Já lançado": "C6EFCE", "Falta extrato": "FFC7CE",
