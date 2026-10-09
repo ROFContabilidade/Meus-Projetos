@@ -1,0 +1,291 @@
+{
+  "empresa": {
+    "nome": "COSMETICI INDUSTRIA E COMERCIO DE COSMETICOS LTDA",
+    "cnpj": "33039048000162",
+    "ie": "9080906088",
+    "uf": "PR",
+    "codigo_dominio": 25,
+    "regime": "Lucro Presumido"
+  },
+  "_acumuladores": "Acumuladores do Domínio por CFOP (mesmos códigos do relatório 'Resumo por acumulador'). Grupo: venda | industrializacao | devolucao_venda | outros.",
+  "acumuladores_saida": {
+    "200": {
+      "descricao": "VENDAS S/ ST - DENTRO DO ESTADO",
+      "grupo": "venda",
+      "cfops": [
+        "5101",
+        "5102",
+        "5103",
+        "5104"
+      ]
+    },
+    "201": {
+      "descricao": "VENDA S/ ST - FORA DO ESTADO",
+      "grupo": "venda",
+      "cfops": [
+        "6101",
+        "6102",
+        "6103",
+        "6104",
+        "6107",
+        "6108"
+      ]
+    },
+    "202": {
+      "descricao": "VENDA C/ ST - DENTRO DO ESTADO",
+      "grupo": "venda",
+      "cfops": [
+        "5401",
+        "5402",
+        "5403",
+        "5405"
+      ]
+    },
+    "203": {
+      "descricao": "VENDA C/ ST - FORA DO ESTADO (conferir código no Domínio)",
+      "grupo": "venda",
+      "cfops": [
+        "6401",
+        "6402",
+        "6403",
+        "6404"
+      ]
+    },
+    "208": {
+      "descricao": "REMESSA EM BONIF, DOAÇÃO E BRINDE",
+      "grupo": "outros",
+      "cfops": [
+        "5910",
+        "6910"
+      ]
+    },
+    "217": {
+      "descricao": "RETORNO REMESSA IND. ENCOMENDA - 6902",
+      "grupo": "outros",
+      "cfops": [
+        "6902",
+        "6903"
+      ]
+    },
+    "254": {
+      "descricao": "IND. EFETUADA PARA OUTRA EMPRESA - 5124",
+      "grupo": "industrializacao",
+      "cfops": [
+        "5124",
+        "5125"
+      ]
+    },
+    "255": {
+      "descricao": "IND. EFETUADA PARA OUTRA EMPRESA - 6124",
+      "grupo": "industrializacao",
+      "cfops": [
+        "6124",
+        "6125"
+      ]
+    },
+    "277": {
+      "descricao": "RETORNO DE MERC NA INDUSTR - 5902",
+      "grupo": "outros",
+      "cfops": [
+        "5902",
+        "5903"
+      ]
+    }
+  },
+  "cfops_devolucao_venda": [
+    "1201",
+    "1202",
+    "1203",
+    "1204",
+    "1410",
+    "1411",
+    "2201",
+    "2202",
+    "2203",
+    "2204",
+    "2410",
+    "2411"
+  ],
+  "_pis_cofins": "Mesma fórmula da planilha FAT. 08.26_Cosmetici (aba 'Empresa 25'), que bateu com os DARFs de 08/2026: base 0,65%/3% = industrialização (vlr contábil - ICMS); base 2,2%/10,3% = vendas (vlr contábil - ICMS das vendas - IPI total - ST total). Cada parcela é arredondada antes de somar (igual ao DARF).",
+  "pis_cofins": {
+    "aliquotas_industrializacao": {
+      "pis": 0.0065,
+      "cofins": 0.03
+    },
+    "aliquotas_vendas": {
+      "pis": 0.022,
+      "cofins": 0.103
+    },
+    "deduzir_devolucoes": false,
+    "codigo_darf": {
+      "pis": "8109",
+      "cofins": "2172"
+    },
+    "vencimento_dia": 25
+  },
+  "irpj_csll": {
+    "presuncao_irpj": 0.08,
+    "presuncao_csll": 0.12,
+    "aliquota_irpj": 0.15,
+    "adicional_irpj": 0.1,
+    "limite_adicional_trimestre": 60000.0,
+    "aliquota_csll": 0.09,
+    "codigo_darf": {
+      "irpj": "2089",
+      "csll": "2372"
+    }
+  },
+  "_faturamento_mensal": "Receita bruta do mês (vendas + industrialização - devoluções - ST - IPI), usada no trimestre do IRPJ/CSLL. A apuração grava o mês calculado aqui; meses que vieram de fora (planilha FAT) ficam com a origem anotada.",
+  "faturamento_mensal": {
+    "2026-04": {
+      "valor": 194902.79,
+      "origem": "FAT. Cosmetici_04.26.xlsx (aba Trimestral de 06/2026)"
+    },
+    "2026-05": {
+      "valor": 518049.42,
+      "origem": "FAT. 05.26_Cosmetici.xlsx"
+    },
+    "2026-06": {
+      "valor": 285690.16,
+      "origem": "FAT. 06.26_Cosmetici.xlsx"
+    },
+    "2026-07": {
+      "valor": 391529.15,
+      "origem": "SPED SpedEFD-33039048000162-9080906088-Remessa de arquivo substituto-jul.2026.txt (PIS/COFINS iguais aos DARFs)"
+    },
+    "2026-08": {
+      "valor": 445743.94,
+      "origem": "SPED SpedEFD-33039048000162-9080906088-Remessa de arquivo original-ago.2026.txt (PIS/COFINS iguais aos DARFs)"
+    }
+  },
+  "icms": {
+    "codigo_receita_pr": "1015",
+    "codigo_receita_st_pr": "100099",
+    "vencimento_dia": 12,
+    "vencimento_dia_st": 10,
+    "cfops_entrada_com_credito_padrao": [
+      "1101",
+      "1102",
+      "2101",
+      "2102",
+      "1911",
+      "2911",
+      "1201",
+      "1202",
+      "2201",
+      "2202"
+    ],
+    "cfops_cte_com_credito": [
+      "1352",
+      "1353",
+      "2352",
+      "2353"
+    ],
+    "_ajustes": "Ajustes manuais da apuração (E111) por mês. Ex.: {\"2026-08\": [{\"cod\": \"PR000080\", \"tipo\": \"debito\", \"valor\": 1186.91, \"descr\": \"...\"}]}",
+    "ajustes": {}
+  },
+  "ipi": {
+    "codigo_darf": "5123",
+    "vencimento_dia": 25,
+    "cfops_entrada_com_credito": [
+      "1101",
+      "2101",
+      "1911",
+      "2911",
+      "1201",
+      "2201",
+      "1410",
+      "2410"
+    ]
+  },
+  "_contas_dominio": "Contas do plano da COSMETICI no Domínio para o TXT de provisão dos impostos (layout |0000|, |6000|, |6100|). Conta null = esse imposto não entra no TXT. CONFIRMAR com a contadora antes de importar.",
+  "contas_dominio": {
+    "pis": {
+      "debito": null,
+      "credito": null,
+      "historico": "PROVISAO PIS S/ FATURAMENTO {mes}"
+    },
+    "cofins": {
+      "debito": null,
+      "credito": null,
+      "historico": "PROVISAO COFINS S/ FATURAMENTO {mes}"
+    },
+    "ipi": {
+      "debito": null,
+      "credito": null,
+      "historico": "PROVISAO IPI A RECOLHER {mes}"
+    },
+    "icms": {
+      "debito": null,
+      "credito": null,
+      "historico": "PROVISAO ICMS A RECOLHER {mes}"
+    },
+    "icms_st": {
+      "debito": null,
+      "credito": null,
+      "historico": "PROVISAO ICMS SUBSTITUICAO TRIBUTARIA {mes}",
+      "_obs": "Sugestão: D 482 (-) SUBSTITUIÇÃO TRIBUTÁRIA / C 481 SUBSTITUIÇÃO TRIBUTÁRIA A RECOLHER (contas do balancete 12/2025, época do Simples). Confirmar com a contadora antes de preencher."
+    },
+    "irpj": {
+      "debito": null,
+      "credito": null,
+      "historico": "PROVISAO IRPJ {trimestre}"
+    },
+    "csll": {
+      "debito": null,
+      "credito": null,
+      "historico": "PROVISAO CSLL {trimestre}"
+    }
+  },
+  "conferencia": {
+    "tolerancia": 0.02,
+    "ncm_monofasico_prefixos": [
+      "3303",
+      "3304",
+      "3305",
+      "3306",
+      "3307",
+      "34011190",
+      "34012010",
+      "96032100"
+    ],
+    "aliquota_interestadual": {
+      "7": [
+        "AC",
+        "AL",
+        "AM",
+        "AP",
+        "BA",
+        "CE",
+        "DF",
+        "ES",
+        "GO",
+        "MA",
+        "MS",
+        "MT",
+        "PA",
+        "PB",
+        "PE",
+        "PI",
+        "RN",
+        "RO",
+        "RR",
+        "SE",
+        "TO"
+      ],
+      "12": [
+        "MG",
+        "RJ",
+        "RS",
+        "SC",
+        "SP"
+      ]
+    },
+    "origens_importado_4": [
+      "1",
+      "2",
+      "3",
+      "8"
+    ]
+  }
+}
