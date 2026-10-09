@@ -51,7 +51,7 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
 ## Snapshot e relatório
 1. Montar `snapshot_AAAA-MM-DD.json` (formato no cabeçalho do script): para cada empresa e mês
    `pasta_mes`, `pasta_extrato`, `arquivos` (nomes) e `obs` opcional; e `inativas_no_drive`.
-2. Rodar: `python Conferencia-Extratos/conferir_extratos.py rotina.xlsm snapshot.json Extratos_faltantes_AAAA-MM-DD.xlsx Conferencia-Extratos/skills_empresas.json`
+2. Rodar: `python Conferencia-Extratos/conferir_extratos.py rotina.xlsm snapshot.json Extratos_faltantes_AAAA-MM-DD.xlsx Conferencia-Extratos/skills_empresas.json Conferencia-Extratos/regras_empresas.json`
    - O 4º argumento gera a aba **Skills prontas**: para cada empresa que tem skill `rof-contabilidade-*`, mostra por mês
      "Pronto para lançar" (extrato na pasta e nenhum TXT/planilha de retiradas do escritório), "Já lançado", "Falta extrato".
      A coluna "Fazer juntos" é a lista para lançar com a Rosangela. Quando surgir skill nova de empresa, incluir em
@@ -88,6 +88,17 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
   `Nome_ddmmaaaa_a_ddmmaaaa_hash` Cora; `Extrato-dd-mm-aaaa-a-…` Inter; `extrato-da-sua-conta-*` C6;
   `account_statement-*`/`MercadoPago` Mercado Pago; `Entradas_Saidas_ag…` e `Extrato_NNNN_NNNNNN_data` Itaú;
   `extrato-pj-*` Santander. Quando o nome não indica o banco → "Verificar" na aba Por banco.
+
+## Situações informadas (regras_empresas.json)
+- Quando a Rosangela informar uma situação de empresa, registrar em `Conferencia-Extratos/regras_empresas.json`
+  (`grupo`, `cod`, e `inicio` = 1º mês em que o extrato é exigido e/ou `smov_ate` = último mês sem movimentação
+  bancária, mais `obs`). Antes do `inicio` fica "—"; até `smov_ate` FALTANDO/Verificar vira S/MOV.
+  Essas situações aparecem no Painel ("Situações informadas") e saem das mensagens de cobrança.
+- Registradas em 09/10/2026: 150 SM Miranda a partir de 06/2026; 92 DJC e 138 Kopp sem movimentação até
+  08/2026; 139 W B Faria abriu conta em 07/2026.
+- Empresas novas (ex.: 160 GR, 161 UPEC): o 1º mês com pasta criada no Drive é o 1º mês de atividade
+  (meses anteriores = "—"). Empresa da Rotina ainda sem pasta no Drive (e não inativa) = "—" ("empresa nova,
+  ainda sem pasta"), não FALTANDO.
 
 ## Cuidados
 - **Nunca** mover, renomear, apagar ou sobrescrever nada no Drive. Gravar a planilha no Drive (pasta

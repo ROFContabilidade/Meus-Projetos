@@ -24,6 +24,8 @@ O Claude:
 ## Rodar manualmente
 ```
 pip install openpyxl
-python conferir_extratos.py "Rotinas tarefas do mes.xlsm" relatorios/snapshot_2026-10-02.json saida.xlsx skills_empresas.json
+python conferir_extratos.py "Rotinas tarefas do mes.xlsm" relatorios/snapshot_2026-10-02.json saida.xlsx skills_empresas.json regras_empresas.json
 ```
 O snapshot (JSON) é a "fotografia" das pastas do Drive feita pelo Claude no dia da conferência.
+
+`regras_empresas.json` guarda as situações informadas (início do extrato, sem movimentação até um mês). Empresa nova conta a partir da primeira pasta de mês criada.

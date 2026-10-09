@@ -5,7 +5,7 @@ das pastas do Google Drive (snapshot JSON gerado pelo Claude) e gera uma planilh
 mostrando, empresa a empresa e banco a banco, quais extratos chegaram e quais faltam.
 
 Uso:
-    python conferir_extratos.py "Rotinas tarefas do mes.xlsm" snapshot.json saida.xlsx [skills_empresas.json]
+    python conferir_extratos.py "Rotinas tarefas do mes.xlsm" snapshot.json saida.xlsx [skills_empresas.json] [regras_empresas.json]
 
 skills_empresas.json (opcional): {"rof-contabilidade-xxx": [["KON CONTABILIDADE", 62]], ...} — empresas que já têm
 skill de lançamento; gera a aba "Skills prontas" (extrato na pasta e ainda não lançado = fazer junto).
@@ -190,10 +190,12 @@ def casar_pastas(empresas, snap):
         e["inativa"] = any(numero_pasta(n) == e["cod"] for n in snap.get("inativas_no_drive", []))
 
 
-def montar(empresas, snap):
+def montar(empresas, snap, regras=None):
     meses = snap["meses"]
+    regras = {(r["grupo"], r["cod"]): r for r in (regras or {}).get("regras", [])}
     linhas = []
     for e in empresas:
+        regra = regras.get((e["grupo"], e["cod"]), {})
         so_smov = all(x["status"].upper() == "S/MOV" for x in e["extratos"])
         bancos_esperados = []
         for x in e["extratos"]:
@@ -204,9 +206,15 @@ def montar(empresas, snap):
         inicio = None
         if e["drive"]:
             inicio = next((m for m in meses if (e["drive"]["meses"].get(m) or {}).get("pasta_mes")), None)
+        if regra.get("inicio") and (not inicio or chave_mes(regra["inicio"]) > chave_mes(inicio)):
+            inicio = regra["inicio"]
         for m in meses:
             if inicio and chave_mes(m) < chave_mes(inicio):
-                lin["meses"][m] = {"status": "—", "motivo": "sem pasta do mês no Drive (ainda não era cliente ou pastas criadas depois)",
+                mot = regra.get("obs") if regra.get("inicio") else "sem pasta do mês no Drive (ainda não era cliente ou pastas criadas depois)"
+                lin["meses"][m] = {"status": "—", "motivo": mot, "arquivos": [], "bancos": [], "bancos_nao_vistos": []}
+                continue
+            if e["drive"] is None and not e["inativa"] and not so_smov:
+                lin["meses"][m] = {"status": "—", "motivo": "empresa nova, ainda sem pasta no Drive (conta a partir da 1ª pasta de mês criada)",
                                    "arquivos": [], "bancos": [], "bancos_nao_vistos": []}
                 continue
             if e["drive"] is None:
@@ -216,6 +224,8 @@ def montar(empresas, snap):
                 st, mot, arqs = status_mes(e["drive"]["meses"].get(m))
                 if st in ("FALTANDO", "Verificar") and so_smov:
                     st, mot = "S/MOV", "marcada S/MOV na Rotina"
+            if regra.get("smov_ate") and chave_mes(m) <= chave_mes(regra["smov_ate"]) and st in ("FALTANDO", "Verificar"):
+                st, mot = "S/MOV", regra.get("obs") or "sem movimentação bancária (informado)"
             achados = bancos_nos_arquivos(arqs)
             faltam = [b for b in bancos_esperados if b not in achados] if st == "Recebido" else []
             todos = ((e["drive"]["meses"].get(m) or {}).get("arquivos", [])) if e["drive"] else []
@@ -349,7 +359,7 @@ def aba_lancamentos(wb, linhas, meses, skills):
     return totais
 
 
-def gerar_xlsx(linhas, snap, saida, skills=None):
+def gerar_xlsx(linhas, snap, saida, skills=None, regras=None):
     meses = snap["meses"]
     wb = openpyxl.Workbook()
 
@@ -469,7 +479,7 @@ def gerar_xlsx(linhas, snap, saida, skills=None):
                  ("FALTANDO", "pasta Extrato vazia, sem pasta Extrato ou pasta do mês não criada — pedir ao cliente"),
                  ("Verificar", "só imagem/comprovante ou só arquivos gerados pelo escritório"),
                  ("S/MOV", "contas marcadas S/MOV na Rotina, ou print do banco na pasta dizendo que o período não teve movimento"),
-                 ("—", "sem pasta do mês no Drive antes do 1º mês da empresa (ainda não era cliente)")]:
+                 ("—", "antes do 1º mês da empresa: pasta do mês ainda não criada, empresa nova sem pasta, ou início informado")]:
         ws5.append([k, t])
         ws5.cell(ws5.max_row, 1).fill = FILL[k]
         ws5.merge_cells(start_row=ws5.max_row, start_column=2, end_row=ws5.max_row, end_column=10)
@@ -477,6 +487,15 @@ def gerar_xlsx(linhas, snap, saida, skills=None):
         c.font = Font(bold=True)
     for i, k in enumerate(["Recebido", "FALTANDO", "Verificar", "S/MOV", "—"], 2):
         ws5.cell(3, i).fill = FILL[k]
+    if regras and regras.get("regras"):
+        ws5.append([])
+        ws5.append(["Situações informadas"])
+        ws5.cell(ws5.max_row, 1).font = Font(bold=True)
+        for r in regras["regras"]:
+            ws5.append([r["cod"], r.get("obs", "")])
+            ws5.merge_cells(start_row=ws5.max_row, start_column=2, end_row=ws5.max_row, end_column=10)
+        ws5.append(["novas", "empresa sem pasta no Drive: '—' até a pasta do 1º mês ser criada (esse é o 1º mês de atividade)"])
+        ws5.merge_cells(start_row=ws5.max_row, start_column=2, end_row=ws5.max_row, end_column=10)
     ws5.column_dimensions["A"].width = 16
     for col in "BCDEFG":
         ws5.column_dimensions[col].width = 12
@@ -486,11 +505,12 @@ def gerar_xlsx(linhas, snap, saida, skills=None):
 def main():
     rotina, snapshot, saida = sys.argv[1:4]
     skills = json.load(open(sys.argv[4], encoding="utf-8")) if len(sys.argv) > 4 else None
+    regras = json.load(open(sys.argv[5], encoding="utf-8")) if len(sys.argv) > 5 else None
     snap = json.load(open(snapshot, encoding="utf-8"))
     empresas = ler_rotina(rotina)
     casar_pastas(empresas, snap)
-    linhas = montar(empresas, snap)
-    gerar_xlsx(linhas, snap, saida, skills)
+    linhas = montar(empresas, snap, regras)
+    gerar_xlsx(linhas, snap, saida, skills, regras)
     for m in snap["meses"]:
         falt = [f"{l['empresa']['cod']} {nome_curto(l['empresa']['nome'])}" for l in linhas
                 if l["meses"][m]["status"] == "FALTANDO"]
