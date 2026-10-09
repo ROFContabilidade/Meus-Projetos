@@ -1,6 +1,6 @@
 ---
 name: "rof-conferir-extratos"
-description: "Rotina mensal da ROF Contabilidade: conferir, pasta a pasta no Google Drive, quais empresas já mandaram e quais ainda faltam mandar o extrato bancário, usando como base a aba Contabil da planilha \"Rotinas tarefas do mes.xlsm\". Gera a planilha \"Extratos faltantes\" (Painel, Resumo por empresa, Por banco, Mensagens de WhatsApp, Arquivos encontrados). Usar quando pedirem para conferir/checar extratos recebidos ou faltantes, controle de extratos, quem não mandou extrato, cobrar extrato dos clientes, ou atualizar o Controle de Extratos."
+description: "Rotina mensal da ROF Contabilidade: conferir, pasta a pasta no Google Drive, quais empresas já mandaram e quais ainda faltam mandar o extrato bancário, usando como base a aba Contabil da planilha \"Rotinas tarefas do mes.xlsm\". Atualiza a planilha única \"Controle de Extratos e Lançamentos.xlsx\" (Painel, Resumo por empresa, Por banco, Mensagens de WhatsApp, Arquivos encontrados). Usar quando pedirem para conferir/checar extratos recebidos ou faltantes, controle de extratos, quem não mandou extrato, cobrar extrato dos clientes, ou atualizar o Controle de Extratos."
 ---
 
 # ROF — Conferência de extratos bancários (Drive × Rotina)
@@ -101,8 +101,15 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
   ainda sem pasta"), não FALTANDO.
 
 ## Cuidados
-- **Nunca** mover, renomear, apagar ou sobrescrever nada no Drive. Gravar a planilha no Drive (pasta
-  `Arquivos RENATA Dominio\Controle de Extratos`) só com autorização da Rosangela, como arquivo novo.
+- **Nunca** mover, renomear, apagar ou sobrescrever nada nas pastas das empresas no Drive.
+- **Planilha única** (autorizado pela Rosangela em 09/10/2026): `Arquivos RENATA Dominio\Controle de Extratos`
+  (id `1MeGczRCrVjWxX_NcYD6l02jB6w8uO_yA`) tem só **uma** planilha oficial:
+  `Controle de Extratos e Lançamentos.xlsx`. O conector não troca o conteúdo de um arquivo, então a cada atualização:
+  1. enviar a versão nova com `create_file` (nome fixo acima, `disableConversionToGoogleType: true`);
+  2. conferir que subiu (tamanho/md5) e só então mandar a anterior para a lixeira com `trash_file`
+     (a Rosangela escolheu lixeira; dá para recuperar por 30 dias).
+  Não criar planilhas com data no nome nessa pasta. A subpasta `Histórico` (id `1zvMxDtxF_tBSfshYR583s2sXjXLD2Wli`)
+  guarda as planilhas antigas ("Extratos faltantes.xlsx" de 24/09); não mexer nela.
 - Em 09/2026 muitas pastas do mês ainda não existiam (02/10): é normal no início do mês; repetir a conferência depois.
 - Empresas 160–163 e 165–167 estavam na Rotina mas sem pasta no Drive (02/10/2026) — avisar.
 - Pasta `Extrato` dentro de `Extrato` (ex.: 132 em 05/2026): listar também a subpasta.
