@@ -38,7 +38,9 @@
     "623": "REMESSA EM BONIFICAÇAO 6.910",
     "624": "REMESSA DE BEM POR CONT. COMODATO 6908",
     "119": "COMPRA DE COMBUSTÍVEL/LUBRIFICANTE 2.653 (visto no SPED 06/2026)",
-    "161": "COMPRA P/ RECEBIMENTO FUTURO 1.116 (visto no SPED 06/2026)"
+    "161": "COMPRA P/ RECEBIMENTO FUTURO 1.116 (visto no SPED 06/2026)",
+    "121": "BONIFICAÇÃO E BRINDE DENT EST 1.910 (informado por Rosangela 09/2026)",
+    "221": "BONIFICAÇÃO E BRINDE FORA EST - A VISTA"
   },
   "_finalidades": "INSUMO = matéria-prima, componente ou produto intermediário consumido na fabricação; EMBALAGEM = embalagem do produto vendido; FERRAMENTA = ferramenta de usinagem que se desgasta na produção; USO_CONSUMO = material de escritório, limpeza, EPI, informática, manutenção, alimentação, brindes; REVENDA = mercadoria revendida sem industrialização; ATIVO = bem do imobilizado.",
   "compras": {
@@ -232,11 +234,11 @@
       "descr": "Entrada em bonificação/brinde",
       "interna": {
         "cfop": "1910",
-        "ac": null
+        "ac": "121"
       },
       "interestadual": {
         "cfop": "2910",
-        "ac": null
+        "ac": "221"
       }
     },
     "915": {
@@ -486,6 +488,10 @@
     "46678467000196": {
       "finalidade": "USO_CONSUMO",
       "motivo": "JC Gráfica: panfleto/material de divulgação (não integra o produto)"
+    },
+    "61696827000176": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Cia da Embalagem: plástico bolha e material de expedição, uso e consumo (decisão Rosangela 09/2026, como nos lançamentos anteriores 1556/107)"
     }
   },
   "finalidade_por_ncm": [
@@ -688,8 +694,8 @@
     },
     {
       "contem": "TAXA ENTREGA",
-      "finalidade": "EMBALAGEM",
-      "motivo": "Frete cobrado como item: acompanha a mercadoria da nota"
+      "finalidade": "SEGUE_NOTA",
+      "motivo": "Taxa de entrega cobrada como item: segue a finalidade dos demais itens da nota"
     },
     {
       "contem": "CAFE",
@@ -862,7 +868,7 @@
     "conta_padrao": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
     "conta_por_prestador_razao": {
       "LABORATORIO DE METRO": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
-      "UNIMED CURITIBA  SOC": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "UNIMED CURITIBA  SOC": "282 3.1.1.02.009 ASSISTÊNCIA MÉDICA E SOCIAL",
       "CONTROL SYS COMERCIO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
       "DENTAL UNI  COOPERAT": "282 3.1.1.02.009 ASSISTÊNCIA MÉDICA E SOCIAL",
       "IA DOS SANTOS LTDA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
@@ -928,6 +934,25 @@
       "BRSIL CONSULTORIA E ": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
       "HOTEL ESSENCIA LTDA": "317 3.2.1.05.003 HOSPEDAGEM"
     },
-    "_chave_prestador": "nome do prestador só com letras e espaços, sem espaços nas pontas, 20 primeiros caracteres"
+    "_chave_prestador": "nome do prestador só com letras e espaços, sem espaços nas pontas, 20 primeiros caracteres",
+    "retencao_dispensada": {
+      "43404490000102": "V M Comunicações (patrocínio/propaganda): manter como a nota está, sem retenção (decisão Rosangela 09/2026)"
+    },
+    "outra_competencia": "apontar",
+    "_outra_competencia": "NFS-e de competência anterior que não foi lançada no mês dela: só apontar na planilha, não lançar (decisão Rosangela 09/2026)."
+  },
+  "_decisoes": [
+    "09/2026: brocas da Biomedicare = revenda (1102/113) pelo perfil de venda — confirmado",
+    "09/2026: etiquetas Cichon = embalagem (1101/113, conta 606) — confirmado",
+    "09/2026: Cia da Embalagem (plástico bolha) = uso e consumo",
+    "09/2026: bonificação recebida 1910 = acumulador 121",
+    "09/2026: Unimed (plano de saúde) = conta 282",
+    "09/2026: V M Comunicações sem retenção, manter como a nota",
+    "09/2026: NFS-e de competência anterior não lançada: apontar, não lançar"
+  ],
+  "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
+  "confirmado_contra_historico": {
+    "46503591000110": "Brocas = revenda (confirmado 09/2026)",
+    "11050073000104": "Etiquetas = embalagem (confirmado 09/2026)"
   }
 }

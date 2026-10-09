@@ -101,6 +101,13 @@ class Regras:
                 self._ultima = rg
                 return rg['finalidade'], rg['motivo'], 'item'
         for rg in self.r.get('finalidade_por_descricao', []):
+            if rg['contem'].upper() in item['xProd'].upper() and rg['finalidade'] == 'SEGUE_NOTA':
+                # ex.: taxa de entrega cobrada como item -> mesma finalidade dos demais itens
+                outros = [i for i in nota['itens'] if rg['contem'].upper() not in i['xProd'].upper()]
+                if outros:
+                    fin, _, origem = self.finalidade(nota, outros[0])
+                    return fin, f'{rg["motivo"]} ({fin.lower()})', origem
+                continue
             if rg['contem'].upper() in item['xProd'].upper():
                 self._ultima = rg
                 return rg['finalidade'], rg['motivo'], 'descrição'
@@ -267,7 +274,10 @@ def classificar_servico(R, r, cnpj, hist_cont):
     simples = str(r.get('Simples Nacional', ''))
     esp = cfg.get('retencao_esperada', {}).get(out['item'])
     vs = Decimal(str(r.get('Valor do Serviço (R$)') or 0))
-    if esp and 'Não Optante' in simples:
+    dispensa = cfg.get('retencao_dispensada', {}).get(cnpj)
+    if dispensa:
+        out['natureza'] += ' — retenção: ' + dispensa
+    elif esp and 'Não Optante' in simples:
         falta = []
         if 'IRRF' in esp and not ir and vs * Decimal('0.015') > 10:
             falta.append(f'IRRF 1,5% ≈ {q(vs * Decimal("0.015"))}')
@@ -537,7 +547,10 @@ def analisar(a):
         usados = {(cf, ac) for (_, cf, ac) in hist.get(n['emit_cnpj'], {})}
         so_outras = all(r['Finalidade'] == 'OUTRA OPERAÇÃO' for r in itens_rows
                         if r['Nota'] == n['numero'] and r['CNPJ'] == n['emit_cnpj'])
-        if pre and usados and sugeridos and not (sugeridos & usados) and not so_outras:
+        confirmado = R.r.get('confirmado_contra_historico', {}).get(n['emit_cnpj'])
+        if confirmado:
+            obs.append(confirmado)
+        if pre and usados and sugeridos and not (sugeridos & usados) and not so_outras and not confirmado:
             obs.append(f'Sugestão {", ".join(f"{cf}/ac {ac}" for cf, ac in sugeridos)} difere do histórico ({hist_txt})')
             if st_n == 'OK':
                 st_n = 'CONFERIR HISTÓRICO'
@@ -906,9 +919,15 @@ def analisar(a):
             mm, aa = comp[5:7], comp[:4]
             outra_comp = str(r['Competência']) != f'{mm}/{aa}'
             if pre and st in ('A LANÇAR', 'CONFERIR') and outra_comp:
-                pendencia('VERIFICAR', 'NFS-e tomada', num,
-                          f'Competência {r["Competência"]} e não aparece no histórico do Domínio: lançar em '
-                          f'{mm}/{aa} ou no mês da competência?', valor=val, participante=r['Nome Prestador'])
+                if R.r.get('servicos', {}).get('outra_competencia') == 'apontar':
+                    nfse_rows[-1]['Status'] = f'NÃO LANÇAR - competência {r["Competência"]}'
+                    pendencia('INFO', 'NFS-e de outra competência', num,
+                              f'Competência {r["Competência"]}, não lançada no Domínio até {periodos_hist[-1][1] if periodos_hist else "o mês anterior"}. '
+                              'Apontada, não lançar (regra do escritório).', valor=val, participante=r['Nome Prestador'])
+                else:
+                    pendencia('VERIFICAR', 'NFS-e tomada', num,
+                              f'Competência {r["Competência"]} e não aparece no histórico do Domínio: lançar em '
+                              f'{mm}/{aa} ou no mês da competência?', valor=val, participante=r['Nome Prestador'])
             if st == 'NÃO LANÇADA':
                 pendencia('VERIFICAR' if outra_comp else 'ALTA', 'NFS-e tomada', num,
                           f'NFS-e na lista nacional (competência {r["Competência"]}) sem lançamento neste mês no Domínio.'

@@ -83,7 +83,7 @@ def _retencoes(nfse):
     com, sem = [], []
     tot = Counter()
     for x in nfse:
-        if str(x.get('Status', '')).startswith(('OK (cancelada', 'JÁ LANÇADA', 'CANCELADA')):
+        if str(x.get('Status', '')).startswith(('OK (cancelada', 'JÁ LANÇADA', 'CANCELADA', 'NÃO LANÇAR')):
             continue
         v = {k: Decimal(str(x.get(f'{k} retido') or 0)) for k in ('IRRF', 'CSRF', 'INSS', 'ISS')}
         base = {'Número': x['Número'], 'Emissão': x.get('Data emissão', ''), 'Competência': x['Competência'],
@@ -210,6 +210,7 @@ def gravar_pre(res, saida):
         ('', None),
         ('SERVIÇOS TOMADOS (NFS-e)', 'secao'),
         (f'{len(nfse)} NFS-e na lista nacional · prontas para lançar {sum(1 for x in nfse if x["Status"] == "A LANÇAR")} · '
+         f'apontadas, não lançar (outra competência) {sum(1 for x in nfse if x["Status"].startswith("NÃO LANÇAR"))} · '
          f'conferir antes {sum(1 for x in nfse if x["Status"] == "CONFERIR")} · '
          f'já lançadas antes {sum(1 for x in nfse if x["Status"].startswith("JÁ LANÇADA"))}', None),
         ('   Acumulador de serviço escolhido pelo item da LC 116 da nota + retenções (catálogo de acumuladores do Domínio); '
