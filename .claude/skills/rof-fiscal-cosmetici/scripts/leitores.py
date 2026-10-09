@@ -105,6 +105,7 @@ def _item_nfe(det, prot_ok):
         'vprod': _v(p, 'n:vProd'), 'vdesc': _v(p, 'n:vDesc'), 'vfrete': _v(p, 'n:vFrete'),
         'vseg': _v(p, 'n:vSeg'), 'voutro': _v(p, 'n:vOutro'),
         'orig': _t(icms, 'n:orig'), 'cst_icms': _t(icms, 'n:CST') or _t(icms, 'n:CSOSN'),
+        'csosn': _t(icms, 'n:CSOSN'), 'pcredsn': _v(icms, 'n:pCredSN'), 'vcredsn': _v(icms, 'n:vCredICMSSN'),
         'vbc': _v(icms, 'n:vBC'), 'picms': _v(icms, 'n:pICMS'), 'vicms': _v(icms, 'n:vICMS'),
         'predbc': _v(icms, 'n:pRedBC'),
         'vbcst': _v(icms, 'n:vBCST'), 'pmvast': _v(icms, 'n:pMVAST'), 'picmsst': _v(icms, 'n:pICMSST'),
@@ -287,7 +288,7 @@ def ler_sieg_produtos(caminho):
             'n_item': len(n['itens']) + 1, 'cprod': None, 'xprod': s('Produto'), 'ncm': str(l.get('NCM') or ''),
             'cest': s('CEST'), 'cfop': str(l.get('CFOP') or ''), 'qtd': g('Quantidade'), 'un': s('Unidade_Comercial'),
             'vprod': g('Valor_Produto'), 'vdesc': g('Desconto'), 'vfrete': g('Valor_Frete'), 'vseg': 0.0, 'voutro': g('Valor_Outro'),
-            'orig': s('Origem'), 'cst_icms': s('ICMS_CST') or s('CSOSN'), 'vbc': g('ICMS_Base_Calculo'),
+            'orig': s('Origem'), 'cst_icms': s('ICMS_CST') or s('CSOSN'), 'csosn': s('CSOSN'), 'pcredsn': 0.0, 'vcredsn': 0.0, 'vbc': g('ICMS_Base_Calculo'),
             'picms': g('ICMS_Percentual'), 'vicms': g('Valor_ICMS'), 'predbc': 0.0,
             'vbcst': g('Base_Calculo_ST'), 'pmvast': g('MVA_ST_Percentual'), 'picmsst': g('ICMS_ST_Percentual'),
             'vst': g('ICMS_ST_Valor'), 'vfcpst': 0.0,
@@ -401,3 +402,26 @@ def cfop_entrada(cfop_fornecedor):
     """CFOP de saída do fornecedor (5xxx/6xxx/7xxx) -> CFOP de entrada correspondente (1xxx/2xxx/3xxx)."""
     c = str(cfop_fornecedor)
     return {'5': '1', '6': '2', '7': '3'}.get(c[:1], c[:1]) + c[1:]
+
+
+def ler_relatorio_faturamento_erp(caminho):
+    """Relatório de Faturamento do ERP do cliente (Cosmos, PDF ou texto do pdftotext -layout) -> {numero: dados}."""
+    if caminho.lower().endswith('.pdf'):
+        import subprocess
+        texto = subprocess.run(['pdftotext', '-layout', caminho, '-'], capture_output=True, text=True, check=True).stdout
+    else:
+        texto = open(caminho, encoding='utf-8', errors='ignore').read()
+    num = r'(-?[\d.]+,\d{2})'
+    rx = re.compile(r'^\s*\d+\s+(\d+)\s+(\d+)\s+(\d{2}/\d{2}/\d{2})\s+(\w+)\s+(.*?)\s+([A-Z])\s+' + r'\s+'.join([num] * 10) + r'\s*$')
+    out = {}
+    for linha in texto.splitlines():
+        m = rx.match(linha)
+        if not m:
+            continue
+        g = m.groups()
+        campos = ['vprod', 'vfrete', 'vseg', 'vdesc', 'voutro', 'bc', 'icms', 'st', 'ipi', 'vnf']
+        d = {'serie': g[0], 'numero': int(g[1]), 'data': dt.datetime.strptime(g[2], '%d/%m/%y').date(), 'tipo': g[3],
+             'pessoa': g[4].strip(), 'situacao': g[5]}
+        d.update({k: _f(v) for k, v in zip(campos, g[6:6 + len(campos)])})
+        out[d['numero']] = d
+    return out

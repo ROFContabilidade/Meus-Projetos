@@ -43,6 +43,19 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 - **ICMS-ST** (GR-PR 100099, dia 10): ST destacada nas saídas para o PR − ST de devoluções.
 - **IPI** (DARF 5123, dia 25): débitos das saídas − créditos das entradas de insumo.
 
+## Análise de crédito das entradas (comando `creditos`)
+
+`python scripts/fiscal_cosmetici.py creditos --mes AAAA-MM --xml <zips/pastas> --sieg-produtos Relatorio_Detalhamento_Produtos.xlsx --relatorio-erp "Faturamento Cosmetici.pdf" [--cte-json dados/cte_relatorio_sieg.json]`
+→ `Cosmetici/Fiscal/<AAAA-MM>/Creditos_Entradas_Cosmetici_MM-AAAA.xlsx` (Resumo, item a item, Simples Nacional, CT-e, conferência de saídas XML × ERP × SIEG, conferência de entradas XML × SIEG, base legal). A apuração usa a mesma classificação.
+
+Natureza de cada item (ordem): `natureza_entradas` do config (decisão do escritório) → CFOP do fornecedor (5901/5924/5923… = insumo do cliente/remessa, sem crédito; 5949 = outras; devolução) → histórico do SPED anterior (fornecedor + NCM) → NCM (insumo/embalagem/rótulo, uso e consumo, ativo).
+- **Regime normal:** crédito do ICMS destacado só em insumo/embalagem/devolução (inclusive CST 51 com valor destacado). Uso e consumo sem crédito (LC 87/96 art. 33, I). Ativo → CIAP 1/48. Item que o SPED anterior escriturou sem crédito continua sem crédito (alerta "revisar").
+- **Simples Nacional:** crédito = `vCredICMSSN` da nota, só com CSOSN 101/201/900 e só em mercadoria para industrialização (LC 123/06 art. 23 §1º; Res. CGSN 140/2018 art. 59). CSOSN 102/103/300/400/500 = sem direito. % informado com valor zerado ou CSOSN 101 com 0% = pedir correção ao fornecedor (não creditar). Simples nunca gera crédito de IPI.
+- **IPI:** só insumo de fornecedor que destacou IPI (RIPI art. 226, I).
+- **DIFAL:** uso e consumo/ativo de outra UF → estimativa pela base dupla (19,5%).
+- **PIS/COFINS:** Lucro Presumido cumulativo → sem crédito.
+- **CT-e:** crédito do frete com a COSMETICI tomadora (XML). CT-e que só aparece no relatório SIEG fica como pendente até baixar o XML. CT-e da TEX Courier de envios da GULA com a COSMETICI no documento: não creditar sem confirmar.
+
 ## Conferência automática dos XML
 
 ICMS e IPI recalculados (BC × alíquota), CST × valor, CFOP × UF do destinatário, alíquota interestadual (4% importado; 7% N/NE/CO/ES; 12% S/SE), CFOP com ST sem ST destacada e CFOP sem ST com ST destacada (visto em 08/2026: oxidantes em 5102 com ST para GULA), monofásico × CST PIS, numeração das notas próprias (buraco sem cancelamento/inutilização), notas fora do mês, CC-e, manifestação de desconhecimento, fornecedor sem histórico e, com SPED: notas no SPED sem XML e vice-versa.
@@ -56,4 +69,4 @@ ICMS e IPI recalculados (BC × alíquota), CST × valor, CFOP × UF do destinat�
 - Contas do Domínio para o TXT de provisões (PIS, COFINS, IPI, ICMS, ICMS-ST, IRPJ, CSLL) — sugestão para ST: D 482 / C 481 (balancete 12/2025), não confirmada.
 - Deduzir devoluções da base do PIS/COFINS? NCM 2847 a 2,2%/10,3% ou 0,65%/3%?
 - CT-e de 08/2026 não estavam nos arquivos lidos: crédito do SPED = 1.210,68 (única diferença do ICMS de 08/2026).
-- 09/2026 (preliminar, só o relatório SIEG de produtos): faltam no relatório as NF 8948, 8951, 8956, 8965 e 8972 — conferir se são canceladas/inutilizadas ou se o relatório veio incompleto.
+- 09/2026 (XML da pasta 09_2026/Doc's): 91 saídas batem com o relatório do ERP (R$ 180.815,24; ICMS 16.317,95) e com o SIEG; as NF 8938, 8948, 8951… que faltavam no SIEG são inutilizadas (procInutNFe). Créditos: ICMS NF-e normal 6.073,67 + Simples 98,95 (Lunaflexo, CSOSN 101) + CT-e com XML 185,32; IPI 2.305,74. Pendências: XML de 12 CT-e de frete de venda (Braspress, Expresso São Miguel, Rodonaves - R$ 294,06 de crédito); REATEC (NF 695) e MERCKPAR (NF 42) com CSOSN 101 sem % de crédito; reagentes de laboratório da NewProv tratados como uso e consumo (R$ 438,49 de ICMS) - confirmar; DIFAL estimado R$ 104,87 (cartucho de impressora da HS Inklaser, SP).

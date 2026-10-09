@@ -24,6 +24,8 @@ sys.path.insert(0, AQUI)
 
 import leitores  # noqa: E402
 import planilha  # noqa: E402
+import planilha_creditos  # noqa: E402
+from creditos import Credito, conferir_entradas, conferir_saidas  # noqa: E402
 import txt_dominio  # noqa: E402
 from apuracao import Apuracao, faturamento_sped  # noqa: E402
 
@@ -165,6 +167,43 @@ def cmd_apurar(args):
     return a
 
 
+def cmd_creditos(args):
+    cfg = carregar('cosmetici.json')
+    forn = carregar('fornecedores.json', {})
+    xml, prod, cte_rel, _ = fontes_da_pasta(args.pasta) if args.pasta else ([], [], [], None)
+    fontes = leitores.ler_xmls((args.xml or []) + xml)
+    sieg = {}
+    for p in (args.sieg_produtos or []) + prod:
+        sieg.update(leitores.ler_sieg_produtos(p))
+    a = Apuracao(cfg, args.mes, fontes, forn).executar()
+    extra = []
+    if args.cte_json:
+        with open(args.cte_json, encoding='utf-8') as fh:
+            extra = json.load(fh)['cte']
+        for x in extra:
+            x['data'] = leitores.dt.date.fromisoformat(x['data'])
+    c = Credito(a, forn, extra, cfg.get('natureza_entradas', {})).analisar()
+    erp = leitores.ler_relatorio_faturamento_erp(args.relatorio_erp) if args.relatorio_erp else None
+    cs = conferir_saidas(a, erp, sieg or None)
+    ce = conferir_entradas(a, sieg or None)
+    saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
+    os.makedirs(saida, exist_ok=True)
+    destino = os.path.join(saida, f'Creditos_Entradas_Cosmetici_{args.mes[5:]}-{args.mes[:4]}.xlsx')
+    planilha_creditos.gerar(c, cs, ce, destino)
+    t = c.totais()
+    print(f'== Créditos COSMETICI {args.mes} ==  entradas {len(a.entradas)} notas / {len(c.linhas)} itens')
+    for k, rot in [('icms', 'ICMS NF-e regime normal'), ('sn', 'ICMS Simples (vCredICMSSN)'), ('cte_xml', 'ICMS CT-e com XML'),
+                   ('cte_pend', 'ICMS CT-e sem XML (pendente)'), ('pot_sn', 'Simples potencial (valor zerado)'),
+                   ('confirmar', 'ICMS a confirmar'), ('ipi', 'IPI'), ('difal', 'DIFAL estimado')]:
+        print(f'  {rot:<34}{t.get(k, 0):>12,.2f}')
+    print(f'Saídas conferidas: {sum(x["obs"] == "OK" for x in cs)} OK de {len(cs)} | entradas: {sum(x["obs"] == "OK" for x in ce)} OK de {len(ce)}')
+    for x in cs + ce:
+        if x['obs'] != 'OK':
+            print('  ', x['numero'], x['obs'])
+    print(f'Planilha: {destino}')
+    return c
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description='Automação fiscal COSMETICI')
     sub = p.add_subparsers(dest='cmd', required=True)
@@ -185,6 +224,15 @@ def main(argv=None):
     fs.add_argument('--sped', required=True)
     fs.add_argument('--gravar', action='store_true')
     fs.set_defaults(func=cmd_faturamento_sped)
+    cr = sub.add_parser('creditos', help='análise de crédito das entradas + conferência XML x relatórios')
+    cr.add_argument('--mes', required=True)
+    cr.add_argument('--pasta')
+    cr.add_argument('--xml', nargs='*')
+    cr.add_argument('--sieg-produtos', nargs='*')
+    cr.add_argument('--relatorio-erp', help='Relatório de Faturamento do ERP (PDF)')
+    cr.add_argument('--cte-json', help='CT-e sem XML transcritos do relatório SIEG')
+    cr.add_argument('--saida')
+    cr.set_defaults(func=cmd_creditos)
     args = p.parse_args(argv)
     return args.func(args)
 

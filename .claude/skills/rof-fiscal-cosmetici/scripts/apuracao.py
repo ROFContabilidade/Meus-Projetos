@@ -188,20 +188,22 @@ class Apuracao:
         return cf, ci, cp, 'regra padrão (fornecedor novo)'
 
     def entradas_creditos(self):
+        """Créditos das entradas pela análise de natureza (creditos.Credito): insumo, Simples Nacional, uso e consumo etc."""
+        from creditos import Credito
+        self.credito = Credito(self, self.forn, overrides=self.cfg.get('natureza_entradas', {})).analisar()
         linhas = []
         novos = set()
-        for n in self.entradas:
-            for i in n['itens']:
-                cf, ci, cp, orig = self._regra_entrada(n, i)
-                cred_icms = R(i['vicms']) if ci else 0.0
-                cred_ipi = R(i['vipi'] + i['vipidevol']) if cp else 0.0
-                if orig.startswith('regra') and not n['propria'] and (i['vicms'] or i['vipi']):
-                    novos.add((n['emit_cnpj'], n['emit_nome']))
-                linhas.append({'nota': n, 'item': i, 'cfop': cf, 'vc': R(vcontabil(i)), 'cred_icms': cred_icms,
-                               'cred_ipi': cred_ipi, 'regra': orig, 'icms_destacado': R(i['vicms']), 'ipi_destacado': R(i['vipi'])})
+        for l in self.credito.linhas:
+            n, i = l['nota'], l['item']
+            aprendido = l['origem'].startswith('SPED') or l['origem'] == 'config'
+            if not aprendido and not n['propria'] and l['natureza'] in ('insumo', 'uso', 'ativo', 'confirmar') and (i['vicms'] or i['vipi'] or i['vcredsn']):
+                novos.add((n['emit_cnpj'], n['emit_nome']))
+            linhas.append({'nota': n, 'item': i, 'cfop': l['cfop_ent'], 'vc': l['vc'], 'cred_icms': R(l['cred_icms'] + l['cred_sn']),
+                           'cred_ipi': l['cred_ipi'], 'regra': f'{l["natureza_desc"]} [{l["origem"]}]',
+                           'icms_destacado': R(i['vicms']), 'ipi_destacado': R(i['vipi']), 'aprendido': aprendido})
         for cnpj, nome in sorted(novos, key=lambda x: x[1] or ''):
             self.div.append(('MÉDIA', 'Fornecedor sem histórico', f'{nome} ({cnpj})',
-                             'Crédito de ICMS/IPI pela regra padrão do CFOP - confirmar se é insumo (1101/2101) ou uso e consumo (1556/2556)', None))
+                             'Natureza definida pelo NCM (sem histórico no SPED) - confirmar insumo (1101/2101) x uso e consumo (1556/2556)', None))
         for ch, motivo in self.desconhecidas.items():
             n = self.f['nfe'].get(ch)
             self.div.append(('ALTA', 'Manifestação', self._doc(n) if n else ch, f'Nota manifestada como "{motivo}" - não escriturar', None))

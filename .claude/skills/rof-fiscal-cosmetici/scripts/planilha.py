@@ -196,7 +196,7 @@ def itens_saida(wb, a):
 def entradas(wb, a):
     ws = wb.create_sheet('Entradas e créditos')
     _titulo(ws, 'Entradas do mês e créditos de ICMS/IPI',
-            'Coluna "Regra": aprendido = mesma classificação do SPED anterior; regra padrão = fornecedor novo (confirmar). Preencha as colunas amarelas se discordar.')
+            'Coluna "Regra": natureza do item e de onde veio (SPED anterior, NCM ou CFOP). Laranja = sem histórico, conferir. Detalhe completo na planilha de créditos.')
     H = ['Emissão', 'Fornecedor', 'CNPJ', 'NF', 'Item', 'Produto', 'NCM', 'CFOP forn.', 'CFOP entrada', 'Vlr contábil',
          'ICMS destacado', 'Crédito ICMS', 'IPI destacado', 'Crédito IPI', 'Regra', 'Confere?', 'Observação']
     _cab(ws, 4, H)
@@ -205,7 +205,7 @@ def entradas(wb, a):
         n, i = l['nota'], l['item']
         _linha(ws, r, [n['dhemi'], n['emit_nome'], n['emit_cnpj'], n['numero'], i['n_item'], i['xprod'], i['ncm'], i['cfop'], l['cfop'],
                        l['vc'], l['icms_destacado'], l['cred_icms'], l['ipi_destacado'], l['cred_ipi'], l['regra'], '', ''],
-               moeda=(9, 10, 11, 12, 13), fill=MEDIA if l['regra'].startswith('regra') and (l['icms_destacado'] or l['ipi_destacado']) else None)
+               moeda=(9, 10, 11, 12, 13), fill=MEDIA if not l.get('aprendido') and (l['icms_destacado'] or l['ipi_destacado']) else None)
         ws.cell(r, 16).fill = EDIT; ws.cell(r, 17).fill = EDIT; r += 1
     _linha(ws, r, ['Total'] + [''] * 8 + [f'=SUM({get_column_letter(c)}5:{get_column_letter(c)}{r-1})' for c in range(10, 15)] + ['', '', ''],
            moeda=(9, 10, 11, 12, 13), bold=True)

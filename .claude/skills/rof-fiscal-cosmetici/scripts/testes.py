@@ -115,7 +115,37 @@ def teste_sieg_cte():
     print('ok relatório SIEG de CT-e')
 
 
+def teste_simples():
+    from creditos import Credito
+    def item(cfop, ncm, vprod, csosn, pcred=0.0, vcred=0.0, vicms=0.0, cst=None, vipi=0.0):
+        return {'n_item': 1, 'xprod': 'X', 'ncm': ncm, 'cfop': cfop, 'vprod': vprod, 'vdesc': 0.0, 'vfrete': 0.0, 'vseg': 0.0, 'voutro': 0.0,
+                'vipi': vipi, 'vst': 0.0, 'vfcpst': 0.0, 'vipidevol': 0.0, 'cst_icms': cst or csosn, 'csosn': csosn, 'pcredsn': pcred,
+                'vcredsn': vcred, 'vicms': vicms}
+    def nota(crt, it, uf='PR', cnpj='99999999000191'):
+        return {'numero': 1, 'serie': '1', 'dhemi': dt.date(2026, 9, 5), 'emit_cnpj': cnpj, 'emit_nome': 'F', 'emit_uf': uf, 'emit_crt': crt,
+                'finnfe': '1', 'propria': False, 'chave': 'x', 'itens': [it]}
+    class A:  # apuração mínima
+        cnpj = CNPJ; cfg = CFG; ctes = []
+    casos = [
+        (nota('1', item('5101', '39191090', 1000, '101', 2.86, 28.60)), 'insumo', 28.60, 0, 0),       # rótulo, Simples com crédito
+        (nota('1', item('5101', '48211000', 1000, '102')), 'insumo', 0, 0, 0),                        # Simples sem permissão
+        (nota('1', item('5102', '29221100', 1000, '101', 3.0, 0.0)), 'insumo', 0, 30.0, 0),           # % sem valor -> potencial
+        (nota('1', item('5102', '64039190', 100, '102')), 'uso', 0, 0, 0),                             # EPI
+        (nota('1', item('5901', '39233090', 500, '400')), 'remessa', 0, 0, 0),                         # insumo do cliente
+        (nota('3', item('6101', '33029019', 1000, None, vicms=120, cst='00', vipi=50), 'SP'), 'insumo', 120, 0, 50),
+        (nota('3', item('6102', '84439923', 1000, None, vicms=120, cst='00'), 'SP'), 'uso', 0, 0, 0),  # uso e consumo -> DIFAL
+    ]
+    A.entradas = [c[0] for c in casos]
+    c = Credito(A, {}).analisar()
+    for (n, nat, cred, pot, ipi), l in zip(casos, c.linhas):
+        assert l['natureza'] == nat, (n['itens'][0]['ncm'], l['natureza'])
+        assert round(l['cred_icms'] + l['cred_sn'], 2) == cred and l['pot_sn'] == pot and l['cred_ipi'] == ipi, l
+    assert c.linhas[-1]['difal'] > 0
+    print('ok crédito Simples/insumo/uso e consumo')
+
+
 if __name__ == '__main__':
+    teste_simples()
     teste_apuracao()
     teste_irpj_trimestre()
     teste_txt()
