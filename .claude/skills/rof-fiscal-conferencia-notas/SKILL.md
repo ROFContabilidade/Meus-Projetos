@@ -41,6 +41,14 @@ python3 Fiscal/scripts/conferencia.py --regras .../regras.json --xml <pasta XML>
   --historico Entradas_jan-ago.pdf --nfse-recebidas Recebidas.xlsx \
   --erp-notas 'Relatório de Notas Fiscais.xlsx' --competencia 2026-09 --saida .../Pre_Conferencia_....xlsx
 ```
+`--acumuladores` recebe o "Resumo por acumulador" do Domínio (PDF): catálogo com o nome de cada acumulador,
+usado para as saídas e para escolher o acumulador de serviço (item da LC 116 + retenções).
+
+Classificar pela atividade: o material comprado condiz com o que a empresa fabrica/vende? A regra
+`perfil_venda` olha como a própria empresa fatura o mesmo item (x101 produção → INSUMO; x102 → REVENDA).
+Serviços: natureza pelo item da LC 116, acumulador pelo catálogo, conta pela natureza > razão > padrão,
+e alerta de retenção (IRRF/CSRF) faltando em prestador fora do Simples.
+
 Excel é sempre melhor que PDF; PDF do Acompanhamento é lido por `dominio_pdf.py` (precisa de `pdftotext`).
 
 ## Como decidir (e quando perguntar)

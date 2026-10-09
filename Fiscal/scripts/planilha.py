@@ -146,8 +146,11 @@ def gravar_pre(res, saida):
          f'{sum(1 for d in dev_ativas if d["Status"] == "OK")}', None),
         ('', None),
         ('SERVIÇOS TOMADOS (NFS-e)', 'secao'),
-        (f'{len(nfse)} NFS-e na lista nacional · a lançar {sum(1 for x in nfse if x["Status"] == "A LANÇAR")} · '
+        (f'{len(nfse)} NFS-e na lista nacional · prontas para lançar {sum(1 for x in nfse if x["Status"] == "A LANÇAR")} · '
+         f'conferir antes {sum(1 for x in nfse if x["Status"] == "CONFERIR")} · '
          f'já lançadas antes {sum(1 for x in nfse if x["Status"].startswith("JÁ LANÇADA"))}', None),
+        ('   Acumulador de serviço escolhido pelo item da LC 116 da nota + retenções (catálogo de acumuladores do Domínio); '
+         'conta pela natureza do serviço ou pelo razão.', None),
         ('', None),
         ('PENDÊNCIAS PARA RESOLVER ANTES DE IMPORTAR', 'secao'),
         *[(f'   {g}: {c}', None) for g, c in sorted(Counter(p['Gravidade'] for p in pend).items(),

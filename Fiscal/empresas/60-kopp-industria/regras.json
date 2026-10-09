@@ -5,7 +5,7 @@
     "cnpj": "02967738000158",
     "uf": "PR",
     "regime": "Lucro Presumido",
-    "atividade": "Indústria de implantes e componentes odontológicos",
+    "atividade": "Indústria de implantes e componentes odontológicos (NCM 9021) e instrumentais/kits cirúrgicos (9018). Vende como produção (5101/6101) implantes, componentes, chaves, conexões, torquímetros e estojos; revende (5102/6102) principalmente brocas.",
     "aliq_interna_icms": 19.5
   },
   "acumuladores": {
@@ -95,14 +95,15 @@
     "REVENDA": {
       "interna": {
         "cfop": "1102",
-        "ac": null
+        "ac": "113"
       },
       "interestadual": {
         "cfop": "2102",
-        "ac": null
+        "ac": "213"
       },
       "credito_icms": true,
-      "credito_ipi": false
+      "credito_ipi": false,
+      "alerta": "Não existe acumulador de compra para comercialização; 1102 já foi lançado no 113 (ex.: Labaz 08/2026). Sugestão: criar acumulador próprio (compra p/ comercialização 1.102/2.102)."
     },
     "ATIVO": {
       "interna": {
@@ -336,6 +337,30 @@
     },
     "6908": {
       "ac": "624"
+    },
+    "6102": {
+      "ac": "608"
+    },
+    "5914": {
+      "ac": "631"
+    },
+    "6914": {
+      "ac": "631"
+    },
+    "5901": {
+      "ac": "530"
+    },
+    "5908": {
+      "ac": "524"
+    },
+    "6915": {
+      "ac": "626"
+    },
+    "7101": {
+      "ac": "632"
+    },
+    "5411": {
+      "ac": "525"
     }
   },
   "_finalidade": "Ordem de decisão: 1) item específico (cnpj+código do produto); 2) fornecedor; 3) NCM (prefixo mais longo vence); 4) sem regra -> PENDENTE para análise.",
@@ -359,6 +384,13 @@
       "ncm": "2835",
       "finalidade": "USO_CONSUMO",
       "motivo": "Reagente de laboratório (controle de qualidade)",
+      "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
+    },
+    {
+      "cnpj": "09051083000112",
+      "ncm": "3917",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Vexer: conexões PVC do sistema de água purificada (manutenção)",
       "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
     }
   ],
@@ -440,6 +472,20 @@
     "00398022000232": {
       "finalidade": "PENDENTE",
       "motivo": "Extran MA02 (detergente de laboratório): limpeza dos implantes na produção (insumo) ou limpeza de vidraria (uso e consumo)?"
+    },
+    "03471879000148": {
+      "finalidade": "EMBALAGEM",
+      "motivo": "Cipamed: Tyvek/papel grau cirúrgico = barreira estéril da embalagem do implante",
+      "conta": "606 1.1.5.01.007 INSUMOS / EMBALAGENS"
+    },
+    "06014489000137": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Air-Press: peças, filtros e óleo do compressor de ar (manutenção da máquina)",
+      "conta": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS"
+    },
+    "46678467000196": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "JC Gráfica: panfleto/material de divulgação (não integra o produto)"
     }
   },
   "finalidade_por_ncm": [
@@ -491,7 +537,7 @@
     {
       "prefixo": "4821",
       "finalidade": "EMBALAGEM",
-      "motivo": "Etiqueta"
+      "motivo": "Etiqueta/rótulo que vai na embalagem do produto vendido (identificação e rastreabilidade do implante)"
     },
     {
       "prefixo": "9018",
@@ -656,6 +702,18 @@
       "finalidade": "USO_CONSUMO",
       "motivo": "Copa",
       "conta": "521 3.1.1.02.018 DESPESAS COM ALIMENTAÇÃO"
+    },
+    {
+      "contem": "POUCH",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Saco stand-up pouch para acondicionar componentes e instrumentais vendidos",
+      "conta": "606 1.1.5.01.007 INSUMOS / EMBALAGENS"
+    },
+    {
+      "contem": "CLICHE",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Clichê = ferramental de impressão da embalagem; não integra o produto",
+      "conta": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO"
     }
   ],
   "_contas": "Conta contábil de débito da entrada. Ordem: 1) conta da regra que decidiu a finalidade; 2) histórico do razão (fornecedor -> conta mais usada, 4T2025); 3) conta padrão da finalidade.",
@@ -665,7 +723,7 @@
     "FERRAMENTA": "56 1.1.5.01.002 MATÉRIA-PRIMA",
     "USO_CONSUMO": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO",
     "ATIVO": "525 3.2.2.04.016 BENS DE PEQUENO VALOR (até R$ 1.200; acima, imobilizado)",
-    "REVENDA": "(conta de estoque de mercadorias: definir)"
+    "REVENDA": "56 1.1.5.01.002 MATÉRIA-PRIMA (sem conta de mercadorias para revenda no plano: definir)"
   },
   "conta_por_fornecedor_razao": {
     "WPC POLIMERO": "56 1.1.5.01.002 MATÉRIA-PRIMA",
@@ -723,5 +781,153 @@
     "3808",
     "2828",
     "4818"
-  ]
+  ],
+  "_perfil_venda": "Quando o item comprado (capítulo 90) tem o mesmo nome do que a Kopp vende, o CFOP das saídas decide: >=70% em x102 -> REVENDA; >=70% em x101 -> INSUMO. Só vale sobre regra de NCM/fornecedor, nunca sobre regra de item ou descrição.",
+  "perfil_venda": {
+    "capitulos": [
+      "90"
+    ],
+    "minimo_saidas": 5,
+    "proporcao": 0.7
+  },
+  "_servicos": "Acumulador de serviço = item da LC 116 da NFS-e + retenções (o nome do acumulador no Domínio traz o item e IRRF/CSRL). Conta: regra do item > razão (prestador) > padrão. retencao_esperada: itens em que tomador PJ retém IRRF 1,5% e/ou CSRF 4,65% de prestador não optante do Simples.",
+  "servicos": {
+    "natureza_por_item": {
+      "04.22": {
+        "natureza": "Plano odontológico/saúde dos empregados",
+        "conta": "282 3.1.1.02.009 ASSISTÊNCIA MÉDICA E SOCIAL"
+      },
+      "04.23": {
+        "natureza": "Plano de saúde dos empregados",
+        "conta": "282 3.1.1.02.009 ASSISTÊNCIA MÉDICA E SOCIAL"
+      },
+      "17.09": {
+        "natureza": "Análises/laudos técnicos (controle de qualidade da produção)",
+        "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
+      },
+      "30.01": {
+        "natureza": "Análises químicas (controle de qualidade da produção)",
+        "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
+      },
+      "01": {
+        "natureza": "Software, TI e hospedagem"
+      },
+      "14.01": {
+        "natureza": "Manutenção de máquinas/equipamentos"
+      },
+      "14.02": {
+        "natureza": "Assistência técnica"
+      },
+      "17.25": {
+        "natureza": "Propaganda e publicidade (despesa comercial)"
+      },
+      "09.01": {
+        "natureza": "Hospedagem (viagem a trabalho)"
+      },
+      "10.09": {
+        "natureza": "Representação comercial (comissão sobre vendas)"
+      },
+      "26.01": {
+        "natureza": "Coleta e entrega de documentos/objetos"
+      },
+      "17.14": {
+        "natureza": "Advocacia"
+      },
+      "17.01": {
+        "natureza": "Assessoria/consultoria, fornecimento de dados"
+      },
+      "17.02": {
+        "natureza": "Apoio administrativo"
+      },
+      "07.13": {
+        "natureza": "Dedetização/higienização"
+      },
+      "11.02": {
+        "natureza": "Vigilância/monitoramento"
+      },
+      "27.01": {
+        "natureza": "Contribuição CIEE (estágio)"
+      }
+    },
+    "retencao_esperada": {
+      "17.01": "IRRF+CSRF",
+      "17.09": "IRRF+CSRF",
+      "17.14": "IRRF+CSRF",
+      "30.01": "IRRF+CSRF",
+      "14.01": "CSRF",
+      "11.02": "CSRF",
+      "17.05": "CSRF",
+      "17.25": "IRRF+CSRF (confirmar)"
+    },
+    "conta_padrao": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+    "conta_por_prestador_razao": {
+      "LABORATORIO DE METRO": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+      "UNIMED CURITIBA  SOC": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "CONTROL SYS COMERCIO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "DENTAL UNI  COOPERAT": "282 3.1.1.02.009 ASSISTÊNCIA MÉDICA E SOCIAL",
+      "IA DOS SANTOS LTDA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "MICROS SERVICES LTDA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "REGULATORY SERVICOS ": "652 3.2.2.04.023 SERVIÇO DE REGISTRO E PROTEÇAO DE MARCAS E PATENTES",
+      "LEONEL MOREIRA DOS S": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "LUCIELE APARECIDA SO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "MEDME CONVENIOS LTDA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "TELEFONICA BRASIL SA": "356 3.2.2.04.003 TELEFONE E INTERNET",
+      "ALSCO BRASIL LTDA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "GADE CORPORATIVA LTD": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "SOLIDES TECNOLOGIA S": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "LAUNCH PAD TECNOLOGI": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "SEGS SERVICOS DE DES": "366 3.2.2.04.013 DESPESAS ADMINISTRATIVAS",
+      "TIM S A": "356 3.2.2.04.003 TELEFONE E INTERNET",
+      "QUALITY TRANSPORTES ": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "JFF ENGENHARIA LTDA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "RLGR TELEFONIA LTDA": "356 3.2.2.04.003 TELEFONE E INTERNET",
+      "CHAVEIRO AVENIDA COM": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "ANA PAULA MOURA LOCA": "593 3.1.1.02.020 PLANO ODONTOLOGICO ",
+      "OPOGUS  SERVICOS DE ": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "INTELBRAS SA INDUSTR": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "PAULO ROBERTO FRANCA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "FZM MANUTENCAO INDUS": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "SCANSOURCE BRASIL DI": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "CURITIBA ESTERILIZAC": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "GP EXPRESS LTDA": "366 3.2.2.04.013 DESPESAS ADMINISTRATIVAS",
+      "FORLOGIC SOFTWARE LT": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "HIGHTRONIC MANUTENCA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "TRACTIAN TECNOLOGIA ": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "ANTONIO CELSO RIBEIR": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "VOUX SOLUCOES LTDA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "PROXSIS SISTEMAS LTD": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "VEXER INDUSTRIA E CO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "MARIA SAMARA ROCHA D": "366 3.2.2.04.013 DESPESAS ADMINISTRATIVAS",
+      "EMPRESA BRASILEIRA D": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "LG COMERCIO E CONSER": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "SOLUCAO DISTRIBUIDOR": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "BIOCIENTIFIC LABORAT": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+      "CENTRO DE INTEGRACAO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "TECNOSUL TELECOM E I": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "HORA PARK SISTEMA DE": "493 3.2.2.04.014 DESPESA COM VEICULOS",
+      "UBER DO BRASIL TECNO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "ASSURANCE ASSESSORIA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "VC SOLUCOES EM TECNO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "ARN ASSESSORIA E CON": "652 3.2.2.04.023 SERVIÇO DE REGISTRO E PROTEÇAO DE MARCAS E PATENTES",
+      "PENSU EXACTU COMERCI": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+      "PR SERVICOS REGULATO": "366 3.2.2.04.013 DESPESAS ADMINISTRATIVAS",
+      "TEMPCALL QUALIFICACA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "JOSE DOMINGOS LINARE": "366 3.2.2.04.013 DESPESAS ADMINISTRATIVAS",
+      "SKA AUTOMACAO DE ENG": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "DANTAS E CHARELLO AD": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "BIOTRAT SISTEMAS DE ": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "CLIENT CO SERVICOS D": "356 3.2.2.04.003 TELEFONE E INTERNET",
+      "PAZELLI INFORMATICA ": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "CAROLINE RIBEIRO": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "NEOFIN TECNOLOGIA LT": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "TABORDA AMBIENTAL BR": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "GROWTH MACHINE SERVI": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "COPIATELLI COPIADORA": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "SERELEPE LOCACOES LT": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "INTERSEPT  COMERCIO ": "362 3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
+      "BRSIL CONSULTORIA E ": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+      "HOTEL ESSENCIA LTDA": "317 3.2.1.05.003 HOSPEDAGEM"
+    },
+    "_chave_prestador": "nome do prestador só com letras e espaços, sem espaços nas pontas, 20 primeiros caracteres"
+  }
 }

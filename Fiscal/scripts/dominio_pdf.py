@@ -62,3 +62,28 @@ def parse_acompanhamento_pdf(path):
                 atual['_linhas'].append(ln)
     fecha()
     return periodo, regs
+
+
+ACUM = re.compile(r'^\s*1?\s{1,4}(\d{3})\s+(.+?)\s{2,}[\d.]+,\d\d')
+ACUM_SO_NOME = re.compile(r'^\s*1?\s{1,4}(\d{3})\s+([A-ZÇÃÕÁÉÍÓÚÂÊÔ].*?)\s*$')
+
+
+def parse_resumo_acumuladores(path):
+    """Catálogo de acumuladores a partir do "Resumo por acumulador" do Domínio (PDF).
+    Devolve {código: descrição}. A descrição pode vir quebrada em duas linhas no PDF."""
+    txt = _texto(path)
+    cat, ultimo = {}, None
+    for ln in txt.splitlines():
+        m = ACUM.match(ln) or ACUM_SO_NOME.match(ln)
+        if m and not ln.strip().startswith(('Código', 'Total')):
+            nome = re.sub(r'\s*[\d.]+,\d\d.*$', '', m.group(2)).strip()
+            nome = re.sub(r'\s+1?\s*Total:.*$', '', nome)
+            cat[m.group(1)] = nome
+            ultimo = m.group(1)
+            continue
+        resto = re.sub(r'[\d.]+,\d\d', ' ', ln).strip()
+        if ultimo and resto and not re.search(r'Página|CNPJ|Insc|Período|RESUMO|ENTRADAS|SAÍDAS|Código|Sistema', resto):
+            if len(resto) < 40 and re.search(r'[A-Z0-9]', resto):
+                cat[ultimo] = (cat[ultimo] + ' ' + resto).strip()
+        ultimo = None if not resto else ultimo
+    return cat

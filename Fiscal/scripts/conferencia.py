@@ -25,13 +25,14 @@ import json
 import os
 import re
 import sys
+import unicodedata
 from collections import Counter, defaultdict
 from decimal import Decimal
 
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(__file__))
-from dominio_pdf import parse_acompanhamento_pdf  # noqa: E402
+from dominio_pdf import parse_acompanhamento_pdf, parse_resumo_acumuladores  # noqa: E402
 from dominio_relatorios import parse_acompanhamento  # noqa: E402
 from nfe_xml import is_nfe_xml, parse_nfe  # noqa: E402
 from sped_efd import parse_sped  # noqa: E402
@@ -59,6 +60,36 @@ class Regras:
         self.cnpj = self.r['empresa']['cnpj']
         self.uf = self.r['empresa']['uf']
         self.ncm = sorted(self.r['finalidade_por_ncm'], key=lambda x: -len(x['prefixo']))
+        self.vendas = defaultdict(Counter)    # 1ª palavra do item vendido -> Counter(sufixo do CFOP)
+        self.catalogo = dict(self.r['acumuladores'])
+
+    def carregar_catalogo(self, path):
+        cat = parse_resumo_acumuladores(path)
+        self.catalogo.update(cat)
+        for k, v in cat.items():
+            self.r['acumuladores'].setdefault(k, v)
+
+    def aprender_vendas(self, notas):
+        """Perfil de venda da empresa: como ela fatura cada tipo de item (produção x revenda)."""
+        for n in notas:
+            if n['emit_cnpj'] == self.cnpj and n['tpNF'] == '1' and not n['cancelada']:
+                for it in n['itens']:
+                    if it['CFOP'][1:] in ('101', '102'):
+                        self.vendas[palavra(it['xProd'])][it['CFOP'][1:]] += 1
+
+    def perfil_venda(self, item):
+        cfg = self.r.get('perfil_venda')
+        if not cfg or item['NCM'][:2] not in cfg['capitulos']:
+            return None
+        c = self.vendas.get(palavra(item['xProd']))
+        tot = sum(c.values()) if c else 0
+        if tot < cfg['minimo_saidas']:
+            return None
+        for suf, fin, txt in (('102', 'REVENDA', 'revenda (x102)'), ('101', 'INSUMO', 'produção própria (x101)')):
+            if c[suf] / tot >= cfg['proporcao']:
+                return fin, (f'A Kopp vende "{palavra(item["xProd"])}" como {txt} em {c[suf]} de {tot} saídas '
+                             'com CFOP de venda: o item comprado segue a mesma natureza')
+        return None
 
     def ac_nome(self, ac):
         return self.r['acumuladores'].get(str(ac), '') if ac else ''
@@ -95,7 +126,11 @@ class Regras:
         chave = re.sub(r'[^A-Z ]', '', nota['emit_nome'].upper())[:12]
         hist = self.r.get('conta_por_fornecedor_razao', {})
         if chave in hist and finalidade in ('USO_CONSUMO', 'INSUMO', 'EMBALAGEM', 'FERRAMENTA', 'ATIVO'):
-            return hist[chave], 'razão 4T2025'
+            estoque = ' 1.1.5.' in hist[chave]
+            if estoque == (finalidade in ('INSUMO', 'EMBALAGEM', 'FERRAMENTA')):
+                return hist[chave], 'razão 4T2025'
+            padrao = self.r.get('contas_padrao', {}).get(finalidade, '')
+            return padrao, f'padrão da finalidade (no razão 4T2025 ia para {hist[chave]})'
         if finalidade in self.r.get('contas_padrao', {}):
             return self.r['contas_padrao'][finalidade], 'padrão da finalidade'
         return '', ''
@@ -127,6 +162,11 @@ class Regras:
                        origem_regra='-', cfop='', ac=None, cred_icms=Z, cred_ipi=Z)
             return out
         fin, motivo, origem = self.finalidade(nota, item)
+        if origem in ('fornecedor', 'NCM', '-'):
+            pv = self.perfil_venda(item)
+            if pv and pv[0] != fin:
+                fin, motivo, origem = pv[0], pv[1], 'perfil de venda'
+                self._ultima = {}
         tem_st = suf in COMPRA_ST or item['CST_ICMS'] in CST_ST
         out.update(finalidade=fin, motivo=motivo, origem_regra=origem)
         out['conta'], out['origem_conta'] = self.conta(nota, item, fin)
@@ -177,6 +217,74 @@ def carregar_xmls(pasta):
         if atual is None or (n['eventos'] and not atual['eventos']):
             notas[n['chave']] = n      # prefere a versão que traz eventos (cancelamento)
     return notas, origem, erros
+
+
+def palavra(txt):
+    t = unicodedata.normalize('NFKD', str(txt).upper()).encode('ascii', 'ignore').decode()
+    m = re.search(r'[A-Z]{3,}', t)
+    return m.group(0) if m else ''
+
+
+def item_lc116(cod):
+    """'171401 - Advocacia' -> (17, 14)."""
+    m = re.match(r'\s*(\d{2})(\d{2})', str(cod))
+    return (int(m.group(1)), int(m.group(2))) if m else None
+
+
+def classificar_servico(R, r, cnpj, hist_cont):
+    """Acumulador, natureza e conta de uma NFS-e tomada, a partir do item da LC 116 e das retenções."""
+    cfg = R.r.get('servicos', {})
+    item = item_lc116(r.get('Cód. Tributação Nacional'))
+    num = lambda c: Decimal(str(r.get(c) or 0)) if not pd.isna(r.get(c)) else Z
+    ir, cs, inss = num('IRRF (R$)'), num('Contrib. Sociais Ret. (R$)'), num('Contrib. Previd. Ret. (R$)')
+    iss_ret = 'Não Retido' not in str(r.get('Retenção ISSQN', 'Não Retido'))
+    out = {'item': f'{item[0]:02d}.{item[1]:02d}' if item else '', 'alertas': [], 'ac': '', 'ac_nome': ''}
+    out['ret'] = ', '.join(x for x, v in (('IRRF', ir), ('CSRF', cs), ('INSS', inss), ('ISS', iss_ret)) if v) or 'nenhuma'
+    nat = cfg.get('natureza_por_item', {})
+    n = nat.get(out['item']) or nat.get(out['item'][:2]) or {}
+    out['natureza'] = n.get('natureza', str(r.get('Cód. Tributação Nacional', ''))[9:70])
+    # acumulador pelo catálogo: "SERVIÇOS TOMADOS 17.09 - IRRF/CSRL"
+    cand = []
+    for cod, nome in R.catalogo.items():
+        m = re.search(r'S\w+ TO\w+\s+(\d+)\.(\d+)(.*)$', nome)
+        if item and m and (int(m.group(1)), int(m.group(2))) == item:
+            suf = m.group(3).upper()
+            ok = (('IRRF' in suf) == bool(ir), ('CSR' in suf) == bool(cs), ('ISS' in suf) == iss_ret)
+            cand.append((sum(ok), all(ok[:2]), hist_cont.get(cod, 0), cod, nome))
+    cand.sort(reverse=True)
+    if cand and cand[0][1]:
+        out['ac'], out['ac_nome'] = cand[0][3], cand[0][4]
+    elif cand:
+        out['alertas'].append(f'Nenhum acumulador do item {out["item"]} com as retenções da nota ({out["ret"]}); '
+                              f'existem: {", ".join(c[3] + " " + c[4] for c in cand)}')
+    elif item:
+        out['alertas'].append(f'Não há acumulador para o item {out["item"]} da LC 116 no Domínio: criar')
+    # retenção esperada (prestador fora do Simples)
+    simples = str(r.get('Simples Nacional', ''))
+    esp = cfg.get('retencao_esperada', {}).get(out['item'])
+    vs = Decimal(str(r.get('Valor do Serviço (R$)') or 0))
+    if esp and 'Não Optante' in simples:
+        falta = []
+        if 'IRRF' in esp and not ir and vs * Decimal('0.015') > 10:
+            falta.append(f'IRRF 1,5% ≈ {q(vs * Decimal("0.015"))}')
+        if 'CSRF' in esp and not cs and vs * Decimal('0.0465') > 10:
+            falta.append(f'CSRF 4,65% ≈ {q(vs * Decimal("0.0465"))}')
+        if falta:
+            out['alertas'].append(f'Prestador não optante do Simples, serviço {out["item"]} e nota sem retenção: '
+                                  f'confirmar {" e ".join(falta)}' + (' (enquadramento a confirmar)' if 'confirmar' in esp else ''))
+    # conta contábil
+    chave = re.sub(r'[^A-Z ]', '', unicodedata.normalize('NFKD', str(r.get('Nome Prestador', '')).upper())
+                   .encode('ascii', 'ignore').decode()).strip()[:20]
+    razao = cfg.get('conta_por_prestador_razao', {}).get(chave)
+    if n.get('conta'):
+        out['conta'], out['origem_conta'] = n['conta'], 'natureza do serviço'
+        if razao and razao.split()[0] != n['conta'].split()[0]:
+            out['alertas'].append(f'No razão 2025 este prestador foi para {razao}; pela natureza do serviço o certo é {n["conta"]}')
+    elif razao:
+        out['conta'], out['origem_conta'] = razao, 'razão 4T2025'
+    else:
+        out['conta'], out['origem_conta'] = cfg.get('conta_padrao', ''), 'padrão de serviços'
+    return out
 
 
 def carregar_sefaz(paths, aba):
@@ -271,6 +379,9 @@ def analisar(a):
     dom_s = parse_acompanhamento(a.dom_saidas, a.dom_saidas_aba) if a.dom_saidas else []
     sefaz = carregar_sefaz(a.sefaz, a.sefaz_aba) if a.sefaz else {}
     hist, ja_lancadas, periodos_hist = carregar_historico(a.historico)
+    for cat in a.acumuladores or []:
+        R.carregar_catalogo(cat)
+    R.aprender_vendas(notas.values())
     chaves_arquivo = set()
     for f in glob.glob(os.path.join(a.xml, '**', '*.xml'), recursive=True):
         chaves_arquivo.update(re.findall(r'\d{44}', os.path.basename(f)))
@@ -420,13 +531,17 @@ def analisar(a):
         sugeridos = ({(cf, ac) for cf, ac in zip(sug_cfop, sug_ac) if cf and ac}
                      if len(sug_cfop) == 1 == len(sug_ac) else set())
         usados = {(cf, ac) for (_, cf, ac) in hist.get(n['emit_cnpj'], {})}
-        if pre and usados and sugeridos and not (sugeridos & usados):
+        so_outras = all(r['Finalidade'] == 'OUTRA OPERAÇÃO' for r in itens_rows
+                        if r['Nota'] == n['numero'] and r['CNPJ'] == n['emit_cnpj'])
+        if pre and usados and sugeridos and not (sugeridos & usados) and not so_outras:
             obs.append(f'Sugestão {", ".join(f"{cf}/ac {ac}" for cf, ac in sugeridos)} difere do histórico ({hist_txt})')
             if st_n == 'OK':
                 st_n = 'CONFERIR HISTÓRICO'
             pendencia('VERIFICAR', 'Classificação x histórico', n,
                       f'Robô sugere {", ".join(f"{cf}/ac {ac}" for cf, ac in sugeridos)}; nos meses anteriores este '
-                      f'fornecedor foi lançado como {hist_txt}. Decidir qual vale e virar regra.')
+                      f'fornecedor foi lançado como {hist_txt}. Por quê: '
+                      + '; '.join(sorted({r['Por quê'] for r in itens_rows if r['Nota'] == n['numero']
+                                          and r['CNPJ'] == n['emit_cnpj']})) + '. Decidir qual vale e virar regra.')
         if pre and not usados:
             obs.append('Fornecedor sem lançamento no histórico do Domínio (primeira compra?)')
         meus = [r for r in itens_rows if r['Nota'] == n['numero'] and r['CNPJ'] == n['emit_cnpj']]
@@ -761,16 +876,31 @@ def analisar(a):
                               'Acum. histórico (prestador)': fmt_hist(hist.get(cnpj_p, Counter()), ('39',)),
                               'Data Domínio': d['data'] if d else '', 'Acum. Domínio': d['acumulador'] if d else '',
                               'CFOP Domínio': d['cfop'] if d else '', 'Valor Domínio': d['valor_contabil'] if d else None})
+            hcont = Counter({ac: v for (esp, _, ac), v in hist.get(cnpj_p, Counter()).items() if esp == '39'})
+            sv = classificar_servico(R, r, cnpj_p, hcont)
+            if pre and st == 'A LANÇAR' and (sv['alertas'] or not sv['ac'] or (hcont and sv['ac'] not in hcont)):
+                st = 'CONFERIR'
+            nfse_rows[-1].update({
+                'Status': st, 'Serviço (LC 116)': sv['item'], 'Natureza do serviço': sv['natureza'],
+                'Retenções na nota': sv['ret'], 'Acum. sugerido': sv['ac'], 'Acumulador sugerido (nome)': sv['ac_nome'],
+                'Conta contábil sugerida': sv['conta'], 'Origem da conta': sv['origem_conta'],
+                'Alertas': ' | '.join(sv['alertas'])})
+            if pre and st == 'CONFERIR':
+                txt = []
+                if sv['ac'] and hcont and sv['ac'] not in hcont:
+                    txt.append(f'Pelo item {sv["item"]} e retenções ({sv["ret"]}) o acumulador é {sv["ac"]} '
+                               f'({sv["ac_nome"]}); no histórico o prestador foi lançado em '
+                               f'{", ".join(f"{k} ×{v}" for k, v in hcont.most_common())}')
+                txt += sv['alertas']
+                if not sv['ac'] and not sv['alertas']:
+                    txt.append('Sem acumulador sugerido')
+                pendencia('VERIFICAR', 'NFS-e tomada', num, ' · '.join(txt), valor=val, participante=r['Nome Prestador'])
             mm, aa = comp[5:7], comp[:4]
             outra_comp = str(r['Competência']) != f'{mm}/{aa}'
-            if pre and st == 'A LANÇAR' and outra_comp:
+            if pre and st in ('A LANÇAR', 'CONFERIR') and outra_comp:
                 pendencia('VERIFICAR', 'NFS-e tomada', num,
                           f'Competência {r["Competência"]} e não aparece no histórico do Domínio: lançar em '
                           f'{mm}/{aa} ou no mês da competência?', valor=val, participante=r['Nome Prestador'])
-            if pre and st == 'A LANÇAR' and not hist.get(cnpj_p):
-                pendencia('VERIFICAR', 'NFS-e tomada', num, 'Prestador novo, sem acumulador no histórico: '
-                          'definir o acumulador de serviço (item da LC 116 e retenções).',
-                          valor=val, participante=r['Nome Prestador'])
             if st == 'NÃO LANÇADA':
                 pendencia('VERIFICAR' if outra_comp else 'ALTA', 'NFS-e tomada', num,
                           f'NFS-e na lista nacional (competência {r["Competência"]}) sem lançamento neste mês no Domínio.'
@@ -797,6 +927,8 @@ def main():
     p.add_argument('--dom-saidas-aba', default='Saídas')
     p.add_argument('--sefaz', nargs='+')
     p.add_argument('--historico', nargs='*', default=[])
+    p.add_argument('--acumuladores', nargs='*', default=[],
+                   help='"Resumo por acumulador" do Domínio em PDF: catálogo com o nome de cada acumulador')
     p.add_argument('--sefaz-aba', default=0)
     p.add_argument('--nfse-recebidas')
     p.add_argument('--nfse-aba', default='Relação')
