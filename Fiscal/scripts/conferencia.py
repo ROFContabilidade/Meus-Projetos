@@ -252,11 +252,13 @@ def classificar_servico(R, r, cnpj, hist_cont):
             ok = (('IRRF' in suf) == bool(ir), ('CSR' in suf) == bool(cs), ('ISS' in suf) == iss_ret)
             cand.append((sum(ok), all(ok[:2]), hist_cont.get(cod, 0), cod, nome))
     cand.sort(reverse=True)
-    if cand and cand[0][1]:
+    # regra do escritório: o item da LC 116 na descrição do acumulador decide; as retenções só
+    # escolhem entre acumuladores do mesmo item (ex.: 17.01, 17.01 - IRRF, 17.01 - IRRF/CSRL)
+    if cand:
         out['ac'], out['ac_nome'] = cand[0][3], cand[0][4]
-    elif cand:
-        out['alertas'].append(f'Nenhum acumulador do item {out["item"]} com as retenções da nota ({out["ret"]}); '
-                              f'existem: {", ".join(c[3] + " " + c[4] for c in cand)}')
+        if not cand[0][1]:
+            out['alertas'].append(f'Retenções da nota ({out["ret"]}) não constam no acumulador {cand[0][3]} '
+                                  f'({cand[0][4]}): conferir a retenção ou criar o acumulador do item com ela')
     elif item:
         out['alertas'].append(f'Não há acumulador para o item {out["item"]} da LC 116 no Domínio: criar')
     # retenção esperada (prestador fora do Simples)
@@ -270,7 +272,7 @@ def classificar_servico(R, r, cnpj, hist_cont):
         if 'CSRF' in esp and not cs and vs * Decimal('0.0465') > 10:
             falta.append(f'CSRF 4,65% ≈ {q(vs * Decimal("0.0465"))}')
         if falta:
-            out['alertas'].append(f'Prestador não optante do Simples, serviço {out["item"]} e nota sem retenção: '
+            out['alertas'].append(f'Prestador não optante do Simples, serviço {out["item"]}, falta retenção: '
                                   f'confirmar {" e ".join(falta)}' + (' (enquadramento a confirmar)' if 'confirmar' in esp else ''))
     # conta contábil
     chave = re.sub(r'[^A-Z ]', '', unicodedata.normalize('NFKD', str(r.get('Nome Prestador', '')).upper())

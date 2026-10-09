@@ -790,7 +790,7 @@
     "minimo_saidas": 5,
     "proporcao": 0.7
   },
-  "_servicos": "Acumulador de serviço = item da LC 116 da NFS-e + retenções (o nome do acumulador no Domínio traz o item e IRRF/CSRL). Conta: regra do item > razão (prestador) > padrão. retencao_esperada: itens em que tomador PJ retém IRRF 1,5% e/ou CSRF 4,65% de prestador não optante do Simples.",
+  "_servicos": "Regra do escritório: o item da LC 116 da NFS-e (ex.: 150601 = 15.06) leva a nota ao acumulador que tem esse item na descrição (\"SERVIÇOS TOMADOS 15.06\" = 815). Quando o item tem mais de um acumulador (17.01, 17.01 - IRRF, 17.01 - IRRF/CSRL...), as retenções da nota escolhem. Retenção que não cabe no acumulador do item vira alerta, nunca deixa a nota sem acumulador. Conta: natureza do serviço > razão (prestador) > padrão. retencao_esperada: itens em que tomador PJ retém IRRF 1,5% e/ou CSRF 4,65% de prestador não optante do Simples.",
   "servicos": {
     "natureza_por_item": {
       "04.22": {
