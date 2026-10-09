@@ -3,16 +3,27 @@ entrada e acumulador conforme as regras da empresa e compara com o que foi
 escriturado no SPED Fiscal (gabarito final) e nos relatórios de acompanhamento
 do Domínio (retrato da importação, antes das correções manuais).
 
+Modo pré-importação (mês ainda aberto, sem SPED): basta não informar --sped e
+os relatórios do mês. O robô classifica cada item para lançar, confere as notas
+próprias e a completude com a lista da SEFAZ, e usa --historico (relatório de
+Acompanhamento do Domínio de meses anteriores, em PDF ou Excel) para mostrar
+como cada fornecedor costuma ser lançado e se a nota já foi lançada antes.
+
 Uso:
   python3 conferencia.py --regras <regras.json> --xml <pasta com XML extraídos>
       --sped <SPED.txt> --dom-entradas <xlsx> --dom-saidas <xlsx>
       [--sefaz <xlsx> --sefaz-aba <aba>] [--nfse-recebidas <xlsx> --dom-servicos <xls>]
       [--erp-notas <xlsx> --erp-aba <aba>] --competencia 2026-08 --saida <arquivo.xlsx>
+  pré-importação:
+  python3 conferencia.py --regras <regras.json> --xml <pasta> --sefaz <lista NF-e.xlsx> <lista CT-e.xlsx>
+      --historico <Entradas jan-ago.pdf> [--nfse-recebidas <xlsx>] [--erp-notas <xlsx>]
+      --competencia 2026-09 --saida <arquivo.xlsx>
 """
 import argparse
 import glob
 import json
 import os
+import re
 import sys
 from collections import Counter, defaultdict
 from decimal import Decimal
@@ -20,6 +31,7 @@ from decimal import Decimal
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(__file__))
+from dominio_pdf import parse_acompanhamento_pdf  # noqa: E402
 from dominio_relatorios import parse_acompanhamento  # noqa: E402
 from nfe_xml import is_nfe_xml, parse_nfe  # noqa: E402
 from sped_efd import parse_sped  # noqa: E402
@@ -167,12 +179,39 @@ def carregar_xmls(pasta):
     return notas, origem, erros
 
 
-def carregar_sefaz(path, aba):
-    df = pd.read_excel(path, sheet_name=aba, header=None)
-    hdr = next(i for i, r in df.iterrows() if 'CHAVE DA NOTA' in [str(v).strip() for v in r.values])
-    df.columns = [str(c).strip() for c in df.iloc[hdr]]
-    df = df.iloc[hdr + 1:].dropna(subset=['CHAVE DA NOTA'])
-    return {str(r['CHAVE DA NOTA']).strip(): r for _, r in df.iterrows()}
+def carregar_sefaz(paths, aba):
+    out = {}
+    for path in ([paths] if isinstance(paths, str) else paths):
+        df = pd.read_excel(path, sheet_name=aba, header=None)
+        hdr = next(i for i, r in df.iterrows() if 'CHAVE DA NOTA' in [str(v).strip() for v in r.values])
+        df.columns = [str(c).strip() for c in df.iloc[hdr]]
+        df = df.iloc[hdr + 1:].dropna(subset=['CHAVE DA NOTA'])
+        out.update({str(r['CHAVE DA NOTA']).strip(): r for _, r in df.iterrows()})
+    return out
+
+
+def carregar_historico(paths):
+    """Lançamentos de meses anteriores no Domínio (PDF ou Excel do Acompanhamento).
+    Devolve {cnpj: Counter((espécie, cfop, acumulador))} e o conjunto (cnpj, nota)."""
+    por_cnpj, lancadas, periodos = defaultdict(Counter), {}, []
+    for path in paths or []:
+        if path.lower().endswith('.pdf') or path.lower().endswith('.txt'):
+            periodo, regs = parse_acompanhamento_pdf(path)
+            periodos.append(periodo)
+        else:
+            regs = parse_acompanhamento(path, 0)
+        for r in regs:
+            cnpj = r.get('cnpj', '')
+            if not cnpj:
+                continue
+            por_cnpj[cnpj][(r['especie'], r['cfop'], r['acumulador'])] += 1
+            lancadas[(cnpj, r['nota'].lstrip('0'))] = r
+    return por_cnpj, lancadas, periodos
+
+
+def fmt_hist(cont, especies):
+    itens = [(k, v) for k, v in cont.most_common() if k[0] in especies]
+    return '; '.join(f'{cf}/ac {ac} ×{v}' for (_, cf, ac), v in itens)
 
 
 def casar_dominio(dom, xmls_por_num):
@@ -225,10 +264,16 @@ def analisar(a):
     K = R.cnpj
     comp = a.competencia
     notas, origem, erros = carregar_xmls(a.xml)
-    sped = parse_sped(a.sped)
-    dom_e = parse_acompanhamento(a.dom_entradas, a.dom_entradas_aba)
-    dom_s = parse_acompanhamento(a.dom_saidas, a.dom_saidas_aba)
+    pre = not a.sped          # mês aberto: ainda não há SPED nem lançamento no Domínio
+    sped = parse_sped(a.sped) if a.sped else {'docs': [], 'naturezas': {}, 'ajustes_e111': [],
+                                               'participantes': {}, 'produtos': {}}
+    dom_e = parse_acompanhamento(a.dom_entradas, a.dom_entradas_aba) if a.dom_entradas else []
+    dom_s = parse_acompanhamento(a.dom_saidas, a.dom_saidas_aba) if a.dom_saidas else []
     sefaz = carregar_sefaz(a.sefaz, a.sefaz_aba) if a.sefaz else {}
+    hist, ja_lancadas, periodos_hist = carregar_historico(a.historico)
+    chaves_arquivo = set()
+    for f in glob.glob(os.path.join(a.xml, '**', '*.xml'), recursive=True):
+        chaves_arquivo.update(re.findall(r'\d{44}', os.path.basename(f)))
 
     por_num = defaultdict(list)
     for n in notas.values():
@@ -271,9 +316,16 @@ def analisar(a):
                 extra = f' Está no SPED como C100 IND_OPER={sp["ind_oper"]} COD_SIT={sp["cod_sit"]}: confirmar se deve constar.'
             pendencia('INFO', 'Documento do fornecedor', n, motivo_ign + '.' + extra)
             continue
-        if not n['dt_emissao'].startswith(comp) and not sp and not dm:
-            pendencia('INFO', 'Fora da competência', n, f'Emitida em {n["dt_emissao"]}: entra no mês seguinte.')
+        anterior = ja_lancadas.get((n['emit_cnpj'], n['numero'].lstrip('0')))
+        if anterior and pre:
+            pendencia('INFO', 'Já lançada', n, f'Nota já lançada no Domínio em {anterior["entrada"]} '
+                      f'({anterior["cfop"]}/ac {anterior["acumulador"]}). Não lançar de novo.')
             continue
+        if not n['dt_emissao'].startswith(comp) and not sp and not dm:
+            if not pre or n['dt_emissao'][:7] > comp:
+                pendencia('INFO', 'Fora da competência', n, f'Emitida em {n["dt_emissao"]}: entra no mês seguinte.')
+                continue
+        hist_txt = fmt_hist(hist.get(n['emit_cnpj'], Counter()), ('36', '55', '22', '38', '37'))
         sp_itens = {it['n']: it for it in (sp['itens'] if sp else [])}
         sug_cfop, sug_ac, sts = set(), set(), []
         cred_icms = cred_ipi = difal = Z
@@ -284,7 +336,7 @@ def analisar(a):
             fin_cfop, fin_ac = (spi['cfop'], spi['cod_nat']) if spi else ('', '')
             imp_cfop, imp_ac = (dm[0]['cfop'], dm[0]['acumulador']) if dm else ('', '')
             st = []
-            if not sp and not dm:
+            if not sp and not dm and not pre:
                 st.append('NÃO ESCRITURADA')
             elif spi:
                 if c['cfop'] and c['cfop'] != fin_cfop:
@@ -293,6 +345,12 @@ def analisar(a):
                     st.append('ACUMULADOR')
             if c['finalidade'] == 'PENDENTE':
                 st.append('FINALIDADE A DEFINIR')
+            elif pre and c['cfop'] and not c.get('ac'):
+                st.append('SEM ACUMULADOR NA REGRA')
+                pendencia('VERIFICAR', 'Acumulador', n,
+                          f'Item {it["nItem"]} "{it["xProd"]}": CFOP {c["cfop"]} ({c["motivo"]}) sem acumulador '
+                          'definido nas regras. Informar o acumulador do Domínio para esta operação.',
+                          valor=it['vProd'])
             status = 'OK' if not st else ' / '.join(st)
             sts.append(status)
             corrigido = bool(spi and dm and (fin_cfop, fin_ac) != (imp_cfop, imp_ac))
@@ -317,6 +375,7 @@ def analisar(a):
                 'Crédito ICMS sugerido': c['cred_icms'], 'Crédito IPI sugerido': c['cred_ipi'],
                 'DIFAL estimado': c['difal'],
                 'Conta contábil sugerida': c.get('conta', ''), 'Origem da conta': c.get('origem_conta', ''),
+                'Histórico do fornecedor no Domínio': hist_txt,
                 'CFOP final (SPED)': fin_cfop, 'Acum. final (SPED)': fin_ac,
                 'Acumulador final (nome)': R.ac_nome(fin_ac) or nat.get(str(fin_ac), ''),
                 'ICMS creditado (SPED)': spi['vl_icms'] if spi else None,
@@ -328,7 +387,9 @@ def analisar(a):
             if c['finalidade'] == 'PENDENTE':
                 pendencia('VERIFICAR', 'Finalidade do item', n,
                           f'Item {it["nItem"]} "{it["xProd"]}" (NCM {it["NCM"]}): {c["motivo"]}. '
-                          f'No SPED ficou {fin_cfop}/ac {fin_ac}. Definir a finalidade para virar regra.',
+                          + ('' if pre else f'No SPED ficou {fin_cfop}/ac {fin_ac}. ')
+                          + (f'Histórico do fornecedor: {hist_txt}. ' if pre and hist_txt else '')
+                          + 'Definir a finalidade para virar regra.',
                           valor=it['vProd'])
             if corrigido:
                 acertou_antes += (c['cfop'], str(c.get('ac'))) == (imp_cfop, imp_ac)
@@ -353,13 +414,25 @@ def analisar(a):
             obs.append(f'DIFAL lançado {aj_difal} x calculado {difal}')
         elif aj_difal and not difal:
             obs.append(f'DIFAL lançado {aj_difal} numa nota classificada como {", ".join(sorted(x for x in sug_ac if x))}')
-        if not dm and not sp:
+        if not dm and not sp and not pre:
             st_n = 'NÃO ESCRITURADA'
             pendencia('ALTA', 'Nota não escriturada', n, 'XML destinado à Kopp, sem lançamento no Domínio/SPED.')
+        sugeridos = ({(cf, ac) for cf, ac in zip(sug_cfop, sug_ac) if cf and ac}
+                     if len(sug_cfop) == 1 == len(sug_ac) else set())
+        usados = {(cf, ac) for (_, cf, ac) in hist.get(n['emit_cnpj'], {})}
+        if pre and usados and sugeridos and not (sugeridos & usados):
+            obs.append(f'Sugestão {", ".join(f"{cf}/ac {ac}" for cf, ac in sugeridos)} difere do histórico ({hist_txt})')
+            if st_n == 'OK':
+                st_n = 'CONFERIR HISTÓRICO'
+            pendencia('VERIFICAR', 'Classificação x histórico', n,
+                      f'Robô sugere {", ".join(f"{cf}/ac {ac}" for cf, ac in sugeridos)}; nos meses anteriores este '
+                      f'fornecedor foi lançado como {hist_txt}. Decidir qual vale e virar regra.')
+        if pre and not usados:
+            obs.append('Fornecedor sem lançamento no histórico do Domínio (primeira compra?)')
         meus = [r for r in itens_rows if r['Nota'] == n['numero'] and r['CNPJ'] == n['emit_cnpj']]
         corr = any(r['Corrigido à mão?'] for r in meus)
         difs = [r for r in meus if r['Status'] not in ('OK', 'FINALIDADE A DEFINIR', 'NÃO ESCRITURADA')]
-        if difs or (obs and st_n == 'DIVERGENTE'):
+        if not pre and (difs or (obs and st_n == 'DIVERGENTE')):
             txt = []
             for r in difs:
                 txt.append(f'Item {r["Item"]} "{r["Descrição do item"][:40]}": no SPED {r["CFOP final (SPED)"]}/ac '
@@ -381,6 +454,8 @@ def analisar(a):
             'CFOP na importação': dm[0]['cfop'] if dm else '', 'Acum. na importação': dm[0]['acumulador'] if dm else '',
             'Crédito ICMS na importação': imposto(dm, 'ICMS', 'valor') if dm else None,
             'Corrigido à mão?': 'sim' if corr else '',
+            'Contas contábeis sugeridas': ', '.join(sorted({r['Conta contábil sugerida'] for r in meus if r['Conta contábil sugerida']})),
+            'Histórico do fornecedor no Domínio': hist_txt,
             'Observações': ' | '.join(obs), 'Chave': n['chave'],
         })
 
@@ -396,14 +471,19 @@ def analisar(a):
         if n['cancelada']:
             if dm and sum((d['valor_contabil'] for d in dm), Z) != Z:
                 st.append('CANCELADA NA SEFAZ, LANÇADA COM VALOR')
-            if not sp or sp['cod_sit'] not in ('02', '03'):
+            if not pre and (not sp or sp['cod_sit'] not in ('02', '03')):
                 st.append('SPED SEM COD_SIT 02')
             dev_rows.append({'Status': 'CANCELADA - OK' if not st else ' / '.join(st), 'Data': n['dt_emissao'],
                              'Nota': n['numero'], 'Cliente (remetente)': n['dest_nome'], 'Natureza': n['natOp'],
                              'CFOP XML': ', '.join(cfops), 'Valor NF': n['t_vNF'], 'Chave': n['chave'],
                              'Observações': 'Cancelada em ' + ', '.join(e['data'] for e in n['eventos'] if e['tp'] == '110111')})
             continue
-        if not dm:
+        if pre:
+            sem_ac = [c for c in cfops if not R.r['devolucoes_proprias'].get(c, {}).get('ac')]
+            if sem_ac:
+                st.append('CFOP SEM ACUMULADOR NA REGRA')
+                obs.append(f'CFOP {", ".join(sem_ac)} sem acumulador definido: decidir antes de importar')
+        elif not dm:
             st.append('NÃO ESTÁ NO DOMÍNIO')
         else:
             if {d['cfop'] for d in dm} != set(cfops):
@@ -450,7 +530,7 @@ def analisar(a):
         if n['cancelada']:
             if dm and sum((d['valor_contabil'] for d in dm), Z) != Z:
                 st.append('CANCELADA NA SEFAZ, LANÇADA COM VALOR')
-            if not sp or sp['cod_sit'] not in ('02', '03'):
+            if not pre and (not sp or sp['cod_sit'] not in ('02', '03')):
                 st.append('SPED SEM COD_SIT 02')
             sai_rows.append({'Status': 'CANCELADA - OK' if not st else ' / '.join(st), 'Data': n['dt_emissao'],
                              'Nota': n['numero'], 'Cliente': n['dest_nome'], 'UF': n['dest_uf'], 'Natureza': n['natOp'],
@@ -467,7 +547,13 @@ def analisar(a):
                 msg += ': remessa/retorno de conserto costuma ser suspensão (CST 50 + cBenef). Conferir o cadastro da operação no ERP'
             obs.append(msg)
             st.append('cBenef')
-        if not dm:
+        ac_sug = {c: R.r['saidas'].get(c, {}).get('ac') for c in cfops}
+        if pre:
+            sem_ac = [c for c, ac in ac_sug.items() if not ac]
+            if sem_ac:
+                st.append('CFOP SEM ACUMULADOR NA REGRA')
+                obs.append(f'CFOP {", ".join(sem_ac)} sem acumulador definido: decidir antes de importar')
+        elif not dm:
             st.append('NÃO ESTÁ NO DOMÍNIO')
         else:
             for d in dm:
@@ -499,6 +585,7 @@ def analisar(a):
             'Cliente': n['dest_nome'], 'UF': n['dest_uf'], 'Natureza': n['natOp'],
             'CFOP XML': ', '.join(f'{k}({v})' if len(cfops) > 1 else k for k, v in cfops.items()),
             'CST ICMS (itens)': ', '.join(f'{k}({v})' for k, v in sorted(csts.items())),
+            'Acum. sugerido': ', '.join(f'{c}→{ac or "?"}' for c, ac in ac_sug.items()),
             'CFOP Domínio': ', '.join(d['cfop'] for d in dm), 'Acum. Domínio': ', '.join(d['acumulador'] for d in dm),
             'Valor NF': n['t_vNF'], 'BC ICMS XML': base, 'ICMS XML': icms, 'Isentas XML': ise, 'Outras XML': outras,
             'IPI XML': n['t_vIPI'],
@@ -517,17 +604,20 @@ def analisar(a):
         if n and not n['dt_emissao'].startswith(comp):
             continue
         sp = sped_por_chave.get(ch)
-        tem = {'XML': bool(n), 'SPED': bool(sp), 'Domínio': bool(dom_por_chave.get(ch)), 'Lista SEFAZ': ch in sefaz}
+        modelo = ch[20:22]
+        tem = {'XML': bool(n) or ch in chaves_arquivo, 'SPED': bool(sp), 'Domínio': bool(dom_por_chave.get(ch)),
+               'Lista SEFAZ': ch in sefaz}
+        if pre:
+            del tem['SPED'], tem['Domínio']
         if all(tem.values()):
             continue
-        modelo = ch[20:22]
         emit = n['emit_nome'] if n else str(sefaz.get(ch, {}).get('EMITENTE', ''))
         if modelo == '57' and tem['SPED'] and not tem['XML']:
             sit = 'CT-e: escriturado (D100); XML do CT-e não estava na pasta'
         elif n and R.ignorar(n):
             sit = 'Documento do fornecedor (não gera entrada)'
         elif ch in sefaz and 'CANCEL' in str(sefaz[ch].get('STATUS', '')).upper():
-            if tem['SPED'] or tem['Domínio']:
+            if tem.get('SPED') or tem.get('Domínio'):
                 sit = 'Cancelada na SEFAZ mas ESCRITURADA'
             else:
                 continue
@@ -576,18 +666,24 @@ def analisar(a):
             ds = [d for d in dom_por_num.get(str(x), []) if d['especie'] in ('36', '55')]
             spd = sped_proprio.get((serie.lstrip('0') or '0', x))
             e = erp.get((serie, x))
-            sit_erp = str(e['Situação']) if e is not None else ''
+            sit_erp = str(e['Situação']) if e is not None and not pd.isna(e['Situação']) else ''
             if 'INUTILIZ' in sit_erp.upper():
                 sit = 'Inutilizada (ERP)'
                 sit += '; Domínio com valor zero' if ds else ''
-                sit += '; FORA DO SPED (inutilizada vai no C100 com COD_SIT 05)' if not spd else ''
-                grav = 'VERIFICAR' if not spd else 'INFO'
+                if pre:
+                    sit += ': informar no SPED com COD_SIT 05'
+                    grav = 'INFO'
+                else:
+                    sit += '; FORA DO SPED (inutilizada vai no C100 com COD_SIT 05)' if not spd else ''
+                    grav = 'VERIFICAR' if not spd else 'INFO'
             elif ds and all(d['valor_contabil'] == Z for d in ds):
                 sit, grav = 'Domínio com valor zero, sem XML' + ('' if spd else ' e fora do SPED'), 'VERIFICAR'
             elif ds:
                 sit, grav = 'No Domínio com valor, mas sem XML na pasta', 'ALTA'
             elif spd:
                 sit, grav = f'Só no SPED (COD_SIT {spd["cod_sit"]}), sem XML', 'VERIFICAR'
+            elif e is not None:
+                sit, grav = f'No ERP ({sit_erp or "sem situação"}), sem XML na pasta: pedir o XML ao cliente', 'ALTA'
             else:
                 sit, grav = ('Número sem XML, fora do ERP, do Domínio e do SPED: confirmar na SEFAZ se foi '
                              'rejeitada (precisa inutilizar) ou se o XML ficou fora do download'), 'VERIFICAR'
@@ -624,9 +720,10 @@ def analisar(a):
 
     # ======================== 6. NFS-e tomadas (lista nacional x Domínio)
     nfse_rows = []
-    if a.nfse_recebidas and a.dom_servicos:
+    if a.nfse_recebidas and (a.dom_servicos or pre):
         lst = pd.read_excel(a.nfse_recebidas, sheet_name=a.nfse_aba).dropna(subset=['Número NFS-e'])
-        dsv = parse_acompanhamento(a.dom_servicos, a.dom_servicos_aba) + [d for d in dom_e if d['especie'] == '39']
+        dsv = (parse_acompanhamento(a.dom_servicos, a.dom_servicos_aba) if a.dom_servicos else []) \
+            + [d for d in dom_e if d['especie'] == '39']
         usados = set()
         for _, r in lst.iterrows():
             num = str(int(r['Número NFS-e']))
@@ -639,7 +736,14 @@ def analisar(a):
                 usados.add(hit)
             d = dsv[hit] if hit is not None else None
             canc = 'Cancel' in str(r['Situação NFS-e'])
-            if d and canc:
+            cnpj_p = re.sub(r'\D', '', str(r['CNPJ/CPF Prestador']).split('.')[0] if isinstance(
+                r['CNPJ/CPF Prestador'], float) else str(r['CNPJ/CPF Prestador']))
+            cnpj_p = cnpj_p.zfill(14) if len(cnpj_p) > 11 or cnpj_p.zfill(14) in hist else cnpj_p.zfill(11)
+            antes = ja_lancadas.get((cnpj_p, num))
+            if pre:
+                st = ('OK (cancelada, não lançar)' if canc else
+                      f'JÁ LANÇADA em {antes["entrada"]}' if antes else 'A LANÇAR')
+            elif d and canc:
                 st = 'CANCELADA E LANÇADA'
             elif canc:
                 st = 'OK (cancelada, não lançada)'
@@ -650,14 +754,23 @@ def analisar(a):
             else:
                 st = 'OK'
             nfse_rows.append({'Status': st, 'Número': num, 'Competência': r['Competência'],
-                              'Prestador': r['Nome Prestador'], 'CNPJ': r['CNPJ/CPF Prestador'],
+                              'Prestador': r['Nome Prestador'], 'CNPJ': cnpj_p,
                               'Município ISS': r['Município de Incidência'], 'Valor': val,
                               'Situação NFS-e': r['Situação NFS-e'],
                               'IRRF na nota': q(Decimal(str(r.get('IRRF (R$)') or 0))),
+                              'Acum. histórico (prestador)': fmt_hist(hist.get(cnpj_p, Counter()), ('39',)),
                               'Data Domínio': d['data'] if d else '', 'Acum. Domínio': d['acumulador'] if d else '',
                               'CFOP Domínio': d['cfop'] if d else '', 'Valor Domínio': d['valor_contabil'] if d else None})
             mm, aa = comp[5:7], comp[:4]
             outra_comp = str(r['Competência']) != f'{mm}/{aa}'
+            if pre and st == 'A LANÇAR' and outra_comp:
+                pendencia('VERIFICAR', 'NFS-e tomada', num,
+                          f'Competência {r["Competência"]} e não aparece no histórico do Domínio: lançar em '
+                          f'{mm}/{aa} ou no mês da competência?', valor=val, participante=r['Nome Prestador'])
+            if pre and st == 'A LANÇAR' and not hist.get(cnpj_p):
+                pendencia('VERIFICAR', 'NFS-e tomada', num, 'Prestador novo, sem acumulador no histórico: '
+                          'definir o acumulador de serviço (item da LC 116 e retenções).',
+                          valor=val, participante=r['Nome Prestador'])
             if st == 'NÃO LANÇADA':
                 pendencia('VERIFICAR' if outra_comp else 'ALTA', 'NFS-e tomada', num,
                           f'NFS-e na lista nacional (competência {r["Competência"]}) sem lançamento neste mês no Domínio.'
@@ -668,7 +781,7 @@ def analisar(a):
                           f'{st}: lista nacional R$ {val} ({r["Situação NFS-e"]}) x Domínio R$ {d["valor_contabil"]}.',
                           valor=val, participante=r['Nome Prestador'])
 
-    return dict(regras=R, competencia=comp, notas=notas, erros=erros, sped=sped, dom_e=dom_e, dom_s=dom_s,
+    return dict(pre=pre, periodos_hist=periodos_hist, hist=hist, regras=R, competencia=comp, notas=notas, erros=erros, sped=sped, dom_e=dom_e, dom_s=dom_s,
                 sefaz=sefaz, itens=itens_rows, notas_terc=notas_rows, devol=dev_rows, saidas=sai_rows,
                 completude=compl, lacunas=lacunas, nfse=nfse_rows, pendencias=pend, origem=origem)
 
@@ -677,12 +790,13 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--regras', required=True)
     p.add_argument('--xml', required=True)
-    p.add_argument('--sped', required=True)
-    p.add_argument('--dom-entradas', required=True)
+    p.add_argument('--sped')
+    p.add_argument('--dom-entradas')
     p.add_argument('--dom-entradas-aba', default='Entradas')
-    p.add_argument('--dom-saidas', required=True)
+    p.add_argument('--dom-saidas')
     p.add_argument('--dom-saidas-aba', default='Saídas')
-    p.add_argument('--sefaz')
+    p.add_argument('--sefaz', nargs='+')
+    p.add_argument('--historico', nargs='*', default=[])
     p.add_argument('--sefaz-aba', default=0)
     p.add_argument('--nfse-recebidas')
     p.add_argument('--nfse-aba', default='Relação')

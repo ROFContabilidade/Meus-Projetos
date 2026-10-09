@@ -29,6 +29,20 @@ python3 Fiscal/scripts/conferencia.py --regras Fiscal/empresas/60-kopp-industria
   --competencia 2026-08 --saida Fiscal/empresas/60-kopp-industria/2026-08/Conferencia_....xlsx
 ```
 
+### Mês aberto (antes de importar no Domínio)
+Sem SPED e sem relatório do mês: omitir `--sped`/`--dom-*`. O robô entra em **modo pré-importação**:
+classifica cada item (CFOP, acumulador, conta), confere notas próprias, lista da SEFAZ x XML,
+numeração, série 2 do ERP e NFS-e. `--historico` recebe o "Acompanhamento de Entradas" do Domínio de
+meses anteriores (PDF ou Excel) e serve para: mostrar como cada fornecedor/prestador foi lançado,
+marcar `CONFERIR HISTÓRICO` quando a sugestão difere, e avisar nota já lançada.
+```
+python3 Fiscal/scripts/conferencia.py --regras .../regras.json --xml <pasta XML> \
+  --sefaz notasExcel_NFe.xlsx notasExcel_CTe.xlsx --sefaz-aba download_excel \
+  --historico Entradas_jan-ago.pdf --nfse-recebidas Recebidas.xlsx \
+  --erp-notas 'Relatório de Notas Fiscais.xlsx' --competencia 2026-09 --saida .../Pre_Conferencia_....xlsx
+```
+Excel é sempre melhor que PDF; PDF do Acompanhamento é lido por `dominio_pdf.py` (precisa de `pdftotext`).
+
 ## Como decidir (e quando perguntar)
 1. Item novo sem regra sai como **FINALIDADE A DEFINIR**. Ler a descrição/NCM/fornecedor e propor a
    finalidade; perguntar ao escritório quando houver dúvida real (ex.: química que pode ser processo ou laboratório).

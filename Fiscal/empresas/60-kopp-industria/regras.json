@@ -209,7 +209,7 @@
       "descr": "Retorno de mercadoria remetida para conserto",
       "interna": {
         "cfop": "1916",
-        "ac": null
+        "ac": "151"
       },
       "interestadual": {
         "cfop": "2916",

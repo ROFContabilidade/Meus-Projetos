@@ -65,7 +65,121 @@ def _aba(wb, titulo, linhas, larguras=None, status_col=None, nota=None):
     return ws
 
 
+POS_ESCRITURACAO = ('SPED', 'importação', 'Domínio', 'Corrigido', 'E113')
+
+
+def _so_pre(linhas):
+    """No modo pré-importação tira as colunas que só fazem sentido depois do lançamento."""
+    return [{k: v for k, v in ln.items()
+             if not any(t in k for t in POS_ESCRITURACAO) or k == 'Histórico do fornecedor no Domínio'}
+            for ln in linhas]
+
+
+def _escreve_resumo(ws, linhas):
+    for i, (txt, estilo) in enumerate(linhas, 1):
+        c = ws.cell(i, 1, txt)
+        if estilo == 'titulo':
+            c.font = Font(bold=True, size=15, color='1F3864')
+        elif estilo == 'sub':
+            c.font = Font(color='595959')
+        elif estilo == 'secao':
+            c.font = Font(bold=True, color='FFFFFF')
+            c.fill = AZUL
+        elif estilo == 'destaque':
+            c.font = Font(bold=True)
+            c.fill = VERDE
+    ws.column_dimensions['A'].width = 130
+
+
+def _regras(R):
+    regras = [{'Tipo': 'NCM', 'Chave': r['prefixo'], 'Finalidade': r['finalidade'], 'Motivo': r['motivo']}
+              for r in R.r['finalidade_por_ncm']]
+    regras += [{'Tipo': 'Fornecedor', 'Chave': k, 'Finalidade': v['finalidade'], 'Motivo': v['motivo']}
+               for k, v in R.r['finalidade_por_fornecedor'].items()]
+    regras += [{'Tipo': 'Item', 'Chave': f"{r['cnpj']} NCM {r.get('ncm', '')}", 'Finalidade': r['finalidade'],
+                'Motivo': r['motivo']} for r in R.r.get('finalidade_por_item', [])]
+    regras += [{'Tipo': 'Compra → CFOP/acumulador', 'Chave': fin,
+                'Finalidade': f"interna {v['interna']['cfop']}/ac {v['interna']['ac']} · interestadual "
+                              f"{v['interestadual']['cfop']}/ac {v['interestadual']['ac']}",
+                'Motivo': f"crédito ICMS: {v.get('credito_icms')} · crédito IPI: {v.get('credito_ipi')}"}
+               for fin, v in R.r['compras'].items()]
+    return regras
+
+
+def gravar_pre(res, saida):
+    R = res['regras']
+    emp = R.r['empresa']
+    comp = res['competencia']
+    wb = Workbook()
+    ws = wb.active
+    ws.title = 'Resumo'
+    itens, notas_t, dev, sai, pend = res['itens'], res['notas_terc'], res['devol'], res['saidas'], res['pendencias']
+    sai_ativas = [s for s in sai if not s['Status'].startswith('CANCELADA')]
+    dev_ativas = [d for d in dev if not d['Status'].startswith('CANCELADA')]
+    fin = Counter(i['Finalidade'] for i in itens)
+    com_conta = sum(1 for i in itens if i['Conta contábil sugerida'])
+    conf_hist = sum(1 for n in notas_t if n['Status'] == 'CONFERIR HISTÓRICO')
+    sem_hist = sum(1 for n in notas_t if 'sem lançamento no histórico' in (n['Observações'] or ''))
+    per = ', '.join(f'{a} a {b}' for a, b in res['periodos_hist'] if a) or 'não informado'
+    nfse = res['nfse']
+    linhas = [
+        (f'Pré-conferência {comp[5:]}/{comp[:4]} — {emp["nome"]} (antes de importar no Domínio)', 'titulo'),
+        (f'CNPJ {emp["cnpj"]} · Domínio {emp["codigo_dominio"]} · {emp["regime"]} · {emp["uf"]}', 'sub'),
+        ('', None),
+        ('O QUE FOI LIDO', 'secao'),
+        (f'{len(res["notas"])} NF-e lidas do XML, item por item · lista da SEFAZ com {len(res["sefaz"])} chaves', None),
+        (f'Histórico do Domínio usado como referência: {per} '
+         f'({sum(sum(c.values()) for c in res["hist"].values())} lançamentos, {len(res["hist"])} participantes)', None),
+        ('Não há SPED nem relatório do Domínio deste mês: as colunas de comparação com o lançamento final não aparecem.', None),
+        ('', None),
+        ('ENTRADAS DE FORNECEDORES — o que lançar e como', 'secao'),
+        (f'{len(notas_t)} notas · {len(itens)} itens com CFOP, acumulador e conta contábil sugeridos', 'destaque'),
+        ('   Finalidades: ' + ', '.join(f'{k.lower()} {v}' for k, v in fin.most_common()), None),
+        (f'   Conta contábil sugerida em {com_conta} de {len(itens)} itens', None),
+        (f'Notas em que a sugestão difere de como o fornecedor foi lançado antes: {conf_hist} (status CONFERIR HISTÓRICO)', None),
+        (f'Fornecedores sem nenhum lançamento no histórico: {sem_hist} notas', None),
+        ('', None),
+        ('NOTAS EMITIDAS PELA KOPP', 'secao'),
+        (f'Saídas: {len(sai_ativas)} notas · prontas {sum(1 for s in sai_ativas if s["Status"] == "OK")} · '
+         f'canceladas {len(sai) - len(sai_ativas)}', None),
+        (f'Entradas próprias (devoluções/trocas/retornos): {len(dev_ativas)} · prontas '
+         f'{sum(1 for d in dev_ativas if d["Status"] == "OK")}', None),
+        ('', None),
+        ('SERVIÇOS TOMADOS (NFS-e)', 'secao'),
+        (f'{len(nfse)} NFS-e na lista nacional · a lançar {sum(1 for x in nfse if x["Status"] == "A LANÇAR")} · '
+         f'já lançadas antes {sum(1 for x in nfse if x["Status"].startswith("JÁ LANÇADA"))}', None),
+        ('', None),
+        ('PENDÊNCIAS PARA RESOLVER ANTES DE IMPORTAR', 'secao'),
+        *[(f'   {g}: {c}', None) for g, c in sorted(Counter(p['Gravidade'] for p in pend).items(),
+                                                   key=lambda x: ['ALTA', 'VERIFICAR', 'INFO'].index(x[0]))],
+        ('   Detalhe na aba "Pendências".', None),
+    ]
+    _escreve_resumo(ws, linhas)
+    ordem = {'ALTA': 0, 'VERIFICAR': 1, 'INFO': 2}
+    _aba(wb, 'Pendências', sorted(pend, key=lambda p: ordem.get(p['Gravidade'], 9)), status_col='Gravidade',
+         larguras={'O que fazer / por quê': 110, 'Chave': 46})
+    _aba(wb, 'Entradas - itens', _so_pre(itens), status_col='Status',
+         larguras={'Descrição do item': 42, 'Por quê': 40, 'Alertas': 50, 'Fornecedor': 30,
+                   'Histórico do fornecedor no Domínio': 40},
+         nota='Um item por linha, com o CFOP, o acumulador e a conta contábil a usar no lançamento.')
+    _aba(wb, 'Entradas - notas', _so_pre(notas_t), status_col='Status',
+         larguras={'Observações': 70, 'Chave': 46, 'Histórico do fornecedor no Domínio': 40})
+    _aba(wb, 'Devoluções e trocas', _so_pre(dev), status_col='Status', larguras={'Observações': 70, 'Chave': 46},
+         nota='NF-e de entrada emitidas pela própria empresa (devolução de venda, remessa para troca, consignação).')
+    _aba(wb, 'Saídas', _so_pre(sai), status_col='Status', larguras={'Observações': 70, 'Chave': 46})
+    _aba(wb, 'Numeração', _so_pre(res['lacunas']), status_col='Gravidade',
+         nota='Números da série própria que não têm XML autorizado na pasta do mês.')
+    _aba(wb, 'Completude NF-e e CT-e', res['completude'], status_col='Situação',
+         nota='Documentos destinados à empresa: lista da SEFAZ x XML. Só aparecem os que faltam em algum lugar.')
+    _aba(wb, 'NFS-e tomadas', _so_pre(nfse), status_col='Status',
+         nota='Lista nacional de NFS-e recebidas, com o acumulador usado para o prestador nos meses anteriores.')
+    _aba(wb, 'Regras', _regras(R), larguras={'Motivo': 90, 'Finalidade': 50})
+    wb.save(saida)
+
+
 def gravar_planilha(res, saida):
+    if res.get('pre'):
+        return gravar_pre(res, saida)
     R = res['regras']
     emp = R.r['empresa']
     comp = res['competencia']
@@ -128,19 +242,7 @@ def gravar_planilha(res, saida):
         ('Numeração / Completude / NFS-e: notas faltando, inutilizadas, canceladas, CT-e e serviços tomados.', None),
         ('Regras: o que o robô usou para decidir. Cada pendência resolvida vira uma linha nova aqui.', None),
     ]
-    for i, (txt, estilo) in enumerate(linhas, 1):
-        c = ws.cell(i, 1, txt)
-        if estilo == 'titulo':
-            c.font = Font(bold=True, size=15, color='1F3864')
-        elif estilo == 'sub':
-            c.font = Font(color='595959')
-        elif estilo == 'secao':
-            c.font = Font(bold=True, color='FFFFFF')
-            c.fill = AZUL
-        elif estilo == 'destaque':
-            c.font = Font(bold=True)
-            c.fill = VERDE
-    ws.column_dimensions['A'].width = 130
+    _escreve_resumo(ws, linhas)
 
     ordem = {'ALTA': 0, 'VERIFICAR': 1, 'INFO': 2}
     _aba(wb, 'Pendências', sorted(pend, key=lambda p: ordem.get(p['Gravidade'], 9)), status_col='Gravidade',
@@ -158,16 +260,6 @@ def gravar_planilha(res, saida):
          nota='Documentos destinados à empresa: lista da SEFAZ x XML x SPED x Domínio. Só aparecem os que faltam em algum lugar.')
     _aba(wb, 'NFS-e tomadas', res['nfse'], status_col='Status',
          nota='Lista nacional de NFS-e recebidas x lançamentos de serviços tomados no Domínio.')
-    regras = [{'Tipo': 'NCM', 'Chave': r['prefixo'], 'Finalidade': r['finalidade'], 'Motivo': r['motivo']}
-              for r in R.r['finalidade_por_ncm']]
-    regras += [{'Tipo': 'Fornecedor', 'Chave': k, 'Finalidade': v['finalidade'], 'Motivo': v['motivo']}
-               for k, v in R.r['finalidade_por_fornecedor'].items()]
-    regras += [{'Tipo': 'Item', 'Chave': f"{r['cnpj']} NCM {r.get('ncm', '')}", 'Finalidade': r['finalidade'],
-                'Motivo': r['motivo']} for r in R.r.get('finalidade_por_item', [])]
-    regras += [{'Tipo': 'Compra → CFOP/acumulador', 'Chave': fin,
-                'Finalidade': f"interna {v['interna']['cfop']}/ac {v['interna']['ac']} · interestadual "
-                              f"{v['interestadual']['cfop']}/ac {v['interestadual']['ac']}",
-                'Motivo': f"crédito ICMS: {v.get('credito_icms')} · crédito IPI: {v.get('credito_ipi')}"}
-               for fin, v in R.r['compras'].items()]
+    regras = _regras(R)
     _aba(wb, 'Regras', regras, larguras={'Motivo': 90, 'Finalidade': 50})
     wb.save(saida)
