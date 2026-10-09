@@ -239,6 +239,8 @@ def classificar_servico(R, r, cnpj, hist_cont):
     ir, cs, inss = num('IRRF (R$)'), num('Contrib. Sociais Ret. (R$)'), num('Contrib. Previd. Ret. (R$)')
     iss_ret = 'Não Retido' not in str(r.get('Retenção ISSQN', 'Não Retido'))
     out = {'item': f'{item[0]:02d}.{item[1]:02d}' if item else '', 'alertas': [], 'ac': '', 'ac_nome': ''}
+    iss_val = num('Valor do ISSQN (R$)') if iss_ret else Z
+    out['valores'] = {'IRRF': q(ir), 'CSRF': q(cs), 'INSS': q(inss), 'ISS': q(iss_val)}
     out['ret'] = ', '.join(x for x, v in (('IRRF', ir), ('CSRF', cs), ('INSS', inss), ('ISS', iss_ret)) if v) or 'nenhuma'
     nat = cfg.get('natureza_por_item', {})
     n = nat.get(out['item']) or nat.get(out['item'][:2]) or {}
@@ -886,7 +888,11 @@ def analisar(a):
                 'Status': st, 'Serviço (LC 116)': sv['item'], 'Natureza do serviço': sv['natureza'],
                 'Retenções na nota': sv['ret'], 'Acum. sugerido': sv['ac'], 'Acumulador sugerido (nome)': sv['ac_nome'],
                 'Conta contábil sugerida': sv['conta'], 'Origem da conta': sv['origem_conta'],
-                'Alertas': ' | '.join(sv['alertas'])})
+                'Alertas': ' | '.join(sv['alertas']),
+                'Data emissão': pd.to_datetime(r.get('Data Geração')).strftime('%d/%m/%Y') if not pd.isna(r.get('Data Geração')) else '',
+                'Município do prestador': r.get('Município de Incidência', ''),
+                'Simples Nacional': r.get('Simples Nacional', ''),
+                **{f'{k} retido': v for k, v in sv['valores'].items()}})
             if pre and st == 'CONFERIR':
                 txt = []
                 if sv['ac'] and hcont and sv['ac'] not in hcont:

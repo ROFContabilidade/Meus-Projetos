@@ -75,6 +75,69 @@ def _so_pre(linhas):
             for ln in linhas]
 
 
+CSRF_PARTES = (('PIS', Decimal('0.65')), ('COFINS', Decimal('3')), ('CSLL', Decimal('1')))
+
+
+def _retencoes(nfse):
+    """Separa as NFS-e tomadas com e sem retenção (base da EFD-Reinf)."""
+    com, sem = [], []
+    tot = Counter()
+    for x in nfse:
+        if str(x.get('Status', '')).startswith(('OK (cancelada', 'JÁ LANÇADA', 'CANCELADA')):
+            continue
+        v = {k: Decimal(str(x.get(f'{k} retido') or 0)) for k in ('IRRF', 'CSRF', 'INSS', 'ISS')}
+        base = {'Número': x['Número'], 'Emissão': x.get('Data emissão', ''), 'Competência': x['Competência'],
+                'Prestador': x['Prestador'], 'CNPJ': x['CNPJ'], 'Serviço (LC 116)': x.get('Serviço (LC 116)', ''),
+                'Natureza do serviço': x.get('Natureza do serviço', ''), 'Valor bruto': x['Valor'],
+                'Acum. sugerido': x.get('Acum. sugerido', ''), 'Acumulador (nome)': x.get('Acumulador sugerido (nome)', '')}
+        if not any(v.values()):
+            sem.append({**base, 'Simples Nacional': x.get('Simples Nacional', ''), 'Alertas': x.get('Alertas', '')})
+            continue
+        ln = dict(base)
+        ln['IRRF'] = v['IRRF']
+        ln['Cód. DARF IRRF'] = ('8045' if x.get('Serviço (LC 116)', '').startswith('17.25') else '1708') if v['IRRF'] else ''
+        for nome, aliq in CSRF_PARTES:
+            ln[nome] = (v['CSRF'] * aliq / Decimal('4.65')).quantize(Decimal('0.01')) if v['CSRF'] else Decimal('0')
+        ln['CSRF total'] = v['CSRF']
+        ln['Cód. DARF CSRF'] = '5952' if v['CSRF'] else ''
+        ln['INSS retido'] = v['INSS']
+        ln['ISS retido'] = v['ISS']
+        ln['Evento EFD-Reinf'] = ', '.join(e for e, ok in (('R-4020', v['IRRF'] or v['CSRF']), ('R-2010', v['INSS'])) if ok)
+        ln['Observação'] = ('ISS retido: guia municipal de ' + str(x.get('Município do prestador', '')) if v['ISS'] else '')
+        com.append(ln)
+        for k in ('IRRF', 'PIS', 'COFINS', 'CSLL', 'CSRF total', 'INSS retido', 'ISS retido', 'Valor bruto'):
+            tot[k] += Decimal(str(ln[k] or 0))
+    if com:
+        com.append({'Número': 'TOTAL', 'Prestador': f'{len(com)} notas com retenção',
+                    **{k: tot[k] for k in ('Valor bruto', 'IRRF', 'PIS', 'COFINS', 'CSLL', 'CSRF total', 'INSS retido', 'ISS retido')}})
+    return com, sem, tot
+
+
+NOTA_REINF = ('NFS-e tomadas COM retenção: base do R-4020 (IRRF e PIS/COFINS/CSLL, DARF 1708/8045 e 5952) e do R-2010 (INSS). '
+              'Atenção: no R-4020 o período é o mês do PAGAMENTO (ou crédito) ao prestador, não o da emissão da nota.')
+
+
+def _abas_servicos(wb, nfse):
+    com, sem, tot = _retencoes(nfse)
+    _aba(wb, 'Retenções (EFD-Reinf)', com, nota=NOTA_REINF,
+         larguras={'Prestador': 34, 'Natureza do serviço': 34, 'Observação': 40})
+    _aba(wb, 'NFS-e sem retenção', sem, nota='NFS-e tomadas sem nenhuma retenção. "Alertas" aponta onde a retenção '
+         'era esperada (prestador fora do Simples, serviço da lista de retenção).',
+         larguras={'Prestador': 34, 'Natureza do serviço': 34, 'Alertas': 80})
+    return com, sem, tot
+
+
+def _linhas_reinf(nfse):
+    com, sem, tot = _retencoes(nfse)
+    if not com:
+        return [('   Nenhuma NFS-e com retenção.', None)]
+    f = lambda v: f'{v:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
+    return [(f'   Com retenção: {len(com) - 1} notas (aba "Retenções (EFD-Reinf)") · IRRF R$ {f(tot["IRRF"])} · '
+             f'PIS/COFINS/CSLL R$ {f(tot["CSRF total"])} · INSS R$ {f(tot["INSS retido"])} · ISS R$ {f(tot["ISS retido"])}', 'destaque'),
+            (f'   Sem retenção: {len(sem)} notas (aba "NFS-e sem retenção"), '
+             f'{sum(1 for x in sem if "falta retenção" in (x["Alertas"] or ""))} com retenção que parecia devida', None)]
+
+
 def _escreve_resumo(ws, linhas):
     for i, (txt, estilo) in enumerate(linhas, 1):
         c = ws.cell(i, 1, txt)
@@ -151,6 +214,7 @@ def gravar_pre(res, saida):
          f'já lançadas antes {sum(1 for x in nfse if x["Status"].startswith("JÁ LANÇADA"))}', None),
         ('   Acumulador de serviço escolhido pelo item da LC 116 da nota + retenções (catálogo de acumuladores do Domínio); '
          'conta pela natureza do serviço ou pelo razão.', None),
+        *_linhas_reinf(nfse),
         ('', None),
         ('PENDÊNCIAS PARA RESOLVER ANTES DE IMPORTAR', 'secao'),
         *[(f'   {g}: {c}', None) for g, c in sorted(Counter(p['Gravidade'] for p in pend).items(),
@@ -176,6 +240,7 @@ def gravar_pre(res, saida):
          nota='Documentos destinados à empresa: lista da SEFAZ x XML. Só aparecem os que faltam em algum lugar.')
     _aba(wb, 'NFS-e tomadas', _so_pre(nfse), status_col='Status',
          nota='Lista nacional de NFS-e recebidas, com o acumulador usado para o prestador nos meses anteriores.')
+    _abas_servicos(wb, nfse)
     _aba(wb, 'Regras', _regras(R), larguras={'Motivo': 90, 'Finalidade': 50})
     wb.save(saida)
 
@@ -263,6 +328,7 @@ def gravar_planilha(res, saida):
          nota='Documentos destinados à empresa: lista da SEFAZ x XML x SPED x Domínio. Só aparecem os que faltam em algum lugar.')
     _aba(wb, 'NFS-e tomadas', res['nfse'], status_col='Status',
          nota='Lista nacional de NFS-e recebidas x lançamentos de serviços tomados no Domínio.')
+    _abas_servicos(wb, res['nfse'])
     regras = _regras(R)
     _aba(wb, 'Regras', regras, larguras={'Motivo': 90, 'Finalidade': 50})
     wb.save(saida)
