@@ -203,6 +203,12 @@ def montar(empresas, snap, regras=None):
             if b and b not in bancos_esperados:
                 bancos_esperados.append(b)
         lin = {"empresa": e, "bancos_esperados": bancos_esperados, "meses": {}}
+        meses_txt = set()
+        for info in (e["drive"]["meses"].values() if e["drive"] else []):
+            for a in (info or {}).get("arquivos", []):
+                tag = MES_NO_TXT.search(a)
+                if tag and txt_lancamento(a):
+                    meses_txt.add(f"{tag.group(2)}_{tag.group(1)}")
         inicio = None
         if e["drive"]:
             inicio = next((m for m in meses if (e["drive"]["meses"].get(m) or {}).get("pasta_mes")), None)
@@ -224,6 +230,8 @@ def montar(empresas, snap, regras=None):
                 st, mot, arqs = status_mes(e["drive"]["meses"].get(m))
                 if st in ("FALTANDO", "Verificar") and so_smov:
                     st, mot = "S/MOV", "marcada S/MOV na Rotina"
+            if m in regra.get("nao_e_extrato", []) and st in ("Verificar", "Recebido") and not arqs_extrato(arqs):
+                st, mot = "FALTANDO", regra.get("obs") or "arquivo na pasta não é extrato (informado)"
             if regra.get("smov_ate") and chave_mes(m) <= chave_mes(regra["smov_ate"]) and st in ("FALTANDO", "Verificar"):
                 st, mot = "S/MOV", regra.get("obs") or "sem movimentação bancária (informado)"
             achados = bancos_nos_arquivos(arqs)
@@ -232,11 +240,18 @@ def montar(empresas, snap, regras=None):
             info_m = (e["drive"]["meses"].get(m) or {}) if e["drive"] else {}
             if info_m.get("lancado_confirmado"):
                 mot = (mot + " | " if mot else "") + "lançado: " + info_m["lancado_confirmado"]
-            lin["meses"][m] = {"status": st, "motivo": mot, "arquivos": arqs, "todos": todos,
+            lin["meses"][m] = {"status": st, "motivo": mot, "arquivos": arqs, "todos": todos, "mes": m,
+                               "lancado_outra_pasta": m in meses_txt,
                                "lancado_confirmado": info_m.get("lancado_confirmado"),
                                "bancos": sorted(achados), "bancos_nao_vistos": faltam}
         linhas.append(lin)
     return linhas
+
+
+def arqs_extrato(arqs):
+    """Arquivos que são extrato de banco (OFX/PDF/CSV/XLS), sem contar comprovantes."""
+    return [a for a in arqs if not re.search(r"comprovante", a, re.I)
+            and re.search(r"\.(ofx|csv|xlsx?)$", a, re.I)]
 
 
 def chave_mes(m):
@@ -291,6 +306,13 @@ def pintar(cell):
 # TXT de lançamento do escritório (solto ou zipado). O "Extrato-dd-mm-aaaa-a-...-TXT.txt" é exportação do banco Inter.
 TXT_LANCAMENTO = re.compile(r"\.txt$|txt.*\.zip$|_(pagar|receber)\.zip$", re.I)
 TXT_DO_BANCO = re.compile(r"^extrato-\d\d-\d\d-\d{4}-a-", re.I)
+# Mês escrito no nome do TXT (ex.: ..._2026-05_PAGAR.txt). O TXT conta para a pasta onde está e também para
+# esse mês (ex.: TXT de maio salvo na pasta de junho). O mês do nome às vezes vem errado, por isso não substitui a pasta.
+MES_NO_TXT = re.compile(r"(20\d\d)-(\d\d)_(pagar|receber)", re.I)
+
+
+def txt_lancamento(a):
+    return bool(TXT_LANCAMENTO.search(a) and not TXT_DO_BANCO.search(a))
 
 CORES_SITUACAO = {"Pronto para lançar": "BDD7EE", "Já lançado": "C6EFCE", "Falta extrato": "FFC7CE",
                   "Verificar extrato": "FFEB9C", "S/MOV": "D9D9D9", "—": "EDEDED"}
@@ -302,7 +324,9 @@ def situacao_skill(d):
         return {"FALTANDO": "Falta extrato", "Verificar": "Verificar extrato"}.get(d["status"], d["status"])
     if d.get("lancado_confirmado"):
         return "Já lançado"
-    lancado = any(TXT_LANCAMENTO.search(a) and not TXT_DO_BANCO.search(a) or PLANILHA_CONCILIACAO.search(a)
+    if d.get("lancado_outra_pasta"):
+        return "Já lançado"
+    lancado = any(txt_lancamento(a) or PLANILHA_CONCILIACAO.search(a)
                   for a in d["todos"])
     if lancado or not d["arquivos"]:
         return "Já lançado"

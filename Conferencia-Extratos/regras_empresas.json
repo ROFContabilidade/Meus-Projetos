@@ -1,9 +1,37 @@
 {
- "_como_usar": "Situações informadas pela Rosangela. inicio = primeiro mês em que o extrato é exigido (antes disso fica '—'). smov_ate = até este mês (inclusive) a empresa não teve movimentação bancária (fica 'S/MOV'). Empresa sem pasta no Drive (e não inativa) é tratada como empresa nova: '—' até a pasta do primeiro mês ser criada.",
+ "_como_usar": "Situações informadas pela Rosangela. inicio = primeiro mês em que o extrato é exigido (antes disso fica '—'). smov_ate = até este mês (inclusive) a empresa não teve movimentação bancária (fica 'S/MOV'). Empresa sem pasta no Drive (e não inativa) é tratada como empresa nova: '—' até a pasta do primeiro mês ser criada. nao_e_extrato = meses em que o arquivo da pasta (ex.: comprovante) não vale como extrato (fica FALTANDO).",
  "regras": [
-  {"grupo": "KON CONTABILIDADE", "cod": 150, "inicio": "06_2026", "obs": "SM Miranda: extrato exigido a partir de 06/2026"},
-  {"grupo": "KON CONTABILIDADE", "cod": 92, "smov_ate": "08_2026", "obs": "DJC: sem movimentação bancária até 08/2026"},
-  {"grupo": "KON CONTABILIDADE", "cod": 138, "smov_ate": "08_2026", "obs": "Kopp Participações: sem movimentação bancária até 08/2026"},
-  {"grupo": "KON CONTABILIDADE", "cod": 139, "inicio": "07_2026", "obs": "W B Faria: conta bancária aberta em 07/2026"}
+  {
+   "grupo": "KON CONTABILIDADE",
+   "cod": 150,
+   "inicio": "06_2026",
+   "obs": "SM Miranda: extrato exigido a partir de 06/2026"
+  },
+  {
+   "grupo": "KON CONTABILIDADE",
+   "cod": 92,
+   "smov_ate": "08_2026",
+   "obs": "DJC: sem movimentação bancária até 08/2026"
+  },
+  {
+   "grupo": "KON CONTABILIDADE",
+   "cod": 138,
+   "smov_ate": "08_2026",
+   "obs": "Kopp Participações: sem movimentação bancária até 08/2026"
+  },
+  {
+   "grupo": "KON CONTABILIDADE",
+   "cod": 139,
+   "inicio": "07_2026",
+   "obs": "W B Faria: conta bancária aberta em 07/2026"
+  },
+  {
+   "grupo": "KON CONTABILIDADE",
+   "cod": 94,
+   "nao_e_extrato": [
+    "09_2026"
+   ],
+   "obs": "E M Dammroze: em 09/2026 só tem comprovante, que não é extrato"
+  }
  ]
 }

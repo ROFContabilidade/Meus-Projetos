@@ -96,6 +96,11 @@ o Claude varre o Drive pelo conector Google Drive, monta um *snapshot* JSON e o 
   Essas situações aparecem no Painel ("Situações informadas") e saem das mensagens de cobrança.
 - Registradas em 09/10/2026: 150 SM Miranda a partir de 06/2026; 92 DJC e 138 Kopp sem movimentação até
   08/2026; 139 W B Faria abriu conta em 07/2026.
+- `nao_e_extrato`: meses em que o arquivo da pasta (ex.: comprovante) não vale como extrato → FALTANDO.
+  94 Dammroze 09/2026 (só comprovante). Regra geral da Rosangela: **comprovante não é extrato**
+  (exceção já confirmada: 94 em 06/2026, extrato com uma movimentação salvo como comprovante).
+- TXT com o mês no nome (`..._2026-05_PAGAR.txt`) conta como lançado na pasta onde está **e** no mês do nome
+  (o mês do nome às vezes vem errado, por isso não substitui a pasta).
 - Empresas novas (ex.: 160 GR, 161 UPEC): o 1º mês com pasta criada no Drive é o 1º mês de atividade
   (meses anteriores = "—"). Empresa da Rotina ainda sem pasta no Drive (e não inativa) = "—" ("empresa nova,
   ainda sem pasta"), não FALTANDO.
