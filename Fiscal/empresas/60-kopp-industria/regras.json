@@ -1,0 +1,546 @@
+{
+  "empresa": {
+    "codigo_dominio": 60,
+    "nome": "KOPP INDUSTRIA E COMERCIO DE PRODUTOS ODONTOLOGICOS LTDA",
+    "cnpj": "02967738000158",
+    "uf": "PR",
+    "regime": "Lucro Presumido",
+    "atividade": "Indústria de implantes e componentes odontológicos",
+    "aliq_interna_icms": 19.5
+  },
+  "acumuladores": {
+    "107": "COMPRA DE USO E CONS DENT EST 1.556",
+    "108": "COMPRA DE USO E CONS COM ST 1.407",
+    "113": "COMPRA P/ INDUST DENT EST - A PRAZO",
+    "116": "COMPRA P/ INDUST C ST DENT EST - A PRAZO",
+    "124": "OUTRAS ENTRADAS DENT EST - A VISTA",
+    "133": "DEVOLUÇ VEND DE PRODUÇÃ D/ EST- A VISTA",
+    "150": "DEVOLUÇÃO DE MERC. EM CONSIGNAÇÃO 1.918",
+    "154": "RETORNO DE MERC. REM. P/ IND. ENC. 1.902",
+    "155": "INDUSTRIALIZAÇAO EFET. OUT. 1.124",
+    "207": "COMPRA DE USO E CONS FORA EST - 2.556",
+    "213": "COMPRA P/ INDUST FORA EST - A PRAZO",
+    "224": "OUTRAS ENTRADAS FORA EST - A VISTA",
+    "233": "DEVOLUÇ VEND DE PRODUÇÃO F/EST - A VISTA",
+    "250": "DEVOLUÇÃO DE MERC. EM CONSIGNAÇÃO 2.918",
+    "251": "RETORNO DE MERC. PARA CONSERTO 2.916",
+    "302": "FRETE - SERV. ADQ. C/ ISS OUTRAS",
+    "304": "FRETE - SERV. ADQ. C/ ICMS A PRAZO",
+    "507": "VENDA DE PRODUTOS DENT EST - A PRAZO",
+    "508": "REVENDA DE MERCADORIA ESTADUAL 5.102",
+    "521": "REMESSA DE MERC. EM CONSIGNAÇAO 5.917",
+    "522": "OUTRAS SAIDAS 5.949",
+    "523": "REMESSA EM BONIFICAÇAO 5.910",
+    "526": "REMESSA PARA CONSERTO 5.915",
+    "607": "VENDA DE PRODUTOS FORA EST - A PRAZO",
+    "621": "REMESSA DE MERC. EM CONSIGNAÇAO 6.917",
+    "622": "OUTRAS SAIDAS INTERESTADUAL 6.949",
+    "623": "REMESSA EM BONIFICAÇAO 6.910",
+    "624": "REMESSA DE BEM POR CONT. COMODATO 6908"
+  },
+  "_finalidades": "INSUMO = matéria-prima, componente ou produto intermediário consumido na fabricação; EMBALAGEM = embalagem do produto vendido; FERRAMENTA = ferramenta de usinagem que se desgasta na produção; USO_CONSUMO = material de escritório, limpeza, EPI, informática, manutenção, alimentação, brindes; REVENDA = mercadoria revendida sem industrialização; ATIVO = bem do imobilizado.",
+  "compras": {
+    "INSUMO": {
+      "interna": {
+        "cfop": "1101",
+        "ac": "113"
+      },
+      "interestadual": {
+        "cfop": "2101",
+        "ac": "213"
+      },
+      "credito_icms": true,
+      "credito_ipi": true
+    },
+    "EMBALAGEM": {
+      "interna": {
+        "cfop": "1101",
+        "ac": "113"
+      },
+      "interestadual": {
+        "cfop": "2101",
+        "ac": "213"
+      },
+      "credito_icms": true,
+      "credito_ipi": true
+    },
+    "FERRAMENTA": {
+      "interna": {
+        "cfop": "1101",
+        "ac": "113"
+      },
+      "interestadual": {
+        "cfop": "2101",
+        "ac": "213"
+      },
+      "credito_icms": true,
+      "credito_ipi": true,
+      "alerta": "Ferramenta de usinagem tratada como insumo (prática do escritório). Confirmar se o crédito de ICMS/IPI é aceito; muitos fiscos tratam como uso e consumo."
+    },
+    "USO_CONSUMO": {
+      "interna": {
+        "cfop": "1556",
+        "ac": "107"
+      },
+      "interestadual": {
+        "cfop": "2556",
+        "ac": "207"
+      },
+      "credito_icms": false,
+      "credito_ipi": false,
+      "difal": true
+    },
+    "REVENDA": {
+      "interna": {
+        "cfop": "1102",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2102",
+        "ac": null
+      },
+      "credito_icms": true,
+      "credito_ipi": false
+    },
+    "ATIVO": {
+      "interna": {
+        "cfop": "1551",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2551",
+        "ac": null
+      },
+      "credito_icms": "CIAP",
+      "credito_ipi": false,
+      "difal": true
+    }
+  },
+  "compras_com_st": {
+    "INSUMO": {
+      "interna": {
+        "cfop": "1401",
+        "ac": "116"
+      },
+      "interestadual": {
+        "cfop": "2401",
+        "ac": null
+      }
+    },
+    "EMBALAGEM": {
+      "interna": {
+        "cfop": "1401",
+        "ac": "116"
+      },
+      "interestadual": {
+        "cfop": "2401",
+        "ac": null
+      }
+    },
+    "FERRAMENTA": {
+      "interna": {
+        "cfop": "1401",
+        "ac": "116"
+      },
+      "interestadual": {
+        "cfop": "2401",
+        "ac": null
+      }
+    },
+    "USO_CONSUMO": {
+      "interna": {
+        "cfop": "1407",
+        "ac": "108"
+      },
+      "interestadual": {
+        "cfop": "2407",
+        "ac": null
+      }
+    },
+    "REVENDA": {
+      "interna": {
+        "cfop": "1403",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2403",
+        "ac": null
+      }
+    }
+  },
+  "_outras_operacoes": "Operações que não são compra: a natureza vem do CFOP do fornecedor (3 últimos dígitos).",
+  "outras_operacoes": {
+    "124": {
+      "descr": "Industrialização efetuada por outra empresa",
+      "interna": {
+        "cfop": "1124",
+        "ac": "155"
+      },
+      "interestadual": {
+        "cfop": "2124",
+        "ac": null
+      }
+    },
+    "125": {
+      "descr": "Industrialização efetuada por outra empresa (merc. não transitou)",
+      "interna": {
+        "cfop": "1125",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2125",
+        "ac": null
+      }
+    },
+    "902": {
+      "descr": "Retorno de mercadoria remetida para industrialização",
+      "interna": {
+        "cfop": "1902",
+        "ac": "154"
+      },
+      "interestadual": {
+        "cfop": "2902",
+        "ac": null
+      }
+    },
+    "916": {
+      "descr": "Retorno de mercadoria remetida para conserto",
+      "interna": {
+        "cfop": "1916",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2916",
+        "ac": "251"
+      }
+    },
+    "918": {
+      "descr": "Devolução de mercadoria remetida em consignação",
+      "interna": {
+        "cfop": "1918",
+        "ac": "150"
+      },
+      "interestadual": {
+        "cfop": "2918",
+        "ac": "250"
+      }
+    },
+    "910": {
+      "descr": "Entrada em bonificação/brinde",
+      "interna": {
+        "cfop": "1910",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2910",
+        "ac": null
+      }
+    },
+    "915": {
+      "descr": "Entrada de mercadoria recebida para conserto",
+      "interna": {
+        "cfop": "1915",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2915",
+        "ac": null
+      }
+    },
+    "949": {
+      "descr": "Outra entrada não especificada",
+      "interna": {
+        "cfop": "1949",
+        "ac": "124"
+      },
+      "interestadual": {
+        "cfop": "2949",
+        "ac": "224"
+      }
+    }
+  },
+  "devolucoes_proprias": {
+    "1201": {
+      "ac": "133"
+    },
+    "2201": {
+      "ac": "233"
+    },
+    "1918": {
+      "ac": "150"
+    },
+    "2918": {
+      "ac": "250"
+    },
+    "1949": {
+      "ac": "124"
+    },
+    "2949": {
+      "ac": "224"
+    }
+  },
+  "saidas": {
+    "5101": {
+      "ac": "507"
+    },
+    "6101": {
+      "ac": "607"
+    },
+    "5102": {
+      "ac": "508"
+    },
+    "5917": {
+      "ac": "521"
+    },
+    "6917": {
+      "ac": "621"
+    },
+    "5949": {
+      "ac": "522"
+    },
+    "6949": {
+      "ac": "622"
+    },
+    "5910": {
+      "ac": "523"
+    },
+    "6910": {
+      "ac": "623"
+    },
+    "5915": {
+      "ac": "526"
+    },
+    "6908": {
+      "ac": "624"
+    }
+  },
+  "_finalidade": "Ordem de decisão: 1) item específico (cnpj+código do produto); 2) fornecedor; 3) NCM (prefixo mais longo vence); 4) sem regra -> PENDENTE para análise.",
+  "finalidade_por_item": [
+    {
+      "cnpj": "08044874000152",
+      "ncm": "3822",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Padrões de pH/condutividade para calibrar equipamento de laboratório"
+    },
+    {
+      "cnpj": "08044874000152",
+      "ncm": "2827",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Reagente de laboratório (controle de qualidade)"
+    },
+    {
+      "cnpj": "08044874000152",
+      "ncm": "2835",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Reagente de laboratório (controle de qualidade)"
+    }
+  ],
+  "finalidade_por_fornecedor": {
+    "32385218000106": {
+      "finalidade": "EMBALAGEM",
+      "motivo": "Tubete e tampa personalizados KOPP: embalagem do implante"
+    },
+    "89523237000160": {
+      "finalidade": "EMBALAGEM",
+      "motivo": "Estojos KOPP para kits cirúrgico/protético: componente do produto vendido"
+    },
+    "04682046000199": {
+      "finalidade": "INSUMO",
+      "motivo": "Componentes do munhão cone morse: integram os kits/produtos"
+    },
+    "85371243000199": {
+      "finalidade": "EMBALAGEM",
+      "motivo": "Sacola TNT personalizada para entrega do produto"
+    },
+    "41488873000172": {
+      "finalidade": "PENDENTE",
+      "motivo": "Maxila p/ cirurgia guiada e corpo de prova: produto para revenda/kit, ensaio de qualidade ou demonstração? 0200 do SPED marca como tipo 00 (revenda)"
+    },
+    "19715635000101": {
+      "finalidade": "PENDENTE",
+      "motivo": "Solução AQUA600 20kg: tratamento de água de processo (insumo) ou de utilidade (uso e consumo)?"
+    }
+  },
+  "finalidade_por_ncm": [
+    {
+      "prefixo": "9021",
+      "finalidade": "INSUMO",
+      "motivo": "Componente de implante/prótese odontológica"
+    },
+    {
+      "prefixo": "7222",
+      "finalidade": "INSUMO",
+      "motivo": "Barra de aço inox: matéria-prima"
+    },
+    {
+      "prefixo": "8108",
+      "finalidade": "INSUMO",
+      "motivo": "Titânio: matéria-prima"
+    },
+    {
+      "prefixo": "2807",
+      "finalidade": "INSUMO",
+      "motivo": "Ácido usado no tratamento de superfície dos implantes"
+    },
+    {
+      "prefixo": "2808",
+      "finalidade": "INSUMO",
+      "motivo": "Ácido usado no tratamento de superfície dos implantes"
+    },
+    {
+      "prefixo": "2809",
+      "finalidade": "INSUMO",
+      "motivo": "Ácido usado no tratamento de superfície dos implantes"
+    },
+    {
+      "prefixo": "2841",
+      "finalidade": "INSUMO",
+      "motivo": "Sal químico usado no tratamento de superfície"
+    },
+    {
+      "prefixo": "3917",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Tubo plástico (tubete) de embalagem"
+    },
+    {
+      "prefixo": "3923",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Saco/sacola plástica de embalagem"
+    },
+    {
+      "prefixo": "4819",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Caixa de papelão para envio do produto"
+    },
+    {
+      "prefixo": "4821",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Etiqueta"
+    },
+    {
+      "prefixo": "9018",
+      "finalidade": "INSUMO",
+      "motivo": "Instrumental odontológico que compõe os kits"
+    },
+    {
+      "prefixo": "8207",
+      "finalidade": "FERRAMENTA",
+      "motivo": "Broca/fresa/macho de usinagem"
+    },
+    {
+      "prefixo": "8209",
+      "finalidade": "FERRAMENTA",
+      "motivo": "Inserto/ferramenta de metal duro"
+    },
+    {
+      "prefixo": "7318",
+      "finalidade": "FERRAMENTA",
+      "motivo": "Parafuso de fixação de ferramenta (acessório do porta-ferramenta)"
+    },
+    {
+      "prefixo": "8506",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Pilhas"
+    },
+    {
+      "prefixo": "8507",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Bateria (nobreak/equipamento)"
+    },
+    {
+      "prefixo": "8443",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Toner/cilindro de impressora"
+    },
+    {
+      "prefixo": "8471",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Peça de informática de baixo valor"
+    },
+    {
+      "prefixo": "8473",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Peça de informática de baixo valor"
+    },
+    {
+      "prefixo": "4015",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Luva descartável (EPI)"
+    },
+    {
+      "prefixo": "6210",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Touca/propé descartável (EPI)"
+    },
+    {
+      "prefixo": "6307",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Avental descartável (EPI)"
+    },
+    {
+      "prefixo": "6116",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Luva de proteção"
+    },
+    {
+      "prefixo": "6109",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Uniforme"
+    },
+    {
+      "prefixo": "3926",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Artigo plástico de escritório"
+    },
+    {
+      "prefixo": "1905",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Alimentação"
+    },
+    {
+      "prefixo": "9608",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Canetas (brinde/escritório)"
+    },
+    {
+      "prefixo": "8421",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Filtro/refil de água"
+    },
+    {
+      "prefixo": "8301",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Fechadura (manutenção predial)"
+    },
+    {
+      "prefixo": "8482",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Rolamento (manutenção de máquina)"
+    },
+    {
+      "prefixo": "8424",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Peça de manutenção do jateador"
+    },
+    {
+      "prefixo": "3920",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Chapa de PVC (dispositivo/manutenção)"
+    },
+    {
+      "prefixo": "00000000",
+      "finalidade": "EMBALAGEM",
+      "motivo": "NCM genérico; descrição indica caixa de papelão p/ envio"
+    }
+  ],
+  "ignorar_documentos": [
+    {
+      "cnpj_emitente": "33325184002839",
+      "tpNF": "0",
+      "motivo": "NF de entrada emitida pela ALSCO (retorno dos uniformes locados): documento do fornecedor, não gera entrada na Kopp"
+    }
+  ],
+  "codigos_difal": [
+    "PR000081"
+  ]
+}
