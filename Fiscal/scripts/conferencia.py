@@ -31,7 +31,7 @@ COMPRA = {'101', '102', '103', '104', '105', '106', '107', '108', '109', '110', 
           '256', '257'}
 COMPRA_ST = {'401', '402', '403', '404', '405'}
 CST_ST = {'10', '30', '60', '70', '201', '202', '203', '500'}
-CST_ISENTA = {'30', '40', '41'}       # coluna "Isentas/não tributadas" do Domínio
+CST_ISENTA = {'30', '40'}       # coluna "Isentas" do Domínio (CST 41 vai em Outras)
 CST_EXIGE_CBENEF = {'20', '30', '40', '41', '50', '51', '53', '70', '90'}
 REGIME = {'1': 'Simples', '2': 'Simples (excesso)', '3': 'Normal', '4': 'MEI'}
 
@@ -55,14 +55,38 @@ class Regras:
         for rg in self.r.get('finalidade_por_item', []):
             if rg['cnpj'] == nota['emit_cnpj'] and item['NCM'].startswith(rg.get('ncm', '')) \
                     and rg.get('cProd', item['cProd']) == item['cProd']:
+                self._ultima = rg
                 return rg['finalidade'], rg['motivo'], 'item'
+        for rg in self.r.get('finalidade_por_descricao', []):
+            if rg['contem'].upper() in item['xProd'].upper():
+                self._ultima = rg
+                return rg['finalidade'], rg['motivo'], 'descrição'
         f = self.r['finalidade_por_fornecedor'].get(nota['emit_cnpj'])
         if f:
+            self._ultima = f
             return f['finalidade'], f['motivo'], 'fornecedor'
         for rg in self.ncm:
             if item['NCM'].startswith(rg['prefixo']):
+                self._ultima = rg
                 return rg['finalidade'], rg['motivo'], 'NCM'
+        self._ultima = {}
         return 'PENDENTE', 'Sem regra para este fornecedor/NCM', '-'
+
+    def conta(self, nota, item, finalidade):
+        """Conta contábil de débito sugerida e de onde ela veio."""
+        import re
+        rg = getattr(self, '_ultima', {}) or {}
+        if rg.get('conta'):
+            return rg['conta'], 'regra'
+        if finalidade == 'USO_CONSUMO' and any(item['NCM'].startswith(p) for p in self.r.get('conta_por_ncm_limpeza', [])):
+            return '360 3.2.2.04.007 MATERIAL DE HIGIENE E LIMPEZA', 'NCM (limpeza)'
+        chave = re.sub(r'[^A-Z ]', '', nota['emit_nome'].upper())[:12]
+        hist = self.r.get('conta_por_fornecedor_razao', {})
+        if chave in hist and finalidade in ('USO_CONSUMO', 'INSUMO', 'EMBALAGEM', 'FERRAMENTA', 'ATIVO'):
+            return hist[chave], 'razão 4T2025'
+        if finalidade in self.r.get('contas_padrao', {}):
+            return self.r['contas_padrao'][finalidade], 'padrão da finalidade'
+        return '', ''
 
     def ignorar(self, nota):
         for rg in self.r.get('ignorar_documentos', []):
@@ -93,6 +117,7 @@ class Regras:
         fin, motivo, origem = self.finalidade(nota, item)
         tem_st = suf in COMPRA_ST or item['CST_ICMS'] in CST_ST
         out.update(finalidade=fin, motivo=motivo, origem_regra=origem)
+        out['conta'], out['origem_conta'] = self.conta(nota, item, fin)
         if fin == 'PENDENTE':
             out.update(cfop='', ac=None, cred_icms=Z, cred_ipi=Z)
             return out
@@ -291,6 +316,7 @@ def analisar(a):
                 'Acumulador sugerido (nome)': R.ac_nome(c.get('ac')),
                 'Crédito ICMS sugerido': c['cred_icms'], 'Crédito IPI sugerido': c['cred_ipi'],
                 'DIFAL estimado': c['difal'],
+                'Conta contábil sugerida': c.get('conta', ''), 'Origem da conta': c.get('origem_conta', ''),
                 'CFOP final (SPED)': fin_cfop, 'Acum. final (SPED)': fin_ac,
                 'Acumulador final (nome)': R.ac_nome(fin_ac) or nat.get(str(fin_ac), ''),
                 'ICMS creditado (SPED)': spi['vl_icms'] if spi else None,
@@ -500,6 +526,11 @@ def analisar(a):
             sit = 'CT-e: escriturado (D100); XML do CT-e não estava na pasta'
         elif n and R.ignorar(n):
             sit = 'Documento do fornecedor (não gera entrada)'
+        elif ch in sefaz and 'CANCEL' in str(sefaz[ch].get('STATUS', '')).upper():
+            if tem['SPED'] or tem['Domínio']:
+                sit = 'Cancelada na SEFAZ mas ESCRITURADA'
+            else:
+                continue
         else:
             sit = 'Falta em: ' + ', '.join(k for k, v in tem.items() if not v)
         compl.append({'Situação': sit, 'Modelo': modelo, 'Número': ch[25:34].lstrip('0'), 'Emitente': emit,
@@ -527,7 +558,19 @@ def analisar(a):
         mes = [x for x, n in nums.items() if n['dt_emissao'].startswith(comp)]
         if not mes:
             continue
-        for x in range(min(mes), max(mes) + 1):
+        # faixa contínua do mês: ignora números isolados (ex.: nota antiga autorizada no mês)
+        mes.sort()
+        blocos, atual = [], [mes[0]]
+        for x in mes[1:]:
+            if x - atual[-1] > 30:
+                blocos.append(atual)
+                atual = [x]
+            else:
+                atual.append(x)
+        blocos.append(atual)
+        principal = max(blocos, key=len)
+        faixa = [x for x in range(principal[0], principal[-1] + 1)]
+        for x in faixa:
             if x in nums:
                 continue
             ds = [d for d in dom_por_num.get(str(x), []) if d['especie'] in ('36', '55')]

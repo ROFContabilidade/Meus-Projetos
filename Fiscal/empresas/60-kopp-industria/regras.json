@@ -36,7 +36,9 @@
     "621": "REMESSA DE MERC. EM CONSIGNAÇAO 6.917",
     "622": "OUTRAS SAIDAS INTERESTADUAL 6.949",
     "623": "REMESSA EM BONIFICAÇAO 6.910",
-    "624": "REMESSA DE BEM POR CONT. COMODATO 6908"
+    "624": "REMESSA DE BEM POR CONT. COMODATO 6908",
+    "119": "COMPRA DE COMBUSTÍVEL/LUBRIFICANTE 2.653 (visto no SPED 06/2026)",
+    "161": "COMPRA P/ RECEBIMENTO FUTURO 1.116 (visto no SPED 06/2026)"
   },
   "_finalidades": "INSUMO = matéria-prima, componente ou produto intermediário consumido na fabricação; EMBALAGEM = embalagem do produto vendido; FERRAMENTA = ferramenta de usinagem que se desgasta na produção; USO_CONSUMO = material de escritório, limpeza, EPI, informática, manutenção, alimentação, brindes; REVENDA = mercadoria revendida sem industrialização; ATIVO = bem do imobilizado.",
   "compras": {
@@ -257,6 +259,28 @@
         "cfop": "2949",
         "ac": "224"
       }
+    },
+    "116": {
+      "descr": "Compra originada de encomenda para recebimento futuro (simples faturamento)",
+      "interna": {
+        "cfop": "1116",
+        "ac": "161"
+      },
+      "interestadual": {
+        "cfop": "2116",
+        "ac": null
+      }
+    },
+    "653": {
+      "descr": "Compra de combustível/lubrificante por consumidor final",
+      "interna": {
+        "cfop": "1653",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2653",
+        "ac": "119"
+      }
     }
   },
   "devolucoes_proprias": {
@@ -320,19 +344,22 @@
       "cnpj": "08044874000152",
       "ncm": "3822",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Padrões de pH/condutividade para calibrar equipamento de laboratório"
+      "motivo": "Padrões de pH/condutividade para calibrar equipamento de laboratório",
+      "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
     },
     {
       "cnpj": "08044874000152",
       "ncm": "2827",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Reagente de laboratório (controle de qualidade)"
+      "motivo": "Reagente de laboratório (controle de qualidade)",
+      "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
     },
     {
       "cnpj": "08044874000152",
       "ncm": "2835",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Reagente de laboratório (controle de qualidade)"
+      "motivo": "Reagente de laboratório (controle de qualidade)",
+      "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
     }
   ],
   "finalidade_por_fornecedor": {
@@ -359,6 +386,60 @@
     "19715635000101": {
       "finalidade": "PENDENTE",
       "motivo": "Solução AQUA600 20kg: tratamento de água de processo (insumo) ou de utilidade (uso e consumo)?"
+    },
+    "28970217000143": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Concessionária: peças e produtos para manutenção de veículo",
+      "conta": "493 3.2.2.04.014 DESPESA COM VEICULOS"
+    },
+    "00779196000164": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Centro automotivo: peças/pneus para manutenção de veículo",
+      "conta": "493 3.2.2.04.014 DESPESA COM VEICULOS"
+    },
+    "59624102000120": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Bebida para confraternização/copa",
+      "conta": "521 3.1.1.02.018 DESPESAS COM ALIMENTAÇÃO"
+    },
+    "04247793000107": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Material de limpeza e copa"
+    },
+    "77765840000170": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Material de escritório",
+      "conta": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO"
+    },
+    "38070177000137": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Peça para manutenção de equipamento",
+      "conta": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS"
+    },
+    "29526945000123": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Conexões hidráulicas para manutenção de máquina",
+      "conta": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS"
+    },
+    "04261757000602": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Papel kraft em rolo (escritório tratou como uso e consumo em 06/2026)"
+    },
+    "04261757000190": {
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Papel kraft em rolo (escritório tratou como uso e consumo em 06/2026)"
+    },
+    "64747280000189": {
+      "finalidade": "INSUMO",
+      "motivo": "Óleo de corte MAXCUT usado na usinagem"
+    },
+    "07598814000119": {
+      "finalidade": "PENDENTE",
+      "motivo": "Portões de gradil: benfeitoria/ativo imobilizado (CIAP, depreciação) ou manutenção predial (uso e consumo)?"
+    },
+    "00398022000232": {
+      "finalidade": "PENDENTE",
+      "motivo": "Extran MA02 (detergente de laboratório): limpeza dos implantes na produção (insumo) ou limpeza de vidraria (uso e consumo)?"
     }
   },
   "finalidade_por_ncm": [
@@ -398,11 +479,6 @@
       "motivo": "Sal químico usado no tratamento de superfície"
     },
     {
-      "prefixo": "3917",
-      "finalidade": "EMBALAGEM",
-      "motivo": "Tubo plástico (tubete) de embalagem"
-    },
-    {
       "prefixo": "3923",
       "finalidade": "EMBALAGEM",
       "motivo": "Saco/sacola plástica de embalagem"
@@ -440,47 +516,56 @@
     {
       "prefixo": "8506",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Pilhas"
+      "motivo": "Pilhas",
+      "conta": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO"
     },
     {
       "prefixo": "8507",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Bateria (nobreak/equipamento)"
+      "motivo": "Bateria (nobreak/equipamento)",
+      "conta": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS"
     },
     {
       "prefixo": "8443",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Toner/cilindro de impressora"
+      "motivo": "Toner/cilindro de impressora",
+      "conta": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO"
     },
     {
       "prefixo": "8471",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Peça de informática de baixo valor"
+      "motivo": "Peça de informática de baixo valor",
+      "conta": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO"
     },
     {
       "prefixo": "8473",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Peça de informática de baixo valor"
+      "motivo": "Peça de informática de baixo valor",
+      "conta": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO"
     },
     {
       "prefixo": "4015",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Luva descartável (EPI)"
+      "motivo": "Luva descartável (EPI)",
+      "conta": "583 3.1.1.02.012 EPI"
     },
     {
       "prefixo": "6210",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Touca/propé descartável (EPI)"
+      "motivo": "Touca/propé descartável (EPI)",
+      "conta": "583 3.1.1.02.012 EPI"
     },
     {
       "prefixo": "6307",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Avental descartável (EPI)"
+      "motivo": "Avental descartável (EPI)",
+      "conta": "583 3.1.1.02.012 EPI"
     },
     {
       "prefixo": "6116",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Luva de proteção"
+      "motivo": "Luva de proteção",
+      "conta": "583 3.1.1.02.012 EPI"
     },
     {
       "prefixo": "6109",
@@ -495,7 +580,8 @@
     {
       "prefixo": "1905",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Alimentação"
+      "motivo": "Alimentação",
+      "conta": "521 3.1.1.02.018 DESPESAS COM ALIMENTAÇÃO"
     },
     {
       "prefixo": "9608",
@@ -505,22 +591,26 @@
     {
       "prefixo": "8421",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Filtro/refil de água"
+      "motivo": "Filtro/refil de água",
+      "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
     },
     {
       "prefixo": "8301",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Fechadura (manutenção predial)"
+      "motivo": "Fechadura (manutenção predial)",
+      "conta": "321 3.2.1.06.002 MANUTENÇÃO E REPARO"
     },
     {
       "prefixo": "8482",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Rolamento (manutenção de máquina)"
+      "motivo": "Rolamento (manutenção de máquina)",
+      "conta": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS"
     },
     {
       "prefixo": "8424",
       "finalidade": "USO_CONSUMO",
-      "motivo": "Peça de manutenção do jateador"
+      "motivo": "Peça de manutenção do jateador",
+      "conta": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS"
     },
     {
       "prefixo": "3920",
@@ -542,5 +632,96 @@
   ],
   "codigos_difal": [
     "PR000081"
+  ],
+  "finalidade_por_descricao": [
+    {
+      "contem": "LIXO",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Saco de lixo (limpeza), não é embalagem do produto",
+      "conta": "360 3.2.2.04.007 MATERIAL DE HIGIENE E LIMPEZA"
+    },
+    {
+      "contem": "TAXA ENTREGA",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Frete cobrado como item: acompanha a mercadoria da nota"
+    },
+    {
+      "contem": "CAFE",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Copa",
+      "conta": "521 3.1.1.02.018 DESPESAS COM ALIMENTAÇÃO"
+    },
+    {
+      "contem": "COPO",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Copa",
+      "conta": "521 3.1.1.02.018 DESPESAS COM ALIMENTAÇÃO"
+    }
+  ],
+  "_contas": "Conta contábil de débito da entrada. Ordem: 1) conta da regra que decidiu a finalidade; 2) histórico do razão (fornecedor -> conta mais usada, 4T2025); 3) conta padrão da finalidade.",
+  "contas_padrao": {
+    "INSUMO": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "EMBALAGEM": "606 1.1.5.01.007 INSUMOS / EMBALAGENS",
+    "FERRAMENTA": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "USO_CONSUMO": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO",
+    "ATIVO": "525 3.2.2.04.016 BENS DE PEQUENO VALOR (até R$ 1.200; acima, imobilizado)",
+    "REVENDA": "(conta de estoque de mercadorias: definir)"
+  },
+  "conta_por_fornecedor_razao": {
+    "WPC POLIMERO": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "HESSENZA TOO": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "DREAMCORE EC": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "ACNIS DO BRA": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "ARCOMPRIMIDO": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "NETLAB EQUIP": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "USIART INDUS": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "MEIRELES COM": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "HANISCH MEDI": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "MAX TOOLS CO": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "CIPAMED EMBA": "56 1.1.5.01.002 MATÉRIA-PRIMA",
+    "PRECONIZ IND": "606 1.1.5.01.007 INSUMOS / EMBALAGENS",
+    "CASA NOVA EM": "606 1.1.5.01.007 INSUMOS / EMBALAGENS",
+    "MAXXI DISTRI": "583 3.1.1.02.012 EPI",
+    "WANDERLEY SI": "583 3.1.1.02.012 EPI",
+    "NOVA OPCAO C": "583 3.1.1.02.012 EPI",
+    "DENTALSHOP P": "583 3.1.1.02.012 EPI",
+    "BRF SA": "521 3.1.1.02.018 DESPESAS COM ALIMENTAÇÃO",
+    "CONCORDE LOG": "360 3.2.2.04.007 MATERIAL DE HIGIENE E LIMPEZA",
+    "MAXIFUSO IND": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+    "W W MANUTENC": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+    "LABSTORE EQU": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+    "VEXER INDUST": "602 3.1.7.01.003 DESPESAS LABORATORIAS",
+    "REI DA ESTOP": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS",
+    "LOJA DOS ROL": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS",
+    "WODONIS COME": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS",
+    "SOLOS TECNOL": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS",
+    "AP SUL COMER": "604 3.1.7.01.004 MANUTENÇÃO DE MAQUINAS E EQUIPAMENTOS",
+    "LEROY MERLIN": "321 3.2.1.06.002 MANUTENÇÃO E REPARO",
+    "BALAROTI COM": "321 3.2.1.06.002 MANUTENÇÃO E REPARO",
+    "MILANI RATUS": "321 3.2.1.06.002 MANUTENÇÃO E REPARO",
+    "INTERSEPT  C": "321 3.2.1.06.002 MANUTENÇÃO E REPARO",
+    "CONTABILISTA": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "TECNOSUL TEL": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "PAZELLI INFO": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "TIM SA": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "MEGA BYTE MA": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "MICROS SERVI": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "PRIMEIRA COM": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "OSV DIGITAL ": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO",
+    "CICHON DO BR": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO",
+    "GMF FABRICAC": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO",
+    "PAG COMERCIO": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO",
+    "TECNOPAR TEC": "525 3.2.2.04.016 BENS DE PEQUENO VALOR",
+    "EBAZARCOMBR ": "525 3.2.2.04.016 BENS DE PEQUENO VALOR",
+    "SUPERCOMM SA": "525 3.2.2.04.016 BENS DE PEQUENO VALOR",
+    "TEC PRINT SU": "525 3.2.2.04.016 BENS DE PEQUENO VALOR"
+  },
+  "conta_por_ncm_limpeza": [
+    "3402",
+    "3401",
+    "3405",
+    "3808",
+    "2828",
+    "4818"
   ]
 }

@@ -39,6 +39,11 @@ python3 Fiscal/scripts/conferencia.py --regras Fiscal/empresas/60-kopp-industria
    "Corrigido à mão?" mostra o retrabalho que a sugestão evita.
 5. Nunca afirmar irregularidade sem a evidência na linha (XML, SPED ou relatório); usar VERIFICAR.
 
+## Conta contábil
+`regras.json` traz `contas_padrao` (por finalidade), `conta` dentro das regras e
+`conta_por_fornecedor_razao` (aprendido do razão: histórico "COMPRAS ... <nº> <FORNECEDOR>" x conta de débito
+contra 506 FORNECEDOR MODELO). Atualizar com o razão do período mais recente.
+
 ## Nova empresa
 Copiar `regras.json` da Kopp, trocar `empresa`, `acumuladores` (tirar do relatório "Resumo por acumulador"
 e do 0400 do SPED), `devolucoes_proprias`, `saidas` e zerar fornecedores/NCM específicos.
