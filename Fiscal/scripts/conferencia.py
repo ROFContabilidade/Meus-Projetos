@@ -955,8 +955,8 @@ def analisar(a):
 
     # ======================== 7. auditoria: CT-e, remessas, ERP x XML, coerência
     import auditoria as au
-    cte_rows, cte_pend = au.analisar_cte(au.carregar_cte(a.xml), R, sefaz, hist)
-    for g, t, num, msg in cte_pend:
+    cte_rows, cte_pend = au.analisar_cte(au.carregar_cte(a.xml), R, sefaz, hist, set(sped_por_chave))
+    for g, t, num, msg, _ in cte_pend:
         pendencia(g, t, num, msg, participante='')
     for c_ in cte_rows:
         if c_['Status'] == 'A LANÇAR' and c_['Observações']:

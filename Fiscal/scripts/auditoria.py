@@ -69,7 +69,7 @@ def carregar_cte(pasta):
     return ctes
 
 
-def analisar_cte(ctes, R, sefaz, hist):
+def analisar_cte(ctes, R, sefaz, hist, escriturados=()):
     K, uf = R.cnpj, R.uf
     cfg = R.r.get('cte', {})
     linhas, pend = [], []
@@ -99,8 +99,8 @@ def analisar_cte(ctes, R, sefaz, hist):
                        'Crédito ICMS sugerido': c['vicms'] if st == 'A LANÇAR' else Z,
                        'Observações': obs, 'Chave': ch})
     for ch in sefaz:
-        if ch[20:22] == '57' and ch not in ctes and 'CANCEL' not in str(sefaz[ch].get('STATUS', '')).upper():
-            pend.append(('ALTA', 'CT-e', ch[25:34].lstrip('0'), 'CT-e na lista da SEFAZ sem XML na pasta.'))
+        if ch[20:22] == '57' and ch not in ctes and ch not in escriturados and 'CANCEL' not in str(sefaz[ch].get('STATUS', '')).upper():
+            pend.append(('ALTA', 'CT-e', ch[25:34].lstrip('0'), 'CT-e na lista da SEFAZ sem XML na pasta.', ch))
     return linhas, pend
 
 
@@ -161,8 +161,8 @@ def erp_x_xml(erp_path, aba, notas):
     linhas = []
     for _, r in x.iterrows():
         ch = str(r.get('Chave NFE') or '').strip()
-        if not ch or ch == 'nan':
-            continue
+        if not re.fullmatch(r'\d{44}', ch):
+            continue                      # linha sem chave, total ou rodapé do relatório
         num = str(r['Nº Nota']).split('.')[0]
         n = notas.get(ch)
         dif = []
