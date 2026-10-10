@@ -39,7 +39,7 @@
     "624": "REMESSA DE BEM POR CONT. COMODATO 6908",
     "119": "COMPRA DE COMBUSTÍVEL/LUBRIFICANTE 2.653 (visto no SPED 06/2026)",
     "161": "COMPRA P/ RECEBIMENTO FUTURO 1.116 (visto no SPED 06/2026)",
-    "121": "BONIFICAÇÃO E BRINDE DENT EST 1.910 (informado por Rosangela 09/2026)",
+    "121": "BONIFICAÇÃO E BRINDE DENT EST 1.910 (com crédito de ICMS, confirmado pela Rosangela 10/2026)",
     "221": "BONIFICAÇÃO E BRINDE FORA EST - A VISTA"
   },
   "_finalidades": "INSUMO = matéria-prima, componente ou produto intermediário consumido na fabricação; EMBALAGEM = embalagem do produto vendido; FERRAMENTA = ferramenta de usinagem que se desgasta na produção; USO_CONSUMO = material de escritório, limpeza, EPI, informática, manutenção, alimentação, brindes; REVENDA = mercadoria revendida sem industrialização; ATIVO = bem do imobilizado.",
@@ -105,7 +105,7 @@
       },
       "credito_icms": true,
       "credito_ipi": false,
-      "alerta": "Não existe acumulador de compra para comercialização; 1102 já foi lançado no 113 (ex.: Labaz 08/2026). Sugestão: criar acumulador próprio (compra p/ comercialização 1.102/2.102)."
+      "alerta": "Não existe acumulador de compra para comercialização; 1102 entra no 113 (prática confirmada). Conta 55 (revenda), informada pela Rosangela 10/2026."
     },
     "ATIVO": {
       "interna": {
@@ -729,7 +729,7 @@
     "FERRAMENTA": "56 1.1.5.01.002 MATÉRIA-PRIMA",
     "USO_CONSUMO": "58 3.2.2.04.015 OUTROS MATERIAIS DE CONSUMO",
     "ATIVO": "525 3.2.2.04.016 BENS DE PEQUENO VALOR (até R$ 1.200; acima, imobilizado)",
-    "REVENDA": "56 1.1.5.01.002 MATÉRIA-PRIMA (sem conta de mercadorias para revenda no plano: definir)"
+    "REVENDA": "55 MERCADORIAS PARA REVENDA"
   },
   "conta_por_fornecedor_razao": {
     "WPC POLIMERO": "56 1.1.5.01.002 MATÉRIA-PRIMA",
@@ -948,7 +948,9 @@
     "09/2026: bonificação recebida 1910 = acumulador 121",
     "09/2026: Unimed (plano de saúde) = conta 282",
     "09/2026: V M Comunicações sem retenção, manter como a nota",
-    "09/2026: NFS-e de competência anterior não lançada: apontar, não lançar"
+    "09/2026: NFS-e de competência anterior não lançada: apontar, não lançar",
+    "10/2026: mercadoria para revenda -> conta 55",
+    "10/2026: acumulador 121 (bonificação 1910) toma crédito normalmente"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
