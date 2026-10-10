@@ -698,7 +698,12 @@ def analisar(a):
             pendencia('VERIFICAR', 'Acumulador', d['Nota'], d['Observações'], valor=d['Valor NF'],
                       participante=d['Cliente (remetente)'])
     n_cst = sum(1 for d in dev_rows if 'tributado) e ICMS zero' in d.get('Observações', ''))
-    if n_cst:
+    if n_cst and R.r.get('saidas_icms_zero_9021') == 'aceito':
+        pendencia('INFO', 'ICMS zero (isenção 9021)', 'várias',
+                  f'{n_cst} devoluções emitidas pela Kopp com CST 00/20 e ICMS zero: aceito, mesmo caso das saídas de '
+                  'implantes isentos (item 67 Anexo V RICMS-PR). Só o código difere do usual (CST 40 + PR810067).',
+                  participante='ERP Kopp')
+    elif n_cst:
         pendencia('VERIFICAR', 'Cadastro do ERP', 'várias',
                   f'{n_cst} NF-e de devolução emitidas pela Kopp saem com CST 00/20 (tributado) e ICMS zero, algumas '
                   'com base preenchida. O Domínio importa base sem imposto. Ajustar a operação de devolução no ERP '
