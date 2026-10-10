@@ -138,6 +138,23 @@ def _linhas_reinf(nfse):
              f'{sum(1 for x in sem if "falta retenção" in (x["Alertas"] or ""))} com retenção que parecia devida', None)]
 
 
+def _abas_auditoria(wb, res):
+    if res.get('checklist'):
+        ws = _aba(wb, 'Checklist', res['checklist'], status_col='Resultado',
+                  larguras={'Verificação': 70, 'Observação': 50, 'Base conferida': 22},
+                  nota='Cada verificação que o robô fez neste mês. "VER ABAS" = há achados; detalhe na aba Pendências.')
+        wb.move_sheet(ws, offset=-(len(wb.sheetnames) - 2))
+    _aba(wb, 'CT-e (fretes)', res.get('cte', []), status_col='Status',
+         larguras={'Observações': 50, 'Chave': 46, 'Transportador': 30},
+         nota='Só lança o CT-e em que a empresa é a TOMADORA (quem paga o frete). CFOP 1352/2352 = frete adquirido por indústria.')
+    _aba(wb, 'Remessas x retornos', res.get('remessas', []), status_col='Status',
+         nota='Item a item: o que foi remetido (conserto, industrialização, feira) x o que voltou. Só aparecem diferenças.')
+    _aba(wb, 'ERP x XML', res.get('erp_xml', []), status_col='Status', larguras={'Divergências': 90, 'Chave': 46},
+         nota='Relatório de notas do ERP do cliente x XML: situação, valor, base, ICMS, IPI, CFOP. Vale o XML.')
+    _aba(wb, 'Coerência notas próprias', res.get('coerencia', []),
+         nota='Notas emitidas pela empresa com CST tributado sem imposto ou total diferente da soma dos itens.')
+
+
 def _escreve_resumo(ws, linhas):
     for i, (txt, estilo) in enumerate(linhas, 1):
         c = ws.cell(i, 1, txt)
@@ -217,6 +234,10 @@ def gravar_pre(res, saida):
          'conta pela natureza do serviço ou pelo razão.', None),
         *_linhas_reinf(nfse),
         ('', None),
+        ('CT-e (FRETES)', 'secao'),
+        (f'{len(res.get("cte", []))} CT-e · a lançar (Kopp tomadora) {sum(1 for c in res.get("cte", []) if c["Status"] == "A LANÇAR")}'
+         f' · não lançar {sum(1 for c in res.get("cte", []) if c["Status"] != "A LANÇAR")}', None),
+        ('', None),
         ('PENDÊNCIAS PARA RESOLVER ANTES DE IMPORTAR', 'secao'),
         *[(f'   {g}: {c}', None) for g, c in sorted(Counter(p['Gravidade'] for p in pend).items(),
                                                    key=lambda x: ['ALTA', 'VERIFICAR', 'INFO'].index(x[0]))],
@@ -242,6 +263,7 @@ def gravar_pre(res, saida):
     _aba(wb, 'NFS-e tomadas', _so_pre(nfse), status_col='Status',
          nota='Lista nacional de NFS-e recebidas, com o acumulador usado para o prestador nos meses anteriores.')
     _abas_servicos(wb, nfse)
+    _abas_auditoria(wb, res)
     _aba(wb, 'Regras', _regras(R), larguras={'Motivo': 90, 'Finalidade': 50})
     wb.save(saida)
 
@@ -330,6 +352,7 @@ def gravar_planilha(res, saida):
     _aba(wb, 'NFS-e tomadas', res['nfse'], status_col='Status',
          nota='Lista nacional de NFS-e recebidas x lançamentos de serviços tomados no Domínio.')
     _abas_servicos(wb, res['nfse'])
+    _abas_auditoria(wb, res)
     regras = _regras(R)
     _aba(wb, 'Regras', regras, larguras={'Motivo': 90, 'Finalidade': 50})
     wb.save(saida)

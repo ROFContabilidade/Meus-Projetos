@@ -158,6 +158,8 @@ class Regras:
             op = self.r['outras_operacoes'][suf]
             m = op.get(escopo) or {}
             credita = suf in ('124', '125')   # industrialização por encomenda: custo de produção
+            if suf == '910':                   # bonificação de insumo/embalagem com destaque gera crédito
+                credita = self.finalidade(nota, item)[0] in ('INSUMO', 'EMBALAGEM', 'FERRAMENTA', 'REVENDA')
             out.update(finalidade='OUTRA OPERAÇÃO', motivo=op['descr'], origem_regra='CFOP fornecedor',
                        cfop=m.get('cfop', ''), ac=m.get('ac'),
                        cred_icms=icms_item if credita else Z, cred_ipi=item['vIPI'] if credita else Z)
@@ -219,6 +221,8 @@ def carregar_xmls(pasta):
         if 'erro' in n:
             erros.append(n)
             continue
+        if not n.get('chave') or not n.get('numero'):
+            continue                   # evento/documento que não é NF-e completa (ex.: cancelamento de CT-e)
         origem[n['chave']].add(os.path.relpath(f, pasta).split(os.sep)[0])
         atual = notas.get(n['chave'])
         if atual is None or (n['eventos'] and not atual['eventos']):
@@ -441,6 +445,13 @@ def analisar(a):
                 extra = f' Está no SPED como C100 IND_OPER={sp["ind_oper"]} COD_SIT={sp["cod_sit"]}: confirmar se deve constar.'
             pendencia('INFO', 'Documento do fornecedor', n, motivo_ign + '.' + extra)
             continue
+        canc_sefaz = 'CANCEL' in str(sefaz.get(n['chave'], {}).get('STATUS', '')).upper()
+        if n['cancelada'] or canc_sefaz:
+            quando = ', '.join(e['data'] for e in n['eventos'] if e['tp'] == '110111') or 'lista da SEFAZ'
+            pendencia('ALTA' if (sp or dm) else 'INFO', 'Cancelada pelo fornecedor', n,
+                      f'NF-e cancelada pelo emitente ({quando}): NÃO lançar.'
+                      + (' Está lançada no SPED/Domínio: excluir.' if (sp or dm) else ''))
+            continue
         anterior = ja_lancadas.get((n['emit_cnpj'], n['numero'].lstrip('0')))
         if anterior and pre:
             pendencia('INFO', 'Já lançada', n, f'Nota já lançada no Domínio em {anterior["entrada"]} '
@@ -644,6 +655,10 @@ def analisar(a):
             'NF de venda referenciada': ', '.join(r[25:34].lstrip('0') for r in n['refs']),
             'Observações': ' | '.join(obs), 'Chave': n['chave'],
         })
+    for d in dev_rows:
+        if pre and 'SEM ACUMULADOR' in d['Status']:
+            pendencia('VERIFICAR', 'Acumulador', d['Nota'], d['Observações'], valor=d['Valor NF'],
+                      participante=d['Cliente (remetente)'])
     n_cst = sum(1 for d in dev_rows if 'tributado) e ICMS zero' in d.get('Observações', ''))
     if n_cst:
         pendencia('VERIFICAR', 'Cadastro do ERP', 'várias',
@@ -938,7 +953,56 @@ def analisar(a):
                           f'{st}: lista nacional R$ {val} ({r["Situação NFS-e"]}) x Domínio R$ {d["valor_contabil"]}.',
                           valor=val, participante=r['Nome Prestador'])
 
-    return dict(pre=pre, periodos_hist=periodos_hist, hist=hist, regras=R, competencia=comp, notas=notas, erros=erros, sped=sped, dom_e=dom_e, dom_s=dom_s,
+    # ======================== 7. auditoria: CT-e, remessas, ERP x XML, coerência
+    import auditoria as au
+    cte_rows, cte_pend = au.analisar_cte(au.carregar_cte(a.xml), R, sefaz, hist)
+    for g, t, num, msg in cte_pend:
+        pendencia(g, t, num, msg, participante='')
+    for c_ in cte_rows:
+        if c_['Status'] == 'A LANÇAR' and c_['Observações']:
+            pendencia('VERIFICAR', 'CT-e', c_['CT-e'], c_['Observações'], valor=c_['Valor'], participante=c_['Transportador'])
+    anteriores = {}
+    for pasta in a.xml_anteriores or []:
+        anteriores.update(carregar_xmls(pasta)[0])
+    rem_rows = au.remessa_retorno(notas, anteriores, K)
+    grupos = defaultdict(list)
+    for r_ in rem_rows:
+        grupos[(r_['Status'], r_['Parceiro'], r_['Operação'])].append(r_)
+    for (st_, parc, op), rs in grupos.items():
+        txt = '; '.join(f'{r_["Item"]} remetido {r_["Remetido"]:g} / retornado {r_["Retornado"]:g}' for r_ in rs[:6])
+        if st_.startswith('RETORNO MAIOR'):
+            pendencia('VERIFICAR', 'Remessa x retorno', ', '.join(sorted({r_['Retornos'] for r_ in rs})),
+                      f'{op} com {parc}: retorno maior que a remessa ({len(rs)} item(ns)) — possível nota de retorno '
+                      f'em duplicidade, não lançar as duas sem confirmar. {txt}. Remessa(s): {rs[0]["Remessas"]}',
+                      participante=parc)
+        elif st_.startswith('REMESSA NÃO'):
+            pendencia('INFO', 'Remessa x retorno', ', '.join(sorted({r_['Retornos'] for r_ in rs})),
+                      f'{op} com {parc}: retorno de {len(rs)} item(ns) sem a remessa nos XML carregados '
+                      f'(remessa de mês anterior?). {txt}', participante=parc)
+        else:
+            pendencia('INFO', 'Remessa x retorno', rs[0]['Remessas'],
+                      f'{op} com {parc}: {len(rs)} item(ns) ainda não retornaram. {txt}', participante=parc)
+    erp_rows = au.erp_x_xml(a.erp_notas, a.erp_aba, notas) if a.erp_notas else []
+    for e_ in erp_rows:
+        pendencia('ALTA' if e_['Status'] == 'SEM XML' else 'VERIFICAR', 'ERP x XML', f'{e_["Número"]}/{e_["Série"]}',
+                  ('Nota autorizada (com chave no relatório do ERP) sem XML na pasta: pedir o XML e lançar. '
+                   if e_['Status'] == 'SEM XML' else 'Relatório do ERP diverge do XML (vale o XML): ') + e_['Divergências'],
+                  participante=e_['Cliente'])
+    coer = au.coerencia_proprias(notas, K)
+    cst00 = defaultdict(list)
+    for c_ in coer:
+        if c_['Tipo'].startswith('CST 00'):
+            cst00[c_['CFOP']].append(c_)
+        else:
+            pendencia('INFO', 'Nota própria', c_['Nota'], f'{c_["Tipo"]}: {c_["Detalhe"]}', valor=c_['Valor'], participante='Kopp')
+    for cf, cs in cst00.items():
+        pendencia('VERIFICAR', 'Cadastro do ERP', f'{len(cs)} notas', f'CFOP {cf}: {len(cs)} nota(s) com itens em CST 00 '
+                  f'(tributado) sem base e sem ICMS (ex.: {", ".join(c_["Nota"] for c_ in cs[:5])}). Se o produto é isento, '
+                  'o correto é CST 40 + cBenef, como nas vendas; se é tributado, falta o imposto.',
+                  valor=sum((c_['Valor'] for c_ in cs), Z), participante='ERP Kopp')
+    res_aud = dict(cte=cte_rows, remessas=rem_rows, erp_xml=erp_rows, coerencia=coer)
+
+    return dict(**res_aud, pre=pre, periodos_hist=periodos_hist, hist=hist, regras=R, competencia=comp, notas=notas, erros=erros, sped=sped, dom_e=dom_e, dom_s=dom_s,
                 sefaz=sefaz, itens=itens_rows, notas_terc=notas_rows, devol=dev_rows, saidas=sai_rows,
                 completude=compl, lacunas=lacunas, nfse=nfse_rows, pendencias=pend, origem=origem)
 
@@ -954,6 +1018,8 @@ def main():
     p.add_argument('--dom-saidas-aba', default='Saídas')
     p.add_argument('--sefaz', nargs='+')
     p.add_argument('--historico', nargs='*', default=[])
+    p.add_argument('--xml-anteriores', nargs='*', default=[],
+                   help='pastas de XML de meses anteriores (para casar remessa x retorno)')
     p.add_argument('--acumuladores', nargs='*', default=[],
                    help='"Resumo por acumulador" do Domínio em PDF: catálogo com o nome de cada acumulador')
     p.add_argument('--sefaz-aba', default=0)
@@ -967,6 +1033,8 @@ def main():
     p.add_argument('--saida', required=True)
     a = p.parse_args()
     res = analisar(a)
+    import auditoria as au
+    res['checklist'] = au.checklist(res)
     from planilha import gravar_planilha
     gravar_planilha(res, a.saida)
     print('Planilha gerada:', a.saida)

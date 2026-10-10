@@ -954,5 +954,11 @@
   "confirmado_contra_historico": {
     "46503591000110": "Brocas = revenda (confirmado 09/2026)",
     "11050073000104": "Etiquetas = embalagem (confirmado 09/2026)"
+  },
+  "_cte": "CT-e: lançar só quando a empresa é a tomadora. CFOP de entrada x352 (indústria); 304 = frete com ICMS (crédito), 302 = frete sem ICMS (histórico Viação Graciosa).",
+  "cte": {
+    "cfop_sufixo": "352",
+    "ac_com_icms": "304",
+    "ac_sem_icms": "302"
   }
 }
