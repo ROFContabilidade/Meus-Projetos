@@ -873,8 +873,15 @@ def analisar(a):
                 sit, grav = 'No Domínio com valor, mas sem XML na pasta', 'ALTA'
             elif spd:
                 sit, grav = f'Só no SPED (COD_SIT {spd["cod_sit"]}), sem XML', 'VERIFICAR'
+            elif e is not None and R.r.get('lacuna_sem_fonte') == 'inutilizar' and pd.isna(e.get('Chave NFE')):
+                sit, grav = (f'Inutilizar (regra do escritório): no relatório do cliente sem chave de acesso. '
+                             f'Data de emissão do relatório: {str(e["Data Emissão"])[:10]}'), 'INFO'
             elif e is not None:
                 sit, grav = f'No ERP ({sit_erp or "sem situação"}), sem XML na pasta: pedir o XML ao cliente', 'ALTA'
+            elif R.r.get('lacuna_sem_fonte') == 'inutilizar':
+                viz = nums.get(max((k for k in nums if k < x), default=None)) or nums.get(min(k for k in nums if k > x))
+                sit, grav = (f'Inutilizar (regra do escritório): sem XML, fora do relatório do cliente e da SEFAZ. '
+                             f'Data das notas vizinhas: {viz["dt_emissao"]}'), 'INFO'
             else:
                 sit, grav = ('Número sem XML, fora do ERP, do Domínio e do SPED: confirmar na SEFAZ se foi '
                              'rejeitada (precisa inutilizar) ou se o XML ficou fora do download'), 'VERIFICAR'
@@ -891,6 +898,12 @@ def analisar(a):
                   f'{len(inut)} numerações inutilizadas ({", ".join(str(l["Número"]) for l in inut)}) não constam no '
                   'SPED. Pelo Guia Prático, numeração inutilizada é informada no C100 com COD_SIT 05.',
                   participante='SPED Fiscal')
+    a_inut = [l for l in lacunas if l['Situação'].startswith('Inutilizar')]
+    if a_inut:
+        pendencia('INFO', 'Numeração', 'várias',
+                  f'{len(a_inut)} números da série {a_inut[0]["Série"]} a lançar como inutilizados (regra do escritório): '
+                  + ', '.join(str(l['Número']) for l in a_inut) + '. Arquivo: EFD_INUTILIZADAS (C100 COD_SIT 05).',
+                  participante='Kopp')
     soltas = [l for l in lacunas if l['Situação'].startswith('Número sem XML')]
     if soltas:
         pendencia('VERIFICAR', 'Numeração', 'várias',

@@ -953,7 +953,8 @@
     "10/2026: acumulador 121 (bonificação 1910) toma crédito normalmente",
     "10/2026: ICMS zerado nas saídas de 9021 é correto (isenção PR, Conv. 126/10); crédito das entradas mantido sem estorno",
     "10/2026: Biomedicare 2140 e 2154 ativas na SEFAZ -> lançar as duas",
-    "10/2026: remessas 5901 com CST 90 sem cBenef aceitas como estão"
+    "10/2026: remessas 5901 com CST 90 sem cBenef aceitas como estão",
+    "10/2026: lacunas sem nenhuma fonte e notas do relatório sem chave (série de NF-e) -> inutilizadas"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -976,5 +977,7 @@
   "cbenef_aceito_cfop": [
     "5901",
     "6901"
-  ]
+  ],
+  "_lacuna_sem_fonte": "Regra do escritório (Rosangela 10/2026): número da série de NF-e que não está no relatório do cliente, nem nos XML (cliente e SEFAZ), nem na lista da SEFAZ -> lançar como inutilizado (C100 COD_SIT 05), com a data das notas vizinhas. Número no relatório do cliente sem chave de acesso -> inutilizado com a data de emissão do relatório.",
+  "lacuna_sem_fonte": "inutilizar"
 }
