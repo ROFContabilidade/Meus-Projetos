@@ -1033,7 +1033,14 @@ def analisar(a):
             cst00[c_['CFOP']].append(c_)
         else:
             pendencia('INFO', 'Nota própria', c_['Nota'], f'{c_["Tipo"]}: {c_["Detalhe"]}', valor=c_['Valor'], participante='Kopp')
+    aceito = R.r.get('saidas_icms_zero_9021') == 'aceito'
     for cf, cs in cst00.items():
+        if aceito:
+            pendencia('INFO', 'ICMS zero (isenção 9021)', f'{len(cs)} notas',
+                      f'CFOP {cf}: {len(cs)} nota(s) de implantes com ICMS zero, aceito (isenção item 67 Anexo V RICMS-PR, '
+                      f'Conv. ICMS 126/10). Só o código está como CST 00; o usual é CST 40 + PR810067.',
+                      valor=sum((c_['Valor'] for c_ in cs), Z), participante='ERP Kopp')
+            continue
         pendencia('VERIFICAR', 'Cadastro do ERP', f'{len(cs)} notas', f'CFOP {cf}: {len(cs)} nota(s) com itens em CST 00 '
                   f'(tributado) sem base e sem ICMS (ex.: {", ".join(c_["Nota"] for c_ in cs[:5])}). Se o produto é isento, '
                   'o correto é CST 40 + cBenef, como nas vendas; se é tributado, falta o imposto.',

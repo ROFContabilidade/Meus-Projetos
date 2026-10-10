@@ -241,7 +241,10 @@ def checklist(res):
         sum(1 for r in res.get('remessas', []) if r['Status'].startswith('RETORNO MAIOR')),
         f'{sum(1 for r in res.get("remessas", []) if r["Status"] == "AINDA NÃO RETORNOU")} item(ns) ainda fora')
     add('Saídas', 'CST x ICMS (tributado com imposto, isento com cBenef)', f'{len(res["saidas"])} notas',
-        sum(1 for c in res.get('coerencia', []) if c['Tipo'].startswith('CST')))
+        0 if res['regras'].r.get('saidas_icms_zero_9021') == 'aceito' else
+        sum(1 for c in res.get('coerencia', []) if c['Tipo'].startswith('CST')),
+        'ICMS zero dos implantes aceito: isenção PR (item 67 Anexo V, Conv. 126/10)'
+        if res['regras'].r.get('saidas_icms_zero_9021') == 'aceito' else '')
     add('Saídas', 'Acumulador para cada CFOP de saída', f'{len(res["saidas"])} notas',
         sum(1 for s in res['saidas'] if 'SEM ACUMULADOR' in s['Status']))
     add('Saídas', 'Relatório do ERP x XML (situação, valor, base, ICMS, IPI, CFOP)', 'relatório do ERP',
