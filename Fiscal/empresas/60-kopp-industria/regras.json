@@ -951,7 +951,8 @@
     "09/2026: NFS-e de competência anterior não lançada: apontar, não lançar",
     "10/2026: mercadoria para revenda -> conta 55",
     "10/2026: acumulador 121 (bonificação 1910) toma crédito normalmente",
-    "10/2026: ICMS zerado nas saídas de 9021 é correto (isenção PR, Conv. 126/10); crédito das entradas mantido sem estorno"
+    "10/2026: ICMS zerado nas saídas de 9021 é correto (isenção PR, Conv. 126/10); crédito das entradas mantido sem estorno",
+    "10/2026: Biomedicare 2140 e 2154 ativas na SEFAZ -> lançar as duas"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -967,5 +968,7 @@
   "_entradas_canceladas": "Regra do escritório (Rosangela 10/2026): NF-e de fornecedor cancelada é lançada com situação CANCELADA e tudo zerado (valor contábil, base, alíquota, ICMS, IPI, crédito).",
   "entradas_canceladas": "lancar_zerada",
   "_isencao_9021": "Saídas de implantes (NCM 9021.10.10) no PR: isenção do item 67 do Anexo V do RICMS-PR (cBenef PR810067), origem no Convênio ICMS 126/2010, que dispensa o estorno do crédito (art. 21 LC 87/96). ICMS zerado nas saídas é correto (confirmado pela Rosangela 10/2026); crédito das entradas mantido, sem estorno.",
-  "saidas_icms_zero_9021": "aceito"
+  "saidas_icms_zero_9021": "aceito",
+  "_retorno_maior_que_remessa": "Regra do escritório (Rosangela 10/2026): se as notas de retorno estão autorizadas (não canceladas), lançar todas, mesmo que a soma passe da remessa; só apontar.",
+  "retorno_maior_que_remessa": "lancar_autorizadas"
 }

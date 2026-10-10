@@ -1011,7 +1011,12 @@ def analisar(a):
         grupos[(r_['Status'], r_['Parceiro'], r_['Operação'])].append(r_)
     for (st_, parc, op), rs in grupos.items():
         txt = '; '.join(f'{r_["Item"]} remetido {r_["Remetido"]:g} / retornado {r_["Retornado"]:g}' for r_ in rs[:6])
-        if st_.startswith('RETORNO MAIOR'):
+        if st_.startswith('RETORNO MAIOR') and R.r.get('retorno_maior_que_remessa') == 'lancar_autorizadas':
+            pendencia('INFO', 'Remessa x retorno', ', '.join(sorted({r_['Retornos'] for r_ in rs})),
+                      f'{op} com {parc}: retorno maior que a remessa ({len(rs)} item(ns)), mas as notas estão autorizadas '
+                      f'na SEFAZ: lançar todas (regra do escritório). {txt}. Remessa(s): {rs[0]["Remessas"]}',
+                      participante=parc)
+        elif st_.startswith('RETORNO MAIOR'):
             pendencia('VERIFICAR', 'Remessa x retorno', ', '.join(sorted({r_['Retornos'] for r_ in rs})),
                       f'{op} com {parc}: retorno maior que a remessa ({len(rs)} item(ns)) — possível nota de retorno '
                       f'em duplicidade, não lançar as duas sem confirmar. {txt}. Remessa(s): {rs[0]["Remessas"]}',
