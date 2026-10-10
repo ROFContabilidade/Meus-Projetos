@@ -979,5 +979,7 @@
     "6901"
   ],
   "_lacuna_sem_fonte": "Regra do escritório (Rosangela 10/2026): número da série de NF-e que não está no relatório do cliente, nem nos XML (cliente e SEFAZ), nem na lista da SEFAZ -> lançar como inutilizado (C100 COD_SIT 05), com a data das notas vizinhas. Número no relatório do cliente sem chave de acesso -> inutilizado com a data de emissão do relatório.",
-  "lacuna_sem_fonte": "inutilizar"
+  "lacuna_sem_fonte": "inutilizar",
+  "_xml_prevalece": "Regra do escritório (Rosangela 10/2026): sempre se valida conforme o XML; diferença do relatório do cliente x XML é só informativa.",
+  "xml_prevalece": true
 }

@@ -1051,7 +1051,8 @@ def analisar(a):
     for e_ in erp_rows:
         if e_['Status'] == 'NÃO É NF-e':
             continue                     # entra na pendência da série sem NF-e (ERP x fiscal)
-        pendencia('ALTA' if e_['Status'] == 'SEM XML' else 'VERIFICAR', 'ERP x XML', f'{e_["Número"]}/{e_["Série"]}',
+        pendencia('ALTA' if e_['Status'] == 'SEM XML' else ('INFO' if R.r.get('xml_prevalece') else 'VERIFICAR'),
+                  'ERP x XML', f'{e_["Número"]}/{e_["Série"]}',
                   ('Nota autorizada (com chave no relatório do ERP) sem XML na pasta: pedir o XML e lançar. '
                    if e_['Status'] == 'SEM XML' else 'Relatório do ERP diverge do XML (vale o XML): ') + e_['Divergências'],
                   participante=e_['Cliente'])
