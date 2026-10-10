@@ -724,7 +724,8 @@ def analisar(a):
             continue
         base, icms, ise, outras = colunas_dominio(n['itens'])
         csts = Counter(it['CST_ICMS'] for it in n['itens'])
-        sem_cbenef = [it['nItem'] for it in n['itens'] if it['CST_ICMS'] in CST_EXIGE_CBENEF and not it['cBenef']]
+        sem_cbenef = [it['nItem'] for it in n['itens'] if it['CST_ICMS'] in CST_EXIGE_CBENEF and not it['cBenef']
+                      and it['CFOP'] not in R.r.get('cbenef_aceito_cfop', [])]
         if sem_cbenef:
             cst_sem = sorted({it['CST_ICMS'] for it in n['itens'] if it['nItem'] in sem_cbenef})
             msg = f'cBenef ausente nos itens {",".join(sem_cbenef)} (CST {",".join(cst_sem)}, CFOP {",".join(cfops)})'
