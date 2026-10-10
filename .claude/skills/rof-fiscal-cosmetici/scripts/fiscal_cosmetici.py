@@ -114,6 +114,14 @@ def nfse_da_pasta(pasta):
             if a.lower().startswith('relatorionfs_abrasf') and a.lower().endswith('.xlsx')]
 
 
+def carregar_registro(args):
+    arqs = list(getattr(args, 'registro_saidas', None) or [])
+    if args.pasta:
+        arqs += [os.path.join(r, a) for r, _, aa in os.walk(args.pasta) for a in sorted(aa)
+                 if a.lower().endswith('.pdf') and 'saida' in a.lower()]
+    return [x for p in arqs for x in leitores.ler_registro_saidas_erp(p)]
+
+
 def carregar_nfse(args):
     arqs = list(args.nfse or []) + (nfse_da_pasta(args.pasta) if args.pasta else [])
     return [s for p in arqs for s in leitores.ler_relatorio_nfse_abrasf(p)]
@@ -138,6 +146,7 @@ def cmd_apurar(args):
             fontes['cte'].setdefault(ch, c)
     sped = leitores.ler_sped(args.sped) if args.sped else None
     fontes['nfse'] = carregar_nfse(args)
+    fontes['registro_saidas'] = carregar_registro(args)
     a = Apuracao(cfg, args.mes, fontes, forn, sped).executar()
 
     saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
@@ -187,6 +196,7 @@ def cmd_creditos(args):
     for p in (args.sieg_produtos or []) + prod:
         sieg.update(leitores.ler_sieg_produtos(p))
     fontes['nfse'] = carregar_nfse(args)
+    fontes['registro_saidas'] = carregar_registro(args)
     a = Apuracao(cfg, args.mes, fontes, forn).executar()
     extra = []
     if args.cte_json:
@@ -227,6 +237,7 @@ def main(argv=None):
     ap.add_argument('--sieg-cte', nargs='*', help='Relatorio_CTe.xlsx (SIEG)')
     ap.add_argument('--sped', help='SPED Fiscal do mesmo mês (para conferência)')
     ap.add_argument('--nfse', nargs='*', help='RelatorioNFS_ABRASF_*.xlsx (NFS-e tomadas - confere retenções)')
+    ap.add_argument('--registro-saidas', nargs='*', help='Registro de Saídas do ERP (Saidas Cosmetici.pdf ou .txt)')
     ap.add_argument('--saida', help='pasta de saída')
     ap.add_argument('--gravar-faturamento', action='store_true', help='grava o faturamento do mês no config (IRPJ/CSLL)')
     ap.set_defaults(func=cmd_apurar)
@@ -245,6 +256,7 @@ def main(argv=None):
     cr.add_argument('--relatorio-erp', help='Relatório de Faturamento do ERP (PDF)')
     cr.add_argument('--cte-json', help='CT-e sem XML transcritos do relatório SIEG')
     cr.add_argument('--nfse', nargs='*', help='RelatorioNFS_ABRASF_*.xlsx (NFS-e tomadas)')
+    cr.add_argument('--registro-saidas', nargs='*', help='Registro de Saídas do ERP (Saidas Cosmetici.pdf ou .txt)')
     cr.add_argument('--saida')
     cr.set_defaults(func=cmd_creditos)
     args = p.parse_args(argv)

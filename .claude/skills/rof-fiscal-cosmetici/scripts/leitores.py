@@ -477,3 +477,31 @@ def ler_relatorio_nfse_abrasf(caminho):
             'descricao': str(g('Descriminacao'))[:200],
         })
     return out
+
+
+def ler_registro_saidas_erp(caminho_ou_texto):
+    """Registro de Saídas do ERP Cosmos (PDF "Saidas Cosmetici.pdf" ou o texto dele).
+    Cada nota: NF <série> <número> <dia> <UF> <vlr contábil> <CFOP> ICMS <base> <alíq> <imposto> <isentas> <outras>
+    <CFOP> IPI <base> <alíq> <imposto> <isentas> <outras>."""
+    txt = caminho_ou_texto
+    if os.path.exists(str(caminho_ou_texto)):
+        if str(caminho_ou_texto).lower().endswith('.pdf'):
+            import subprocess
+            txt = subprocess.run(['pdftotext', '-raw', caminho_ou_texto, '-'], capture_output=True, text=True).stdout
+        else:
+            with open(caminho_ou_texto, encoding='utf-8', errors='replace') as fh:
+                txt = fh.read()
+    txt = re.sub(r'\s+', ' ', txt)
+    num = r'(-?[\d\.]+,\d{2})'
+    pat = re.compile(r'NF \d+ (\d+) (\d{1,2}) ([A-Z]{2}) ' + num + r' (\d{4}) ICMS ' + ' '.join([num] * 5)
+                     + r' (\d{4}) IPI ' + ' '.join([num] * 5))
+    f = lambda x: float(x.replace('.', '').replace(',', '.'))
+    out = []
+    for m in pat.finditer(txt):
+        g = m.groups()
+        out.append({'numero': int(g[0]), 'dia': int(g[1]), 'uf': g[2], 'vc': f(g[3]), 'cfop': g[4],
+                    'bc_icms': f(g[5]), 'aliq': f(g[6]), 'icms': f(g[7]), 'isentas_icms': f(g[8]), 'outras_icms': f(g[9]),
+                    'bc_ipi': f(g[11]), 'aliq_ipi': f(g[12]), 'ipi': f(g[13]), 'isentas_ipi': f(g[14]), 'outras_ipi': f(g[15])})
+    for m in re.finditer(r'NF \d+ (\d+) (\d{1,2}) ([A-Z]{2}) NOTA FISCAL CANCELADA', txt):
+        out.append({'numero': int(m.group(1)), 'dia': int(m.group(2)), 'uf': m.group(3), 'cancelada': True, 'vc': 0.0, 'cfop': None})
+    return out

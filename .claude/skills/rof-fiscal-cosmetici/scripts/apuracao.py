@@ -325,7 +325,8 @@ class Apuracao:
                 self.div.append(('BAIXA', 'Carta de correção', self._doc(n), (e['correcao'] or '')[:200], None))
         import revisao
         dv, ob = revisao.revisar_saidas(self)
-        self.div += dv + revisao.remessas_sem_retorno(self) + revisao.revisar_nfse(self.f.get('nfse'))
+        self.div += (dv + revisao.remessas_sem_retorno(self) + revisao.revisar_nfse(self.f.get('nfse'))
+                     + revisao.conferir_registro_saidas(self, self.f.get('registro_saidas')))
         self.obs += ob
         return self.div
 

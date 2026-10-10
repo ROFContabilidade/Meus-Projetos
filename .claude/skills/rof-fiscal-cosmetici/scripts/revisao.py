@@ -182,6 +182,32 @@ def revisar_saidas(a):
                         f'5124 para {n["dest_uf"] or uf} com CST 00 (ICMS R$ {v:,.2f}) enquanto {csts["51"]} itens 5124 do mês saíram com '
                         f'diferimento (CST 51). Conferir se o diferimento se aplica a este cliente', v))
 
+    # 7a) mesmo produto (cProd) com NCM ou IPI diferente nas vendas do mês
+    trat = collections.defaultdict(lambda: collections.defaultdict(list))
+    for n in saidas:
+        for i in n['itens']:
+            if i['cfop'] in CFOP_PRODUTO - CFOP_INDUSTRIALIZACAO:
+                trat[i['cprod'] or _norm(i['xprod'])][(i['ncm'], i['cst_ipi'], i['pipi'])].append(n['numero'])
+    for cod, t in trat.items():
+        if len(t) > 1:
+            nome = next(i['xprod'] for n in saidas for i in n['itens'] if (i['cprod'] or _norm(i['xprod'])) == cod)
+            div.append(('MÉDIA', 'Produto com tratamento diferente', f'{nome} (cód. {cod})',
+                        'Mesmo produto vendido no mês com NCM/IPI diferentes: ' + '; '.join(
+                            f'NCM {k[0]} IPI CST {k[1] or "-"} {k[2]:g}% (NF {", ".join(map(str, sorted(set(v))))})' for k, v in t.items())
+                        + ' - conferir o cadastro do produto (IPI a menor se a alíquota correta for a maior)', None))
+
+    # 7b) PIS/COFINS informado no XML das industrializações x apuração (0,65%/3%)
+    ind = [(n, i) for n in saidas for i in n['itens'] if i['cfop'] in CFOP_INDUSTRIALIZACAO and i['cst_pis'] in ('02', '04')]
+    if ind:
+        vc = R(sum(vcontabil(i) for _, i in ind))
+        vp = R(sum(i['vpis'] for _, i in ind))
+        vco = R(sum(i['vcof'] for _, i in ind))
+        div.append(('BAIXA', 'PIS/COFINS no XML', f'{len({n["numero"] for n, _ in ind})} notas 5124/6124',
+                    f'O XML informa PIS/COFINS monofásico (CST 02, {ind[0][1]["ppis"]:g}%) em R$ {vc:,.2f} de industrialização '
+                    f'(PIS R$ {vp:,.2f} / COFINS R$ {vco:,.2f}); a apuração usa 0,65%/3% sobre a industrialização, como nos DARFs pagos. '
+                    f'Na encomenda de produto monofásico a alíquota concentrada é do encomendante (Lei 11.051/2004, art. 10) - '
+                    f'corrigir o cadastro fiscal do ERP (CST 01) e confirmar o entendimento com a contadora', None))
+
     # 7) produto sem grupo de IPI
     for n in saidas:
         itens = [i for i in n['itens'] if i['cfop'] in CFOP_PRODUTO and i['cst_icms'] not in ('40', '41') and not i['cst_ipi']]
@@ -258,6 +284,9 @@ CHECKLIST = [
     ('Saídas', 'Industrialização 5124/6124 x retorno 5902/6902 x remessa do cliente', ['Industrialização x retorno', 'Industrialização sem insumo'], BASE['ind']),
     ('Saídas', 'Diferimento nas 5124 internas', ['Diferimento 5124'], 'RICMS/PR (diferimento)'),
     ('Saídas', 'Grupo de IPI nos produtos', ['Grupo IPI'], BASE['ipi']),
+    ('Saídas', 'Mesmo produto com NCM/IPI diferentes no mês', ['Produto com tratamento diferente'], 'TIPI (Decreto 11.158/2022); RIPI art. 189'),
+    ('Saídas', 'PIS/COFINS informado no XML x apuração', ['PIS/COFINS no XML'], 'Lei 10.147/2000; Lei 11.051/2004 art. 10'),
+    ('Saídas', 'XML x Registro de Saídas do ERP (nota a nota: UF, CFOP, valores, ICMS, IPI, ST)', ['XML x Registro ERP'], 'Ajuste SINIEF 02/09 (EFD)'),
     ('Saídas', 'NCM x PIS/COFINS monofásico', ['PIS/COFINS monofásico'], 'Lei 10.147/2000'),
     ('Entradas', 'Fornecedor sem histórico (insumo x uso e consumo)', ['Fornecedor sem histórico'], 'LC 87/96 art. 20 e 33, I'),
     ('Entradas', 'Notas desconhecidas/manifestadas', ['Manifestação'], 'Ajuste SINIEF 07/05'),
@@ -281,6 +310,9 @@ def checklist(a, extras=None):
         if tipos == ['NFS-e retenções'] and not a.f.get('nfse'):
             linhas.append((area, desc, 'Relatório de NFS-e não informado (--nfse)', 'NÃO EXECUTADO', base))
             continue
+        if tipos == ['XML x Registro ERP'] and not a.f.get('registro_saidas'):
+            linhas.append((area, desc, 'Registro de Saídas do ERP não informado (--registro-saidas)', 'NÃO EXECUTADO', base))
+            continue
         if tipos == ['SPED x XML'] and not a.sped:
             linhas.append((area, desc, 'SPED do mês ainda não existe', 'NÃO EXECUTADO', base))
             continue
@@ -290,3 +322,47 @@ def checklist(a, extras=None):
         else:
             linhas.append((area, desc, 'Nenhuma ocorrência', 'OK', base))
     return linhas + list(extras or [])
+
+
+def conferir_registro_saidas(a, reg):
+    """Registro de Saídas do ERP (lista de dicts de leitores.ler_registro_saidas_erp) x XML, nota a nota."""
+    if not reg:
+        return []
+    div = []
+    xs = {n['numero']: n for n in a.saidas}
+    canc = {n['numero'] for n in a.canceladas if n.get('propria')}
+    por_num = {r['numero']: r for r in reg}
+    for k, r in sorted(por_num.items()):
+        n = xs.get(k)
+        if n is None:
+            if not r.get('cancelada') and k not in canc:
+                div.append(('ALTA', 'XML x Registro ERP', f'NF {k}', 'Nota no Registro de Saídas do ERP sem XML autorizado no mês', r['vc']))
+            continue
+        it = [i for i in n['itens'] if i['cfop'] not in CFOP_RETORNO]
+        x = {'uf': n['dest_uf'], 'cfop': '/'.join(sorted({i['cfop'] for i in it})), 'vc': R(sum(vcontabil(i) for i in it)),
+             'bc_icms': R(sum(i['vbc'] for i in it)), 'icms': R(sum(i['vicms'] for i in it)), 'st': R(sum(i['vst'] for i in it)),
+             'ipi': R(sum(i['vipi'] for i in it))}
+        d = []
+        if r['uf'] and x['uf'] != r['uf']:
+            d.append(f'UF no XML {x["uf"]} x ERP {r["uf"]}')
+        if r['cfop'] and r['cfop'] not in x['cfop'].split('/'):
+            d.append(f'CFOP no XML {x["cfop"]} x ERP {r["cfop"]}')
+        for c, rot in (('vc', 'valor contábil'), ('bc_icms', 'base ICMS'), ('icms', 'ICMS'), ('ipi', 'IPI')):
+            if r.get(c) is not None and abs(x[c] - r[c]) > 0.01:
+                d.append(f'{rot} XML {x[c]:,.2f} x ERP {r[c]:,.2f}')
+        if r.get('outras_icms') is not None and x['st'] and abs(x['st'] - r['outras_icms']) > 0.01:
+            d.append(f'ST XML {x["st"]:,.2f} x ERP {r["outras_icms"]:,.2f}')
+        if d:
+            div.append(('ALTA' if any(t.startswith(('UF', 'CFOP', 'ICMS', 'IPI')) for t in d) else 'MÉDIA', 'XML x Registro ERP',
+                        _doc(n), '; '.join(d), None))
+    sem = [n for k, n in xs.items() if k not in por_num]
+    so_ret = [n for n in sem if {i['cfop'] for i in n['itens']} <= CFOP_RETORNO]
+    outras = [n for n in sem if n not in so_ret]
+    for n in outras:
+        div.append(('ALTA', 'XML x Registro ERP', _doc(n), 'Nota com XML autorizado que não está no Registro de Saídas do ERP', n['vnf']))
+    if so_ret:
+        v = R(sum(vcontabil(i) for n in so_ret for i in n['itens']))
+        div.append(('BAIXA', 'XML x Registro ERP', f'{len(so_ret)} notas de retorno 5902/6902',
+                    f'O Registro de Saídas do ERP não lista as notas de retorno simbólico (R$ {v:,.2f}); no livro/SPED elas entram '
+                    f'(C100/C190 com CFOP 5902/6902, sem débito) - conferir no Domínio', v))
+    return div

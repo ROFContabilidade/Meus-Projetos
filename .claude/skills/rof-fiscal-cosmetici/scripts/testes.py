@@ -215,6 +215,30 @@ def teste_cte_natureza():
     print('ok CT-e segue a natureza da NF-e')
 
 
+def teste_registro_erp():
+    import revisao
+    ch = lambda n: f'412609{CNPJ}55001{n:09d}4000000{n % 10}'[:44].ljust(44, '0')
+    arqs = {'a.xml': nfe(ch(1), 201, CNPJ, '22222222000191', 'SP', [('6102', '33059000', 1000.0, 12, 0, 0, '02')], data='2026-09-02')
+            .replace('<CST>50</CST>', '<CST>51</CST>').replace('<pIPI>10</pIPI>', '<pIPI>0</pIPI>'),
+            'b.xml': nfe(ch(2), 202, CNPJ, '22222222000191', 'PR', [('5102', '33059000', 1000.0, 19.5, 143.0, 0, '02')], data='2026-09-03'),
+            'c.xml': nfe(ch(3), 203, CNPJ, '33333333000191', 'PR', [('5101', '33059000', 500.0, 19.5, 0, 0, '02')], data='2026-09-04')}
+    txt = ('REGISTRO DE SAIDAS Dia Dest. NF 1 201 2 PR 1.000,00 6102 ICMS 1.000,00 12,00\n\n120,00 0,00 0,00 6102 IPI 1.000,00 0,00 0,00 0,00 0,00 '
+           'NF 1 202 3 PR 1.143,00 5102 ICMS 1.000,00 19,50 195,00 0,00 0,00 5102 IPI 1.000,00 10,00 143,00 0,00 143,00 '
+           'NF 1 204 4 PR NOTA FISCAL CANCELADA \\! Total Geral')
+    reg = leitores.ler_registro_saidas_erp(txt)
+    assert [r['numero'] for r in reg] == [201, 202, 204] and reg[1]['ipi'] == 143.0, reg
+    fontes = leitores.ler_xmls([montar_zip(arqs)])
+    fontes['registro_saidas'] = reg
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', fontes, {}).executar()
+    d = [x for x in a.div if x[1] == 'XML x Registro ERP']
+    assert any('NF 201/' in x[2] and 'UF no XML SP x ERP PR' in x[3] for x in d), d
+    assert any('NF 203/' in x[2] and 'não está no Registro' in x[3] for x in d), d
+    assert not any('NF 202/' in x[2] for x in d), d
+    # mesmo produto (cProd 1) com IPI 0 na 201/203 e 10% na 202
+    assert any(x[1] == 'Produto com tratamento diferente' for x in a.div)
+    print('ok Registro de Saídas do ERP x XML')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -223,3 +247,4 @@ if __name__ == '__main__':
     teste_sieg_cte()
     teste_revisao()
     teste_cte_natureza()
+    teste_registro_erp()
