@@ -54,11 +54,21 @@ Natureza de cada item (ordem): `natureza_entradas` do config (decisão do escrit
 - **IPI:** só insumo de fornecedor que destacou IPI (RIPI art. 226, I).
 - **DIFAL:** uso e consumo/ativo de outra UF → estimativa pela base dupla (19,5%).
 - **PIS/COFINS:** Lucro Presumido cumulativo → sem crédito.
-- **CT-e:** crédito do frete com a COSMETICI tomadora (XML). CT-e que só aparece no relatório SIEG fica como pendente até baixar o XML. CT-e da TEX Courier de envios da GULA com a COSMETICI no documento: não creditar sem confirmar.
+- **CT-e:** crédito do frete com a COSMETICI tomadora (XML), **seguindo a natureza da NF-e transportada** (chaves no CT-e): frete de compra de uso e consumo/outras = sem crédito (LC 87/96 art. 33, I); frete de retorno de insumo do cliente = confirmar quem paga. CT-e que só aparece no relatório SIEG fica como pendente até baixar o XML. CT-e da TEX Courier de envios da GULA com a COSMETICI no documento: não creditar sem confirmar.
 
 ## Conferência automática dos XML
 
-ICMS e IPI recalculados (BC × alíquota), CST × valor, CFOP × UF do destinatário, alíquota interestadual (4% importado; 7% N/NE/CO/ES; 12% S/SE), CFOP com ST sem ST destacada e CFOP sem ST com ST destacada (visto em 08/2026: oxidantes em 5102 com ST para GULA), monofásico × CST PIS, numeração das notas próprias (buraco sem cancelamento/inutilização), notas fora do mês, CC-e, manifestação de desconhecimento, fornecedor sem histórico e, com SPED: notas no SPED sem XML e vice-versa.
+ICMS e IPI recalculados (BC × alíquota), CST × valor, os cruzamentos da revisão automática (abaixo), CFOP × UF do destinatário, alíquota interestadual (4% importado; 7% N/NE/CO/ES; 12% S/SE), CFOP com ST sem ST destacada e CFOP sem ST com ST destacada (visto em 08/2026: oxidantes em 5102 com ST para GULA), monofásico × CST PIS, numeração das notas próprias (buraco sem cancelamento/inutilização), notas fora do mês, CC-e, manifestação de desconhecimento, fornecedor sem histórico e, com SPED: notas no SPED sem XML e vice-versa.
+
+## Revisão automática (`scripts/revisao.py`) e aba Checklist
+
+Cruzamentos que a contadora refazia à mão; rodam em todo `apurar`/`creditos` e vão para a aba Divergências. A aba **Checklist** da planilha mostra cada verificação com OK / VERIFICAR / NÃO EXECUTADO (faltou arquivo):
+- **5124/6124 x 5902/6902:** insumo do cliente (CST 41, PIS 49) emitido com CFOP de industrialização e devolvido de novo no retorno (ALTA - infla a base do PIS/COFINS e do IRPJ/CSLL); 5124/6124 sem remessa citada, sem retorno e sem remessa recebida no mês (pode ser venda 5101: monofásico + IPI); retorno que cita a NF de industrialização errada (CC-e).
+- **Contribuinte como consumidor final:** cliente com IE (ou que no mês já foi contribuinte) emitido com indIEDest 9/indFinal 1 - some a ST e muda a alíquota. Mesmo CNPJ com UF diferente no mês.
+- **CFOP de revenda (5102/6102) com IPI destacado** (produção própria = 5101/5401); **5124 interna tributada** quando as demais têm diferimento (CST 51); produto **sem grupo de IPI**.
+- **Remessas recebidas** (5901/5924/5923…) sem retorno no mês = estoque de terceiros (informativo).
+- **NFS-e tomadas** (`--nfse RelatorioNFS_ABRASF_*.xlsx`, ou achado na `--pasta`): IRRF 1,5%/1% (RIR/2018 art. 714/716) e PIS/COFINS/CSLL 4,65% (Lei 10.833/03 art. 30) por código de serviço, prestador fora do Simples, dispensa até R$ 10; compara com o descontado (valor - líquido).
+- Fora do automático (fazer à mão e marcar no checklist): extrato bancário x fornecedores (compra paga sem NF-e), ISS de prestador de outro município, ST interestadual por protocolo/convênio da UF de destino.
 
 ## Rotina mensal da pasta (Windows)
 
@@ -69,4 +79,5 @@ ICMS e IPI recalculados (BC × alíquota), CST × valor, CFOP × UF do destinat�
 - Contas do Domínio para o TXT de provisões (PIS, COFINS, IPI, ICMS, ICMS-ST, IRPJ, CSLL) — sugestão para ST: D 482 / C 481 (balancete 12/2025), não confirmada.
 - Deduzir devoluções da base do PIS/COFINS? NCM 2847 a 2,2%/10,3% ou 0,65%/3%?
 - CT-e de 08/2026 não estavam nos arquivos lidos: crédito do SPED = 1.210,68 (única diferença do ICMS de 08/2026).
-- 09/2026 (XML da pasta 09_2026/Doc's): 91 saídas batem com o relatório do ERP (R$ 180.815,24; ICMS 16.317,95) e com o SIEG; as NF 8938, 8948, 8951… que faltavam no SIEG são inutilizadas (procInutNFe). Créditos: ICMS NF-e normal 6.073,67 + Simples 98,95 (Lunaflexo, CSOSN 101) + CT-e com XML 185,32; IPI 2.305,74. Pendências: XML de 12 CT-e de frete de venda (Braspress, Expresso São Miguel, Rodonaves - R$ 294,06 de crédito); REATEC (NF 695) e MERCKPAR (NF 42) com CSOSN 101 sem % de crédito; reagentes de laboratório da NewProv tratados como uso e consumo (R$ 438,49 de ICMS) - confirmar; DIFAL estimado R$ 104,87 (cartucho de impressora da HS Inklaser, SP).
+- 09/2026 (XML da pasta 09_2026/Doc's): 91 saídas batem com o relatório do ERP (R$ 180.815,24; ICMS 16.317,95) e com o SIEG; as NF 8938, 8948, 8951… que faltavam no SIEG são inutilizadas (procInutNFe). Créditos: ICMS NF-e normal 6.073,67 + Simples 98,95 (Lunaflexo, CSOSN 101) + CT-e com XML 149,14 (o CT-e 5597996 de R$ 36,18 é frete do pincel da Agatha - CFOP 6949/uso, sem crédito); IPI 2.305,74. ICMS a recolher 9.996,19.
+  Decisões em aberto (checklist `2026-09/Checklist_Conferencia_09-2026.md`): GULA emitida como consumidor final desde a NF 8966 (sem ST, 16 notas, R$ 35.221,15 de produtos; 8966/8967 com endereço em SP); frascos da MIX em 5124/6124 e de novo em 5902/6902 (R$ 3.004,50 na base do PIS/COFINS/IRPJ/CSLL); 5124/6124 sem insumo do cliente (8939 Cândido, 8979 Barbara); 8939 tributada x diferimento; NFS-e 18 Genesis sem PIS/COFINS/CSLL retidos (R$ 33,86); XML de 12 CT-e de frete de venda (R$ 294,06); REATEC (NF 695) e MERCKPAR (NF 42) CSOSN 101 sem %; reagentes da NewProv como uso e consumo (R$ 438,49); DIFAL R$ 104,87 (HS Inklaser).

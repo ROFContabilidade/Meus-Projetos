@@ -8,7 +8,7 @@ CNPJ 33.039.048/0001-62 · Lucro Presumido · indústria de cosméticos · Fazen
 |---|---|---|
 | Organizar a pasta do mês | `rotina-mensal/` (Windows, dois cliques) | Subpastas 01_XML_Saidas … 09_Apuracao, ZIP extraído, XML separados por tipo |
 | Apurar os impostos | `.claude/skills/rof-fiscal-cosmetici/scripts/fiscal_cosmetici.py apurar` | `AAAA-MM/Apuracao_Fiscal_Cosmetici_MM-AAAA.xlsx` com guias, cálculos e conferência |
-| Conferir os XML | mesma planilha, aba **Divergências** | ICMS/IPI recalculados, CFOP × UF, ST, numeração, SPED × XML |
+| Conferir os XML | mesma planilha, abas **Checklist** e **Divergências** | ICMS/IPI recalculados, CFOP × UF, ST, numeração, SPED × XML, industrialização × retorno, contribuinte como consumidor final, CFOP revenda × produção, diferimento 5124, crédito do CT-e pela NF-e transportada, retenções das NFS-e (`--nfse`) |
 | Créditos das entradas | `fiscal_cosmetici.py creditos` | `AAAA-MM/Creditos_Entradas_Cosmetici_MM-AAAA.xlsx`: insumo × uso e consumo × remessa, Simples Nacional (vCredICMSSN), IPI, CT-e, DIFAL e conferência XML × ERP × SIEG |
 | TXT para o Domínio | `AAAA-MM/Lancamentos_Fiscais_Cosmetici_MM-AAAA.txt` | Provisões dos impostos (só depois de preencher as contas em `config/cosmetici.json`) |
 

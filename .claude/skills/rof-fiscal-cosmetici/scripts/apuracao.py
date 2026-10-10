@@ -209,11 +209,12 @@ class Apuracao:
             self.div.append(('ALTA', 'Manifestação', self._doc(n) if n else ch, f'Nota manifestada como "{motivo}" - não escriturar', None))
         self.ent = linhas
         cte = []
-        cf_cte = set(self.cfg['icms']['cfops_cte_com_credito'])
+        cred_cte = {x['chave']: x for x in self.credito.cte if x['fonte'] == 'XML'}
         for c in self.ctes:
-            cf = cfop_entrada(c['cfop'])
-            cred = R(c['vicms']) if cf in cf_cte and c['vicms'] else 0.0
-            cte.append({'cte': c, 'cfop': cf, 'cred_icms': cred})
+            x = cred_cte[c['chave']]
+            cte.append({'cte': c, 'cfop': x['cfop'], 'cred_icms': x['credito'], 'obs': x['obs'], 'nfe': x['nfe']})
+            if c['vicms'] and not x['credito']:
+                self.div.append(('MÉDIA', 'CT-e sem crédito', f'CT-e {c["numero"]} {c["emit_nome"]}', x['obs'], c['vicms']))
         self.cte_cred = cte
         return linhas, cte
 
@@ -322,6 +323,10 @@ class Apuracao:
             n = self.f['nfe'].get(e['chave'])
             if n and self.ini <= (e['data'] or self.ini) <= self.fim:
                 self.div.append(('BAIXA', 'Carta de correção', self._doc(n), (e['correcao'] or '')[:200], None))
+        import revisao
+        dv, ob = revisao.revisar_saidas(self)
+        self.div += dv + revisao.remessas_sem_retorno(self) + revisao.revisar_nfse(self.f.get('nfse'))
+        self.obs += ob
         return self.div
 
     # ------------------------------------------------------------ confronto com o SPED

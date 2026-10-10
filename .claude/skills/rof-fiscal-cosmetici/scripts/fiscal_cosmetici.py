@@ -3,7 +3,7 @@
 Apurar um mês (gera planilha + TXT do Domínio):
   python fiscal_cosmetici.py apurar --mes 2026-09 --xml <pasta|zip|xml> [...] \
       [--sieg-produtos Relatorio_Detalhamento_Produtos.xlsx] [--sieg-cte Relatorio_CTe.xlsx] \
-      [--sped SpedEFD-...-set.2026.txt] [--saida Cosmetici/Fiscal/2026-09] [--gravar-faturamento]
+      [--sped SpedEFD-...-set.2026.txt] [--nfse RelatorioNFS_ABRASF_...xlsx] [--saida Cosmetici/Fiscal/2026-09] [--gravar-faturamento]
 
 Aprender a classificação das entradas (CFOP/crédito por fornecedor e NCM) com um SPED já transmitido:
   python fiscal_cosmetici.py aprender --sped SpedEFD-...-ago.2026.txt
@@ -109,6 +109,16 @@ def fontes_da_pasta(pasta):
     return xml, prod, cte, (sped[-1] if sped else None)
 
 
+def nfse_da_pasta(pasta):
+    return [os.path.join(r, a) for r, _, arqs in os.walk(pasta) for a in sorted(arqs)
+            if a.lower().startswith('relatorionfs_abrasf') and a.lower().endswith('.xlsx')]
+
+
+def carregar_nfse(args):
+    arqs = list(args.nfse or []) + (nfse_da_pasta(args.pasta) if args.pasta else [])
+    return [s for p in arqs for s in leitores.ler_relatorio_nfse_abrasf(p)]
+
+
 def cmd_apurar(args):
     cfg = carregar('cosmetici.json')
     if args.pasta:
@@ -127,6 +137,7 @@ def cmd_apurar(args):
         for ch, c in leitores.ler_sieg_cte(p).items():
             fontes['cte'].setdefault(ch, c)
     sped = leitores.ler_sped(args.sped) if args.sped else None
+    fontes['nfse'] = carregar_nfse(args)
     a = Apuracao(cfg, args.mes, fontes, forn, sped).executar()
 
     saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
@@ -175,6 +186,7 @@ def cmd_creditos(args):
     sieg = {}
     for p in (args.sieg_produtos or []) + prod:
         sieg.update(leitores.ler_sieg_produtos(p))
+    fontes['nfse'] = carregar_nfse(args)
     a = Apuracao(cfg, args.mes, fontes, forn).executar()
     extra = []
     if args.cte_json:
@@ -214,6 +226,7 @@ def main(argv=None):
     ap.add_argument('--sieg-produtos', nargs='*', help='Relatorio_Detalhamento_Produtos.xlsx (SIEG)')
     ap.add_argument('--sieg-cte', nargs='*', help='Relatorio_CTe.xlsx (SIEG)')
     ap.add_argument('--sped', help='SPED Fiscal do mesmo mês (para conferência)')
+    ap.add_argument('--nfse', nargs='*', help='RelatorioNFS_ABRASF_*.xlsx (NFS-e tomadas - confere retenções)')
     ap.add_argument('--saida', help='pasta de saída')
     ap.add_argument('--gravar-faturamento', action='store_true', help='grava o faturamento do mês no config (IRPJ/CSLL)')
     ap.set_defaults(func=cmd_apurar)
@@ -231,6 +244,7 @@ def main(argv=None):
     cr.add_argument('--sieg-produtos', nargs='*')
     cr.add_argument('--relatorio-erp', help='Relatório de Faturamento do ERP (PDF)')
     cr.add_argument('--cte-json', help='CT-e sem XML transcritos do relatório SIEG')
+    cr.add_argument('--nfse', nargs='*', help='RelatorioNFS_ABRASF_*.xlsx (NFS-e tomadas)')
     cr.add_argument('--saida')
     cr.set_defaults(func=cmd_creditos)
     args = p.parse_args(argv)

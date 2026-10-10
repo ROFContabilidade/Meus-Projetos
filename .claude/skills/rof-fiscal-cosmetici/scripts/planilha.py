@@ -216,15 +216,15 @@ def entradas(wb, a):
 
     ws = wb.create_sheet('CT-e')
     _titulo(ws, 'CT-e em que a COSMETICI é tomadora (crédito de ICMS do frete)')
-    _cab(ws, 3, ['Emissão', 'Transportadora', 'CNPJ', 'CT-e', 'CFOP', 'CFOP entrada', 'Origem-Destino', 'Valor', 'Base', '%', 'ICMS', 'Crédito'])
+    _cab(ws, 3, ['Emissão', 'Transportadora', 'CNPJ', 'CT-e', 'CFOP', 'CFOP entrada', 'Origem-Destino', 'Valor', 'Base', '%', 'ICMS', 'Crédito', 'NF-e transportada', 'Análise'])
     r = 4
     for l in a.cte_cred:
         c = l['cte']
         _linha(ws, r, [c['data'], c['emit_nome'], c['emit_cnpj'], c['numero'], c['cfop'], l['cfop'], f'{c["uf_ini"]}-{c["uf_fim"]}',
-                       c['vprest'], c['vbc'], c['picms'], c['vicms'], l['cred_icms']], moeda=(7, 8, 10, 11)); r += 1
+                       c['vprest'], c['vbc'], c['picms'], c['vicms'], l['cred_icms'], l.get('nfe', ''), l.get('obs', '')], moeda=(7, 8, 10, 11)); r += 1
     _linha(ws, r, ['Total'] + [''] * 6 + [f'=SUM({get_column_letter(c)}4:{get_column_letter(c)}{r-1})' for c in range(8, 13)],
            moeda=(7, 8, 9, 10, 11), bold=True)
-    _larguras(ws, [11, 36, 16, 10, 6, 8, 10, 11, 11, 6, 10, 10])
+    _larguras(ws, [11, 36, 16, 10, 6, 8, 10, 11, 11, 6, 10, 10, 30, 60])
 
 
 def divergencias(wb, a):
@@ -266,9 +266,28 @@ def canceladas(wb, a):
     _larguras(ws, [22, 9, 6, 11, 40, 13, 47])
 
 
+def checklist(wb, a):
+    import revisao
+    ws = wb.create_sheet('Checklist')
+    _titulo(ws, 'Checklist da conferência automática do mês',
+            'OK = cruzamento feito sem ocorrência; VERIFICAR = ver a aba Divergências; NÃO EXECUTADO = faltou o arquivo.')
+    _cab(ws, 4, ['Área', 'Verificação', 'Resultado', 'Status', 'Base legal', 'Conferido por', 'Observação'])
+    r = 5
+    for area, desc, res, st, base in revisao.checklist(a):
+        _linha(ws, r, [area, desc, res, st, base, '', ''],
+               fill={'OK': OK, 'VERIFICAR': ALTA if 'ALTA' in res else MEDIA, 'NÃO EXECUTADO': EDIT}.get(st))
+        for c in (2, 3, 5):
+            ws.cell(r, c).alignment = Alignment(wrap_text=True, vertical='top')
+        ws.cell(r, 6).fill = EDIT; ws.cell(r, 7).fill = EDIT
+        r += 1
+    _larguras(ws, [10, 50, 40, 15, 45, 14, 30])
+    ws.freeze_panes = 'A5'
+
+
 def gerar(a, destino):
     wb = Workbook()
     resumo(wb, a)
+    checklist(wb, a)
     acumuladores(wb, a)
     notas_saida(wb, a)
     itens_saida(wb, a)

@@ -134,6 +134,7 @@ def ler_nfe(root, origem):
         'dhemi': _data(_t(ide, 'n:dhEmi') or _t(ide, 'n:dEmi')),
         'dhsaient': _data(_t(ide, 'n:dhSaiEnt') or _t(ide, 'n:dSaiEnt')),
         'tpnf': _t(ide, 'n:tpNF'), 'finnfe': _t(ide, 'n:finNFe'), 'natop': _t(ide, 'n:natOp'),
+        'ind_final': _t(ide, 'n:indFinal'), 'id_dest': _t(ide, 'n:idDest'),
         'emit_cnpj': _t(emit, 'n:CNPJ') or _t(emit, 'n:CPF'), 'emit_nome': _t(emit, 'n:xNome'),
         'emit_uf': _t(emit, 'n:enderEmit/n:UF'), 'emit_crt': _t(emit, 'n:CRT'),
         'dest_cnpj': _t(dest, 'n:CNPJ') or _t(dest, 'n:CPF') or _t(dest, 'n:idEstrangeiro'),
@@ -144,6 +145,7 @@ def ler_nfe(root, origem):
         'tot': {k: _v(inf, f'n:total/n:ICMSTot/n:{k}') for k in
                 ('vProd', 'vDesc', 'vFrete', 'vSeg', 'vOutro', 'vBC', 'vICMS', 'vST', 'vFCPST', 'vIPI', 'vIPIDevol', 'vPIS', 'vCOFINS', 'vNF')},
         'refnfe': [r.text for r in ide.findall(f'{NS}NFref/{NS}refNFe')],
+        'infcpl': _t(inf, 'n:infAdic/n:infCpl') or '',
         'itens': [_item_nfe(d, True) for d in inf.findall(NS + 'det')],
     }
     return nota
@@ -424,4 +426,54 @@ def ler_relatorio_faturamento_erp(caminho):
              'pessoa': g[4].strip(), 'situacao': g[5]}
         d.update({k: _f(v) for k, v in zip(campos, g[6:6 + len(campos)])})
         out[d['numero']] = d
+    return out
+
+
+def _moeda(x):
+    if x is None:
+        return 0.0
+    if isinstance(x, (int, float)):
+        return float(x)
+    x = str(x).replace('R$', '').strip()
+    if x in ('', '-') or x.startswith('#'):
+        return 0.0
+    if ',' in x and '.' in x:
+        x = x.replace(',', '') if x.rfind('.') > x.rfind(',') else x.replace('.', '').replace(',', '.')
+    elif ',' in x:
+        x = x.replace(',', '.')
+    try:
+        return float(x)
+    except ValueError:
+        return 0.0
+
+
+def ler_relatorio_nfse_abrasf(caminho):
+    """RelatorioNFS_ABRASF_<cnpj>_<AAAA-MM>.xlsx (SIEG): NFS-e tomadas, com valores e retenções."""
+    import openpyxl
+    ws = openpyxl.load_workbook(caminho, read_only=True, data_only=True).worksheets[0]
+    linhas = list(ws.iter_rows(values_only=True))
+    cab = None
+    out = []
+    for row in linhas:
+        vals = ['' if v is None else v for v in row]
+        if cab is None:
+            if 'Numero' in [str(v).strip() for v in vals] and 'Valor_Servico' in [str(v).strip() for v in vals]:
+                cab = {str(v).strip(): k for k, v in enumerate(vals)}
+            continue
+        g = lambda c: vals[cab[c]] if c in cab and cab[c] < len(vals) else ''
+        if not str(g('Numero')).strip() or not str(g('Prestador')).strip() or str(g('Prestador')).startswith('#'):
+            continue
+        base = g('Base_Calculo')
+        iss_ret = g('ISSQN')
+        out.append({
+            'numero': str(g('Numero')).strip(), 'data': str(g('Dt_Emissao'))[:10], 'cod_servico': re.sub(r'\D', '', str(g('Cod_Servico'))).zfill(4)[:4],
+            'prestador': str(g('RzPrestador')).strip(), 'cnpj': re.sub(r'\D', '', str(g('Prestador'))),
+            'uf': str(g('UF_Prest')), 'simples': str(g('Optante_SN')).strip() == '1',
+            'cancelada': bool(str(g('Dt_Cancelamento')).strip()) or 'cancel' in str(g('Status')).lower(),
+            'valor': _moeda(g('Valor_Servico')), 'base': None if base in ('', None) else _moeda(base),
+            'liquido': _moeda(g('Valor_Liquido')), 'desconto': _moeda(g('Desconto_Incondic')),
+            'iss': _moeda(g('ISS')), 'iss_retido': _moeda(iss_ret),
+            'ir': _moeda(g('IR')), 'pis': _moeda(g('PIS')), 'cofins': _moeda(g('COFINS')), 'outras': _moeda(g('OutRetencoes')),
+            'descricao': str(g('Descriminacao'))[:200],
+        })
     return out

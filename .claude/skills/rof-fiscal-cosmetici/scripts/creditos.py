@@ -29,6 +29,7 @@ CFOP_REMESSA = {  # mercadoria de terceiro / sem transferência de propriedade -
     '5902': 'Retorno de industrialização', '6902': 'Retorno de industrialização',
     '5925': 'Retorno de industrialização por conta e ordem', '6925': 'Retorno de industrialização por conta e ordem',
 }
+CFOP_RETORNO = {'5902', '6902', '5903', '6903', '5916', '6916', '5925', '6925'}
 CFOP_OUTRAS = {'5949', '6949'}
 CFOP_DEVOLUCAO_VENDA = {'5201', '5202', '5410', '5411', '6201', '6202', '6410', '6411'}
 CFOP_BONIFICACAO = {'5910', '6910', '5911', '6911'}
@@ -215,15 +216,39 @@ class Credito:
                     l['acao'] = (l['acao'] + '; ' if l['acao'] else '') + f'DIFAL estimado R$ {l["difal"]:,.2f} (base dupla, {ALIQ_INTERNA_PR}%)'
                 linhas.append(l)
         self.linhas = linhas
-        # ---- CT-e
+        # ---- CT-e: o crédito do frete segue a natureza da NF-e transportada (LC 87/96 art. 20 e art. 33, I)
         cfc = set(self.a.cfg['icms']['cfops_cte_com_credito'])
+        nat_nfe = collections.defaultdict(set)
+        for l in linhas:
+            nat_nfe[l['nota']['chave']].add(l['natureza'])
+        saidas = {n['chave']: n for n in getattr(self.a, 'saidas', [])}
         cte = []
         vistos = set()
         for c in self.a.ctes:
             cf = cfop_entrada(c['cfop'])
-            cte.append({'numero': c['numero'], 'emitente': c['emit_nome'], 'data': c['data'], 'cfop': cf, 'valor': c['vprest'],
-                        'icms': c['vicms'], 'credito': R(c['vicms']) if cf in cfc or cf in ('2352', '2353', '1352', '1353') else 0.0,
-                        'fonte': 'XML', 'obs': 'Frete de compra/venda tomado pela COSMETICI'})
+            cred = R(c['vicms']) if cf in cfc or cf in ('2352', '2353', '1352', '1353') else 0.0
+            obs, docs = 'Frete tomado pela COSMETICI', []
+            ents = [k for k in c.get('chaves_nfe', []) if k in nat_nfe]
+            sais = [k for k in c.get('chaves_nfe', []) if k in saidas]
+            if ents:
+                nats = set().union(*(nat_nfe[k] for k in ents))
+                docs = [f'NF {int(k[25:34])} ({", ".join(sorted(nat_nfe[k]))})' for k in ents]
+                if cred and not nats & {'insumo', 'devolucao'}:
+                    obs = (f'Frete de compra de {", ".join(sorted(nats))}: sem crédito - o crédito do frete segue a mercadoria '
+                           f'(uso e consumo/outras não creditam - LC 87/96 art. 33, I). ICMS R$ {c["vicms"]:,.2f} não aproveitado')
+                    cred = 0.0
+                else:
+                    obs = 'Frete de compra de insumo'
+            elif sais:
+                docs = [f'NF {saidas[k]["numero"]} (saída {"/".join(sorted({i["cfop"] for i in saidas[k]["itens"]}))})' for k in sais]
+                cfs = {i['cfop'] for k in sais for i in saidas[k]['itens']}
+                obs = 'Frete de venda/industrialização (CIF)' if cfs - CFOP_RETORNO else 'Frete de retorno de insumo do cliente - confirmar quem paga o frete'
+            elif c.get('chaves_nfe'):
+                docs = [f'NF {int(k[25:34])} (fora dos XML do mês)' for k in c['chaves_nfe']]
+                obs = 'NF-e transportada não está nos XML do mês - confirmar a natureza antes de creditar'
+            cte.append({'numero': c['numero'], 'chave': c['chave'], 'emitente': c['emit_nome'], 'data': c['data'], 'cfop': cf,
+                        'valor': c['vprest'], 'icms': c['vicms'], 'credito': cred, 'fonte': 'XML', 'obs': obs,
+                        'nfe': '; '.join(docs)})
             vistos.add(c['numero'])
         for x in self.cte_extra:
             if x['numero'] in vistos:

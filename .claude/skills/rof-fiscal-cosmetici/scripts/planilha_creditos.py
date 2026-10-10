@@ -128,14 +128,14 @@ def simples(wb, c):
 def cte(wb, c):
     ws = wb.create_sheet('CT-e (frete)')
     _titulo(ws, 'CT-e em que a COSMETICI é tomadora - crédito de ICMS do frete')
-    _cab(ws, 3, ['CT-e', 'Data', 'Transportadora', 'CFOP entrada', 'Valor', 'ICMS', 'Crédito', 'Fonte', 'Observação'])
+    _cab(ws, 3, ['CT-e', 'Data', 'Transportadora', 'CFOP entrada', 'Valor', 'ICMS', 'Crédito', 'Fonte', 'Observação', 'NF-e transportada'])
     r = 4
     for x in c.cte:
-        _linha(ws, r, [x['numero'], x['data'], x['emitente'], x['cfop'], x['valor'], x['icms'], x['credito'], x['fonte'], x['obs']],
+        _linha(ws, r, [x['numero'], x['data'], x['emitente'], x['cfop'], x['valor'], x['icms'], x['credito'], x['fonte'], x['obs'], x.get('nfe', '')],
                moeda=(4, 5, 6), fill=OK if x['fonte'] == 'XML' and x['credito'] else MEDIA)
         r += 1
-    _linha(ws, r, ['Total', '', '', '', f'=SUM(E4:E{r-1})', f'=SUM(F4:F{r-1})', f'=SUM(G4:G{r-1})', '', ''], moeda=(4, 5, 6), bold=True)
-    _larguras(ws, [11, 11, 36, 9, 11, 10, 10, 30, 70])
+    _linha(ws, r, ['Total', '', '', '', f'=SUM(E4:E{r-1})', f'=SUM(F4:F{r-1})', f'=SUM(G4:G{r-1})', '', '', ''], moeda=(4, 5, 6), bold=True)
+    _larguras(ws, [11, 11, 36, 9, 11, 10, 10, 30, 70, 30])
 
 
 def conferencia(wb, cs, ce):

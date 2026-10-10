@@ -144,9 +144,82 @@ def teste_simples():
     print('ok crédito Simples/insumo/uso e consumo')
 
 
+def teste_revisao():
+    import revisao
+    ch = lambda n: f'412609{CNPJ}55001{n:09d}2000000{n % 10}'[:44].ljust(44, '0')
+    cli, gula = '44444444000191', '55555555000191'
+    cpl = lambda x, txt: x.replace('</infNFe>', f'<infAdic><infCpl>{txt}</infCpl></infAdic></infNFe>')
+    cst41 = lambda x: x.replace('<CST>00</CST>', '<CST>41</CST>').replace('<pICMS>12</pICMS><vICMS>72.0</vICMS>', '<pICMS>0</pICMS><vICMS>0</vICMS>')
+    final = lambda x: x.replace('<indIEDest>1</indIEDest>', '<IE>9084324601</IE><indIEDest>9</indIEDest>')
+    arqs = {
+        # industrialização do cliente + frasco em 5124 (CST 41) + o mesmo frasco no retorno 5902
+        'i1.xml': cpl(nfe(ch(1), 101, CNPJ, cli, 'PR', [('5124', '28470000', 1000.0, 0, 0, 0, '02')], data='2026-09-05'), 'INDUSTRIALIZACAO COM INSUMOS DA NFE 555'),
+        'i2.xml': cst41(nfe(ch(2), 102, CNPJ, cli, 'PR', [('5124', '39233090', 600.0, 12, 0, 0, '49')], data='2026-09-05')),
+        'i3.xml': cpl(cst41(nfe(ch(3), 103, CNPJ, cli, 'PR', [('5902', '39233090', 600.0, 12, 0, 0, '49')], data='2026-09-05')),
+                      'RETORNO SIMBOLICO DOS INSUMOS ENVIADOS NA NFE 555; INDUSTRIALIZACAO EFETUADA NA NFE 104'),
+        # 6124 sem remessa nem retorno
+        'i4.xml': nfe(ch(4), 104, CNPJ, '66666666000191', 'SC', [('6124', '33059000', 2000.0, 12, 0, 0, '02')], data='2026-09-06'),
+        # cliente com IE: primeira como contribuinte com ST, depois como consumidor final
+        'g1.xml': nfe(ch(5), 105, CNPJ, gula, 'PR', [('5401', '33059000', 1000.0, 12, 143.0, 300.0, '02')], data='2026-09-03'),
+        'g2.xml': final(nfe(ch(6), 106, CNPJ, gula, 'PR', [('5102', '33059000', 1000.0, 19.5, 143.0, 0, '02')], data='2026-09-10')),
+        'g3.xml': final(nfe(ch(7), 107, CNPJ, gula, 'SP', [('6102', '33059000', 100.0, 12, 0, 0, '02')], data='2026-09-11')),
+    }
+    fontes = leitores.ler_xmls([montar_zip(arqs)])
+    fontes['nfse'] = [
+        {'numero': '1', 'data': '01/09/2026', 'cod_servico': '0401', 'prestador': 'MEDICINA OCUP', 'cnpj': '1', 'uf': 'PR', 'simples': False,
+         'cancelada': False, 'valor': 728.14, 'base': 728.14, 'liquido': 717.22, 'desconto': 0.0, 'iss': 0, 'iss_retido': 0.0,
+         'ir': 10.92, 'pis': 0, 'cofins': 0, 'outras': 0, 'descricao': ''},
+        {'numero': '2', 'data': '25/09/2026', 'cod_servico': '1401', 'prestador': 'CALIBRACAO', 'cnpj': '2', 'uf': 'SP', 'simples': False,
+         'cancelada': False, 'valor': 1835.50, 'base': 1835.50, 'liquido': 1750.15, 'desconto': 0.0, 'iss': 0, 'iss_retido': 0.0,
+         'ir': 0, 'pis': 11.93, 'cofins': 55.06, 'outras': 85.35, 'descricao': ''},
+        {'numero': '3', 'data': '17/09/2026', 'cod_servico': '1401', 'prestador': 'SIMPLES', 'cnpj': '3', 'uf': 'PR', 'simples': True,
+         'cancelada': False, 'valor': 1090.0, 'base': 1090.0, 'liquido': 1090.0, 'desconto': 0.0, 'iss': 0, 'iss_retido': 0.0,
+         'ir': 0, 'pis': 0, 'cofins': 0, 'outras': 0, 'descricao': ''},
+    ]
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', fontes, {}).executar()
+    por = lambda tipo: [d for d in a.div if d[1] == tipo]
+    dup = [d for d in por('Industrialização x retorno') if d[0] == 'ALTA']
+    assert len(dup) == 1 and 'NF 102/' in dup[0][2] and 'NF 103' in dup[0][3] and dup[0][4] == 600.0, dup
+    ref = [d for d in por('Industrialização x retorno') if d[0] == 'BAIXA']
+    assert len(ref) == 1 and 'NF 104' in ref[0][3] and 'NF 101' in ref[0][3], ref        # retorno cita a NF errada
+    sem = por('Industrialização sem insumo')
+    assert [d[2][:10] for d in sem] == ['NF 104/1 0'], sem
+    fin = por('Contribuinte como consumidor final')
+    assert len(fin) == 1 and '106' in fin[0][3] and '107' in fin[0][3] and 'ST de R$ 300.00' in fin[0][3], fin
+    assert len(por('Destinatário x UF')) == 1
+    assert any('NF 106/' in d[2] for d in por('CFOP revenda x produção'))
+    ns = por('NFS-e retenções')
+    assert len(ns) == 1 and 'NFS-e 1 ' in ns[0][2] and ns[0][4] == 33.86, ns     # CSRF 4,65% não retida; Simples e calibração ok
+    ck = {l[1]: l[3] for l in revisao.checklist(a)}
+    assert ck['NFS-e tomadas: retenção de IRRF e PIS/COFINS/CSLL'] == 'VERIFICAR'
+    assert ck['Diferimento nas 5124 internas'] == 'OK'
+    print('ok revisão automática (industrialização, consumidor final, NFS-e)')
+
+
+def teste_cte_natureza():
+    from creditos import Credito
+    ch = lambda n: f'412609{CNPJ}55001{n:09d}3000000{n % 10}'[:44].ljust(44, '0')
+    forn = '77777777000191'
+    arqs = {'e1.xml': nfe(ch(1), 900, forn, CNPJ, 'PR', [('5102', '96033000', 900.0, 12, 0, 0, '01')], data='2026-09-02'),
+            'e2.xml': nfe(ch(2), 901, forn, CNPJ, 'PR', [('5101', '39233090', 900.0, 12, 0, 0, '01')], data='2026-09-02')}
+    fontes = leitores.ler_xmls([montar_zip(arqs)])
+    for k, nf in ((1, ch(1)), (2, ch(2))):
+        fontes['cte'][f'c{k}'] = {'chave': f'c{k}', 'numero': k, 'serie': '1', 'data': dt.date(2026, 9, 3), 'cfop': '6352',
+                                  'emit_cnpj': '8', 'emit_nome': 'TRANSP', 'uf_ini': 'RS', 'uf_fim': 'PR', 'toma_cnpj': CNPJ,
+                                  'rem_cnpj': forn, 'dest_cnpj': CNPJ, 'vprest': 100.0, 'cst': '00', 'vbc': 100.0, 'picms': 12.0,
+                                  'vicms': 12.0, 'autorizada': True, 'chaves_nfe': [nf], 'origem': 'x'}
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', fontes, {}).executar()
+    cred = {l['cte']['numero']: l['cred_icms'] for l in a.cte_cred}
+    assert cred == {1: 0.0, 2: 12.0}, cred             # pincel (uso e consumo) x frasco (insumo)
+    assert a.ic['creditos_cte'] == 12.0 and any(d[1] == 'CT-e sem crédito' for d in a.div)
+    print('ok CT-e segue a natureza da NF-e')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
     teste_irpj_trimestre()
     teste_txt()
     teste_sieg_cte()
+    teste_revisao()
+    teste_cte_natureza()
