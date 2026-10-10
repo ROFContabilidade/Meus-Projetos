@@ -40,7 +40,8 @@
     "119": "COMPRA DE COMBUSTÍVEL/LUBRIFICANTE 2.653 (visto no SPED 06/2026)",
     "161": "COMPRA P/ RECEBIMENTO FUTURO 1.116 (visto no SPED 06/2026)",
     "121": "BONIFICAÇÃO E BRINDE DENT EST 1.910 (com crédito de ICMS, confirmado pela Rosangela 10/2026)",
-    "221": "BONIFICAÇÃO E BRINDE FORA EST - A VISTA"
+    "221": "BONIFICAÇÃO E BRINDE FORA EST - A VISTA",
+    "159": "RETORN DE MERC. RET. EXP. OU FEIRA 1.914"
   },
   "_finalidades": "INSUMO = matéria-prima, componente ou produto intermediário consumido na fabricação; EMBALAGEM = embalagem do produto vendido; FERRAMENTA = ferramenta de usinagem que se desgasta na produção; USO_CONSUMO = material de escritório, limpeza, EPI, informática, manutenção, alimentação, brindes; REVENDA = mercadoria revendida sem industrialização; ATIVO = bem do imobilizado.",
   "compras": {
@@ -304,6 +305,9 @@
     },
     "2949": {
       "ac": "224"
+    },
+    "1914": {
+      "ac": "159"
     }
   },
   "saidas": {
@@ -954,7 +958,8 @@
     "10/2026: ICMS zerado nas saídas de 9021 é correto (isenção PR, Conv. 126/10); crédito das entradas mantido sem estorno",
     "10/2026: Biomedicare 2140 e 2154 ativas na SEFAZ -> lançar as duas",
     "10/2026: remessas 5901 com CST 90 sem cBenef aceitas como estão",
-    "10/2026: lacunas sem nenhuma fonte e notas do relatório sem chave (série de NF-e) -> inutilizadas"
+    "10/2026: lacunas sem nenhuma fonte e notas do relatório sem chave (série de NF-e) -> inutilizadas",
+    "10/2026: retorno de exposição/feira 1914 -> acumulador 159"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
