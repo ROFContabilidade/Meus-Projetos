@@ -893,11 +893,14 @@ def analisar(a):
                   + '. Ficam entre devoluções/remessas para troca. Consultar na SEFAZ se foram rejeitados '
                   '(inutilizar) ou se faltaram no download.', participante='Kopp')
     if erp:
-        sem_chave = [(k, r) for k, r in erp.items() if k[0] != '1' and pd.isna(r.get('Chave NFE'))]
+        series_nfe = {n['serie'].lstrip('0') for n in notas.values() if n['emit_cnpj'] == K and n['modelo'] == '55'}
+        sem_chave = [(k, r) for k, r in erp.items() if k[0] not in series_nfe
+                     and (pd.isna(r.get('Chave NFE')) or str(r.get('Chave NFE'))[20:22] not in ('55', '65'))]
         if sem_chave:
             tot = sum(float(r['Total Líquido'] or 0) for _, r in sem_chave)
             pendencia('VERIFICAR', 'ERP x fiscal', 'série ' + ', '.join(sorted({k[0] for k, _ in sem_chave})),
-                      f'{len(sem_chave)} documentos "Nota de Venda" no relatório do ERP sem chave de NF-e '
+                      f'{len(sem_chave)} documentos "Nota de Venda" no relatório do ERP fora da série de NF-e '
+                      f'(série {", ".join(sorted({k[0] for k, _ in sem_chave}))}: nenhuma NF-e emitida nela; não inutilizar como NF-e) '
                       f'(total R$ {tot:,.2f}): '
                       + ', '.join(str(k[1]) for k, _ in sorted(sem_chave, key=lambda t: t[0][1]))
                       + '. Confirmar se são documentos internos (pedido/romaneio) ou vendas sem nota fiscal.',
@@ -1022,6 +1025,8 @@ def analisar(a):
                       f'{op} com {parc}: {len(rs)} item(ns) ainda não retornaram. {txt}', participante=parc)
     erp_rows = au.erp_x_xml(a.erp_notas, a.erp_aba, notas) if a.erp_notas else []
     for e_ in erp_rows:
+        if e_['Status'] == 'NÃO É NF-e':
+            continue                     # entra na pendência da série sem NF-e (ERP x fiscal)
         pendencia('ALTA' if e_['Status'] == 'SEM XML' else 'VERIFICAR', 'ERP x XML', f'{e_["Número"]}/{e_["Série"]}',
                   ('Nota autorizada (com chave no relatório do ERP) sem XML na pasta: pedir o XML e lançar. '
                    if e_['Status'] == 'SEM XML' else 'Relatório do ERP diverge do XML (vale o XML): ') + e_['Divergências'],

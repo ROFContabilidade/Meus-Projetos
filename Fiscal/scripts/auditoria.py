@@ -163,6 +163,12 @@ def erp_x_xml(erp_path, aba, notas):
         ch = str(r.get('Chave NFE') or '').strip()
         if not re.fullmatch(r'\d{44}', ch):
             continue                      # linha sem chave, total ou rodapé do relatório
+        if ch[20:22] not in ('55', '65'):
+            linhas.append({'Status': 'NÃO É NF-e', 'Série': r['Série'], 'Número': str(r['Nº Nota']).split('.')[0],
+                           'Cliente': str(r['Cliente']).strip(), 'Data': str(r['Data Emissão'])[:10],
+                           'Divergências': f'código no campo chave tem modelo {ch[20:22]} (NF-e é 55): documento '
+                                           'do ERP, não existe XML na SEFAZ', 'Chave': ch})
+            continue
         num = str(r['Nº Nota']).split('.')[0]
         n = notas.get(ch)
         dif = []
