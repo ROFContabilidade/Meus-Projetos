@@ -960,5 +960,7 @@
     "cfop_sufixo": "352",
     "ac_com_icms": "304",
     "ac_sem_icms": "302"
-  }
+  },
+  "_entradas_canceladas": "Regra do escritório (Rosangela 10/2026): NF-e de fornecedor cancelada é lançada com situação CANCELADA e tudo zerado (valor contábil, base, alíquota, ICMS, IPI, crédito).",
+  "entradas_canceladas": "lancar_zerada"
 }

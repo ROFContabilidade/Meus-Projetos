@@ -129,7 +129,7 @@ def parse_nfe(path):
         ie = ret.find('infEvento')
         if ie is not None and _t(ie, 'cStat') in ('135', '136', '155'):
             eventos.append({'tp': _t(ie, 'tpEvento'), 'desc': _t(ie, 'xEvento'),
-                            'data': _t(ie, 'dhRegEvento')[:10]})
+                            'data': _t(ie, 'dhRegEvento')[:10], 'prot': _t(ie, 'nProt')})
     for ev in root.iter('evento'):
         ie = ev.find('infEvento')
         if ie is not None and _t(ie, 'tpEvento') == '110110':

@@ -448,6 +448,40 @@ def analisar(a):
         canc_sefaz = 'CANCEL' in str(sefaz.get(n['chave'], {}).get('STATUS', '')).upper()
         if n['cancelada'] or canc_sefaz:
             quando = ', '.join(e['data'] for e in n['eventos'] if e['tp'] == '110111') or 'lista da SEFAZ'
+            prot = ', '.join(e.get('prot', '') for e in n['eventos'] if e['tp'] == '110111' and e.get('prot'))
+            if R.r.get('entradas_canceladas') == 'lancar_zerada':
+                # regra do escritório: lança como CANCELADA, tudo zerado (valor contábil, base, alíquota, ICMS, IPI, crédito)
+                zero = {k: Z for k in ('Valor produto', 'Frete', 'Desconto', 'BC ICMS', 'Alíq. ICMS', 'ICMS destacado',
+                                       'Crédito SN (CSOSN 101)', 'ICMS-ST', 'IPI destacado', 'Crédito ICMS sugerido',
+                                       'Crédito IPI sugerido', 'DIFAL estimado')}
+                cfs, acs = set(), set()
+                for it in n['itens']:
+                    cl = R.classificar_entrada(n, it)
+                    cfs.add(cl['cfop']); acs.add(str(cl.get('ac') or ''))
+                    itens_rows.append({'Status': 'CANCELADA - LANÇAR ZERADA', 'Emissão': n['dt_emissao'],
+                                       'Nota': n['numero'], 'Série': n['serie'], 'Fornecedor': n['emit_nome'],
+                                       'CNPJ': n['emit_cnpj'], 'UF': n['emit_uf'], 'Item': int(it['nItem']),
+                                       'Cód. produto': it['cProd'], 'Descrição do item': it['xProd'], 'NCM': it['NCM'],
+                                       'CFOP forn.': it['CFOP'], 'CST/CSOSN': it['orig'] + it['CST_ICMS'], 'Qtd': it['qCom'],
+                                       **zero, 'Finalidade': cl['finalidade'], 'Por quê': 'Nota cancelada pelo emitente',
+                                       'Regra usada': cl.get('origem_regra', ''), 'CFOP sugerido': cl['cfop'],
+                                       'Acum. sugerido': cl.get('ac') or '', 'Acumulador sugerido (nome)': R.ac_nome(cl.get('ac')),
+                                       'Conta contábil sugerida': '', 'Origem da conta': '', 'Alertas': ''})
+                notas_rows.append({'Status': 'CANCELADA - LANÇAR ZERADA', 'Emissão': n['dt_emissao'], 'Nota': n['numero'],
+                                   'Fornecedor': n['emit_nome'], 'UF': n['emit_uf'], 'Natureza (fornecedor)': n['natOp'],
+                                   'Valor NF': Z, 'ICMS destacado': Z, 'IPI destacado': Z,
+                                   'CFOP sugerido': ', '.join(sorted(x for x in cfs if x)),
+                                   'Acum. sugerido': ', '.join(sorted(x for x in acs if x)),
+                                   'Crédito ICMS sugerido': Z, 'Crédito IPI sugerido': Z, 'DIFAL estimado': Z,
+                                   'Contas contábeis sugeridas': '', 'Histórico do fornecedor no Domínio': '',
+                                   'Observações': f'Cancelada pelo emitente em {quando} (protocolo {prot or "lista SEFAZ"}). '
+                                                  f'Valor original R$ {n["t_vNF"]}: lançar com situação CANCELADA, '
+                                                  'valor contábil, base, alíquota, ICMS, IPI e crédito zerados.',
+                                   'Chave': n['chave']})
+                pendencia('INFO', 'Cancelada pelo fornecedor', n,
+                          f'NF-e cancelada pelo emitente ({quando}, protocolo {prot or "lista SEFAZ"}): lançar como '
+                          f'CANCELADA com todos os valores zerados, sem crédito (valor original R$ {n["t_vNF"]}).', valor=Z)
+                continue
             pendencia('ALTA' if (sp or dm) else 'INFO', 'Cancelada pelo fornecedor', n,
                       f'NF-e cancelada pelo emitente ({quando}): NÃO lançar.'
                       + (' Está lançada no SPED/Domínio: excluir.' if (sp or dm) else ''))
