@@ -158,13 +158,17 @@ class Regras:
             op = self.r['outras_operacoes'][suf]
             m = op.get(escopo) or {}
             credita = suf in ('124', '125')   # industrialização por encomenda: custo de produção
+            fin_910 = None
             if suf == '910':                   # bonificação de insumo/embalagem com destaque gera crédito
-                credita = self.finalidade(nota, item)[0] in ('INSUMO', 'EMBALAGEM', 'FERRAMENTA', 'REVENDA')
+                fin_910 = self.finalidade(nota, item)[0]
+                credita = fin_910 in ('INSUMO', 'EMBALAGEM', 'FERRAMENTA', 'REVENDA')
             out.update(finalidade='OUTRA OPERAÇÃO', motivo=op['descr'], origem_regra='CFOP fornecedor',
                        cfop=m.get('cfop', ''), ac=m.get('ac'),
                        cred_icms=icms_item if credita else Z, cred_ipi=item['vIPI'] if credita else Z)
             if not m.get('ac'):
                 out['alertas'].append(f'Sem acumulador cadastrado para CFOP {m.get("cfop")}')
+            if fin_910 and fin_910 != 'PENDENTE':
+                out['conta'], out['origem_conta'] = self.conta(nota, item, fin_910)
             return out
         if suf not in COMPRA:
             out.update(finalidade='PENDENTE', motivo=f'CFOP do fornecedor {item["CFOP"]} sem regra',
