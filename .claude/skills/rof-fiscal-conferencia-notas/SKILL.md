@@ -76,6 +76,14 @@ lista da SEFAZ. No SPED ICMS/IPI (conferido na Kopp em 07 e 08/2026) a cancelada
 Entrada com crédito e ICMS destacado a 4% (importado): antecipado de 8% sobre a BC. Ajuste E111 PR000080 (débito)
 e PR020212 (crédito) do mesmo valor (regra `antecipado` em regras.json).
 
+## TXT de importação no Domínio
+`--txt-cabecalho <SPED anterior da empresa>` gera `IMPORTACAO_DOMINIO_MMAAAA.TXT` (EFD ICMS/IPI, latin-1, CRLF) com
+TODAS as notas do mês e a planilha `_conferencia.xlsx`. Modelo aceito pelo Domínio: EFD da Ectas 08/2026 —
+COD_PART = CNPJ, série sem zeros, contadores com 9 dígitos, NFS-e tomada = C100 modelo 01 com CFOP 1933/2933
+(UF pelo município da chave da NFS-e) e CST 090. C170 só em notas de terceiros, com COD_NAT = acumulador (0400 com
+o nome) e COD_CTA = conta reduzida; notas próprias só C100 + C190 (acumulador pela configuração CFOP do Domínio).
+Canceladas COD_SIT 02, inutilizadas COD_SIT 05. Retenções das NFS-e não têm campo no leiaute: saem do acumulador.
+
 ## Conta contábil
 `regras.json` traz `contas_padrao` (por finalidade), `conta` dentro das regras e
 `conta_por_fornecedor_razao` (aprendido do razão: histórico "COMPRAS ... <nº> <FORNECEDOR>" x conta de débito

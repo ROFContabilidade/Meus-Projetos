@@ -1116,6 +1116,8 @@ def main():
     p.add_argument('--regras', required=True)
     p.add_argument('--xml', required=True)
     p.add_argument('--sped')
+    p.add_argument('--txt-cabecalho', help='SPED anterior da empresa: gera o TXT de importação do Domínio com '
+                                          'o cabeçalho (0000/0005/0100) dele')
     p.add_argument('--dom-entradas')
     p.add_argument('--dom-entradas-aba', default='Entradas')
     p.add_argument('--dom-saidas')
@@ -1154,6 +1156,13 @@ def main():
     saida_s = os.path.join(os.path.dirname(saida_e) or '.', f'Saidas_{comp[5:]}-{comp[:4]}.xlsx')
     planilha_saidas.gerar(res, saida_s)
     print('Planilha de saídas:', saida_s)
+    if a.txt_cabecalho:
+        import txt_dominio
+        saida_t = os.path.join(os.path.dirname(saida_e) or '.', f'IMPORTACAO_DOMINIO_{comp[5:]}{comp[:4]}.TXT')
+        linhas, conf = txt_dominio.gerar(res, saida_t, a.txt_cabecalho, a.nfse_recebidas)
+        res['txt_conf'] = conf
+        txt_dominio.planilha(conf, res, saida_t.replace('.TXT', '_conferencia.xlsx'))
+        print(f'TXT de importação: {saida_t} ({len(linhas)} linhas)')
 
 
 if __name__ == '__main__':
