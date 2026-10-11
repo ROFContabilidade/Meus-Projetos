@@ -342,6 +342,19 @@ def carregar_historico(paths):
     return por_cnpj, lancadas, periodos
 
 
+CANC_PRE = 'CANCELADA - LANÇAR ZERADA'
+
+
+def obs_cancelada(n):
+    """Regra do escritório: nota cancelada entra no Domínio com situação CANCELADA, só participante e chave,
+    valores zerados. No SPED vira C100 COD_SIT 02 só com série, número e chave (conferido em 07 e 08/2026)."""
+    ev = [e for e in n['eventos'] if e['tp'] == '110111']
+    quando = ', '.join(e['data'] for e in ev) or 'lista SEFAZ'
+    prot = ', '.join(e['prot'] for e in ev if e.get('prot'))
+    return (f'Cancelada em {quando}' + (f' (protocolo {prot})' if prot else '') +
+            f'. Valor original R$ {n["t_vNF"]}: lançar com situação CANCELADA, só participante e chave, '
+            'valor contábil, base, imposto e crédito zerados.')
+
 def fmt_hist(cont, especies):
     itens = [(k, v) for k, v in cont.most_common() if k[0] in especies]
     return '; '.join(f'{cf}/ac {ac} ×{v}' for (_, cf, ac), v in itens)
@@ -668,10 +681,11 @@ def analisar(a):
                 st.append('CANCELADA NA SEFAZ, LANÇADA COM VALOR')
             if not pre and (not sp or sp['cod_sit'] not in ('02', '03')):
                 st.append('SPED SEM COD_SIT 02')
-            dev_rows.append({'Status': 'CANCELADA - OK' if not st else ' / '.join(st), 'Data': n['dt_emissao'],
+            dev_rows.append({'Status': (CANC_PRE if pre else 'CANCELADA - OK') if not st else ' / '.join(st),
+                             'Data': n['dt_emissao'],
                              'Nota': n['numero'], 'Cliente (remetente)': n['dest_nome'], 'Natureza': n['natOp'],
-                             'CFOP XML': ', '.join(cfops), 'Valor NF': n['t_vNF'], 'Chave': n['chave'],
-                             'Observações': 'Cancelada em ' + ', '.join(e['data'] for e in n['eventos'] if e['tp'] == '110111')})
+                             'CFOP XML': ', '.join(cfops), 'Valor NF': Z if pre else n['t_vNF'], 'Chave': n['chave'],
+                             'Observações': obs_cancelada(n)})
             continue
         if pre:
             sem_ac = [c for c in cfops if not R.r['devolucoes_proprias'].get(c, {}).get('ac')]
@@ -736,10 +750,11 @@ def analisar(a):
                 st.append('CANCELADA NA SEFAZ, LANÇADA COM VALOR')
             if not pre and (not sp or sp['cod_sit'] not in ('02', '03')):
                 st.append('SPED SEM COD_SIT 02')
-            sai_rows.append({'Status': 'CANCELADA - OK' if not st else ' / '.join(st), 'Data': n['dt_emissao'],
+            sai_rows.append({'Status': (CANC_PRE if pre else 'CANCELADA - OK') if not st else ' / '.join(st),
+                             'Data': n['dt_emissao'],
                              'Nota': n['numero'], 'Cliente': n['dest_nome'], 'UF': n['dest_uf'], 'Natureza': n['natOp'],
-                             'CFOP XML': ', '.join(cfops), 'Valor NF': n['t_vNF'], 'Chave': n['chave'],
-                             'Observações': 'Cancelada em ' + ', '.join(e['data'] for e in n['eventos'] if e['tp'] == '110111')})
+                             'CFOP XML': ', '.join(cfops), 'Valor NF': Z if pre else n['t_vNF'], 'Chave': n['chave'],
+                             'Observações': obs_cancelada(n)})
             continue
         base, icms, ise, outras = colunas_dominio(n['itens'])
         csts = Counter(it['CST_ICMS'] for it in n['itens'])

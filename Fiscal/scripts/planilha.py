@@ -17,7 +17,7 @@ NUM = '#,##0.00'
 
 def _cor_status(v):
     v = str(v or '')
-    if v.startswith('OK') or v.startswith('CANCELADA - OK') or v == 'INFO':
+    if v.startswith('OK') or v.startswith(('CANCELADA - OK', 'CANCELADA - LANÇAR ZERADA')) or v == 'INFO':
         return VERDE
     if 'NÃO' in v or v == 'ALTA' or 'LANÇADA COM VALOR' in v or 'SEM COD_SIT' in v:
         return VERMELHO

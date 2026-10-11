@@ -231,8 +231,8 @@ def checklist(res):
     add('Arquivos', 'Todos os XML lidos sem erro', f'{nt} NF-e', len(res['erros']))
     add('Arquivos', 'Lista da SEFAZ (NF-e e CT-e) x XML na pasta', f'{len(res["sefaz"])} chaves',
         sum(1 for c in res['completude'] if 'Falta' in c['Situação']))
-    add('Entradas', 'Nota cancelada pelo fornecedor fora do lançamento', f'{len(notas_t)} notas',
-        0, f'{pc["Cancelada pelo fornecedor"]} cancelada(s) separada(s) como "não lançar"')
+    add('Entradas', 'Nota cancelada pelo fornecedor lançada zerada (só participante e chave)', f'{len(notas_t)} notas',
+        0, f'{pc["Cancelada pelo fornecedor"]} cancelada(s): lançar com situação CANCELADA e valores zerados')
     add('Entradas', 'Finalidade de cada item (atividade da empresa, NCM, fornecedor, perfil de venda)',
         f'{len(itens)} itens', fin.get('PENDENTE', 0))
     add('Entradas', 'CFOP de entrada x CFOP do fornecedor x UF de origem', f'{len(itens)} itens',
@@ -262,7 +262,7 @@ def checklist(res):
     add('Saídas', 'Total da nota = soma dos itens', f'{len(res["saidas"]) + len(res["devol"])} notas',
         sum(1 for c in res.get('coerencia', []) if c['Tipo'].startswith('Total')))
     add('Devoluções', 'CFOP, acumulador e CST das entradas emitidas pela empresa', f'{len(res["devol"])} notas',
-        sum(1 for d in res['devol'] if d['Status'] not in ('OK', 'CANCELADA - OK')))
+        sum(1 for d in res['devol'] if d['Status'] not in ('OK', 'CANCELADA - OK', 'CANCELADA - LANÇAR ZERADA')))
     add('Numeração', 'Sequência própria x XML x ERP (inutilizar / sem XML)', 'séries emitidas', len(res['lacunas']))
     add('Serviços', 'NFS-e: item LC 116 → acumulador, retenções, conta, competência', f'{len(res["nfse"])} NFS-e',
         sum(1 for x in res['nfse'] if x['Status'] == 'CONFERIR'))

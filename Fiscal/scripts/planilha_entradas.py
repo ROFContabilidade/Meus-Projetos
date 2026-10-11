@@ -160,7 +160,7 @@ def gerar(res, saida):
                 'Observação': 50, 'Chave': 46, 'CNPJ': 16, 'Emissão': 11, 'Nota': 9, 'Série': 6, 'UF': 5}
     ordem = lambda l: (ORDEM_STATUS.get(l['Situação'], 5), _chave_data(l['Emissão']), l['Fornecedor'])
     _aba(wb, f'NF-e dentro do estado ({uf})', f'Notas de fornecedores do {uf} (CFOP 1xxx). Verde = lançar; amarelo = '
-         'conferir; cinza = cancelada/não lançar.', sorted(nfe_in, key=ordem), col_nfe, som_nfe, larg_nfe)
+         'conferir; cinza = cancelada (lançar zerada) / não lançar.', sorted(nfe_in, key=ordem), col_nfe, som_nfe, larg_nfe)
     _aba(wb, 'NF-e fora do estado', 'Notas de fornecedores de outros estados (CFOP 2xxx). DIFAL só em uso e consumo.',
          sorted(nfe_out, key=ordem), col_nfe, som_nfe, larg_nfe)
 
@@ -169,12 +169,12 @@ def gerar(res, saida):
     for d in res['devol']:
         x = notas.get(d['Chave'], {})
         cancel = d['Status'].startswith('CANCELADA')
-        dev.append({'Situação': 'CANCELADA - não lançar' if cancel else ('A LANÇAR' if d['Status'] == 'OK' else 'CONFERIR'),
+        dev.append({'Situação': 'CANCELADA - lançar zerada' if cancel else ('A LANÇAR' if d['Status'] == 'OK' else 'CONFERIR'),
                     'Emissão': d['Data'], 'Nota': d['Nota'], 'Série': x.get('serie', ''),
                     'Cliente (quem devolveu)': d['Cliente (remetente)'], 'UF': d.get('UF', x.get('dest_uf', '')),
                     'Natureza': d['Natureza'], 'CFOP': d['CFOP XML'], 'Acumulador': d.get('Acum. esperado', ''),
-                    'Valor contábil': Z if cancel else d['Valor NF'], 'Base ICMS': d.get('BC ICMS XML'),
-                    'ICMS': d.get('ICMS XML'), 'IPI': d.get('IPI XML'),
+                    'Valor contábil': Z if cancel else d['Valor NF'], 'Base ICMS': Z if cancel else d.get('BC ICMS XML'),
+                    'ICMS': Z if cancel else d.get('ICMS XML'), 'IPI': Z if cancel else d.get('IPI XML'),
                     'NF de venda referenciada': d.get('NF de venda referenciada', ''),
                     'Observação': d.get('Observações', ''), 'Chave': d['Chave'], 'Conferido': ''})
     _aba(wb, 'Devoluções e retornos', 'NF-e de ENTRADA emitidas pela própria empresa (devolução de cliente, retorno de '
@@ -255,7 +255,7 @@ def gerar(res, saida):
             cel = ws0.cell(i, j, v)
             if isinstance(v, float):
                 cel.number_format = NUM
-    ws0.cell(11, 1, 'Cores da coluna Situação: verde = lançar · amarelo = conferir antes · cinza = cancelada/não lançar.')
+    ws0.cell(11, 1, 'Cores da coluna Situação: verde = lançar · amarelo = conferir antes · cinza = cancelada (lançar zerada) / não lançar.')
     ws0.cell(11, 1).font = Font(italic=True, color='595959')
     for j, w in enumerate([30, 12, 10, 10, 22, 16, 14], 1):
         ws0.column_dimensions[get_column_letter(j)].width = w

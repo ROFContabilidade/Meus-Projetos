@@ -65,6 +65,17 @@ Excel é sempre melhor que PDF; PDF do Acompanhamento é lido por `dominio_pdf.p
    "Corrigido à mão?" mostra o retrabalho que a sugestão evita.
 5. Nunca afirmar irregularidade sem a evidência na linha (XML, SPED ou relatório); usar VERIFICAR.
 
+## Notas canceladas
+Regra do escritório: toda nota cancelada é **lançada**, com situação CANCELADA, só participante e chave, e valor,
+base, imposto e crédito zerados. Vale para entradas de terceiros, saídas, devoluções próprias e CT-e com a empresa
+tomadora; o CT-e em que ela não é tomadora continua fora. Confirme o cancelamento pelo evento 110111 (nProt) ou pela
+lista da SEFAZ. No SPED ICMS/IPI (conferido na Kopp em 07 e 08/2026) a cancelada sai como
+`|C100|IND_OPER|IND_EMIT||55|02|SER|NUM|CHAVE|` com o resto vazio, sem COD_PART, C170 ou C190.
+
+## ICMS antecipado
+Entrada com crédito e ICMS destacado a 4% (importado): antecipado de 8% sobre a BC. Ajuste E111 PR000080 (débito)
+e PR020212 (crédito) do mesmo valor (regra `antecipado` em regras.json).
+
 ## Conta contábil
 `regras.json` traz `contas_padrao` (por finalidade), `conta` dentro das regras e
 `conta_por_fornecedor_razao` (aprendido do razão: histórico "COMPRAS ... <nº> <FORNECEDOR>" x conta de débito
