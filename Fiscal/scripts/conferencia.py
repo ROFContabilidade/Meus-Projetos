@@ -1149,6 +1149,7 @@ def main():
                                                f'Entradas_para_conferencia_{comp[5:]}-{comp[:4]}.xlsx')
     planilha_entradas.gerar(res, saida_e)
     print('Planilha de entradas:', saida_e)
+    res['xml_dir'] = a.xml
     import planilha_saidas
     saida_s = os.path.join(os.path.dirname(saida_e) or '.', f'Saidas_{comp[5:]}-{comp[:4]}.xlsx')
     planilha_saidas.gerar(res, saida_s)

@@ -2,6 +2,7 @@
 notas a importar no Domínio, canceladas (destacadas) e numerações a inutilizar.
 Valores do XML; colunas que vêm zeradas em todas as notas do mês ficam de fora.
 """
+import os
 import re
 from collections import Counter
 from decimal import Decimal
@@ -43,8 +44,24 @@ def _lista(c):
     return ', '.join(k for k, _ in Counter(c).most_common())
 
 
+def _so_na_sefaz(xml_dir):
+    """Chaves que só existem no download da SEFAZ (DownloadDFe), fora dos zips que a empresa mandou.
+    Na importação pelo zip do cliente essas notas ficariam de fora."""
+    if not xml_dir or not os.path.isdir(xml_dir):
+        return set()
+    sefaz, cliente = set(), set()
+    for raiz, _, arqs in os.walk(xml_dir):
+        alvo = sefaz if 'downloaddfe' in raiz.lower() else cliente
+        for a in arqs:
+            m = re.search(r'\d{44}', a)
+            if m:
+                alvo.add(m.group(0))
+    return sefaz - cliente
+
+
 def gerar(res, saida):
     notas = res['notas']
+    so_sefaz = _so_na_sefaz(res.get('xml_dir'))
     comp = res['competencia']
     emp = res['regras'].r['empresa']
     linhas = []
@@ -65,6 +82,9 @@ def gerar(res, saida):
               'Chave': n['chave'], '_tipo': 'C' if cancel else 'N'}
         for col, k in VALORES:
             ln[col] = n.get(k) or Z
+        if n['chave'] in so_sefaz and not cancel:
+            ln['Observação'] = ('Nota ativa, autorizada na SEFAZ. O XML não veio no zip de vendas da empresa, só no '
+                                'download da SEFAZ: importar este XML junto (pasta XML_fora_do_zip_do_cliente).')
         if cancel:
             ln['Observação'] = (f'Cancelada. Valores do XML só para referência: no Domínio lançar com situação '
                                 f'CANCELADA, só cliente e chave, tudo zerado.')
