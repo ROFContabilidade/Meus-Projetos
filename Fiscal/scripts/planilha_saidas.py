@@ -75,9 +75,18 @@ def gerar(res, saida):
             continue
         m = re.search(r'(\d{4}-\d\d-\d\d|\d\d/\d\d/\d{4})', sit)
         d = _iso(m.group(1)) if m else ''
-        linhas.append({'Situação': 'INUTILIZADA', 'Data saída': d, 'Data emissão': d, 'Nota': int(l['Número']),
-                       'Série': str(l['Série']).lstrip('0') or '0', 'Cliente': '', '_tipo': 'I',
-                       'Observação': 'Número sem nota emitida: vai no TXT de inutilizadas (C100 COD_SIT 05).'})
+        cli = str(l.get('Cliente (ERP/Domínio)') or '').strip()
+        ln = {'Situação': 'INUTILIZADA', 'Data saída': d, 'Data emissão': d, 'Nota': int(l['Número']),
+              'Série': str(l['Série']).lstrip('0') or '0', 'Cliente': '', '_tipo': 'I',
+              'Observação': 'Número sem nota emitida: vai no TXT de inutilizadas (C100 COD_SIT 05).'}
+        if cli:      # o ERP tem pedido com cliente e valor, mas a NF-e não existe na SEFAZ
+            v = l.get('Valor no ERP')
+            ln.update({'Situação': 'INUTILIZADA - CONFIRMAR COM A KOPP', 'Cliente': cli + ' (ERP)', '_tipo': 'A',
+                       'Observação': f'No relatório do ERP com cliente e valor R$ {v:,.2f}'.replace(',', 'X')
+                       .replace('.', ',').replace('X', '.') + ', sem chave e sem situação. A NF-e não existe na '
+                       'SEFAZ (fora do download DFe). Confirmar se a mercadoria saiu: se saiu, falta emitir nota; '
+                       'o número precisa ser inutilizado na SEFAZ.'})
+        linhas.append(ln)
     linhas.sort(key=lambda l: (l['Data saída'], l['Nota']))
 
     # colunas de valor zeradas em todas as notas do mês saem da planilha
@@ -95,8 +104,10 @@ def gerar(res, saida):
     ws['A1'].font = Font(bold=True, size=13, color='1F3864')
     nI = sum(1 for l in linhas if l['_tipo'] == 'N')
     nC = sum(1 for l in linhas if l['_tipo'] == 'C')
-    nU = sum(1 for l in linhas if l['_tipo'] == 'I')
-    ws['A2'] = (f'{nI} para importar no Domínio · {nC} canceladas (vermelho) · {nU} inutilizadas (cinza). '
+    nU = sum(1 for l in linhas if l['_tipo'] in 'IA')
+    nA = sum(1 for l in linhas if l['_tipo'] == 'A')
+    ws['A2'] = (f'{nI} para importar no Domínio · {nC} canceladas (vermelho) · {nU} inutilizadas (cinza; {nA} em amarelo '
+                f'para confirmar com a empresa). '
                 'Ordem: data de saída e número. Valores do XML.')
     ws['A2'].font = Font(italic=True, color='595959')
     r0 = 4
@@ -106,7 +117,7 @@ def gerar(res, saida):
         cel.fill = AZUL
         cel.alignment = Alignment(wrap_text=True, vertical='center', horizontal='center')
     for i, ln in enumerate(linhas, r0 + 1):
-        fill = {'C': CANC, 'I': INUT}.get(ln['_tipo'])
+        fill = {'C': CANC, 'I': INUT, 'A': AMARELO}.get(ln['_tipo'])
         for j, c in enumerate(cols, 1):
             v = ln.get(c)
             if c.startswith('Data'):
