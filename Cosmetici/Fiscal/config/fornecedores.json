@@ -1,4 +1,28 @@
 {
+  "54079636000108": {
+    "nome": "AGATHA INDUSTRIA DE MANUFATURADOS LTDA",
+    "cfop": "2556",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "96033000": {
+        "cfop": "2556",
+        "icms": false,
+        "ipi": false
+      },
+      "39249000": {
+        "cfop": "2556",
+        "icms": false,
+        "ipi": false
+      },
+      "39241000": {
+        "cfop": "2556",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "16987597000140": {
     "nome": "ALLOXY ESPECIALIDADES QUIMICAS LTDA",
     "cfop": "1101",
@@ -12,6 +36,34 @@
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "93763555000680": {
+    "nome": "ALPHA QUIMICA LTDA",
+    "cfop": "2911",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "34011900": {
+        "cfop": "2911",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "12614205000146": {
+    "nome": "AMIGRAF GRAFICA E EDITORA LTDA",
+    "cfop": "2924",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "48192000": {
+        "cfop": "2924",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "43165042000195": {
     "nome": "AMONEX DO BRASIL IND E COM LTDA",
@@ -27,6 +79,40 @@
     },
     "ultimo_sped": "08/2026"
   },
+  "01142107000137": {
+    "nome": "AQIA QUIMICA INOVATIVA LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": true,
+    "ncm": {
+      "39072990": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": true
+      },
+      "29211949": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      },
+      "34024900": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": true
+      },
+      "35040019": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      },
+      "39072942": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": true
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "69170462000668": {
     "nome": "BARENTZ BRASIL DISTRIBUIDORA LTDA",
     "cfop": "2101",
@@ -37,9 +123,77 @@
         "cfop": "2101",
         "icms": true,
         "ipi": false
+      },
+      "38089999": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "37295717000118": {
+    "nome": "CAETANO PLASTICOS EMBALAGENS LTDA",
+    "cfop": "1101",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "39232190": {
+        "cfop": "1101",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "36013487000194": {
+    "nome": "CASTRO OLEOS VEGETAIS LTDA",
+    "cfop": "1911",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "15121120": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      },
+      "15121110": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      },
+      "15155000": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      },
+      "15159090": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      },
+      "15152100": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      },
+      "15071000": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      },
+      "15081000": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      },
+      "15151100": {
+        "cfop": "1911",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "58309709000820": {
     "nome": "CHEMYUNION LTDA",
@@ -88,6 +242,44 @@
     },
     "ultimo_sped": "08/2026"
   },
+  "74581091000809": {
+    "nome": "DAXIA DOCE AROMA INDUSTRIA E COMERCIO LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "29054400": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "04993269000177": {
+    "nome": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA",
+    "cfop": "1101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "29051720": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      },
+      "28289011": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      },
+      "31021010": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "85014793000312": {
     "nome": "ELETRORASTRO COMERCIO DE MATERIAIS ELETRICOS LTDA",
     "cfop": "1407",
@@ -131,6 +323,20 @@
     },
     "ultimo_sped": "08/2026"
   },
+  "10625467000180": {
+    "nome": "EMUNA COMERCIO DE PRODUTOS QUIMICOS LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "29322000": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "54550401000144": {
     "nome": "EQUISUL EQUIPAMENTOS E SUPRIMENTOS INDUSTRIAIS LTDA",
     "cfop": "1556",
@@ -159,6 +365,39 @@
     },
     "ultimo_sped": "08/2026"
   },
+  "10693887000102": {
+    "nome": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA",
+    "cfop": "2910",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "32041300": {
+        "cfop": "2910",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "10693887000447": {
+    "nome": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "29222911": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      },
+      "29215111": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "67548693000122": {
     "nome": "HIGH CHEM COM. E IND. DE PRODS. QUIMICOS LTDA",
     "cfop": "2101",
@@ -172,6 +411,44 @@
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "18858535000163": {
+    "nome": "HS INKLASER LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": true,
+    "ncm": {
+      "84439923": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": true
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "10265455000192": {
+    "nome": "ILS TECNOLOGIA EM EQUIP DE SEG DO TRABALHO LTDA",
+    "cfop": "1556",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "64019990": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "65050090": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "38021000": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "06216467000150": {
     "nome": "INNOVARTH COMERCIO DE PRODUTOS QUIMICOS LTDA.",
@@ -197,9 +474,99 @@
         "cfop": "1924",
         "icms": false,
         "ipi": false
+      },
+      "48211000": {
+        "cfop": "1924",
+        "icms": false,
+        "ipi": false
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "64949480000114": {
+    "nome": "L ESSENCE INDUSTRIA E COMERCIO LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": true,
+    "ncm": {
+      "33029019": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": true
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "08044874000152": {
+    "nome": "LABAZ CIENTIFICA LTDA",
+    "cfop": "1101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "28353920": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      },
+      "29221500": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      },
+      "28321010": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "35634515000128": {
+    "nome": "MAIAN INDUSTRIA DE PRODUTOS QUIMICOS LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": true,
+    "ncm": {
+      "29241994": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      },
+      "34024900": {
+        "cfop": "2102",
+        "icms": true,
+        "ipi": true
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "78762994000170": {
+    "nome": "MATIZAPLAST PLASTICOS E CORANTES LTDA",
+    "cfop": "1101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "32071090": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "49698723003110": {
+    "nome": "MCASSAB COMERCIO E INDUSTRIA LTDA",
+    "cfop": "2911",
+    "icms": true,
+    "ipi": true,
+    "ncm": {
+      "38249923": {
+        "cfop": "2911",
+        "icms": true,
+        "ipi": true
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "27697083000338": {
     "nome": "MIX COSMETICOS LTDA",
@@ -230,6 +597,11 @@
         "cfop": "2411",
         "icms": false,
         "ipi": false
+      },
+      "49111090": {
+        "cfop": "2901",
+        "icms": false,
+        "ipi": false
       }
     },
     "ultimo_sped": "08/2026"
@@ -254,6 +626,11 @@
         "cfop": "1411",
         "icms": false,
         "ipi": false
+      },
+      "49111090": {
+        "cfop": "1901",
+        "icms": false,
+        "ipi": false
       }
     },
     "ultimo_sped": "08/2026"
@@ -272,6 +649,20 @@
     },
     "ultimo_sped": "08/2026"
   },
+  "61066658000190": {
+    "nome": "NATURAL DOS CACHOS FRANCHISING LTDA",
+    "cfop": "2202",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "28470000": {
+        "cfop": "2202",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "09220921000304": {
     "nome": "NOVA PIRAMIDAL THERMOPLASTICS LTDA",
     "cfop": "2101",
@@ -285,6 +676,20 @@
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "09220921000215": {
+    "nome": "NOVA PIRAMIDAL THERMOPLASTICS LTDA",
+    "cfop": "1101",
+    "icms": true,
+    "ipi": true,
+    "ncm": {
+      "39012029": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": true
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "82649336000144": {
     "nome": "PERFUMANIA COMERCIO DE EMBALAGEM",
@@ -314,6 +719,39 @@
     },
     "ultimo_sped": "08/2026"
   },
+  "11340087000162": {
+    "nome": "PROVITAL DO BRASIL COM. DE INSUMOS PARA COSMETICOS LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": true,
+    "ncm": {
+      "38249989": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": true
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "62341566000134": {
+    "nome": "REATEC DO BRASIL LTDA",
+    "cfop": "1556",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "29221100": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "38229000": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "78004553000100": {
     "nome": "RECOZIL COMERCIO DE EMBALAGENS LTDA",
     "cfop": "1101",
@@ -333,6 +771,39 @@
     },
     "ultimo_sped": "08/2026"
   },
+  "24694296000156": {
+    "nome": "ROTULARTE SOLUCAO E SERVICOS EM EMBALAGENS LTDA",
+    "cfop": "2924",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "39233090": {
+        "cfop": "2924",
+        "icms": false,
+        "ipi": false
+      },
+      "39235000": {
+        "cfop": "2924",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "01876559000142": {
+    "nome": "SARFAM INDUSTRIA COMERCIO E IMPORTACAO LTDA",
+    "cfop": "2101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "35051000": {
+        "cfop": "2101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
   "59087034000108": {
     "nome": "SAVATEC COMERCIO E SERVICOS LTDA",
     "cfop": "1556",
@@ -351,6 +822,20 @@
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "03402014000120": {
+    "nome": "SOLABIA BIOTECNOLOGICA",
+    "cfop": "1101",
+    "icms": true,
+    "ipi": false,
+    "ncm": {
+      "29400019": {
+        "cfop": "1101",
+        "icms": true,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "62667991000118": {
     "nome": "SOMMA PRODUTOS PROFISSIONAIS PARA LIMPEZA LTDA",
@@ -427,9 +912,72 @@
         "cfop": "1556",
         "icms": false,
         "ipi": false
+      },
+      "40151900": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "27101919": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "34059000": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "73231000": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "35962370000275": {
+    "nome": "SPILPACK DISTRIBUIDORA LTDA",
+    "cfop": "2924",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "39233090": {
+        "cfop": "2924",
+        "icms": false,
+        "ipi": false
+      },
+      "84132000": {
+        "cfop": "2924",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
+  },
+  "25141658000144": {
+    "nome": "SUL TAPE COMERCIO DE EMBALAGENS EIRELI",
+    "cfop": "1556",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "39239090": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "39201099": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      },
+      "39191010": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "18323476000129": {
     "nome": "SUMMIT COSMETICS LATIN   AMERICA ESPEC. COSMETICAS LTDA",
@@ -517,6 +1065,20 @@
       }
     },
     "ultimo_sped": "08/2026"
+  },
+  "06932964000154": {
+    "nome": "VIP COMERCIO DE PLASTICOS LTDA",
+    "cfop": "1556",
+    "icms": false,
+    "ipi": false,
+    "ncm": {
+      "39012019": {
+        "cfop": "1556",
+        "icms": false,
+        "ipi": false
+      }
+    },
+    "ultimo_sped": "07/2026"
   },
   "52680145000184": {
     "nome": "YAHWEH PRINT BRASIL LTDA",

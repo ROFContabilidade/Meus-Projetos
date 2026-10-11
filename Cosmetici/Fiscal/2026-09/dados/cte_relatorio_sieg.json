@@ -1,5 +1,5 @@
 {
- "_fonte": "Transcrito do Relatorio_CTe.xlsx (SIEG) de 09/2026 - CT-e com a COSMETICI como tomadora cujo XML não estava na pasta Doc's",
+ "_fonte": "Transcrito do Relatorio_CTe.xlsx (SIEG) de 09/2026 - CT-e com a COSMETICI como tomadora cujo XML não estava na pasta Doc's | revisado em 11/10/2026 com o relatório completo (57 registros): TEX creditada pela prática dos SPED 07/08 e CT-e 4683984 cancelado",
  "cte": [
   {
    "numero": 4011462,
@@ -10,7 +10,8 @@
    "valor": 280.52,
    "icms": 19.35,
    "credito": 19.35,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 4016484,
@@ -21,7 +22,8 @@
    "valor": 692.92,
    "icms": 47.93,
    "credito": 47.93,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 3999629,
@@ -32,7 +34,8 @@
    "valor": 249.59,
    "icms": 17.18,
    "credito": 17.18,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 4014896,
@@ -43,7 +46,8 @@
    "valor": 240.43,
    "icms": 28.36,
    "credito": 28.36,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 3999630,
@@ -54,7 +58,8 @@
    "valor": 264.86,
    "icms": 18.25,
    "credito": 18.25,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 4010194,
@@ -65,7 +70,8 @@
    "valor": 507.65,
    "icms": 34.96,
    "credito": 34.96,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 2081291,
@@ -76,7 +82,8 @@
    "valor": 115.56,
    "icms": 13.41,
    "credito": 13.41,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 2081292,
@@ -87,7 +94,8 @@
    "valor": 138.62,
    "icms": 16.18,
    "credito": 16.18,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 2098798,
@@ -98,7 +106,8 @@
    "valor": 445.46,
    "icms": 52.09,
    "credito": 52.09,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 2079447,
@@ -109,7 +118,8 @@
    "valor": 81.82,
    "icms": 9.36,
    "credito": 9.36,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 2095396,
@@ -120,7 +130,8 @@
    "valor": 146.44,
    "icms": 17.12,
    "credito": 17.12,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 4687986,
@@ -131,7 +142,8 @@
    "valor": 172.64,
    "icms": 19.87,
    "credito": 19.87,
-   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta"
+   "obs": "Frete de venda (Cosmetici tomadora) - XML não está na pasta",
+   "situacao": "Autorizado"
   },
   {
    "numero": 36425929,
@@ -141,8 +153,9 @@
    "cfop": "2353",
    "valor": 54.83,
    "icms": 6.58,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 6.58,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17890190,
@@ -152,8 +165,9 @@
    "cfop": "2353",
    "valor": 221.5,
    "icms": 15.51,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 15.51,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17901568,
@@ -163,8 +177,9 @@
    "cfop": "2353",
    "valor": 20.82,
    "icms": 2.5,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 2.5,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17901583,
@@ -174,8 +189,9 @@
    "cfop": "2353",
    "valor": 19.44,
    "icms": 2.33,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 2.33,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17915091,
@@ -185,8 +201,9 @@
    "cfop": "2353",
    "valor": 27.56,
    "icms": 3.31,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 3.31,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17896252,
@@ -196,8 +213,9 @@
    "cfop": "2353",
    "valor": 38.66,
    "icms": 4.64,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 4.64,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17901624,
@@ -207,8 +225,9 @@
    "cfop": "2353",
    "valor": 28.31,
    "icms": 1.98,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 1.98,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17924737,
@@ -218,8 +237,9 @@
    "cfop": "2353",
    "valor": 55.04,
    "icms": 6.6,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 6.6,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17924803,
@@ -229,8 +249,9 @@
    "cfop": "2353",
    "valor": 28.56,
    "icms": 3.43,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 3.43,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17817538,
@@ -240,8 +261,9 @@
    "cfop": "2353",
    "valor": 40.22,
    "icms": 4.83,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 4.83,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17817833,
@@ -251,8 +273,9 @@
    "cfop": "2353",
    "valor": 55.55,
    "icms": 6.67,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 6.67,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17826831,
@@ -262,8 +285,9 @@
    "cfop": "2353",
    "valor": 55.85,
    "icms": 6.7,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 6.7,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17924811,
@@ -273,8 +297,9 @@
    "cfop": "2353",
    "valor": 24.74,
    "icms": 2.97,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 2.97,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17901596,
@@ -284,8 +309,9 @@
    "cfop": "2353",
    "valor": 22.97,
    "icms": 2.76,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 2.76,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17901582,
@@ -295,8 +321,9 @@
    "cfop": "2353",
    "valor": 51.09,
    "icms": 6.13,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 6.13,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17901597,
@@ -306,8 +333,9 @@
    "cfop": "2353",
    "valor": 26.16,
    "icms": 3.14,
-   "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "credito": 3.14,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
   },
   {
    "numero": 17890191,
@@ -317,8 +345,22 @@
    "cfop": "2353",
    "valor": 47.65,
    "icms": 5.72,
+   "credito": 5.72,
+   "obs": "COSMETICI \"outra tomadora\" (toma 4) do frete de vendas da GULA a consumidores (NF-e da GULA no CT-e); pago pela COSMETICI (extrato 30/09: R$ 54,83 = CT-e 36425929). Creditado como nos SPED 07 e 08/2026 (CFOP 2353/1353) - risco: frete de operação de terceiro",
+   "situacao": "Autorizado"
+  },
+  {
+   "numero": 4683984,
+   "emitente": "RODONAVES TRANSPORTES E ENCOMENDAS LTDA",
+   "data": "2026-09-03",
+   "destino": "PR-SP",
+   "cfop": "2352",
+   "valor": 0.0,
+   "icms": 0.0,
    "credito": 0.0,
-   "obs": "Envio de pedido da GULA COSMETICOS a consumidor final com a Cosmetici no CT-e - frete de operação de terceiro: NÃO creditar sem confirmar"
+   "situacao": "Cancelado",
+   "chave": "41260944914992003820570030046839841046839848",
+   "obs": "CANCELADO - escriturar com situação 02 (bases zeradas, só a chave), como o CT-e 2022868 no SPED 08/2026. Substituído pelo CT-e 4687986 (mesma NF 8953)"
   }
  ]
 }

@@ -239,6 +239,27 @@ def teste_registro_erp():
     print('ok Registro de Saídas do ERP x XML')
 
 
+def teste_difal_antecipacao():
+    """Casos reais do SPED 07/2026: DIFAL Agatha NF 2230 (Simples, RS, 5.800,00 -> 540,37) e antecipado Emuna NF 2446 (4%, 1.475,00 -> 118,00)."""
+    ch = lambda n: f'432607{n:014d}55001{n:09d}5000000{n % 10}'[:44].ljust(44, '0')
+    agatha, emuna = '54079636000108', '10625467000180'
+    simples = lambda x: (x.replace('<ICMS00><orig>0</orig><CST>00</CST><vBC>5800.0</vBC><pICMS>0</pICMS><vICMS>0.0</vICMS><vICMSST>0</vICMSST></ICMS00>',
+                                   '<ICMSSN101><orig>0</orig><CSOSN>101</CSOSN><pCredSN>3.11</pCredSN><vCredICMSSN>0</vCredICMSSN></ICMSSN101>')
+                         .replace('<enderEmit><UF>PR</UF></enderEmit>', '<enderEmit><UF>RS</UF></enderEmit><CRT>1</CRT>'))
+    imp = lambda x: (x.replace('<orig>0</orig>', '<orig>1</orig>').replace('<enderEmit><UF>PR</UF></enderEmit>', '<enderEmit><UF>SP</UF></enderEmit><CRT>3</CRT>'))
+    arqs = {'a.xml': simples(nfe(ch(1), 2230, agatha, CNPJ, 'PR', [('6101', '96033000', 5800.0, 0, 0, 0, '99')], data='2026-09-03')),
+            'e.xml': imp(nfe(ch(2), 2446, emuna, CNPJ, 'PR', [('6102', '29322000', 1475.0, 4, 0, 0, '99')], data='2026-09-03'))}
+    fontes = leitores.ler_xmls([montar_zip(arqs)])
+    forn = {agatha: {'nome': 'AGATHA', 'cfop': '2556', 'icms': False, 'ipi': False, 'ncm': {'96033000': {'cfop': '2556', 'icms': False, 'ipi': False}}},
+            emuna: {'nome': 'EMUNA', 'cfop': '2101', 'icms': True, 'ipi': False, 'ncm': {'29322000': {'cfop': '2101', 'icms': True, 'ipi': False}}}}
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', fontes, forn).executar()
+    d = {l['nota']['numero']: l for l in a.credito.linhas}
+    assert d[2230]['natureza'] == 'uso' and d[2230]['difal'] == 540.37, (d[2230]['natureza'], d[2230]['difal'])
+    assert d[2446]['antecipado'] == 118.0 and d[2446]['cred_icms'] == 59.0, d[2446]
+    assert a.ic['ajustes_debito'] == 540.37 and a.antecipado['total'] == 118.0, (a.ic, a.antecipado)
+    print('ok DIFAL (base dupla, Simples) e ICMS antecipado de importado = SPED 07/2026')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -248,3 +269,4 @@ if __name__ == '__main__':
     teste_revisao()
     teste_cte_natureza()
     teste_registro_erp()
+    teste_difal_antecipacao()

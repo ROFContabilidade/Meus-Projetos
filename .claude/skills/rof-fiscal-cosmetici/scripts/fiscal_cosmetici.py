@@ -211,7 +211,8 @@ def cmd_creditos(args):
     saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
     os.makedirs(saida, exist_ok=True)
     destino = os.path.join(saida, f'Creditos_Entradas_Cosmetici_{args.mes[5:]}-{args.mes[:4]}.xlsx')
-    planilha_creditos.gerar(c, cs, ce, destino)
+    import revisao
+    planilha_creditos.gerar(c, cs, ce, destino, revisao.analisar_nfse(fontes.get('nfse')))
     t = c.totais()
     print(f'== Créditos COSMETICI {args.mes} ==  entradas {len(a.entradas)} notas / {len(c.linhas)} itens')
     for k, rot in [('icms', 'ICMS NF-e regime normal'), ('sn', 'ICMS Simples (vCredICMSSN)'), ('cte_xml', 'ICMS CT-e com XML'),

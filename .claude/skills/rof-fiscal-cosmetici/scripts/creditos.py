@@ -85,6 +85,13 @@ CSOSN_DESCR = {'101': 'tributada com permissão de crédito', '102': 'tributada 
                '500': 'ICMS cobrado anteriormente por ST', '900': 'outros'}
 ALIQ_INTERNA_PR = 19.5
 
+
+def aliq_interestadual(cfg, uf_origem, orig):
+    """Alíquota interestadual de outra UF para o PR: 4% importado (Res. Senado 13/2012), 12% nos demais casos (Res. Senado 22/89)."""
+    if orig in cfg['conferencia'].get('origens_importado_4', ['1', '2', '3', '8']):
+        return 4.0
+    return 12.0
+
 BASE_LEGAL = [
     ('ICMS - crédito de insumos e embalagens', 'LC 87/1996, art. 20; RICMS/PR (Decreto 7.871/2017), art. 31 e seguintes'),
     ('ICMS - uso e consumo sem crédito', 'LC 87/1996, art. 33, I (crédito de uso e consumo só a partir de 01/01/2033)'),
@@ -135,7 +142,7 @@ class Credito:
             por_ncm = f.get('ncm', {}).get(ncm)
             cfl = (por_ncm or {}).get('cfop') or f.get('cfop')
             nat = CFOP_LEARN.get(cfl)
-            if nat in ('insumo', 'uso', 'ativo') and cf not in CFOP_OUTRAS:
+            if nat in ('insumo', 'uso', 'ativo') and (cf not in CFOP_OUTRAS or por_ncm):
                 d = {'insumo': 'Insumo (classificação do SPED anterior)', 'uso': 'Uso e consumo (classificação do SPED anterior)',
                      'ativo': 'Ativo (classificação do SPED anterior)'}[nat]
                 return nat, d, f'SPED anterior: CFOP {cfl}'
@@ -161,7 +168,7 @@ class Credito:
                 l = {'nota': n, 'item': i, 'natureza': nat, 'natureza_desc': desc, 'origem': origem,
                      'regime': 'Simples Nacional' if simples else ('Normal' if n['emit_crt'] == '3' else f'CRT {n["emit_crt"]}'),
                      'simples': simples, 'vc': vc, 'cred_icms': 0.0, 'cred_sn': 0.0, 'pot_sn': 0.0, 'cred_ipi': 0.0,
-                     'difal': 0.0, 'motivo': '', 'acao': '', 'cfop_ent': self._cfop_ent(nat, n, i)}
+                     'difal': 0.0, 'antecipado': 0.0, 'motivo': '', 'acao': '', 'cfop_ent': self._cfop_ent(nat, n, i)}
                 credita_merc = nat in ('insumo', 'devolucao')
                 # ---- ICMS
                 if simples:
@@ -208,12 +215,20 @@ class Credito:
                     l['cred_ipi'] = R(i['vipi'])
                 elif nat == 'devolucao':
                     l['cred_ipi'] = R(i['vipidevol'] + i['vipi'])
-                # ---- DIFAL (uso e consumo / ativo vindo de outra UF)
-                if nat in ('uso', 'ativo') and n['emit_uf'] != self.a.cfg['empresa']['uf'] and not simples:
-                    base_sem = vc - i['vicms']
-                    base = base_sem / (1 - ALIQ_INTERNA_PR / 100)
-                    l['difal'] = max(0.0, R(base * ALIQ_INTERNA_PR / 100 - i['vicms']))
-                    l['acao'] = (l['acao'] + '; ' if l['acao'] else '') + f'DIFAL estimado R$ {l["difal"]:,.2f} (base dupla, {ALIQ_INTERNA_PR}%)'
+                # ---- DIFAL (uso e consumo / ativo vindo de outra UF), base dupla - como no SPED 07/2026 (Agatha NF 2230)
+                if nat in ('uso', 'ativo') and n['emit_uf'] and n['emit_uf'] != self.a.cfg['empresa']['uf']:
+                    aliq = aliq_interestadual(self.a.cfg, n['emit_uf'], i.get('orig'))
+                    icms_orig = i['vicms'] if (not simples and i['vicms'] > 0) else R(vc * aliq / 100)
+                    base = (vc - icms_orig) / (1 - ALIQ_INTERNA_PR / 100)
+                    l['difal'] = max(0.0, R(base * ALIQ_INTERNA_PR / 100 - icms_orig))
+                    l['difal_memoria'] = (f'({vc:,.2f} - {icms_orig:,.2f}) / (1 - {ALIQ_INTERNA_PR}%) = {base:,.2f} x {ALIQ_INTERNA_PR}% '
+                                          f'- {icms_orig:,.2f} ({aliq:g}% {"nominal - Simples" if simples else "destacado"})')
+                    l['acao'] = (l['acao'] + '; ' if l['acao'] else '') + f'DIFAL R$ {l["difal"]:,.2f} (base dupla) - ajuste a débito PR000081'
+                # ---- ICMS antecipado de importado (entrada interestadual a 4%): 8% da base, como no SPED 07 e 08/2026
+                if not simples and abs(i.get('picms', 0) - 4.0) < 0.001 and i.get('vbc', 0) > 0 and n['emit_uf'] != self.a.cfg['empresa']['uf']:
+                    l['antecipado'] = R(i['vbc'] * 0.08)
+                    l['acao'] = (l['acao'] + '; ' if l['acao'] else '') + (f'ICMS antecipado importado 8% x {i["vbc"]:,.2f} = R$ {l["antecipado"]:,.2f} '
+                                                                             f'(E111 PR000080 débito / PR020212 crédito + E113)')
                 linhas.append(l)
         self.linhas = linhas
         # ---- CT-e: o crédito do frete segue a natureza da NF-e transportada (LC 87/96 art. 20 e art. 33, I)
@@ -246,7 +261,7 @@ class Credito:
             elif c.get('chaves_nfe'):
                 docs = [f'NF {int(k[25:34])} (fora dos XML do mês)' for k in c['chaves_nfe']]
                 obs = 'NF-e transportada não está nos XML do mês - confirmar a natureza antes de creditar'
-            cte.append({'numero': c['numero'], 'chave': c['chave'], 'emitente': c['emit_nome'], 'data': c['data'], 'cfop': cf,
+            cte.append({'numero': c['numero'], 'chave': c['chave'], 'vbc': c['vbc'] if cred else 0.0, 'emitente': c['emit_nome'], 'data': c['data'], 'cfop': cf,
                         'valor': c['vprest'], 'icms': c['vicms'], 'credito': cred, 'fonte': 'XML', 'obs': obs,
                         'nfe': '; '.join(docs)})
             vistos.add(c['numero'])
@@ -268,6 +283,7 @@ class Credito:
         for l in self.linhas:
             t['icms'] += l['cred_icms']; t['sn'] += l['cred_sn']; t['pot_sn'] += l['pot_sn']; t['ipi'] += l['cred_ipi']
             t['difal'] += l['difal']
+            t['antecipado'] += l.get('antecipado', 0.0)
             if l['natureza'] == 'confirmar':
                 t['confirmar'] += l['item']['vicms']
         t['cte_xml'] = sum(c['credito'] for c in self.cte if c['fonte'] == 'XML')

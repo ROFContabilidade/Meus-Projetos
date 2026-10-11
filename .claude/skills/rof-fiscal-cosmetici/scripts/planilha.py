@@ -115,7 +115,16 @@ def resumo(wb, a):
         _linha(ws, r, [rot, v]); r += 1
     _linha(ws, r, ['ICMS a recolher (negativo = saldo credor)', f'=SUM(B{i0}:B{r-1})'], moeda=(1,), bold=True); r += 1
     for x in ic['ajustes']:
-        ws.cell(r, 1, f'Ajuste {x["tipo"]} {x.get("cod", "")}: {x.get("descr", "")} - R$ {x["valor"]:,.2f}').font = F(italic=True); r += 1
+        cod = x.get('codigo') or x.get('cod', '')
+        ws.cell(r, 1, f'Ajuste a {x["tipo"]} {cod}: {x.get("descricao") or x.get("descr", "")} - R$ {x["valor"]:,.2f}'
+                      + (f' ({"; ".join(x["docs"])})' if x.get('docs') else '')).font = F(italic=True); r += 1
+    ant = getattr(a, 'antecipado', None)
+    if ant and ant['total']:
+        r = _bloco(ws, r + 1, 'ICMS antecipado - entradas interestaduais a 4% (importado): 8% da base')
+        for n, i, v in ant['docs']:
+            _linha(ws, r, [f'NF {n["numero"]} {n["emit_nome"]} - {i["xprod"][:40]} - base {i["vbc"]:,.2f}', v]); r += 1
+        _linha(ws, r, ['Total antecipado (guia própria; no SPED: E111 PR000080 débito + PR020212 crédito, E113 por nota)', ant['total']],
+               bold=True); r += 1
 
     r = _bloco(ws, r + 1, 'ICMS-ST (substituto) por UF de destino')
     for uf_, v in a.st['por_uf'].items():

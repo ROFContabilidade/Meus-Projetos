@@ -224,6 +224,15 @@ class Apuracao:
         deb = R(sum(a['icms'] for a in self.acumuladores))
         cred_nfe = R(sum(l['cred_icms'] for l in self.ent))
         cred_cte = R(sum(l['cred_icms'] for l in self.cte_cred))
+        aj = list(aj)
+        difal = [l for l in self.credito.linhas if l['difal']]
+        if difal and not any(x.get('codigo') == 'PR000081' for x in aj):
+            aj.append({'tipo': 'debito', 'codigo': 'PR000081', 'descricao': 'Diferencial de alíquota - uso e consumo/ativo de outra UF',
+                       'valor': R(sum(l['difal'] for l in difal)),
+                       'docs': [f'NF {l["nota"]["numero"]} {l["nota"]["emit_nome"]}: {l["difal"]:,.2f}' for l in difal]})
+        antec = [l for l in self.credito.linhas if l.get('antecipado')]
+        self.antecipado = {'total': R(sum(l['antecipado'] for l in antec)),
+                           'docs': [(l['nota'], l['item'], l['antecipado']) for l in antec]}
         aj_deb = R(sum(x['valor'] for x in aj if x['tipo'] == 'debito'))
         aj_cred = R(sum(x['valor'] for x in aj if x['tipo'] == 'credito'))
         sld_ant = R(self.cfg['icms'].get('saldo_credor_anterior', {}).get(self.mes, 0.0))

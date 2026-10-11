@@ -138,6 +138,70 @@ def cte(wb, c):
     _larguras(ws, [11, 11, 36, 9, 11, 10, 10, 30, 70, 30])
 
 
+def escrituracao(wb, c):
+    """Uma linha por documento x CFOP de entrada x CST, como vai para o Domínio/SPED (C100/C190, D100/D190)."""
+    import collections
+    a = c.a
+    acum = a.cfg.get('acumuladores_entrada', {})
+    ws = wb.create_sheet('Escrituração entradas')
+    _titulo(ws, 'Escrituração das entradas (Domínio / SPED): uso e consumo com base e ICMS zerados; canceladas com bases zeradas e a chave',
+            'Acumulador e conta contábil: preenchidos pelo config "acumuladores_entrada" quando confirmados - nunca inventados.')
+    cab = ['Tipo', 'Situação', 'Número', 'Emissão', 'Fornecedor/Transportadora', 'CNPJ', 'UF', 'CFOP entrada', 'CST/CSOSN', 'Natureza',
+           'Valor contábil', 'Base ICMS', 'ICMS creditado', 'IPI creditado', 'DIFAL', 'ICMS antecipado', 'Acumulador', 'Conta contábil', 'Chave']
+    _cab(ws, 3, cab)
+    g = collections.OrderedDict()
+    for l in c.linhas:
+        n, i = l['nota'], l['item']
+        k = (n['chave'], l['cfop_ent'], i['cst_icms'] or i['csosn'] or '', l['natureza'])
+        x = g.setdefault(k, {'n': n, 'vc': 0.0, 'bc': 0.0, 'icms': 0.0, 'ipi': 0.0, 'difal': 0.0, 'ant': 0.0})
+        cred = l['cred_icms'] + l['cred_sn']
+        x['vc'] += l['vc']; x['icms'] += cred; x['ipi'] += l['cred_ipi']; x['difal'] += l['difal']; x['ant'] += l.get('antecipado', 0.0)
+        x['bc'] += (i['vbc'] if l['cred_icms'] else (i['vprod'] - i['vdesc'] if l['cred_sn'] else 0.0))
+    r = 4
+    for (ch, cf, cst, nat), x in g.items():
+        n = x['n']; ac = acum.get(cf) or acum.get(nat) or {}
+        _linha(ws, r, ['NF-e', 'Normal', n['numero'], n['dhemi'], n['emit_nome'], n['emit_cnpj'], n['emit_uf'], cf, cst, nat,
+                       round(x['vc'], 2), round(x['bc'], 2), round(x['icms'], 2), round(x['ipi'], 2), round(x['difal'], 2), round(x['ant'], 2),
+                       ac.get('codigo', ''), ac.get('conta', ''), ch], moeda=(10, 11, 12, 13, 14, 15),
+               fill=None if ac else EDIT); r += 1
+    for n in a.canceladas:
+        if n['propria']:
+            continue
+        _linha(ws, r, ['NF-e', 'Cancelada (02)', n['numero'], n['dhemi'], n['emit_nome'], n['emit_cnpj'], n['emit_uf'], '', '', '',
+                       0, 0, 0, 0, 0, 0, '', '', n['chave']], moeda=(10, 11, 12, 13, 14, 15), fill=MEDIA); r += 1
+    for x in c.cte:
+        canc = x.get('situacao') == 'Cancelado'
+        ac = acum.get(x['cfop']) or acum.get('cte') or {}
+        _linha(ws, r, ['CT-e', 'Cancelado (02)' if canc else ('Normal' if x['fonte'] == 'XML' else 'Normal - XML pendente'), x['numero'],
+                       x['data'], x['emitente'], '', '', x['cfop'], '', 'frete', 0 if canc else x['valor'],
+                       0 if canc else x.get('vbc', ''),
+                       0 if canc else x['credito'], 0, 0, 0, ac.get('codigo', ''), ac.get('conta', ''), x.get('chave', '')],
+               moeda=(10, 11, 12, 13, 14, 15), fill=MEDIA if canc or x['fonte'] != 'XML' else None); r += 1
+    _linha(ws, r, ['Total'] + [''] * 9 + [f'=SUM({col}4:{col}{r-1})' for col in 'KLMNOP'] + ['', '', ''], moeda=(10, 11, 12, 13, 14, 15), bold=True)
+    _larguras(ws, [6, 18, 10, 11, 34, 16, 4, 8, 8, 10, 12, 11, 11, 10, 9, 10, 10, 14, 46])
+    ws.freeze_panes = 'D4'; ws.auto_filter.ref = f'A3:S{r-1}'
+
+
+def nfse(wb, linhas):
+    ws = wb.create_sheet('NFS-e tomadas')
+    _titulo(ws, 'Serviços tomados - retenções de IRRF, PIS/COFINS/CSLL, INSS e ISS (devido x retido)')
+    cab = ['NFS-e', 'Data', 'Prestador', 'CNPJ', 'Simples', 'Cód.', 'Serviço', 'Valor', 'Base', 'IRRF devido', 'IRRF retido',
+           'CSRF devida', 'CSRF retida', 'INSS', 'ISS - local', 'ISS (prestador)', 'ISS retido', 'Líquido', 'Situação']
+    _cab(ws, 3, cab)
+    r = 4
+    for x in linhas:
+        _linha(ws, r, [x['numero'], x['data'], x['prestador'], x['cnpj'], 'Sim' if x['simples'] else 'Não', x['cod'], x['servico'],
+                       x['valor'], x['base'], x['ir_devido'], x['ir_retido'], x['csrf_devido'], x['csrf_retido'], x['inss'],
+                       x['iss_local'], x['iss_prestador'], x['iss_retido'], x['liquido'], x['situacao']],
+               moeda=(7, 8, 9, 10, 11, 12, 15, 16, 17), fill=OK if x['situacao'] == 'OK' else MEDIA)
+        r += 1
+    if r > 4:
+        _linha(ws, r, ['Total', '', '', '', '', '', ''] + [f'=SUM({c}4:{c}{r-1})' for c in 'HIJKLM'] + ['', '', f'=SUM(P4:P{r-1})',
+               f'=SUM(Q4:Q{r-1})', f'=SUM(R4:R{r-1})', ''], moeda=(7, 8, 9, 10, 11, 12, 15, 16, 17), bold=True)
+    _larguras(ws, [10, 11, 34, 16, 7, 6, 24, 11, 11, 10, 10, 10, 10, 40, 34, 10, 10, 11, 50])
+    ws.freeze_panes = 'D4'
+
+
 def conferencia(wb, cs, ce):
     ws = wb.create_sheet('Conferência saídas')
     _titulo(ws, 'Saídas: XML x relatório de faturamento do ERP (Cosmos) x relatório SIEG')
@@ -173,12 +237,15 @@ def base_legal(wb):
     _larguras(ws, [40, 120])
 
 
-def gerar(c, cs, ce, destino):
+def gerar(c, cs, ce, destino, nfse_linhas=None):
     wb = Workbook()
     resumo(wb, c, cs, ce)
     itens(wb, c)
     simples(wb, c)
     cte(wb, c)
+    escrituracao(wb, c)
+    if nfse_linhas:
+        nfse(wb, nfse_linhas)
     conferencia(wb, cs, ce)
     base_legal(wb)
     wb.calculation.fullCalcOnLoad = True

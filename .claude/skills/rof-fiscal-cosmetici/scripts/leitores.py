@@ -468,7 +468,7 @@ def ler_relatorio_nfse_abrasf(caminho):
         out.append({
             'numero': str(g('Numero')).strip(), 'data': str(g('Dt_Emissao'))[:10], 'cod_servico': re.sub(r'\D', '', str(g('Cod_Servico'))).zfill(4)[:4],
             'prestador': str(g('RzPrestador')).strip(), 'cnpj': re.sub(r'\D', '', str(g('Prestador'))),
-            'uf': str(g('UF_Prest')), 'simples': str(g('Optante_SN')).strip() == '1',
+            'uf': str(g('UF_Prest')), 'municipio': str(g('Nome_Mun_Prest')), 'simples': str(g('Optante_SN')).strip() == '1',
             'cancelada': bool(str(g('Dt_Cancelamento')).strip()) or 'cancel' in str(g('Status')).lower(),
             'valor': _moeda(g('Valor_Servico')), 'base': None if base in ('', None) else _moeda(base),
             'liquido': _moeda(g('Valor_Liquido')), 'desconto': _moeda(g('Desconto_Incondic')),

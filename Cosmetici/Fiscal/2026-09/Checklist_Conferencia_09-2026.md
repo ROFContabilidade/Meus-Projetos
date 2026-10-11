@@ -127,15 +127,16 @@ Totais: ICMS de NF-e R$ 6.073,67 + Simples R$ 98,95 · IPI R$ 2.305,74 ✅. Coer
 | Dental Uni 110,06 | NFS-e de 107,56 | ✅ Diferença de 2,50 (encargo) |
 | Tecnoponto 74,90 | NFS-e 173228 | ✅ |
 
-## H. Impostos de setembro (com a correção de E.1)
+## H. Impostos de setembro (com as correções de E.1 e J.1)
 
 | Imposto | Valor | Depende de |
 |---|---|---|
 | PIS (8109) | 1.495,34 | C.2 (−19,53), C.3, B.2 |
 | COFINS (2172) | 6.953,10 | C.2 (−90,13), C.3, B.2 |
-| IPI (5123) | 2.097,50 | C.3, NF 8966 (+95,48 se o IPI correto for 14,3%), NCM 3307.10 |
-| ICMS (GR-PR 1015) | **9.996,19** | C.1, B.3, E.3, E.4 |
-| ICMS-ST (GR-PR 100099) | 865,16 | C.1 |
+| IPI (5123) | **2.065,55** (antes 2.097,50: −31,95 HS Inklaser) | C.3, NF 8966 (+95,48 se o IPI correto for 14,3%), NCM 3307.10 |
+| ICMS (GR-PR 1015, **vence 12/10**) | **9.957,17** (9.996,19 − 125,11 HS Inklaser + 86,09 DIFAL Agatha) | C.1, B.3, E.3, E.4 |
+| ICMS-ST (GR-PR 100099, **venceu 10/10**) | 865,16 | C.1 |
+| ICMS antecipado importados (guia própria) | 631,32 | MCassab 309,90 + Provital 321,42 |
 | DIFAL SP (GNRE, NF 8966/8967) | 62,28 | C.1 — não entra na GR-PR |
 | IRPJ / CSLL 3º tri | 13.991,33 / 10.795,32 | C.2 (−60,09 / −32,45) |
 
@@ -149,3 +150,37 @@ Rodam sozinhos todo mês:
 - **PIS/COFINS informado no XML × apuração**.
 
 Continuam manuais: o extrato (o PDF do ERP não traz CNPJ nem número de nota), as alíquotas internas e protocolos de ST por UF, e o ISS de outro município.
+
+---
+
+## J. Escrituração das entradas — regras validadas nos SPED 07 e 08/2026 e aplicadas a 09/2026
+
+| Regra | Como está nos SPED 07 e 08 | Setembro |
+|---|---|---|
+| Insumo com crédito (1101/2101) | Essências, ativos, tensoativos, corantes, embalagens, rótulos, PEAD e caixas — ✅ coerente | ICMS R$ 6.198,78 + Simples R$ 98,95 · IPI R$ 2.337,69 |
+| Uso e consumo 1556/2556 com **base e ICMS zerados** | ✅ todos zerados (Somma, Boza, ILS, Sul Tape, Savatec, Contabilista, Equisul) | ✅ NewProv, REATEC, Thermosul, Dispoli, ILS, Savatec, Ellolimp, Sul Tape, Boza, Agatha: tudo zerado |
+| Uso e consumo com ST retida 1407 (CST 60) | Somma (papel higiênico/toalha), Eletrorastro (lâmpadas), TNT (eletrodo, broca, esmalte) | Nenhuma entrada com ST em setembro. A Agatha (CSOSN 201) veio sem valor de ST. |
+| **DIFAL** de uso e consumo de outra UF (E111 **PR000081** a débito + E113, pago na GR-PR 1015) | Julho: Agatha NF 2230, R$ 5.800,00 → **R$ 540,37** (base dupla, 12% nominal). Agosto: nenhuma entrada interestadual de uso. | **Agatha NF 2564 (pincel): R$ 924,00 → DIFAL R$ 86,09**, já somado ao ICMS do mês. A HS Inklaser saiu do DIFAL porque a prática a trata como insumo (ver J.1). |
+| **ICMS antecipado de importado** (4%): 8% da base; E111 PR000080 + PR020212 + E113; guia própria | Julho: 12 notas, **R$ 1.914,78**. Agosto: 4 notas, **R$ 1.186,91**. Nenhuma entrada a 4% ficou de fora. | **MCassab NF 275966: R$ 309,90 + Provital NF 42285: R$ 321,42 = R$ 631,32** a recolher em guia própria. O código da guia está ⏳ (ver as guias de julho e agosto). |
+| Canceladas: situação 02, bases zeradas, só a chave | Julho: 7 entradas + 1 saída. Agosto: 2 entradas, 6 saídas e o CT-e 2022868. | NF 8940 e 8952 (saídas), **Yahweh NF 794** (entrada) e **CT-e Rodonaves 4683984** (cancelado; o substituto é o 4687986) |
+| CT-e com crédito (2352/2353); intraestadual CST 40 sem crédito | ✅ TEX Courier creditada nos dois meses | 5 com XML: R$ 149,14. ⏳ 12 de venda + 17 TEX sem XML: R$ 379,86. |
+
+**J.1 Ajustes que fiz em setembro para seguir o histórico (a regra aprendida nos SPED passa a valer todo mês):**
+- **HS Inklaser** (cartucho BLK 13 do codificador inkjet): no SPED de julho foi lançado como **2101 com crédito**. Em setembro, crédito de ICMS de R$ 125,11 e de IPI de R$ 31,95, e sai do DIFAL.
+- **REATEC** (etanolamina "PS 1000ml"): no SPED de julho foi lançado como **1556**. Em setembro passa a uso e consumo. É CSOSN 101 sem %, então não há crédito de qualquer forma.
+- **Agatha** (pincel): no SPED de julho foi lançado como **2556 com DIFAL**. Em setembro, DIFAL de R$ 86,09.
+
+**J.2 Inconsistências encontradas nos próprios SPED de julho e agosto (para a sua decisão):**
+- ⚠️ **REATEC × Labaz:** a etanolamina da REATEC foi para uso e consumo, mas a trietanolamina, o sulfito e o pirofosfato PA da Labaz foram para insumo, com crédito do Simples. A monoetanolamina é ingrediente de coloração, e setembro teve R$ 3.738,00 dela, volume de produção.
+- ⚠️ **Hipoclorito de sódio** (Distribuidora Industrial, julho) foi creditado como insumo: R$ 67,68. Se for usado em limpeza ou tratamento de água, é uso e consumo.
+- ⚠️ **TNT Suprimentos** (agosto: porca rebite, discos de corte e de lixa) entrou em 1101 sem crédito. É manutenção (1556): muda o CFOP e o acumulador, não o imposto.
+- ⚠️ **TEX Courier:** o frete é das vendas da **GULA** a consumidores (a NF-e da GULA está no CT-e), e a Cosmetici é a "outra tomadora" e paga o frete. Julho e agosto creditaram. O risco é creditar frete de operação de terceiro (LC 87/96 art. 20).
+
+## K. NFS-e tomadas — retenções completas (nova aba "NFS-e tomadas" na planilha de créditos)
+
+| Retenção | Regra | Setembro (21 notas) |
+|---|---|---|
+| IRRF 1,5% / 1% | RIR/2018 arts. 714 e 716, prestador fora do Simples, dispensa até R$ 10 | ✅ Genesis R$ 10,92 retido. Nenhuma outra devida. |
+| PIS/COFINS/CSLL 4,65% | Lei 10.833/03 arts. 30 e 31, dispensa até R$ 10 | ✅ Extralab R$ 85,35 retido. ⚠️ **Genesis R$ 33,86 não retido.** ⚠️ Plus Santé: confirmar o enquadramento. |
+| INSS 11% | Lei 8.212/91 art. 31; IN RFB 2.110/2022 (cessão de mão de obra/empreitada) | ⚠️ Extralab (calibração/manutenção, 14.01): verificar se foi executado na Cosmetici. Savatec e Insetcontrol são do Simples: só reteria se fossem do Anexo IV. |
+| ISS | LC 116/03 art. 3º (local da prestação) e lei de Fazenda Rio Grande | Nenhum serviço da lista do art. 3º. Todos os serviços são devidos no município do prestador e nenhum ISS foi retido. ⏳ Dedetização (Insetcontrol/MS): conferir a lei municipal. |

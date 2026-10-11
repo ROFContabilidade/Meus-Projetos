@@ -366,3 +366,52 @@ def conferir_registro_saidas(a, reg):
                     f'O Registro de Saídas do ERP não lista as notas de retorno simbólico (R$ {v:,.2f}); no livro/SPED elas entram '
                     f'(C100/C190 com CFOP 5902/6902, sem débito) - conferir no Domínio', v))
     return div
+
+
+# ISS devido no local do tomador/execução (LC 116/2003, art. 3º) - nos demais, no município do prestador
+ISS_LOCAL_TOMADOR = {'0702', '0704', '0705', '0709', '0710', '0711', '0712', '0716', '0717', '0719', '1102', '1601', '1705', '1710',
+                     '2001', '2002', '2003'}
+# INSS 11% (Lei 8.212/91 art. 31; IN RFB 2.110/2022 arts. 110 a 112): cessão de mão de obra/empreitada - depende de execução no estabelecimento
+INSS_VERIFICAR = {'0710': 'limpeza', '1102': 'vigilância', '1705': 'mão de obra', '1401': 'manutenção de máquinas/equipamentos',
+                  '0713': 'dedetização/conservação', '0705': 'reparação/conservação de imóveis'}
+
+
+def analisar_nfse(lista):
+    """Linha a linha das NFS-e tomadas: IRRF, PIS/COFINS/CSLL, INSS e ISS - devido x retido."""
+    out = []
+    for s in lista or []:
+        cod = s['cod_servico']
+        base = s['base'] if s['base'] is not None else s['valor']
+        retido = R(s['valor'] - s['liquido'] - s['desconto'] - s['iss_retido'])
+        ir_dev = cs_dev = 0.0
+        desc = RETENCAO_NFSE.get(cod, (0, 0, ''))[2] or RETENCAO_CONFIRMAR.get(cod, '')
+        if not s['simples'] and cod in RETENCAO_NFSE:
+            pir, pcs, _ = RETENCAO_NFSE[cod]
+            ir_dev = R(base * pir / 100) if base * pir / 100 > 10 else 0.0
+            cs_dev = R(base * pcs / 100) if base * pcs / 100 > 10 else 0.0
+        ir_ret = R(min(s['ir'], retido)) if s['ir'] else 0.0
+        cs_ret = R(max(0.0, retido - ir_ret))
+        inss = INSS_VERIFICAR.get(cod)
+        if inss and s['simples']:
+            inss_txt = f'{inss}: prestador do Simples - só retém se for Anexo IV (LC 123 art. 18 §5-C)'
+        elif inss:
+            inss_txt = f'{inss}: reter 11% se executado no estabelecimento da Cosmetici com cessão de mão de obra/empreitada - verificar'
+        else:
+            inss_txt = 'Não se aplica'
+        iss_local = 'Fazenda Rio Grande (local da execução - LC 116 art. 3º)' if cod in ISS_LOCAL_TOMADOR else f'Município do prestador ({s.get("municipio") or s["uf"] or "-"}) - LC 116 art. 3º caput'
+        pend = []
+        if R(ir_dev - ir_ret) > 0.05:
+            pend.append(f'IRRF a menor R$ {R(ir_dev - ir_ret):,.2f}')
+        if R(cs_dev - cs_ret) > 0.05:
+            pend.append(f'PIS/COFINS/CSLL a menor R$ {R(cs_dev - cs_ret):,.2f}')
+        if cod in RETENCAO_CONFIRMAR and not s['simples']:
+            pend.append(f'confirmar enquadramento ({RETENCAO_CONFIRMAR[cod]})')
+        if inss and not s['simples']:
+            pend.append('verificar INSS 11%')
+        if cod in ISS_LOCAL_TOMADOR and not s['iss_retido']:
+            pend.append('ISS devido em Fazenda Rio Grande - verificar retenção')
+        out.append({'numero': s['numero'], 'data': s['data'], 'prestador': s['prestador'], 'cnpj': s['cnpj'], 'simples': s['simples'],
+                    'cod': cod, 'servico': desc, 'valor': s['valor'], 'base': base, 'ir_devido': ir_dev, 'ir_retido': ir_ret,
+                    'csrf_devido': cs_dev, 'csrf_retido': cs_ret, 'inss': inss_txt, 'iss_local': iss_local, 'iss_prestador': s['iss'],
+                    'iss_retido': s['iss_retido'], 'liquido': s['liquido'], 'situacao': '; '.join(pend) or 'OK'})
+    return out
