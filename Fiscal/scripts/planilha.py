@@ -236,7 +236,8 @@ def gravar_pre(res, saida):
         ('', None),
         ('CT-e (FRETES)', 'secao'),
         (f'{len(res.get("cte", []))} CT-e · a lançar (Kopp tomadora) {sum(1 for c in res.get("cte", []) if c["Status"] == "A LANÇAR")}'
-         f' · não lançar {sum(1 for c in res.get("cte", []) if c["Status"] != "A LANÇAR")}', None),
+         f' · cancelado, lançar zerado {sum(1 for c in res.get("cte", []) if "ZERADO" in c["Status"])}'
+         f' · não lançar {sum(1 for c in res.get("cte", []) if c["Status"].startswith("NÃO LANÇAR") or c["Status"] == "CANCELADO - não lançar")}', None),
         ('', None),
         ('PENDÊNCIAS PARA RESOLVER ANTES DE IMPORTAR', 'secao'),
         *[(f'   {g}: {c}', None) for g, c in sorted(Counter(p['Gravidade'] for p in pend).items(),
