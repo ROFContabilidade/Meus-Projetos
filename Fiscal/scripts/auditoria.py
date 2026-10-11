@@ -80,7 +80,11 @@ def analisar_cte(ctes, R, sefaz, hist, escriturados=()):
         ent = ('1' if c['uf_ini'] == uf else '2') + cfg.get('cfop_sufixo', '352')
         hcont = Counter({ac: v for (esp, cf, ac), v in hist.get(c['emit_cnpj'], Counter()).items()})
         ac = cfg.get('ac_com_icms', '304') if c['vicms'] else cfg.get('ac_sem_icms', cfg.get('ac_com_icms', '304'))
-        if canc:
+        zerado = canc and R.r.get('entradas_canceladas') == 'lancar_zerada' and toma_kopp
+        if zerado:
+            st, obs = 'CANCELADO - LANÇAR ZERADO', (f'Cancelado (evento/lista SEFAZ). Valor original R$ {c["valor"]}: lançar com '
+                                                   'situação CANCELADA, valor, base, ICMS e crédito zerados (regra do escritório)')
+        elif canc:
             st, obs = 'CANCELADO - não lançar', 'Cancelado (evento/lista SEFAZ)'
         elif not toma_kopp:
             st, obs = 'NÃO LANÇAR - Kopp não é tomadora', (f'Kopp aparece como {", ".join(papel) or "-"}; '
@@ -92,10 +96,10 @@ def analisar_cte(ctes, R, sefaz, hist, escriturados=()):
         linhas.append({'Status': st, 'CT-e': c['numero'], 'Data': c['data'], 'Transportador': c['emit_nome'],
                        'CNPJ': c['emit_cnpj'], 'CFOP do CT-e': c['cfop'], 'Trajeto': f'{c["uf_ini"]}→{c["uf_fim"]}',
                        'Remetente': c['papeis']['rem'][1], 'Destinatário': c['papeis']['dest'][1],
-                       'Tomador (quem paga)': c['tomador'][1] or c['tomador'][0], 'Valor': c['valor'],
-                       'CST': c['cst'], 'BC ICMS': c['vbc'], 'ICMS': c['vicms'],
-                       'CFOP de entrada sugerido': ent if st == 'A LANÇAR' else '',
-                       'Acum. sugerido': ac if st == 'A LANÇAR' else '',
+                       'Tomador (quem paga)': c['tomador'][1] or c['tomador'][0], 'Valor': Z if zerado else c['valor'],
+                       'CST': c['cst'], 'BC ICMS': Z if zerado else c['vbc'], 'ICMS': Z if zerado else c['vicms'],
+                       'CFOP de entrada sugerido': ent if (st == 'A LANÇAR' or zerado) else '',
+                       'Acum. sugerido': ac if (st == 'A LANÇAR' or zerado) else '',
                        'Crédito ICMS sugerido': c['vicms'] if st == 'A LANÇAR' else Z,
                        'Observações': obs, 'Chave': ch})
     for ch in sefaz:
