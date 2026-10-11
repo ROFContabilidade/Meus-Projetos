@@ -186,19 +186,19 @@ def nfse(wb, linhas):
     ws = wb.create_sheet('NFS-e tomadas')
     _titulo(ws, 'Serviços tomados - retenções de IRRF, PIS/COFINS/CSLL, INSS e ISS (devido x retido)')
     cab = ['NFS-e', 'Data', 'Prestador', 'CNPJ', 'Simples', 'Cód.', 'Serviço', 'Valor', 'Base', 'IRRF devido', 'IRRF retido',
-           'CSRF devida', 'CSRF retida', 'INSS', 'ISS - local', 'ISS (prestador)', 'ISS retido', 'Líquido', 'Situação']
+           'CSRF devida', 'CSRF retida', 'INSS', 'ISS - local', 'ISS (prestador)', 'ISS retido', 'Líquido', 'Situação', 'Acumulador']
     _cab(ws, 3, cab)
     r = 4
     for x in linhas:
         _linha(ws, r, [x['numero'], x['data'], x['prestador'], x['cnpj'], 'Sim' if x['simples'] else 'Não', x['cod'], x['servico'],
                        x['valor'], x['base'], x['ir_devido'], x['ir_retido'], x['csrf_devido'], x['csrf_retido'], x['inss'],
-                       x['iss_local'], x['iss_prestador'], x['iss_retido'], x['liquido'], x['situacao']],
+                       x['iss_local'], x['iss_prestador'], x['iss_retido'], x['liquido'], x['situacao'], x.get('acumulador') or 'definir'],
                moeda=(7, 8, 9, 10, 11, 12, 15, 16, 17), fill=OK if x['situacao'] == 'OK' else MEDIA)
         r += 1
     if r > 4:
         _linha(ws, r, ['Total', '', '', '', '', '', ''] + [f'=SUM({c}4:{c}{r-1})' for c in 'HIJKLM'] + ['', '', f'=SUM(P4:P{r-1})',
                f'=SUM(Q4:Q{r-1})', f'=SUM(R4:R{r-1})', ''], moeda=(7, 8, 9, 10, 11, 12, 15, 16, 17), bold=True)
-    _larguras(ws, [10, 11, 34, 16, 7, 6, 24, 11, 11, 10, 10, 10, 10, 40, 34, 10, 10, 11, 50])
+    _larguras(ws, [10, 11, 34, 16, 7, 6, 24, 11, 11, 10, 10, 10, 10, 40, 34, 10, 10, 11, 50, 10])
     ws.freeze_panes = 'D4'
 
 

@@ -256,7 +256,9 @@ def teste_difal_antecipacao():
     d = {l['nota']['numero']: l for l in a.credito.linhas}
     assert d[2230]['natureza'] == 'uso' and d[2230]['difal'] == 540.37, (d[2230]['natureza'], d[2230]['difal'])
     assert d[2446]['antecipado'] == 118.0 and d[2446]['cred_icms'] == 59.0, d[2446]
-    assert a.ic['ajustes_debito'] == 540.37 and a.antecipado['total'] == 118.0, (a.ic, a.antecipado)
+    # Demonstrativo 07/2026: outros débitos = DIFAL + antecipado; outros créditos = antecipado (saldo zero)
+    assert a.ic['ajustes_debito'] == 658.37 and a.ic['ajustes_credito'] == 118.0 and a.antecipado['total'] == 118.0, a.ic
+    assert a.ic['recolher'] == round(540.37 - 59.0, 2), a.ic
     print('ok DIFAL (base dupla, Simples) e ICMS antecipado de importado = SPED 07/2026')
 
 

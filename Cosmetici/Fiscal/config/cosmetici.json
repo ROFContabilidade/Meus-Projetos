@@ -287,5 +287,175 @@
       "3",
       "8"
     ]
+  },
+  "acumuladores_entrada": {
+    "1101": {
+      "codigo": "100",
+      "descricao": "COMPRA P/ INDUST - DENTRO ESTADO 1.101",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2101": {
+      "codigo": "101",
+      "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2102": {
+      "codigo": "101",
+      "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1556": {
+      "codigo": "104",
+      "descricao": "COMPRA USO E CONSUMO DENTRO DO ESTADO",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2556": {
+      "codigo": "105",
+      "descricao": "COMPRA USO E CONSUMO FORA DO ESTADO",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1407": {
+      "codigo": "107",
+      "descricao": "COMPRA USO E CONSUMO ST A PRAZO",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1411": {
+      "codigo": "113",
+      "descricao": "DEVOLUÇÃO DE VENDA ST",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2202": {
+      "codigo": "133",
+      "descricao": "DEVOLUÇÃO INTERESTADUAL 2.202",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2411": {
+      "codigo": "134",
+      "descricao": "DEVOLUÇÃO INTERESTADUAL C/ ST",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2901": {
+      "codigo": "144",
+      "descricao": "ENTRADA PARA IND. POR ENCOMENDA - 2901",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1911": {
+      "codigo": "147",
+      "descricao": "ENTRADA AMOSTRA GRATIS - 1911",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2911": {
+      "codigo": "148",
+      "descricao": "ENTRADA AMOSTRA GRATIS - 2911",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1901": {
+      "codigo": "149",
+      "descricao": "ENTRADA PARA IND. POR ENCOMENDA - 1901",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1949": {
+      "codigo": "155",
+      "descricao": "OUTRAS ENTRADAS DE MERCADORIAS - 949",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2949": {
+      "codigo": "155",
+      "descricao": "OUTRAS ENTRADAS DE MERCADORIAS - 949",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2924": {
+      "codigo": "164",
+      "descricao": "ENTRADA P/ IND POR CONTA E ORDEM - 2924",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1924": {
+      "codigo": "165",
+      "descricao": "ENTRADA P/ IND POR CONTA E ORDEM - 1924",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2910": {
+      "codigo": "189",
+      "descricao": "ENTRADA DE BONIF, DOAÇÃO E BRINDE - 2910",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2922": {
+      "codigo": "238",
+      "descricao": "ENTRADA SIMPLES FAT. ENTR FUTURA .922",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1352": {
+      "codigo": "1000",
+      "descricao": "FRETE ESTADUAL",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1353": {
+      "codigo": "1000",
+      "descricao": "FRETE ESTADUAL",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "1932": {
+      "codigo": "1000",
+      "descricao": "FRETE ESTADUAL",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2352": {
+      "codigo": "1001",
+      "descricao": "FRETE INTERESTADUAL",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    },
+    "2353": {
+      "codigo": "1001",
+      "descricao": "FRETE INTERESTADUAL",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+    }
+  },
+  "acumuladores_servicos": {
+    "_obs": "Serviços tomados (CFOP 1933/2933, espécie 39) - acumulador por prestador, do Acompanhamento de Entradas 07 e 08/2026",
+    "07768652000110": "803",
+    "59684382000162": "810",
+    "24891333000116": "811",
+    "32223020000118": "816",
+    "04580911000196": "818",
+    "04523560000181": "821",
+    "77800407000128": "823",
+    "78738101000151": "824",
+    "80402860000190": "825",
+    "14309879000162": "826",
+    "00495545000116": "830",
+    "65649511000184": "819 (83,99 serviços técnicos) / 820 (195,97 biblioteca)"
+  },
+  "acumuladores_servicos_por_nome": {
+    "LIGGA 83,99": "819",
+    "LIGGA 195,97": "820",
+    "ESGOFOSSA": "806",
+    "ECOLOGICA": "806",
+    "BIO CONTROL": "808",
+    "PROTECTION": "803/828",
+    "CMS CONSULTORIA": "831"
   }
 }

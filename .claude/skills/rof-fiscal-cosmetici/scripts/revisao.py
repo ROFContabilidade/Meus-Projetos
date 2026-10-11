@@ -376,8 +376,12 @@ INSS_VERIFICAR = {'0710': 'limpeza', '1102': 'vigilância', '1705': 'mão de obr
                   '0713': 'dedetização/conservação', '0705': 'reparação/conservação de imóveis'}
 
 
-def analisar_nfse(lista):
+ACUM_SERV = {}
+
+
+def analisar_nfse(lista, acumuladores=None):
     """Linha a linha das NFS-e tomadas: IRRF, PIS/COFINS/CSLL, INSS e ISS - devido x retido."""
+    ACUM_SERV.clear(); ACUM_SERV.update({k: v for k, v in (acumuladores or {}).items() if not k.startswith('_')})
     out = []
     for s in lista or []:
         cod = s['cod_servico']
@@ -411,6 +415,7 @@ def analisar_nfse(lista):
         if cod in ISS_LOCAL_TOMADOR and not s['iss_retido']:
             pend.append('ISS devido em Fazenda Rio Grande - verificar retenção')
         out.append({'numero': s['numero'], 'data': s['data'], 'prestador': s['prestador'], 'cnpj': s['cnpj'], 'simples': s['simples'],
+                    'acumulador': ACUM_SERV.get(s['cnpj'], ''),
                     'cod': cod, 'servico': desc, 'valor': s['valor'], 'base': base, 'ir_devido': ir_dev, 'ir_retido': ir_ret,
                     'csrf_devido': cs_dev, 'csrf_retido': cs_ret, 'inss': inss_txt, 'iss_local': iss_local, 'iss_prestador': s['iss'],
                     'iss_retido': s['iss_retido'], 'liquido': s['liquido'], 'situacao': '; '.join(pend) or 'OK'})

@@ -123,7 +123,7 @@ def resumo(wb, a):
         r = _bloco(ws, r + 1, 'ICMS antecipado - entradas interestaduais a 4% (importado): 8% da base')
         for n, i, v in ant['docs']:
             _linha(ws, r, [f'NF {n["numero"]} {n["emit_nome"]} - {i["xprod"][:40]} - base {i["vbc"]:,.2f}', v]); r += 1
-        _linha(ws, r, ['Total antecipado (guia própria; no SPED: E111 PR000080 débito + PR020212 crédito, E113 por nota)', ant['total']],
+        _linha(ws, r, ['Total antecipado - na apuração: débito PR000080 e crédito PR020212 de mesmo valor (saldo zero, sem guia própria, como em 07 e 08/2026); E113 por nota', ant['total']],
                bold=True); r += 1
 
     r = _bloco(ws, r + 1, 'ICMS-ST (substituto) por UF de destino')

@@ -233,6 +233,12 @@ class Apuracao:
         antec = [l for l in self.credito.linhas if l.get('antecipado')]
         self.antecipado = {'total': R(sum(l['antecipado'] for l in antec)),
                            'docs': [(l['nota'], l['item'], l['antecipado']) for l in antec]}
+        if self.antecipado['total'] and not any(x.get('codigo') == 'PR000080' for x in aj):
+            docs = [f'NF {n["numero"]} {n["emit_nome"]}: {v:,.2f}' for n, _, v in self.antecipado['docs']]
+            aj.append({'tipo': 'debito', 'codigo': 'PR000080', 'descricao': 'ICMS recolhimento antecipado - importado a 4% (8% da base)',
+                       'valor': self.antecipado['total'], 'docs': docs})
+            aj.append({'tipo': 'credito', 'codigo': 'PR020212', 'descricao': 'Crédito do ICMS antecipado (mesmo valor - saldo zero, como nos Demonstrativos 07 e 08/2026)',
+                       'valor': self.antecipado['total'], 'docs': docs})
         aj_deb = R(sum(x['valor'] for x in aj if x['tipo'] == 'debito'))
         aj_cred = R(sum(x['valor'] for x in aj if x['tipo'] == 'credito'))
         sld_ant = R(self.cfg['icms'].get('saldo_credor_anterior', {}).get(self.mes, 0.0))

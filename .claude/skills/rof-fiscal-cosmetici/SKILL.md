@@ -48,11 +48,12 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 - **Insumo** (MP, embalagem, rótulo, essência, ativos cosméticos): 1101/2101 com crédito do ICMS destacado (e do IPI). Simples: só o vCredICMSSN (CSOSN 101/201/900).
 - **Uso e consumo** (escritório, limpeza, copa/mercado, EPI, laboratório, manutenção): **1556/2556 com base e ICMS zerados**; mercadoria com ST já retida: **1407/2407 (CST 60)**. Indústria não recolhe ST nas compras.
 - **DIFAL** de uso e consumo/ativo de outra UF: base dupla `(vc − ICMS origem) / (1 − 19,5%) × 19,5% − ICMS origem` (Simples: ICMS de origem pela alíquota nominal de 12%); **E111 PR000081 a débito** na apuração (paga na GR-PR 1015) + E113 por nota. Ex.: Agatha NF 2230, 5.800,00 → 540,37 (07/2026).
-- **ICMS antecipado de importado** (entrada interestadual a 4%): **8% da base**; E111 PR000080 (débito) + PR020212 (crédito) com E113 por nota; recolhimento em guia própria. Ex.: Emuna NF 2446, 1.475,00 → 118,00.
+- **ICMS antecipado de importado** (entrada interestadual a 4%): **8% da base**; E111 PR000080 (débito) + PR020212 (crédito de mesmo valor, saldo zero) com E113 por nota - sem guia própria (07 e 08: GR-PR 1015 = saldo da apuração). Ex.: Emuna NF 2446, 1.475,00 → 118,00.
 - **Canceladas** (NF-e de terceiros e CT-e): escriturar com situação 02, bases zeradas e a chave (ex.: CT-e 2022868 em 08/2026).
 - **CT-e** com a COSMETICI tomadora (inclusive "outra tomadora", TEX Courier dos envios da GULA): crédito do ICMS (2352/2353); intraestadual CST 40 sem crédito.
 - Histórico por fornecedor + NCM (`aprender` com os SPED de 07 **e** 08): REATEC (reagente "PS") = 1556; HS Inklaser (cartucho do codificador inkjet) = 2101 com crédito; Agatha (pincel/tigela/espátula) = 2556 + DIFAL; Sul Tape (bolha/filme/fita) = 1556; Labaz (reagentes PA) = 1101 com crédito do Simples.
-- Acumuladores e contas contábeis das entradas: config `acumuladores_entrada` (por CFOP ou natureza) - só com o código confirmado pelo escritório.
+- Acumuladores das entradas: config `acumuladores_entrada` por CFOP (100, 101, 104, 105, 107, 113, 133, 134, 144, 147, 148, 149, 155, 164, 165, 189, 238, 1000, 1001 - do Acompanhamento de Entradas e Demonstrativo ICMS de 07/08 do Domínio) e `acumuladores_servicos` por CNPJ do prestador (8xx). Conta contábil: nenhum relatório traz - pedir ao escritório, nunca inventar.
+- Pasta do mês anterior (`MM_AAAA/Relatorios`): NF_Entrada (SIEG + Acompanhamento de Entradas com AC), NF Serviços Tomados, Demonst. ICMS/IPI (.xls), Registro de Saídas; `Guias/`: GR-PR 1015, DARF 5123/8109/2172/1708, ISS retido Fazenda Rio Grande.
 
 ## Análise de crédito das entradas (comando `creditos`)
 

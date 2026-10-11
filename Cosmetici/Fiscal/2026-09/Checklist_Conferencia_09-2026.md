@@ -136,7 +136,7 @@ Totais: ICMS de NF-e R$ 6.073,67 + Simples R$ 98,95 · IPI R$ 2.305,74 ✅. Coer
 | IPI (5123) | **2.065,55** (antes 2.097,50: −31,95 HS Inklaser) | C.3, NF 8966 (+95,48 se o IPI correto for 14,3%), NCM 3307.10 |
 | ICMS (GR-PR 1015, **vence 12/10**) | **9.957,17** (9.996,19 − 125,11 HS Inklaser + 86,09 DIFAL Agatha) | C.1, B.3, E.3, E.4 |
 | ICMS-ST (GR-PR 100099, **venceu 10/10**) | 865,16 | C.1 |
-| ICMS antecipado importados (guia própria) | 631,32 | MCassab 309,90 + Provital 321,42 |
+| ICMS antecipado importados | 631,32 | MCassab 309,90 + Provital 321,42 — na apuração como débito PR000080 e crédito PR020212 (saldo zero, sem guia própria, como nos Demonstrativos/GR-PR de 07 e 08) |
 | DIFAL SP (GNRE, NF 8966/8967) | 62,28 | C.1 — não entra na GR-PR |
 | IRPJ / CSLL 3º tri | 13.991,33 / 10.795,32 | C.2 (−60,09 / −32,45) |
 
@@ -161,7 +161,7 @@ Continuam manuais: o extrato (o PDF do ERP não traz CNPJ nem número de nota), 
 | Uso e consumo 1556/2556 com **base e ICMS zerados** | ✅ todos zerados (Somma, Boza, ILS, Sul Tape, Savatec, Contabilista, Equisul) | ✅ NewProv, REATEC, Thermosul, Dispoli, ILS, Savatec, Ellolimp, Sul Tape, Boza, Agatha: tudo zerado |
 | Uso e consumo com ST retida 1407 (CST 60) | Somma (papel higiênico/toalha), Eletrorastro (lâmpadas), TNT (eletrodo, broca, esmalte) | Nenhuma entrada com ST em setembro. A Agatha (CSOSN 201) veio sem valor de ST. |
 | **DIFAL** de uso e consumo de outra UF (E111 **PR000081** a débito + E113, pago na GR-PR 1015) | Julho: Agatha NF 2230, R$ 5.800,00 → **R$ 540,37** (base dupla, 12% nominal). Agosto: nenhuma entrada interestadual de uso. | **Agatha NF 2564 (pincel): R$ 924,00 → DIFAL R$ 86,09**, já somado ao ICMS do mês. A HS Inklaser saiu do DIFAL porque a prática a trata como insumo (ver J.1). |
-| **ICMS antecipado de importado** (4%): 8% da base; E111 PR000080 + PR020212 + E113; guia própria | Julho: 12 notas, **R$ 1.914,78**. Agosto: 4 notas, **R$ 1.186,91**. Nenhuma entrada a 4% ficou de fora. | **MCassab NF 275966: R$ 309,90 + Provital NF 42285: R$ 321,42 = R$ 631,32** a recolher em guia própria. O código da guia está ⏳ (ver as guias de julho e agosto). |
+| **ICMS antecipado de importado** (4%): 8% da base; E111 PR000080 + PR020212 + E113; guia própria | Julho: 12 notas, **R$ 1.914,78**. Agosto: 4 notas, **R$ 1.186,91**. Nenhuma entrada a 4% ficou de fora. | **MCassab NF 275966: R$ 309,90 + Provital NF 42285: R$ 321,42 = R$ 631,32**, lançado como débito e crédito na apuração. Nos meses 07 e 08 não houve guia própria: a GR-PR 1015 paga é igual ao saldo da apuração (16.530,90 e 32.594,87). |
 | Canceladas: situação 02, bases zeradas, só a chave | Julho: 7 entradas + 1 saída. Agosto: 2 entradas, 6 saídas e o CT-e 2022868. | NF 8940 e 8952 (saídas), **Yahweh NF 794** (entrada) e **CT-e Rodonaves 4683984** (cancelado; o substituto é o 4687986) |
 | CT-e com crédito (2352/2353); intraestadual CST 40 sem crédito | ✅ TEX Courier creditada nos dois meses | 5 com XML: R$ 149,14. ⏳ 12 de venda + 17 TEX sem XML: R$ 379,86. |
 
@@ -184,3 +184,22 @@ Continuam manuais: o extrato (o PDF do ERP não traz CNPJ nem número de nota), 
 | PIS/COFINS/CSLL 4,65% | Lei 10.833/03 arts. 30 e 31, dispensa até R$ 10 | ✅ Extralab R$ 85,35 retido. ⚠️ **Genesis R$ 33,86 não retido.** ⚠️ Plus Santé: confirmar o enquadramento. |
 | INSS 11% | Lei 8.212/91 art. 31; IN RFB 2.110/2022 (cessão de mão de obra/empreitada) | ⚠️ Extralab (calibração/manutenção, 14.01): verificar se foi executado na Cosmetici. Savatec e Insetcontrol são do Simples: só reteria se fossem do Anexo IV. |
 | ISS | LC 116/03 art. 3º (local da prestação) e lei de Fazenda Rio Grande | Nenhum serviço da lista do art. 3º. Todos os serviços são devidos no município do prestador e nenhum ISS foi retido. ⏳ Dedetização (Insetcontrol/MS): conferir a lei municipal. |
+
+## L. Acumuladores do Domínio (dos relatórios "Acompanhamento de Entradas" e Demonstrativo ICMS de 07 e 08/2026)
+
+| CFOP | AC | Descrição | Setembro |
+|---|---|---|---|
+| 1101 | 100 | Compra p/ indústria - dentro do estado | 9 notas, 26.023,50 |
+| 2101/2102 | 101 | Compra p/ indústria - fora do estado | 7 notas, 51.791,51 |
+| 1556 | 104 | Uso e consumo - dentro do estado | 10 notas, 12.803,30 |
+| 2556 | 105 | Uso e consumo - fora do estado | Agatha, 924,00 (+ DIFAL 86,09) |
+| 1407 | 107 | Uso e consumo com ST | não houve |
+| 1901 / 2901 | 149 / 144 | Entrada para industrialização por encomenda | 5 + 2 notas |
+| 1924 / 2924 | 165 / 164 | Entrada p/ industrialização por conta e ordem | 5 + 2 notas |
+| 1949 / 2949 | 155 | Outras entradas | Carbon, Linares 5382, Chemyunion 391/392 |
+| 2352/2353 · 1352/1353 | 1001 · 1000 | Frete interestadual · estadual | 35 CT-e |
+| **1923** | ⚠️ **sem acumulador em 07/08** | Linares NF 5027, 5048, 5162 (R$ 3.676,00, "venda à ordem") | Em julho e agosto a Linares só usou 1924 (AC 165). Definir: AC 165 ou um acumulador de 1923. |
+
+**Serviços tomados (CFOP 1933/2933):** os acumuladores de 07/08 foram aplicados por prestador (803, 810, 811, 816, 818, 819/820, 821, 823, 824, 825, 826, 830). ⚠️ São **prestadores novos, sem acumulador**: Genesis (medicina ocupacional), Tipografia Iguaçu, GL Hotéis, Dom Ricardo Hotel, Savatec (manutenção) e Extralab (calibração).
+
+**Contas contábeis:** nenhum relatório das pastas de 07, 08 ou 09 traz a conta contábil. A coluna está pronta, mas fica em branco até você me passar o vínculo acumulador → conta (ou o plano de contas/razão da Cosmetici).
