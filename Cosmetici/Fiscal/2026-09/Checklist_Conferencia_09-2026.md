@@ -1,5 +1,7 @@
 # Checklist da conferência — COSMETICI 09/2026 (revisão sistemática)
 
+> **Regra do escritório:** nada é corrigido nas notas de entrada nem nas de saída. Escritura-se exatamente o que está no XML (inclusive retenções: se a nota não traz retenção, não há retenção). Os pontos ⚠️ abaixo são **informativos** — não alteram a escrituração nem os valores.
+
 Revisão de 10/10/2026. Os arquivos e relatórios da pasta `09_2026` do Drive foram cruzados uns com os outros e com os XML, nota a nota e item a item.
 
 **Legenda:**
@@ -41,7 +43,7 @@ Revisão de 10/10/2026. Os arquivos e relatórios da pasta `09_2026` do Drive fo
 | 3305.90.00 | 5124 | 51 diferido | 55 | 02 | 20.244,90 | 7 notas | ✅ |
 | 3305.90.00 | 5401 | 10 / 12 (diferimento parcial de 38,46%) | 50 / 14,3 | 02 | 4.050,02 | 8955 GULA | ✅ ST recalculada: MVA 63,75%, alíquota 23%, ST 865,16 confere item a item |
 | 3305.90.00 | 6102 | 00 / 12 | 50 / 14,3 | 02 | 370,33 | 8967 GULA (SP) | ⚠️ C.1 |
-| 3305.90.00 | 6102 | 00 / 12 | **51 / 0** | 02 | 667,68 | 8966 GULA (SP) | ⚠️ **o mesmo Neutralizante saiu com 14,3% na NF 8980**. IPI a menor ≈ R$ 95,48. A base do FCP no XML também está errada (3.338,40). |
+| 3305.90.00 | 6102 | 00 / 12 | **51 / 0** | 02 | 667,68 | 8966 GULA (SP) | ℹ️ o mesmo Neutralizante saiu com 14,3% na NF 8980; escriturado como está no XML (IPI 0) |
 | 3305.90.00 | 6124 | 00 / 12 | 55 | 02 | 36.139,52 | 12 notas SC/RS/RJ/SP | ✅ |
 | 3305.90.00 | 6124 | 00 / 7 | 55 | 02 | 27.097,01 | 7 notas PA/MA/GO/CE/BA/MS | ✅ (8979 Barbara: ver C.3) |
 | **3307.10.00** (preparações para barbear) | 5102 | 00 / 19,5 | **sem grupo** | 02 | 6.150,90 | 8980 GULA (óleos de chia, girassol e cártamo de 30 ml) | ⚠️ A classificação parece errada: óleo capilar ou corporal não é preparação para barbear. Revisar o NCM e o IPI no cadastro. |
@@ -61,7 +63,7 @@ Outros pontos das saídas:
 | C.1 | **GULA (IE 9084324601)**: depois da NF 8955 (contribuinte, CFOP 5401, com ST) passou a sair como **consumidor final** (indIEDest 9 / indFinal 1). Não houve ST, o ICMS foi cheio, o CFOP 5102 (revenda) foi usado em produção própria e as NF 8966 e 8967 têm endereço em SP (o ERP registra PR). Os CT-e da TEX Courier pagos pela Cosmetici mostram entregas para PE, SC, RS, SP, DF e MG, o que indica uma operação de venda/entrega a consumidores da GULA. | 16 notas (8966–9019) | R$ 35.221,15 em produtos | ⚠️ ALTA — confirmar a operação com o cliente |
 | C.2 | **MIX**: frascos do cliente emitidos em 5124/6124 e devolvidos de novo em 5902/6902 | 8989, 8999, 9000, 9020, 9021 | R$ 3.004,50. Na base: PIS 19,53, COFINS 90,13, IRPJ ≈ 60,09, CSLL ≈ 32,45 | ⚠️ ALTA |
 | C.3 | Industrialização sem insumo do cliente (sem remessa citada, sem retorno e sem remessa recebida) | 8939 Cândido, 8979 Barbara (GO) | 556,05 + 4.098,00 | ⚠️ Se for venda: monofásico e IPI |
-| C.4 | A NF 9017 cita a industrialização na 9015 (que é do Fabiano), quando a correta é a 9016 | 9017 | — | ⚠️ CC-e |
+| C.4 | A NF 9017 cita a industrialização na 9015 (que é do Fabiano), quando a correta é a 9016 | 9017 | — | ℹ️ informativo |
 | C.5 | Produto sem grupo de IPI | 8939, 8973, 8980 | — | ⚠️ cadastro |
 
 ## D. Entradas — matriz NCM × CFOP × natureza × crédito (48 notas, 81 itens)
@@ -77,7 +79,7 @@ Outros pontos das saídas:
 | 3824.99.89 | Provital (6102) | insumo | 160,71 | 261,15 | ✅ |
 | 2909.44.29 | MCassab (6102, 4% importado) | insumo | 154,95 | — | ✅ |
 | 3919.10.90 rótulo | Lunaflexo (CSOSN 101, Simples) | insumo | 98,95 (vCredICMSSN) | — | ✅ LC 123/06 art. 23 |
-| 2922.11.00 / 2832.10.10 | REATEC NF 695 e MERCKPAR NF 42 (CSOSN 101 **sem %**) | insumo | 0 | — | ⚠️ pedir correção ao fornecedor |
+| 2922.11.00 / 2832.10.10 | REATEC NF 695 e MERCKPAR NF 42 (CSOSN 101 **sem %**) | insumo | 0 | — | ✅ sem crédito, conforme o XML |
 | 4821.10.00, 3923.21/29, 1515.90.90, 3923.90.90 | Yahweh, Caetano, Farmanilquima, Sul Tape (CSOSN 102/103) | insumo | 0 | — | ✅ Simples sem crédito |
 | 3822.19.90 reagentes | NewProv (5101) | uso (laboratório) | 0 (438,49 destacado) | — | ⚠️ confirmar |
 | 8443.99.23 cartucho de impressora | HS Inklaser (6102, SP) | uso | 0 | 0 | ⚠️ DIFAL de R$ 104,87 |
@@ -104,8 +106,8 @@ Totais: ICMS de NF-e R$ 6.073,67 + Simples R$ 98,95 · IPI R$ 2.305,74 ✅. Coer
 
 | # | Item | Situação |
 |---|---|---|
-| F.1 | Genesis, NFS-e 18 (medicina ocupacional, R$ 728,14) | ⚠️ Só o IRRF de R$ 10,92 foi retido. **PIS/COFINS/CSLL de R$ 33,86 não retidos** (Lei 10.833/03 art. 30) |
-| F.2 | Plus Santé, NFS-e 9227 (R$ 342,30) | ⚠️ Confirmar se é serviço profissional (CSRF de R$ 15,92) |
+| F.1 | Genesis, NFS-e 18 (medicina ocupacional, R$ 728,14) | ✅ Escriturada como está na nota: IRRF R$ 10,92, líquido R$ 717,22 |
+| F.2 | Plus Santé, NFS-e 9227 (R$ 342,30) | ✅ Sem retenção na nota — escriturada assim |
 | F.3 | Extralab (calibração) | ✅ CSRF de R$ 85,35 retida |
 | F.4 | Hotéis, telecom, software, Flash, Dental Uni e prestadores do Simples | ✅ Sem retenção |
 | F.5 | ISS da dedetização (Insetcontrol/MS) | ⏳ Lei de Fazenda Rio Grande |
@@ -176,14 +178,14 @@ Continuam manuais: o extrato (o PDF do ERP não traz CNPJ nem número de nota), 
 - ⚠️ **TNT Suprimentos** (agosto: porca rebite, discos de corte e de lixa) entrou em 1101 sem crédito. É manutenção (1556): muda o CFOP e o acumulador, não o imposto.
 - ⚠️ **TEX Courier:** o frete é das vendas da **GULA** a consumidores (a NF-e da GULA está no CT-e), e a Cosmetici é a "outra tomadora" e paga o frete. Julho e agosto creditaram. O risco é creditar frete de operação de terceiro (LC 87/96 art. 20).
 
-## K. NFS-e tomadas — retenções completas (nova aba "NFS-e tomadas" na planilha de créditos)
+## K. NFS-e tomadas — retenções extraídas exatamente da nota (aba "NFS-e tomadas"; sem recálculo)
 
-| Retenção | Regra | Setembro (21 notas) |
+| Retenção | Critério | Setembro (21 notas) |
 |---|---|---|
-| IRRF 1,5% / 1% | RIR/2018 arts. 714 e 716, prestador fora do Simples, dispensa até R$ 10 | ✅ Genesis R$ 10,92 retido. Nenhuma outra devida. |
-| PIS/COFINS/CSLL 4,65% | Lei 10.833/03 arts. 30 e 31, dispensa até R$ 10 | ✅ Extralab R$ 85,35 retido. ⚠️ **Genesis R$ 33,86 não retido.** ⚠️ Plus Santé: confirmar o enquadramento. |
-| INSS 11% | Lei 8.212/91 art. 31; IN RFB 2.110/2022 (cessão de mão de obra/empreitada) | ⚠️ Extralab (calibração/manutenção, 14.01): verificar se foi executado na Cosmetici. Savatec e Insetcontrol são do Simples: só reteria se fossem do Anexo IV. |
-| ISS | LC 116/03 art. 3º (local da prestação) e lei de Fazenda Rio Grande | Nenhum serviço da lista do art. 3º. Todos os serviços são devidos no município do prestador e nenhum ISS foi retido. ⏳ Dedetização (Insetcontrol/MS): conferir a lei municipal. |
+| IRRF | Como consta na nota | ✅ Genesis R$ 10,92. Demais notas sem IRRF. |
+| PIS/COFINS/CSLL | Como consta na nota | ✅ Extralab R$ 85,35 (outras retenções). Demais notas sem retenção. |
+| INSS | Como consta na nota | ✅ Nenhuma nota traz INSS retido |
+| ISS | Como consta na nota | ✅ Nenhuma nota com ISS retido em setembro |
 
 ## L. Acumuladores do Domínio (dos relatórios "Acompanhamento de Entradas" e Demonstrativo ICMS de 07 e 08/2026)
 

@@ -103,8 +103,7 @@ def revisar_saidas(a):
     if tot_dup:
         obs.append(f'Insumo de cliente emitido com CFOP 5124/6124 soma R$ {tot_dup:,.2f} (aba Divergências, "Industrialização x retorno"). '
                    f'Está na base do PIS/COFINS (0,65%/3% = R$ {R(tot_dup*0.0065):,.2f} + R$ {R(tot_dup*0.03):,.2f}) e do IRPJ/CSLL. '
-                   f'Se a contadora confirmar que é retorno em duplicidade, tirar da base e pedir ao cliente a regularização (CC-e do CFOP não '
-                   f'altera valores - Ajuste SINIEF 01/07; senão, nota de entrada/anulação conforme RICMS/PR).')
+                   f'Informativo: a escrituração segue o XML (nada é alterado).')
 
     # 2) industrialização sem insumo do encomendante (sem referência, sem retorno e sem remessa no mês)
     for n in saidas:
@@ -118,8 +117,7 @@ def revisar_saidas(a):
         liq = R(vc - sum(i['vicms'] for i in itens))
         div.append(('MÉDIA', 'Industrialização sem insumo', _doc(n),
                     f'CFOP {"/".join(sorted({i["cfop"] for i in itens}))} sem nota de remessa citada, sem retorno 5902/6902 e sem remessa recebida '
-                    f'do cliente no mês. Confirmar o insumo enviado pelo encomendante; se não houve, é venda (5101/6101): PIS/COFINS '
-                    f'monofásico 2,2%/10,3% em vez de 0,65%/3% (diferença ~R$ {R(liq*(0.022+0.103-0.0065-0.03)):,.2f}) e IPI tributado', vc))
+                    f'do cliente no mês - informativo (escriturado conforme o XML, CFOP {"/".join(sorted({i["cfop"] for i in itens}))})', vc))
 
     # 3) retorno simbólico citando a nota de industrialização errada
     nums = [n['numero'] for n in saidas]
@@ -136,7 +134,7 @@ def revisar_saidas(a):
                 certa = [m['numero'] for m in por_dest[n['dest_cnpj']] if any(i['cfop'] in CFOP_INDUSTRIALIZACAO for i in m['itens'])]
                 div.append(('BAIXA', 'Industrialização x retorno', _doc(n),
                             f'Informações complementares citam a industrialização na NF {x}, {quem}'
-                            + (f'; a do cliente é a NF {", ".join(map(str, certa))}' if certa else '') + ' - corrigir por CC-e', None))
+                            + (f'; a do cliente é a NF {", ".join(map(str, certa))}' if certa else '') + ' - informativo, escriturado como está no XML', None))
 
     # 4) contribuinte com IE tratado como consumidor final / CNPJ com UF diferente
     for cnpj, ns in por_dest.items():
@@ -206,7 +204,7 @@ def revisar_saidas(a):
                     f'O XML informa PIS/COFINS monofásico (CST 02, {ind[0][1]["ppis"]:g}%) em R$ {vc:,.2f} de industrialização '
                     f'(PIS R$ {vp:,.2f} / COFINS R$ {vco:,.2f}); a apuração usa 0,65%/3% sobre a industrialização, como nos DARFs pagos. '
                     f'Na encomenda de produto monofásico a alíquota concentrada é do encomendante (Lei 11.051/2004, art. 10) - '
-                    f'corrigir o cadastro fiscal do ERP (CST 01) e confirmar o entendimento com a contadora', None))
+                    f'informativo - a nota é escriturada como emitida', None))
 
     # 7) produto sem grupo de IPI
     for n in saidas:
@@ -239,39 +237,6 @@ def remessas_sem_retorno(a):
     return out
 
 
-def revisar_nfse(lista):
-    div = []
-    for s in lista or []:
-        doc = f'NFS-e {s["numero"]} {s["data"] or ""} {s["prestador"]}'
-        cod = s['cod_servico']
-        if s['cancelada']:
-            continue
-        base = s['base'] if s['base'] is not None else s['valor']
-        retido = R(s['valor'] - s['liquido'] - s['desconto'] - s['iss_retido'])
-        if s['simples']:
-            if retido > 0.05:
-                div.append(('BAIXA', 'NFS-e retenções', doc, f'Prestador do Simples com R$ {retido:,.2f} descontado - conferir (Simples não sofre IRRF/CSRF)', retido))
-            continue
-        if cod in RETENCAO_CONFIRMAR:
-            div.append(('BAIXA', 'NFS-e retenções', doc, f'Serviço {cod} ({RETENCAO_CONFIRMAR[cod]}) de R$ {s["valor"]:,.2f}: confirmar se há '
-                        f'retenção de IRRF/CSRF; descontado R$ {retido:,.2f}', None))
-            continue
-        if cod not in RETENCAO_NFSE:
-            continue
-        pir, pcs, desc = RETENCAO_NFSE[cod]
-        ir = R(base * pir / 100)
-        cs = R(base * pcs / 100)
-        ir = ir if ir > 10 else 0.0
-        cs = cs if cs > 10 else 0.0
-        esperado = R(ir + cs)
-        if esperado - retido > 0.05:
-            div.append(('MÉDIA', 'NFS-e retenções', doc,
-                        f'Serviço {cod} ({desc}) de R$ {s["valor"]:,.2f}, prestador fora do Simples: reter IRRF {pir:g}% R$ {ir:,.2f} + '
-                        f'PIS/COFINS/CSLL 4,65% R$ {cs:,.2f} = R$ {esperado:,.2f}; descontado na nota R$ {retido:,.2f} '
-                        f'(diferença R$ {R(esperado-retido):,.2f}). Conferir pagamento e DARF 1708/5952', R(esperado - retido)))
-    return div
-
-
 # ------------------------------------------------------------------ checklist
 
 CHECKLIST = [
@@ -292,7 +257,7 @@ CHECKLIST = [
     ('Entradas', 'Notas desconhecidas/manifestadas', ['Manifestação'], 'Ajuste SINIEF 07/05'),
     ('Entradas', 'Remessas recebidas sem retorno (estoque de terceiros)', ['Remessa sem retorno'], 'RICMS/PR (industrialização por encomenda)'),
     ('CT-e', 'Crédito do frete segue a natureza da NF-e transportada', ['CT-e sem crédito'], 'LC 87/96 art. 20 e 33, I'),
-    ('Serviços', 'NFS-e tomadas: retenção de IRRF e PIS/COFINS/CSLL', ['NFS-e retenções'], BASE['csrf']),
+    ('Serviços', 'NFS-e tomadas: retenções extraídas do documento (sem recálculo)', ['NFS-e extração'], 'Escritura-se o que consta na nota'),
     ('SPED', 'XML x SPED (notas faltando de um lado ou do outro)', ['SPED x XML'], 'Guia Prático EFD ICMS/IPI'),
 ]
 
@@ -307,8 +272,10 @@ def checklist(a, extras=None):
         c = collections.Counter()
         for t in tipos:
             c.update(cont.get(t, {}))
-        if tipos == ['NFS-e retenções'] and not a.f.get('nfse'):
-            linhas.append((area, desc, 'Relatório de NFS-e não informado (--nfse)', 'NÃO EXECUTADO', base))
+        if tipos == ['NFS-e extração']:
+            n = len(a.f.get('nfse') or [])
+            linhas.append((area, desc, f'{n} notas extraídas (aba NFS-e tomadas)' if n else 'Relatório de NFS-e não informado (--nfse)',
+                           'OK' if n else 'NÃO EXECUTADO', base))
             continue
         if tipos == ['XML x Registro ERP'] and not a.f.get('registro_saidas'):
             linhas.append((area, desc, 'Registro de Saídas do ERP não informado (--registro-saidas)', 'NÃO EXECUTADO', base))
@@ -380,43 +347,14 @@ ACUM_SERV = {}
 
 
 def analisar_nfse(lista, acumuladores=None):
-    """Linha a linha das NFS-e tomadas: IRRF, PIS/COFINS/CSLL, INSS e ISS - devido x retido."""
-    ACUM_SERV.clear(); ACUM_SERV.update({k: v for k, v in (acumuladores or {}).items() if not k.startswith('_')})
+    """NFS-e tomadas: extrai do documento exatamente o que está nele (valor, base, ISS, ISS retido, IR, PIS, COFINS,
+    outras retenções, líquido). Não recalcula nem corrige retenção - escritura-se o que a nota traz."""
+    acum = {k: v for k, v in (acumuladores or {}).items() if not k.startswith('_')}
     out = []
     for s in lista or []:
-        cod = s['cod_servico']
-        base = s['base'] if s['base'] is not None else s['valor']
-        retido = R(s['valor'] - s['liquido'] - s['desconto'] - s['iss_retido'])
-        ir_dev = cs_dev = 0.0
-        desc = RETENCAO_NFSE.get(cod, (0, 0, ''))[2] or RETENCAO_CONFIRMAR.get(cod, '')
-        if not s['simples'] and cod in RETENCAO_NFSE:
-            pir, pcs, _ = RETENCAO_NFSE[cod]
-            ir_dev = R(base * pir / 100) if base * pir / 100 > 10 else 0.0
-            cs_dev = R(base * pcs / 100) if base * pcs / 100 > 10 else 0.0
-        ir_ret = R(min(s['ir'], retido)) if s['ir'] else 0.0
-        cs_ret = R(max(0.0, retido - ir_ret))
-        inss = INSS_VERIFICAR.get(cod)
-        if inss and s['simples']:
-            inss_txt = f'{inss}: prestador do Simples - só retém se for Anexo IV (LC 123 art. 18 §5-C)'
-        elif inss:
-            inss_txt = f'{inss}: reter 11% se executado no estabelecimento da Cosmetici com cessão de mão de obra/empreitada - verificar'
-        else:
-            inss_txt = 'Não se aplica'
-        iss_local = 'Fazenda Rio Grande (local da execução - LC 116 art. 3º)' if cod in ISS_LOCAL_TOMADOR else f'Município do prestador ({s.get("municipio") or s["uf"] or "-"}) - LC 116 art. 3º caput'
-        pend = []
-        if R(ir_dev - ir_ret) > 0.05:
-            pend.append(f'IRRF a menor R$ {R(ir_dev - ir_ret):,.2f}')
-        if R(cs_dev - cs_ret) > 0.05:
-            pend.append(f'PIS/COFINS/CSLL a menor R$ {R(cs_dev - cs_ret):,.2f}')
-        if cod in RETENCAO_CONFIRMAR and not s['simples']:
-            pend.append(f'confirmar enquadramento ({RETENCAO_CONFIRMAR[cod]})')
-        if inss and not s['simples']:
-            pend.append('verificar INSS 11%')
-        if cod in ISS_LOCAL_TOMADOR and not s['iss_retido']:
-            pend.append('ISS devido em Fazenda Rio Grande - verificar retenção')
         out.append({'numero': s['numero'], 'data': s['data'], 'prestador': s['prestador'], 'cnpj': s['cnpj'], 'simples': s['simples'],
-                    'acumulador': ACUM_SERV.get(s['cnpj'], ''),
-                    'cod': cod, 'servico': desc, 'valor': s['valor'], 'base': base, 'ir_devido': ir_dev, 'ir_retido': ir_ret,
-                    'csrf_devido': cs_dev, 'csrf_retido': cs_ret, 'inss': inss_txt, 'iss_local': iss_local, 'iss_prestador': s['iss'],
-                    'iss_retido': s['iss_retido'], 'liquido': s['liquido'], 'situacao': '; '.join(pend) or 'OK'})
+                    'acumulador': acum.get(s['cnpj'], ''), 'cod': s['cod_servico'], 'municipio': s.get('municipio') or s['uf'],
+                    'cancelada': s['cancelada'], 'valor': s['valor'], 'base': s['base'] if s['base'] is not None else s['valor'],
+                    'iss': s['iss'], 'iss_retido': s['iss_retido'], 'ir': s['ir'], 'pis': s['pis'], 'cofins': s['cofins'],
+                    'outras': s['outras'], 'liquido': s['liquido'], 'descontado': R(s['valor'] - s['liquido'] - s['desconto'])})
     return out

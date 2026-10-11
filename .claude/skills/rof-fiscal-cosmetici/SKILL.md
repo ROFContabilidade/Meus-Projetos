@@ -5,6 +5,10 @@ description: "COSMETICI INDUSTRIA E COMERCIO DE COSMETICOS (CNPJ 33.039.048/0001
 
 # ROF Contabilidade — Fiscal COSMETICI
 
+> **Regra de ouro:** nada é corrigido nas notas de entrada nem de saída. Lê-se o XML e escritura-se exatamente o que está nele
+> (CFOP, CST, bases, impostos, retenções). Nota que deveria ter retenção e não tem → escritura sem retenção. As divergências da
+> revisão automática são só informativas e nunca alteram valores.
+
 Empresa 25 no Domínio · CNPJ 33.039.048/0001-62 · IE 90809060-88 · Fazenda Rio Grande/PR · Lucro Presumido desde 2026
 (até 2025 era Simples Nacional — balancete 12/2025 ainda tem as contas do Simples).
 
@@ -82,7 +86,7 @@ Cruzamentos que a contadora refazia à mão; rodam em todo `apurar`/`creditos` e
 - **PIS/COFINS informado no XML x apuração:** o ERP emite as 5124/6124 com CST 02 (2,2%/10,3%); a apuração usa 0,65%/3% (Lei 11.051/04 art. 10 - concentrada é do encomendante).
 - **XML x Registro de Saídas do ERP** (`Relatorios/Saidas Cosmetici.pdf`, lido sozinho na `--pasta` ou `--registro-saidas`): nota a nota UF, CFOP, valor contábil, base, ICMS, ST e IPI; o registro do Cosmos não lista os retornos 5902/6902, mas o total geral os inclui.
 - **Remessas recebidas** (5901/5924/5923…) sem retorno no mês = estoque de terceiros (informativo).
-- **NFS-e tomadas** (`--nfse RelatorioNFS_ABRASF_*.xlsx`, ou achado na `--pasta`): IRRF 1,5%/1% (RIR/2018 art. 714/716) e PIS/COFINS/CSLL 4,65% (Lei 10.833/03 art. 30) por código de serviço, prestador fora do Simples, dispensa até R$ 10; compara com o descontado (valor - líquido).
+- **NFS-e tomadas** (`--nfse RelatorioNFS_ABRASF_*.xlsx`, ou achado na `--pasta`): extrai da nota valor, base, ISS, ISS retido, IRRF, PIS, COFINS, outras retenções e líquido - **sem recalcular** retenção (aba "NFS-e tomadas" da planilha de créditos).
 - Fora do automático (fazer à mão e marcar no checklist): extrato (`Extrato/Relatorio Conferencia MM.AA.pdf`, sem CNPJ/NF) x entradas, CT-e e NFS-e - atenção aos pagamentos "PAGAR BOLETO DA REMAZZO" (compra de outra empresa paga pela Cosmetici, sem NF-e e sem crédito); ISS de prestador de outro município; alíquotas internas/ST de cosméticos por UF.
 - Pasta do mês no Drive: `25_*/.../09_2026/` com `Doc's` (ZIPs de XML, `Recebidas` = PDFs das NFS-e), `Relatorios` (Faturamento e Saidas do ERP, SIEG produtos/CT-e/NFS-e), `Extrato`, `SPED`, `EFD_Reinf`, `Guias`. Cruzar **todos** os relatórios - o checklist do mês fica em `Cosmetici/Fiscal/AAAA-MM/Checklist_Conferencia_MM-AAAA.md`.
 

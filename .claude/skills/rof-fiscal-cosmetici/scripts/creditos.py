@@ -182,10 +182,10 @@ class Credito:
                         l['pot_sn'] = R((i['vprod'] - i['vdesc']) * i['pcredsn'] / 100)
                         l['motivo'] = (f'Simples CSOSN {cs} com {i["pcredsn"]:g}% mas vCredICMSSN zerado: crédito NÃO aproveitável '
                                        f'como está (potencial R$ {l["pot_sn"]:,.2f})')
-                        l['acao'] = 'Pedir ao fornecedor nota fiscal complementar/correção com o valor do crédito do Simples'
+                        l['acao'] = 'Sem crédito: segue o XML (vCredICMSSN zerado)'
                     elif cs in CSOSN_COM_CREDITO:
                         l['motivo'] = f'Simples CSOSN {cs} sem percentual de crédito (pCredSN 0%)'
-                        l['acao'] = 'Fornecedor marcou "com permissão de crédito" sem informar % - pedir correção'
+                        l['acao'] = 'Sem crédito: segue o XML (CSOSN com permissão de crédito, mas sem % informado)'
                     else:
                         l['motivo'] = f'Simples CSOSN {cs} ({CSOSN_DESCR.get(cs, "?")}): sem direito a crédito'
                 else:

@@ -56,9 +56,9 @@ def resumo(wb, c, cs, ce):
         if l['cred_sn']:
             k = '1. Com crédito informado (CSOSN 101/201) - aproveitar'
         elif l['pot_sn']:
-            k = '2. % informado mas valor zerado - pedir correção'
+            k = '2. % informado mas valor zerado no XML - sem crédito'
         elif (l['item']['csosn'] or '') in ('101', '201', '900') and l['natureza'] in ('insumo', 'devolucao'):
-            k = '3. CSOSN com crédito mas 0% - pedir correção'
+            k = '3. CSOSN com crédito mas 0% no XML - sem crédito'
         elif l['natureza'] not in ('insumo', 'devolucao'):
             k = '5. Não é insumo/revenda (uso, remessa, outras) - sem crédito'
         else:
@@ -184,21 +184,21 @@ def escrituracao(wb, c):
 
 def nfse(wb, linhas):
     ws = wb.create_sheet('NFS-e tomadas')
-    _titulo(ws, 'Serviços tomados - retenções de IRRF, PIS/COFINS/CSLL, INSS e ISS (devido x retido)')
-    cab = ['NFS-e', 'Data', 'Prestador', 'CNPJ', 'Simples', 'Cód.', 'Serviço', 'Valor', 'Base', 'IRRF devido', 'IRRF retido',
-           'CSRF devida', 'CSRF retida', 'INSS', 'ISS - local', 'ISS (prestador)', 'ISS retido', 'Líquido', 'Situação', 'Acumulador']
+    _titulo(ws, 'Serviços tomados - valores e retenções exatamente como constam na nota (sem recálculo nem correção)')
+    cab = ['NFS-e', 'Data', 'Prestador', 'CNPJ', 'Simples', 'Cód. serviço', 'Município prestador', 'Situação', 'Valor', 'Base ISS',
+           'ISS', 'ISS retido', 'IRRF', 'PIS', 'COFINS', 'Outras retenções', 'Líquido', 'Total descontado (valor - líquido)', 'Acumulador']
     _cab(ws, 3, cab)
     r = 4
     for x in linhas:
-        _linha(ws, r, [x['numero'], x['data'], x['prestador'], x['cnpj'], 'Sim' if x['simples'] else 'Não', x['cod'], x['servico'],
-                       x['valor'], x['base'], x['ir_devido'], x['ir_retido'], x['csrf_devido'], x['csrf_retido'], x['inss'],
-                       x['iss_local'], x['iss_prestador'], x['iss_retido'], x['liquido'], x['situacao'], x.get('acumulador') or 'definir'],
-               moeda=(7, 8, 9, 10, 11, 12, 15, 16, 17), fill=OK if x['situacao'] == 'OK' else MEDIA)
+        _linha(ws, r, [x['numero'], x['data'], x['prestador'], x['cnpj'], 'Sim' if x['simples'] else 'Não', x['cod'], x['municipio'],
+                       'Cancelada' if x['cancelada'] else 'Normal', x['valor'], x['base'], x['iss'], x['iss_retido'], x['ir'], x['pis'],
+                       x['cofins'], x['outras'], x['liquido'], x['descontado'], x.get('acumulador') or 'definir'],
+               moeda=(8, 9, 10, 11, 12, 13, 14, 15, 16, 17))
         r += 1
     if r > 4:
-        _linha(ws, r, ['Total', '', '', '', '', '', ''] + [f'=SUM({c}4:{c}{r-1})' for c in 'HIJKLM'] + ['', '', f'=SUM(P4:P{r-1})',
-               f'=SUM(Q4:Q{r-1})', f'=SUM(R4:R{r-1})', ''], moeda=(7, 8, 9, 10, 11, 12, 15, 16, 17), bold=True)
-    _larguras(ws, [10, 11, 34, 16, 7, 6, 24, 11, 11, 10, 10, 10, 10, 40, 34, 10, 10, 11, 50, 10])
+        _linha(ws, r, ['Total'] + [''] * 7 + [f'=SUM({c}4:{c}{r-1})' for c in 'IJKLMNOPQR'] + [''],
+               moeda=(8, 9, 10, 11, 12, 13, 14, 15, 16, 17), bold=True)
+    _larguras(ws, [10, 11, 34, 16, 7, 8, 20, 10, 11, 11, 9, 9, 9, 9, 9, 10, 11, 12, 10])
     ws.freeze_panes = 'D4'
 
 

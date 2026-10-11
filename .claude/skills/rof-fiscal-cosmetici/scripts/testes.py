@@ -188,12 +188,15 @@ def teste_revisao():
     assert len(fin) == 1 and '106' in fin[0][3] and '107' in fin[0][3] and 'ST de R$ 300.00' in fin[0][3], fin
     assert len(por('Destinatário x UF')) == 1
     assert any('NF 106/' in d[2] for d in por('CFOP revenda x produção'))
-    ns = por('NFS-e retenções')
-    assert len(ns) == 1 and 'NFS-e 1 ' in ns[0][2] and ns[0][4] == 33.86, ns     # CSRF 4,65% não retida; Simples e calibração ok
+    assert not por('NFS-e retenções'), 'NFS-e não pode ter retenção recalculada - segue o documento'
+    ext = revisao.analisar_nfse(fontes['nfse'])
+    g = {x['numero']: x for x in ext}
+    assert g['1']['ir'] == 10.92 and g['1']['descontado'] == 10.92 and 'situacao' not in g['1'], g['1']   # como está na nota
+    assert g['2']['outras'] == 85.35 and g['2']['liquido'] == 1750.15
     ck = {l[1]: l[3] for l in revisao.checklist(a)}
-    assert ck['NFS-e tomadas: retenção de IRRF e PIS/COFINS/CSLL'] == 'VERIFICAR'
+    assert ck['NFS-e tomadas: retenções extraídas do documento (sem recálculo)'] == 'OK'
     assert ck['Diferimento nas 5124 internas'] == 'OK'
-    print('ok revisão automática (industrialização, consumidor final, NFS-e)')
+    print('ok revisão automática (industrialização, consumidor final) e NFS-e extraída como está na nota')
 
 
 def teste_cte_natureza():
