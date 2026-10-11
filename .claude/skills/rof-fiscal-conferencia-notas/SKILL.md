@@ -49,6 +49,10 @@ Classificar pela atividade: o material comprado condiz com o que a empresa fabri
 Serviços: natureza pelo item da LC 116, acumulador pelo catálogo, conta pela natureza > razão > padrão,
 e alerta de retenção (IRRF/CSRF) faltando em prestador fora do Simples.
 
+Junto com a pré-conferência sai `Entradas_para_conferencia_MM-AAAA.xlsx`: uma linha por documento de entrada,
+abas NF-e dentro do estado, NF-e fora do estado, devoluções/retornos, serviços tomados e CT-e, com total e
+coluna "Conferido" (`planilha_entradas.py`).
+
 Excel é sempre melhor que PDF; PDF do Acompanhamento é lido por `dominio_pdf.py` (precisa de `pdftotext`).
 
 ## Como decidir (e quando perguntar)

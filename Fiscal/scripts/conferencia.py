@@ -1106,6 +1106,7 @@ def main():
     p.add_argument('--erp-aba', default=0)
     p.add_argument('--competencia', required=True)
     p.add_argument('--saida', required=True)
+    p.add_argument('--saida-entradas', help='planilha simples de conferência das entradas (padrão: ao lado da --saida)')
     a = p.parse_args()
     res = analisar(a)
     import auditoria as au
@@ -1113,6 +1114,12 @@ def main():
     from planilha import gravar_planilha
     gravar_planilha(res, a.saida)
     print('Planilha gerada:', a.saida)
+    import planilha_entradas
+    comp = a.competencia
+    saida_e = a.saida_entradas or os.path.join(os.path.dirname(a.saida) or '.',
+                                               f'Entradas_para_conferencia_{comp[5:]}-{comp[:4]}.xlsx')
+    planilha_entradas.gerar(res, saida_e)
+    print('Planilha de entradas:', saida_e)
 
 
 if __name__ == '__main__':
