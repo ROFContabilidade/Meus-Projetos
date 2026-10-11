@@ -89,6 +89,16 @@ def _itens_por_nota(res):
     return por
 
 
+def _sem_credito(its, cancel):
+    if cancel:
+        return ''
+    v = sum(((i['ICMS destacado'] or Z) for i in its if i['ICMS destacado'] and not i['Crédito ICMS sugerido']), Z)
+    if not v:
+        return ''
+    return (f'ICMS destacado na nota R$ {v:.2f} sem crédito (uso e consumo/fora da atividade): lançar base e ICMS '
+            'zerados').replace('.', ',')
+
+
 def _resumo_itens(its):
     nomes = [str(i['Descrição do item'])[:40] for i in its]
     txt = '; '.join(nomes[:3])
@@ -120,14 +130,17 @@ def gerar(res, saida):
             'CFOP do fornecedor': ', '.join(sorted({i['CFOP forn.'] for i in its})),
             'CFOP entrada': n['CFOP sugerido'], 'Acumulador': n['Acum. sugerido'],
             'Valor contábil': Z if cancel else x.get('t_vNF', n['Valor NF']),
-            'Base ICMS': Z if cancel else sum((i['BC ICMS'] or Z for i in its), Z),
-            'ICMS destacado': Z if cancel else n['ICMS destacado'],
+            # base e ICMS só dos itens que dão crédito: uso e consumo (1556/1407) entra zerado
+            'Base ICMS': Z if cancel else sum(((i['BC ICMS'] or Z) for i in its if i['Crédito ICMS sugerido']
+                                               and i['ICMS destacado']), Z),
+            'ICMS': Z if cancel else sum(((i['Crédito ICMS sugerido'] or Z) for i in its if i['ICMS destacado']), Z),
             'IPI': Z if cancel else n['IPI destacado'],
             'Crédito ICMS': n['Crédito ICMS sugerido'], 'Crédito IPI': n['Crédito IPI sugerido'],
-            'DIFAL': n['DIFAL estimado'],
+            'DIFAL a recolher': n['DIFAL estimado'],
             'Finalidade': ', '.join(k.replace('_', ' ').lower() for k in fins),
             'Conta contábil': n.get('Contas contábeis sugeridas', ''),
-            'Itens': _resumo_itens(its), 'Observação': n['Observações'], 'Chave': n['Chave'], 'Conferido': '',
+            'Itens': _resumo_itens(its), 'Observação': '; '.join(x_ for x_ in (n['Observações'], _sem_credito(its, cancel)) if x_),
+            'Chave': n['Chave'], 'Conferido': '',
         }
         (nfe_in if n['UF'] == uf else nfe_out).append(ln)
     for p in res['pendencias']:          # documentos do fornecedor que não geram entrada
@@ -140,9 +153,9 @@ def gerar(res, saida):
             (nfe_in if x.get('emit_uf') == uf else nfe_out).append(ln)
 
     col_nfe = ['Situação', 'Emissão', 'Nota', 'Série', 'Fornecedor', 'CNPJ', 'UF', 'CFOP do fornecedor', 'CFOP entrada',
-               'Acumulador', 'Valor contábil', 'Base ICMS', 'ICMS destacado', 'IPI', 'Crédito ICMS', 'Crédito IPI',
-               'DIFAL', 'Finalidade', 'Conta contábil', 'Itens', 'Observação', 'Chave', 'Conferido']
-    som_nfe = ['Valor contábil', 'Base ICMS', 'ICMS destacado', 'IPI', 'Crédito ICMS', 'Crédito IPI', 'DIFAL']
+               'Acumulador', 'Valor contábil', 'Base ICMS', 'ICMS', 'IPI', 'Crédito ICMS', 'Crédito IPI',
+               'DIFAL a recolher', 'Finalidade', 'Conta contábil', 'Itens', 'Observação', 'Chave', 'Conferido']
+    som_nfe = ['Valor contábil', 'Base ICMS', 'ICMS', 'IPI', 'Crédito ICMS', 'Crédito IPI', 'DIFAL a recolher']
     larg_nfe = {'Situação': 24, 'Fornecedor': 32, 'Finalidade': 18, 'Conta contábil': 34, 'Itens': 50,
                 'Observação': 50, 'Chave': 46, 'CNPJ': 16, 'Emissão': 11, 'Nota': 9, 'Série': 6, 'UF': 5}
     ordem = lambda l: (ORDEM_STATUS.get(l['Situação'], 5), _chave_data(l['Emissão']), l['Fornecedor'])

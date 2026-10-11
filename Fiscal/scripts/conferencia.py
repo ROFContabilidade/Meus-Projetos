@@ -582,7 +582,9 @@ def analisar(a):
             obs.append(f'Crédito IPI no SPED {sp_ipi} x sugerido {cred_ipi}')
             st_n = 'DIVERGENTE'
         aj_difal = sum((v for cod, descr, v in aj if 'DIFERENCIAL' in (descr or '').upper() or cod in R.r.get('codigos_difal', [])), Z)
-        if difal and not aj:
+        if difal and pre:
+            obs.append(f'DIFAL a recolher R$ {difal} (uso e consumo de fora do estado, base dupla PR)')
+        elif difal and not aj:
             obs.append(f'DIFAL estimado {difal} e nenhum ajuste E113 para esta nota')
         elif difal and aj_difal and abs(aj_difal - difal) > Decimal('0.10'):
             obs.append(f'DIFAL lançado {aj_difal} x calculado {difal}')

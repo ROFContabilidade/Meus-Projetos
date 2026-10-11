@@ -960,7 +960,8 @@
     "10/2026: remessas 5901 com CST 90 sem cBenef aceitas como estão",
     "10/2026: lacunas sem nenhuma fonte e notas do relatório sem chave (série de NF-e) -> inutilizadas",
     "10/2026: retorno de exposição/feira 1914 -> acumulador 159",
-    "10/2026: CT-e só é lançado quando a Kopp é a tomadora"
+    "10/2026: CT-e só é lançado quando a Kopp é a tomadora",
+    "10/2026: uso e consumo -> base e ICMS zerados no lançamento; fora do estado -> DIFAL a recolher"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -987,5 +988,6 @@
   "_lacuna_sem_fonte": "Regra do escritório (Rosangela 10/2026): número da série de NF-e que não está no relatório do cliente, nem nos XML (cliente e SEFAZ), nem na lista da SEFAZ -> lançar como inutilizado (C100 COD_SIT 05), com a data das notas vizinhas. Número no relatório do cliente sem chave de acesso -> inutilizado com a data de emissão do relatório.",
   "lacuna_sem_fonte": "inutilizar",
   "_xml_prevalece": "Regra do escritório (Rosangela 10/2026): sempre se valida conforme o XML; diferença do relatório do cliente x XML é só informativa.",
-  "xml_prevalece": true
+  "xml_prevalece": true,
+  "_uso_consumo": "Regra do escritório (Rosangela 10/2026): uso e consumo (1556/1407/2556/2407), fora da atividade fim, não gera crédito: lançar com base e ICMS zerados. Uso e consumo de fora do estado gera DIFAL a recolher (base dupla PR)."
 }
