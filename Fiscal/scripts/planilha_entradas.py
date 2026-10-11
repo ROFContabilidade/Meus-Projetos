@@ -136,7 +136,7 @@ def gerar(res, saida):
             'ICMS': Z if cancel else sum(((i['Crédito ICMS sugerido'] or Z) for i in its if i['ICMS destacado']), Z),
             'IPI': Z if cancel else n['IPI destacado'],
             'Crédito ICMS': n['Crédito ICMS sugerido'], 'Crédito IPI': n['Crédito IPI sugerido'],
-            'DIFAL a recolher': n['DIFAL estimado'],
+            'DIFAL a recolher': n['DIFAL estimado'], 'ICMS antecipado 8%': n.get('ICMS antecipado', Z),
             'Finalidade': ', '.join(k.replace('_', ' ').lower() for k in fins),
             'Conta contábil': n.get('Contas contábeis sugeridas', ''),
             'Itens': _resumo_itens(its), 'Observação': '; '.join(x_ for x_ in (n['Observações'], _sem_credito(its, cancel)) if x_),
@@ -154,8 +154,8 @@ def gerar(res, saida):
 
     col_nfe = ['Situação', 'Emissão', 'Nota', 'Série', 'Fornecedor', 'CNPJ', 'UF', 'CFOP do fornecedor', 'CFOP entrada',
                'Acumulador', 'Valor contábil', 'Base ICMS', 'ICMS', 'IPI', 'Crédito ICMS', 'Crédito IPI',
-               'DIFAL a recolher', 'Finalidade', 'Conta contábil', 'Itens', 'Observação', 'Chave', 'Conferido']
-    som_nfe = ['Valor contábil', 'Base ICMS', 'ICMS', 'IPI', 'Crédito ICMS', 'Crédito IPI', 'DIFAL a recolher']
+               'DIFAL a recolher', 'ICMS antecipado 8%', 'Finalidade', 'Conta contábil', 'Itens', 'Observação', 'Chave', 'Conferido']
+    som_nfe = ['Valor contábil', 'Base ICMS', 'ICMS', 'IPI', 'Crédito ICMS', 'Crédito IPI', 'DIFAL a recolher', 'ICMS antecipado 8%']
     larg_nfe = {'Situação': 24, 'Fornecedor': 32, 'Finalidade': 18, 'Conta contábil': 34, 'Itens': 50,
                 'Observação': 50, 'Chave': 46, 'CNPJ': 16, 'Emissão': 11, 'Nota': 9, 'Série': 6, 'UF': 5}
     ordem = lambda l: (ORDEM_STATUS.get(l['Situação'], 5), _chave_data(l['Emissão']), l['Fornecedor'])

@@ -198,6 +198,9 @@ class Regras:
             out['alertas'].append(regra['alerta'])
         if regra.get('difal') and escopo == 'interestadual':
             out['difal'] = self.difal_base_dupla(item)
+        ant = self.r.get('antecipado')
+        if ant and out['cred_icms'] and item['vICMS'] and item['pICMS'] == Decimal(ant['aliquota_origem']):
+            out['antecipado'] = q(item['vBC_ICMS'] * Decimal(ant['percentual']) / 100)
         return out
 
     def difal_base_dupla(self, item):
@@ -547,7 +550,7 @@ def analisar(a):
                 'CFOP sugerido': c['cfop'], 'Acum. sugerido': c.get('ac') or '',
                 'Acumulador sugerido (nome)': R.ac_nome(c.get('ac')),
                 'Crédito ICMS sugerido': c['cred_icms'], 'Crédito IPI sugerido': c['cred_ipi'],
-                'DIFAL estimado': c['difal'],
+                'DIFAL estimado': c['difal'], 'ICMS antecipado': c.get('antecipado', Z),
                 'Conta contábil sugerida': c.get('conta', ''), 'Origem da conta': c.get('origem_conta', ''),
                 'Histórico do fornecedor no Domínio': hist_txt,
                 'CFOP final (SPED)': fin_cfop, 'Acum. final (SPED)': fin_ac,
@@ -630,6 +633,7 @@ def analisar(a):
             'CFOP sugerido': ', '.join(sorted(x for x in sug_cfop if x)),
             'Acum. sugerido': ', '.join(sorted(x for x in sug_ac if x)),
             'Crédito ICMS sugerido': cred_icms, 'Crédito IPI sugerido': cred_ipi, 'DIFAL estimado': difal,
+            'ICMS antecipado': sum((r_.get('ICMS antecipado') or Z for r_ in meus), Z),
             'CFOP final (SPED)': ', '.join(sorted({i['cfop'] for i in sp['itens']})) if sp else '',
             'Acum. final (SPED)': ', '.join(sorted({i['cod_nat'] for i in sp['itens']})) if sp else '',
             'Crédito ICMS (SPED)': sp_icms if sp else None, 'Crédito IPI (SPED)': sp_ipi if sp else None,
@@ -641,6 +645,14 @@ def analisar(a):
             'Histórico do fornecedor no Domínio': hist_txt,
             'Observações': ' | '.join(obs), 'Chave': n['chave'],
         })
+        ant = notas_rows[-1]['ICMS antecipado']
+        if ant:
+            br = lambda v: f'{v:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
+            bc = sum((r_['BC ICMS'] for r_ in meus if r_.get('ICMS antecipado')), Z)
+            pendencia('INFO', 'ICMS antecipado 8%', n,
+                      f'Item com crédito e ICMS a 4% (importado): antecipado 8% sobre BC R$ {br(bc)} = R$ {br(ant)}. '
+                      'Lançar no Domínio o ajuste E111 PR000080 (débito) e PR020212 (crédito) do mesmo valor.',
+                      valor=ant)
 
     # ======================== 2. entradas emitidas pela própria empresa
     for n in sorted((n for n in notas.values() if n['emit_cnpj'] == K and n['tpNF'] == '0'

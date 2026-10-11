@@ -961,7 +961,8 @@
     "10/2026: lacunas sem nenhuma fonte e notas do relatório sem chave (série de NF-e) -> inutilizadas",
     "10/2026: retorno de exposição/feira 1914 -> acumulador 159",
     "10/2026: CT-e só é lançado quando a Kopp é a tomadora",
-    "10/2026: uso e consumo -> base e ICMS zerados no lançamento; fora do estado -> DIFAL a recolher"
+    "10/2026: uso e consumo -> base e ICMS zerados no lançamento; fora do estado -> DIFAL a recolher",
+    "10/2026: crédito a 4% -> ICMS antecipado 8% (E111 PR000080/PR020212)"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -989,5 +990,12 @@
   "lacuna_sem_fonte": "inutilizar",
   "_xml_prevalece": "Regra do escritório (Rosangela 10/2026): sempre se valida conforme o XML; diferença do relatório do cliente x XML é só informativa.",
   "xml_prevalece": true,
-  "_uso_consumo": "Regra do escritório (Rosangela 10/2026): uso e consumo (1556/1407/2556/2407), fora da atividade fim, não gera crédito: lançar com base e ICMS zerados. Uso e consumo de fora do estado gera DIFAL a recolher (base dupla PR)."
+  "_uso_consumo": "Regra do escritório (Rosangela 10/2026): uso e consumo (1556/1407/2556/2407), fora da atividade fim, não gera crédito: lançar com base e ICMS zerados. Uso e consumo de fora do estado gera DIFAL a recolher (base dupla PR).",
+  "_antecipado": "Regra do escritório (Rosangela 10/2026): entrada COM crédito e ICMS destacado a 4% (importado) gera ICMS antecipado de 8% sobre a BC do item. No SPED: E111 PR000080 (débito) e PR020212 (crédito) do mesmo valor — conferido em 07/2026 (2.216,43) e 08/2026 (1.933,41).",
+  "antecipado": {
+    "aliquota_origem": "4",
+    "percentual": "8",
+    "cod_debito": "PR000080",
+    "cod_credito": "PR020212"
+  }
 }
