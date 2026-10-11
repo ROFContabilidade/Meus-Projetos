@@ -685,7 +685,7 @@ def analisar(a):
                              'Data': n['dt_emissao'],
                              'Nota': n['numero'], 'Cliente (remetente)': n['dest_nome'], 'Natureza': n['natOp'],
                              'CFOP XML': ', '.join(cfops), 'Valor NF': Z if pre else n['t_vNF'], 'Chave': n['chave'],
-                             'Observações': obs_cancelada(n)})
+                             'Acum. esperado': esperado or '', 'Observações': obs_cancelada(n)})
             continue
         if pre:
             sem_ac = [c for c in cfops if not R.r['devolucoes_proprias'].get(c, {}).get('ac')]
