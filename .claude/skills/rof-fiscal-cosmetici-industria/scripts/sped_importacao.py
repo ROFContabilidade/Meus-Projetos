@@ -74,6 +74,21 @@ def _xml(i):
             'cst_cof': i.get('cst_cof') or '', 'bccof': i['vbc_cof'], 'pcof': i['pcof'], 'cof': i['vcof'], 'vc': R(vcontabil(i))}
 
 
+def cst_ipi_entrada(cst, ipi=0.0):
+    """CST do IPI na ENTRADA (regra do PVA: CFOP 1/2/3 -> CST_IPI menor que 50). O XML traz o CST de SAÍDA do fornecedor;
+    o SPED pede o código de entrada correspondente, como o Domínio gravou em 07 e 08/2026: 50 com IPI creditado -> 00,
+    50 sem IPI creditado -> 49, 51..55 -> 01..05, 99 -> 49, sem IPI no XML (ou item zerado de uso e consumo) -> 49.
+    Valores de base/alíquota/IPI continuam os do XML."""
+    cst = (cst or '').strip()
+    if cst in ('51', '52', '53', '54', '55'):
+        return f'0{int(cst) - 50}'
+    if cst == '50':
+        return '00' if (ipi or 0) > 0 else '49'
+    if cst and cst < '50':
+        return cst
+    return '49'
+
+
 IND_FRT = {'0': '0', '1': '1', '2': '2', '3': '0', '4': '1', '9': '9'}
 
 
@@ -144,6 +159,8 @@ class Sped:
             bloco.append(['C101', m(c101[0]), m(c101[1]), m(c101[2])])
         c190 = collections.OrderedDict()
         for k, x in enumerate(itens170, 1):
+            if oper == '0':   # entrada: CST do IPI pela tabela de entrada (o valor do IPI segue o XML)
+                x = {**x, 'cst_ipi': cst_ipi_entrada(x['cst_ipi'], x['ipi'])}
             bloco.append(['C170', str(k), x['cod'], '', m(x['qtd'], 5), x['un'], m(x['vprod']), m(x['vdesc']), '0', x['cst'], x['cfop'],
                           x['nat'], m(x['bc']), m(x['aliq']), m(x['icms']), m(x['bcst']), m(x['aliqst']), m(x['st']), '0',
                           x['cst_ipi'], x['enq'] if x['cst_ipi'] else '',
@@ -396,7 +413,7 @@ def auditar(linhas, a, cte_xml=None, cred=None):
     for l in linhas:
         p = l.split('|')[1:-1]
         if p[0] == 'C100':
-            atual, k = notas.get(p[8]), 0
+            atual, k, entrada = notas.get(p[8]), 0, p[1] == '0'
             if atual and p[5] == '00':
                 docs += 1
                 if 'uso' in nat.get(atual['chave'], []) or any(i.get('csosn') in ('101', '201', '900') and i.get('vcredsn') for i in atual['itens']):
@@ -416,7 +433,7 @@ def auditar(linhas, a, cte_xml=None, cred=None):
                 if abs(num(p[pos]) - (i.get(chave) or 0.0)) > 0.00001:
                     dif.append(f'NF {atual["numero"]} item {k} {chave}: TXT {p[pos]} x XML {i.get(chave)}')
             cst_xml = i.get('csosn') or f'{i.get("orig") or "0"}{(i.get("cst_icms") or "00")[-2:]}'
-            for pos, v in ((9, cst_xml), (19, i.get('cst_ipi') or ''), (24, i.get('cst_pis') or ''), (30, i.get('cst_cof') or '')):
+            for pos, v in ((9, cst_xml), (19, cst_ipi_entrada(i.get('cst_ipi'), i.get('vipi')) if entrada else (i.get('cst_ipi') or '')), (24, i.get('cst_pis') or ''), (30, i.get('cst_cof') or '')):
                 if p[pos] != v:
                     dif.append(f'NF {atual["numero"]} item {k} CST: TXT {p[pos]} x XML {v}')
         elif p[0] == 'D100' and p[5] == '00':

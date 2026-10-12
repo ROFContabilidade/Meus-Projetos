@@ -327,13 +327,17 @@ def teste_importacao():
     c170 = [l.split('|') for l in L if l.startswith('|C170|')]
     assert c170[0][11] == '1101' and c170[0][12] == '100' and c170[0][15] == '195,00', c170[0]   # CFOP de entrada, acumulador, crédito
     assert c170[1][11] == '6101' and c170[1][12] == '201', c170[1]
+    # CST do IPI: entrada (CFOP 1/2/3) sempre < 50 - erro do PVA em 09/2026; saída segue o XML
+    assert all(x[20] < '50' for x in c170 if x[11][0] in '123') and all(x[20] in ('',) or x[20] >= '50' for x in c170 if x[11][0] in '567'), c170
+    f = sped_importacao.cst_ipi_entrada
+    assert (f('50', 10), f('50', 0), f('51'), f('53'), f('55'), f('99'), f(''), f('03')) == ('00', '49', '01', '03', '05', '49', '49', '03')
     docs, n_itens, dif = sped_importacao.auditar(L, a, None, cred)
     assert docs == 2 and n_itens == 2 and not dif, dif
     # compra fora da atividade-fim (uso e consumo): CST do XML, bases de ICMS/IPI/PIS zeradas, PIS/COFINS CST 98 (como a Kopp)
     cred_uso = Credito(a, {}, [], {forn_cnpj: 'uso'}).analisar()
     s2, L2 = sped_importacao.gerar(a, cred_uso, {}, {}, {}, CFG['sped_cabecalho'], destino)
     e = next(l.split('|') for l in L2 if l.startswith('|C170|') and '|1556|' in l)
-    assert e[10] == '000' and e[13:16] == ['0,00', '0,00', '0,00'] and e[20] == '' and e[25] == '98' and e[31] == '98', e
+    assert e[10] == '000' and e[13:16] == ['0,00', '0,00', '0,00'] and e[20] == '49' and e[25] == '98' and e[31] == '98', e
     assert not sped_importacao.auditar(L2, a, None, cred_uso)[2]
     print('ok SPED de importação (leiaute aceito pelo Domínio, acumulador no COD_NAT, valores = XML, uso e consumo zerado)')
 
@@ -402,6 +406,25 @@ def teste_cancelada_terceiro():
     print('ok nota de terceiro cancelada com participante, datas e C170 zerados')
 
 
+
+def teste_corrigir_sped():
+    """SPED do Domínio: CST do IPI de entrada >= 50 vira código de entrada, E510 reagrupado, códigos de receita do PR."""
+    import corrigir_sped
+    L = ['|0000|x|', '|C170|1|A||1|UN|100,00|0,00|0|000|1101|100|0,00|0,00|0,00|0,00|0,00|0,00|0|99||0,00|0,00|0,00|',
+         '|C170|1|B||1|UN|100,00|0,00|0|000|2101|101|0,00|0,00|0,00|0,00|0,00|0,00|0|50||100,00|10,00|10,00|',
+         '|E001|0|', '|E116|000|1,00|10102026|1206|||||092026|', '|E250|002|1,00|10102026|2204|||||092026|',
+         '|E510|1101|00|50,00|0,00|0,00|', '|E510|1101|99|100,00|0,00|0,00|', '|E510|2101|50|110,00|100,00|10,00|',
+         '|E510|5102|50|200,00|100,00|10,00|', '|E990|9|', '|9900|E510|4|', '|9999|13|']
+    out, log = corrigir_sped.corrigir(L)
+    c = [l.split('|') for l in out if l.startswith('|C170|')]
+    assert c[0][20] == '49' and c[1][20] == '00', c
+    assert '|E116|000|1,00|10102026|1015|||||092026|' in out and '|E250|002|1,00|10102026|100099|||||092026|' in out
+    e = [l for l in out if l.startswith('|E510|')]
+    assert e == ['|E510|1101|00|50,00|0,00|0,00|', '|E510|1101|49|100,00|0,00|0,00|', '|E510|2101|00|110,00|100,00|10,00|',
+                 '|E510|5102|50|200,00|100,00|10,00|'], e
+    assert '|E990|8|' in out and '|9900|E510|4|' in out and out[-1] == f'|9999|{len(out)}|'
+    print('ok correção do SPED do Domínio (CST IPI de entrada, E510, códigos de receita)')
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -417,3 +440,4 @@ if __name__ == '__main__':
     teste_servicos()
     teste_cte_so_tomadora()
     teste_cancelada_terceiro()
+    teste_corrigir_sped()
