@@ -93,6 +93,8 @@ Impostos em 31/08 após o TXT de correção: 172 208.936,83 C · 526 72.983,74 C
 - `COSMETICI_planilha_correcao_jan-ago2026.xlsx` (decisões e conciliação; não reflete MRBS 364 nem as 12 reclassificações) e `COSMETICI_empresas_do_grupo_jan-ago2026.xlsx` (abas F.V.S, Cosmeticon, Gula).
 - Importação: na primeira tentativa do TXT único o Domínio recusou só a linha 1847 (672 sintética) → corrigido para 364. Confirmar com a usuária se a importação foi concluída antes de mandar outro arquivo (não duplicar).
 
+- **Conferência pós-importação (razão "Razão-Conferencia.xls", 12/10 23:26):** jan–jun batem lançamento a lançamento. Julho e agosto entraram DUAS vezes (TXT único às 22:56 + arquivos mensais) → saldo 31/08 5.757,25 C. Orientado excluir os lotes **29339 a 29798** (cópia antiga, com as contas antes das 12 reclassificações). Manter 29799–29808 (correções de impostos) e 29809–30268 (jul/ago corretos). Não importar o TXT de reclassificação. Sempre conferir o razão da conta 8 depois de importar (comparar data+valor+contrapartida com o TXT).
+
 **Pendências**
 - Refazer integração das entradas de 05 e 06/2026 (crédito ICMS a maior 1.247,52 e 154,64).
 - IRRF 03/2026 52,93: lote 22449 debitou a 178 contra a 31 – verificar a nota (se retenção sobre serviço tomado: D 31 / C 178 105,86).
