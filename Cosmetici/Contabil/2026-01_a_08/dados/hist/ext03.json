@@ -1,0 +1,1050 @@
+{
+"saldo_ant": -38533.72,
+"mov": [
+{
+"data": "02/03/2026",
+"desc": "PIX ENVIADO FELIPE DE OL",
+"valor": -2197.67
+},
+{
+"data": "02/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -3218.0
+},
+{
+"data": "02/03/2026",
+"desc": "PIX ENVIADO CARLOS ALEXA",
+"valor": -500.0
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO ALLOXY ESPEC",
+"valor": -2740.5
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO GRAFICA E TR",
+"valor": -2399.0
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -543.24
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO TEX COURIER",
+"valor": -437.22
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO AZUL LINHAS",
+"valor": -525.6
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO TECNOPONTO T",
+"valor": -110.0
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO SAVATEC COME",
+"valor": -726.66
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO TNT MERCURIO",
+"valor": -34.08
+},
+{
+"data": "02/03/2026",
+"desc": "BOLETO PAGO REATEC DO BR",
+"valor": -528.0
+},
+{
+"data": "02/03/2026",
+"desc": "Sispag ESAINT COMERCIO",
+"valor": 5205.0
+},
+{
+"data": "02/03/2026",
+"desc": "Mov Tít Cob Disp 02/03S",
+"valor": 4774.49
+},
+{
+"data": "02/03/2026",
+"desc": "PIX TRANSF maria a02/03",
+"valor": 2000.0
+},
+{
+"data": "02/03/2026",
+"desc": "PIX TRANSF R E S C02/03",
+"valor": 9558.0
+},
+{
+"data": "03/03/2026",
+"desc": "IOF 8613.52508-1/ C/C",
+"valor": -126.28
+},
+{
+"data": "03/03/2026",
+"desc": "IOF",
+"valor": -348.97
+},
+{
+"data": "03/03/2026",
+"desc": "PIX ENVIADO COLOR WAY IN",
+"valor": -6065.04
+},
+{
+"data": "03/03/2026",
+"desc": "BOLETO PAGO EFITRANS TRA",
+"valor": -1455.72
+},
+{
+"data": "03/03/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1296.25
+},
+{
+"data": "03/03/2026",
+"desc": "BOLETO PAGO JAMEF TRANSP",
+"valor": -595.27
+},
+{
+"data": "03/03/2026",
+"desc": "BOLETO PAGO YAHWEH PRINT",
+"valor": -723.57
+},
+{
+"data": "03/03/2026",
+"desc": "BOLETO PAGO YAHWEH PRINT",
+"valor": -907.0
+},
+{
+"data": "03/03/2026",
+"desc": "Mov Tít Cob Disp 03/03S",
+"valor": 2180.55
+},
+{
+"data": "03/03/2026",
+"desc": "PIX TRANSF EDGAR C03/03",
+"valor": 269.42
+},
+{
+"data": "03/03/2026",
+"desc": "PIX TRANSF NATURAL03/03",
+"valor": 3000.0
+},
+{
+"data": "03/03/2026",
+"desc": "Tar Cobrança Exp",
+"valor": -116.55
+},
+{
+"data": "03/03/2026",
+"desc": "TAR PIX PGTO TRANSF",
+"valor": -113.72
+},
+{
+"data": "04/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -6436.0
+},
+{
+"data": "04/03/2026",
+"desc": "PIX ENVIADO RODONAVES TR",
+"valor": -151.59
+},
+{
+"data": "04/03/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -6000.0
+},
+{
+"data": "04/03/2026",
+"desc": "BOLETO PAGO ART S ESSENC",
+"valor": -710.1
+},
+{
+"data": "04/03/2026",
+"desc": "BOLETO PAGO EXPRESSO SAO",
+"valor": -138.55
+},
+{
+"data": "04/03/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -907.54
+},
+{
+"data": "04/03/2026",
+"desc": "BOLETO PAGO SUPER BRILHO",
+"valor": -623.65
+},
+{
+"data": "04/03/2026",
+"desc": "BOLETO PAGO 60512435 Alt",
+"valor": -520.0
+},
+{
+"data": "04/03/2026",
+"desc": "Mov Tít Cob Disp 04/03S",
+"valor": 700.0
+},
+{
+"data": "04/03/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 1193.12
+},
+{
+"data": "04/03/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 1515.66
+},
+{
+"data": "04/03/2026",
+"desc": "PIX TRANSF MARTINS04/03",
+"valor": 0.01
+},
+{
+"data": "04/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 2554.16
+},
+{
+"data": "05/03/2026",
+"desc": "BOLETO PAGO C PACK CREAT",
+"valor": -3441.58
+},
+{
+"data": "05/03/2026",
+"desc": "BOLETO PAGO AGENCIA NACI",
+"valor": -175.72
+},
+{
+"data": "05/03/2026",
+"desc": "BOLETO PAGO ANDRADE ENGE",
+"valor": -1124.56
+},
+{
+"data": "05/03/2026",
+"desc": "BOLETO PAGO YAHWEH PRINT",
+"valor": -1130.25
+},
+{
+"data": "05/03/2026",
+"desc": "Mov Tít Cob Disp 05/03S",
+"valor": 1016.17
+},
+{
+"data": "05/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 12373.57
+},
+{
+"data": "05/03/2026",
+"desc": "JUROS LIMITE DA CONTA",
+"valor": -5805.09
+},
+{
+"data": "06/03/2026",
+"desc": "BOLETO PAGO SUMMIT COSME",
+"valor": -408.22
+},
+{
+"data": "06/03/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -401.3
+},
+{
+"data": "06/03/2026",
+"desc": "BOLETO PAGO M GRINGS E C",
+"valor": -1063.0
+},
+{
+"data": "06/03/2026",
+"desc": "BOLETO PAGO NEOSENSE FRA",
+"valor": -1027.96
+},
+{
+"data": "06/03/2026",
+"desc": "Mov Tít Cob Disp 06/03S",
+"valor": 588.68
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO ALLOXY ESPEC",
+"valor": -2740.5
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO C PACK CREAT",
+"valor": -2999.7
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO ESGOFOSSA DE",
+"valor": -1425.0
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -543.24
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -6462.33
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -6404.82
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO CALIBRABEM L",
+"valor": -887.0
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO EMBACAPS QUI",
+"valor": -1595.0
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO INSETCONTROL",
+"valor": -660.0
+},
+{
+"data": "09/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -2611.13
+},
+{
+"data": "09/03/2026",
+"desc": "Sispag COSMETICON COMER",
+"valor": 22000.0
+},
+{
+"data": "09/03/2026",
+"desc": "Mov Tít Cob Disp 09/03S",
+"valor": 2913.36
+},
+{
+"data": "09/03/2026",
+"desc": "PIX TRANSF B CHIC 09/03",
+"valor": 2000.0
+},
+{
+"data": "10/03/2026",
+"desc": "PIX ENVIADO M CASSAB COM",
+"valor": -3080.28
+},
+{
+"data": "10/03/2026",
+"desc": "PIX ENVIADO SUZAN CRISTI",
+"valor": -7623.72
+},
+{
+"data": "10/03/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -11000.0
+},
+{
+"data": "10/03/2026",
+"desc": "BOLETO PAGO EFITRANS TRA",
+"valor": -273.26
+},
+{
+"data": "10/03/2026",
+"desc": "BOLETO PAGO LOVIZ ENTRET",
+"valor": -199.99
+},
+{
+"data": "10/03/2026",
+"desc": "BOLETO PAGO VR BENEFICIO",
+"valor": -137.29
+},
+{
+"data": "10/03/2026",
+"desc": "BOLETO PAGO YAHWEH PRINT",
+"valor": -723.56
+},
+{
+"data": "10/03/2026",
+"desc": "BOLETO PAGO YAHWEH PRINT",
+"valor": -907.0
+},
+{
+"data": "10/03/2026",
+"desc": "Mov Tít Cob Disp 10/03S",
+"valor": 1084.64
+},
+{
+"data": "10/03/2026",
+"desc": "PIX TRANSF Onixsul10/03",
+"valor": 9972.65
+},
+{
+"data": "10/03/2026",
+"desc": "PIX TRANSF SALETE 10/03",
+"valor": 9000.0
+},
+{
+"data": "10/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 6775.09
+},
+{
+"data": "11/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -3655.0
+},
+{
+"data": "11/03/2026",
+"desc": "PIX ENVIADO NOVA PIRAMID",
+"valor": -3066.53
+},
+{
+"data": "11/03/2026",
+"desc": "PIX ENVIADO DECORBEL IND",
+"valor": -3600.0
+},
+{
+"data": "11/03/2026",
+"desc": "Sispag GULA COSMETICOS",
+"valor": 500.0
+},
+{
+"data": "11/03/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 3414.95
+},
+{
+"data": "11/03/2026",
+"desc": "PIX TRANSF R E S C11/03",
+"valor": 696.0
+},
+{
+"data": "12/03/2026",
+"desc": "PIX ENVIADO ELVIS DA SIL",
+"valor": -6829.82
+},
+{
+"data": "12/03/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -3000.0
+},
+{
+"data": "12/03/2026",
+"desc": "BOLETO PAGO C PACK CREAT",
+"valor": -3441.58
+},
+{
+"data": "12/03/2026",
+"desc": "Mov Tít Cob Disp 12/03S",
+"valor": 1141.87
+},
+{
+"data": "12/03/2026",
+"desc": "PIX TRANSF LL DIST12/03",
+"valor": 3870.0
+},
+{
+"data": "12/03/2026",
+"desc": "PIX TRANSF NELIO J12/03",
+"valor": 948.0
+},
+{
+"data": "12/03/2026",
+"desc": "PIX TRANSF STYLEBA12/03",
+"valor": 6872.71
+},
+{
+"data": "12/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 26318.75
+},
+{
+"data": "13/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -2802.91
+},
+{
+"data": "13/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -3655.0
+},
+{
+"data": "13/03/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -7000.0
+},
+{
+"data": "13/03/2026",
+"desc": "PIX ENVIADO DECORBEL IND",
+"valor": -3600.0
+},
+{
+"data": "13/03/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -6500.0
+},
+{
+"data": "13/03/2026",
+"desc": "BOLETO PAGO H S INKLASER",
+"valor": -1074.5
+},
+{
+"data": "13/03/2026",
+"desc": "BOLETO PAGO TRANS TOMAZ",
+"valor": -432.7
+},
+{
+"data": "13/03/2026",
+"desc": "Mov Tít Cob Disp 13/03S",
+"valor": 2364.94
+},
+{
+"data": "13/03/2026",
+"desc": "PIX TRANSF DILSON 13/03",
+"valor": 3000.0
+},
+{
+"data": "13/03/2026",
+"desc": "PIX TRANSF ESSENDA13/03",
+"valor": 2500.0
+},
+{
+"data": "13/03/2026",
+"desc": "PIX TRANSF Luan Pa13/03",
+"valor": 6000.0
+},
+{
+"data": "13/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 7105.18
+},
+{
+"data": "16/03/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -13500.0
+},
+{
+"data": "16/03/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -4000.0
+},
+{
+"data": "16/03/2026",
+"desc": "BOLETO PAGO LIGGA TELECO",
+"valor": -559.92
+},
+{
+"data": "16/03/2026",
+"desc": "BOLETO PAGO AZUL LINHAS",
+"valor": -243.12
+},
+{
+"data": "16/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -3182.48
+},
+{
+"data": "16/03/2026",
+"desc": "Sispag GUIDI COSMETICOS",
+"valor": 1800.0
+},
+{
+"data": "16/03/2026",
+"desc": "Mov Tít Cob Disp 16/03S",
+"valor": 233.07
+},
+{
+"data": "16/03/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 941.0
+},
+{
+"data": "16/03/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 9342.08
+},
+{
+"data": "17/03/2026",
+"desc": "PIX ENVIADO 50.370.136 A",
+"valor": -3655.0
+},
+{
+"data": "17/03/2026",
+"desc": "PIX ENVIADO NOVA PIRAMID",
+"valor": -611.75
+},
+{
+"data": "17/03/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -2000.0
+},
+{
+"data": "17/03/2026",
+"desc": "PIX ENVIADO C - PACK CRE",
+"valor": -2999.7
+},
+{
+"data": "17/03/2026",
+"desc": "PIX ENVIADO L.C.Q.PQ - L",
+"valor": -102.3
+},
+{
+"data": "17/03/2026",
+"desc": "BOLETO PAGO ECOPLUS LAVA",
+"valor": -672.0
+},
+{
+"data": "17/03/2026",
+"desc": "BOLETO PAGO TRANSAL",
+"valor": -242.14
+},
+{
+"data": "17/03/2026",
+"desc": "BOLETO PAGO CRM TECNOLOG",
+"valor": -2917.39
+},
+{
+"data": "17/03/2026",
+"desc": "BOLETO PAGO MEDME CONVEN",
+"valor": -134.94
+},
+{
+"data": "17/03/2026",
+"desc": "BOLETO PAGO AVIOES TRANS",
+"valor": -446.32
+},
+{
+"data": "17/03/2026",
+"desc": "Mov Tít Cob Disp 17/03S",
+"valor": 949.85
+},
+{
+"data": "17/03/2026",
+"desc": "PIX TRANSF JRB COS17/03",
+"valor": 4000.0
+},
+{
+"data": "18/03/2026",
+"desc": "BOLETO PAGO PLUS SANTE E",
+"valor": -350.98
+},
+{
+"data": "18/03/2026",
+"desc": "BOLETO PAGO SUMMIT COSME",
+"valor": -447.26
+},
+{
+"data": "18/03/2026",
+"desc": "BOLETO PAGO TEX COURIER",
+"valor": -673.81
+},
+{
+"data": "18/03/2026",
+"desc": "BOLETO PAGO TECNOPONTO T",
+"valor": -166.67
+},
+{
+"data": "18/03/2026",
+"desc": "BOLETO PAGO DENTAL UNI -",
+"valor": -249.64
+},
+{
+"data": "18/03/2026",
+"desc": "BOLETO PAGO OAK FRAGRANC",
+"valor": -587.91
+},
+{
+"data": "18/03/2026",
+"desc": "BOLETO PAGO SINDICATO DA",
+"valor": -358.58
+},
+{
+"data": "18/03/2026",
+"desc": "Sispag A F VOLCAO",
+"valor": 1700.0
+},
+{
+"data": "18/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 5487.25
+},
+{
+"data": "19/03/2026",
+"desc": "PIX ENVIADO RODONAVES TR",
+"valor": -200.95
+},
+{
+"data": "19/03/2026",
+"desc": "PIX ENVIADO RODONAVES TR",
+"valor": -260.61
+},
+{
+"data": "19/03/2026",
+"desc": "BOLETO PAGO DINACO IMPOR",
+"valor": -6621.83
+},
+{
+"data": "19/03/2026",
+"desc": "BOLETO PAGO VR BENEFICIO",
+"valor": -70.96
+},
+{
+"data": "19/03/2026",
+"desc": "PIX TRANSF GISLENE19/03",
+"valor": 200.95
+},
+{
+"data": "20/03/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -200.0
+},
+{
+"data": "20/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -3655.0
+},
+{
+"data": "20/03/2026",
+"desc": "PIX ENVIADO F.V.S COMERC",
+"valor": -4000.0
+},
+{
+"data": "20/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -2802.92
+},
+{
+"data": "20/03/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -3000.0
+},
+{
+"data": "20/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -3179.68
+},
+{
+"data": "20/03/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 2507.26
+},
+{
+"data": "20/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 8886.56
+},
+{
+"data": "20/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 3992.4
+},
+{
+"data": "23/03/2026",
+"desc": "BOLETO PAGO BRAL MAX I E",
+"valor": -1772.05
+},
+{
+"data": "23/03/2026",
+"desc": "BOLETO PAGO RAPIDO ABC T",
+"valor": -150.0
+},
+{
+"data": "23/03/2026",
+"desc": "BOLETO PAGO SINDICATO DO",
+"valor": -342.0
+},
+{
+"data": "23/03/2026",
+"desc": "Sispag GULA COSMETICOS",
+"valor": 1000.0
+},
+{
+"data": "23/03/2026",
+"desc": "Mov Tít Cob Disp 23/03S",
+"valor": 3080.63
+},
+{
+"data": "23/03/2026",
+"desc": "PIX TRANSF NATURAL23/03",
+"valor": 1500.0
+},
+{
+"data": "24/03/2026",
+"desc": "PIX ENVIADO ALINE DA SIL",
+"valor": -5605.83
+},
+{
+"data": "24/03/2026",
+"desc": "PIX ENVIADO DISTRIBUIDOR",
+"valor": -470.0
+},
+{
+"data": "24/03/2026",
+"desc": "PIX ENVIADO CARTOBENTO C",
+"valor": -5625.0
+},
+{
+"data": "24/03/2026",
+"desc": "BOLETO PAGO C PACK CREAT",
+"valor": -3470.28
+},
+{
+"data": "24/03/2026",
+"desc": "BOLETO PAGO C PACK CREAT",
+"valor": -3014.7
+},
+{
+"data": "24/03/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1296.25
+},
+{
+"data": "24/03/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -876.82
+},
+{
+"data": "24/03/2026",
+"desc": "BOLETO PAGO MATIZAPLAST",
+"valor": -783.0
+},
+{
+"data": "24/03/2026",
+"desc": "Mov Tít Cob Disp 24/03S",
+"valor": 652.33
+},
+{
+"data": "24/03/2026",
+"desc": "PIX TRANSF R E S C24/03",
+"valor": 4000.0
+},
+{
+"data": "24/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 38030.37
+},
+{
+"data": "24/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 2037.05
+},
+{
+"data": "25/03/2026",
+"desc": "PIX ENVIADO STEPAN QUIMI",
+"valor": -5658.08
+},
+{
+"data": "25/03/2026",
+"desc": "PIX ENVIADO 50.370.136 A",
+"valor": -9613.0
+},
+{
+"data": "25/03/2026",
+"desc": "BOLETO PAGO ITAU UNIBANC",
+"valor": -11388.82
+},
+{
+"data": "25/03/2026",
+"desc": "BOLETO PAGO SUMMIT COSME",
+"valor": -447.26
+},
+{
+"data": "25/03/2026",
+"desc": "BOLETO PAGO SUPER BRILHO",
+"valor": -623.65
+},
+{
+"data": "25/03/2026",
+"desc": "BOLETO PAGO OAK FRAGRANC",
+"valor": -587.91
+},
+{
+"data": "25/03/2026",
+"desc": "BOLETO PAGO CASA DAS EMB",
+"valor": -1543.71
+},
+{
+"data": "25/03/2026",
+"desc": "Sispag BOHR MAN PROFESS",
+"valor": 170.27
+},
+{
+"data": "25/03/2026",
+"desc": "Sispag COSMETICON COMER",
+"valor": 3000.0
+},
+{
+"data": "25/03/2026",
+"desc": "Mov Tít Cob Disp 25/03S",
+"valor": 9444.95
+},
+{
+"data": "25/03/2026",
+"desc": "PIX TRANSF Dionzer25/03",
+"valor": 278.0
+},
+{
+"data": "25/03/2026",
+"desc": "Pgto Mín-ITAUCARD-1147",
+"valor": -1138.88
+},
+{
+"data": "26/03/2026",
+"desc": "PIX ENVIADO UNIVAR SOLUT",
+"valor": -1885.2
+},
+{
+"data": "26/03/2026",
+"desc": "BOLETO PAGO C PACK CREAT",
+"valor": -3441.56
+},
+{
+"data": "26/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -608.51
+},
+{
+"data": "26/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -1686.15
+},
+{
+"data": "26/03/2026",
+"desc": "Mov Tít Cob Disp 26/03S",
+"valor": 2249.86
+},
+{
+"data": "26/03/2026",
+"desc": "PIX TRANSF NEIVA M26/03",
+"valor": 1100.0
+},
+{
+"data": "27/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -3179.68
+},
+{
+"data": "27/03/2026",
+"desc": "BOLETO PAGO TRANSAL",
+"valor": -437.35
+},
+{
+"data": "27/03/2026",
+"desc": "BOLETO PAGO TRANS TOMAZ",
+"valor": -355.06
+},
+{
+"data": "27/03/2026",
+"desc": "Itaú Seg Vida Glob",
+"valor": -295.51
+},
+{
+"data": "27/03/2026",
+"desc": "Juros 8613.52508-1",
+"valor": -4086.5
+},
+{
+"data": "30/03/2026",
+"desc": "PIX ENVIADO DISTRIBUIDOR",
+"valor": -573.0
+},
+{
+"data": "30/03/2026",
+"desc": "BOLETO PAGO TEX COURIER",
+"valor": -387.56
+},
+{
+"data": "30/03/2026",
+"desc": "BOLETO PAGO SAVATEC COME",
+"valor": -638.66
+},
+{
+"data": "30/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -1166.34
+},
+{
+"data": "30/03/2026",
+"desc": "BOLETO PAGO SAVATEC COME",
+"valor": -726.67
+},
+{
+"data": "30/03/2026",
+"desc": "BOLETO PAGO TECNOPONTO T",
+"valor": -74.9
+},
+{
+"data": "30/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -569.39
+},
+{
+"data": "30/03/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 11267.26
+},
+{
+"data": "30/03/2026",
+"desc": "PIX TRANSF Exclusi30/03",
+"valor": 2000.0
+},
+{
+"data": "30/03/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 26461.68
+},
+{
+"data": "31/03/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -211.75
+},
+{
+"data": "31/03/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -876.82
+},
+{
+"data": "31/03/2026",
+"desc": "BOLETO PAGO SUPER BRILHO",
+"valor": -546.53
+},
+{
+"data": "31/03/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -1758.74
+},
+{
+"data": "31/03/2026",
+"desc": "BOLETO PAGO YAHWEH PRINT",
+"valor": -627.5
+},
+{
+"data": "31/03/2026",
+"desc": "BOLETO PAGO CONSELHO FED",
+"valor": -1508.61
+},
+{
+"data": "31/03/2026",
+"desc": "Sispag ESAINT COMERCIO",
+"valor": 1000.0
+},
+{
+"data": "31/03/2026",
+"desc": "PIX TRANSF J O RIO31/03",
+"valor": 500.0
+},
+{
+"data": "31/03/2026",
+"desc": "PIX TRANSF SS COME31/03",
+"valor": 246.0
+}
+]
+}

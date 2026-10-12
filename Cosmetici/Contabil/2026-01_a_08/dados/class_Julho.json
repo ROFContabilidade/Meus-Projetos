@@ -1,0 +1,2612 @@
+[
+{
+"data": "01/07/2026",
+"desc": "PIX ENVIADO CARLOS ALEXA",
+"valor": -1000.0,
+"cp": "362",
+"hist": "CARLOS ALEXANDRE MAZZONI",
+"how": "razao-exato",
+"nota": "",
+"erp": "CARLOS ALEXANDRE MAZZONI / PGTO REF.PRO-LABORE"
+},
+{
+"data": "01/07/2026",
+"desc": "PIX ENVIADO MARCELO HENR",
+"valor": -3105.0,
+"cp": "362",
+"hist": "MARCELO HENRIQUE MAZZONI",
+"how": "especial",
+"nota": "MARCELO HENRIQUE MAZZONI - TXT jun/26 usou 362",
+"erp": "MARCELO HENRIQUE MAZZONI / PGTO REF.PARCELA"
+},
+{
+"data": "01/07/2026",
+"desc": "PIX ENVIADO MARCOS HENRI",
+"valor": -1600.0,
+"cp": "375",
+"hist": "MARCOS HENRIQUE SOTHER",
+"how": "erp-categoria",
+"nota": "retificado 362->375: juros s/ emprestimo (Cosmos cat. 84)",
+"erp": "MARCOS HENRIQUE SOTHER / PGTO REF.JUROS S/EMPRESTIMOS A LONGO PRAZO"
+},
+{
+"data": "01/07/2026",
+"desc": "BOLETO PAGO SINDICATO DO",
+"valor": -247.0,
+"cp": "350",
+"hist": "SINDICATO DOS TRABS NAS INDUST QUIMICAS E FARM DO ESTPR",
+"how": "razao-exato",
+"nota": "",
+"erp": "SINDICATO DOS TRABS NAS INDUST QUIMICAS E FARM DO ESTPR / PGTO REF.CONTRIÇÃO FUNERAL CONF.CCT 2025-2026"
+},
+{
+"data": "01/07/2026",
+"desc": "BOLETO PAGO SANTANDER SO",
+"valor": -2622.29,
+"cp": "362",
+"hist": "CARLOS ALEXANDRE MAZZONI",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "CARLOS ALEXANDRE MAZZONI / PGTO REF.PRO-LABORE"
+},
+{
+"data": "01/07/2026",
+"desc": "BOLETO PAGO EMPRESA BRAS",
+"valor": -2976.11,
+"cp": "312",
+"hist": "EMPRESA BRASILEIRA DE CORREIOS E TELEGRAFOS",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "EMPRESA BRASILEIRA DE CORREIOS E TELEGRAFOS / PGTO REF."
+},
+{
+"data": "01/07/2026",
+"desc": "Mov Tít Cob Disp 01/07S",
+"valor": 1501.32,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 01/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "01/07/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 7810.37,
+"cp": "504",
+"hist": "REDE VISA AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "01/07/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 16955.02,
+"cp": "504",
+"hist": "TED 363.0001.RNX F M D R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "01/07/2026",
+"desc": "JUROS EXCESSO LIM CONTA",
+"valor": -7.7,
+"cp": "375",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.TARIFAS"
+},
+{
+"data": "02/07/2026",
+"desc": "IOF 8613.52508-1/ C/C",
+"valor": -135.3,
+"cp": "625",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.IOF, COBRANÇA, PIX, MAQUINETA E ETC."
+},
+{
+"data": "02/07/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -118.56,
+"cp": "555",
+"hist": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA.",
+"how": "razao-exato",
+"nota": "",
+"erp": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA. / PGTO REF.COMPRA DE PRODUTOS PARA CONTRATIPAGEM"
+},
+{
+"data": "02/07/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -85.13,
+"cp": "555",
+"hist": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA.",
+"how": "razao-exato",
+"nota": "",
+"erp": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA. / PGTO REF.COMPRA DE PRODUTOS PARA CONTRATIPAGEM"
+},
+{
+"data": "02/07/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -175.48,
+"cp": "555",
+"hist": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA.",
+"how": "razao-exato",
+"nota": "",
+"erp": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA. / PGTO REF.COMPRA DE PRODUTOS PARA CONTRATIPAGEM"
+},
+{
+"data": "02/07/2026",
+"desc": "IOF",
+"valor": -87.96,
+"cp": "625",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.IOF, COBRANÇA, PIX, MAQUINETA E ETC."
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO CELSO MAICZA",
+"valor": -1930.0,
+"cp": "506",
+"hist": "MZK FERRAMENTARIA LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "MZK FERRAMENTARIA LTDA / PAGAMENTO REFERENTE A SERVIÇO DE FERRAMENTARIA"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO IGOR FERNAND",
+"valor": -1600.0,
+"cp": "375",
+"hist": "IGOR FERNANDO PEREIRA",
+"how": "razao-exato",
+"nota": "retificado 362->375: juros s/ emprestimo (Cosmos cat. 84)",
+"erp": "IGOR FERNANDO PEREIRA / PGTO REF.JUROS DE EMPRESTIMO A LONGO PRAZO"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO MARCIO ANTON",
+"valor": -1000.0,
+"cp": "506",
+"hist": "MARCIO ANTONIO RUSSO 64538427934",
+"how": "razao-exato",
+"nota": "",
+"erp": "MARCIO ANTONIO RUSSO 64538427934 / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO IGOR RENATO",
+"valor": -1000.0,
+"cp": "506",
+"hist": "IGOR RENATO MORESCHI 00575611928",
+"how": "razao-exato",
+"nota": "",
+"erp": "IGOR RENATO MORESCHI 00575611928 / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO SUL TAPE COM",
+"valor": -1242.6,
+"cp": "506",
+"hist": "SUL TAPE COMERCIO DE EMBALAGENS EIRELIPGTO REF. A COMPRA DE PLASTICO BOLHA",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO JANAINA PERE",
+"valor": -1000.0,
+"cp": "506",
+"hist": "JANAINA PEREIRA ELIAS 08802647992",
+"how": "razao-exato",
+"nota": "",
+"erp": "JANAINA PEREIRA ELIAS 08802647992 / PGTO REF.COMISSÕES S/VENDAS"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO CLAUDIA APAR",
+"valor": -1000.0,
+"cp": "362",
+"hist": "CLAUDIA APARECIDA RUBIN",
+"how": "razao-exato",
+"nota": "",
+"erp": "CLAUDIA APARECIDA RUBIN / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO ISAIAS PREST",
+"valor": -1950.0,
+"cp": "506",
+"hist": "DECORAR COMERCIO E PRESTACAO DE SERVICOS LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "DECORAR COMERCIO E PRESTACAO DE SERVICOS LTDA / PGTO REF.SERVIÇOS PRESTADOS"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO SUZAN CRISTI",
+"valor": -1000.0,
+"cp": "362",
+"hist": "SUZAN CRISTINA ROSSI",
+"how": "razao-exato",
+"nota": "",
+"erp": "SUZAN CRISTINA ROSSI / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "02/07/2026",
+"desc": "PIX ENVIADO CLARISSA DAV",
+"valor": -3000.0,
+"cp": "506",
+"hist": "PIX ENVIADO CLARISSA DAV",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "02/07/2026",
+"desc": "Mov Tít Cob Disp 02/07S",
+"valor": 4625.32,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 02/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "02/07/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 8460.0,
+"cp": "504",
+"hist": "REDE VISA AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "02/07/2026",
+"desc": "Tar Cobrança Exp",
+"valor": -632.7,
+"cp": "626",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.IOF, COBRANÇA, PIX, MAQUINETA E ETC."
+},
+{
+"data": "02/07/2026",
+"desc": "Tar Cobrança Exp",
+"valor": -11.1,
+"cp": "626",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.IOF, COBRANÇA, PIX, MAQUINETA E ETC."
+},
+{
+"data": "02/07/2026",
+"desc": "TAR PIX PGTO TRANSF",
+"valor": -319.34,
+"cp": "626",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.IOF, COBRANÇA, PIX, MAQUINETA E ETC."
+},
+{
+"data": "02/07/2026",
+"desc": "TAR PIXQR LIQ MAQUININHA",
+"valor": -7.58,
+"cp": "626",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.IOF, COBRANÇA, PIX, MAQUINETA E ETC."
+},
+{
+"data": "02/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "03/07/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -3192.34,
+"cp": "312",
+"hist": "BRASPRESS TRANSPORTES URGENTES LTDA",
+"how": "razao-exato",
+"nota": "retificado 350->312: Braspress via Urbano = frete s/ vendas (Cosmos)",
+"erp": "BRASPRESS TRANSPORTES URGENTES LTDA / PAG REF A FRETE SOBRE VENDAS"
+},
+{
+"data": "03/07/2026",
+"desc": "BOLETO PAGO M GRINGS E C",
+"valor": -1063.0,
+"cp": "506",
+"hist": "M. GRINGS E CIA LTDA ME",
+"how": "razao-exato",
+"nota": "",
+"erp": "M. GRINGS E CIA LTDA ME / PGTO REF.LOCAÇÃO DE IMPRESSORAS"
+},
+{
+"data": "03/07/2026",
+"desc": "BOLETO PAGO PRUDENTIAL",
+"valor": -623.26,
+"cp": "362",
+"hist": "CARLOS ALEXANDRE MAZZONI",
+"how": "razao-exato",
+"nota": "",
+"erp": "CARLOS ALEXANDRE MAZZONI / PGTO REF.PRO-LABORE"
+},
+{
+"data": "03/07/2026",
+"desc": "BOLETO PAGO EXPRESSO SAO",
+"valor": -400.61,
+"cp": "312",
+"hist": "EXPRESSO SAO MIGUEL LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "EXPRESSO SAO MIGUEL LTDA / PAG REF A FRETE SOBRE VENDAS"
+},
+{
+"data": "03/07/2026",
+"desc": "Mov Tít Cob Disp 03/07S",
+"valor": 3710.48,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 03/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "03/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/07/2026",
+"desc": "Pgto Mín-ITAUCARD-2941",
+"valor": -1119.88,
+"cp": "357",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.UTILIZAÇÃO DE CARTÃO"
+},
+{
+"data": "06/07/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -1000.0,
+"cp": "664",
+"hist": "OUTRAS SAIDAS",
+"how": "especial",
+"nota": "",
+"erp": "OUTRAS SAIDAS / ------------------------------------------------------------"
+},
+{
+"data": "06/07/2026",
+"desc": "BOLETO PAGO AKG ADM DE I",
+"valor": -16878.58,
+"cp": "320",
+"hist": "AKG ADMINISTRAÇÃO E IMÓVEIS LTDA",
+"how": "especial",
+"nota": "AKG ADMINISTRACAO E IMOVEIS - locacao Barracao 42",
+"erp": "AKG ADMINISTRAÇÃO E IMÓVEIS LTDA / PGTO REF.LOCAÇÃO BARRACÃO 42"
+},
+{
+"data": "06/07/2026",
+"desc": "Sispag A F VOLCAO",
+"valor": 1326.0,
+"cp": "504",
+"hist": "SISPAG A F VOLCAO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/07/2026",
+"desc": "Sispag O.S. SECURITIZAD",
+"valor": 5931.9,
+"cp": "504",
+"hist": "SISPAG O.S. SECURITIZAD",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/07/2026",
+"desc": "Mov Tít Cob Disp 06/07S",
+"valor": 2961.66,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 06/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/07/2026",
+"desc": "JUROS LIMITE DA CONTA",
+"valor": -357.02,
+"cp": "375",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.UTILIZAÇÃO DE LIMITE"
+},
+{
+"data": "06/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.04,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/07/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -2200.0,
+"cp": "506",
+"hist": "OUTRAS SAIDAS",
+"how": "razao-exato",
+"nota": "",
+"erp": "OUTRAS SAIDAS / ------------------------------------------------------------"
+},
+{
+"data": "07/07/2026",
+"desc": "BOLETO PAGO ITAU UNIBANC",
+"valor": -4172.5,
+"cp": "357",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "especial",
+"nota": "ERP: utilizacao de cartao de credito (razao jan-jun usou 364 uma vez)",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.UTILIZAÇÃO DE CARTÃO DE CREDITO"
+},
+{
+"data": "07/07/2026",
+"desc": "BOLETO PAGO INSETCONTROL",
+"valor": -730.0,
+"cp": "506",
+"hist": "INSETCONTROL SERVICOS DE HIGIENE LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "INSETCONTROL SERVICOS DE HIGIENE LTDA / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "07/07/2026",
+"desc": "Sispag STALL COMERCIO D",
+"valor": 2935.0,
+"cp": "504",
+"hist": "SISPAG STALL COMERCIO D",
+"how": "padrao-credito",
+"nota": "credito sem referencia - tratado como recebimento de cliente (504)",
+"erp": ""
+},
+{
+"data": "07/07/2026",
+"desc": "Mov Tít Cob Disp 07/07S",
+"valor": 1207.9,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 07/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/07/2026",
+"desc": "PIX TRANSF Valdire07/07",
+"valor": 75.9,
+"cp": "504",
+"hist": "PIX TRANSF VALDIRE07/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "08/07/2026",
+"desc": "PIX ENVIADO ECOLOGICA DE",
+"valor": -1250.0,
+"cp": "506",
+"hist": "PIX ENVIADO ECOLOGICA DE",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "08/07/2026",
+"desc": "PIX ENVIADO ANDRADE ENGE",
+"valor": -1124.56,
+"cp": "362",
+"hist": "ANDRADE ENGENHARIA LTDA.",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "ANDRADE ENGENHARIA LTDA. / PGTO REF.PRESTAÇÃO DE SERVIÇOS DE LICENÇAS"
+},
+{
+"data": "08/07/2026",
+"desc": "BOLETO PAGO JOVII COSM.",
+"valor": -2482.91,
+"cp": "506",
+"hist": "JOVII COSMECEUTICA LTDA",
+"how": "erp-categoria",
+"nota": "",
+"erp": "JOVII COSMECEUTICA LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,LUNA"
+},
+{
+"data": "08/07/2026",
+"desc": "Mov Tít Cob Disp 08/07S",
+"valor": 3968.79,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 08/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "08/07/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 6009.14,
+"cp": "504",
+"hist": "REDE MAST AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "08/07/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 2703.19,
+"cp": "504",
+"hist": "REDE VISA AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "09/07/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -199.99,
+"cp": "555",
+"hist": "LOVIZ ENTRETENIMENTO E TELECOMUNICACOES LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "LOVIZ ENTRETENIMENTO E TELECOMUNICACOES LTDA / PGTO REF.INTERNET 10 GIGA"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO SUZAN CRISTI",
+"valor": -3000.0,
+"cp": "362",
+"hist": "SUZAN CRISTINA ROSSI",
+"how": "razao-exato",
+"nota": "",
+"erp": "SUZAN CRISTINA ROSSI / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO RICARDO RICC",
+"valor": -2000.0,
+"cp": "506",
+"hist": "RICARDO RICCI",
+"how": "razao-exato",
+"nota": "",
+"erp": "RICARDO RICCI / PGTO REF.COMISSÃO S/VENDAS"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO CLAUDIA APAR",
+"valor": -2000.0,
+"cp": "362",
+"hist": "CLAUDIA APARECIDA RUBIN",
+"how": "razao-exato",
+"nota": "",
+"erp": "CLAUDIA APARECIDA RUBIN / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO L ESSENCE IN",
+"valor": -1618.94,
+"cp": "506",
+"hist": "L ESSENCE INDUSTRIA E COMERCIO LTDA EM RECUPERACAO JUDICIAL",
+"how": "razao-exato",
+"nota": "",
+"erp": "L ESSENCE INDUSTRIA E COMERCIO LTDA EM RECUPERACAO JUDICIAL / PAGAMENTO REFERENTE A COMPRA DE FRAGRANCIA"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO JFC - CONSUL",
+"valor": -2000.0,
+"cp": "506",
+"hist": "JFC - CONSULTORIA, GESTAO E REPRESENTACAO COMERCIAL LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "JFC - CONSULTORIA, GESTAO E REPRESENTACAO COMERCIAL LTDA / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO ANTONIA PIRE",
+"valor": -4000.0,
+"cp": "506",
+"hist": "PIX ENVIADO ANTONIA PIRE",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO ISAIAS PREST",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO ISAIAS PREST",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO MARCIO ANTON",
+"valor": -3000.0,
+"cp": "506",
+"hist": "MARCIO ANTONIO RUSSO 64538427934",
+"how": "razao-exato",
+"nota": "",
+"erp": "MARCIO ANTONIO RUSSO 64538427934 / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO BRUNA RAMOS",
+"valor": -1000.0,
+"cp": "506",
+"hist": "BRUNA RAMOS LEOPOLDO DA SILVA",
+"how": "razao-exato",
+"nota": "",
+"erp": "BRUNA RAMOS LEOPOLDO DA SILVA / PGTO REF.SERVIÇOS PRESTADOS DEPARTAMENTO JURÍDICO"
+},
+{
+"data": "09/07/2026",
+"desc": "PIX ENVIADO PROTECTION A",
+"valor": -2000.0,
+"cp": "361",
+"hist": "PROTECTION ASSESSORIA EMPRESARIAL LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "PROTECTION ASSESSORIA EMPRESARIAL LTDA / PGTO REF.SERVIÇOS PRESTADOS DE CONTABILIDADE DAS"
+},
+{
+"data": "09/07/2026",
+"desc": "BOLETO PAGO PLUS SANTE E",
+"valor": -342.3,
+"cp": "653",
+"hist": "PLUS SANTE",
+"how": "razao-exato",
+"nota": "",
+"erp": "PLUS SANTE / PGTO REF.SERVIÇOS PRESTADOS DE ATENDIMENTO E"
+},
+{
+"data": "09/07/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -328.67,
+"cp": "312",
+"hist": "BRASPRESS TRANSPORTES URGENTES LTDA",
+"how": "razao-exato",
+"nota": "retificado 350->312: Braspress via Urbano = frete s/ vendas (Cosmos)",
+"erp": "BRASPRESS TRANSPORTES URGENTES LTDA / PAG REF A FRETE SOBRE VENDAS NF 8581"
+},
+{
+"data": "09/07/2026",
+"desc": "BOLETO PAGO SINDICATO DA",
+"valor": -358.58,
+"cp": "350",
+"hist": "SINDICATO IND PROD HIG PESSOAL COMS PERF PR",
+"how": "razao-exato",
+"nota": "",
+"erp": "SINDICATO IND PROD HIG PESSOAL COMS PERF PR / PGTO REF.MENSALIDADE SINDICATO PATRONAL"
+},
+{
+"data": "09/07/2026",
+"desc": "BOLETO PAGO ASSOCIACAO F",
+"valor": -2328.3,
+"cp": "362",
+"hist": "CARLOS ALEXANDRE MAZZONI",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "CARLOS ALEXANDRE MAZZONI / PGTO REF.PRO-LABORE"
+},
+{
+"data": "09/07/2026",
+"desc": "BOLETO PAGO TRANS TOMAZ",
+"valor": -120.72,
+"cp": "312",
+"hist": "TRANS TOMAZ - TRANSPORTES RODOVIARIOS DE CARGAS EIRELI",
+"how": "razao-exato",
+"nota": "",
+"erp": "TRANS TOMAZ - TRANSPORTES RODOVIARIOS DE CARGAS EIRELI / PGTO REF.COMPRA S/NFE"
+},
+{
+"data": "09/07/2026",
+"desc": "Mov Tít Cob Disp 09/07S",
+"valor": 1135.46,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 09/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "09/07/2026",
+"desc": "PIX TRANSF NELIO J09/07",
+"valor": 948.0,
+"cp": "504",
+"hist": "PIX TRANSF NELIO J09/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "09/07/2026",
+"desc": "PIX TRANSF Tivolli09/07",
+"valor": 500.0,
+"cp": "504",
+"hist": "PIX TRANSF TIVOLLI09/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "09/07/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 25953.3,
+"cp": "504",
+"hist": "TED 363.0001.RNX F M D R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/07/2026",
+"desc": "PIX ENVIADO DAXIA DOCE A",
+"valor": -2047.99,
+"cp": "506",
+"hist": "DAXIA DOCE AROMA INDUSTRIA E COMERCIO LTDA.",
+"how": "erp-categoria",
+"nota": "",
+"erp": "DAXIA DOCE AROMA INDUSTRIA E COMERCIO LTDA. / ------------------------------------------------------------"
+},
+{
+"data": "10/07/2026",
+"desc": "PIX ENVIADO DISTRIBUIDOR",
+"valor": -556.78,
+"cp": "506",
+"hist": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA",
+"how": "razao-exato",
+"nota": "retificado 493->506: Distribuidora Ind. Paranaense = fornecedor MP (Cosmos)",
+"erp": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA / ------------------------------------------------------------"
+},
+{
+"data": "10/07/2026",
+"desc": "PIX ENVIADO FLAVIA KOSDR",
+"valor": -3000.0,
+"cp": "362",
+"hist": "SELITO EDUARDO KOSDRA",
+"how": "erp-categoria",
+"nota": "",
+"erp": "SELITO EDUARDO KOSDRA / -VALOR 300.000 - ATUALIZADO APOS RETIRADA FICOU"
+},
+{
+"data": "10/07/2026",
+"desc": "PIX ENVIADO AQIA QUIMICA",
+"valor": -1738.0,
+"cp": "506",
+"hist": "AQIA QUIMICA INOVATIVA LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "AQIA QUIMICA INOVATIVA LTDA / ------------------------------------------------------------"
+},
+{
+"data": "10/07/2026",
+"desc": "PIX ENVIADO DISTRIBUIDOR",
+"valor": -3289.66,
+"cp": "506",
+"hist": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA",
+"how": "razao-exato",
+"nota": "retificado 493->506: Distribuidora Ind. Paranaense = fornecedor MP (Cosmos)",
+"erp": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA / ------------------------------------------------------------"
+},
+{
+"data": "10/07/2026",
+"desc": "PIX ENVIADO HIGH CHEM CO",
+"valor": -7077.0,
+"cp": "506",
+"hist": "HIGH CHEM COMERCIO E INDUSTRIA DE PRODUTOS QUIMICOS LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "HIGH CHEM COMERCIO E INDUSTRIA DE PRODUTOS QUIMICOS LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,"
+},
+{
+"data": "10/07/2026",
+"desc": "Sispag O.S. SECURITIZAD",
+"valor": 20667.96,
+"cp": "504",
+"hist": "SISPAG O.S. SECURITIZAD",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/07/2026",
+"desc": "Sispag O.S. SECURITIZAD",
+"valor": 14151.9,
+"cp": "504",
+"hist": "SISPAG O.S. SECURITIZAD",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/07/2026",
+"desc": "Mov Tít Cob Disp 10/07S",
+"valor": 1721.57,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 10/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/07/2026",
+"desc": "PIX ENVIADO JOSE DOMINGO",
+"valor": -3560.0,
+"cp": "506",
+"hist": "JOSE DOMINGOS LINARES",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "JOSE DOMINGOS LINARES / PAGAMENTO REFERENTE A COMPRA DE CARTUCHO"
+},
+{
+"data": "13/07/2026",
+"desc": "PIX ENVIADO INDUSTRIA QU",
+"valor": -1475.0,
+"cp": "506",
+"hist": "INDUSTRIA QUIMICA ANASTACIO S A PGTO REF. A COMPRA DE MATERIA PRIMA, VASELINASOLIDA 340 KG, ERITORBATO DE SODIO 25 KG",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/07/2026",
+"desc": "PIX ENVIADO YAHWEH PRINT",
+"valor": -13631.2,
+"cp": "506",
+"hist": "PIX ENVIADO YAHWEH PRINT",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/07/2026",
+"desc": "PIX ENVIADO BISPHARMA EM",
+"valor": -10668.64,
+"cp": "506",
+"hist": "BISPHARMA EMBALAGENS LTDA",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "BISPHARMA EMBALAGENS LTDA / PGTO REF.ACORDO REALIZO POR MICHEL NA DATA DE"
+},
+{
+"data": "13/07/2026",
+"desc": "PIX ENVIADO CARLOS ALEXA",
+"valor": -2000.0,
+"cp": "362",
+"hist": "CARLOS ALEXANDRE MAZZONI",
+"how": "razao-exato",
+"nota": "",
+"erp": "CARLOS ALEXANDRE MAZZONI / PGTO REF.PRO-LABORE"
+},
+{
+"data": "13/07/2026",
+"desc": "PIX ENVIADO ELVIS DA SIL",
+"valor": -2752.08,
+"cp": "506",
+"hist": "ELVIS DA SILVA SANTOS",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "ELVIS DA SILVA SANTOS / PAGAMENTO REFERENTE A SERVIÇO DE SERIGRAFIA (ABRIL"
+},
+{
+"data": "13/07/2026",
+"desc": "BOLETO PAGO SINDICATO DO",
+"valor": -266.0,
+"cp": "350",
+"hist": "SINDICATO DOS TRABS NAS INDUST QUIMICAS E FARM DO ESTPR",
+"how": "razao-exato",
+"nota": "",
+"erp": "SINDICATO DOS TRABS NAS INDUST QUIMICAS E FARM DO ESTPR / PGTO REF.CONTRIBUIÇÃO CONF.CCT"
+},
+{
+"data": "13/07/2026",
+"desc": "BOLETO PAGO FOCUS QUIMIC",
+"valor": -1174.11,
+"cp": "506",
+"hist": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,"
+},
+{
+"data": "13/07/2026",
+"desc": "BOLETO PAGO LABAZ CIENTI",
+"valor": -984.33,
+"cp": "506",
+"hist": "LABAZ CIENTIFICA LTDA",
+"how": "erp-categoria",
+"nota": "",
+"erp": "LABAZ CIENTIFICA LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,"
+},
+{
+"data": "13/07/2026",
+"desc": "BOLETO PAGO JOVII COSM.",
+"valor": -2458.21,
+"cp": "506",
+"hist": "JOVII COSMECEUTICA LTDA",
+"how": "erp-categoria",
+"nota": "",
+"erp": "JOVII COSMECEUTICA LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,LUNA"
+},
+{
+"data": "13/07/2026",
+"desc": "Mov Tít Cob Disp 12/07S",
+"valor": 951.96,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 12/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/07/2026",
+"desc": "Mov Tít Cob Disp 13/07S",
+"valor": 14579.04,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 13/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/07/2026",
+"desc": "PIX TRANSF Luan Pa13/07",
+"valor": 5000.0,
+"cp": "504",
+"hist": "PIX TRANSF LUAN PA13/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/07/2026",
+"desc": "PIX TRANSF R E S C13/07",
+"valor": 12312.0,
+"cp": "504",
+"hist": "PIX TRANSF R E S C13/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.04,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "Sispag CONCESSIONARIA",
+"valor": -4500.77,
+"cp": "354",
+"hist": "SISPAG CONCESSIONARIA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO JFC - CONSUL",
+"valor": -2000.0,
+"cp": "506",
+"hist": "JFC - CONSULTORIA, GESTAO E REPRESENTACAO COMERCIAL LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "JFC - CONSULTORIA, GESTAO E REPRESENTACAO COMERCIAL LTDA / PGTO REF.SERVIÇOS PRESTADOS"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO MARCIO ANTON",
+"valor": -1510.32,
+"cp": "506",
+"hist": "MARCIO ANTONIO RUSSO 64538427934",
+"how": "razao-exato",
+"nota": "",
+"erp": "MARCIO ANTONIO RUSSO 64538427934 / PGTO REF.PRESTAÇÃO DE SERVIÇOS CONF.CONTRATO"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO BRUNA RAMOS",
+"valor": -1000.0,
+"cp": "506",
+"hist": "BRUNA RAMOS LEOPOLDO DA SILVA",
+"how": "razao-exato",
+"nota": "",
+"erp": "BRUNA RAMOS LEOPOLDO DA SILVA / PGTO REF.SERVIÇOS PRESTADOS DEPARTAMENTO JURÍDICO"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO RICARDO RICC",
+"valor": -1637.98,
+"cp": "506",
+"hist": "RICARDO RICCI",
+"how": "razao-exato",
+"nota": "",
+"erp": "RICARDO RICCI / PGTO REF.COMISSÃO S/VENDAS"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO ISMAEL CORDE",
+"valor": -1500.0,
+"cp": "362",
+"hist": "ISMAEL CORDEIRO DA SILVA",
+"how": "razao-exato",
+"nota": "",
+"erp": "ISMAEL CORDEIRO DA SILVA / PGTO REF.COMISSÃO S/VENDAS"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO THIAGO TAIT",
+"valor": -1700.0,
+"cp": "362",
+"hist": "THIAGO TAIT DAS CHAGAS",
+"how": "razao-exato",
+"nota": "razao jan-jun usava conta 25 (folha); empresa sem folha desde 03/26 -> 362 servicos de terceiros",
+"erp": "THIAGO TAIT DAS CHAGAS / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO SUZAN CRISTI",
+"valor": -1709.0,
+"cp": "362",
+"hist": "SUZAN CRISTINA ROSSI",
+"how": "razao-exato",
+"nota": "",
+"erp": "SUZAN CRISTINA ROSSI / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO MARCIA CAUCA",
+"valor": -2000.0,
+"cp": "362",
+"hist": "MARCIA CAUCA",
+"how": "razao-exato",
+"nota": "",
+"erp": "MARCIA CAUCA / PGTO REF.COMISSÃO S/VENDAS"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO JANAINA PERE",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO JANAINA PERE",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO CLAUDIA APAR",
+"valor": -1883.0,
+"cp": "362",
+"hist": "PIX ENVIADO CLAUDIA APAR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO LUIZ HENRIQU",
+"valor": -1365.0,
+"cp": "362",
+"hist": "PIX ENVIADO LUIZ HENRIQU",
+"how": "razao-exato",
+"nota": "razao jan-jun usava conta 187 (folha); empresa sem folha desde 03/26 -> 362 servicos de terceiros",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO MARCIA DO CA",
+"valor": -1650.4,
+"cp": "506",
+"hist": "MARCIA DO CARMO DE BRITO",
+"how": "razao-exato",
+"nota": "",
+"erp": "MARCIA DO CARMO DE BRITO / PGTO REF.COMISSÃO S/VENDAS"
+},
+{
+"data": "14/07/2026",
+"desc": "PIX ENVIADO ANDRADE ENGE",
+"valor": -1124.56,
+"cp": "362",
+"hist": "ANDRADE ENGENHARIA LTDA.",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "ANDRADE ENGENHARIA LTDA. / PGTO REF.PRESTAÇÃO DE SERVIÇOS DE LICENÇAS"
+},
+{
+"data": "14/07/2026",
+"desc": "BOLETO PAGO EFITRANS TRA",
+"valor": -582.28,
+"cp": "312",
+"hist": "EFITRANS TRANSPORTES LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "EFITRANS TRANSPORTES LTDA / PGTO REF."
+},
+{
+"data": "14/07/2026",
+"desc": "Mov Tít Cob Disp 14/07S",
+"valor": 1026.95,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 14/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "PIX TRANSF MANFIUS14/07",
+"valor": 325.8,
+"cp": "504",
+"hist": "PIX TRANSF MANFIUS14/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "PIX TRANSF Yahweh 14/07",
+"valor": 9303.25,
+"cp": "504",
+"hist": "PIX TRANSF YAHWEH 14/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.05,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "15/07/2026",
+"desc": "Sispag CONCESSIONARIA",
+"valor": -1371.05,
+"cp": "355",
+"hist": "COMPANHIA DE SANEAMENTO DO PARANA SANEPAR",
+"how": "razao-exato",
+"nota": "retificado 354->355 agua",
+"erp": "COMPANHIA DE SANEAMENTO DO PARANA SANEPAR / PGTO REF.CONSUMO DE AGUA E ESGOTO"
+},
+{
+"data": "15/07/2026",
+"desc": "PIX ENVIADO DISTRIBUIDOR",
+"valor": -405.06,
+"cp": "506",
+"hist": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA",
+"how": "razao-exato",
+"nota": "retificado 493->506: Distribuidora Ind. Paranaense = fornecedor MP (Cosmos)",
+"erp": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA / ------------------------------------------------------------"
+},
+{
+"data": "15/07/2026",
+"desc": "PIX ENVIADO HERNANDEZ VI",
+"valor": -1100.0,
+"cp": "506",
+"hist": "PIX ENVIADO HERNANDEZ VI",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "15/07/2026",
+"desc": "PIX ENVIADO MICHEL SCAND",
+"valor": -1000.0,
+"cp": "362",
+"hist": "MICHEL SCANDER MAZZONI",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "MICHEL SCANDER MAZZONI / PGTO REF.PRO-LABORE"
+},
+{
+"data": "15/07/2026",
+"desc": "BOLETO PAGO DINACO IMPOR",
+"valor": -1758.78,
+"cp": "506",
+"hist": "BOLETO PAGO DINACO IMPOR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "15/07/2026",
+"desc": "BOLETO PAGO DINACO IMPOR",
+"valor": -4573.25,
+"cp": "506",
+"hist": "DINACO IMPORTACAO, COMERCIO LTDA.",
+"how": "razao-exato",
+"nota": "",
+"erp": "DINACO IMPORTACAO, COMERCIO LTDA. / PAGAMENTO REFERENTE A COPRA DE MATERIA PRIMA, HDAP"
+},
+{
+"data": "15/07/2026",
+"desc": "BOLETO PAGO QUANTIQ DIST",
+"valor": -2044.78,
+"cp": "506",
+"hist": "QUANTIQ DISTRIBUIDORA LTDA",
+"how": "erp-categoria",
+"nota": "",
+"erp": "QUANTIQ DISTRIBUIDORA LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,"
+},
+{
+"data": "15/07/2026",
+"desc": "BOLETO PAGO LIGGA SERVIC",
+"valor": -559.92,
+"cp": "555",
+"hist": "COPEL TELECOMUNICACOES S.A.",
+"how": "razao-exato",
+"nota": "",
+"erp": "COPEL TELECOMUNICACOES S.A. / PGTO REF.SERVIÇO DE IP FIXO"
+},
+{
+"data": "15/07/2026",
+"desc": "BOLETO PAGO AZUL LINHAS",
+"valor": -551.88,
+"cp": "312",
+"hist": "AZUL LINHAS AEREAS BRASILEIRAS S.A.",
+"how": "razao-exato",
+"nota": "",
+"erp": "AZUL LINHAS AEREAS BRASILEIRAS S.A. / PAG REF A FRETE SOBRE VENDAS"
+},
+{
+"data": "15/07/2026",
+"desc": "Sispag FRANCISCO ROSARI",
+"valor": 6300.0,
+"cp": "504",
+"hist": "SISPAG FRANCISCO ROSARI",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "15/07/2026",
+"desc": "Mov Tít Cob Disp 15/07S",
+"valor": 2988.27,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 15/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "15/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.03,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "16/07/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -148.0,
+"cp": "555",
+"hist": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA.",
+"how": "razao-exato",
+"nota": "",
+"erp": "IBAZAR.COM ATIVIDADES DE INTERNET LTDA. / PGTO REF."
+},
+{
+"data": "16/07/2026",
+"desc": "PIX ENVIADO FRANCIS KEIT",
+"valor": -1625.0,
+"cp": "506",
+"hist": "FRANCIS KODAMA",
+"how": "razao-exato",
+"nota": "",
+"erp": "FRANCIS KODAMA / PGTO REF.SERVIÇOS PRESTADOS"
+},
+{
+"data": "16/07/2026",
+"desc": "PIX ENVIADO NUTRI.COM TE",
+"valor": -1475.0,
+"cp": "506",
+"hist": "PIX ENVIADO NUTRI.COM TE",
+"how": "especial",
+"nota": "PIX devolvido no mesmo dia (DEV PIX)",
+"erp": ""
+},
+{
+"data": "16/07/2026",
+"desc": "PIX ENVIADO ISAIAS PREST",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO ISAIAS PREST",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "16/07/2026",
+"desc": "BOLETO PAGO FIDC MULTISE",
+"valor": -481.42,
+"cp": "506",
+"hist": "BOLETO PAGO FIDC MULTISE",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "16/07/2026",
+"desc": "Sispag SHED PROFESSIONA",
+"valor": 85.84,
+"cp": "504",
+"hist": "SISPAG SHED PROFESSIONA",
+"how": "padrao-credito",
+"nota": "credito sem referencia - tratado como recebimento de cliente (504)",
+"erp": ""
+},
+{
+"data": "16/07/2026",
+"desc": "Mov Tít Cob Disp 16/07S",
+"valor": 2674.53,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 16/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "16/07/2026",
+"desc": "DEV PIX NUTRI.COM16/07",
+"valor": 1475.0,
+"cp": "506",
+"hist": "DEV PIX NUTRI.COM16/07",
+"how": "especial",
+"nota": "devolucao do PIX enviado a NUTRI.COM no mesmo dia",
+"erp": ""
+},
+{
+"data": "16/07/2026",
+"desc": "PIX TRANSF PERFIL 16/07",
+"valor": 6000.0,
+"cp": "504",
+"hist": "PIX TRANSF PERFIL 16/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/07/2026",
+"desc": "PIX ENVIADO AKG ADMINIST",
+"valor": -2500.0,
+"cp": "320",
+"hist": "AKG ADMINISTRAÇÃO E IMÓVEIS LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "AKG ADMINISTRAÇÃO E IMÓVEIS LTDA / PGTO REF.ACORDO EXTRA JUDICIAL PARA PAGAMENTO DE"
+},
+{
+"data": "17/07/2026",
+"desc": "BOLETO PAGO EXPRESSO SAO",
+"valor": -337.19,
+"cp": "312",
+"hist": "EXPRESSO SAO MIGUEL LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "EXPRESSO SAO MIGUEL LTDA / PAG REF A FRETE SOBRE VENDAS"
+},
+{
+"data": "17/07/2026",
+"desc": "BOLETO PAGO TRANS TOMAZ",
+"valor": -96.43,
+"cp": "312",
+"hist": "TRANS TOMAZ - TRANSPORTES RODOVIARIOS DE CARGAS EIRELI",
+"how": "razao-exato",
+"nota": "",
+"erp": "TRANS TOMAZ - TRANSPORTES RODOVIARIOS DE CARGAS EIRELI / PGTO REF.FRETE S/NFE"
+},
+{
+"data": "17/07/2026",
+"desc": "BOLETO PAGO CRM TECNOLOG",
+"valor": -2859.58,
+"cp": "640",
+"hist": "CRMTECH SISTEMAS DE INFORMACAO LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "CRMTECH SISTEMAS DE INFORMACAO LTDA / PGTO REF.UTILIZAÇÃO SISTEMA COSMOS"
+},
+{
+"data": "17/07/2026",
+"desc": "BOLETO PAGO SINDICATO DO",
+"valor": -209.0,
+"cp": "350",
+"hist": "SINDICATO DOS TRABS NAS INDUST QUIMICAS E FARM DO ESTPR",
+"how": "razao-exato",
+"nota": "",
+"erp": "SINDICATO DOS TRABS NAS INDUST QUIMICAS E FARM DO ESTPR / PGTO REF.CONTRIBUIÇÃO FUNERAL CONF.CCT"
+},
+{
+"data": "17/07/2026",
+"desc": "Mov Tít Cob Disp 17/07S",
+"valor": 3112.6,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 17/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/07/2026",
+"desc": "PIX TRANSF maria a17/07",
+"valor": 2964.0,
+"cp": "504",
+"hist": "PIX TRANSF MARIA A17/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO MAYARA CRIST",
+"valor": -4081.0,
+"cp": "320",
+"hist": "MAYARA CRISTINE MELO DA CRUZ",
+"how": "erp-categoria",
+"nota": "",
+"erp": "MAYARA CRISTINE MELO DA CRUZ / PGTO REF.ALUGUEL"
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO CARLOS ALEXA",
+"valor": -1500.0,
+"cp": "362",
+"hist": "PIX ENVIADO CARLOS ALEXA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO FOCUS TECNOL",
+"valor": -1235.9,
+"cp": "506",
+"hist": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA / ------------------------------------------------------------"
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO MELO & CRUZ",
+"valor": -3519.2,
+"cp": "320",
+"hist": "MELO & CRUZ LTDA",
+"how": "erp-nome->razao",
+"nota": "retificado 506->320: aluguel (Cosmos cat. 11)",
+"erp": "MELO & CRUZ LTDA / PGTO REF.ALUGUEL"
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO THIAGO TAIT",
+"valor": -1500.0,
+"cp": "362",
+"hist": "THIAGO TAIT DAS CHAGAS",
+"how": "razao-exato",
+"nota": "razao jan-jun usava conta 25 (folha); empresa sem folha desde 03/26 -> 362 servicos de terceiros",
+"erp": "THIAGO TAIT DAS CHAGAS / PGTO REF.SERVIÇOS PRESTADOS CONF.CONTRATO"
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO FILIPE GERHA",
+"valor": -944.0,
+"cp": "362",
+"hist": "MICHEL SCANDER MAZZONI",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "MICHEL SCANDER MAZZONI / PGTO REF.PRO-LABORE"
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO LUCENA & AMO",
+"valor": -1000.0,
+"cp": "365",
+"hist": "DIOGO RAFAEL FERMINO BENTO",
+"how": "erp-categoria",
+"nota": "",
+"erp": "DIOGO RAFAEL FERMINO BENTO / PGTO REF.ACORDO CONF.ATA PARA PROCURADOR HENRIQUE"
+},
+{
+"data": "20/07/2026",
+"desc": "PIX ENVIADO EMUNA COMERC",
+"valor": -1475.0,
+"cp": "506",
+"hist": "PIX ENVIADO EMUNA COMERC",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "20/07/2026",
+"desc": "BOLETO PAGO LABAZ CIENTI",
+"valor": -984.34,
+"cp": "506",
+"hist": "LABAZ CIENTIFICA LTDA",
+"how": "erp-categoria",
+"nota": "",
+"erp": "LABAZ CIENTIFICA LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,"
+},
+{
+"data": "20/07/2026",
+"desc": "BOLETO PAGO TECNOPONTO T",
+"valor": -166.67,
+"cp": "506",
+"hist": "TECNOPONTO TEC AVAN CONT DE PONTO ACESSO LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "TECNOPONTO TEC AVAN CONT DE PONTO ACESSO LTDA / PAGTO REF. A COMPRA DO NOVO RELÓGIO"
+},
+{
+"data": "20/07/2026",
+"desc": "BOLETO PAGO JOVII COSM.",
+"valor": -2458.2,
+"cp": "506",
+"hist": "JOVII COSMECEUTICA LTDA",
+"how": "erp-categoria",
+"nota": "",
+"erp": "JOVII COSMECEUTICA LTDA / PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,LUNA"
+},
+{
+"data": "20/07/2026",
+"desc": "Sispag TB PRO COSMETICS",
+"valor": 3264.0,
+"cp": "504",
+"hist": "SISPAG TB PRO COSMETICS",
+"how": "padrao-credito",
+"nota": "credito sem referencia - tratado como recebimento de cliente (504)",
+"erp": ""
+},
+{
+"data": "20/07/2026",
+"desc": "Sispag YGREM MARCENARIA",
+"valor": 6000.0,
+"cp": "504",
+"hist": "SISPAG YGREM MARCENARIA",
+"how": "padrao-credito",
+"nota": "credito sem referencia - tratado como recebimento de cliente (504)",
+"erp": ""
+},
+{
+"data": "20/07/2026",
+"desc": "TED 448.0000FIDC OS RL",
+"valor": 8955.1,
+"cp": "504",
+"hist": "TED 448.0000FIDC OS RL",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/07/2026",
+"desc": "Mov Tít Cob Disp 18/07S",
+"valor": 907.8,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 18/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/07/2026",
+"desc": "Mov Tít Cob Disp 20/07S",
+"valor": 4770.38,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 20/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX ENVIADO NOVA PIRAMID",
+"valor": -9284.24,
+"cp": "506",
+"hist": "PIX ENVIADO NOVA PIRAMID",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX ENVIADO RODONAVES TR",
+"valor": -328.88,
+"cp": "312",
+"hist": "PIX ENVIADO RODONAVES TR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX ENVIADO CAETANO PLAS",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO CAETANO PLAS",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX ENVIADO FELIPE DE OL",
+"valor": -2755.0,
+"cp": "362",
+"hist": "PIX ENVIADO FELIPE DE OL",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX ENVIADO VIP COMERCIO",
+"valor": -258.13,
+"cp": "506",
+"hist": "PIX ENVIADO VIP COMERCIO",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX ENVIADO ILS - TECNOL",
+"valor": -887.59,
+"cp": "506",
+"hist": "PIX ENVIADO ILS - TECNOL",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1089.23,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "BOLETO PAGO 60512435 Alt",
+"valor": -330.0,
+"cp": "506",
+"hist": "BOLETO PAGO 60512435 ALT",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "Sispag FRANCISCO ROSARI",
+"valor": 219.37,
+"cp": "504",
+"hist": "SISPAG FRANCISCO ROSARI",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "Mov Tít Cob Disp 21/07S",
+"valor": 5282.25,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 21/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX TRANSF attoz b21/07",
+"valor": 5000.0,
+"cp": "504",
+"hist": "PIX TRANSF ATTOZ B21/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX TRANSF R&S COM21/07",
+"valor": 8688.0,
+"cp": "504",
+"hist": "PIX TRANSF R&S COM21/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/07/2026",
+"desc": "PIX TRANSF SB BEAU21/07",
+"valor": 5993.03,
+"cp": "504",
+"hist": "PIX TRANSF SB BEAU21/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "PIX ENVIADO MARCELLA ROC",
+"valor": -1272.39,
+"cp": "506",
+"hist": "PIX ENVIADO MARCELLA ROC",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "PIX ENVIADO MICHEL SCAND",
+"valor": -1000.0,
+"cp": "362",
+"hist": "MICHEL SCANDER MAZZONI",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "PIX ENVIADO RODONAVES TR",
+"valor": -406.2,
+"cp": "312",
+"hist": "PIX ENVIADO RODONAVES TR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "BOLETO PAGO DINACO IMPOR",
+"valor": -4573.24,
+"cp": "506",
+"hist": "BOLETO PAGO DINACO IMPOR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "BOLETO PAGO DENTAL UNI",
+"valor": -114.96,
+"cp": "628",
+"hist": "DENTAL UNI COOPERATIVA ODONTOLOGICA PGTO REF. PRESTACAO DE SERVICOS",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "BOLETO PAGO DINACO IMPOR",
+"valor": -1758.77,
+"cp": "506",
+"hist": "BOLETO PAGO DINACO IMPOR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "BOLETO PAGO QUANTIQ DIST",
+"valor": -2044.78,
+"cp": "506",
+"hist": "BOLETO PAGO QUANTIQ DIST",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "Mov Tít Cob Disp 22/07S",
+"valor": 3491.21,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 22/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "PIX TRANSF INST TE22/07",
+"valor": 1212.87,
+"cp": "504",
+"hist": "PIX TRANSF INST TE22/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "22/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.09,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "23/07/2026",
+"desc": "PIX ENVIADO JOSE DOMINGO",
+"valor": -2340.0,
+"cp": "506",
+"hist": "JOSE DOMINGOS LINARES",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "23/07/2026",
+"desc": "BOLETO PAGO 60512435 Alt",
+"valor": -520.0,
+"cp": "506",
+"hist": "BOLETO PAGO 60512435 ALT",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "23/07/2026",
+"desc": "BOLETO PAGO ALLOXY ESPEC",
+"valor": -3649.9,
+"cp": "56",
+"hist": "ALLOXY ESPECIALIDADES QUIMICAS LTDAPGTO REF. A COMPRA DE MATERIA PRIMA, PEROXIDO DEHIDROGENIO",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "23/07/2026",
+"desc": "BOLETO PAGO ALLOXY ESPEC",
+"valor": -3499.61,
+"cp": "56",
+"hist": "ALLOXY ESPECIALIDADES QUIMICAS LTDAPGTO REF. A COMPRA DE MATERIA PRIMA, PEROXIDO DEHIDROGENIO",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "23/07/2026",
+"desc": "Mov Tít Cob Disp 23/07S",
+"valor": 3992.42,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 23/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "23/07/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 9723.34,
+"cp": "504",
+"hist": "REDE MAST AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "Pgto Mín-ITAUCARD-1147",
+"valor": -1143.29,
+"cp": "357",
+"hist": "PGTO MÍN-ITAUCARD-1147",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX ENVIADO BEAUTY FAIR",
+"valor": -13176.36,
+"cp": "506",
+"hist": "PIX ENVIADO BEAUTY FAIR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX ENVIADO HIGH CHEM CO",
+"valor": -7077.0,
+"cp": "506",
+"hist": "PIX ENVIADO HIGH CHEM CO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX ENVIADO PROVITAL DO",
+"valor": -88.0,
+"cp": "506",
+"hist": "PIX ENVIADO PROVITAL DO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX ENVIADO LUCIANO PERE",
+"valor": -200.0,
+"cp": "362",
+"hist": "PIX ENVIADO LUCIANO PERE",
+"how": "razao-exato",
+"nota": "razao jan-jun usava conta 187 (folha); empresa sem folha desde 03/26 -> 362 servicos de terceiros",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX ENVIADO PROVITAL DO",
+"valor": -4097.01,
+"cp": "506",
+"hist": "PIX ENVIADO PROVITAL DO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX ENVIADO L ESSENCE IN",
+"valor": -1885.63,
+"cp": "506",
+"hist": "PIX ENVIADO L ESSENCE IN",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX ENVIADO 50.370.136 A",
+"valor": -9330.0,
+"cp": "506",
+"hist": "PIX ENVIADO 50.370.136 A",
+"how": "razao-exato",
+"nota": "retificado 493->506: Skin Lab = fornecedor MP (Cosmos)",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -184.18,
+"cp": "312",
+"hist": "BOLETO PAGO URBANO SA SO",
+"how": "razao-exato",
+"nota": "retificado 350->312: Braspress via Urbano = frete s/ vendas (Cosmos)",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "BOLETO PAGO TRANS TOMAZ",
+"valor": -110.88,
+"cp": "312",
+"hist": "BOLETO PAGO TRANS TOMAZ",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "Sispag COSMETICON COMER",
+"valor": 3000.0,
+"cp": "664",
+"hist": "SISPAG COSMETICON COMER",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "Mov Tít Cob Disp 24/07S",
+"valor": 5219.81,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 24/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX TRANSF Cristia24/07",
+"valor": 4000.0,
+"cp": "504",
+"hist": "PIX TRANSF CRISTIA24/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "PIX TRANSF NUTRABE24/07",
+"valor": 7508.0,
+"cp": "504",
+"hist": "PIX TRANSF NUTRABE24/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.09,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/07/2026",
+"desc": "PIX ENVIADO BARENTZ BRAS",
+"valor": -1383.18,
+"cp": "506",
+"hist": "BARENTZ BRASIL DISTRIBUIDORA LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "BARENTZ BRASIL DISTRIBUIDORA LTDA / ------------------------------------------------------------"
+},
+{
+"data": "27/07/2026",
+"desc": "PIX ENVIADO CHEMYUNION L",
+"valor": -2646.71,
+"cp": "506",
+"hist": "CHEMYUNION LTDA",
+"how": "erp-nome->razao",
+"nota": "",
+"erp": "CHEMYUNION LTDA / ------------------------------------------------------------"
+},
+{
+"data": "27/07/2026",
+"desc": "BOLETO PAGO PENSU EXACTU",
+"valor": -612.25,
+"cp": "506",
+"hist": "PENSU EXACTU COMERCIO E SERVICOS DE EQUIPAMENTOS METROLOGICOS LTDA",
+"how": "razao-exato",
+"nota": "",
+"erp": "PENSU EXACTU COMERCIO E SERVICOS DE EQUIPAMENTOS METROLOGICOS LTDA / PGTO REF."
+},
+{
+"data": "27/07/2026",
+"desc": "Itaú Seg Vida Glob",
+"valor": -295.51,
+"cp": "642",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "razao-exato",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.SEGURO DE VIDA GLOBAL"
+},
+{
+"data": "27/07/2026",
+"desc": "Mov Tít Cob Disp 26/07S",
+"valor": 222.38,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 26/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/07/2026",
+"desc": "Mov Tít Cob Disp 27/07S",
+"valor": 5957.96,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 27/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/07/2026",
+"desc": "Juros 8613.52508-1",
+"valor": -4086.5,
+"cp": "375",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.UTILIZAÇÃO LIMITE"
+},
+{
+"data": "27/07/2026",
+"desc": "Tar/Custas Cobrança",
+"valor": -9.14,
+"cp": "626",
+"hist": "BANCO ITAU UNIBANCO",
+"how": "regra",
+"nota": "",
+"erp": "BANCO ITAU UNIBANCO / PGTO REF.CUSTAS COBRANÇA"
+},
+{
+"data": "27/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "PIX ENVIADO AQIA QUIMICA",
+"valor": -7098.03,
+"cp": "506",
+"hist": "PIX ENVIADO AQIA QUIMICA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "PIX ENVIADO MATIZAPLAST",
+"valor": -2083.0,
+"cp": "506",
+"hist": "MATIZAPLAST PLASTICOS E CORANTES LTDAPAGAMENTO REFERENTE A COMPRA DE PIGMENTO BRANCO",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "PIX ENVIADO LUIZ HENRIQU",
+"valor": -1365.0,
+"cp": "362",
+"hist": "PIX ENVIADO LUIZ HENRIQU",
+"how": "razao-exato",
+"nota": "razao jan-jun usava conta 187 (folha); empresa sem folha desde 03/26 -> 362 servicos de terceiros",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "PIX ENVIADO LUIZ HENRIQU",
+"valor": -643.0,
+"cp": "362",
+"hist": "PIX ENVIADO LUIZ HENRIQU",
+"how": "razao-exato",
+"nota": "razao jan-jun usava conta 187 (folha); empresa sem folha desde 03/26 -> 362 servicos de terceiros",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "PIX ENVIADO FOCUS TECNOL",
+"valor": -3888.01,
+"cp": "506",
+"hist": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDAPGTO REF. A COMPRA DE MATERIA PRIMA, COLOREX 5KG,CM50 100KG",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "BOLETO PAGO ASSOCIACAO F",
+"valor": -2333.15,
+"cp": "506",
+"hist": "BOLETO PAGO ASSOCIACAO F",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "BOLETO PAGO GRAFICA E TR",
+"valor": -2633.32,
+"cp": "506",
+"hist": "BOLETO PAGO GRAFICA E TR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1089.23,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "BOLETO PAGO ARGILAS DO B",
+"valor": -1233.75,
+"cp": "506",
+"hist": "BOLETO PAGO ARGILAS DO B",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1014.48,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "Mov Tít Cob Disp 28/07S",
+"valor": 1882.92,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 28/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 13392.47,
+"cp": "504",
+"hist": "REDE MAST AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "PIX TRANSF J V C C28/07",
+"valor": 4500.0,
+"cp": "504",
+"hist": "PIX TRANSF J V C C28/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/07/2026",
+"desc": "PIX TRANSF JORGE L28/07",
+"valor": 6681.0,
+"cp": "504",
+"hist": "PIX TRANSF JORGE L28/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "PIX ENVIADO SUL TAPE COM",
+"valor": -960.0,
+"cp": "506",
+"hist": "SUL TAPE COMERCIO DE EMBALAGENS EIRELIPGTO REF. A COMPRA DE PLASTICO BOLHA",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "PIX ENVIADO F.V.S COMERC",
+"valor": -2500.0,
+"cp": "671",
+"hist": "PIX ENVIADO F.V.S COMERC",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "BOLETO PAGO QUANTIQ DIST",
+"valor": -2044.79,
+"cp": "506",
+"hist": "BOLETO PAGO QUANTIQ DIST",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "Sispag ESAINT COMERCIO",
+"valor": 1900.0,
+"cp": "504",
+"hist": "SISPAG ESAINT COMERCIO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "Mov Tít Cob Disp 29/07S",
+"valor": 2043.36,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 29/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "PIX TRANSF DOUGLAS29/07",
+"valor": 444.0,
+"cp": "504",
+"hist": "PIX TRANSF DOUGLAS29/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "PIX TRANSF Onixsul29/07",
+"valor": 13000.0,
+"cp": "504",
+"hist": "PIX TRANSF ONIXSUL29/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "29/07/2026",
+"desc": "Tar/Custas Cobrança",
+"valor": -9.14,
+"cp": "626",
+"hist": "TAR/CUSTAS COBRANÇA",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "PIX ENVIADO FRAEMB INDUS",
+"valor": -4200.0,
+"cp": "506",
+"hist": "PIX ENVIADO FRAEMB INDUS",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "PIX ENVIADO SUMMIT COSME",
+"valor": -4949.83,
+"cp": "506",
+"hist": "PIX ENVIADO SUMMIT COSME",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "BOLETO PAGO TEX COURIER",
+"valor": -803.49,
+"cp": "312",
+"hist": "BOLETO PAGO TEX COURIER",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "BOLETO PAGO TRANSAL",
+"valor": -554.12,
+"cp": "312",
+"hist": "BOLETO PAGO TRANSAL",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "BOLETO PAGO CRM TECNOLOG",
+"valor": -2930.96,
+"cp": "640",
+"hist": "BOLETO PAGO CRM TECNOLOG",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "BOLETO PAGO TECNOPONTO T",
+"valor": -74.9,
+"cp": "506",
+"hist": "BOLETO PAGO TECNOPONTO T",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "Mov Tít Cob Disp 30/07S",
+"valor": 4932.56,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 30/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "PIX TRANSF Luciane30/07",
+"valor": 1659.0,
+"cp": "504",
+"hist": "PIX TRANSF LUCIANE30/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "PIX TRANSF SILMARA30/07",
+"valor": 16.36,
+"cp": "504",
+"hist": "PIX TRANSF SILMARA30/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "30/07/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.02,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "PIX ENVIADO INNOVARTH CO",
+"valor": -1207.5,
+"cp": "506",
+"hist": "INNOVARTH COMERCIO DE PRODUTOS QUIMICOS LTDA 115 6 4 0,00 1.264,00 -422.010,84PAGAMENTO EFERENTE A COMPRA DE MATERIA PRIMA, EDTATETRASSODICO 50KG",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "PIX ENVIADO 50.370.136 A",
+"valor": -9684.0,
+"cp": "506",
+"hist": "PIX ENVIADO 50.370.136 A",
+"how": "razao-exato",
+"nota": "retificado 493->506: Skin Lab = fornecedor MP (Cosmos)",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "PIX ENVIADO AZUL LINHAS",
+"valor": -3183.5,
+"cp": "312",
+"hist": "AZUL LINHAS AEREAS BRASILEIRAS S.A.PGTO REF.FRETE AEREO PARA VERONICA (CLIENTE CAUCA)",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "PIX ENVIADO F.V.S COMERC",
+"valor": -11000.0,
+"cp": "671",
+"hist": "PIX ENVIADO F.V.S COMERC",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "PIX ENVIADO GULA COSMETI",
+"valor": -12000.0,
+"cp": "506",
+"hist": "PIX ENVIADO GULA COSMETI",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -219.02,
+"cp": "312",
+"hist": "BOLETO PAGO URBANO SA SO",
+"how": "razao-exato",
+"nota": "retificado 350->312: Braspress via Urbano = frete s/ vendas (Cosmos)",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "BOLETO PAGO LABAZ CIENTI",
+"valor": -1854.0,
+"cp": "506",
+"hist": "BOLETO PAGO LABAZ CIENTI",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "Mov Tít Cob Disp 31/07S",
+"valor": 2761.12,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 31/07S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 8769.28,
+"cp": "504",
+"hist": "REDE MAST AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 27875.14,
+"cp": "504",
+"hist": "REDE VISA AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/07/2026",
+"desc": "PIX TRANSF R&S COM31/07",
+"valor": 1560.0,
+"cp": "504",
+"hist": "PIX TRANSF R&S COM31/07",
+"how": "regra",
+"nota": "",
+"erp": ""
+}
+]

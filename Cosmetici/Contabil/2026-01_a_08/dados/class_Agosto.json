@@ -1,0 +1,1992 @@
+[
+{
+"data": "03/08/2026",
+"desc": "PIX ENVIADO RODONAVES TR",
+"valor": -119.76,
+"cp": "312",
+"hist": "PIX ENVIADO RODONAVES TR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "03/08/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -4000.0,
+"cp": "664",
+"hist": "PIX ENVIADO COSMETICON C",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "03/08/2026",
+"desc": "BOLETO PAGO BANCO SOFISA",
+"valor": -325.8,
+"cp": "506",
+"hist": "BOLETO PAGO BANCO SOFISA",
+"how": "especial",
+"nota": "boleto Banco Sofisa sem identificacao do cedente",
+"erp": ""
+},
+{
+"data": "03/08/2026",
+"desc": "BOLETO PAGO ASSOCIACAO F",
+"valor": -2312.45,
+"cp": "506",
+"hist": "BOLETO PAGO ASSOCIACAO F",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "03/08/2026",
+"desc": "Mov Tít Cob Disp 03/08S",
+"valor": 6128.03,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 03/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "03/08/2026",
+"desc": "PIX TRANSF NELIO J03/08",
+"valor": 593.76,
+"cp": "504",
+"hist": "PIX TRANSF NELIO J03/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "03/08/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 14679.78,
+"cp": "504",
+"hist": "TED 363.0001.RNX F M D R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "IOF 8613.52508-1/ C/C",
+"valor": -139.81,
+"cp": "625",
+"hist": "IOF 8613.52508-1/ C/C",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "IOF",
+"valor": -18.74,
+"cp": "625",
+"hist": "IOF",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "PIX ENVIADO F.V.S COMERC",
+"valor": -3000.0,
+"cp": "671",
+"hist": "PIX ENVIADO F.V.S COMERC",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "PIX ENVIADO JUAREZ ANTON",
+"valor": -4500.0,
+"cp": "506",
+"hist": "PIX ENVIADO JUAREZ ANTON",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "PIX ENVIADO MARCIO ANTON",
+"valor": -333.21,
+"cp": "506",
+"hist": "PIX ENVIADO MARCIO ANTON",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "PIX ENVIADO MASTER BIOGA",
+"valor": -360.0,
+"cp": "506",
+"hist": "PIX ENVIADO MASTER BIOGA",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "PIX ENVIADO SAVATEC COME",
+"valor": -3435.49,
+"cp": "640",
+"hist": "PIX ENVIADO SAVATEC COME",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1089.23,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "BOLETO PAGO EXPRESSO SAO",
+"valor": -127.83,
+"cp": "312",
+"hist": "BOLETO PAGO EXPRESSO SAO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1014.48,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "BOLETO PAGO EFITRANS TRA",
+"valor": -490.89,
+"cp": "312",
+"hist": "BOLETO PAGO EFITRANS TRA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "TED 448.0000FIDC OS RL",
+"valor": 3485.72,
+"cp": "504",
+"hist": "TED 448.0000FIDC OS RL",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "Mov Tít Cob Disp 04/08S",
+"valor": 2509.71,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 04/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "Tar Cobrança Exp",
+"valor": -649.35,
+"cp": "626",
+"hist": "TAR COBRANÇA EXP",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "TAR PIX PGTO TRANSF",
+"valor": -375.5,
+"cp": "626",
+"hist": "TAR PIX PGTO TRANSF",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "04/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.07,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "PIX ENVIADO NOVA PIRAMID",
+"valor": -9193.38,
+"cp": "506",
+"hist": "PIX ENVIADO NOVA PIRAMID",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "PIX ENVIADO PIZZA PACK C",
+"valor": -3787.5,
+"cp": "493",
+"hist": "PIX ENVIADO PIZZA PACK C",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "BOLETO PAGO TRANSAL",
+"valor": -205.06,
+"cp": "312",
+"hist": "BOLETO PAGO TRANSAL",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "BOLETO PAGO H S INKLASER",
+"valor": -1074.5,
+"cp": "506",
+"hist": "BOLETO PAGO H S INKLASER",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "BOLETO PAGO AKG ADM DE I",
+"valor": -16891.88,
+"cp": "320",
+"hist": "BOLETO PAGO AKG ADM DE I",
+"how": "especial",
+"nota": "AKG ADMINISTRACAO E IMOVEIS - locacao Barracao 42",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "BOLETO PAGO ANDRADE ENGE",
+"valor": -1124.56,
+"cp": "362",
+"hist": "BOLETO PAGO ANDRADE ENGE",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "Sispag COSMETICON COMER",
+"valor": 3000.0,
+"cp": "664",
+"hist": "SISPAG COSMETICON COMER",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "Mov Tít Cob Disp 05/08S",
+"valor": 3411.23,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 05/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 1437.86,
+"cp": "504",
+"hist": "REDE MAST AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 11170.83,
+"cp": "504",
+"hist": "REDE VISA AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "05/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.02,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/08/2026",
+"desc": "Pgto Mín-ITAUCARD-2941",
+"valor": -5718.6,
+"cp": "357",
+"hist": "PGTO MÍN-ITAUCARD-2941",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/08/2026",
+"desc": "PIX ENVIADO RODONAVES TR",
+"valor": -424.73,
+"cp": "312",
+"hist": "PIX ENVIADO RODONAVES TR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/08/2026",
+"desc": "TED 448.0000FIDC OS RL",
+"valor": 9920.92,
+"cp": "504",
+"hist": "TED 448.0000FIDC OS RL",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/08/2026",
+"desc": "Mov Tít Cob Disp 06/08S",
+"valor": 365.27,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 06/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "06/08/2026",
+"desc": "PIX TRANSF Tivolli06/08",
+"valor": 1000.0,
+"cp": "504",
+"hist": "PIX TRANSF TIVOLLI06/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -3000.0,
+"cp": "664",
+"hist": "PIX ENVIADO COSMETICON C",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "BOLETO PAGO BISPHARMA EM",
+"valor": -10326.32,
+"cp": "506",
+"hist": "BOLETO PAGO BISPHARMA EM",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -423.12,
+"cp": "312",
+"hist": "BOLETO PAGO URBANO SA SO",
+"how": "razao-exato",
+"nota": "retificado 350->312: Braspress via Urbano = frete s/ vendas (Cosmos)",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "BOLETO PAGO BRASPRESS TR",
+"valor": -212.34,
+"cp": "350",
+"hist": "BRASPRESS TRANSPORTES URGENTES LTDAPGTO REF.FRETE",
+"how": "razao-nome (varias contas: 350x4,312x1)",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "BOLETO PAGO INSETCONTROL",
+"valor": -730.0,
+"cp": "506",
+"hist": "BOLETO PAGO INSETCONTROL",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "BOLETO PAGO TRANS TOMAZ",
+"valor": -111.52,
+"cp": "312",
+"hist": "BOLETO PAGO TRANS TOMAZ",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "BOLETO PAGO TRANSAL",
+"valor": -576.02,
+"cp": "312",
+"hist": "BOLETO PAGO TRANSAL",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "Sispag COSMETICON COMER",
+"valor": 10100.0,
+"cp": "664",
+"hist": "SISPAG COSMETICON COMER",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "Mov Tít Cob Disp 07/08S",
+"valor": 1653.82,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 07/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "07/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -199.99,
+"cp": "555",
+"hist": "SISPAG PIX QR-CODE",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "PIX ENVIADO 50.370.136 A",
+"valor": -5419.1,
+"cp": "506",
+"hist": "PIX ENVIADO 50.370.136 A",
+"how": "razao-exato",
+"nota": "retificado 493->506: Skin Lab = fornecedor MP (Cosmos)",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "PIX ENVIADO 50.370.136 A",
+"valor": -9557.39,
+"cp": "506",
+"hist": "PIX ENVIADO 50.370.136 A",
+"how": "razao-exato",
+"nota": "retificado 493->506: Skin Lab = fornecedor MP (Cosmos)",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -2000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "BOLETO PAGO PLUS SANTE E",
+"valor": -342.3,
+"cp": "653",
+"hist": "BOLETO PAGO PLUS SANTE E",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "BOLETO PAGO SINDICATO DA",
+"valor": -358.58,
+"cp": "350",
+"hist": "BOLETO PAGO SINDICATO DA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "BOLETO PAGO AGENCIA NACI",
+"valor": -175.72,
+"cp": "350",
+"hist": "BOLETO PAGO AGENCIA NACI",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "BOLETO PAGO AGENCIA NACI",
+"valor": -175.72,
+"cp": "350",
+"hist": "BOLETO PAGO AGENCIA NACI",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "BOLETO PAGO AGENCIA NACI",
+"valor": -175.72,
+"cp": "350",
+"hist": "BOLETO PAGO AGENCIA NACI",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "TED 448.0000FIDC OS RL",
+"valor": 9838.86,
+"cp": "504",
+"hist": "TED 448.0000FIDC OS RL",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "Mov Tít Cob Disp 10/08S",
+"valor": 799.65,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 10/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "PIX TRANSF R&S COM10/08",
+"valor": 10000.0,
+"cp": "504",
+"hist": "PIX TRANSF R&S COM10/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "10/08/2026",
+"desc": "Tar/Custas Cobrança",
+"valor": -9.14,
+"cp": "626",
+"hist": "TAR/CUSTAS COBRANÇA",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "11/08/2026",
+"desc": "PIX ENVIADO SCENTEC ESSE",
+"valor": -4486.59,
+"cp": "506",
+"hist": "PIX ENVIADO SCENTEC ESSE",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "11/08/2026",
+"desc": "BOLETO PAGO EMBACAPS QUI",
+"valor": -2078.89,
+"cp": "506",
+"hist": "EMBACAPS QUIMICA E FARMACEUTICA LTDA PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,BELSIL ADM 10KG, DEHYDOL 12KG ,ALCOOL CETO 1000KG,PLANTAREM 102KG",
+"how": "razao-nome (varias contas: 506x4,365x1)",
+"nota": "",
+"erp": ""
+},
+{
+"data": "11/08/2026",
+"desc": "BOLETO PAGO EFITRANS TRA",
+"valor": -624.92,
+"cp": "312",
+"hist": "BOLETO PAGO EFITRANS TRA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "11/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1014.48,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "11/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1089.23,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "11/08/2026",
+"desc": "PIX TRANSF LEIA SI11/08",
+"valor": 5490.0,
+"cp": "504",
+"hist": "PIX TRANSF LEIA SI11/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "11/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.02,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "12/08/2026",
+"desc": "PIX ENVIADO BARENTZ BRAS",
+"valor": -6081.9,
+"cp": "506",
+"hist": "PIX ENVIADO BARENTZ BRAS",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "12/08/2026",
+"desc": "TED 448.0000FIDC OS RL",
+"valor": 5642.64,
+"cp": "504",
+"hist": "TED 448.0000FIDC OS RL",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "12/08/2026",
+"desc": "Mov Tít Cob Disp 12/08S",
+"valor": 2131.46,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 12/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "12/08/2026",
+"desc": "PIX TRANSF Tivolli12/08",
+"valor": 1227.03,
+"cp": "504",
+"hist": "PIX TRANSF TIVOLLI12/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/08/2026",
+"desc": "Sispag CONCESSIONARIA",
+"valor": -4126.66,
+"cp": "354",
+"hist": "SISPAG CONCESSIONARIA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/08/2026",
+"desc": "PIX ENVIADO HIGH CHEM CO",
+"valor": -23.25,
+"cp": "506",
+"hist": "PIX ENVIADO HIGH CHEM CO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/08/2026",
+"desc": "PIX ENVIADO PIZZA PACK C",
+"valor": -4992.27,
+"cp": "493",
+"hist": "PIX ENVIADO PIZZA PACK C",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/08/2026",
+"desc": "Sispag A F VOLCAO",
+"valor": 853.2,
+"cp": "504",
+"hist": "SISPAG A F VOLCAO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/08/2026",
+"desc": "Mov Tít Cob Disp 13/08S",
+"valor": 9726.12,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 13/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "13/08/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 3053.7,
+"cp": "504",
+"hist": "TED 363.0001.RNX F M D R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -5000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -846.83,
+"cp": "312",
+"hist": "BOLETO PAGO URBANO SA SO",
+"how": "razao-exato",
+"nota": "retificado 350->312: Braspress via Urbano = frete s/ vendas (Cosmos)",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "BOLETO PAGO URBANO SA SO",
+"valor": -271.95,
+"cp": "312",
+"hist": "BOLETO PAGO URBANO SA SO",
+"how": "razao-exato",
+"nota": "retificado 350->312: Braspress via Urbano = frete s/ vendas (Cosmos)",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "BOLETO PAGO TRANS TOMAZ",
+"valor": -581.08,
+"cp": "312",
+"hist": "BOLETO PAGO TRANS TOMAZ",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "BOLETO PAGO ALLOXY ESPEC",
+"valor": -2796.75,
+"cp": "56",
+"hist": "ALLOXY ESPECIALIDADES QUIMICAS LTDAPGTO REF. A COMPRA DE MATERIA PRIMA, PEROXIDO DEHIDROGENIO",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "BOLETO PAGO SINDICATO DO",
+"valor": -209.0,
+"cp": "350",
+"hist": "BOLETO PAGO SINDICATO DO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "BOLETO PAGO EMBACAPS QUI",
+"valor": -2059.65,
+"cp": "506",
+"hist": "EMBACAPS QUIMICA E FARMACEUTICA LTDA PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,BELSIL ADM 10KG, DEHYDOL 12KG ,ALCOOL CETO 1000KG,PLANTAREM 102KG",
+"how": "razao-nome (varias contas: 506x4,365x1)",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "Mov Tít Cob Disp 14/08S",
+"valor": 756.98,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 14/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "14/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.02,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "Sispag CONCESSIONARIA",
+"valor": -1375.34,
+"cp": "354",
+"hist": "SISPAG CONCESSIONARIA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "Sispag PIX QR-CODE",
+"valor": -39.9,
+"cp": "555",
+"hist": "SISPAG PIX QR-CODE",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "PIX ENVIADO ISAIAS PREST",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO ISAIAS PREST",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "PIX ENVIADO FRANCIS KEIT",
+"valor": -1325.0,
+"cp": "506",
+"hist": "PIX ENVIADO FRANCIS KEIT",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "PIX ENVIADO LUIZ HENRIQU",
+"valor": -1500.0,
+"cp": "362",
+"hist": "PIX ENVIADO LUIZ HENRIQU",
+"how": "razao-exato",
+"nota": "razao jan-jun usava conta 187 (folha); empresa sem folha desde 03/26 -> 362 servicos de terceiros",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "PIX ENVIADO CLAUDIA APAR",
+"valor": -2500.0,
+"cp": "362",
+"hist": "PIX ENVIADO CLAUDIA APAR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "PIX ENVIADO BEAUTY FAIR",
+"valor": -12755.43,
+"cp": "506",
+"hist": "PIX ENVIADO BEAUTY FAIR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "PIX ENVIADO ISMAEL CORDE",
+"valor": -1500.0,
+"cp": "362",
+"hist": "PIX ENVIADO ISMAEL CORDE",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "BOLETO PAGO TEX COURIER",
+"valor": -471.29,
+"cp": "312",
+"hist": "BOLETO PAGO TEX COURIER",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "BOLETO PAGO ECOPLUS LAVA",
+"valor": -672.0,
+"cp": "506",
+"hist": "BOLETO PAGO ECOPLUS LAVA",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "BOLETO PAGO MELO CRUZ",
+"valor": -3422.92,
+"cp": "320",
+"hist": "BOLETO PAGO MELO CRUZ",
+"how": "especial",
+"nota": "MELO & CRUZ - aluguel (razao jan-jun usou 506/362)",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "BOLETO PAGO CONDOMINIO E",
+"valor": -1067.72,
+"cp": "364",
+"hist": "BOLETO PAGO CONDOMINIO E",
+"how": "especial",
+"nota": "condominio - sem historico; confirmar conta",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "BOLETO PAGO LIGGA SERVIC",
+"valor": -559.92,
+"cp": "555",
+"hist": "BOLETO PAGO LIGGA SERVIC",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "BOLETO PAGO MEDME CONVEN",
+"valor": -278.65,
+"cp": "493",
+"hist": "BOLETO PAGO MEDME CONVEN",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "BOLETO PAGO DENTAL UNI -",
+"valor": -110.06,
+"cp": "628",
+"hist": "BOLETO PAGO DENTAL UNI -",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "Mov Tít Cob Disp 15/08S",
+"valor": 2674.53,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 15/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "Mov Tít Cob Disp 17/08S",
+"valor": 1983.02,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 17/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "17/08/2026",
+"desc": "TED 448.0000.FIDC O R",
+"valor": 24792.68,
+"cp": "504",
+"hist": "TED 448.0000.FIDC O R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "PIX ENVIADO SUMMIT COSME",
+"valor": -1522.42,
+"cp": "506",
+"hist": "PIX ENVIADO SUMMIT COSME",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -3000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -6000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "BOLETO PAGO EXPRESSO SAO",
+"valor": -1648.41,
+"cp": "312",
+"hist": "BOLETO PAGO EXPRESSO SAO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1014.48,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "BOLETO PAGO TECNOPONTO T",
+"valor": -166.65,
+"cp": "506",
+"hist": "BOLETO PAGO TECNOPONTO T",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "BOLETO PAGO EFITRANS TRA",
+"valor": -606.94,
+"cp": "312",
+"hist": "BOLETO PAGO EFITRANS TRA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1089.23,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "Sispag COSMETICON COMER",
+"valor": 2500.0,
+"cp": "664",
+"hist": "SISPAG COSMETICON COMER",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "Mov Tít Cob Disp 18/08S",
+"valor": 1555.19,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 18/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "18/08/2026",
+"desc": "TED 448.0000.FIDC O R",
+"valor": 10234.26,
+"cp": "504",
+"hist": "TED 448.0000.FIDC O R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "19/08/2026",
+"desc": "PIX ENVIADO AERO BLUE LO",
+"valor": -586.6,
+"cp": "506",
+"hist": "PIX ENVIADO AERO BLUE LO",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "19/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "19/08/2026",
+"desc": "Sispag O.S. SECURITIZAD",
+"valor": 5409.04,
+"cp": "504",
+"hist": "SISPAG O.S. SECURITIZAD",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "19/08/2026",
+"desc": "Mov Tít Cob Disp 19/08S",
+"valor": 9006.16,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 19/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/08/2026",
+"desc": "PIX ENVIADO MARCELO HENR",
+"valor": -5000.0,
+"cp": "362",
+"hist": "PIX ENVIADO MARCELO HENR",
+"how": "especial",
+"nota": "MARCELO HENRIQUE MAZZONI - TXT jun/26 usou 362",
+"erp": ""
+},
+{
+"data": "20/08/2026",
+"desc": "PIX ENVIADO LUCENA & AMO",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO LUCENA & AMO",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "20/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -17000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "20/08/2026",
+"desc": "Mov Tít Cob Disp 20/08S",
+"valor": 3320.78,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 20/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/08/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 6981.76,
+"cp": "504",
+"hist": "REDE VISA AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/08/2026",
+"desc": "PIX TRANSF PERFIL 20/08",
+"valor": 2527.6,
+"cp": "504",
+"hist": "PIX TRANSF PERFIL 20/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "20/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/08/2026",
+"desc": "BOLETO PAGO EMBACAPS",
+"valor": -2043.97,
+"cp": "506",
+"hist": "EMBACAPS QUIMICA E FARMACEUTICA LTDA PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,BELSIL ADM 10KG, DEHYDOL 12KG ,ALCOOL CETO 1000KG,PLANTAREM 102KG",
+"how": "razao-nome (varias contas: 506x4,365x1)",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/08/2026",
+"desc": "BOLETO PAGO EMBACAPS QUI",
+"valor": -2059.65,
+"cp": "506",
+"hist": "EMBACAPS QUIMICA E FARMACEUTICA LTDA PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,BELSIL ADM 10KG, DEHYDOL 12KG ,ALCOOL CETO 1000KG,PLANTAREM 102KG",
+"how": "razao-nome (varias contas: 506x4,365x1)",
+"nota": "",
+"erp": ""
+},
+{
+"data": "21/08/2026",
+"desc": "Mov Tít Cob Disp 21/08S",
+"valor": 11688.48,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 21/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "PIX ENVIADO BIO CONTROL",
+"valor": -500.0,
+"cp": "506",
+"hist": "PIX ENVIADO BIO CONTROL",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "PIX ENVIADO RECOZIL",
+"valor": -2750.0,
+"cp": "506",
+"hist": "PIX ENVIADO RECOZIL",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "PIX ENVIADO COSMETICON C",
+"valor": -4000.0,
+"cp": "664",
+"hist": "PIX ENVIADO COSMETICON C",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -8000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "BOLETO PAGO 60512435 Alt",
+"valor": -520.0,
+"cp": "506",
+"hist": "BOLETO PAGO 60512435 ALT",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "BOLETO PAGO DINACO IMPOR",
+"valor": -2480.75,
+"cp": "506",
+"hist": "BOLETO PAGO DINACO IMPOR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -832.2,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "Mov Tít Cob Disp 24/08S",
+"valor": 4599.06,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 24/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 5427.6,
+"cp": "504",
+"hist": "TED 363.0001.RNX F M D R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 6046.53,
+"cp": "504",
+"hist": "TED 363.0001.RNX F M D R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "Juros 8613.52508-1",
+"valor": -4086.5,
+"cp": "375",
+"hist": "JUROS 8613.52508-1",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "24/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -15000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "PIX ENVIADO SUZAN CRISTI",
+"valor": -1000.0,
+"cp": "362",
+"hist": "PIX ENVIADO SUZAN CRISTI",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "BOLETO PAGO PENSU EXACTU",
+"valor": -612.25,
+"cp": "506",
+"hist": "BOLETO PAGO PENSU EXACTU",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "BOLETO PAGO MATIZAPLAST",
+"valor": -933.0,
+"cp": "506",
+"hist": "MATIZAPLAST PLASTICOS E CORANTES LTDAPAGAMENTO REFERENTE A COMPRA DE PIGMENTO BRANCO",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "BOLETO PAGO DINACO IMPOR",
+"valor": -1118.22,
+"cp": "506",
+"hist": "BOLETO PAGO DINACO IMPOR",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1014.48,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "Sispag GUIDI COSMETICOS",
+"valor": 2461.12,
+"cp": "504",
+"hist": "SISPAG GUIDI COSMETICOS",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "Mov Tít Cob Disp 25/08S",
+"valor": 2207.73,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 25/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "PIX TRANSF JRB COS25/08",
+"valor": 6119.27,
+"cp": "504",
+"hist": "PIX TRANSF JRB COS25/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "PIX TRANSF Onixsul25/08",
+"valor": 595.0,
+"cp": "504",
+"hist": "PIX TRANSF ONIXSUL25/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "PIX TRANSF RIBEIRO25/08",
+"valor": 2713.0,
+"cp": "504",
+"hist": "PIX TRANSF RIBEIRO25/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "PIX TRANSF Tivolli25/08",
+"valor": 2443.0,
+"cp": "504",
+"hist": "PIX TRANSF TIVOLLI25/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "TED 363.0001.RNX F M D R",
+"valor": 13648.29,
+"cp": "504",
+"hist": "TED 363.0001.RNX F M D R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "25/08/2026",
+"desc": "Tar/Custas Cobrança",
+"valor": -9.14,
+"cp": "626",
+"hist": "TAR/CUSTAS COBRANÇA",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "Pgto Mín-ITAUCARD-1147",
+"valor": -5705.91,
+"cp": "357",
+"hist": "PGTO MÍN-ITAUCARD-1147",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "PIX ENVIADO CHEMYUNION L",
+"valor": -4688.35,
+"cp": "506",
+"hist": "CHEMYUNION LTDA PGTO REF. A COMPRA DE MATERIA PRIMA, UNIOX 200 KG",
+"how": "razao-nome",
+"nota": "",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -10000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "BOLETO PAGO MAIAN INDUST",
+"valor": -1652.18,
+"cp": "506",
+"hist": "BOLETO PAGO MAIAN INDUST",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "Mov Tít Cob Disp 26/08S",
+"valor": 2606.18,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 26/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "TED 448.0000.FIDC O R",
+"valor": 5256.85,
+"cp": "504",
+"hist": "TED 448.0000.FIDC O R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "Tar/Custas Cobrança",
+"valor": -18.28,
+"cp": "626",
+"hist": "TAR/CUSTAS COBRANÇA",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "26/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "PIX ENVIADO QUANTIQ DIST",
+"valor": -1334.63,
+"cp": "506",
+"hist": "PIX ENVIADO QUANTIQ DIST",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "PIX ENVIADO PIZZA PACK C",
+"valor": -2969.0,
+"cp": "493",
+"hist": "PIX ENVIADO PIZZA PACK C",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "PIX ENVIADO DIPA QUIMICA",
+"valor": -1870.0,
+"cp": "506",
+"hist": "PIX ENVIADO DIPA QUIMICA",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "Itaú Seg Vida Glob",
+"valor": -292.21,
+"cp": "642",
+"hist": "ITAÚ SEG VIDA GLOB",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "Sispag A F VOLCAO",
+"valor": 2500.0,
+"cp": "504",
+"hist": "SISPAG A F VOLCAO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "Sispag COSMETICON COMER",
+"valor": 3000.0,
+"cp": "664",
+"hist": "SISPAG COSMETICON COMER",
+"how": "especial",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "Sispag GULA COSMETICOS",
+"valor": 1000.0,
+"cp": "664",
+"hist": "SISPAG GULA COSMETICOS",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "Mov Tít Cob Disp 27/08S",
+"valor": 2490.33,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 27/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "27/08/2026",
+"desc": "TED 448.0000.FIDC O R",
+"valor": 8545.92,
+"cp": "504",
+"hist": "TED 448.0000.FIDC O R",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX ENVIADO PROJETANDO A",
+"valor": -22600.0,
+"cp": "506",
+"hist": "PIX ENVIADO PROJETANDO A",
+"how": "especial",
+"nota": "4 PIX de 22.600,00 e 3 estornos (EST PROJETAND) - resta 1 pagamento liquido de 22.600,00; fornecedor nao identificado",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX ENVIADO DIPA QUIMICA",
+"valor": -1870.0,
+"cp": "506",
+"hist": "PIX ENVIADO DIPA QUIMICA",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX ENVIADO PROJETANDO A",
+"valor": -22600.0,
+"cp": "506",
+"hist": "PIX ENVIADO PROJETANDO A",
+"how": "especial",
+"nota": "4 PIX de 22.600,00 e 3 estornos (EST PROJETAND) - resta 1 pagamento liquido de 22.600,00; fornecedor nao identificado",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -4000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX ENVIADO PROJETANDO A",
+"valor": -22600.0,
+"cp": "506",
+"hist": "PIX ENVIADO PROJETANDO A",
+"how": "especial",
+"nota": "4 PIX de 22.600,00 e 3 estornos (EST PROJETAND) - resta 1 pagamento liquido de 22.600,00; fornecedor nao identificado",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX ENVIADO PROJETANDO A",
+"valor": -22600.0,
+"cp": "506",
+"hist": "PIX ENVIADO PROJETANDO A",
+"how": "especial",
+"nota": "4 PIX de 22.600,00 e 3 estornos (EST PROJETAND) - resta 1 pagamento liquido de 22.600,00; fornecedor nao identificado",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX ENVIADO REMAZZO COSM",
+"valor": -1334.63,
+"cp": "506",
+"hist": "PIX ENVIADO REMAZZO COSM",
+"how": "padrao-debito",
+"nota": "pagamento sem referencia - tratado como fornecedor (506)",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "BOLETO PAGO TABELIONATO",
+"valor": -844.45,
+"cp": "350",
+"hist": "BOLETO PAGO TABELIONATO",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -1166.76,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "BOLETO PAGO EMBACAPS",
+"valor": -2043.97,
+"cp": "506",
+"hist": "EMBACAPS QUIMICA E FARMACEUTICA LTDA PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,BELSIL ADM 10KG, DEHYDOL 12KG ,ALCOOL CETO 1000KG,PLANTAREM 102KG",
+"how": "razao-nome (varias contas: 506x4,365x1)",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "BOLETO PAGO EMBACAPS QUI",
+"valor": -2059.65,
+"cp": "506",
+"hist": "EMBACAPS QUIMICA E FARMACEUTICA LTDA PAGAMENTO REFERENTE A COMPRA DE MATERIA PRIMA,BELSIL ADM 10KG, DEHYDOL 12KG ,ALCOOL CETO 1000KG,PLANTAREM 102KG",
+"how": "razao-nome (varias contas: 506x4,365x1)",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "Mov Tít Cob Disp 28/08S",
+"valor": 478.92,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 28/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "Rede MAST AT0081996543",
+"valor": 4434.19,
+"cp": "504",
+"hist": "REDE MAST AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "Rede VISA AT0081996543",
+"valor": 16904.21,
+"cp": "504",
+"hist": "REDE VISA AT0081996543",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX TRANSF Cristia28/08",
+"valor": 3735.0,
+"cp": "504",
+"hist": "PIX TRANSF CRISTIA28/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "PIX TRANSF Cristia28/08",
+"valor": 440.0,
+"cp": "504",
+"hist": "PIX TRANSF CRISTIA28/08",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "EST PROJETAND",
+"valor": 22600.0,
+"cp": "506",
+"hist": "EST PROJETAND",
+"how": "especial",
+"nota": "estorno de PIX enviado a PROJETANDO",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "EST PROJETAND",
+"valor": 22600.0,
+"cp": "506",
+"hist": "EST PROJETAND",
+"how": "especial",
+"nota": "estorno de PIX enviado a PROJETANDO",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "EST PROJETAND",
+"valor": 22600.0,
+"cp": "506",
+"hist": "EST PROJETAND",
+"how": "especial",
+"nota": "estorno de PIX enviado a PROJETANDO",
+"erp": ""
+},
+{
+"data": "28/08/2026",
+"desc": "Rend Pago Aplic Aut Mais",
+"valor": 0.01,
+"cp": "432",
+"hist": "RENDIMENTO APLICACAO AUTOMATICA ITAU",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/08/2026",
+"desc": "PIX ENVIADO FIQUE BEM CO",
+"valor": -1000.0,
+"cp": "506",
+"hist": "PIX ENVIADO FIQUE BEM CO",
+"how": "especial",
+"nota": "FIQUE BEM = mesmo CNPJ da GULA COSMETICOS (30.415.972/0001-08); seguido padrao GULA (506)",
+"erp": ""
+},
+{
+"data": "31/08/2026",
+"desc": "BOLETO PAGO QUIMIFORMULA",
+"valor": -832.2,
+"cp": "506",
+"hist": "BOLETO PAGO QUIMIFORMULA",
+"how": "razao-exato",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/08/2026",
+"desc": "Mov Tít Cob Disp 29/08S",
+"valor": 381.29,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 29/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/08/2026",
+"desc": "Mov Tít Cob Disp 31/08S",
+"valor": 686.71,
+"cp": "504",
+"hist": "MOV TÍT COB DISP 31/08S",
+"how": "regra",
+"nota": "",
+"erp": ""
+},
+{
+"data": "31/08/2026",
+"desc": "Tar/Custas Cobrança",
+"valor": -18.28,
+"cp": "626",
+"hist": "TAR/CUSTAS COBRANÇA",
+"how": "regra",
+"nota": "",
+"erp": ""
+}
+]
