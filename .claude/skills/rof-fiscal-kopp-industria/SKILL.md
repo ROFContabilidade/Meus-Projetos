@@ -36,6 +36,8 @@ python3 Fiscal/scripts/conferencia.py --regras Fiscal/empresas/60-kopp-industria
 Gera: Pre_Conferencia, Entradas_para_conferencia, Saidas_MM-AAAA, Servicos_Tomados_MM-AAAA (retenções), IMPORTACAO_DOMINIO_MMAAAA.TXT (+ _conferencia.xlsx,
 _SEM_NOTAS_DO_ZIP, _CORRECAO conforme `txt_importacao`). Entregar também: acumuladores em uso, zip das canceladas,
 relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
+Relatório de serviços tomados (`Servicos_Tomados_MM-AAAA.xlsx`, modelo na skill do motor): salvar no Drive em
+`Arquivos RENATA Dominio/60 - Kopp Industria/<ano>/<MM_AAAA>/Relatorio` (.xlsx, sem converter para Planilhas Google).
 
 ## Acumuladores (Domínio da Kopp)
 - Entradas: 113/213 compra p/ industrialização e revenda (1101/1102, 2101) · 107/207 uso e consumo · 108 uso e consumo
