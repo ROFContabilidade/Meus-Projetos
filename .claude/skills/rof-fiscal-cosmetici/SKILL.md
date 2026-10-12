@@ -63,6 +63,14 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 
 `python scripts/fiscal_cosmetici.py saidas --mes AAAA-MM --pasta <pasta do mês>` → `Cosmetici/Fiscal/<AAAA-MM>/Relacao_Saidas_Cosmetici_MM-AAAA.xlsx`: uma aba, uma linha por número (autorizadas, canceladas em vermelho, inutilizadas em cinza), ordem de data de saída + número, com tudo o que está destacado no XML (produtos, desconto, frete, outras, base/ICMS, base ST/ICMS-ST, FCP-ST, IPI, PIS, COFINS, DIFAL UF destino, total), acumulador do Domínio pelo CFOP e a sugestão de importação (como está no XML / cancelada situação 02 / inutilizada situação 05). Totais só das autorizadas.
 
+## Relação das notas de entrada (comando `entradas`)
+
+`python scripts/fiscal_cosmetici.py entradas --mes AAAA-MM --pasta <pasta do mês>` (ou `--xml`, `--sieg-cte`, `--nfse-xml`) → `Relacao_Entradas_Cosmetici_MM-AAAA.xlsx`, valores exatamente como no XML:
+- **Todas as entradas**: NF-e, CT-e e NFS-e juntas, na ordem da emissão;
+- **NF-e dentro do estado** e **NF-e fora do estado** (pela UF do fornecedor), com CFOP do XML, CFOP de entrada e acumulador sugeridos, canceladas em vermelho;
+- **CT-e**: só aqueles em que a Cosmetici é tomadora, dentro e fora do estado; os que não têm XML na pasta vêm do relatório SIEG, em cinza (pedir o XML). CT-e com outro tomador não é entrada da Cosmetici e fica de fora;
+- **NFS-e tomadas**: retenções do XML (ISS retido, IRRF, vRetCSLL, INSS/vRetCP, vTotalRet), em amarelo as notas com qualquer retenção. Com `tpRetPisCofins` 3, o `vRetCSLL` é o total de PIS, COFINS e CSLL retidos (4,65%), como vem no XML.
+
 ## Cruzamento das entradas com os relatórios (comando `cruzar-entradas`)
 
 `python scripts/fiscal_cosmetici.py cruzar-entradas --mes AAAA-MM --pasta <pasta do mês>` (ou `--xml`, `--sieg-produtos`, `--sieg-cte`, `--nfse`, `--nfse-xml`) → `Cruzamento_Entradas_Relatorios_x_XML_MM-AAAA.xlsx`. Só compara; nada é alterado.

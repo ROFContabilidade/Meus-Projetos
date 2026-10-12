@@ -243,9 +243,9 @@ def cmd_saidas(args):
     return rows
 
 
-def cmd_cruzar_entradas(args):
+def _fontes_entradas(args):
+    """XML de NF-e/CT-e/NFS-e e relatórios SIEG das entradas -> (apuração, SIEG produtos, SIEG CT-e, ABRASF, NFS-e XML, fontes)."""
     import glob
-    import cruzamento_entradas
     cfg = carregar('cosmetici.json')
     xml = list(args.xml or [])
     prod, cte_rel = list(args.sieg_produtos or []), list(args.sieg_cte or [])
@@ -266,6 +266,25 @@ def cmd_cruzar_entradas(args):
         sc.update(leitores.ler_sieg_cte(c))
     rn = [s for p in nfse_rel for s in leitores.ler_relatorio_nfse_abrasf(p)]
     xn = [n for n in (leitores.ler_nfse_nacional(p) for p in nfse_xml) if n]
+    return a, sp, sc, rn, xn, fontes
+
+
+def cmd_entradas(args):
+    import planilha_entradas
+    a, _, sc, _, xn, fontes = _fontes_entradas(args)
+    saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
+    os.makedirs(saida, exist_ok=True)
+    destino = os.path.join(saida, f'Relacao_Entradas_Cosmetici_{args.mes[5:]}-{args.mes[:4]}.xlsx')
+    r = planilha_entradas.gerar(a, carregar('fornecedores.json', {}), fontes['cte'], sc, xn, destino)
+    for k in ('todas', 'dentro', 'fora', 'cte', 'nfse'):
+        print(f'{k}: {len(r[k])}')
+    print('NFS-e com retenção:', [(x['numero'], x['emitente'][:20], x['tem_ret']) for x in r['nfse'] if x['tem_ret'] != 'Não'])
+    print(f'Planilha: {destino}')
+
+
+def cmd_cruzar_entradas(args):
+    import cruzamento_entradas
+    a, sp, sc, rn, xn, fontes = _fontes_entradas(args)
     saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
     os.makedirs(saida, exist_ok=True)
     destino = os.path.join(saida, f'Cruzamento_Entradas_Relatorios_x_XML_{args.mes[5:]}-{args.mes[:4]}.xlsx')
@@ -319,6 +338,13 @@ def main(argv=None):
     ce.add_argument('--nfse-xml', nargs='*', help='XML das NFS-e (padrão nacional)')
     ce.add_argument('--saida')
     ce.set_defaults(func=cmd_cruzar_entradas)
+    en = sub.add_parser('entradas', help='relação das notas de entrada: todas, NF-e dentro/fora do estado, CT-e, NFS-e com retenções')
+    for arg in ('--pasta', '--saida'):
+        en.add_argument(arg)
+    en.add_argument('--mes', required=True)
+    for arg in ('--xml', '--sieg-produtos', '--sieg-cte', '--nfse', '--nfse-xml'):
+        en.add_argument(arg, nargs='*')
+    en.set_defaults(func=cmd_entradas)
     sa = sub.add_parser('saidas', help='relação das notas de saída do mês (XML, canceladas, inutilizadas, sugestão de importação)')
     sa.add_argument('--mes', required=True)
     sa.add_argument('--pasta')
