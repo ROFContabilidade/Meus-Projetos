@@ -138,6 +138,11 @@ def cte(wb, c):
     _larguras(ws, [11, 11, 36, 9, 11, 10, 10, 30, 70, 30])
 
 
+def _conta(ac):
+    c = ac.get('conta')
+    return f'D {c["debito"]} / C {c["credito"]}' if isinstance(c, dict) else (c or '')
+
+
 def escrituracao(wb, c):
     """Uma linha por documento x CFOP de entrada x CST, como vai para o Domínio/SPED (C100/C190, D100/D190)."""
     import collections
@@ -162,7 +167,7 @@ def escrituracao(wb, c):
         n = x['n']; ac = acum.get(cf) or acum.get(nat) or {}
         _linha(ws, r, ['NF-e', 'Normal', n['numero'], n['dhemi'], n['emit_nome'], n['emit_cnpj'], n['emit_uf'], cf, cst, nat,
                        round(x['vc'], 2), round(x['bc'], 2), round(x['icms'], 2), round(x['ipi'], 2), round(x['difal'], 2), round(x['ant'], 2),
-                       ac.get('codigo', ''), ac.get('conta', ''), ch], moeda=(10, 11, 12, 13, 14, 15),
+                       ac.get('codigo', ''), _conta(ac), ch], moeda=(10, 11, 12, 13, 14, 15),
                fill=None if ac else EDIT); r += 1
     for n in a.canceladas:
         if n['propria']:
@@ -175,7 +180,7 @@ def escrituracao(wb, c):
         _linha(ws, r, ['CT-e', 'Cancelado (02)' if canc else ('Normal' if x['fonte'] == 'XML' else 'Normal - XML pendente'), x['numero'],
                        x['data'], x['emitente'], '', '', x['cfop'], '', 'frete', 0 if canc else x['valor'],
                        0 if canc else x.get('vbc', ''),
-                       0 if canc else x['credito'], 0, 0, 0, ac.get('codigo', ''), ac.get('conta', ''), x.get('chave', '')],
+                       0 if canc else x['credito'], 0, 0, 0, ac.get('codigo', ''), _conta(ac), x.get('chave', '')],
                moeda=(10, 11, 12, 13, 14, 15), fill=MEDIA if canc or x['fonte'] != 'XML' else None); r += 1
     _linha(ws, r, ['Total'] + [''] * 9 + [f'=SUM({col}4:{col}{r-1})' for col in 'KLMNOP'] + ['', '', ''], moeda=(10, 11, 12, 13, 14, 15), bold=True)
     _larguras(ws, [6, 18, 10, 11, 34, 16, 4, 8, 8, 10, 12, 11, 11, 10, 9, 10, 10, 14, 46])
