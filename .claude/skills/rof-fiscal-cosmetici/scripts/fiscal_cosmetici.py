@@ -321,6 +321,10 @@ def cmd_importacao(args):
     os.makedirs(saida, exist_ok=True)
     destino = os.path.join(saida, f'IMPORTACAO_DOMINIO_{args.mes[5:]}{args.mes[:4]}.TXT')
     s, linhas = sped_importacao.gerar(a, cred, fontes['cte'], sc, contas, a.cfg['sped_cabecalho'], destino)
+    docs, itens, dif = sped_importacao.auditar(linhas, a, fontes['cte'])
+    print(f'Conferência TXT x XML: {docs} documentos, {itens} itens, {len(dif)} diferenças')
+    for d in dif[:30]:
+        print('  DIFERENÇA', d)
     cont = collections.Counter(x.split('|')[1] for x in linhas)
     print('Registros:', ', '.join(f'{k} {v}' for k, v in cont.items() if k in ('0150', '0200', '0400', 'C100', 'C170', 'C190', 'D100')))
     for p in s.pend:

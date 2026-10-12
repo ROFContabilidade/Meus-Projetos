@@ -316,7 +316,9 @@ def teste_importacao():
     c170 = [l.split('|') for l in L if l.startswith('|C170|')]
     assert c170[0][11] == '1101' and c170[0][12] == '100' and c170[0][15] == '195,00', c170[0]   # CFOP de entrada, acumulador, crédito
     assert c170[1][11] == '6101' and c170[1][12] == '201', c170[1]
-    print('ok SPED de importação (leiaute aceito pelo Domínio, acumulador no COD_NAT)')
+    docs, n_itens, dif = sped_importacao.auditar(L, a)
+    assert docs == 2 and n_itens == 2 and not dif, dif
+    print('ok SPED de importação (leiaute aceito pelo Domínio, acumulador no COD_NAT, valores = XML)')
 
 
 if __name__ == '__main__':

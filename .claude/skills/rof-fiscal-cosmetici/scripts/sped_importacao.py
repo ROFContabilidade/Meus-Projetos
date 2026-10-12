@@ -3,7 +3,11 @@ já aceitou (IMPORTACAO_DOMINIO_MMAAAA.TXT da Kopp Indústria): blocos 0, C (C10
 G/H/K vazios, 1 (1010) e 9. Particularidades do Domínio:
   - C170 COD_NAT = código do ACUMULADOR (0400 lista os acumuladores usados) e COD_CTA = conta contábil;
   - COD_PART = CNPJ/CPF do participante (0150 com endereço do XML);
-  - entradas: CFOP de entrada, crédito de ICMS/IPI como escriturado (uso e consumo com base e ICMS zerados), PIS/COFINS CST 98;
+  - TODOS os valores (CST, base, alíquota e valor de ICMS - com o diferimento do PR como o emitente informou -, ST, IPI, PIS,
+    COFINS) e os totais do C100 vêm EXATAMENTE do XML; nada é recalculado nem zerado. Só o CFOP é o de entrada (1xxx/2xxx)
+    e o acumulador/conta vêm do histórico do Domínio. O crédito (uso e consumo sem crédito etc.) fica pela parametrização do
+    acumulador no Domínio;
+  - IBS/CBS: o leiaute 020 aceito não tem campo para eles - ficam nas planilhas de conferência;
   - saídas: valores do XML; canceladas COD_SIT 02 e inutilizadas COD_SIT 05 só com número/chave.
 Valores exatamente como no XML. NFS-e não fazem parte do SPED ICMS/IPI. CT-e sem XML ficam de fora (pedir o XML)."""
 import collections
@@ -13,7 +17,6 @@ import re
 from apuracao import vcontabil
 
 R = lambda x: round((x or 0.0) + 0.0, 2)
-CFOP_USO_ST = {'1407', '2407'}
 
 
 def m(v, d=2):
@@ -29,13 +32,21 @@ def _cod_item(prefixo, cnpj, cprod, xprod):
     return prefixo + format(int(h[:15], 16), 'X')[:9].upper()
 
 
-def _cst(i, cf_ent=None):
+def _cst(i):
+    """CST exatamente do XML: origem + CST (2 dígitos) ou o CSOSN do Simples (3 dígitos, como no SPED do Domínio)."""
     if i.get('csosn'):
-        return i['csosn']                       # Simples: CSOSN de 3 dígitos (como no SPED do Domínio)
-    cst = (i.get('cst_icms') or '00')[-2:]
-    if cf_ent in CFOP_USO_ST:
-        cst = '60'                              # prática validada nos SPED 07/08: 1407 com CST 60
-    return f'{i.get("orig") or "0"}{cst}'
+        return i['csosn']
+    return f'{i.get("orig") or "0"}{(i.get("cst_icms") or "00")[-2:]}'
+
+
+def _xml(i):
+    """Valores do item EXATAMENTE como estão no XML - nada é recalculado nem zerado (base, alíquota e valor de ICMS, com o
+    diferimento do PR já aplicado pelo emitente no vICMS; ST; IPI; PIS; COFINS)."""
+    return {'qtd': i['qtd'], 'vprod': i['vprod'], 'vdesc': i['vdesc'],
+            'bc': i['vbc'], 'aliq': i['picms'], 'icms': i['vicms'], 'bcst': i['vbcst'], 'aliqst': i['picmsst'], 'st': i['vst'],
+            'cst_ipi': i.get('cst_ipi') or '', 'enq': i.get('cod_enq') or '', 'bcipi': i['vbc_ipi'], 'aliqipi': i['pipi'], 'ipi': i['vipi'],
+            'cst_pis': i.get('cst_pis') or '', 'bcpis': i['vbc_pis'], 'ppis': i['ppis'], 'pis': i['vpis'],
+            'cst_cof': i.get('cst_cof') or '', 'bccof': i['vbc_cof'], 'pcof': i['pcof'], 'cof': i['vcof'], 'vc': R(vcontabil(i))}
 
 
 IND_FRT = {'0': '0', '1': '1', '2': '2', '3': '0', '4': '1', '9': '9'}
@@ -79,13 +90,12 @@ class Sped:
             self.c.append([['C100', oper, emit, '', '55', sit, ser, str(n['numero']), n.get('chave') or '', dt8(n.get('dhemi')) if sit == '05' else '']
                            + [''] * 19])
             return
-        t = n['tot']
-        s = lambda k: R(sum(x[k] for x in itens170))
+        t = n['tot']   # totais exatamente do XML (ICMSTot)
         c100 = ['C100', oper, emit, part, '55', sit, ser, str(n['numero']), n['chave'], dt8(n['dhemi']),
                 dt8(n.get('dhsaient') or n['dhemi']), m(t.get('vNF')), n.get('ind_pag') if n.get('ind_pag') in ('0', '1') else '2',
                 m(t.get('vDesc')), m(0), m(t.get('vProd')), IND_FRT.get(n.get('mod_frete') or '9', '9'), m(t.get('vFrete')),
-                m(t.get('vSeg')), m(t.get('vOutro')), m(s('bc')), m(s('icms')), m(s('bcst')), m(s('st')), m(s('ipi')),
-                m(s('pis')), m(s('cof')), m(0), m(0)]
+                m(t.get('vSeg')), m(t.get('vOutro')), m(t.get('vBC')), m(t.get('vICMS')), m(t.get('vBCST')), m(t.get('vST')),
+                m(t.get('vIPI')), m(t.get('vPIS')), m(t.get('vCOFINS')), m(0), m(0)]
         bloco = [c100]
         if c101:
             bloco.append(['C101', m(c101[0]), m(c101[1]), m(c101[2])])
@@ -93,7 +103,8 @@ class Sped:
         for k, x in enumerate(itens170, 1):
             bloco.append(['C170', str(k), x['cod'], '', m(x['qtd'], 5), x['un'], m(x['vprod']), m(x['vdesc']), '0', x['cst'], x['cfop'],
                           x['nat'], m(x['bc']), m(x['aliq']), m(x['icms']), m(x['bcst']), m(x['aliqst']), m(x['st']), '0',
-                          x['cst_ipi'], '', *(([m(x['bcipi']), m(x['aliqipi']), m(x['ipi'])]) if x['cst_ipi'] else ['', '', '']),
+                          x['cst_ipi'], x['enq'] if x['cst_ipi'] else '',
+                          *(([m(x['bcipi']), m(x['aliqipi']), m(x['ipi'])]) if x['cst_ipi'] else ['', '', '']),
                           x['cst_pis'], m(x['bcpis']), m(x['ppis'], 4), '', '', m(x['pis']),
                           x['cst_cof'], m(x['bccof']), m(x['pcof'], 4), '', '', m(x['cof']), x['cta'], m(0)])
             g = c190.setdefault((x['cst'], x['cfop'], R(x['aliq'])), collections.Counter())
@@ -124,19 +135,8 @@ class Sped:
                 ac = acum[cf]
                 tipo = {'insumo': '01', 'uso': '07', 'ativo': '08'}.get(l['natureza'], '99')
                 cod, un = self.item('F', n['emit_cnpj'], i, tipo)
-                cred_icms, cred_sn = R(l['cred_icms']), R(l['cred_sn'])
-                if cred_icms:
-                    bc, aliq, icms = i['vbc'], i['picms'], cred_icms
-                elif cred_sn:
-                    bc, aliq, icms = R(i['vprod'] - i['vdesc']), i.get('pcredsn') or 0.0, cred_sn
-                else:
-                    bc = aliq = icms = 0.0
-                ipi = R(l['cred_ipi'])
-                itens.append({'cod': cod, 'un': un, 'qtd': i['qtd'], 'vprod': i['vprod'], 'vdesc': i['vdesc'], 'cst': _cst(i, cf), 'cfop': cf,
-                              'nat': self.natureza(ac['codigo'], ac.get('descricao')), 'bc': bc, 'aliq': aliq, 'icms': icms,
-                              'bcst': i['vbcst'], 'aliqst': i['picmsst'], 'st': i['vst'], 'cst_ipi': '00' if ipi else '',
-                              'bcipi': i['vbc_ipi'] if ipi else 0.0, 'aliqipi': i['pipi'] if ipi else 0.0, 'ipi': ipi,
-                              'cst_pis': '98', 'bcpis': 0.0, 'ppis': 0.0, 'pis': 0.0, 'cst_cof': '98', 'bccof': 0.0, 'pcof': 0.0, 'cof': 0.0,
+                itens.append({**_xml(i), 'cod': cod, 'un': un, 'cst': _cst(i), 'cfop': cf,
+                              'nat': self.natureza(ac['codigo'], ac.get('descricao')),
                               'cta': contas.get((n['chave'], cf), ''), 'vc': R(l['vc'])})
             self._c100('0', '0' if propria else '1', part, n, '00', itens)
         for n in self.a.canceladas:
@@ -158,13 +158,8 @@ class Sped:
                 if not cod_ac:
                     self.pend.append(('NF-e saída', n['numero'], n['dest_nome'], f'CFOP {cf} sem acumulador'))
                 cod, un = self.item('K', self.a.cnpj, i, '04')
-                itens.append({'cod': cod, 'un': un, 'qtd': i['qtd'], 'vprod': i['vprod'], 'vdesc': i['vdesc'], 'cst': _cst(i), 'cfop': cf,
-                              'nat': self.natureza(cod_ac, (ac or {}).get('descricao')), 'bc': i['vbc'], 'aliq': i['picms'], 'icms': i['vicms'],
-                              'bcst': i['vbcst'], 'aliqst': i['picmsst'], 'st': i['vst'], 'cst_ipi': i.get('cst_ipi') or '',
-                              'bcipi': i['vbc_ipi'], 'aliqipi': i['pipi'], 'ipi': i['vipi'],
-                              'cst_pis': i.get('cst_pis') or '', 'bcpis': i['vbc_pis'], 'ppis': i['ppis'], 'pis': i['vpis'],
-                              'cst_cof': i.get('cst_cof') or '', 'bccof': i['vbc_cof'], 'pcof': i['pcof'], 'cof': i['vcof'],
-                              'cta': '', 'vc': R(vcontabil(i))})
+                itens.append({**_xml(i), 'cod': cod, 'un': un, 'cst': _cst(i), 'cfop': cf,
+                              'nat': self.natureza(cod_ac, (ac or {}).get('descricao')), 'cta': ''})
             t = n['tot']
             c101 = (t.get('vFCPUFDest'), t.get('vICMSUFDest'), t.get('vICMSUFRemet')) if (t.get('vICMSUFDest') or t.get('vFCPUFDest')) else None
             self._c100('1', '0', part, n, '00', itens, c101)
@@ -178,7 +173,6 @@ class Sped:
     # ------------------------------------------------------------ D100/D190
     def ctes(self, cte_xml, cte_sieg, cred):
         acum = self.a.cfg.get('acumuladores_entrada', {})
-        credito = {x.get('chave'): x for x in cred.cte}
         rs = dict(cte_sieg or {})
         for ch, x in sorted((cte_xml or {}).items(), key=lambda kv: (kv[1]['data'], kv[1]['numero'])):
             if x['toma_cnpj'] != self.a.cnpj:
@@ -190,15 +184,14 @@ class Sped:
                 continue
             part = self.participante(x['emit_cnpj'], x.get('emit_end'), x['emit_nome'])
             cf = {'5': '1', '6': '2'}.get(x['cfop'][:1], x['cfop'][:1]) + x['cfop'][1:]
-            cr = R((credito.get(ch) or {}).get('credito'))
-            bc = x['vbc'] if cr else 0.0
+            bc, icms = R(x['vbc']), R(x['vicms'])     # exatamente do XML do CT-e
             ac = acum.get(cf) or {}
             conta = (ac.get('conta') or {}).get('debito', '') if isinstance(ac.get('conta'), dict) else ''
             cst = '0' + (x.get('cst') or '00')[-2:]
             self.d.append([['D100', '0', '1', part, '57', '00', ser, '', str(x['numero']), ch, dt8(x['data']), dt8(x['data']), '0', '',
-                            m(x['vprest']), m(0), '1', m(x['vprest']), m(bc), m(cr), m(0 if cr else x['vprest']), '', conta,
+                            m(x['vprest']), m(0), '1', m(x['vprest']), m(bc), m(icms), m(0 if bc else x['vprest']), '', conta,
                             x.get('cmun_ini') or '', x.get('cmun_fim') or ''],
-                           ['D190', cst if cr else cst[:1] + '90', cf, m(x['picms'] if cr else 0), m(x['vprest']), m(bc), m(cr), m(0), '']])
+                           ['D190', cst, cf, m(x['picms']), m(x['vprest']), m(bc), m(icms), m(0), '']])
         for ch, r in rs.items():
             if r['toma_cnpj'] == self.a.cnpj and ch not in (cte_xml or {}):
                 self.pend.append(('CT-e', r['numero'], r['emit_nome'],
@@ -263,3 +256,44 @@ def gerar(a, cred, cte_xml, cte_sieg, contas, cab, destino):
     s.ctes(cte_xml, cte_sieg, cred)
     linhas = s.gerar(destino, cab)
     return s, linhas
+
+
+def auditar(linhas, a, cte_xml=None):
+    """Confere o TXT gerado contra o XML, campo a campo: cada C170 com o item do XML (CST, base, alíquota e valor de ICMS, ST, IPI,
+    PIS e COFINS, quantidade, valor, desconto), cada C100 com os totais do XML e cada D100 com o XML do CT-e.
+    Devolve (documentos conferidos, itens conferidos, lista de diferenças)."""
+    num = lambda x: float(x.replace(',', '.')) if x else 0.0
+    notas = {n['chave']: n for n in a.entradas + a.saidas}
+    dif, docs, itens = [], 0, 0
+    atual, k = None, 0
+    tot_c100 = [(11, 'vNF'), (13, 'vDesc'), (15, 'vProd'), (17, 'vFrete'), (18, 'vSeg'), (19, 'vOutro'), (20, 'vBC'), (21, 'vICMS'),
+                (22, 'vBCST'), (23, 'vST'), (24, 'vIPI'), (25, 'vPIS'), (26, 'vCOFINS')]
+    campos = [(4, 'qtd'), (6, 'vprod'), (7, 'vdesc'), (12, 'vbc'), (13, 'picms'), (14, 'vicms'), (15, 'vbcst'), (16, 'picmsst'), (17, 'vst'),
+              (21, 'vbc_ipi'), (22, 'pipi'), (23, 'vipi'), (25, 'vbc_pis'), (26, 'ppis'), (29, 'vpis'), (31, 'vbc_cof'), (32, 'pcof'), (35, 'vcof')]
+    for l in linhas:
+        p = l.split('|')[1:-1]
+        if p[0] == 'C100':
+            atual, k = notas.get(p[8]), 0
+            if atual and p[5] == '00':
+                docs += 1
+                for pos, chave in tot_c100:
+                    if abs(num(p[pos]) - (atual['tot'].get(chave) or 0.0)) > 0.005:
+                        dif.append(f'NF {p[7]} C100 {chave}: TXT {p[pos]} x XML {atual["tot"].get(chave)}')
+        elif p[0] == 'C170' and atual:
+            i = atual['itens'][k]
+            k += 1
+            itens += 1
+            for pos, chave in campos:
+                if abs(num(p[pos]) - (i.get(chave) or 0.0)) > 0.00001:
+                    dif.append(f'NF {atual["numero"]} item {k} {chave}: TXT {p[pos]} x XML {i.get(chave)}')
+            cst_xml = i.get('csosn') or f'{i.get("orig") or "0"}{(i.get("cst_icms") or "00")[-2:]}'
+            for pos, v in ((9, cst_xml), (19, i.get('cst_ipi') or ''), (24, i.get('cst_pis') or ''), (30, i.get('cst_cof') or '')):
+                if p[pos] != v:
+                    dif.append(f'NF {atual["numero"]} item {k} CST: TXT {p[pos]} x XML {v}')
+        elif p[0] == 'D100' and p[5] == '00':
+            x = (cte_xml or {}).get(p[9])
+            docs += 1
+            for pos, chave in ((14, 'vprest'), (18, 'vbc'), (19, 'vicms')):
+                if x and abs(num(p[pos]) - (x.get(chave) or 0.0)) > 0.005:
+                    dif.append(f'CT-e {p[8]} {chave}: TXT {p[pos]} x XML {x.get(chave)}')
+    return docs, itens, dif

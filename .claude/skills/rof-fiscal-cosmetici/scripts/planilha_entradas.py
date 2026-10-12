@@ -50,7 +50,8 @@ def nfe(a, cred):
             'acumulador': _acum(a.cfg, ents) if sit == 'Autorizada' else 'cancelada (situação 02)',
             **{k: t.get(k, 0.0) for k in ('vProd', 'vDesc', 'vFrete', 'vOutro', 'vBC', 'vICMS', 'vBCST', 'vST', 'vIPI', 'vPIS',
                                          'vCOFINS', 'vNF')},
-            'chave': n['chave']})
+            'ibscbs_bc': (n.get('ibscbs') or {}).get('vBC', 0.0), 'vIBS': (n.get('ibscbs') or {}).get('vIBS', 0.0),
+            'vCBS': (n.get('ibscbs') or {}).get('vCBS', 0.0), 'chave': n['chave']})
     return sorted(out, key=lambda r: (r['data'], r['numero']))
 
 
@@ -156,7 +157,8 @@ COLS_NFE = [('Emissão', 10, 'data', 'd'), ('NF', 8, 'numero', ''), ('Série', 5
             ('CFOP entrada (sugestão)', 10, 'cfop_ent', ''), ('Produtos', 11, 'vProd', 'm'), ('Desconto', 9, 'vDesc', 'm'),
             ('Frete', 9, 'vFrete', 'm'), ('Outras desp.', 9, 'vOutro', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('ICMS', 10, 'vICMS', 'm'),
             ('Base ICMS-ST', 10, 'vBCST', 'm'), ('ICMS-ST', 9, 'vST', 'm'), ('IPI', 9, 'vIPI', 'm'), ('PIS', 8, 'vPIS', 'm'),
-            ('COFINS', 9, 'vCOFINS', 'm'), ('Total da nota', 12, 'vNF', 'm'), ('Acumulador (sugestão)', 26, 'acumulador', ''),
+            ('COFINS', 9, 'vCOFINS', 'm'), ('Base IBS/CBS', 10, 'ibscbs_bc', 'm'), ('IBS', 8, 'vIBS', 'm'), ('CBS', 8, 'vCBS', 'm'),
+            ('Total da nota', 12, 'vNF', 'm'), ('Acumulador (sugestão)', 26, 'acumulador', ''),
             ('Natureza', 14, 'natureza', ''), ('Crédito ICMS', 10, 'cred_icms', 'm'), ('Crédito IPI', 9, 'cred_ipi', 'm'),
             ('DIFAL', 8, 'difal', 'm'), ('ICMS antecipado', 9, 'antecipado', 'm'), ('Conta contábil (Domínio)', 14, 'conta', ''),
             ('Conferência XML x relatório SIEG', 26, 'conferencia', ''), ('Análise', 50, 'analise', ''), ('Chave de acesso', 46, 'chave', '')]

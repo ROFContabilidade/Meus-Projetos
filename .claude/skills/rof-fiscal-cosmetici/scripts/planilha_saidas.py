@@ -22,7 +22,8 @@ COLS = [  # (título, largura, chave, moeda)
     ('Produtos', 11, 'vProd', True), ('Desconto', 9, 'vDesc', True), ('Frete', 9, 'vFrete', True), ('Outras desp.', 9, 'vOutro', True),
     ('Base ICMS', 11, 'vBC', True), ('ICMS', 10, 'vICMS', True), ('Base ICMS-ST', 11, 'vBCST', True), ('ICMS-ST', 9, 'vST', True),
     ('FCP-ST', 8, 'vFCPST', True), ('IPI', 9, 'vIPI', True), ('PIS', 9, 'vPIS', True), ('COFINS', 9, 'vCOFINS', True),
-    ('DIFAL UF destino', 9, 'vICMSUFDest', True), ('Total da nota', 12, 'vNF', True),
+    ('DIFAL UF destino', 9, 'vICMSUFDest', True), ('Base IBS/CBS', 11, 'ibscbs_bc', True), ('IBS', 8, 'vIBS', True),
+    ('CBS', 8, 'vCBS', True), ('Total da nota', 12, 'vNF', True),
     ('Acumulador Domínio', 22, 'acumulador', False), ('Importar no Domínio', 30, 'importar', False),
     ('Conferência XML x Faturamento x Registro (ERP)', 30, 'conferencia', False), ('Análise (informativa - segue o XML)', 60, 'analise', False),
     ('Chave de acesso', 46, 'chave', False),
@@ -79,6 +80,8 @@ def linhas(a, conf=None):
              'cfop': '/'.join(cfops), 'natop': n.get('natop') or '', 'chave': n['chave']}
         r.update({k: t.get(k, 0.0) for k in ('vProd', 'vDesc', 'vFrete', 'vOutro', 'vBC', 'vICMS', 'vBCST', 'vST', 'vFCPST', 'vIPI',
                                              'vPIS', 'vCOFINS', 'vICMSUFDest', 'vNF')})
+        ib = n.get('ibscbs') or {}
+        r.update(ibscbs_bc=ib.get('vBC', 0.0), vIBS=ib.get('vIBS', 0.0), vCBS=ib.get('vCBS', 0.0))
         r['acumulador'] = _acumulador(a, cfops)
         r['importar'] = ('Sim - como CANCELADA (situação 02: valores zerados, só a chave)' if canc
                          else 'Sim - como está no XML')

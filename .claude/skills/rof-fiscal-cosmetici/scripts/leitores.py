@@ -115,7 +115,15 @@ def _item_nfe(det, prot_ok):
         'vipidevol': _v(det, 'n:impostoDevol/n:IPI/n:vIPIDevol'),
         'cst_pis': _t(pis, 'n:CST'), 'vbc_pis': _v(pis, 'n:vBC'), 'ppis': _v(pis, 'n:pPIS'), 'vpis': _v(pis, 'n:vPIS'),
         'cst_cof': _t(cof, 'n:CST'), 'vbc_cof': _v(cof, 'n:vBC'), 'pcof': _v(cof, 'n:pCOFINS'), 'vcof': _v(cof, 'n:vCOFINS'),
+        'vicms_op': _v(icms, 'n:vICMSOp'), 'pdif': _v(icms, 'n:pDif'), 'vicms_dif': _v(icms, 'n:vICMSDif'),
+        'cod_enq': _t(ipi, 'n:cEnq'),
     }
+    ib = imp.find(NS + 'IBSCBS') if imp is not None else None
+    g = 'n:gIBSCBS/'
+    it.update({'cst_ibscbs': _t(ib, 'n:CST'), 'cclass_trib': _t(ib, 'n:cClassTrib'), 'vbc_ibscbs': _v(ib, g + 'n:vBC'),
+               'pibsuf': _v(ib, g + 'n:gIBSUF/n:pIBSUF'), 'vibsuf': _v(ib, g + 'n:gIBSUF/n:vIBSUF'),
+               'pibsmun': _v(ib, g + 'n:gIBSMun/n:pIBSMun'), 'vibsmun': _v(ib, g + 'n:gIBSMun/n:vIBSMun'), 'vibs': _v(ib, g + 'n:vIBS'),
+               'pcbs': _v(ib, g + 'n:gCBS/n:pCBS'), 'vcbs': _v(ib, g + 'n:gCBS/n:vCBS')})
     return it
 
 
@@ -158,6 +166,8 @@ def ler_nfe(root, origem):
                   'vICMSUFRemet', 'vIPI', 'vIPIDevol', 'vPIS', 'vCOFINS', 'vNF')},
         'refnfe': [r.text for r in ide.findall(f'{NS}NFref/{NS}refNFe')],
         'infcpl': _t(inf, 'n:infAdic/n:infCpl') or '',
+        'ibscbs': {'vBC': _v(inf, 'n:total/n:IBSCBSTot/n:vBCIBSCBS'), 'vIBS': _v(inf, 'n:total/n:IBSCBSTot/n:gIBS/n:vIBS'),
+                   'vCBS': _v(inf, 'n:total/n:IBSCBSTot/n:gCBS/n:vCBS')},
         'emit_end': _ender(emit, 'n:enderEmit'), 'dest_end': _ender(dest, 'n:enderDest'),
         'mod_frete': _t(inf, 'n:transp/n:modFrete'), 'ind_pag': _t(inf, 'n:pag/n:detPag/n:indPag'),
         'itens': [_item_nfe(d, True) for d in inf.findall(NS + 'det')],
