@@ -324,7 +324,15 @@
     "1101": {
       "codigo": "100",
       "descricao": "COMPRA P/ INDUST - DENTRO ESTADO 1.101",
-      "conta": null,
+      "conta": {
+        "debito": "56",
+        "credito": "506",
+        "lancamentos": 56,
+        "outras": {
+          "600|506": 19
+        },
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "02",
@@ -339,7 +347,13 @@
     "1102": {
       "codigo": "100",
       "descricao": "COMPRA P/ INDUST - DENTRO ESTADO 1.101",
-      "conta": null,
+      "conta": {
+        "debito": "56",
+        "credito": "506",
+        "lancamentos": 3,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "03",
@@ -351,7 +365,13 @@
     "1352": {
       "codigo": "1000",
       "descricao": "FRETE ESTADUAL",
-      "conta": null,
+      "conta": {
+        "debito": "312",
+        "credito": "506",
+        "lancamentos": 10,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "03",
@@ -364,7 +384,13 @@
     "1353": {
       "codigo": "1000",
       "descricao": "FRETE ESTADUAL",
-      "conta": null,
+      "conta": {
+        "debito": "312",
+        "credito": "506",
+        "lancamentos": 10,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "06",
@@ -376,7 +402,16 @@
     "1407": {
       "codigo": "107",
       "descricao": "COMPRA USO E CONSUMO ST A PRAZO",
-      "conta": null,
+      "conta": {
+        "debito": "513",
+        "credito": "506",
+        "lancamentos": 18,
+        "outras": {
+          "321|506": 2,
+          "360|506": 3
+        },
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "02",
@@ -393,8 +428,12 @@
       "descricao": "DEVOLUÇÃO DE VENDA ST",
       "conta": {
         "debito": "417",
-        "credito": "504 (664 se Cosmeticon)",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "credito": "664",
+        "lancamentos": 6,
+        "outras": {
+          "417|504": 2
+        },
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -406,7 +445,21 @@
     "1556": {
       "codigo": "104",
       "descricao": "COMPRA USO E CONSUMO DENTRO DO ESTADO",
-      "conta": null,
+      "conta": {
+        "debito": "513",
+        "credito": "506",
+        "lancamentos": 62,
+        "outras": {
+          "359|506": 4,
+          "360|506": 7,
+          "656|506": 4,
+          "321|506": 3,
+          "58|506": 1,
+          "627|506": 2,
+          "596|506": 1
+        },
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "02",
@@ -422,7 +475,13 @@
     "1653": {
       "codigo": "192",
       "descricao": "COMPRA COMBUSTIVEL PARA IND. A PRAZO",
-      "conta": null,
+      "conta": {
+        "debito": "513",
+        "credito": "506",
+        "lancamentos": 8,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "03"
@@ -435,7 +494,9 @@
       "conta": {
         "debito": "614",
         "credito": "607",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 17,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -465,7 +526,9 @@
       "conta": {
         "debito": "56",
         "credito": "616",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 5,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -483,7 +546,9 @@
       "conta": {
         "debito": "608",
         "credito": "609",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 34,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -500,7 +565,13 @@
     "1932": {
       "codigo": "1000",
       "descricao": "FRETE ESTADUAL",
-      "conta": null,
+      "conta": {
+        "debito": "312",
+        "credito": "506",
+        "lancamentos": 2,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "08"
@@ -513,7 +584,9 @@
       "conta": {
         "debito": "612",
         "credito": "613",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 4,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -526,7 +599,15 @@
     "2101": {
       "codigo": "101",
       "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
-      "conta": null,
+      "conta": {
+        "debito": "56",
+        "credito": "506",
+        "lancamentos": 35,
+        "outras": {
+          "600|506": 1
+        },
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "03",
@@ -540,7 +621,15 @@
     "2102": {
       "codigo": "101",
       "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
-      "conta": null,
+      "conta": {
+        "debito": "56",
+        "credito": "506",
+        "lancamentos": 40,
+        "outras": {
+          "600|506": 2
+        },
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "02",
@@ -554,7 +643,13 @@
     "2122": {
       "codigo": "101",
       "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
-      "conta": null,
+      "conta": {
+        "debito": "56",
+        "credito": "506",
+        "lancamentos": 1,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "02"
@@ -567,7 +662,9 @@
       "conta": {
         "debito": "618",
         "credito": "506",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 1,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -581,7 +678,9 @@
       "conta": {
         "debito": "415",
         "credito": "504",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 1,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -592,7 +691,13 @@
     "2352": {
       "codigo": "1001",
       "descricao": "FRETE INTERESTADUAL",
-      "conta": null,
+      "conta": {
+        "debito": "312",
+        "credito": "506",
+        "lancamentos": 71,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "03",
@@ -605,7 +710,13 @@
     "2353": {
       "codigo": "1001",
       "descricao": "FRETE INTERESTADUAL",
-      "conta": null,
+      "conta": {
+        "debito": "312",
+        "credito": "506",
+        "lancamentos": 98,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "03",
@@ -622,7 +733,9 @@
       "conta": {
         "debito": "415",
         "credito": "504",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 3,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -633,7 +746,13 @@
     "2556": {
       "codigo": "105",
       "descricao": "COMPRA USO E CONSUMO FORA DO ESTADO",
-      "conta": null,
+      "conta": {
+        "debito": "513",
+        "credito": "506",
+        "lancamentos": 3,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
+      },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
         "05",
@@ -647,7 +766,9 @@
       "conta": {
         "debito": "614",
         "credito": "607",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 7,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -664,7 +785,9 @@
       "conta": {
         "debito": "607",
         "credito": "614",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 1,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -678,7 +801,9 @@
       "conta": {
         "debito": "56",
         "credito": "515",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 3,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -694,7 +819,9 @@
       "conta": {
         "debito": "56",
         "credito": "616",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 20,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -724,7 +851,9 @@
       "conta": {
         "debito": "608",
         "credito": "609",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 12,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -743,7 +872,9 @@
       "conta": {
         "debito": "612",
         "credito": "613",
-        "origem": "Resumo Contábil 01-09/2026: soma do acumulador = valor do par"
+        "lancamentos": 1,
+        "outras": {},
+        "origem": "Lançamentos gerados pela Escrita (Domínio) 01-09/2026 x Acompanhamento de Entradas, nota a nota"
       },
       "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
       "meses_2026": [
@@ -875,6 +1006,119 @@
       "111": "MOV TIT COB DISP",
       "112": "TARIFAS BANCARIAS",
       "113": "REND PAGO APLIC AUT MAIS"
+    }
+  },
+  "contas_servicos_por_acumulador": {
+    "_obs": "Conta de débito/crédito de cada acumulador de serviço (1933/2933), do relatório Lançamentos gerados pela Escrita x Acompanhamento de Entradas",
+    "802": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 2
+    },
+    "803": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 11
+    },
+    "806": {
+      "debito": "362",
+      "credito": "0",
+      "lancamentos": 4
+    },
+    "808": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 1
+    },
+    "809": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 1
+    },
+    "810": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 8
+    },
+    "811": {
+      "debito": "640",
+      "credito": "506",
+      "lancamentos": 7
+    },
+    "814": {
+      "debito": "312",
+      "credito": "506",
+      "lancamentos": 4
+    },
+    "815": {
+      "debito": "364",
+      "credito": "506",
+      "lancamentos": 3
+    },
+    "816": {
+      "debito": "364",
+      "credito": "506",
+      "lancamentos": 16
+    },
+    "818": {
+      "debito": "364",
+      "credito": "506",
+      "lancamentos": 6
+    },
+    "819": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 7
+    },
+    "820": {
+      "debito": "643",
+      "credito": "506",
+      "lancamentos": 7
+    },
+    "821": {
+      "debito": "576",
+      "credito": "506",
+      "lancamentos": 7
+    },
+    "823": {
+      "debito": "640",
+      "credito": "506",
+      "lancamentos": 6
+    },
+    "824": {
+      "debito": "652",
+      "credito": "506",
+      "lancamentos": 7
+    },
+    "825": {
+      "debito": "364",
+      "credito": "506",
+      "lancamentos": 7
+    },
+    "826": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 7
+    },
+    "828": {
+      "debito": "361",
+      "credito": "510",
+      "lancamentos": 4
+    },
+    "830": {
+      "debito": "325",
+      "credito": "506",
+      "lancamentos": 3
+    },
+    "831": {
+      "debito": "362",
+      "credito": "506",
+      "lancamentos": 4
+    },
+    "832": {
+      "debito": "576",
+      "credito": "506",
+      "lancamentos": 1
     }
   }
 }
