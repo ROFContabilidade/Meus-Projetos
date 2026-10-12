@@ -1164,6 +1164,11 @@ def main():
         linhas, conf = txt_dominio.gerar(res, saida_t, a.txt_cabecalho, a.nfse_recebidas if com_nfse else None)
         res['txt_conf'] = conf
         txt_dominio.planilha(conf, res, saida_t.replace('.TXT', '_conferencia.xlsx'))
+        por_xml = {str(x) for x in R.r.get('txt_importacao', {}).get('importar_por_xml', {}).get(comp, [])}
+        if por_xml:      # versão alternativa: sem as notas que vão pelo XML (zip à parte), para não duplicar
+            saida_x = saida_t.replace('.TXT', '_SEM_NOTAS_DO_ZIP.TXT')
+            lx, _ = txt_dominio.gerar(res, saida_x, a.txt_cabecalho, a.nfse_recebidas if com_nfse else None, por_xml)
+            print(f'TXT sem as {len(por_xml)} notas do zip: {saida_x} ({len(lx)} linhas)')
         print(f'TXT de importação: {saida_t} ({len(linhas)} linhas)')
 
 

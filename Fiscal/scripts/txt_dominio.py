@@ -132,7 +132,7 @@ def _rateio(total, pesos):
     return partes
 
 
-def gerar(res, saida, cabecalho, nfse_planilha=None):
+def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=()):
     R = res['regras']
     K = R.cnpj
     comp = res['competencia']
@@ -171,6 +171,8 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
     manual = []
 
     def nfe(n, oper, emit, cod_p, info, cancel, rotulo, nome):
+        if str(n['numero']).lstrip('0') in excluir:      # vai pelo XML à parte, fora do TXT
+            return
         if cancel and canc_fora:
             manual.append((rotulo, n['numero'], nome, n['chave'], dt(n['dt_emissao']),
                            ', '.join(sorted({info(it)['cfop'] for it in n['itens']})),

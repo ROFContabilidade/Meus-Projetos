@@ -1006,6 +1006,22 @@
     "incluir_nfse": false,
     "_motivo": "Domínio da Kopp só relaciona espécie aos modelos 55 (36), 57 (38) e 65 (41); NFS-e como modelo 01 dá erro \"nenhuma espécie para o modelo 01\" e \"acumulador não definido\". Rosangela 10/2026: tirar as NFS-e do TXT.",
     "canceladas": "lancar_manual",
-    "_canceladas": "2ª importação 10/2026: com COD_SIT 02 o Domínio ignora o participante do arquivo e usa o da nota anterior (64181 virou CAWA, 64287 virou Enio; CT-e 2263500 \"fornecedor 0,00\"). Canceladas saem do TXT e vão para a aba \"Canceladas - lançar à mão\" da planilha de confronto, com participante, chave, CFOP e acumulador."
+    "_canceladas": "2ª importação 10/2026: com COD_SIT 02 o Domínio ignora o participante do arquivo e usa o da nota anterior (64181 virou CAWA, 64287 virou Enio; CT-e 2263500 \"fornecedor 0,00\"). Canceladas saem do TXT e vão para a aba \"Canceladas - lançar à mão\" da planilha de confronto, com participante, chave, CFOP e acumulador.",
+    "importar_por_xml": {
+      "2026-09": [
+        "64139",
+        "64234",
+        "64237",
+        "64273",
+        "64329",
+        "64387",
+        "64406",
+        "64426",
+        "64233",
+        "64347",
+        "64360"
+      ]
+    },
+    "_importar_por_xml": "Notas que podem ir pelo XML (zip à parte): gera também o TXT _SEM_NOTAS_DO_ZIP sem elas. Rosangela 10/2026: nunca duplicar — se usar o zip, importar o TXT sem essas notas."
   }
 }
