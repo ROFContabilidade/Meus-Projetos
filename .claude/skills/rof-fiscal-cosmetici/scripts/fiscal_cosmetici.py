@@ -308,6 +308,27 @@ def cmd_contabil(args):
     print(f'TXT: {txt}\nPlanilha: {xlsx}')
 
 
+def cmd_importacao(args):
+    """TXT de importação das notas na Escrita Fiscal do Domínio (leiaute SPED EFD ICMS/IPI aceito pelo Domínio)."""
+    import lancamentos_contabeis as lc
+    import sped_importacao
+    a, _, sc, _, xn, fontes = _fontes_entradas(args)
+    forn = carregar('fornecedores.json', {})
+    cred = Credito(a, forn, [], a.cfg.get('natureza_entradas', {})).analisar()
+    lanc, _ = lc.montar(a, cred, fontes['cte'], sc, xn, forn)
+    contas = {(x['chave'], x['cfop']): next(ln[0] for _, b in x['blocos'] for ln in b if ln[0]) for x in lanc if x['doc'] == 'NF-e'}
+    saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
+    os.makedirs(saida, exist_ok=True)
+    destino = os.path.join(saida, f'IMPORTACAO_DOMINIO_{args.mes[5:]}{args.mes[:4]}.TXT')
+    s, linhas = sped_importacao.gerar(a, cred, fontes['cte'], sc, contas, a.cfg['sped_cabecalho'], destino)
+    cont = collections.Counter(x.split('|')[1] for x in linhas)
+    print('Registros:', ', '.join(f'{k} {v}' for k, v in cont.items() if k in ('0150', '0200', '0400', 'C100', 'C170', 'C190', 'D100')))
+    for p in s.pend:
+        print('  fora do arquivo:', *p)
+    print(f'TXT: {destino}')
+    return s, linhas
+
+
 def cmd_cruzar_entradas(args):
     import cruzamento_entradas
     a, sp, sc, rn, xn, fontes = _fontes_entradas(args)
@@ -379,6 +400,13 @@ def main(argv=None):
         co.add_argument(arg, nargs='*')
     co.add_argument('--lancamentos-escrita', nargs='*', help='Lançamentos.xls (Lançamentos gerados pela Escrita) para aprender as contas')
     co.set_defaults(func=cmd_contabil)
+    im = sub.add_parser('importacao', help='TXT de importação das notas no Domínio (leiaute SPED EFD ICMS/IPI)')
+    for arg in ('--pasta', '--saida'):
+        im.add_argument(arg)
+    im.add_argument('--mes', required=True)
+    for arg in ('--xml', '--sieg-produtos', '--sieg-cte', '--nfse', '--nfse-xml'):
+        im.add_argument(arg, nargs='*')
+    im.set_defaults(func=cmd_importacao)
     sa = sub.add_parser('saidas', help='relação das notas de saída do mês (XML, canceladas, inutilizadas, sugestão de importação)')
     sa.add_argument('--mes', required=True)
     sa.add_argument('--pasta')

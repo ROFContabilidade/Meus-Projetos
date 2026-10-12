@@ -119,6 +119,17 @@ def _item_nfe(det, prot_ok):
     return it
 
 
+def _ender(no, cam, ns=None):
+    """Endereço, município e IE do participante (para o 0150 do SPED de importação)."""
+    ns = ns or NS
+    if no is None:
+        return {}
+    g = lambda p: _t(no, p, ns)
+    e = lambda k: g(f'{cam}/n:{k}')
+    return {'lgr': e('xLgr'), 'nro': e('nro'), 'cpl': e('xCpl'), 'bairro': e('xBairro'), 'cmun': e('cMun'), 'uf': e('UF'),
+            'cep': e('CEP'), 'ie': g('n:IE'), 'nome': g('n:xNome')}
+
+
 def ler_nfe(root, origem):
     inf = root.find(f'.//{NS}infNFe')
     if inf is None:
@@ -147,6 +158,8 @@ def ler_nfe(root, origem):
                   'vICMSUFRemet', 'vIPI', 'vIPIDevol', 'vPIS', 'vCOFINS', 'vNF')},
         'refnfe': [r.text for r in ide.findall(f'{NS}NFref/{NS}refNFe')],
         'infcpl': _t(inf, 'n:infAdic/n:infCpl') or '',
+        'emit_end': _ender(emit, 'n:enderEmit'), 'dest_end': _ender(dest, 'n:enderDest'),
+        'mod_frete': _t(inf, 'n:transp/n:modFrete'), 'ind_pag': _t(inf, 'n:pag/n:detPag/n:indPag'),
         'itens': [_item_nfe(d, True) for d in inf.findall(NS + 'det')],
     }
     return nota
@@ -204,6 +217,8 @@ def ler_cte_xml(root, origem):
         'vbc': _v(icms, 'n:vBC', NS_CTE), 'picms': _v(icms, 'n:pICMS', NS_CTE), 'vicms': _v(icms, 'n:vICMS', NS_CTE),
         'autorizada': _t(prot, 'n:cStat', NS_CTE) in ('100', None),
         'chaves_nfe': [x.text for x in inf.iter(NS_CTE + 'chave')],
+        'cmun_ini': t('n:ide/n:cMunIni'), 'cmun_fim': t('n:ide/n:cMunFim'),
+        'emit_end': _ender(inf.find(NS_CTE + 'emit'), 'n:enderEmit', NS_CTE),
     }
 
 

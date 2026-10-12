@@ -72,6 +72,16 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 - Em todas as abas: conta contábil do Domínio (lancamentos_contabeis), conferência com os relatórios SIEG/ABRASF e, nas NF-e, natureza, créditos de ICMS/IPI, DIFAL, antecipado e a análise de cada nota.
 - **NFS-e tomadas**: retenções do XML (ISS retido, IRRF, vRetCSLL, INSS/vRetCP, vTotalRet), em amarelo as notas com qualquer retenção. Com `tpRetPisCofins` 3, o `vRetCSLL` é o total de PIS, COFINS e CSLL retidos (4,65%), como vem no XML.
 
+## TXT de importação das notas no Domínio (comando `importacao`)
+
+`python scripts/fiscal_cosmetici.py importacao --mes AAAA-MM --pasta <pasta do mês>` (ou `--xml`, `--sieg-cte`) → `Cosmetici/Fiscal/<AAAA-MM>/IMPORTACAO_DOMINIO_MMAAAA.TXT`. É o leiaute que o Domínio aceita para importar as notas na Escrita Fiscal: SPED EFD ICMS/IPI (versão 020), igual ao arquivo aceito da Kopp Indústria (mesma quantidade de campos em cada registro - conferido no teste), cp1252, CRLF, valores com vírgula.
+- Bloco 0: cabeçalho (0000/0005/0100 do SPED 08/2026 da Cosmetici, config `sped_cabecalho`), 0150 com COD_PART = CNPJ/CPF e o endereço do XML, 0190, 0200 (código do item gerado: F + hash para entradas, K para saídas), 0400 = acumuladores usados.
+- C100/C170/C190 de entradas e saídas: no C170, COD_NAT = acumulador do Domínio e COD_CTA = conta contábil (entradas). Entradas com CFOP de entrada, crédito de ICMS/IPI como escriturado (uso e consumo zerado, 1407 CST 60, Simples com CSOSN e o vCredICMSSN), PIS/COFINS CST 98. Saídas exatamente do XML; C101 quando há DIFAL; canceladas COD_SIT 02 e inutilizadas 05 só com número/chave; vendas para a Cosmeticon nos acumuladores 204/205.
+- D100/D190 só para CT-e com XML em que a Cosmetici é tomadora (precisa do município de início e fim); sem XML fica fora e é listado.
+- Bloco E só com E100 (a apuração, o DIFAL e o antecipado - E111 - são feitos no Domínio); NFS-e não entram (não são do SPED ICMS/IPI).
+- 09/2026: saídas = XML (180.815,24 / ICMS 16.317,95 / ST 865,16 / IPI 4.403,24); entradas 127.478,55 com crédito ICMS 6.297,73 + CT-e 149,14 e IPI 2.337,69 = apuração; fora: Linares 1923 (sem acumulador) e 29 CT-e sem XML.
+- Não importar também o TXT contábil (`contabil`): a Escrita Fiscal já gera os lançamentos.
+
 ## Lançamentos contábeis das entradas (comando `contabil`)
 
 `python scripts/fiscal_cosmetici.py contabil --mes AAAA-MM --pasta <pasta do mês> [--lancamentos-escrita Lançamentos.xls]` → `Lancamentos_Contabeis_Entradas_Cosmetici_MM-AAAA_RASCUNHO.txt` (leiaute da skill rof-contabilidade-cosmetici: `|0000|CNPJ|`, `|6000|X||||`, `|6100|DD/MM/AAAA|débito|crédito|valor com vírgula||histórico||||`, cp1252, CRLF) + planilha de conferência com aba Pendências.

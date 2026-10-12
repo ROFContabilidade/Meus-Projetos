@@ -1121,5 +1121,18 @@
       "credito": "506",
       "lancamentos": 1
     }
+  },
+  "sped_cabecalho": {
+    "_obs": "Cabeçalho do SPED de importação (copiado do SPED 08/2026 gerado pelo Domínio para a Cosmetici)",
+    "0000": {
+      "nome": "COSMETICI INDUSTRIA E COMERCIO DE COSMETICOS EIRELI",
+      "cnpj": "33039048000162",
+      "uf": "PR",
+      "ie": "9080906088",
+      "cod_mun": "4107652"
+    },
+    "0002": "09",
+    "0005": "|0005|COSMETICI COMERCIO DE COSMETICOS|83820293|Avenida FRANCISCO FERREIRA DA CRUZ|4035|BARRACAO 42|EUCALIPTOS|4131952587||claudia.rubin@cosmetici.com.br|",
+    "0100": "|0100|RAFAEL ESPIRITO SANTO|06037524971|PR061878O9|42628591000196|81935307|Rua NOSSA SENHORA DO CARAVAGGIO|265|CASA|SITIO CERCADO|4199148699||PROTECTIONCONTABILIDADE@GMAIL.COM|4106902|"
   }
 }

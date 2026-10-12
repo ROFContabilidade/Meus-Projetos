@@ -293,6 +293,32 @@ def teste_contabil():
     print('ok TXT contábil das entradas (conta do fornecedor, ISS retido em lote D, IRRF)')
 
 
+def teste_importacao():
+    """SPED de importação: mesma quantidade de campos do arquivo aceito pelo Domínio (Kopp), contadores e totais do XML."""
+    import collections as co
+    import sped_importacao
+    from creditos import Credito
+    ch = lambda n, e: f'412609{e}55001{n:09d}1{n:08d}'
+    forn_cnpj = '33598527000119'
+    arqs = {'e.xml': nfe(ch(1, forn_cnpj), 29391, forn_cnpj, CNPJ, 'PR', [('5101', '48191000', 1000.0, 19.5, 0, 0, '00')], data='2026-09-10'),
+            's.xml': nfe(ch(2, CNPJ), 9001, CNPJ, '11222333000181', 'SP', [('6101', '33059000', 500.0, 12, 0, 10, '01')], data='2026-09-11')}
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', leitores.ler_xmls([montar_zip(arqs)]), {}).executar()
+    cred = Credito(a, {}, [], {}).analisar()
+    destino = os.path.join(tempfile.mkdtemp(), 'imp.txt')
+    s, L = sped_importacao.gerar(a, cred, {}, {}, {}, CFG['sped_cabecalho'], destino)
+    campos = {'C100': 31, 'C170': 40, 'C190': 14, '0150': 15, '0200': 15, '0000': 17}
+    for l in L:
+        r = l.split('|')[1]
+        if r in campos:
+            assert len(l.split('|')) == campos[r], (r, len(l.split('|')), l)
+    cont = co.Counter(l.split('|')[1] for l in L)
+    assert L[-1] == f'|9999|{len(L):09d}|' and cont['C100'] == 2
+    c170 = [l.split('|') for l in L if l.startswith('|C170|')]
+    assert c170[0][11] == '1101' and c170[0][12] == '100' and c170[0][15] == '195,00', c170[0]   # CFOP de entrada, acumulador, crédito
+    assert c170[1][11] == '6101' and c170[1][12] == '201', c170[1]
+    print('ok SPED de importação (leiaute aceito pelo Domínio, acumulador no COD_NAT)')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -304,3 +330,4 @@ if __name__ == '__main__':
     teste_registro_erp()
     teste_difal_antecipacao()
     teste_contabil()
+    teste_importacao()
