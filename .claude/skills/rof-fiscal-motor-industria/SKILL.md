@@ -29,6 +29,15 @@ Passo a passo técnico dos scripts: skill `rof-fiscal-conferencia-notas`. Caso p
 2. Entregar à analista: `Entradas_para_conferencia` (aba "Todas as notas" + dentro/fora do estado, CT-e,
    serviços tomados com retenção em vermelho), `Saidas_MM-AAAA` (uma aba, por data de saída; canceladas em
    vermelho, inutilizadas em cinza), relação de acumuladores em uso.
+   Relatório de serviços tomados `Servicos_Tomados_MM-AAAA.xlsx` (`relatorio_servicos.py`, sai sozinho com
+   `--nfse-recebidas`) — modelo aprovado: LIMPO E CONCISO, nada que atrase a analista:
+   - Resumo: com retenção / sem retenção / total a lançar / não lançar (notas, valor, cada imposto retido,
+     total retido) + guias a recolher (IRRF DARF 1708 — 8045 propaganda via `servicos.darf_irrf_por_item`;
+     PIS/COFINS/CSLL DARF 5952; INSS DCTFWeb; ISS guia do município), vencimento dia 20 do mês seguinte ao
+     pagamento, EFD-Reinf R-4020 no mês do pagamento.
+   - Todas as notas · Com retenção (valor, cada imposto, total retido, líquido a pagar, guia) · Sem retenção
+     (observação só quando a retenção era esperada). Vermelho = com retenção, verde = sem, cinza = não lançar.
+   - Só colunas de imposto que tiveram valor no mês; CSRF aberto em PIS 0,65 / COFINS 3 / CSLL 1.
 3. `--txt-cabecalho <SPED anterior>` → `IMPORTACAO_DOMINIO_MMAAAA.TXT` + `_conferencia.xlsx`
    (+ `_SEM_NOTAS_DO_ZIP.TXT` se houver `importar_por_xml`, + `_CORRECAO.TXT` se houver `reimportar`).
 4. Canceladas: zip só com os XML delas (nota + evento 110111) para subir pelo XML; relatório Excel

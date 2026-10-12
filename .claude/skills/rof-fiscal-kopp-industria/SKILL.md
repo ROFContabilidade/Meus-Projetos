@@ -33,7 +33,7 @@ python3 Fiscal/scripts/conferencia.py --regras Fiscal/empresas/60-kopp-industria
   --xml-anteriores <XML do mês anterior> --txt-cabecalho <SPED do mês anterior> \
   --competencia AAAA-MM --saida Fiscal/empresas/60-kopp-industria/AAAA-MM/Pre_Conferencia_Kopp_Industria_MM-AAAA.xlsx
 ```
-Gera: Pre_Conferencia, Entradas_para_conferencia, Saidas_MM-AAAA, IMPORTACAO_DOMINIO_MMAAAA.TXT (+ _conferencia.xlsx,
+Gera: Pre_Conferencia, Entradas_para_conferencia, Saidas_MM-AAAA, Servicos_Tomados_MM-AAAA (retenções), IMPORTACAO_DOMINIO_MMAAAA.TXT (+ _conferencia.xlsx,
 _SEM_NOTAS_DO_ZIP, _CORRECAO conforme `txt_importacao`). Entregar também: acumuladores em uso, zip das canceladas,
 relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 
@@ -74,6 +74,7 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - Biomedicare 2140 + 2154 devolvem mais do que a remessa 64068: lançadas (autorizadas).
 
 ## Histórico do TXT
+09/2026 serviços tomados: 38 NFS-e, 34 a lançar (5 com retenção: IRRF R$ 207,36 DARF 1708 + CSRF R$ 661,62 DARF 5952 = R$ 868,98), 4 não lançar.
 09/2026: canceladas importadas pelo zip de XML (nota + evento 110111) sem problema — confirmado pela Rosangela.
 09/2026: 3 rodadas de erro até importar sem erros (12/10/2026); depois, revisão do crédito (base x alíquota no
 diferimento e no Simples) e DIFAL das saídas (C101). Ver tabela de erros na skill do motor.

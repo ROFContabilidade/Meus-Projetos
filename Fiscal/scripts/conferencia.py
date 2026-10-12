@@ -1167,6 +1167,11 @@ def main():
     saida_s = os.path.join(os.path.dirname(saida_e) or '.', f'Saidas_{comp[5:]}-{comp[:4]}.xlsx')
     planilha_saidas.gerar(res, saida_s)
     print('Planilha de saídas:', saida_s)
+    if res.get('nfse'):
+        import relatorio_servicos
+        saida_sv = os.path.join(os.path.dirname(saida_e) or '.', f'Servicos_Tomados_{comp[5:]}-{comp[:4]}.xlsx')
+        t, c, sm = relatorio_servicos.gerar(res, saida_sv, a.nfse_recebidas)
+        print(f'Serviços tomados: {saida_sv} ({t} NFS-e: {c} com retenção, {sm} sem)')
     if a.txt_cabecalho:
         import txt_dominio
         saida_t = os.path.join(os.path.dirname(saida_e) or '.', f'IMPORTACAO_DOMINIO_{comp[5:]}{comp[:4]}.TXT')
