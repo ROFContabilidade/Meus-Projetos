@@ -265,7 +265,15 @@ def teste_difal_antecipacao():
     # Demonstrativo 07/2026: outros débitos = DIFAL + antecipado; outros créditos = antecipado (saldo zero)
     assert a.ic['ajustes_debito'] == 658.37 and a.ic['ajustes_credito'] == 118.0 and a.antecipado['total'] == 118.0, a.ic
     assert a.ic['recolher'] == round(540.37 - 59.0, 2), a.ic
-    print('ok DIFAL (base dupla, Simples) e ICMS antecipado de importado = SPED 07/2026')
+    # regra da usuária: DIFAL e antecipado já vão no TXT de importação (E110/E111/E113, como o Domínio gera)
+    import sped_importacao
+    s, L = sped_importacao.gerar(a, a.credito, {}, {}, {}, CFG['sped_cabecalho'], os.path.join(tempfile.mkdtemp(), 'e.txt'))
+    e = [l for l in L if l.startswith(('|E110|', '|E111|', '|E113|'))]
+    assert '|E111|PR000081||540,37|' in e and '|E111|PR000080||118,00|' in e and '|E111|PR020212||118,00|' in e, e
+    assert sum(1 for l in e if l.startswith('|E113|')) == 3 and any('|2446|' in l and '|118,00|' in l for l in e), e
+    e110 = e[0].split('|')
+    assert e110[4] == '658,37' and e110[8] == '118,00', e110
+    print('ok DIFAL (base dupla, Simples) e ICMS antecipado de importado = SPED 07/2026, já no TXT (E110/E111/E113)')
 
 
 def teste_contabil():

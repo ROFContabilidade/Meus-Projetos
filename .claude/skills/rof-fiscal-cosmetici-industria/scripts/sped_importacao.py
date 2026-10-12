@@ -82,6 +82,7 @@ class Sped:
         self.a = a
         self.part, self.unid, self.itens, self.nat = {}, set(), {}, {}
         self.c, self.d, self.pend = [], [], []
+        self.e = []   # E110/E111/E113: DIFAL e ICMS antecipado de importado (regra da usuária - já vêm no TXT)
 
     # ------------------------------------------------------------ cadastros
     def participante(self, doc, end, nome):
@@ -294,7 +295,11 @@ class Sped:
             for reg in bloco:
                 add(reg)
         add(['D990', f'{len(L) - n0 + 1:09d}'])
-        add(['E001', '0']); add(['E100', ini, fim]); add(['E990', '000000003'])
+        n0 = len(L)
+        add(['E001', '0']); add(['E100', ini, fim])
+        for reg in self.e:
+            add(reg)
+        add(['E990', f'{len(L) - n0 + 1:09d}'])
         for b in ('G', 'H', 'K'):
             add([f'{b}001', '1']); add([f'{b}990', '000000002'])
         add(['1001', '0']); add(['1010'] + ['N'] * 13); add(['1990', '000000003'])
@@ -312,6 +317,47 @@ class Sped:
         return L
 
 
+def _e113(n, valor):
+    ser = str(int(n['serie'])) if str(n.get('serie') or '').isdigit() else (n.get('serie') or '')
+    return ['E113', re.sub(r'\D', '', n['emit_cnpj']), '55', ser, '', str(n['numero']), dt8(n['dhemi']), '', m(valor), n['chave']]
+
+
+def ajustes_apuracao(a, cred, sped=None):
+    """Bloco E do TXT (regra da usuária, igual ao SPED que o Domínio gerou em 07 e 08/2026):
+    - DIFAL do uso e consumo/ativo de outra UF: E111 PR000081 (débito) + E113 por nota;
+    - ICMS antecipado de importado a 4%: 8% sobre o valor do produto (= a base do ICMS da nota): E111 PR000080 (débito)
+      e PR020212 (crédito do mesmo valor - saldo zero) + E113 por nota;
+    - E110 com a apuração do mês (débitos das saídas, créditos das entradas e CT-e, ajustes, saldo e ICMS a recolher)."""
+    difal, antec = collections.OrderedDict(), collections.OrderedDict()
+    for l in cred.linhas:
+        n = l['nota']
+        if l.get('difal'):
+            difal[n['chave']] = (n, R((difal.get(n['chave']) or (n, 0))[1] + l['difal']))
+        if l.get('antecipado'):
+            antec[n['chave']] = (n, R((antec.get(n['chave']) or (n, 0))[1] + l['antecipado']))
+    td, ta = R(sum(v for _, v in difal.values())), R(sum(v for _, v in antec.values()))
+    ic = a.ic
+    aj_deb, aj_cred = R(td + ta), ta
+    deb, cre = ic['debitos'], ic['creditos']
+    if sped is not None:   # débitos e créditos = o que está nas próprias notas do arquivo (C190 / D190), para fechar com o TXT
+        num = lambda v: float(v.replace(',', '.')) if v else 0.0
+        c190 = [r for b in sped.c for r in (b if isinstance(b[0], list) else [b]) if r[0] == 'C190']
+        deb = R(sum(num(r[6]) for r in c190 if r[2][:1] in '567'))
+        cre = R(sum(num(r[6]) for r in c190 if r[2][:1] in '123') + sum(num(r[6]) for b in sped.d for r in b if r[0] == 'D190'))
+    saldo = R(deb + aj_deb - cre - aj_cred - ic.get('saldo_credor_anterior', 0.0))
+    regs = [['E110', m(deb), m(0), m(aj_deb), m(0), m(cre), m(0), m(aj_cred), m(0), m(ic.get('saldo_credor_anterior', 0.0)),
+             m(max(saldo, 0)), m(0), m(max(saldo, 0)), m(max(-saldo, 0)), m(0)]]
+    if td:
+        regs.append(['E111', 'PR000081', '', m(td)])
+        regs += [_e113(n, v) for n, v in difal.values()]
+    if ta:
+        regs.append(['E111', 'PR000080', '', m(ta)])
+        regs += [_e113(n, v) for n, v in antec.values()]
+        regs.append(['E111', 'PR020212', '', m(ta)])
+        regs += [_e113(n, v) for n, v in antec.values()]
+    return regs
+
+
 def gerar_somente_canceladas(a, chaves, cab, destino):
     """TXT só com notas de entrada canceladas pelo fornecedor (para reimportar sem duplicar o resto do mês)."""
     s = Sped(a)
@@ -324,6 +370,8 @@ def gerar(a, cred, cte_xml, cte_sieg, contas, cab, destino):
     s.entradas(cred, contas)
     s.saidas()
     s.ctes(cte_xml, cte_sieg, cred)
+    if getattr(a, 'ic', None) and a.cfg.get('sped_importacao_ajustes', True):
+        s.e = ajustes_apuracao(a, cred, s)
     linhas = s.gerar(destino, cab)
     return s, linhas
 
