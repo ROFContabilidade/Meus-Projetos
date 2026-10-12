@@ -342,9 +342,9 @@ def teste_servicos():
     rows, sem, com = planilha_nfse.gerar(a, xs, destino)
     assert [x['numero'] for x in sem] == [1] and [x['numero'] for x in com] == [2] and com[0]['liquido'] == 985.0
     wb = load_workbook(destino)
-    assert wb.sheetnames == ['Resumo', 'Todas as notas', 'Sem retenção', 'Com retenção']
-    irrf = next(r for r in wb['Resumo'].iter_rows(values_only=True) if r[0] == 'IRRF')
-    assert irrf[1] == 15.0 and 'DARF 1708' in irrf[3], irrf
+    assert wb.sheetnames == ['Todas as notas', 'Com retenção', 'Sem retenção']
+    irrf = next(r for r in wb['Com retenção'].iter_rows(values_only=True) if str(r[0]).startswith('IRRF'))
+    assert 'DARF 1708' in irrf[0] and irrf[3] == '=SUM(J5:J5)', irrf
     print('ok relatório de serviços tomados (todas / sem retenção / com retenção)')
 
 

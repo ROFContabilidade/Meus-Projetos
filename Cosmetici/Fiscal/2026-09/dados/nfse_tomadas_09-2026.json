@@ -31,7 +31,8 @@
    "acumulador": "803",
    "chave": "41069022207768652000110000000000154726099373367718",
    "competencia": "2026-09-01",
-   "descricao": "Balanca entre 20 e 150 kg nao acreditado |Calibracao por comparacao direta com Pesos Padrao (9 pontos)|Balanca ate 5 kg nao acreditado |Calibracao por comparacao direta com Pesos Padrao (9 pontos)|Phm",
+   "descricao": "Balanca entre 20 e 150 kg nao acreditado Calibracao por comparacao direta com Pesos Padrao (9 pontos) Balanca ate 5 k...",
+   "cnpj_fmt": "07.768.652/0001-10",
    "conta": "D 362 / C 506",
    "conferencia": "OK (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)"
   },
@@ -60,11 +61,12 @@
    "tp_pc": "PIS/COFINS/CSLL não retidos",
    "total_ret": 10.92,
    "liquido": 717.22,
-   "tem_ret": "SIM - IRRF",
+   "tem_ret": "Sim - IRRF",
    "acumulador": "definir",
    "chave": "41069022267742984000157000000000001826091655988219",
    "competencia": "2026-09-01",
    "descricao": "SERVIÇOS DE MED. OCUPACIONAL E SEG. DO TRABALHO - PARCELA(S): 1/1 - 10/09/2026 R$ 717,22",
+   "cnpj_fmt": "67.742.984/0001-57",
    "conta": "definir: prestador sem acumulador e sem histórico no Domínio",
    "conferencia": "OK"
   },
@@ -97,7 +99,8 @@
    "acumulador": "819",
    "chave": "41069022265649511000184000000270974726090368715311",
    "competencia": "2026-09-01",
-   "descricao": "Servicos Tecnicos B2B - R$ 83,99\n\n** Periodo de Apuracao: 30/07/2026 a 29/08/2026\n\nVencimento: 15/09/2026\n\n** VALORES DOS TRIBUTOS INCIDENTES NO SERVICO - R$ 11,97 (PIS 1.65% - COFINS 7.6% - ISS 5.0%,",
+   "descricao": "Servicos Tecnicos B2B - R$ 83,99 ** Periodo de Apuracao: 30/07/2026 a 29/08/2026 Vencimento: 15/09/2026 ** VALORES DO...",
+   "cnpj_fmt": "65.649.511/0001-84",
    "conta": "D 362 / C 506",
    "conferencia": "OK"
   },
@@ -130,7 +133,8 @@
    "acumulador": "820",
    "chave": "41069022265649511000184000000270975126095154324020",
    "competencia": "2026-09-01",
-   "descricao": "Biblioteca Virtual Ligga B2B - R$ 195,97\n\n** Periodo de Apuracao: 30/07/2026 a 29/08/2026\n\nVencimento: 15/09/2026\n\n** VALORES DOS TRIBUTOS INCIDENTES NO SERVICO - R$ 0,00 (, CFE LEI FEDERAL 12.741/12)",
+   "descricao": "Biblioteca Virtual Ligga B2B - R$ 195,97 ** Periodo de Apuracao: 30/07/2026 a 29/08/2026 Vencimento: 15/09/2026 ** VA...",
+   "cnpj_fmt": "65.649.511/0001-84",
    "conta": "D 643 / C 506",
    "conferencia": "OK (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)"
   },
@@ -163,7 +167,8 @@
    "acumulador": "825",
    "chave": "41069022280402860000190000000000050726097638942622",
    "competencia": "2026-09-01",
-   "descricao": "CONSULTORIA AMBIENTAL \n\nVCTO 05/10/2026\n",
+   "descricao": "CONSULTORIA AMBIENTAL VCTO 05/10/2026",
+   "cnpj_fmt": "80.402.860/0001-90",
    "conta": "D 364 / C 506",
    "conferencia": "OK (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)"
   },
@@ -196,7 +201,8 @@
    "acumulador": "824",
    "chave": "41069022278738101000151000000081766026097784194236",
    "competencia": "2026-09-01",
-   "descricao": "(QUANT. 2 - VAL.UNIT. R$26.89 - MENSALIDADE DE TITULARES - TOTAL R$53.78) (QUANT. 2 - VAL.UNIT. R$26.89 - MENSALIDADE DEPENDENTES - TOTAL R$53.78) (NÃO CONFIGURA FATO GERADOR DA RETENÇÃO DE IRRF (ARTS",
+   "descricao": "(QUANT. 2 - VAL.UNIT. R$26.89 - MENSALIDADE DE TITULARES - TOTAL R$53.78) (QUANT. 2 - VAL.UNIT. R$26.89 - MENSALIDADE...",
+   "cnpj_fmt": "78.738.101/0001-51",
    "conta": "D 652 / C 506",
    "conferencia": "OK"
   },
@@ -229,7 +235,8 @@
    "acumulador": "830",
    "chave": "41069022275114363000157000000000097426097081722597",
    "competencia": "2026-09-01",
-   "descricao": "1 Banner Fosco; 80x120 cm; Bastao de Madeira; Ponteira; Barbante; Lona Front 340g; 4x0 cores; Colorido Vlr.Unt 72,6000 Vlr.Brt 72,60 Vlr.Liq 72,60||Vencimentos:|900.1023-1/1 01/09/2026 R$ 72,60||Valor",
+   "descricao": "1 Banner Fosco; 80x120 cm; Bastao de Madeira; Ponteira; Barbante; Lona Front 340g; 4x0 cores; Colorido Vlr.Unt 72,600...",
+   "cnpj_fmt": "75.114.363/0001-57",
    "conta": "D 325 / C 506",
    "conferencia": "OK (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)"
   },
@@ -262,7 +269,8 @@
    "acumulador": "830",
    "chave": "41069022200495545000116000000000046926091708323044",
    "competencia": "2026-09-03",
-   "descricao": "3.000 Laminas - Oleos ALL Nature. 210x297mm, 4x4 cores, Tinta Escala em Couche Brilho 115g. Saida em CTP.  / 3.000 Laminas - Promo Beauty Fair 26 ALL Nature. 210x297mm, 4x4 cores, Tinta Escala em Couc",
+   "descricao": "3.000 Laminas - Oleos ALL Nature. 210x297mm, 4x4 cores, Tinta Escala em Couche Brilho 115g. Saida em CTP. / 3.000 Lam...",
+   "cnpj_fmt": "00.495.545/0001-16",
    "conta": "D 325 / C 506",
    "conferencia": "OK"
   },
@@ -295,7 +303,8 @@
    "acumulador": "definir",
    "chave": "41255062201790040000147000000000879826090020603825",
    "competencia": "2026-09-03",
-   "descricao": "DIÁRIAS: 3.343,68 ISS: 167,20  RPS 419615 UH 207 (6326927), 215 (6326935), 219 (6326951) e 515 (6326943)",
+   "descricao": "DIÁRIAS: 3.343,68 ISS: 167,20 RPS 419615 UH 207 (6326927), 215 (6326935), 219 (6326951) e 515 (6326943)",
+   "cnpj_fmt": "01.790.040/0001-47",
    "conta": "definir: prestador sem acumulador e sem histórico no Domínio",
    "conferencia": "OK"
   },
@@ -328,7 +337,8 @@
    "acumulador": "definir",
    "chave": "35503081248395289000111000000004545426099076402305",
    "competencia": "2026-09-08",
-   "descricao": "Diaria HOSPEDAGEM REFERENTE A FEIRA BEAUTY FAIR. CHECK IN 04-09-2026 CHECK OUT 08-09-2026 SENDO QUE DOIS APARTAMENTOS FEZ CHECK OUT DIA 09-09 REFERENTE AOS APTOS: 5 DUPLOS 2 TRIPOS  3 CASAIS  106-MARC",
+   "descricao": "Diaria HOSPEDAGEM REFERENTE A FEIRA BEAUTY FAIR. CHECK IN 04-09-2026 CHECK OUT 08-09-2026 SENDO QUE DOIS APARTAMENTOS...",
+   "cnpj_fmt": "48.395.289/0001-11",
    "conta": "definir: prestador sem acumulador e sem histórico no Domínio",
    "conferencia": "OK"
   },
@@ -362,6 +372,7 @@
    "chave": "41069022224891333000116000000000090826090575270117",
    "competencia": "2026-09-10",
    "descricao": "Referente a Manutenção CosmosERP.",
+   "cnpj_fmt": "24.891.333/0001-16",
    "conta": "D 640 / C 506",
    "conferencia": "OK (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)"
   },
@@ -394,7 +405,8 @@
    "acumulador": "816",
    "chave": "35503081232223020000118000000558882126097884718838",
    "competencia": "2026-09-11",
-   "descricao": "Valor Total - R$ 6.105,00 Compra de Créditos na Plataforma Flash - R$ 6.105,00 Valor total de serviços Flash - R$ 0,00 Data da Compra: 11/09/2026 Compra de benefícios - Premiação no Cartão: R$ 6.105,0",
+   "descricao": "Valor Total - R$ 6.105,00 Compra de Créditos na Plataforma Flash - R$ 6.105,00 Valor total de serviços Flash - R$ 0,0...",
+   "cnpj_fmt": "32.223.020/0001-18",
    "conta": "D 364 / C 506",
    "conferencia": "OK"
   },
@@ -428,6 +440,7 @@
    "chave": "41069022259684382000162000000000001026098158485630",
    "competencia": "2026-09-16",
    "descricao": "Serviços prestados",
+   "cnpj_fmt": "59.684.382/0001-62",
    "conta": "D 362 / C 506",
    "conferencia": "OK (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)"
   },
@@ -461,6 +474,7 @@
    "chave": "41069022259684382000162000000000001126096345619740",
    "competencia": "2026-09-16",
    "descricao": "Serviços prestados",
+   "cnpj_fmt": "59.684.382/0001-62",
    "conta": "D 362 / C 506",
    "conferencia": "OK (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)"
   },
@@ -494,6 +508,7 @@
    "chave": "50027041214309879000162000000000953026090714785828",
    "competencia": "2026-09-01",
    "descricao": "PREST SERV DESIN DESRAT REF SETEMBRO26",
+   "cnpj_fmt": "14.309.879/0001-62",
    "conta": "D 362 / C 506",
    "conferencia": "OK"
   },
@@ -526,7 +541,8 @@
    "acumulador": "definir",
    "chave": "41018041259087034000108000000000007226090000000014",
    "competencia": "2026-09-17",
-   "descricao": "MANUTENCAO EM EQUIPAMENTO INKJET+ 03 HORAS TECNICAS(R$ 1.440,00)+ DESLOCAMENTO(R$ 100,00) R$ 1.540,00-- DESCONTO POR ASSIDUIDADE-R$ 450,00 --- TOTAL A PAGAR: R$ 1.090,00 COND PGTO- 2X 21/42 DDL",
+   "descricao": "MANUTENCAO EM EQUIPAMENTO INKJET+ 03 HORAS TECNICAS(R$ 1.440,00)+ DESLOCAMENTO(R$ 100,00) R$ 1.540,00-- DESCONTO POR ...",
+   "cnpj_fmt": "59.087.034/0001-08",
    "conta": "D 362 / C 506",
    "conferencia": "OK"
   },
@@ -559,7 +575,8 @@
    "acumulador": "823",
    "chave": "41069022277800407000128000000017322826095713648820",
    "competencia": "2026-09-20",
-   "descricao": "1 - SOFTWARE TECNOPONTO PLUS PARA 20 FUNCIONARIOS|1 - SUPORTE TECNICO PARA SOFTWARE||Nao sujeita a retencao da Fonte das Contribuicoes Sociais (PIS, COFINS, CSLL). - Qtde 1 x Valor Unit. R$ 74,90 = To",
+   "descricao": "1 - SOFTWARE TECNOPONTO PLUS PARA 20 FUNCIONARIOS 1 - SUPORTE TECNICO PARA SOFTWARE Nao sujeita a retencao da Fonte d...",
+   "cnpj_fmt": "77.800.407/0001-28",
    "conta": "D 640 / C 506",
    "conferencia": "OK"
   },
@@ -593,6 +610,7 @@
    "chave": "42054072204580911000196000000024307926097939111579",
    "competencia": "2026-09-21",
    "descricao": "Assinatura Nex e Suporte Técnico - Serviço referente a SET / 2026",
+   "cnpj_fmt": "04.580.911/0001-96",
    "conta": "D 364 / C 506",
    "conferencia": "OK"
   },
@@ -626,6 +644,7 @@
    "chave": "41069022204523560000181000000000922726091381915688",
    "competencia": "2026-09-22",
    "descricao": "UNIDADE DE ATENDIMENTO ASSISTENCIA OU TRATAMENTO MOVEL",
+   "cnpj_fmt": "04.523.560/0001-81",
    "conta": "D 576 / C 506",
    "conferencia": "OK"
   },
@@ -654,11 +673,12 @@
    "tp_pc": "PIS/COFINS/CSLL retidos",
    "total_ret": 85.35,
    "liquido": 1750.15,
-   "tem_ret": "SIM - PIS/COFINS/CSLL",
+   "tem_ret": "Sim - PIS/COFINS/CSLL",
    "acumulador": "definir",
    "chave": "35234042204665405000108000000000004326090442626218",
    "competencia": "2026-09-25",
    "descricao": "SERVIÇO DE CALIBRAÇÃO PIS RETIDO 0,65% R$ 11,93 COFINS RETIIDO 3% R$ 55,07 CSLL RETIDO 1% R$ 18,36",
+   "cnpj_fmt": "04.665.405/0001-08",
    "conta": "definir: prestador sem acumulador e sem histórico no Domínio",
    "conferencia": "OK"
   },
@@ -691,7 +711,8 @@
    "acumulador": "816",
    "chave": "35503081232223020000118000000566135126091580598802",
    "competencia": "2026-09-25",
-   "descricao": "Valor Total - R$ 4.142,00 Compra de Créditos na Plataforma Flash - R$ 4.142,00 Valor total de serviços Flash - R$ 0,00 Data da Compra: 25/09/2026 Compra de benefícios - Premiação no Cartão: R$ 4.142,0",
+   "descricao": "Valor Total - R$ 4.142,00 Compra de Créditos na Plataforma Flash - R$ 4.142,00 Valor total de serviços Flash - R$ 0,0...",
+   "cnpj_fmt": "32.223.020/0001-18",
    "conta": "D 364 / C 506",
    "conferencia": "OK"
   }

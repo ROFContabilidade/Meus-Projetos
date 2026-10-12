@@ -1,5 +1,6 @@
 """Relatório das NFS-e de serviços tomados do mês (Relacao_Servicos_Tomados_Cosmetici_MM-AAAA.xlsx) e a base de dados do mês
-(dados/nfse_tomadas_MM-AAAA.json). Abas: Resumo (totais e retenções a recolher), Todas as notas, Sem retenção, Com retenção.
+(dados/nfse_tomadas_MM-AAAA.json). Modelo pedido pela usuária - simples e detalhado: 1ª aba Todas as notas, 2ª Com retenção
+(com o total de cada retenção e a guia), 3ª Sem retenção.
 Valores e retenções EXATAMENTE como estão no XML da NFS-e (padrão nacional) - nada é recalculado."""
 import datetime as dt
 import json
@@ -21,14 +22,12 @@ GUIAS = [('ISS retido', 'iss_retido', 'Guia do ISS retido do município de incid
          ('PIS/COFINS/CSLL (CSRF)', 'csll', 'DARF 5952 - PIS/COFINS/CSLL retidos (4,65%)', 'até o dia 20 do mês seguinte (último dia útil do 2º decêndio)'),
          ('INSS retido', 'inss', 'DCTFWeb / DARF previdenciário - retenção de 11% (cessão de mão de obra)', 'até o dia 20 do mês seguinte')]
 
-COLS = [('Emissão', 10, 'data', 'd'), ('Competência', 10, 'competencia', 'd'), ('NFS-e', 9, 'numero', ''), ('Situação', 10, 'situacao', ''), ('Prestador', 32, 'emitente', ''),
-        ('CNPJ', 15, 'cnpj', ''), ('Simples', 7, 'simples', ''), ('Município incidência', 12, 'municipio', ''), ('Cód. serviço', 8, 'cod', ''),
-        ('Descrição do serviço', 40, 'descricao', ''), ('Valor do serviço', 12, 'vNF', 'm'), ('Base ISS', 10, 'base_iss', 'm'),
-        ('% ISS', 6, 'aliq_iss', ''), ('ISS do prestador', 10, 'iss', 'm'), ('ISS retido', 9, 'iss_retido', 'm'), ('IRRF retido', 9, 'irrf', 'm'),
-        ('PIS/COFINS/CSLL retidos (vRetCSLL)', 12, 'csll', 'm'), ('INSS retido', 9, 'inss', 'm'), ('Total retido (vTotalRet)', 11, 'total_ret', 'm'),
-        ('Líquido a pagar ao prestador', 12, 'liquido', 'm'), ('Retenção', 20, 'tem_ret', ''), ('Retenção PIS/COFINS (XML)', 22, 'tp_pc', ''),
-        ('Acumulador (Domínio)', 10, 'acumulador', ''), ('Conta contábil (Domínio)', 14, 'conta', ''),
-        ('Conferência XML x relatório ABRASF', 26, 'conferencia', ''), ('Chave', 50, 'chave', '')]
+COLS = [('Emissão', 11, 'data', 'd'), ('Nº NFS-e', 10, 'numero', ''), ('Prestador', 38, 'emitente', ''), ('CNPJ', 19, 'cnpj_fmt', ''),
+        ('Serviço (resumo da descrição do XML)', 50, 'descricao', ''), ('Simples Nacional', 9, 'simples', ''), ('Valor do serviço', 13, 'vNF', 'm'),
+        ('ISS da nota', 11, 'iss', 'm'), ('ISS retido', 11, 'iss_retido', 'm'), ('IRRF retido', 11, 'irrf', 'm'),
+        ('PIS/COFINS/CSLL retidos', 12, 'csll', 'm'), ('INSS retido', 11, 'inss', 'm'), ('Total retido', 12, 'total_ret', 'm'),
+        ('Líquido a pagar', 13, 'liquido', 'm'), ('Retenção', 22, 'tem_ret', ''), ('Acumulador', 11, 'acumulador', ''),
+        ('Situação', 10, 'situacao', '')]
 
 
 def linhas(a, xml_nfse, rel_nfse=None, forn=None):
@@ -54,7 +53,10 @@ def linhas(a, xml_nfse, rel_nfse=None, forn=None):
         comp = x.get('competencia')
         r['competencia'] = dt.date.fromisoformat(str(comp)[:10]) if comp else None
         r['data'] = dt.date.fromisoformat(str(r['data'])[:10]) if r['data'] and not isinstance(r['data'], dt.date) else r['data']
-        r['descricao'] = (x.get('descricao') or r.get('servico') or '')[:250]
+        d = ' '.join(str(x.get('descricao') or r.get('servico') or '').replace('|', ' ').split())
+        r['descricao'] = d if len(d) <= 120 else d[:117] + '...'
+        c = r['cnpj'] or ''
+        r['cnpj_fmt'] = f'{c[:2]}.{c[2:5]}.{c[5:8]}/{c[8:12]}-{c[12:]}' if len(c) == 14 else c
         r['conta'] = conta.get(k, '')
         r['conferencia'] = conf.get(k, 'sem relatório ABRASF' if not rel_nfse else 'não está no relatório')
     return rows
@@ -64,48 +66,22 @@ def gerar(a, xml_nfse, destino, rel_nfse=None, forn=None, base_json=None):
     rows = linhas(a, xml_nfse, rel_nfse, forn)
     com = [r for r in rows if r['tem_ret'].startswith('SIM')]
     sem = [r for r in rows if not r['tem_ret'].startswith('SIM')]
-    mm = f'{a.mes[5:]}/{a.mes[:4]}'
     emp = a.cfg['empresa']['nome']
+    mm = f'{a.mes[5:]}/{a.mes[:4]}'
     wb = Workbook()
-    ws = wb.active
-    ws.title = 'Resumo'
-    ws['A1'] = f'{emp} - Serviços tomados {mm}'; ws['A1'].font = F(bold=True, size=12)
-    ws['A2'] = 'Valores e retenções exatamente como estão no XML de cada NFS-e (padrão nacional). Nada foi recalculado.'
-    ws['A2'].font = F(italic=True, color='595959')
-    r = 4
-    for rot, v in (('Notas no mês', len(rows)), ('Sem retenção', len(sem)), ('Com retenção', len(com))):
-        ws.cell(r, 1, rot).font = F(bold=True); ws.cell(r, 2, v).font = F(); r += 1
-    soma = lambda ls, k: round(sum(x.get(k) or 0.0 for x in ls), 2)
-    r += 1
-    for i, c in enumerate(['', 'Todas', 'Sem retenção', 'Com retenção'], 1):
-        x = ws.cell(r, i, c); x.font = F(bold=True, color='FFFFFF'); x.fill = H
-    r += 1
-    for rot, k in (('Valor dos serviços', 'vNF'), ('ISS do prestador', 'iss'), ('Total retido', 'total_ret'), ('Líquido a pagar', 'liquido')):
-        ws.cell(r, 1, rot).font = F(bold=True)
-        for i, ls in enumerate((rows, sem, com), 2):
-            x = ws.cell(r, i, soma(ls, k)); x.font = F(); x.number_format = M
-        r += 1
-    r += 1
-    for i, c in enumerate(['Retenção a recolher', 'Valor', 'Notas', 'Guia', 'Vencimento (informativo)'], 1):
-        x = ws.cell(r, i, c); x.font = F(bold=True, color='FFFFFF'); x.fill = H
-    r += 1
-    for rot, k, guia, venc in GUIAS:
-        notas = [x for x in com if x.get(k)]
-        vals = [rot, soma(notas, k), ', '.join(f'{x["numero"]} {x["emitente"][:20]} ({x[k]:,.2f})' for x in notas) or '-', guia, venc]
-        for i, v in enumerate(vals, 1):
-            x = ws.cell(r, i, v); x.font = F(); x.alignment = Alignment(wrap_text=True, vertical='top')
-            if i == 2: x.number_format = M
-            if notas: x.fill = RET
-        r += 1
-    ws.cell(r + 1, 1, 'A soma das retenções por tributo deve bater com o "Total retido" das notas com retenção.').font = F(italic=True, color='595959')
-    for col, w in zip('ABCDE', [26, 14, 60, 48, 40]):
-        ws.column_dimensions[col].width = w
-    cor = lambda ln: RET if ln['tem_ret'].startswith('SIM') else None
-    pe._aba(wb, 'Todas as notas', f'NFS-e de serviços tomados {mm}, na ordem da emissão. Amarelo = nota com retenção.', COLS, rows, cor,
-            contar=lambda i, u: [('Com retenção', f'=COUNTIF(U{i}:U{u},"SIM*")'), ('Sem retenção', f'=COUNTIF(U{i}:U{u},"Não")')])
-    pe._aba(wb, 'Sem retenção', f'NFS-e sem nenhuma retenção no XML - {mm}. O valor integral é pago ao prestador.', COLS, sem)
-    pe._aba(wb, 'Com retenção', f'NFS-e com retenção no XML - {mm}. O tomador (Cosmetici) recolhe o valor retido; paga ao prestador o líquido.',
-            COLS, com, lambda ln: RET)
+    for r in rows:
+        r['tem_ret'] = r['tem_ret'].replace('SIM - ', 'Sim - ')
+    cor = lambda ln: RET if ln['tem_ret'].startswith('Sim') else None
+    pe._aba(wb, 'Todas as notas', f'{emp} - serviços tomados {mm}: todas as NFS-e, por data. Amarelo = nota com retenção. '
+            'Valores exatamente como no XML.', COLS, rows, cor, primeira=True,
+            contar=lambda i, u: [('Notas com retenção', f'=COUNTIF(O{i}:O{u},"Sim*")'), ('Notas sem retenção', f'=COUNTIF(O{i}:O{u},"Não")')])
+    pe._aba(wb, 'Com retenção', f'NFS-e com retenção - {mm}. A Cosmetici recolhe o valor retido e paga ao prestador o líquido.',
+            COLS, [r for r in rows if r['tem_ret'].startswith('Sim')], lambda ln: RET,
+            contar=lambda i, u: [(f'{rot}: {guia}', f'=SUM({col}{i}:{col}{u})') for rot, col, guia in
+                                 (('ISS retido', 'I', 'guia do ISS retido do município'), ('IRRF', 'J', 'DARF 1708 - até o dia 20 do mês seguinte'),
+                                  ('PIS/COFINS/CSLL', 'K', 'DARF 5952 - até o dia 20 do mês seguinte'), ('INSS', 'L', 'DCTFWeb - até o dia 20'))])
+    pe._aba(wb, 'Sem retenção', f'NFS-e sem retenção - {mm}. O valor integral é pago ao prestador.', COLS,
+            [r for r in rows if not r['tem_ret'].startswith('Sim')])
     wb.calculation.fullCalcOnLoad = True
     wb.save(destino)
     if base_json:
