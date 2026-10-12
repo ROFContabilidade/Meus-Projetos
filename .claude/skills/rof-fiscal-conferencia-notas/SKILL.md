@@ -85,7 +85,11 @@ confere os valores item a item): CST do Simples = CSOSN sem origem; IPI sem cré
 IPI fica vazio (senão o Domínio exige IPI no acumulador); frete/seguro/outras rateados pelo valor do item, como o
 Domínio faz, e a sobra de arredondamento do emissor (até R$ 1,00) vai para outras despesas; código de produto com
 10 caracteres (o Domínio corta em 14); sem CEST no 0200. Cancelada: COD_SIT 02 com participante, data, itens e C190
-zerados (sem participante o Domínio pega um qualquer). CT-e (D100) não tem campo de acumulador: vale o CFOP x
+zerados — mas o Domínio ignora o participante
+de documento com COD_SIT 02 e usa o da nota anterior, então com `txt_importacao.canceladas = lancar_manual` elas
+saem do TXT e vão para a aba "Canceladas - lançar à mão". PIS/COFINS: notas próprias com CST e valores do XML
+(o Domínio recusa CST 98 em saída); terceiros 98 zerado. Venda a consumidor final com IPI na base do ICMS: o
+Domínio soma o IPI de novo em "outras" do ICMS e recusa — ajustar no Domínio (não há campo no leiaute). CT-e (D100) não tem campo de acumulador: vale o CFOP x
 acumulador da importação. NFS-e só com `txt_importacao.incluir_nfse` (Kopp: modelo 01 sem espécie).
 
 ## Conta contábil

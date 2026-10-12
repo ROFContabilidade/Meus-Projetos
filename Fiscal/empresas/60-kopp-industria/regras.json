@@ -964,7 +964,8 @@
     "10/2026: uso e consumo -> base e ICMS zerados no lançamento; fora do estado -> DIFAL a recolher",
     "10/2026: crédito a 4% -> ICMS antecipado 8% (E111 PR000080/PR020212)",
     "10/2026: canceladas (entradas, saídas, devoluções, CT-e tomado) lançadas zeradas com participante e chave",
-    "10/2026: NFS-e fora do TXT de importação (modelo 01 sem espécie no Domínio da Kopp)"
+    "10/2026: NFS-e fora do TXT de importação (modelo 01 sem espécie no Domínio da Kopp)",
+    "10/2026: canceladas fora do TXT (Domínio troca o participante); lançar à mão pela lista"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -1003,6 +1004,8 @@
   "_canceladas": "Regra do escritório (Rosangela 10/2026): toda nota cancelada (entrada de terceiro, saída, devolução própria, CT-e com a Kopp tomadora) é LANÇADA com situação CANCELADA, só com participante e chave; valor contábil, base, imposto e crédito zerados. Parâmetro conferido no SPED ICMS/IPI de 07/2026 (11 saídas) e 08/2026 (4 saídas + 1 entrada própria): |C100|IND_OPER|IND_EMIT||55|02|SER|NUM|CHAVE| e o resto vazio — sem COD_PART, datas, valores, C170 nem C190 (Guia Prático: só REG, IND_OPER, IND_EMIT, COD_MOD, COD_SIT, SER, NUM_DOC e CHV_NFE).",
   "txt_importacao": {
     "incluir_nfse": false,
-    "_motivo": "Domínio da Kopp só relaciona espécie aos modelos 55 (36), 57 (38) e 65 (41); NFS-e como modelo 01 dá erro \"nenhuma espécie para o modelo 01\" e \"acumulador não definido\". Rosangela 10/2026: tirar as NFS-e do TXT."
+    "_motivo": "Domínio da Kopp só relaciona espécie aos modelos 55 (36), 57 (38) e 65 (41); NFS-e como modelo 01 dá erro \"nenhuma espécie para o modelo 01\" e \"acumulador não definido\". Rosangela 10/2026: tirar as NFS-e do TXT.",
+    "canceladas": "lancar_manual",
+    "_canceladas": "2ª importação 10/2026: com COD_SIT 02 o Domínio ignora o participante do arquivo e usa o da nota anterior (64181 virou CAWA, 64287 virou Enio; CT-e 2263500 \"fornecedor 0,00\"). Canceladas saem do TXT e vão para a aba \"Canceladas - lançar à mão\" da planilha de confronto, com participante, chave, CFOP e acumulador."
   }
 }

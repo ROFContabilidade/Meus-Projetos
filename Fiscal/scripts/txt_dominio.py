@@ -109,6 +109,19 @@ def cod_produto(prefixo, *partes):
     return prefixo + b36
 
 
+def _pis_cofins(it, do_xml):
+    """Campos de PIS e COFINS do C170. Notas próprias: CST e valores do XML (o Domínio recusa 98 na saída);
+    notas de terceiros: 98 zerado, como no modelo (empresa do Lucro Presumido não credita)."""
+    out = []
+    for cst, val, aliq in ((it['CST_PIS'], it['vPIS'], it['pPIS']), (it['CST_COFINS'], it['vCOFINS'], it['pCOFINS'])):
+        if do_xml and cst:
+            bc = (val * 100 / aliq).quantize(Decimal('0.01')) if aliq else Z
+            out += [cst, v(bc), v(aliq, 4), '', '', v(val)]
+        else:
+            out += ['98', v(0), v(0, 4), '', '', v(0)]
+    return out
+
+
 def _rateio(total, pesos):
     """Rateia `total` pelos pesos (2 casas); a sobra de arredondamento vai para o último item."""
     soma = sum(pesos, Z)
@@ -154,7 +167,15 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
             e['pais'] = e.get('pais') or ''
         return part.add(doc, re.sub(r'\s*\(\d+\)$', '', nome), ie, e)
 
+    canc_fora = R.r.get('txt_importacao', {}).get('canceladas', 'no_txt') == 'lancar_manual'
+    manual = []
+
     def nfe(n, oper, emit, cod_p, info, cancel, rotulo, nome):
+        if cancel and canc_fora:
+            manual.append((rotulo, n['numero'], nome, n['chave'], dt(n['dt_emissao']),
+                           ', '.join(sorted({info(it)['cfop'] for it in n['itens']})),
+                           ', '.join(sorted({info(it)['ac'] for it in n['itens']} - {''}))))
+            return
         """C100 + C170 + C190 de uma NF-e. info(it) devolve a classificação do item.
         O valor de cada linha do C190 é montado como o Domínio confere: item - desconto + rateio de frete,
         seguro e outras pelo valor do item + IPI + ST."""
@@ -191,7 +212,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
                 v(0 if cancel else it['pICMSST']), v(st), '0',
                 f['ipi_cst'] if com_ipi else '', '', v(f['ipi_bc']) if com_ipi and not cancel else '',
                 v(f['ipi_aliq']) if com_ipi and not cancel else '', v(ipi) if com_ipi else '',
-                '98', v(0), v(0, 4), '', '', v(0), '98', v(0), v(0, 4), '', '', v(0), f['conta'], v(0)))
+                *_pis_cofins(it, f['pis_xml'] and not cancel), f['conta'], v(0)))
             g = grupos[(f['cst'], f['cfop'], aliq if icms else Z)]
             g['opr'] += vl_item[k] - desc[k] + fr[k] + sg[k] + ot[k] + ipi + st
             g['bc'] += bc
@@ -239,7 +260,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
             return dict(cfop=str(c.get('CFOP sugerido') or ''), ac=str(c.get('Acum. sugerido') or ''),
                         cst=_cst(it), bc=bc, aliq=aliq, icms=cred,
                         ipi=cred_ipi, ipi_cst='00' if cred_ipi else '', ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'],
-                        ipi_no_custo=bool(it['vIPI']) and not cred_ipi,      # IPI sem crédito integra o custo
+                        ipi_no_custo=bool(it['vIPI']) and not cred_ipi, pis_xml=False,   # IPI sem crédito -> custo
                         conta=conta(c.get('Conta contábil sugerida')),
                         tipo=FIN_TIPO.get(str(c.get('Finalidade') or ''), '99'),
                         cod=cod_produto('F', n['emit_cnpj'], it['cProd'], it['uCom']))
@@ -252,7 +273,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
             return dict(cfop=it['CFOP'], ac=ac_cfop.get(it['CFOP'], ''), cst=_cst(it),
                         bc=it['vBC_ICMS'] if it['vICMS'] else Z, aliq=it['pICMS'] if it['vICMS'] else Z,
                         icms=it['vICMS'], ipi=it['vIPI'], ipi_cst=ipi_cst if it['vIPI'] else '',
-                        ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'], ipi_no_custo=False, conta='',
+                        ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'], ipi_no_custo=False, conta='', pis_xml=True,
                         tipo='00' if it['CFOP'][1:] in ('102', '202', '411') else '04',
                         cod=cod_produto('K', it['cProd'], it['uCom']))
         return f
@@ -332,6 +353,10 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
             continue
         ch = c['Chave']
         canc = 'CANCEL' in st.upper()
+        if canc and canc_fora:
+            manual.append(('CT-e', str(c['CT-e']), c['Transportador'], ch, dt(c['Data']),
+                           str(c['CFOP de entrada sugerido']), str(c.get('Acum. sugerido') or '')))
+            continue
         x = None
         if ch in xml_cte:
             try:
@@ -384,6 +409,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
     linhas.append(linha('9999', f'{len(linhas) + 1:09d}'))
     with open(saida, 'w', encoding='latin-1', errors='replace', newline='\r\n') as f:
         f.write('\n'.join(linhas) + '\n')
+    res['txt_manual'] = manual
     return linhas, conf
 
 
@@ -421,6 +447,13 @@ def planilha(conf, res, saida):
         elif c[6]:
             for cel in ws2[ws2.max_row]:
                 cel.font = Font(bold=True, color='9C0006')
+    if res.get('txt_manual'):
+        wsm = wb.create_sheet('Canceladas - lançar à mão')
+        wsm.append(['Documento', 'Número', 'Participante', 'Chave', 'Data', 'CFOP', 'Acumulador'])
+        for m in res['txt_manual']:
+            wsm.append(list(m[:4]) + [f'{m[4][:2]}/{m[4][2:4]}/{m[4][4:]}'] + list(m[5:]))
+            for cel in wsm[wsm.max_row]:
+                cel.fill = VM
     ws3 = wb.create_sheet('CFOP x acumulador (próprias)')
     ws3.append(['Tipo', 'CFOP', 'Acumulador', 'Nome', 'Notas'])
     R = res['regras']
