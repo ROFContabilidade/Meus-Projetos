@@ -265,6 +265,34 @@ def teste_difal_antecipacao():
     print('ok DIFAL (base dupla, Simples) e ICMS antecipado de importado = SPED 07/2026')
 
 
+def teste_contabil():
+    """TXT contábil das entradas: conta do fornecedor (embalagem 600), ISS retido em lote D e IRRF em lote próprio."""
+    import lancamentos_contabeis as lc
+    from creditos import Credito
+    ch = lambda n: f'4126091234567800019055001{n:09d}1{n:08d}'
+    pack = '33598527000119'
+    fontes = leitores.ler_xmls([montar_zip({'p.xml': nfe(ch(1), 29391, pack, CNPJ, 'PR', [('5101', '48191000', 2931.06, 19.5, 0, 0, '00')], data='2026-09-10')})])
+    forn = {pack: {'nome': 'PIZZA PACK', 'cfop': '1101', 'icms': True, 'ipi': False, 'contas_dominio': {'compra': {'600': 6}}}}
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', fontes, forn).executar()
+    cred = Credito(a, forn, [], {}).analisar()
+    serv = {'numero': '15', 'emissao': '2026-09-12', 'prest_nome': 'ESTRE AMBIENTAL', 'prest_cnpj': '27827087000121', 'prest_uf': 'PR',
+            'valor': 3000.0, 'iss_retido': 150.0, 'irrf': 45.0, 'csll': 0.0, 'inss': 0.0, 'chave': ''}
+    a.cfg['acumuladores_servicos']['27827087000121'] = '806'
+    lanc, pend = lc.montar(a, cred, {}, {}, [serv], forn)
+    assert not pend, pend
+    nf = next(x for x in lanc if x['doc'] == 'NF-e')
+    assert nf['blocos'][0][1][0][:2] == ('600', '506'), nf
+    destino = os.path.join(tempfile.mkdtemp(), 't.txt')
+    lc.gerar_txt(CNPJ, lanc, destino)
+    txt = open(destino, encoding='cp1252').read().split('\n')
+    assert txt[0].strip() == f'|0000|{CNPJ}|'
+    assert '|6100|10/09/2026|600|506|2931,06||COMPRAS DE MERCADORIAS NESTA DATA 29391 EMIT 3359 EMIT 3359 33.598.527/0001-19||||' in '\n'.join(txt)
+    i = txt.index('|6000|D||||\r') if '|6000|D||||\r' in txt else txt.index('|6000|D||||')
+    assert [t.split('|')[3:6] for t in txt[i + 1:i + 4]] == [['362', '', '3000,00'], ['', '506', '2850,00'], ['', '183', '150,00']], txt[i:i + 4]
+    assert '|6100|12/09/2026|506|178|45,00||VALOR A RECOLHER||||' in '\n'.join(txt)
+    print('ok TXT contábil das entradas (conta do fornecedor, ISS retido em lote D, IRRF)')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -275,3 +303,4 @@ if __name__ == '__main__':
     teste_cte_natureza()
     teste_registro_erp()
     teste_difal_antecipacao()
+    teste_contabil()

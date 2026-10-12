@@ -282,6 +282,31 @@ def cmd_entradas(args):
     print(f'Planilha: {destino}')
 
 
+def cmd_contabil(args):
+    """Lançamentos contábeis das entradas no leiaute TXT do Domínio (rascunho para conferência)."""
+    import lancamentos_contabeis as lc
+    a, _, sc, _, xn, fontes = _fontes_entradas(args)
+    forn = carregar('fornecedores.json', {})
+    if args.lancamentos_escrita:
+        n = sum(lc.aprender(lc.ler_escrita(p), forn) for p in args.lancamentos_escrita)
+        salvar('fornecedores.json', forn)
+        print(f'Aprendido do Domínio: {n} lançamentos com conta por fornecedor')
+    cred = Credito(a, forn, [], a.cfg.get('natureza_entradas', {})).analisar()
+    lanc, pend = lc.montar(a, cred, fontes['cte'], sc, xn, forn)
+    saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
+    os.makedirs(saida, exist_ok=True)
+    mm = f'{args.mes[5:]}-{args.mes[:4]}'
+    txt = os.path.join(saida, f'Lancamentos_Contabeis_Entradas_Cosmetici_{mm}_RASCUNHO.txt')
+    xlsx = os.path.join(saida, f'Lancamentos_Contabeis_Entradas_Cosmetici_{mm}.xlsx')
+    linhas = lc.gerar_txt(a.cnpj, lanc, txt)
+    lc.gerar_planilha(lanc, pend, xlsx, f'COSMETICI {args.mes[5:]}/{args.mes[:4]} - lançamentos contábeis das entradas')
+    tot = sum(v for x in lanc for _, b in x['blocos'] for d, _, v, _ in b if d)
+    print(f'Lançamentos: {len(lanc)} documentos, {linhas} linhas no TXT, débitos {tot:,.2f} | pendentes: {len(pend)}')
+    for x in pend:
+        print('  pendente:', x['doc'], x['numero'], x['nome'][:30], f'{x["valor"]:,.2f}', '-', x['motivo'])
+    print(f'TXT: {txt}\nPlanilha: {xlsx}')
+
+
 def cmd_cruzar_entradas(args):
     import cruzamento_entradas
     a, sp, sc, rn, xn, fontes = _fontes_entradas(args)
@@ -345,6 +370,14 @@ def main(argv=None):
     for arg in ('--xml', '--sieg-produtos', '--sieg-cte', '--nfse', '--nfse-xml'):
         en.add_argument(arg, nargs='*')
     en.set_defaults(func=cmd_entradas)
+    co = sub.add_parser('contabil', help='lançamentos contábeis das entradas (TXT Domínio |0000|/|6000|/|6100|), rascunho')
+    for arg in ('--pasta', '--saida'):
+        co.add_argument(arg)
+    co.add_argument('--mes', required=True)
+    for arg in ('--xml', '--sieg-produtos', '--sieg-cte', '--nfse', '--nfse-xml'):
+        co.add_argument(arg, nargs='*')
+    co.add_argument('--lancamentos-escrita', nargs='*', help='Lançamentos.xls (Lançamentos gerados pela Escrita) para aprender as contas')
+    co.set_defaults(func=cmd_contabil)
     sa = sub.add_parser('saidas', help='relação das notas de saída do mês (XML, canceladas, inutilizadas, sugestão de importação)')
     sa.add_argument('--mes', required=True)
     sa.add_argument('--pasta')

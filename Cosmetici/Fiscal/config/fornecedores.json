@@ -21,7 +21,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "uso": {
+        "513": 1
+      }
+    }
   },
   "16987597000140": {
     "nome": "ALLOXY ESPECIALIDADES QUIMICAS LTDA",
@@ -35,7 +40,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 4
+      }
+    }
   },
   "93763555000680": {
     "nome": "ALPHA QUIMICA LTDA",
@@ -49,7 +59,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
   },
   "12614205000146": {
     "nome": "AMIGRAF GRAFICA E EDITORA LTDA",
@@ -63,7 +78,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "43165042000195": {
     "nome": "AMONEX DO BRASIL IND E COM LTDA",
@@ -77,7 +97,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
   },
   "01142107000137": {
     "nome": "AQIA QUIMICA INOVATIVA LTDA",
@@ -111,7 +136,15 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 6
+      },
+      "amostra": {
+        "56": 1
+      }
+    }
   },
   "69170462000668": {
     "nome": "BARENTZ BRASIL DISTRIBUIDORA LTDA",
@@ -130,7 +163,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 3
+      }
+    }
   },
   "37295717000118": {
     "nome": "CAETANO PLASTICOS EMBALAGENS LTDA",
@@ -144,7 +182,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "600": 1
+      }
+    }
   },
   "36013487000194": {
     "nome": "CASTRO OLEOS VEGETAIS LTDA",
@@ -193,7 +236,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
   },
   "58309709000820": {
     "nome": "CHEMYUNION LTDA",
@@ -212,7 +260,15 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      },
+      "remessa": {
+        "612": 1
+      }
+    }
   },
   "77765840000501": {
     "nome": "CONTABILISTA SUPRIMENTOS CORPORATIVOS S.A.",
@@ -226,7 +282,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "uso": {
+        "359": 2
+      }
+    }
   },
   "09027396000135": {
     "nome": "CRECENCIA IND. E COM. DE FRAGRANCIAS LTDA",
@@ -240,7 +301,12 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
   },
   "74581091000809": {
     "nome": "DAXIA DOCE AROMA INDUSTRIA E COMERCIO LTDA",
@@ -254,7 +320,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
   },
   "04993269000177": {
     "nome": "DISTRIBUIDORA INDUSTRIAL PARANAENSE LTDA",
@@ -278,7 +349,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 4
+      }
+    }
   },
   "85014793000312": {
     "nome": "ELETRORASTRO COMERCIO DE MATERIAIS ELETRICOS LTDA",
@@ -302,7 +378,13 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "uso": {
+        "513": 5,
+        "321": 2
+      }
+    }
   },
   "01001672000184": {
     "nome": "ELYPLAST RIO PRETO LTDA",
@@ -321,7 +403,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "10625467000180": {
     "nome": "EMUNA COMERCIO DE PRODUTOS QUIMICOS LTDA",
@@ -335,7 +422,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
   },
   "54550401000144": {
     "nome": "EQUISUL EQUIPAMENTOS E SUPRIMENTOS INDUSTRIAIS LTDA",
@@ -349,7 +441,13 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "uso": {
+        "656": 3,
+        "513": 1
+      }
+    }
   },
   "55469126000797": {
     "nome": "EXPAK EXPORTADORA E IMPORTADORA LTDA",
@@ -363,7 +461,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "10693887000102": {
     "nome": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA",
@@ -377,7 +480,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "bonificacao": {
+        "56": 2
+      }
+    }
   },
   "10693887000447": {
     "nome": "FOCUS TECNOLOGIA COMERCIAL QUIMICA LTDA",
@@ -396,7 +504,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      }
+    }
   },
   "67548693000122": {
     "nome": "HIGH CHEM COM. E IND. DE PRODS. QUIMICOS LTDA",
@@ -410,7 +523,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 3
+      }
+    }
   },
   "18858535000163": {
     "nome": "HS INKLASER LTDA",
@@ -424,7 +542,12 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 3
+      }
+    }
   },
   "10265455000192": {
     "nome": "ILS TECNOLOGIA EM EQUIP DE SEG DO TRABALHO LTDA",
@@ -448,7 +571,13 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "uso": {
+        "656": 1,
+        "513": 1
+      }
+    }
   },
   "06216467000150": {
     "nome": "INNOVARTH COMERCIO DE PRODUTOS QUIMICOS LTDA.",
@@ -462,7 +591,15 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      },
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "03839251000152": {
     "nome": "JOSE DOMINGOS LINARES LTDA",
@@ -481,7 +618,16 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 32,
+        "614": 8
+      },
+      "remessa": {
+        "612": 3
+      }
+    }
   },
   "64949480000114": {
     "nome": "L ESSENCE INDUSTRIA E COMERCIO LTDA",
@@ -495,7 +641,15 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 3
+      },
+      "amostra": {
+        "56": 2
+      }
+    }
   },
   "08044874000152": {
     "nome": "LABAZ CIENTIFICA LTDA",
@@ -519,7 +673,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 5
+      }
+    }
   },
   "35634515000128": {
     "nome": "MAIAN INDUSTRIA DE PRODUTOS QUIMICOS LTDA",
@@ -538,7 +697,12 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      }
+    }
   },
   "78762994000170": {
     "nome": "MATIZAPLAST PLASTICOS E CORANTES LTDA",
@@ -552,7 +716,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 4
+      }
+    }
   },
   "49698723003110": {
     "nome": "MCASSAB COMERCIO E INDUSTRIA LTDA",
@@ -566,7 +735,15 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      },
+      "amostra": {
+        "56": 1
+      }
+    }
   },
   "27697083000338": {
     "nome": "MIX COSMETICOS LTDA",
@@ -580,7 +757,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "devolucao": {
+        "415": 2
+      }
+    }
   },
   "27697083000176": {
     "nome": "MIX COSMETICOS LTDA",
@@ -604,7 +786,15 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "614": 6
+      },
+      "devolucao": {
+        "415": 1
+      }
+    }
   },
   "06237330000181": {
     "nome": "MIX PERFUMARIA",
@@ -633,7 +823,15 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "614": 7
+      },
+      "devolucao": {
+        "417": 2
+      }
+    }
   },
   "54446026000197": {
     "nome": "MULTIQUIM INDUSTRIA COMERCIO IMPORTACAO E EXP LTDA",
@@ -647,7 +845,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
   },
   "61066658000190": {
     "nome": "NATURAL DOS CACHOS FRANCHISING LTDA",
@@ -661,7 +864,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "devolucao": {
+        "415": 1
+      }
+    }
   },
   "09220921000304": {
     "nome": "NOVA PIRAMIDAL THERMOPLASTICS LTDA",
@@ -675,7 +883,12 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
   },
   "09220921000215": {
     "nome": "NOVA PIRAMIDAL THERMOPLASTICS LTDA",
@@ -689,7 +902,12 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 7
+      }
+    }
   },
   "82649336000144": {
     "nome": "PERFUMANIA COMERCIO DE EMBALAGEM",
@@ -703,7 +921,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "33598527000119": {
     "nome": "PIZZA PACK COMERCIO DE EMBALAGENS EIRELI",
@@ -717,7 +940,15 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "600": 6
+      },
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "11340087000162": {
     "nome": "PROVITAL DO BRASIL COM. DE INSUMOS PARA COSMETICOS LTDA",
@@ -731,7 +962,15 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 6
+      },
+      "amostra": {
+        "56": 1
+      }
+    }
   },
   "62341566000134": {
     "nome": "REATEC DO BRASIL LTDA",
@@ -750,7 +989,16 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 7
+      },
+      "uso": {
+        "513": 3,
+        "627": 2
+      }
+    }
   },
   "78004553000100": {
     "nome": "RECOZIL COMERCIO DE EMBALAGENS LTDA",
@@ -769,7 +1017,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "600": 1
+      }
+    }
   },
   "24694296000156": {
     "nome": "ROTULARTE SOLUCAO E SERVICOS EM EMBALAGENS LTDA",
@@ -788,7 +1041,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "01876559000142": {
     "nome": "SARFAM INDUSTRIA COMERCIO E IMPORTACAO LTDA",
@@ -802,7 +1060,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
   },
   "59087034000108": {
     "nome": "SAVATEC COMERCIO E SERVICOS LTDA",
@@ -821,7 +1084,16 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "servico": {
+        "362": 1
+      },
+      "uso": {
+        "513": 5,
+        "596": 1
+      }
+    }
   },
   "03402014000120": {
     "nome": "SOLABIA BIOTECNOLOGICA",
@@ -835,7 +1107,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
   },
   "62667991000118": {
     "nome": "SOMMA PRODUTOS PROFISSIONAIS PARA LIMPEZA LTDA",
@@ -934,7 +1211,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "uso": {
+        "360": 4
+      }
+    }
   },
   "35962370000275": {
     "nome": "SPILPACK DISTRIBUIDORA LTDA",
@@ -953,7 +1235,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
   },
   "25141658000144": {
     "nome": "SUL TAPE COMERCIO DE EMBALAGENS EIRELI",
@@ -977,7 +1264,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "uso": {
+        "513": 3
+      }
+    }
   },
   "18323476000129": {
     "nome": "SUMMIT COSMETICS LATIN   AMERICA ESPEC. COSMETICAS LTDA",
@@ -996,7 +1288,12 @@
         "ipi": true
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "56": 4
+      }
+    }
   },
   "73419905000174": {
     "nome": "SUPERMERCADO BOZA LTDA",
@@ -1025,7 +1322,13 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "uso": {
+        "360": 2,
+        "513": 2
+      }
+    }
   },
   "03689570000129": {
     "nome": "TNT SUPRIMENTOS INDUSTRIAIS LTDA",
@@ -1064,7 +1367,13 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "uso": {
+        "513": 4,
+        "321": 2
+      }
+    }
   },
   "06932964000154": {
     "nome": "VIP COMERCIO DE PLASTICOS LTDA",
@@ -1078,7 +1387,12 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "07/2026"
+    "ultimo_sped": "07/2026",
+    "contas_dominio": {
+      "uso": {
+        "513": 1
+      }
+    }
   },
   "52680145000184": {
     "nome": "YAHWEH PRINT BRASIL LTDA",
@@ -1092,6 +1406,1013 @@
         "ipi": false
       }
     },
-    "ultimo_sped": "08/2026"
+    "ultimo_sped": "08/2026",
+    "contas_dominio": {
+      "compra": {
+        "600": 8
+      }
+    }
+  },
+  "00214121000217": {
+    "nome": "TRANSAL TRANSPORTADORA SALVAN LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 8
+      }
+    }
+  },
+  "00214121001027": {
+    "nome": "TRANSAL TRANSPORTADORA SALVAN LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 2
+      }
+    }
+  },
+  "00650831000885": {
+    "nome": "EFITRANS TRANSPORTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 2
+      }
+    }
+  },
+  "03867083000290": {
+    "nome": "TRANS TOMAZ TRANSPORTES RODOV DE CARGAS EIREL",
+    "contas_dominio": {
+      "frete": {
+        "312": 35
+      }
+    }
+  },
+  "00428307001674": {
+    "nome": "MARINGA - EXPRESSO SAO MIGUEL S/A",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "92025246000560": {
+    "nome": "RAPIDO ABC TRANSPORTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 3
+      },
+      "servico": {
+        "312": 2
+      }
+    }
+  },
+  "01399482000167": {
+    "nome": "BRAL-MAX INDUSTRIA E COMERCIO DE PLASTICOS LTDA.",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "01722256000175": {
+    "nome": "UNIVAR SOLUTIONS BRASIL LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      },
+      "bonificacao": {
+        "56": 1
+      },
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "05486165000139": {
+    "nome": "COLOR WAY INDUSTRIA E COMERCIO LTDA",
+    "contas_dominio": {
+      "terceiros": {
+        "618": 1
+      },
+      "industrializacao": {
+        "607": 1
+      }
+    }
+  },
+  "16935723000112": {
+    "nome": "DISTRIOL - INDUSTRIA E COMERCIO LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      }
+    }
+  },
+  "23106207000140": {
+    "nome": "HASHTAG COSMETICS LTDA",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 2
+      }
+    }
+  },
+  "39290181000173": {
+    "nome": "NEOSENSE FRAGRANCIAS LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "53235180000157": {
+    "nome": "D P V PRODUTOS QUIMICOS LTDA.",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "53235180000661": {
+    "nome": "D P V PRODUTOS QUIMICOS LTDA",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "04120074000112": {
+    "nome": "HEIDE INDUSTRIA E COMERCIO LTDA.",
+    "contas_dominio": {
+      "amostra": {
+        "56": 2
+      }
+    }
+  },
+  "05991338000176": {
+    "nome": "QUIMIFORMULA COM DE PROD QUIM LTDA..",
+    "contas_dominio": {
+      "compra": {
+        "56": 3
+      }
+    }
+  },
+  "25117305000109": {
+    "nome": "L.H.S.G. COMERCIO DE COMBUSTIVEIS EIRELI",
+    "contas_dominio": {
+      "uso": {
+        "513": 1
+      }
+    }
+  },
+  "30815069000134": {
+    "nome": "SB DISTRIBUIDORA LTDA",
+    "contas_dominio": {
+      "uso": {
+        "513": 2,
+        "360": 4
+      }
+    }
+  },
+  "62705276000122": {
+    "nome": "SCLARSKI COMERCIO LTDA",
+    "contas_dominio": {
+      "compra": {
+        "600": 1
+      }
+    }
+  },
+  "75176859000236": {
+    "nome": "AUTO POSTO E MECANICA BARAO LTDA",
+    "contas_dominio": {
+      "uso": {
+        "513": 10
+      },
+      "compra": {
+        "513": 7
+      }
+    }
+  },
+  "76509488000149": {
+    "nome": "FARMANILQUIMA COM. ANILINAS E PRODS.QUIM.LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "76549872000175": {
+    "nome": "POSTO UMBARA LTDA",
+    "contas_dominio": {
+      "uso": {
+        "513": 1
+      }
+    }
+  },
+  "77172161000510": {
+    "nome": "DEPOSITO DE MATERIAIS PARA CONSTRUCAO NICHELE LTDA",
+    "contas_dominio": {
+      "uso": {
+        "513": 4,
+        "321": 1
+      }
+    }
+  },
+  "93763555000508": {
+    "nome": "ALPHA QUIMICA LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "03364555000100": {
+    "nome": "C-PACK CREATIVE PACKAGING SA",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      }
+    }
+  },
+  "04334187000110": {
+    "nome": "NANOVETORES TECNOLOGIA S/A",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "91389460000109": {
+    "nome": "EMBACAPS QUIMICA E FARMACEUTICA LTDA - RS",
+    "contas_dominio": {
+      "compra": {
+        "56": 6
+      },
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "95591723018328": {
+    "nome": "TNT MERCURIO CARGAS E ENCOMENDAS EXPRESSAS LTDA",
+    "contas_dominio": {
+      "servico": {
+        "312": 2
+      }
+    }
+  },
+  "05251279000108": {
+    "nome": "HOTEL VALE BOA VISTA LTDA",
+    "contas_dominio": {
+      "servico": {
+        "364": 1
+      }
+    }
+  },
+  "32223020000118": {
+    "nome": "FLASH TECNOLOGIA E  INSTITUICAO DE PAGAMENTO LTDA",
+    "contas_dominio": {
+      "servico": {
+        "364": 19
+      }
+    }
+  },
+  "05944444000107": {
+    "nome": "KOSMOSCIENCE CIENCIA E TECNOLOGIA COSMETICA, IMPORTACAO E EX",
+    "contas_dominio": {
+      "servico": {
+        "362": 2
+      }
+    }
+  },
+  "02535864000729": {
+    "nome": "VR BENEFICIOS E SERVICOS DE PROCESSAMENTO S.A",
+    "contas_dominio": {
+      "servico": {
+        "364": 4
+      }
+    }
+  },
+  "04368865000166": {
+    "nome": "LIGGA TELECOMUNICACOES S.A.",
+    "contas_dominio": {
+      "servico": {
+        "362": 5,
+        "643": 5
+      }
+    }
+  },
+  "04523560000181": {
+    "nome": "PLUS SANTE EMERGENCIAS MEDICAS S.A.",
+    "contas_dominio": {
+      "servico": {
+        "576": 8
+      }
+    }
+  },
+  "07768652000110": {
+    "nome": "PENSU EXACTU COMERCIO E SERVICOS DE EQUIPAMENTOS METROLOGICO",
+    "contas_dominio": {
+      "servico": {
+        "362": 8
+      }
+    }
+  },
+  "19691420000190": {
+    "nome": "CALIBRABEM LTDA",
+    "contas_dominio": {
+      "servico": {
+        "362": 1
+      }
+    }
+  },
+  "21440288000195": {
+    "nome": "CMS CONSULTORIA EM MEDICINA, SEGURANCA DO TRABALHO E MEIO AM",
+    "contas_dominio": {
+      "servico": {
+        "362": 6
+      }
+    }
+  },
+  "24891333000116": {
+    "nome": "CRM TECNOLOGIA EM SISTEMAS DE INFORMACAO LTDA",
+    "contas_dominio": {
+      "servico": {
+        "640": 9
+      }
+    }
+  },
+  "59684382000162": {
+    "nome": "BIOACTIVE - BIOTECNOLOGIA E DESENVOLVIMENTO DE COSMETICOS LT",
+    "contas_dominio": {
+      "servico": {
+        "362": 7
+      }
+    }
+  },
+  "77800407000128": {
+    "nome": "TECNOPONTO TECNOLOGIA AVANCADA EM CONTROLE DE PONTO E ACESSO",
+    "contas_dominio": {
+      "servico": {
+        "640": 7
+      },
+      "uso": {
+        "513": 1
+      },
+      "remessa": {
+        "612": 1
+      }
+    }
+  },
+  "78738101000151": {
+    "nome": "DENTAL UNI - COOPERATIVA ODONTOLOGICA",
+    "contas_dominio": {
+      "servico": {
+        "652": 8
+      }
+    }
+  },
+  "80402860000190": {
+    "nome": "ANDRADE ENGENHARIA LTDA.",
+    "contas_dominio": {
+      "servico": {
+        "364": 8
+      }
+    }
+  },
+  "95344503000190": {
+    "nome": "ASSOCIACAO COMERCIAL E INDUSTRIAL DE FAZENDA RIO GRANDE - AC",
+    "contas_dominio": {
+      "servico": {
+        "362": 1
+      }
+    }
+  },
+  "04580911000196": {
+    "nome": "NEXTAR TECNOLOGIA DE SOFTWARE LTDA",
+    "contas_dominio": {
+      "servico": {
+        "364": 5
+      }
+    }
+  },
+  "14309879000162": {
+    "nome": "INSETCONTROL CONTROLE DE PRAGAS LTDA ME",
+    "contas_dominio": {
+      "servico": {
+        "362": 8
+      }
+    }
+  },
+  "42628591000196": {
+    "nome": "PROTECTION ASSESSORIA EMPRESARIAL LTDA",
+    "contas_dominio": {
+      "servico": {
+        "361": 6,
+        "362": 3
+      }
+    }
+  },
+  "03147393002950": {
+    "nome": "ESTRE AMBIENTAL S/A EM RECUPERACAO JUDICIAL",
+    "contas_dominio": {
+      "servico": {
+        "362": 2
+      }
+    }
+  },
+  "32475507000198": {
+    "nome": "FERNANDO BARGUENO SOCIEDADE INDIVIDUAL DE ADVOCACIA",
+    "contas_dominio": {
+      "servico": {
+        "715": 1
+      }
+    }
+  },
+  "22255622000101": {
+    "nome": "ECOPLUS - LAVANDERIA INDUSTRIAL LTDA",
+    "contas_dominio": {
+      "servico": {
+        "362": 1
+      }
+    }
+  },
+  "27827087000121": {
+    "nome": "ESGOFOSSA DESENTUPIDORA LTDA",
+    "contas_dominio": {
+      "servico": {
+        "362": 3
+      }
+    }
+  },
+  "09116873000139": {
+    "nome": "BIO CONTROL CONTROLE BIOLOGICO DE AMBIENTES LTDA",
+    "contas_dominio": {
+      "servico": {
+        "362": 2
+      }
+    }
+  },
+  "03050199000150": {
+    "nome": "G.A MACHADO & CIA LTDA",
+    "contas_dominio": {
+      "uso": {
+        "359": 1
+      }
+    }
+  },
+  "78371747000143": {
+    "nome": "ROCCOPLAN PAPELARIA LTDA",
+    "contas_dominio": {
+      "uso": {
+        "359": 1
+      }
+    }
+  },
+  "03421909000101": {
+    "nome": "BRENNTAG SPECIALTIES BRASIL LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      }
+    }
+  },
+  "21012134000100": {
+    "nome": "OAK FRAGRANCES IND E COM IMPORTACAO E EXPORTACAO LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "01140047000113": {
+    "nome": "AROMATY ESSENCIAS E FRAGRANCIAS LTDA",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "04196584000173": {
+    "nome": "MASTER PUMPS EMB COM. IMP. EXP. LTDA",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      },
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "29873894000106": {
+    "nome": "TAVARES CHEMICAL LTDA",
+    "contas_dominio": {
+      "amostra": {
+        "56": 3
+      }
+    }
+  },
+  "58456476000111": {
+    "nome": "DECORBEL INDUSTRIA E COMERCIO DE EMBALAGENS EIRELI - EPP",
+    "contas_dominio": {
+      "compra": {
+        "600": 3
+      }
+    }
+  },
+  "07159030000194": {
+    "nome": "CANDIDO COMERCIO DE COSMETICOS LTDA",
+    "contas_dominio": {
+      "industrializacao": {
+        "614": 1
+      }
+    }
+  },
+  "12924620000104": {
+    "nome": "STEELPACK GROUP BRASIL LTDA",
+    "contas_dominio": {
+      "compra": {
+        "600": 2
+      }
+    }
+  },
+  "18001764000671": {
+    "nome": "TRATHO METAL QUIMICA LTDA",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "55680778000180": {
+    "nome": "RIF MOTOS & ACESSORIOS LTDA - MATRIZ",
+    "contas_dominio": {
+      "uso": {
+        "513": 2
+      }
+    }
+  },
+  "93408003000140": {
+    "nome": "JOVII COSMECEUTICA LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "80970842953": {
+    "nome": "JUAREZ ANTONIO POLLI",
+    "contas_dominio": {
+      "uso": {
+        "513": 1
+      }
+    }
+  },
+  "42251346000102": {
+    "nome": "LP MOTOPECAS LTDA",
+    "contas_dominio": {
+      "uso": {
+        "513": 1
+      }
+    }
+  },
+  "78413325001246": {
+    "nome": "SUPERMERCADO JACOMAR LTDA",
+    "contas_dominio": {
+      "compra": {
+        "513": 1
+      }
+    }
+  },
+  "01898598000493": {
+    "nome": "STEPAN QUIMICA LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "60874724000943": {
+    "nome": "INDUSTRIA QUIMICA  ANASTACIO S/A",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "91389460000451": {
+    "nome": "EMBACAPS QUIMICA E FARMACEUTICA LTDA - SP",
+    "contas_dominio": {
+      "compra": {
+        "56": 3
+      }
+    }
+  },
+  "49698723001177": {
+    "nome": "MCASSAB COMERCIO E INDUSTRIA LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "82110818000393": {
+    "nome": "ALFA TRANSPORTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "00214121000306": {
+    "nome": "TRANSAL TRANSPORTADORA SALVAN LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "00650831000451": {
+    "nome": "EFITRANS TRANSPORTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 3
+      }
+    }
+  },
+  "48740351000327": {
+    "nome": "BRASPRESS TRANSPORTES URGENTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 75
+      }
+    }
+  },
+  "00428307002301": {
+    "nome": "CURITIBA - EXPRESSO SAO MIGUEL S/A",
+    "contas_dominio": {
+      "frete": {
+        "312": 88
+      }
+    }
+  },
+  "44914992003820": {
+    "nome": "RODONAVES TRANSPORTES E ENCOMENDAS LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 27
+      }
+    }
+  },
+  "00495545000116": {
+    "nome": "OFICINA DO IMPRESSO GRAFICA E EDITORA LTDA.",
+    "contas_dominio": {
+      "servico": {
+        "325": 1
+      }
+    }
+  },
+  "75114363000157": {
+    "nome": "TIPOGRAFIA IGUACU LTDA",
+    "contas_dominio": {
+      "servico": {
+        "325": 1
+      }
+    }
+  },
+  "15524335000186": {
+    "nome": "AJ SOLUCOES E EMBALAGENS LTDA",
+    "contas_dominio": {
+      "uso": {
+        "58": 1,
+        "513": 3
+      },
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "49547438000183": {
+    "nome": "ELLOLIMP COMERCIO DE PRODUTOS DE HIGIENE E LIMPEZA LTDA",
+    "contas_dominio": {
+      "uso": {
+        "513": 2
+      }
+    }
+  },
+  "08165605000144": {
+    "nome": "MATTOSO EXTRATOS NATURAIS LTDA",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "46849303000184": {
+    "nome": "INTERLAB DISTR. PROD. CIENTIFICOS LTDA.",
+    "contas_dominio": {
+      "compra": {
+        "56": 2
+      },
+      "uso": {
+        "513": 1
+      }
+    }
+  },
+  "62514971000107": {
+    "nome": "SCENTEC ESSENCIAS E FRAGRANCIAS LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "31494732000109": {
+    "nome": "COSMETICON COMERCIO DE COSMETICOS LTDA",
+    "contas_dominio": {
+      "devolucao": {
+        "417": 4
+      }
+    }
+  },
+  "14587096000140": {
+    "nome": "VON GRAFFEN E CREVELLONI LTDA",
+    "contas_dominio": {
+      "servico": {
+        "362": 1
+      }
+    }
+  },
+  "63874006000108": {
+    "nome": "RA PORTO MAR HOTEL LTDA",
+    "contas_dominio": {
+      "servico": {
+        "364": 2
+      }
+    }
+  },
+  "18074269000188": {
+    "nome": "ONIXSUL COSMETICOS",
+    "contas_dominio": {
+      "industrializacao": {
+        "614": 1
+      }
+    }
+  },
+  "17666331000168": {
+    "nome": "R&S COMERCIO DE COSMETICOS",
+    "contas_dominio": {
+      "industrializacao": {
+        "614": 1
+      },
+      "uso": {
+        "513": 1
+      }
+    }
+  },
+  "85269918000193": {
+    "nome": "GRAFICA E EDITORA VISOGRAF LTDA",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
+  },
+  "02443366000160": {
+    "nome": "ART S ESSENCIAS INDUSTRIA E COMERCIO LTDA.",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "09296295000402": {
+    "nome": "AZUL LINHAS AEREAS BRASILEIRAS SA",
+    "contas_dominio": {
+      "frete": {
+        "312": 5
+      }
+    }
+  },
+  "20147617001970": {
+    "nome": "JAMEF TRANSPORTES LTDA - CWB",
+    "contas_dominio": {
+      "frete": {
+        "312": 3
+      }
+    }
+  },
+  "32139269000140": {
+    "nome": "MHLOG LOGISTICA E TRANSPORTE",
+    "contas_dominio": {
+      "frete": {
+        "312": 8
+      }
+    }
+  },
+  "33070814000828": {
+    "nome": "CARVALIMA TRANSPORTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 6
+      }
+    }
+  },
+  "73939449002056": {
+    "nome": "TEX COURIER S.A",
+    "contas_dominio": {
+      "frete": {
+        "312": 120
+      }
+    }
+  },
+  "02033695000133": {
+    "nome": "VEDAPACK EMBALAGENS INDUSTRIAIS LTDA.",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "44346930000177": {
+    "nome": "COLORMIX INDUSTRIA E COMERCIO DE PIGMENTOS LTDA",
+    "contas_dominio": {
+      "amostra": {
+        "56": 2
+      }
+    }
+  },
+  "02074242000155": {
+    "nome": "E.J. KRIEGER E CIA LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "09092458000192": {
+    "nome": "SOLUCAO ADESIVOS E SELANTES LTDA.",
+    "contas_dominio": {
+      "amostra": {
+        "56": 1
+      }
+    }
+  },
+  "10605379000117": {
+    "nome": "SOPRO TAMP INDUSTRIA E COMERCIO DE PLASTICOS LTDA",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
+  },
+  "39237959000180": {
+    "nome": "BEPUMP IMPORTACAO E EXPORTACAO LTDA",
+    "contas_dominio": {
+      "industrializacao": {
+        "608": 1
+      }
+    }
+  },
+  "03730493000294": {
+    "nome": "ECOLOGICA DESTINACAO DE RESIDUOS INDUSTRIAIS LTDA",
+    "contas_dominio": {
+      "servico": {
+        "362": 2
+      }
+    }
+  },
+  "46022110000155": {
+    "nome": "INTERCLIN SERVICOS DE SAUDE LTDA",
+    "contas_dominio": {
+      "servico": {
+        "576": 1
+      }
+    }
+  },
+  "81713836000135": {
+    "nome": "GRAFICA EXPRESS LTDA",
+    "contas_dominio": {
+      "servico": {
+        "325": 1
+      }
+    }
+  },
+  "41592907000174": {
+    "nome": "GAMBOA INDUSTRIA DE COSMETICOS LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "73939449000193": {
+    "nome": "TEX COURIER S.A",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "00650831000290": {
+    "nome": "EFITRANS TRANSPORTES LTDA.",
+    "contas_dominio": {
+      "frete": {
+        "312": 8
+      }
+    }
+  },
+  "00997332000192": {
+    "nome": "FAV105 - FRAGRANCES LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "08644416000154": {
+    "nome": "ARGILAS DO BRASIL COMERCIO DE INSUMOS LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "65649511000184": {
+    "nome": "LIGGA SERVICOS EM TELECOM S.A.",
+    "contas_dominio": {
+      "servico": {
+        "643": 3,
+        "362": 3
+      }
+    }
+  },
+  "73939449000606": {
+    "nome": "TEX COURIER LTDA BH",
+    "contas_dominio": {
+      "frete": {
+        "312": 2
+      }
+    }
+  },
+  "04188086000260": {
+    "nome": "VIPEX TRANSPORTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "05086085000196": {
+    "nome": "COMERCIO DE METAIS METAL TROM LTDA",
+    "contas_dominio": {
+      "compra": {
+        "56": 1
+      }
+    }
+  },
+  "83083428000334": {
+    "nome": "REUNIDAS TRANSP. ROD. DE CARGAS S/A",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "00428307000600": {
+    "nome": "CAXIAS DO SUL - EXPRESSO SAO MIGUEL S/A",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "48740351010390": {
+    "nome": "BRASPRESS TRANSPORTES URGENTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "21765067000197": {
+    "nome": "MOTA LOGISTICA E TRANSPORTE LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 2
+      }
+    }
+  },
+  "92025246000489": {
+    "nome": "RAPIDO ABC TRANSPORTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
+  },
+  "48740351003695": {
+    "nome": "BRASPRESS TRANSPORTES URGENTES LTDA",
+    "contas_dominio": {
+      "frete": {
+        "312": 1
+      }
+    }
   }
 }

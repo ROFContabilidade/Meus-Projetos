@@ -1022,8 +1022,9 @@
     },
     "806": {
       "debito": "362",
-      "credito": "0",
-      "lancamentos": 4
+      "credito": "506",
+      "lancamentos": 4,
+      "obs": "multipartida com ISS retido: D despesa / C 506 líquido / C 183 ISS"
     },
     "808": {
       "debito": "362",
