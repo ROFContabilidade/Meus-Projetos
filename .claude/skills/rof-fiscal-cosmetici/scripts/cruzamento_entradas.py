@@ -170,7 +170,7 @@ def gerar(a, sieg_prod, xml_cte, sieg_cte, xml_nfse, rel_nfse, destino):
         x = ws.cell(4, c, t); x.font = Font(bold=True, color='FFFFFF', size=9); x.fill = H; x.alignment = Alignment(wrap_text=True)
         ws.column_dimensions[L(c)].width = [12, 40, 8, 12, 14, 14, 14, 11][c - 1]
     def linha(r, doc, rel, ls, col_res):
-        vals = [doc, rel, len(ls), conta(ls, col_res), sum(1 for x in ls if ':' in str(x[col_res]) and 'XML' in str(x[col_res])),
+        vals = [doc, rel, len(ls), conta(ls, col_res), sum(1 for x in ls if str(x[col_res]) != 'OK' and not str(x[col_res]).startswith(('Sem XML', 'Não está', 'Cancelada', 'CT-e cancelado'))),
                 conta(ls, col_res, 'Sem XML'), conta(ls, col_res, 'Não está'), sum(1 for x in ls if 'ancel' in str(x[col_res]))]
         for c, v in enumerate(vals, 1):
             ws.cell(r, c, v).font = Font(size=9)
