@@ -143,7 +143,8 @@ def ler_nfe(root, origem):
         'cstat': cstat, 'autorizada': cstat in ('100', '150', None),
         'vnf': _v(inf, 'n:total/n:ICMSTot/n:vNF'),
         'tot': {k: _v(inf, f'n:total/n:ICMSTot/n:{k}') for k in
-                ('vProd', 'vDesc', 'vFrete', 'vSeg', 'vOutro', 'vBC', 'vICMS', 'vST', 'vFCPST', 'vIPI', 'vIPIDevol', 'vPIS', 'vCOFINS', 'vNF')},
+                ('vProd', 'vDesc', 'vFrete', 'vSeg', 'vOutro', 'vBC', 'vICMS', 'vBCST', 'vST', 'vFCP', 'vFCPST', 'vFCPUFDest', 'vICMSUFDest',
+                  'vICMSUFRemet', 'vIPI', 'vIPIDevol', 'vPIS', 'vCOFINS', 'vNF')},
         'refnfe': [r.text for r in ide.findall(f'{NS}NFref/{NS}refNFe')],
         'infcpl': _t(inf, 'n:infAdic/n:infCpl') or '',
         'itens': [_item_nfe(d, True) for d in inf.findall(NS + 'det')],
@@ -172,8 +173,10 @@ def ler_inut(root, origem):
         inf = root.find(f'.//{NS}infInut')
     if inf is None:
         return None
+    ret = root.find(f'.//{NS}retInutNFe/{NS}infInut')
     return {'serie': _t(inf, 'n:serie'), 'ini': int(_t(inf, 'n:nNFIni')), 'fim': int(_t(inf, 'n:nNFFin')),
-            'just': _t(inf, 'n:xJust'), 'origem': origem}
+            'just': _t(inf, 'n:xJust'), 'origem': origem, 'cstat': _t(ret, 'n:cStat'), 'protocolo': _t(ret, 'n:nProt'),
+            'data': _data(_t(ret, 'n:dhRecbto')) if ret is not None and _t(ret, 'n:dhRecbto') else None}
 
 
 def ler_cte_xml(root, origem):

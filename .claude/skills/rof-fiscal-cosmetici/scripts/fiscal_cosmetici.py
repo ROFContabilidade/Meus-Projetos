@@ -227,6 +227,22 @@ def cmd_creditos(args):
     return c
 
 
+def cmd_saidas(args):
+    import planilha_saidas
+    cfg = carregar('cosmetici.json')
+    xml = list(args.xml or [])
+    if args.pasta:
+        xml += fontes_da_pasta(args.pasta)[0]
+    a = Apuracao(cfg, args.mes, leitores.ler_xmls(xml), carregar('fornecedores.json', {})).executar()
+    saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
+    os.makedirs(saida, exist_ok=True)
+    destino = os.path.join(saida, f'Relacao_Saidas_Cosmetici_{args.mes[5:]}-{args.mes[:4]}.xlsx')
+    rows = planilha_saidas.gerar(a, destino)
+    cont = collections.Counter(r['situacao'] for r in rows)
+    print(f'Saídas {args.mes}: {dict(cont)} | planilha: {destino}')
+    return rows
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description='Automação fiscal COSMETICI')
     sub = p.add_subparsers(dest='cmd', required=True)
@@ -260,6 +276,12 @@ def main(argv=None):
     cr.add_argument('--registro-saidas', nargs='*', help='Registro de Saídas do ERP (Saidas Cosmetici.pdf ou .txt)')
     cr.add_argument('--saida')
     cr.set_defaults(func=cmd_creditos)
+    sa = sub.add_parser('saidas', help='relação das notas de saída do mês (XML, canceladas, inutilizadas, sugestão de importação)')
+    sa.add_argument('--mes', required=True)
+    sa.add_argument('--pasta')
+    sa.add_argument('--xml', nargs='*')
+    sa.add_argument('--saida')
+    sa.set_defaults(func=cmd_saidas)
     args = p.parse_args(argv)
     return args.func(args)
 

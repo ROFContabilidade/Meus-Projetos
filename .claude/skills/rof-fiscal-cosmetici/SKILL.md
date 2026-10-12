@@ -59,6 +59,10 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 - Acumuladores das entradas: config `acumuladores_entrada` por CFOP (100, 101, 104, 105, 107, 113, 133, 134, 144, 147, 148, 149, 155, 164, 165, 189, 238, 1000, 1001 - do Acompanhamento de Entradas e Demonstrativo ICMS de 07/08 do Domínio) e `acumuladores_servicos` por CNPJ do prestador (8xx). Conta contábil: nenhum relatório traz - pedir ao escritório, nunca inventar.
 - Pasta do mês anterior (`MM_AAAA/Relatorios`): NF_Entrada (SIEG + Acompanhamento de Entradas com AC), NF Serviços Tomados, Demonst. ICMS/IPI (.xls), Registro de Saídas; `Guias/`: GR-PR 1015, DARF 5123/8109/2172/1708, ISS retido Fazenda Rio Grande.
 
+## Relação das notas de saída (comando `saidas`)
+
+`python scripts/fiscal_cosmetici.py saidas --mes AAAA-MM --pasta <pasta do mês>` → `Cosmetici/Fiscal/<AAAA-MM>/Relacao_Saidas_Cosmetici_MM-AAAA.xlsx`: uma aba, uma linha por número (autorizadas, canceladas em vermelho, inutilizadas em cinza), ordem de data de saída + número, com tudo o que está destacado no XML (produtos, desconto, frete, outras, base/ICMS, base ST/ICMS-ST, FCP-ST, IPI, PIS, COFINS, DIFAL UF destino, total), acumulador do Domínio pelo CFOP e a sugestão de importação (como está no XML / cancelada situação 02 / inutilizada situação 05). Totais só das autorizadas.
+
 ## Análise de crédito das entradas (comando `creditos`)
 
 `python scripts/fiscal_cosmetici.py creditos --mes AAAA-MM --xml <zips/pastas> --sieg-produtos Relatorio_Detalhamento_Produtos.xlsx --relatorio-erp "Faturamento Cosmetici.pdf" [--cte-json dados/cte_relatorio_sieg.json]`
