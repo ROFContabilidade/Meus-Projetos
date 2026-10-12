@@ -33,7 +33,7 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 
 ## Regras de cálculo (validadas com 07 e 08/2026 — bateram centavo a centavo com DARF/SPED)
 
-- **Acumuladores de saída** (Domínio): 200 vendas s/ ST PR (5101/5102), 201 vendas fora do PR (6101/6102), 202 vendas c/ ST PR (5401/5403/5405), 254/255 industrialização para outra empresa (5124/6124), 208 bonificação (6910), 217/277 retorno de industrialização (6902/5902). CFOP sem acumulador = divergência ALTA → acrescentar no config.
+- **Acumuladores de saída** (Domínio): 200 vendas s/ ST PR (5101/5102), 201 vendas fora do PR (6101/6102), 202 vendas c/ ST PR (5401/5403/5405), 254/255 industrialização para outra empresa (5124/6124), 207 bonificação 5910, 208 bonificação 6910, 212 outras saídas 5949, 204/205 vendas para a COSMETICON (pelo cliente: 5101/5102 → 204, 5401 → 205), 217/277 retorno de industrialização (6902/5902). CFOP sem acumulador = divergência ALTA → acrescentar no config.
 - **Valor contábil** do item = vProd − vDesc + vFrete + vSeg + vOutro + IPI + ICMS-ST (+ FCP-ST).
 - **Faturamento** (receita bruta p/ IRPJ/CSLL) = vendas + industrialização − devoluções de venda (entradas 1201/1202/1410/1411/2201/2202/2410/2411) − ICMS-ST − IPI. 08/2026 = 445.743,94; 07/2026 = 391.529,15.
 - **PIS/COFINS** (fórmula da planilha `FAT. 08.26_Cosmetici`, aba "Empresa 25"):
@@ -56,7 +56,7 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 - **Canceladas** (NF-e de terceiros e CT-e): escriturar com situação 02, bases zeradas e a chave (ex.: CT-e 2022868 em 08/2026).
 - **CT-e** com a COSMETICI tomadora (inclusive "outra tomadora", TEX Courier dos envios da GULA): crédito do ICMS (2352/2353); intraestadual CST 40 sem crédito.
 - Histórico por fornecedor + NCM (`aprender` com os SPED de 07 **e** 08): REATEC (reagente "PS") = 1556; HS Inklaser (cartucho do codificador inkjet) = 2101 com crédito; Agatha (pincel/tigela/espátula) = 2556 + DIFAL; Sul Tape (bolha/filme/fita) = 1556; Labaz (reagentes PA) = 1101 com crédito do Simples.
-- Acumuladores das entradas: config `acumuladores_entrada` por CFOP (100, 101, 104, 105, 107, 113, 133, 134, 144, 147, 148, 149, 155, 164, 165, 189, 238, 1000, 1001 - do Acompanhamento de Entradas e Demonstrativo ICMS de 07/08 do Domínio) e `acumuladores_servicos` por CNPJ do prestador (8xx). Conta contábil: nenhum relatório traz - pedir ao escritório, nunca inventar.
+- Acumuladores das entradas: config `acumuladores_entrada` por CFOP, levantados no Acompanhamento de Entradas/Saídas e nos Demonstrativos de ICMS de 01 a 08/2026 (pasta `25 - Cosmetici/2026/MM_2026/Relatorios`, colunas CFOP e AC.): 1101/1102→100, 2101/2102/2122→101, 1556→104, 2556→105, 1407→107, 1910→110, 1411→113, 2202→133, 2411→134, 2901→144, 1911→147, 2911→148, 1901→149, 1949/2949→155, 2924→164, 1924→165, 2910→189, 1653→192, 2902→198, 2124→199, 2922→238, 1352/1353/1932→1000, 2352/2353→1001; 1923 sem histórico. Referência: `Cosmetici/Fiscal/2026-09/Acumuladores_Dominio_Cosmetici_2026.xlsx` e `acumuladores_servicos` por CNPJ do prestador (8xx). Conta contábil: nenhum relatório traz - pedir ao escritório, nunca inventar.
 - Pasta do mês anterior (`MM_AAAA/Relatorios`): NF_Entrada (SIEG + Acompanhamento de Entradas com AC), NF Serviços Tomados, Demonst. ICMS/IPI (.xls), Registro de Saídas; `Guias/`: GR-PR 1015, DARF 5123/8109/2172/1708, ISS retido Fazenda Rio Grande.
 
 ## Relação das notas de saída (comando `saidas`)

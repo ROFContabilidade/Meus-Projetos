@@ -7,7 +7,7 @@
     "codigo_dominio": 25,
     "regime": "Lucro Presumido"
   },
-  "_acumuladores": "Acumuladores do Domínio por CFOP (mesmos códigos do relatório 'Resumo por acumulador'). Grupo: venda | industrializacao | devolucao_venda | outros.",
+  "_acumuladores": "Acumuladores do Domínio por CFOP (mesmos códigos do relatório 'Resumo por acumulador'). Grupo: venda | industrializacao | devolucao_venda | outros. Conferido no Acompanhamento de Saídas 01-03/2026 e nos Demonstrativos de ICMS 01-08/2026: 204/205 são as vendas para a COSMETICON (pelo cliente, não pelo CFOP).",
   "acumuladores_saida": {
     "200": {
       "descricao": "VENDAS S/ ST - DENTRO DO ESTADO",
@@ -42,7 +42,7 @@
       ]
     },
     "203": {
-      "descricao": "VENDA C/ ST - FORA DO ESTADO (conferir código no Domínio)",
+      "descricao": "VENDA C/ ST - FORA DO ESTADO",
       "grupo": "venda",
       "cfops": [
         "6401",
@@ -52,10 +52,9 @@
       ]
     },
     "208": {
-      "descricao": "REMESSA EM BONIF, DOAÇÃO E BRINDE",
+      "descricao": "REMESSA EM BONIF, DOAÇÃO E BRINDE - 6910",
       "grupo": "outros",
       "cfops": [
-        "5910",
         "6910"
       ]
     },
@@ -89,6 +88,39 @@
       "cfops": [
         "5902",
         "5903"
+      ]
+    },
+    "207": {
+      "descricao": "REMESSA EM BONIF, DOAÇÃO E BRINDE - 5910",
+      "grupo": "outros",
+      "cfops": [
+        "5910"
+      ]
+    },
+    "204": {
+      "descricao": "VENDA COSMETICON COMERCIO DE COSME S/ ST",
+      "grupo": "venda",
+      "cfops": [],
+      "cliente": "COSMETICON",
+      "cfops_cliente": [
+        "5101",
+        "5102"
+      ]
+    },
+    "205": {
+      "descricao": "VENDA COSMETICON COMERCIO DE COSME C/ ST",
+      "grupo": "venda",
+      "cfops": [],
+      "cliente": "COSMETICON",
+      "cfops_cliente": [
+        "5401"
+      ]
+    },
+    "212": {
+      "descricao": "OUTRAS SAÍDAS NÃO ESPECIFICADAS - 5949",
+      "grupo": "outros",
+      "cfops": [
+        "5949"
       ]
     }
   },
@@ -293,149 +325,379 @@
       "codigo": "100",
       "descricao": "COMPRA P/ INDUST - DENTRO ESTADO 1.101",
       "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "05",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 58
     },
-    "2101": {
-      "codigo": "101",
-      "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
+    "1102": {
+      "codigo": "100",
+      "descricao": "COMPRA P/ INDUST - DENTRO ESTADO 1.101",
       "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2102": {
-      "codigo": "101",
-      "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "1556": {
-      "codigo": "104",
-      "descricao": "COMPRA USO E CONSUMO DENTRO DO ESTADO",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2556": {
-      "codigo": "105",
-      "descricao": "COMPRA USO E CONSUMO FORA DO ESTADO",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "1407": {
-      "codigo": "107",
-      "descricao": "COMPRA USO E CONSUMO ST A PRAZO",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "1411": {
-      "codigo": "113",
-      "descricao": "DEVOLUÇÃO DE VENDA ST",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2202": {
-      "codigo": "133",
-      "descricao": "DEVOLUÇÃO INTERESTADUAL 2.202",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2411": {
-      "codigo": "134",
-      "descricao": "DEVOLUÇÃO INTERESTADUAL C/ ST",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2901": {
-      "codigo": "144",
-      "descricao": "ENTRADA PARA IND. POR ENCOMENDA - 2901",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "1911": {
-      "codigo": "147",
-      "descricao": "ENTRADA AMOSTRA GRATIS - 1911",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2911": {
-      "codigo": "148",
-      "descricao": "ENTRADA AMOSTRA GRATIS - 2911",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "1901": {
-      "codigo": "149",
-      "descricao": "ENTRADA PARA IND. POR ENCOMENDA - 1901",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "1949": {
-      "codigo": "155",
-      "descricao": "OUTRAS ENTRADAS DE MERCADORIAS - 949",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2949": {
-      "codigo": "155",
-      "descricao": "OUTRAS ENTRADAS DE MERCADORIAS - 949",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2924": {
-      "codigo": "164",
-      "descricao": "ENTRADA P/ IND POR CONTA E ORDEM - 2924",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "1924": {
-      "codigo": "165",
-      "descricao": "ENTRADA P/ IND POR CONTA E ORDEM - 1924",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2910": {
-      "codigo": "189",
-      "descricao": "ENTRADA DE BONIF, DOAÇÃO E BRINDE - 2910",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
-    },
-    "2922": {
-      "codigo": "238",
-      "descricao": "ENTRADA SIMPLES FAT. ENTR FUTURA .922",
-      "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "03",
+        "05",
+        "06"
+      ],
+      "lancamentos_2026": 5
     },
     "1352": {
       "codigo": "1000",
       "descricao": "FRETE ESTADUAL",
       "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "03",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 11
     },
     "1353": {
       "codigo": "1000",
       "descricao": "FRETE ESTADUAL",
       "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 10
+    },
+    "1407": {
+      "codigo": "107",
+      "descricao": "COMPRA USO E CONSUMO ST A PRAZO",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 18
+    },
+    "1411": {
+      "codigo": "113",
+      "descricao": "DEVOLUÇÃO DE VENDA ST",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "04",
+        "08"
+      ],
+      "lancamentos_2026": 7
+    },
+    "1556": {
+      "codigo": "104",
+      "descricao": "COMPRA USO E CONSUMO DENTRO DO ESTADO",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 62
+    },
+    "1653": {
+      "codigo": "192",
+      "descricao": "COMPRA COMBUSTIVEL PARA IND. A PRAZO",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "03"
+      ],
+      "lancamentos_2026": 8
+    },
+    "1901": {
+      "codigo": "149",
+      "descricao": "ENTRADA PARA IND. POR ENCOMENDA - 1901",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 17
+    },
+    "1910": {
+      "codigo": "110",
+      "descricao": "ENTRADA DE BONIF. DOAÇÃO E BRINDE 1.910",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "03"
+      ],
+      "lancamentos_2026": 1
+    },
+    "1911": {
+      "codigo": "147",
+      "descricao": "ENTRADA AMOSTRA GRATIS - 1911",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "05",
+        "06",
+        "07"
+      ],
+      "lancamentos_2026": 5
+    },
+    "1924": {
+      "codigo": "165",
+      "descricao": "ENTRADA P/ IND POR CONTA E ORDEM - 1924",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 35
     },
     "1932": {
       "codigo": "1000",
       "descricao": "FRETE ESTADUAL",
       "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "08"
+      ],
+      "lancamentos_2026": 2
+    },
+    "1949": {
+      "codigo": "155",
+      "descricao": "OUTRAS ENTRADAS DE MERCADORIAS - 949",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "04",
+        "05",
+        "07"
+      ],
+      "lancamentos_2026": 4
+    },
+    "2101": {
+      "codigo": "101",
+      "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "03",
+        "04",
+        "05",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 35
+    },
+    "2102": {
+      "codigo": "101",
+      "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "06",
+        "07"
+      ],
+      "lancamentos_2026": 42
+    },
+    "2122": {
+      "codigo": "101",
+      "descricao": "COMPRA P/ INDUST - FORA ESTADO 2.101",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02"
+      ],
+      "lancamentos_2026": 1
+    },
+    "2124": {
+      "codigo": "199",
+      "descricao": "sem descrição nos relatórios - confirmar no Domínio",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02"
+      ],
+      "lancamentos_2026": 1
+    },
+    "2202": {
+      "codigo": "133",
+      "descricao": "DEVOLUÇÃO INTERESTADUAL 2.202",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "07"
+      ],
+      "lancamentos_2026": 5
     },
     "2352": {
       "codigo": "1001",
       "descricao": "FRETE INTERESTADUAL",
       "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "03",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 72
     },
     "2353": {
       "codigo": "1001",
       "descricao": "FRETE INTERESTADUAL",
       "conta": null,
-      "origem": "Domínio - Acompanhamento de Entradas e Demonstrativo ICMS 07 e 08/2026"
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "03",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 98
+    },
+    "2411": {
+      "codigo": "134",
+      "descricao": "DEVOLUÇÃO INTERESTADUAL C/ ST",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "08"
+      ],
+      "lancamentos_2026": 3
+    },
+    "2556": {
+      "codigo": "105",
+      "descricao": "COMPRA USO E CONSUMO FORA DO ESTADO",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "05",
+        "07"
+      ],
+      "lancamentos_2026": 4
+    },
+    "2901": {
+      "codigo": "144",
+      "descricao": "ENTRADA PARA IND. POR ENCOMENDA - 2901",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "04",
+        "05",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 8
+    },
+    "2902": {
+      "codigo": "198",
+      "descricao": "RETORNO DE MERC. REM. PARA INDUST. 2.902",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02"
+      ],
+      "lancamentos_2026": 1
+    },
+    "2910": {
+      "codigo": "189",
+      "descricao": "ENTRADA DE BONIF, DOAÇÃO E BRINDE - 2910",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "06",
+        "07"
+      ],
+      "lancamentos_2026": 3
+    },
+    "2911": {
+      "codigo": "148",
+      "descricao": "ENTRADA AMOSTRA GRATIS - 2911",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 20
+    },
+    "2922": {
+      "codigo": "238",
+      "descricao": "ENTRADA SIMPLES FAT. ENTR FUTURA .922",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "07"
+      ],
+      "lancamentos_2026": 2
+    },
+    "2924": {
+      "codigo": "164",
+      "descricao": "ENTRADA P/ IND POR CONTA E ORDEM - 2924",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "02",
+        "03",
+        "04",
+        "05",
+        "07",
+        "08"
+      ],
+      "lancamentos_2026": 14
+    },
+    "2949": {
+      "codigo": "155",
+      "descricao": "OUTRAS ENTRADAS DE MERCADORIAS - 949",
+      "conta": null,
+      "origem": "Domínio - Acompanhamento de Entradas 02 a 08/2026 (pasta 2026 da Cosmetici)",
+      "meses_2026": [
+        "08"
+      ],
+      "lancamentos_2026": 1
     }
   },
   "acumuladores_servicos": {
-    "_obs": "Serviços tomados (CFOP 1933/2933, espécie 39) - acumulador por prestador, do Acompanhamento de Entradas 07 e 08/2026",
+    "_obs": "Serviços tomados (CFOP 1933/2933) - acumulador por prestador, do Acompanhamento de Entradas 02 a 08/2026",
     "07768652000110": "803",
     "59684382000162": "810",
     "24891333000116": "811",
@@ -447,7 +709,8 @@
     "80402860000190": "825",
     "14309879000162": "826",
     "00495545000116": "830",
-    "65649511000184": "819 (83,99 serviços técnicos) / 820 (195,97 biblioteca)"
+    "65649511000184": "819 (83,99 serviços técnicos) / 820 (195,97 biblioteca)",
+    "75114363000157": "830"
   },
   "acumuladores_servicos_por_nome": {
     "LIGGA 83,99": "819",
@@ -456,6 +719,37 @@
     "ECOLOGICA": "806",
     "BIO CONTROL": "808",
     "PROTECTION": "803/828",
-    "CMS CONSULTORIA": "831"
+    "CMS CONSULTORIA": "831",
+    "ANDRADE ENGENHARIA LTDA.": "825",
+    "ASSOCIACAO COMERCIAL E": "809",
+    "BIO CONTROL CONTROLE": "808",
+    "BIOACTIVE - BIOTECNOLOGIA": "810",
+    "CALIBRABEM LTDA": "802",
+    "CMS CONSULTORIA EM": "803/831",
+    "CRM TECNOLOGIA EM": "811",
+    "DENTAL UNI -": "824",
+    "ECOLOGICA DESTINACAO DE": "806",
+    "ESGOFOSSA DESENTUPIDORA LTDA": "806",
+    "FLASH TECNOLOGIA E": "816",
+    "GRAFICA EXPRESS LTDA": "830",
+    "HOTEL VALE BOA": "815",
+    "INSETCONTROL CONTROLE DE": "826",
+    "INSETCONTROL SERVICOS DE": "826",
+    "INTERCLIN SERVICOS DE": "832",
+    "KOSMOSCIENCE CIENCIA E": "810",
+    "LIGGA SERVICOS EM": "819/820",
+    "LIGGA TELECOMUNICACOES S.A.": "819/820",
+    "NEXTAR TECNOLOGIA DE": "818",
+    "OFICINA DO IMPRESSO": "830",
+    "PENSU EXACTU COMERCIO": "803",
+    "PLUS SANTE EMERGENCIAS": "821",
+    "PROTECTION ASSESSORIA EMPRESARIAL": "803/828",
+    "RA PORTO MAR": "815",
+    "RAPIDO ABC TRANSPORTES": "814",
+    "TECNOPONTO TECNOLOGIA AVANCADA": "823",
+    "TIPOGRAFIA IGUACU LTDA": "830",
+    "TNT MERCURIO CARGAS": "814",
+    "VON GRAFFEN E": "802",
+    "VR BENEFICIOS E": "818"
   }
 }
