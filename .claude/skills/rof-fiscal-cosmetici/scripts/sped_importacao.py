@@ -15,6 +15,7 @@ import hashlib
 import re
 
 from apuracao import vcontabil
+from leitores import cfop_entrada
 
 R = lambda x: round((x or 0.0) + 0.0, 2)
 
@@ -110,6 +111,19 @@ class Sped:
     # ------------------------------------------------------------ C100/C170/C190
     def _c100(self, oper, emit, part, n, sit, itens170, c101=None):
         ser = str(int(n['serie'])) if str(n.get('serie') or '').isdigit() else (n.get('serie') or '')
+        if sit == '02' and itens170:   # cancelada de terceiro: o Domínio exige participante, datas e C170 (tudo zerado)
+            z = m(0)
+            bloco = [['C100', oper, emit, part, '55', sit, ser, str(n['numero']), n['chave'], dt8(n['dhemi']), dt8(n.get('dhsaient') or n['dhemi']),
+                      z, '2', z, z, z, '9', z, z, z, z, z, z, z, z, z, z, z, z]]
+            c190 = collections.OrderedDict()
+            for k, x in enumerate(itens170, 1):
+                bloco.append(['C170', str(k), x['cod'], '', m(x['qtd'], 5), x['un'], z, z, '0', x['cst'], x['cfop'], x['nat'],
+                              z, z, z, z, z, z, '0', '', '', '', '', '', '98', z, m(0, 4), '', '', z, '98', z, m(0, 4), '', '', z, x['cta'], z])
+                c190.setdefault((x['cst'], x['cfop']), 1)
+            for cst, cf in c190:
+                bloco.append(['C190', cst, cf, z, z, z, z, z, z, z, z, ''])
+            self.c.append(bloco)
+            return
         if sit in ('02', '05'):
             self.c.append([['C100', oper, emit, '', '55', sit, ser, str(n['numero']), n.get('chave') or '', dt8(n.get('dhemi')) if sit == '05' else '']
                            + [''] * 19])
@@ -172,9 +186,21 @@ class Sped:
                     x = _simples(x, i)
                 itens.append(x)
             self._c100('0', '0' if propria else '1', part, n, '00', itens)
+        self.entradas_canceladas()
+
+    def entradas_canceladas(self, chaves=None):
+        acum = self.a.cfg.get('acumuladores_entrada', {})
         for n in self.a.canceladas:
-            if not n.get('propria'):
-                self._c100('0', '1', '', n, '02', [])
+            if not n.get('propria') and (chaves is None or n['chave'] in chaves):
+                part = self.participante(n['emit_cnpj'], n.get('emit_end'), n['emit_nome'])
+                itens = []
+                for i in n['itens']:
+                    cf = cfop_entrada(i['cfop'])
+                    ac = acum.get(cf) or {}
+                    cod, un = self.item('F', n['emit_cnpj'], i, '99')
+                    itens.append({'cod': cod, 'un': un, 'qtd': i['qtd'], 'cst': _cst(i), 'cfop': cf,
+                                  'nat': self.natureza(ac.get('codigo'), ac.get('descricao')), 'cta': ''})
+                self._c100('0', '1', part, n, '02', itens)
 
     def saidas(self):
         cfg = self.a.cfg
@@ -284,6 +310,13 @@ class Sped:
         with open(destino, 'w', encoding='cp1252', errors='replace', newline='\r\n') as fh:
             fh.write('\n'.join(L) + '\n')
         return L
+
+
+def gerar_somente_canceladas(a, chaves, cab, destino):
+    """TXT só com notas de entrada canceladas pelo fornecedor (para reimportar sem duplicar o resto do mês)."""
+    s = Sped(a)
+    s.entradas_canceladas(set(chaves))
+    return s, s.gerar(destino, cab)
 
 
 def gerar(a, cred, cte_xml, cte_sieg, contas, cab, destino):

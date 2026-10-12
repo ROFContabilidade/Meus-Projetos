@@ -361,6 +361,23 @@ def teste_cte_so_tomadora():
     print('ok CT-e só da tomadora nos relatórios')
 
 
+def teste_cancelada_terceiro():
+    """Erro do Domínio (09/2026, NF 794): nota de terceiro cancelada precisa de participante, datas e C170 - tudo zerado."""
+    import sped_importacao
+    ch = '41260952680145000184550010000007941049258979'
+    forn = '52680145000184'
+    arq = {'c.xml': nfe(ch, 794, forn, CNPJ, 'PR', [('5101', '48211000', 4154.05, 0, 0, 0, '99')], data='2026-09-09')}
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', leitores.ler_xmls([montar_zip(arq)]), {}).executar()
+    n = dict(a.entradas[0], propria=False)
+    a.canceladas, a.entradas = [n], []
+    s, L = sped_importacao.gerar_somente_canceladas(a, [ch], CFG['sped_cabecalho'], os.path.join(tempfile.mkdtemp(), 'c.txt'))
+    c100 = next(l.split('|') for l in L if l.startswith('|C100|'))
+    c170 = [l.split('|') for l in L if l.startswith('|C170|')]
+    assert c100[4] == forn and c100[6] == '02' and c100[10] == '09092026' and c100[11] == '09092026' and c100[12] == '0,00', c100
+    assert len(c170) == 1 and c170[0][7] == '0,00' and c170[0][11] == '1101' and len(c170[0]) == 40, c170
+    print('ok nota de terceiro cancelada com participante, datas e C170 zerados')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -375,3 +392,4 @@ if __name__ == '__main__':
     teste_importacao()
     teste_servicos()
     teste_cte_so_tomadora()
+    teste_cancelada_terceiro()
