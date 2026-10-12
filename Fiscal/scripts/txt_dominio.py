@@ -13,6 +13,7 @@ Segue o modelo que o Domínio aceita (EFD exportado por ERP, ex. Ectas 08/2026):
 """
 import calendar
 import glob
+import hashlib
 import os
 import re
 import xml.etree.ElementTree as ET
@@ -88,29 +89,34 @@ def _xml(n):
         return None
 
 
-def _c190(grupos, vl_doc=None):
-    if vl_doc is not None and grupos:
-        dif = Decimal(str(vl_doc)) - sum((g['opr'] for g in grupos.values()), Z)
-        if dif and abs(dif) <= Decimal('0.10'):           # arredondamento do emissor
-            max(grupos.values(), key=lambda g: g['opr'])['opr'] += dif
-    out = []
-    for (cst, cfop, aliq), g in sorted(grupos.items()):
-        out.append(linha('C190', cst, cfop, v(aliq), v(g['opr']), v(g['bc']), v(g['icms']), v(g['bcst']),
-                         v(g['st']), v(0), v(g['ipi']), ''))
-    return out
-
-
 def _novo():
     return defaultdict(lambda: dict(opr=Z, bc=Z, icms=Z, bcst=Z, st=Z, ipi=Z))
 
 
-def _vl_item(it):
-    return (it['vProd'] - it['vDesc'] + it['vFrete'] + it['vSeg'] + it['vOutro'] + it['vIPI'] + it['vICMSST'])
+def _cst(it):
+    """CST do ICMS como o Domínio aceita: CSOSN (Simples) vai sem a origem; CST normal = origem + CST."""
+    c = it['CST_ICMS'] or '90'
+    return c if len(c) == 3 else (it['orig'] or '0') + c
 
 
-def c100_cancelado(oper, emit, mod, serie, num, chave):
-    f = ['C100', oper, emit, '', mod, '02', str(int(serie)) if str(serie).isdigit() else serie, str(int(num)), chave]
-    return linha(*(f + [''] * 20))
+def cod_produto(prefixo, *partes):
+    """Código de produto com até 10 caracteres (o Domínio corta em 14), estável de um mês para o outro."""
+    h = int(hashlib.sha1('|'.join(str(p) for p in partes).encode()).hexdigest(), 16)
+    b36 = ''
+    while h and len(b36) < 9:
+        h, r = divmod(h, 36)
+        b36 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'[r] + b36
+    return prefixo + b36
+
+
+def _rateio(total, pesos):
+    """Rateia `total` pelos pesos (2 casas); a sobra de arredondamento vai para o último item."""
+    soma = sum(pesos, Z)
+    if not total or not soma:
+        return [Z] * len(pesos)
+    partes = [(total * p / soma).quantize(Decimal('0.01')) for p in pesos]
+    partes[-1] += total - sum(partes, Z)
+    return partes
 
 
 def gerar(res, saida, cabecalho, nfse_planilha=None):
@@ -148,7 +154,69 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
             e['pais'] = e.get('pais') or ''
         return part.add(doc, re.sub(r'\s*\(\d+\)$', '', nome), ie, e)
 
-    # ------------------------------------------------ NF-e de fornecedores (C100 0|1 + C170)
+    def nfe(n, oper, emit, cod_p, info, cancel, rotulo, nome):
+        """C100 + C170 + C190 de uma NF-e. info(it) devolve a classificação do item.
+        O valor de cada linha do C190 é montado como o Domínio confere: item - desconto + rateio de frete,
+        seguro e outras pelo valor do item + IPI + ST."""
+        ser, num = str(int(n['serie'])), str(int(n['numero']))
+        d1, d2 = dt(n['dt_emissao']), dt(n['dt_saida_ent'] or n['dt_emissao'])
+        linhas_it, grupos = [], _novo()
+        infos = [info(it) for it in n['itens']]
+        vl_item = [Z if cancel else it['vProd'] + (it['vIPI'] if f['ipi_no_custo'] else Z)
+                   for it, f in zip(n['itens'], infos)]
+        desc = [Z if cancel else it['vDesc'] for it in n['itens']]
+        tot = dict(merc=sum(vl_item, Z), desc=sum(desc, Z), frt=Z if cancel else n['t_vFrete'],
+                   seg=Z if cancel else n['t_vSeg'], out=Z if cancel else n['t_vOutro'],
+                   ipi=sum((f['ipi'] for f in infos), Z) if not cancel else Z,
+                   st=Z if cancel else sum((it['vICMSST'] for it in n['itens']), Z))
+        vl_doc = Z if cancel else n['t_vNF']
+        resid = vl_doc - (tot['merc'] - tot['desc'] + tot['frt'] + tot['seg'] + tot['out'] + tot['ipi'] + tot['st'])
+        if resid and abs(resid) <= Decimal('1.00'):        # arredondamento do emissor -> outras despesas
+            tot['out'] += resid
+        fr, sg, ot = (_rateio(tot[k], vl_item) for k in ('frt', 'seg', 'out'))
+        tot_bc = tot_icms = Z
+        for k, (it, f) in enumerate(zip(n['itens'], infos)):
+            u = un(it['uCom'])
+            prod.setdefault(f['cod'], linha('0200', f['cod'], it['xProd'][:120], '', '', u, f['tipo'], it['NCM'], '',
+                                            it['NCM'][:2], '', '', ''))
+            if f['ac']:
+                nat.setdefault(f['ac'], linha('0400', f['ac'], ac_nome(f['ac'])))
+            bc, aliq, icms = (Z, Z, Z) if cancel else (f['bc'], f['aliq'], f['icms'])
+            ipi = Z if cancel else f['ipi']
+            st = Z if cancel else it['vICMSST']
+            com_ipi = bool(ipi) or f['ipi_cst'] in ('50', '00')
+            linhas_it.append(linha(
+                'C170', it['nItem'], f['cod'], '', v(it['qCom'], 5), u, v(vl_item[k]), v(desc[k]), '0', f['cst'],
+                f['cfop'], f['ac'], v(bc), v(aliq), v(icms), v(0 if cancel else it['vBCST']),
+                v(0 if cancel else it['pICMSST']), v(st), '0',
+                f['ipi_cst'] if com_ipi else '', '', v(f['ipi_bc']) if com_ipi and not cancel else '',
+                v(f['ipi_aliq']) if com_ipi and not cancel else '', v(ipi) if com_ipi else '',
+                '98', v(0), v(0, 4), '', '', v(0), '98', v(0), v(0, 4), '', '', v(0), f['conta'], v(0)))
+            g = grupos[(f['cst'], f['cfop'], aliq if icms else Z)]
+            g['opr'] += vl_item[k] - desc[k] + fr[k] + sg[k] + ot[k] + ipi + st
+            g['bc'] += bc
+            g['icms'] += icms
+            g['bcst'] += Z if cancel else it['vBCST']
+            g['st'] += st
+            g['ipi'] += ipi
+            tot_bc += bc
+            tot_icms += icms
+        C.append(linha('C100', oper, emit, cod_p, '55', '02' if cancel else '00', ser, num, n['chave'], d1, d2,
+                       v(vl_doc), '1' if oper == '1' or emit == '1' else '0', v(tot['desc']), v(0), v(tot['merc']),
+                       n['modFrete'] or '9', v(tot['frt']), v(tot['seg']), v(tot['out']), v(tot_bc), v(tot_icms),
+                       v(0 if cancel else n['t_vBCST']), v(tot['st']), v(tot['ipi']),
+                       v(0 if cancel or emit == '1' else n['t_vPIS']), v(0 if cancel or emit == '1' else n['t_vCOFINS']),
+                       v(0), v(0)))
+        C.extend(linhas_it)
+        for (cst, cfop, aliq), g in sorted(grupos.items()):
+            C.append(linha('C190', cst, cfop, v(aliq), v(g['opr']), v(g['bc']), v(g['icms']), v(g['bcst']),
+                           v(g['st']), v(0), v(g['ipi']), ''))
+        acs = sorted({f['ac'] for f in infos if f['ac']})
+        conf.append((rotulo, n['numero'], nome, ('CANCELADA (COD_SIT 02) - ' if cancel else '') + ', '.join(acs),
+                     vl_doc, tot_icms, '' if not resid or abs(resid) > Decimal('1.00') else
+                     f'arredondamento {v(resid)} em outras despesas'))
+
+    # ------------------------------------------------ NF-e de fornecedores
     itens = defaultdict(list)
     for it in res['itens']:
         itens[(it['Nota'], it['CNPJ'])].append(it)
@@ -156,20 +224,10 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
         n = notas.get(nr['Chave'])
         if not n:
             continue
-        if 'CANCELADA' in nr['Status']:
-            C.append(c100_cancelado('0', '1', '55', n['serie'], n['numero'], n['chave']))
-            conf.append(('NF-e fornecedor', n['numero'], n['emit_nome'], 'CANCELADA (COD_SIT 02)', Z, Z, ''))
-            continue
         cls = {str(i['Item']): i for i in itens[(n['numero'], n['emit_cnpj'])]}
-        cod_p = part_nfe(n, 'emit')
-        filhos, grupos = [], _novo()
-        tot_bc = tot_icms = tot_ipi = Z
-        acs = set()
-        for it in n['itens']:
+
+        def info_terc(it, n=n, cls=cls):
             c = cls.get(str(it['nItem']), {})
-            cfop = str(c.get('CFOP sugerido') or '')
-            ac = str(c.get('Acum. sugerido') or '')
-            acs.add(ac)
             cred = Decimal(str(c.get('Crédito ICMS sugerido') or 0))
             cred_ipi = Decimal(str(c.get('Crédito IPI sugerido') or 0))
             if cred and it['vCredICMSSN'] and not it['vICMS']:          # Simples: crédito pelo pCredSN
@@ -177,72 +235,44 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
             elif cred:
                 bc, aliq = it['vBC_ICMS'], it['pICMS']
             else:
-                bc, aliq = Z, it['pICMS']
-            cst = (it['orig'] or '0') + (it['CST_ICMS'] or '90')
-            cod_item = f'{n["emit_cnpj"][:8]}-{it["cProd"]}'[:60]
-            u = un(it['uCom'])
-            fin = str(c.get('Finalidade') or '')
-            prod.setdefault(cod_item, linha('0200', cod_item, it['xProd'][:120], '', '', u,
-                                            FIN_TIPO.get(fin, '99'), it['NCM'], '', it['NCM'][:2], '', '', it['CEST']))
-            if ac:
-                nat.setdefault(ac, linha('0400', ac, ac_nome(ac)))
-            filhos.append(linha('C170', it['nItem'], cod_item, '', v(it['qCom'], 5), u, v(it['vProd']), v(it['vDesc']),
-                                '0', cst, cfop, ac, v(bc), v(aliq), v(cred), v(it['vBCST']), v(it['pICMSST']),
-                                v(it['vICMSST']), '0', '00' if cred_ipi else '49', '', v(it['vBC_IPI'] if cred_ipi else 0),
-                                v(it['pIPI'] if cred_ipi else 0), v(cred_ipi), '98', v(0), v(0, 4), '', '', v(0),
-                                '98', v(0), v(0, 4), '', '', v(0), conta(c.get('Conta contábil sugerida')), v(0)))
-            g = grupos[(cst, cfop, aliq if cred else Z)]
-            g['opr'] += _vl_item(it)
-            g['bc'] += bc
-            g['icms'] += cred
-            g['bcst'] += it['vBCST']
-            g['st'] += it['vICMSST']
-            g['ipi'] += cred_ipi
-            tot_bc += bc
-            tot_icms += cred
-            tot_ipi += cred_ipi
-        C.append(linha('C100', '0', '1', cod_p, '55', '00', str(int(n['serie'])), str(int(n['numero'])), n['chave'],
-                       dt(n['dt_emissao']), dt(n['dt_saida_ent'] or n['dt_emissao']), v(n['t_vNF']), '1',
-                       v(n['t_vDesc']), v(0), v(n['t_vProd']), n['modFrete'] or '9', v(n['t_vFrete']), v(n['t_vSeg']),
-                       v(n['t_vOutro']), v(tot_bc), v(tot_icms), v(n['t_vBCST']), v(n['t_vST']), v(tot_ipi),
-                       v(0), v(0), v(0), v(0)))
-        C += filhos + _c190(grupos, n['t_vNF'])
-        conf.append(('NF-e fornecedor', n['numero'], n['emit_nome'], ', '.join(sorted(a for a in acs if a)),
-                     n['t_vNF'], tot_icms, ''))
+                bc, aliq = Z, Z
+            return dict(cfop=str(c.get('CFOP sugerido') or ''), ac=str(c.get('Acum. sugerido') or ''),
+                        cst=_cst(it), bc=bc, aliq=aliq, icms=cred,
+                        ipi=cred_ipi, ipi_cst='00' if cred_ipi else '', ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'],
+                        ipi_no_custo=bool(it['vIPI']) and not cred_ipi,      # IPI sem crédito integra o custo
+                        conta=conta(c.get('Conta contábil sugerida')),
+                        tipo=FIN_TIPO.get(str(c.get('Finalidade') or ''), '99'),
+                        cod=cod_produto('F', n['emit_cnpj'], it['cProd'], it['uCom']))
+        nfe(n, '0', '1', part_nfe(n, 'emit'), info_terc, 'CANCELADA' in nr['Status'], 'NF-e fornecedor', n['emit_nome'])
 
     # ------------------------------------------------ notas próprias: devoluções (entrada) e saídas
-    def propria(n, oper, cancel, rotulo):
-        if cancel:
-            C.append(c100_cancelado(oper, '0', '55', n['serie'], n['numero'], n['chave']))
-            conf.append((rotulo, n['numero'], n['dest_nome'], 'CANCELADA (COD_SIT 02)', Z, Z, ''))
-            return
-        cod_p = part_nfe(n, 'dest')
-        grupos = _novo()
-        for it in n['itens']:
-            g = grupos[((it['orig'] or '0') + (it['CST_ICMS'] or '90'), it['CFOP'], it['pICMS'] if it['vICMS'] else Z)]
-            g['opr'] += _vl_item(it)
-            g['bc'] += it['vBC_ICMS'] if it['vICMS'] else Z
-            g['icms'] += it['vICMS']
-            g['bcst'] += it['vBCST']
-            g['st'] += it['vICMSST']
-            g['ipi'] += it['vIPI']
-        C.append(linha('C100', oper, '0', cod_p, '55', '00', str(int(n['serie'])), str(int(n['numero'])), n['chave'],
-                       dt(n['dt_emissao']), dt(n['dt_saida_ent'] or n['dt_emissao']), v(n['t_vNF']),
-                       '1' if oper == '1' else '0', v(n['t_vDesc']), v(0), v(n['t_vProd']), n['modFrete'] or '9',
-                       v(n['t_vFrete']), v(n['t_vSeg']), v(n['t_vOutro']), v(n['t_vBC']), v(n['t_vICMS']),
-                       v(n['t_vBCST']), v(n['t_vST']), v(n['t_vIPI']), v(n['t_vPIS']), v(n['t_vCOFINS']), v(0), v(0)))
-        C.extend(_c190(grupos, n['t_vNF']))
-        cfops = sorted({it['CFOP'] for it in n['itens']})
-        conf.append((rotulo, n['numero'], n['dest_nome'], ', '.join(cfops), n['t_vNF'], n['t_vICMS'], ''))
+    def info_propria(ac_cfop):
+        def f(it):
+            ipi_cst = it['CST_IPI'] or ('50' if it['vIPI'] else '')
+            return dict(cfop=it['CFOP'], ac=ac_cfop.get(it['CFOP'], ''), cst=_cst(it),
+                        bc=it['vBC_ICMS'] if it['vICMS'] else Z, aliq=it['pICMS'] if it['vICMS'] else Z,
+                        icms=it['vICMS'], ipi=it['vIPI'], ipi_cst=ipi_cst if it['vIPI'] else '',
+                        ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'], ipi_no_custo=False, conta='',
+                        tipo='00' if it['CFOP'][1:] in ('102', '202', '411') else '04',
+                        cod=cod_produto('K', it['cProd'], it['uCom']))
+        return f
 
     for d in res['devol']:
         n = notas.get(d['Chave'])
         if n:
-            propria(n, '0', d['Status'].startswith('CANCELADA'), 'Devolução/retorno (própria)')
+            ac = {c: str(R.r['devolucoes_proprias'].get(c, {}).get('ac') or d.get('Acum. esperado') or '')
+                  for c in {it['CFOP'] for it in n['itens']}}
+            nfe(n, '0', '0', part_nfe(n, 'dest'), info_propria(ac), d['Status'].startswith('CANCELADA'),
+                'Devolução/retorno (própria)', n['dest_nome'])
     for s in res['saidas']:
         n = notas.get(s['Chave'])
         if n:
-            propria(n, '1', s['Status'].startswith('CANCELADA'), 'Saída')
+            ac = dict(p.split('→') for p in str(s.get('Acum. sugerido', '')).split(', ') if '→' in p)
+            if s['Status'].startswith('CANCELADA') and not ac:
+                ac = {c: str((R.r.get('saidas', {}).get(c) or {}).get('ac', '') if isinstance(R.r.get('saidas', {}).get(c), dict)
+                             else R.r.get('saidas', {}).get(c, '')) for c in {it['CFOP'] for it in n['itens']}}
+            nfe(n, '1', '0', part_nfe(n, 'dest'), info_propria(ac), s['Status'].startswith('CANCELADA'), 'Saída',
+                n['dest_nome'])
 
     # ------------------------------------------------ inutilizadas
     for l in res['lacunas']:
@@ -301,11 +331,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
         if 'NÃO LANÇAR' in st.upper() or 'não lançar' in st:
             continue
         ch = c['Chave']
-        if 'CANCEL' in st.upper():
-            D.append(linha('D100', '0', '1', '', '57', '02', str(int(ch[22:25])), '', str(int(ch[25:34])), ch,
-                           *([''] * 15)))
-            conf.append(('CT-e', str(c['CT-e']), c['Transportador'], 'CANCELADO (COD_SIT 02)', Z, Z, ''))
-            continue
+        canc = 'CANCEL' in st.upper()
         x = None
         if ch in xml_cte:
             try:
@@ -317,17 +343,18 @@ def gerar(res, saida, cabecalho, nfse_planilha=None):
                          _end(em.find('enderEmit')) if em is not None else {})
         ac = str(c.get('Acum. sugerido') or '')
         cfop = str(c['CFOP de entrada sugerido'])
-        cred = Decimal(str(c.get('Crédito ICMS sugerido') or 0))
-        val = Decimal(str(c['Valor']))
+        cred = Z if canc else Decimal(str(c.get('Crédito ICMS sugerido') or 0))
+        val = Z if canc else Decimal(str(c['Valor']))
         cst = ('0' + str(c.get('CST') or '90'))[-3:] if cred else '090'
         aliq = (x.findtext('.//pICMS') or '0') if (x is not None and cred) else '0'
         g = (lambda t: (x.findtext(t) or '') if x is not None else '')
-        D.append(linha('D100', '0', '1', cod_p, '57', '00', str(int(ch[22:25])), '', str(int(ch[25:34])), ch,
+        D.append(linha('D100', '0', '1', cod_p, '57', '02' if canc else '00', str(int(ch[22:25])), '', str(int(ch[25:34])), ch,
                        dt(c['Data']), dt(c['Data']), '0', '', v(val), v(0), '1', v(val),
                        v(c['BC ICMS'] if cred else 0), v(cred), v(0 if cred else val), '', '', g('.//cMunIni'),
                        g('.//cMunFim')))
         D.append(linha('D190', cst, cfop, v(Decimal(aliq)), v(val), v(c['BC ICMS'] if cred else 0), v(cred), v(0), ''))
-        conf.append(('CT-e', str(c['CT-e']), c['Transportador'], ac, val, cred, ''))
+        conf.append(('CT-e', str(c['CT-e']), c['Transportador'], ('CANCELADO (COD_SIT 02) - ' if canc else '') + ac,
+                     val, cred, ''))
 
     # ------------------------------------------------ montagem
     r0 = pega['0000'].split('|')

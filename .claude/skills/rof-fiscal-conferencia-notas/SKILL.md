@@ -80,9 +80,13 @@ e PR020212 (crédito) do mesmo valor (regra `antecipado` em regras.json).
 `--txt-cabecalho <SPED anterior da empresa>` gera `IMPORTACAO_DOMINIO_MMAAAA.TXT` (EFD ICMS/IPI, latin-1, CRLF) com
 TODAS as notas do mês e a planilha `_conferencia.xlsx`. Modelo aceito pelo Domínio: EFD da Ectas 08/2026 —
 COD_PART = CNPJ, série sem zeros, contadores com 9 dígitos, NFS-e tomada = C100 modelo 01 com CFOP 1933/2933
-(UF pelo município da chave da NFS-e) e CST 090. C170 só em notas de terceiros, com COD_NAT = acumulador (0400 com
-o nome) e COD_CTA = conta reduzida; notas próprias só C100 + C190 (acumulador pela configuração CFOP do Domínio).
-Canceladas COD_SIT 02, inutilizadas COD_SIT 05. Retenções das NFS-e não têm campo no leiaute: saem do acumulador.
+(UF pelo município da chave da NFS-e) e CST 090. C170 em TODAS as NF-e (o Domínio usa o COD_NAT = acumulador e só
+confere os valores item a item): CST do Simples = CSOSN sem origem; IPI sem crédito entra no valor do item e o CST do
+IPI fica vazio (senão o Domínio exige IPI no acumulador); frete/seguro/outras rateados pelo valor do item, como o
+Domínio faz, e a sobra de arredondamento do emissor (até R$ 1,00) vai para outras despesas; código de produto com
+10 caracteres (o Domínio corta em 14); sem CEST no 0200. Cancelada: COD_SIT 02 com participante, data, itens e C190
+zerados (sem participante o Domínio pega um qualquer). CT-e (D100) não tem campo de acumulador: vale o CFOP x
+acumulador da importação. NFS-e só com `txt_importacao.incluir_nfse` (Kopp: modelo 01 sem espécie).
 
 ## Conta contábil
 `regras.json` traz `contas_padrao` (por finalidade), `conta` dentro das regras e
