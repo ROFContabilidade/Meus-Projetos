@@ -1,6 +1,8 @@
 """Relação das notas de entrada do mês (Relacao_Entradas_Cosmetici_MM-AAAA.xlsx): todas juntas e depois separadas em
 NF-e dentro do estado, NF-e fora do estado, CT-e (dentro e fora) e NFS-e tomadas com as retenções destacadas.
 Valores exatamente como estão no XML (sem correção). CFOP de entrada e acumulador são sugestão de escrituração."""
+import collections
+
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter as L
@@ -155,11 +157,14 @@ COLS_NFE = [('Emissão', 10, 'data', 'd'), ('NF', 8, 'numero', ''), ('Série', 5
             ('Frete', 9, 'vFrete', 'm'), ('Outras desp.', 9, 'vOutro', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('ICMS', 10, 'vICMS', 'm'),
             ('Base ICMS-ST', 10, 'vBCST', 'm'), ('ICMS-ST', 9, 'vST', 'm'), ('IPI', 9, 'vIPI', 'm'), ('PIS', 8, 'vPIS', 'm'),
             ('COFINS', 9, 'vCOFINS', 'm'), ('Total da nota', 12, 'vNF', 'm'), ('Acumulador (sugestão)', 26, 'acumulador', ''),
-            ('Chave de acesso', 46, 'chave', '')]
+            ('Natureza', 14, 'natureza', ''), ('Crédito ICMS', 10, 'cred_icms', 'm'), ('Crédito IPI', 9, 'cred_ipi', 'm'),
+            ('DIFAL', 8, 'difal', 'm'), ('ICMS antecipado', 9, 'antecipado', 'm'), ('Conta contábil (Domínio)', 14, 'conta', ''),
+            ('Conferência XML x relatório SIEG', 26, 'conferencia', ''), ('Análise', 50, 'analise', ''), ('Chave de acesso', 46, 'chave', '')]
 COLS_CTE = [('Emissão', 10, 'data', 'd'), ('CT-e', 9, 'numero', ''), ('Série', 5, 'serie', ''), ('Transportadora', 32, 'emitente', ''),
             ('CNPJ', 15, 'cnpj', ''), ('Trajeto (UF)', 8, 'uf', ''), ('Situação', 10, 'situacao', ''), ('CFOP', 6, 'cfop', ''),
             ('CST', 5, 'cst', ''), ('Valor do frete', 11, 'vNF', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('% ICMS', 6, 'picms', ''),
-            ('ICMS', 10, 'vICMS', 'm'), ('NF-e transportada', 22, 'nfe', ''), ('Fonte', 26, 'fonte', ''), ('Chave de acesso', 46, 'chave', '')]
+            ('ICMS', 10, 'vICMS', 'm'), ('NF-e transportada', 22, 'nfe', ''), ('Fonte', 26, 'fonte', ''),
+            ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência XML x relatório SIEG', 30, 'conferencia', ''), ('Chave de acesso', 46, 'chave', '')]
 COLS_NFSE = [('Emissão', 10, 'data', 'd'), ('NFS-e', 9, 'numero', ''), ('Prestador', 30, 'emitente', ''), ('CNPJ', 15, 'cnpj', ''),
              ('Situação', 10, 'situacao', ''), ('Simples', 7, 'simples', ''), ('Município incidência', 14, 'municipio', ''),
              ('Cód. serviço', 8, 'cod', ''), ('Serviço', 26, 'servico', ''), ('Valor', 11, 'vNF', 'm'), ('Base ISS', 10, 'base_iss', 'm'),
@@ -167,17 +172,58 @@ COLS_NFSE = [('Emissão', 10, 'data', 'd'), ('NFS-e', 9, 'numero', ''), ('Presta
              ('PIS/COFINS/CSLL retidos (vRetCSLL)', 11, 'csll', 'm'), ('INSS retido', 9, 'inss', 'm'),
              ('Total retido (vTotalRet)', 10, 'total_ret', 'm'), ('Líquido', 11, 'liquido', 'm'), ('Tem retenção?', 18, 'tem_ret', ''),
              ('PIS (nota)', 8, 'pis', 'm'), ('COFINS (nota)', 8, 'cofins', 'm'), ('Retenção PIS/COFINS (XML)', 22, 'tp_pc', ''),
-             ('Acumulador', 10, 'acumulador', ''), ('Chave', 50, 'chave', '')]
+             ('Acumulador', 10, 'acumulador', ''), ('Conta contábil (Domínio)', 14, 'conta', ''),
+             ('Conferência XML x relatório ABRASF', 30, 'conferencia', ''), ('Chave', 50, 'chave', '')]
 COLS_TODAS = [('Emissão', 10, 'data', 'd'), ('Tipo', 6, 'tipo', ''), ('Número', 9, 'numero', ''), ('Emitente', 32, 'emitente', ''),
               ('CNPJ', 15, 'cnpj', ''), ('UF', 6, 'uf', ''), ('Situação', 10, 'situacao', ''), ('CFOP', 9, 'cfop', ''),
               ('Valor total', 12, 'vNF', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('ICMS', 10, 'vICMS', 'm'), ('ICMS-ST', 9, 'vST', 'm'),
               ('IPI', 9, 'vIPI', 'm'), ('ISS', 9, 'iss', 'm'), ('Retenções (NFS-e)', 10, 'total_ret', 'm'),
+              ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência', 26, 'conferencia', ''),
               ('Observação', 30, 'obs', ''), ('Chave', 46, 'chave', '')]
 
 
-def gerar(a, forn, xml_cte, sieg_cte, xml_nfse, destino):
+def _analise(a, cred, forn, xml_cte, sieg_cte, xml_nfse, sieg_prod, rel_nfse, l_nfe, l_cte, l_nfse):
+    """Acrescenta a cada documento a análise feita XML por XML: natureza e créditos, conta contábil do Domínio e a conferência
+    com os relatórios SIEG / ABRASF da pasta."""
+    import cruzamento_entradas as ce
+    import lancamentos_contabeis as lc
+    lanc, pend = lc.montar(a, cred, xml_cte, sieg_cte, xml_nfse, forn)
+    conta = collections.defaultdict(list)
+    for x in lanc:
+        d = next(ln for _, b in x['blocos'] for ln in b if ln[0])
+        conta[(x['doc'], str(x['numero']), x['cnpj'])].append(f'D {d[0]} / C {d[1] or "506"}' + (' (conferir)' if 'conferir' in x['obs'] else ''))
+    for x in pend:
+        conta[(x['doc'], str(x['numero']), x['cnpj'])].append('sem conta: ' + x['motivo'])
+    nat = collections.defaultdict(lambda: {'nat': set(), 'icms': 0.0, 'ipi': 0.0, 'difal': 0.0, 'ant': 0.0, 'mot': []})
+    for l in cred.linhas:
+        g = nat[l['nota']['chave']]
+        g['nat'].add(l['natureza']); g['icms'] += l['cred_icms'] + l['cred_sn']; g['ipi'] += l['cred_ipi']
+        g['difal'] += l['difal']; g['ant'] += l.get('antecipado', 0.0)
+        for m in (l.get('motivo'), l.get('acao')):
+            if m and m not in g['mot']:
+                g['mot'].append(m)
+    conf_nfe = {ln[19]: ln[18] for ln in ce.nfe(a, sieg_prod)} if sieg_prod else {}
+    conf_cte = {ln[16]: ln[15] for ln in ce.cte(a, xml_cte, sieg_cte)}
+    conf_nfse = {(ln[3], str(ln[0])): ln[24] for ln in ce.nfse(xml_nfse, rel_nfse)} if rel_nfse else {}
+    for r in l_nfe:
+        g = nat.get(r['chave'])
+        if g:
+            r.update(natureza=', '.join(sorted(g['nat'])), cred_icms=round(g['icms'], 2), cred_ipi=round(g['ipi'], 2),
+                     difal=round(g['difal'], 2), antecipado=round(g['ant'], 2), analise='; '.join(g['mot'])[:250])
+        r['conta'] = ' | '.join(conta.get(('NF-e', str(r['numero']), r['cnpj']), ['cancelada - sem lançamento'] if r['situacao'] == 'Cancelada' else []))
+        r['conferencia'] = conf_nfe.get(r['chave'], 'sem relatório SIEG' if not sieg_prod else 'não está no relatório')
+    for r in l_cte:
+        r['conta'] = ' | '.join(conta.get(('CT-e', str(r['numero']), r['cnpj']), ['cancelado - sem lançamento'] if r['situacao'] == 'Cancelado' else []))
+        r['conferencia'] = conf_cte.get(r['chave'], '')
+    for r in l_nfse:
+        r['conta'] = ' | '.join(conta.get(('NFS-e', str(r['numero']), r['cnpj']), []))
+        r['conferencia'] = conf_nfse.get((r['cnpj'], str(r['numero'])), 'sem relatório ABRASF' if not rel_nfse else 'não está no relatório')
+
+
+def gerar(a, forn, xml_cte, sieg_cte, xml_nfse, destino, sieg_prod=None, rel_nfse=None):
     cred = Credito(a, forn, [], a.cfg.get('natureza_entradas', {})).analisar()
     l_nfe, l_cte, l_nfse = nfe(a, cred), cte(a, xml_cte, sieg_cte), nfse(a.cfg, xml_nfse)
+    _analise(a, cred, forn, xml_cte, sieg_cte, xml_nfse, sieg_prod, rel_nfse, l_nfe, l_cte, l_nfse)
     uf = a.cfg['empresa'].get('uf', 'PR')
     dentro = [r for r in l_nfe if r['uf'] == uf]
     fora = [r for r in l_nfe if r['uf'] != uf]

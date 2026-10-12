@@ -237,7 +237,8 @@ def cmd_saidas(args):
     saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
     os.makedirs(saida, exist_ok=True)
     destino = os.path.join(saida, f'Relacao_Saidas_Cosmetici_{args.mes[5:]}-{args.mes[:4]}.xlsx')
-    rows = planilha_saidas.gerar(a, destino)
+    conf = planilha_saidas.conferencia_erp(os.path.join(saida, f'Cruzamento_Relatorios_ERP_x_XML_{args.mes[5:]}-{args.mes[:4]}.xlsx'))
+    rows = planilha_saidas.gerar(a, destino, conf)
     cont = collections.Counter(r['situacao'] for r in rows)
     print(f'Saídas {args.mes}: {dict(cont)} | planilha: {destino}')
     return rows
@@ -271,11 +272,11 @@ def _fontes_entradas(args):
 
 def cmd_entradas(args):
     import planilha_entradas
-    a, _, sc, _, xn, fontes = _fontes_entradas(args)
+    a, sp, sc, rn, xn, fontes = _fontes_entradas(args)
     saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
     os.makedirs(saida, exist_ok=True)
     destino = os.path.join(saida, f'Relacao_Entradas_Cosmetici_{args.mes[5:]}-{args.mes[:4]}.xlsx')
-    r = planilha_entradas.gerar(a, carregar('fornecedores.json', {}), fontes['cte'], sc, xn, destino)
+    r = planilha_entradas.gerar(a, carregar('fornecedores.json', {}), fontes['cte'], sc, xn, destino, sp or None, rn or None)
     for k in ('todas', 'dentro', 'fora', 'cte', 'nfse'):
         print(f'{k}: {len(r[k])}')
     print('NFS-e com retenção:', [(x['numero'], x['emitente'][:20], x['tem_ret']) for x in r['nfse'] if x['tem_ret'] != 'Não'])

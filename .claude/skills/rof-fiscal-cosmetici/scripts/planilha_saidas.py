@@ -23,7 +23,9 @@ COLS = [  # (título, largura, chave, moeda)
     ('Base ICMS', 11, 'vBC', True), ('ICMS', 10, 'vICMS', True), ('Base ICMS-ST', 11, 'vBCST', True), ('ICMS-ST', 9, 'vST', True),
     ('FCP-ST', 8, 'vFCPST', True), ('IPI', 9, 'vIPI', True), ('PIS', 9, 'vPIS', True), ('COFINS', 9, 'vCOFINS', True),
     ('DIFAL UF destino', 9, 'vICMSUFDest', True), ('Total da nota', 12, 'vNF', True),
-    ('Acumulador Domínio', 22, 'acumulador', False), ('Importar no Domínio', 30, 'importar', False), ('Chave de acesso', 46, 'chave', False),
+    ('Acumulador Domínio', 22, 'acumulador', False), ('Importar no Domínio', 30, 'importar', False),
+    ('Conferência XML x Faturamento x Registro (ERP)', 30, 'conferencia', False), ('Análise (informativa - segue o XML)', 60, 'analise', False),
+    ('Chave de acesso', 46, 'chave', False),
 ]
 
 
@@ -37,7 +39,36 @@ def _acumulador(a, cfops):
     return ' / '.join(cods)
 
 
-def linhas(a):
+def _analise(a):
+    """Pontos da revisão XML por XML (revisao.revisar_saidas), por número de nota. Só informativo."""
+    import re
+    import revisao
+    div, _ = revisao.revisar_saidas(a)
+    por = {}
+    for d in div:
+        m = re.search(r'NF (\d+)', str(d[2]))
+        if m:
+            por.setdefault(int(m.group(1)), []).append(f'[{d[0]}] {d[1]}: {d[3]}')
+    return por
+
+
+def conferencia_erp(caminho):
+    """Resultado por NF da planilha Cruzamento_Relatorios_ERP_x_XML (aba "Cruzamento XML x ERP", última coluna)."""
+    import os
+    from openpyxl import load_workbook
+    if not caminho or not os.path.exists(caminho):
+        return {}
+    ws = load_workbook(caminho, read_only=True)['Cruzamento XML x ERP']
+    out = {}
+    for r in ws.iter_rows(min_row=5, values_only=True):
+        if isinstance(r[0], (int, float)):
+            out[int(r[0])] = r[-1]
+    return out
+
+
+def linhas(a, conf=None):
+    conf = conf or {}
+    analise = _analise(a)
     out = []
     for n in a.saidas + [x for x in a.canceladas if x.get('propria')]:
         canc = n in a.canceladas
@@ -51,13 +82,16 @@ def linhas(a):
         r['acumulador'] = _acumulador(a, cfops)
         r['importar'] = ('Sim - como CANCELADA (situação 02: valores zerados, só a chave)' if canc
                          else 'Sim - como está no XML')
+        r['conferencia'] = conf.get(int(n['numero']), 'sem relatório do ERP' if not conf else 'não está no relatório')
+        r['analise'] = ' | '.join(analise.get(int(n['numero']), []))[:400]
         out.append(r)
     for x in a.f.get('inut', []):
         for num in range(x['ini'], x['fim'] + 1):
             out.append({'saida': x.get('data'), 'emissao': x.get('data'), 'numero': num, 'serie': x['serie'], 'situacao': 'Inutilizada',
                         'cliente': f'Número inutilizado - {(x.get("just") or "")[:60]}', 'doc': '', 'uf': '', 'cfop': '', 'natop': '',
                         'chave': f'Protocolo {x.get("protocolo") or "-"}', 'acumulador': '',
-                        'importar': 'Sim - como INUTILIZADA (situação 05, só o número)'})
+                        'importar': 'Sim - como INUTILIZADA (situação 05, só o número)',
+                        'conferencia': conf.get(num, ''), 'analise': ''})
     vistos, unicos = set(), []
     for r in out:
         k = (r['serie'], r['numero'], r['situacao'])
@@ -68,8 +102,8 @@ def linhas(a):
     return unicos
 
 
-def gerar(a, destino):
-    rows = linhas(a)
+def gerar(a, destino, conf=None):
+    rows = linhas(a, conf)
     wb = Workbook()
     ws = wb.active
     ws.title = 'Saídas'
