@@ -833,5 +833,48 @@
     "uso_consumo": "513",
     "venda_mercadorias": "408",
     "servicos_prestados": "411"
+  },
+  "contas_planilha_contabil_drive": {
+    "_obs": "Contabil.xls da pasta 25 - Cosmetici (Drive): contas e históricos usados nos lançamentos do extrato. Não é o plano de contas completo.",
+    "contas": {
+      "8": "ITAU EMPRESAS - CONTA 53570-0",
+      "9": "ITAU EMPRESAS - CONTA 52508-1",
+      "11": "APLICAÇÃO",
+      "172": "ICMS",
+      "174": "DIVIDA ATIVA - SIMPLES NACIONAL",
+      "175": "DIVIDA ATIVA - INSS",
+      "178": "IRRF",
+      "181": "PARCELAMENTO",
+      "188": "PRÓ LABORE",
+      "191": "INSS",
+      "312": "FRETES",
+      "362": "PRESTAÇÃO DE SERVIÇOS",
+      "364": "DESPESAS ADMINISTRATIVAS",
+      "366": "OUTRAS SAIDAS/ENTRADAS",
+      "432": "JUROS DE APLICAÇÕES",
+      "433": "JUROS",
+      "479": "SIMPLES NACIONAL",
+      "491": "SINDICATO",
+      "493": "DESPESAS A IDENTIFICAR",
+      "504": "CLIENTES DIVERSOS",
+      "506": "FORNECEDORES",
+      "510": "HONORARIOS CONTABEIS",
+      "622": "AJUSTE DE EXERCICIO",
+      "623": "MARLI MARIA SCHMITD DALAGASSA",
+      "625": "IOF",
+      "626": "TARIFAS BANCARIAS",
+      "627": "DESPESAS LABORATORIAIS"
+    },
+    "historicos": {
+      "15": "PAGAMENTO",
+      "24": "RECEBIMENTO",
+      "65": "HONORARIOS CONTABEIS",
+      "108": "IOF",
+      "109": "APLICAÇÃO",
+      "110": "RESGATE CDB",
+      "111": "MOV TIT COB DISP",
+      "112": "TARIFAS BANCARIAS",
+      "113": "REND PAGO APLIC AUT MAIS"
+    }
   }
 }
