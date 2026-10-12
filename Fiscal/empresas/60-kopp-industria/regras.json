@@ -969,7 +969,8 @@
     "12/10/2026: TXT de importação 09/2026 aceito pelo Domínio sem erros",
     "13/10/2026: Domínio contabiliza pela conta do acumulador; criar acumulador por conta (acumulador_por_conta)",
     "13/10/2026: manter acumuladores atuais; contabilização pela conta do acumulador no Domínio (sem acumulador por conta)",
-    "13/10/2026: Kopp confirmou que 64283 e 64393 (pedido no ERP sem NF-e autorizada) são numerações inutilizadas: mantidas no TXT como COD_SIT 05, sem pendência."
+    "13/10/2026: Kopp confirmou que 64283 e 64393 (pedido no ERP sem NF-e autorizada) são numerações inutilizadas: mantidas no TXT como COD_SIT 05, sem pendência.",
+    "13/10/2026: TXT fiel ao XML (sem recalcular base/alíquota); conferência item a item TXT x XML"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -1030,15 +1031,15 @@
     "_validado": "3ª versão do TXT de 09/2026 importada no Domínio sem erros (Rosangela, 12/10/2026).",
     "reimportar": {
       "2026-09": [
-        "1237",
-        "1076",
-        "2153",
         "64171",
         "64289"
       ]
     },
-    "_reimportar": "Notas corrigidas depois da importação: excluir no Domínio e importar o TXT _CORRECAO. 09/2026: base x alíquota não fechava com o crédito (diferimento parcial CST 51 da Indusbello e crédito do Simples da Biomedicare). 64171 e 64289: saídas a consumidor final de outra UF, faltava o DIFAL (C101)."
+    "_reimportar": "Notas corrigidas depois da importação: excluir no Domínio e importar o TXT _CORRECAO. 09/2026: só 64171 e 64289 (faltava o DIFAL, C101). 1237, 1076 e 2153 voltaram a ir exatamente como no XML (igual à 1ª importação).",
+    "ipi_base_sem_valor": "informar",
+    "_ipi_base_sem_valor": "Fidelidade ao XML: item com base de IPI e IPI zero leva a base (CST 49 na entrada). Exige o IPI (imposto 2) vinculado no acumulador da nota (09/2026: 107, 151, 155), senão o Domínio recusa a nota. \"omitir\" = não levar a base."
   },
   "_acumulador_por_conta": "O Domínio gera o lançamento contábil da nota pela conta do ACUMULADOR (guia Contabilidade > Notas) e ignora o COD_CTA do item no TXT (confirmado pela Rosangela 13/10/2026 na nota Concorde 1102015). Para cada acumulador que junta contas diferentes, criar no Domínio um acumulador por conta e informar aqui: {\"acumulador_base\": {\"código da conta\": \"acumulador novo\"}}. Em 09/2026: 107 (58, 604, 602, 360, 521, 364), 108 (360, 604), 113 (55, 56, 606), 213 (606, 56). DECISÃO 13/10/2026 (Rosangela): seguir no formato atual, sem acumulador por conta.",
-  "acumulador_por_conta": {}
+  "acumulador_por_conta": {},
+  "_fidelidade_xml": "REGRA (Rosangela 13/10/2026): o TXT traz EXATAMENTE o que está no XML — CST, base, alíquota e valor de ICMS, ST e IPI (e IBS/CBS quando o leiaute tiver campo). Nada é recalculado: diferimento parcial do PR (19,5% com diferimento, ICMS cobrado 12%) vai com base cheia, 19,5% e o vICMS do XML. Únicas diferenças permitidas = regras de crédito do escritório (uso e consumo sem crédito, IPI sem crédito no custo), todas listadas na aba \"Conferência com o XML\"."
 }

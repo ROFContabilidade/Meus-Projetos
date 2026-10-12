@@ -65,6 +65,16 @@ Passo a passo técnico dos scripts: skill `rof-fiscal-conferencia-notas`. Caso p
 - Série sem nenhuma NF-e (modelo 01 no ERP) não é NF-e: tratar como "ERP x fiscal", não inutilizar.
 - Nota ativa cujo XML só veio no DownloadDFe (fora do zip do cliente): avisar e entregar o XML à parte.
 
+## 4b. REGRA DE OURO: o TXT é fiel ao XML (Rosangela 13/10/2026)
+CST, base, alíquota e valor de ICMS, ST e IPI vão EXATAMENTE como no XML, item a item — nada é recalculado nem
+"ajustado" para o Domínio. Ex.: diferimento parcial no PR (CST 51, 19,5% com diferimento, ICMS cobrado 12%) vai com
+base cheia, 19,5% e o vICMS do XML; Simples (CSOSN 101) com valor do item, pCredSN e vCredICMSSN; base de ICMS com
+imposto zero (CST 00 do ERP) e base de IPI com IPI zero também vão (IPI só base: CST 49 na entrada — exige IPI no
+acumulador). Únicas diferenças permitidas = regras de crédito do escritório (uso e consumo sem crédito: base/ICMS
+zerados; IPI sem crédito no custo do item), e o valor da nota nunca muda. A aba "Conferência com o XML" do
+_conferencia.xlsx compara campo a campo; qualquer "DIVERGENTE DO XML" bloqueia a entrega até ser corrigido no motor.
+IBS/CBS: o leiaute EFD ICMS/IPI aceito pelo Domínio não tem campo; ficam no XML (o Domínio lê ao importar XML).
+
 ## 5. TXT de importação no Domínio — o que aprendemos (Kopp 09/2026, aceito sem erros em 12/10/2026)
 Leiaute EFD ICMS/IPI (latin-1, CRLF), modelo aceito = EFD da Ectas 08/2026. Erro do relatório → causa → correção:
 
@@ -84,7 +94,7 @@ Leiaute EFD ICMS/IPI (latin-1, CRLF), modelo aceito = EFD da Ectas 08/2026. Erro
 | CFOP inválido para o estado / fora do estado | cadastro antigo do participante no Domínio | corrigir a UF do cadastro (o XML está certo) |
 | O imposto 1 não está relacionado no acumulador | acumulador sem ICMS (mesmo com ICMS zero o C190 grava isentas/outras) | vincular ICMS ao acumulador no Domínio |
 | Lançamento contábil na conta errada (ignora o COD_CTA) | o Domínio contabiliza a nota pela conta do ACUMULADOR (Contabilidade > Notas) | um acumulador por conta + `acumulador_por_conta`; depois Utilitários > regerar lançamentos |
-| Crédito "estranho" depois de importar | Domínio recalcula base x alíquota | base x alíquota = ICMS em todo C170 (alíquota efetiva no diferimento; base = crédito/pCredSN no Simples) |
+| Crédito "estranho" depois de importar | suspeita de recálculo base x alíquota | NÃO ajustar a alíquota: manter fiel ao XML (regra de ouro) e conferir na nota do Domínio o ICMS gravado |
 Outras: COD_NAT do C170 = código do acumulador (0400 com o nome); COD_CTA = conta reduzida; D100 (CT-e) não leva
 acumulador — vale CFOP x acumulador da importação; venda a consumidor final de outra UF leva C101 (DIFAL);
 COD_PART = CNPJ/CPF; série sem zeros; contadores com 9 dígitos.

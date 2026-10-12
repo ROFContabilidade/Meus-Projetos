@@ -170,6 +170,36 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=(), somente=()):
     canc_fora = R.r.get('txt_importacao', {}).get('canceladas', 'no_txt') == 'lancar_manual'
     manual = []
 
+    fiel = []
+    ipi_base = R.r.get('txt_importacao', {}).get('ipi_base_sem_valor', 'informar') == 'informar'
+
+    def _fidelidade(n, it, f, bc, aliq, icms, ipi, vl_item, emit, ipi_bc, ipi_al):
+        """Compara o que vai no TXT com o XML, campo a campo. Só regra do escritório explica diferença."""
+        sn = bool(it['vCredICMSSN']) and not it['vICMS']
+        x = {'CST ICMS': _cst(it), 'Base ICMS': it['vProd'] if sn else it['vBC_ICMS'],
+             'Alíquota ICMS': it['pCredSN'] if sn else it['pICMS'], 'ICMS': it['vCredICMSSN'] if sn else it['vICMS'],
+             'Base ST': it['vBCST'], 'ICMS ST': it['vICMSST'],
+             'Base IPI': it['vBC_IPI'], 'Alíquota IPI': it['pIPI'], 'IPI': it['vIPI'], 'Valor do item': it['vProd']}
+        t = {'CST ICMS': f['cst'], 'Base ICMS': bc, 'Alíquota ICMS': aliq, 'ICMS': icms,
+             'Base ST': it['vBCST'], 'ICMS ST': it['vICMSST'],
+             'Base IPI': ipi_bc, 'Alíquota IPI': ipi_al, 'IPI': ipi,
+             'Valor do item': vl_item}
+        for campo in x:
+            a, b = x[campo], t[campo]
+            igual = a == b if isinstance(a, str) else abs(Decimal(str(a or 0)) - Decimal(str(b or 0))) <= Decimal('0.01')
+            if igual:
+                continue
+            if emit == '1' and campo in ('Base ICMS', 'Alíquota ICMS', 'ICMS') and not icms:
+                mot = 'Sem crédito de ICMS (uso e consumo / fora da atividade): entra zerado por regra do escritório'
+            elif emit == '1' and campo in ('Base IPI', 'Alíquota IPI', 'IPI', 'Valor do item') and f['ipi_no_custo']:
+                mot = 'IPI sem crédito: somado ao valor do item (custo); valor da nota igual ao XML'
+            elif campo in ('Base IPI', 'Alíquota IPI') and not it['vIPI'] and not ipi_base:
+                mot = 'Base de IPI sem imposto não levada (regra txt_importacao.ipi_base_sem_valor = omitir)'
+            else:
+                mot = 'DIVERGENTE DO XML - corrigir'
+            fiel.append((n['numero'], n['emit_nome'] if emit == '1' else n['dest_nome'], it['nItem'], campo,
+                         str(a), str(b), mot))
+
     def nfe(n, oper, emit, cod_p, info, cancel, rotulo, nome):
         if str(n['numero']).lstrip('0') in excluir:      # vai pelo XML à parte, fora do TXT
             return
@@ -209,14 +239,21 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=(), somente=()):
             bc, aliq, icms = (Z, Z, Z) if cancel else (f['bc'], f['aliq'], f['icms'])
             ipi = Z if cancel else f['ipi']
             st = Z if cancel else it['vICMSST']
-            com_ipi = bool(ipi) or f['ipi_cst'] in ('50', '00')
+            # IPI como no XML: com valor -> CST da regra; só base (IPI zero) -> CST 49 entrada / XML na saída
+            so_base = not cancel and not ipi and it['vBC_IPI'] and not f['ipi_no_custo'] and ipi_base
+            ipi_cst_w = f['ipi_cst'] or (('49' if emit == '1' else (it['CST_IPI'] or '99')) if so_base else '')
+            com_ipi = bool(ipi) or f['ipi_cst'] in ('50', '00') or bool(so_base)
+            ipi_bc_w = Z if cancel or not com_ipi else f['ipi_bc']
+            ipi_al_w = Z if cancel or not com_ipi else f['ipi_aliq']
             linhas_it.append(linha(
                 'C170', it['nItem'], f['cod'], '', v(it['qCom'], 5), u, v(vl_item[k]), v(desc[k]), '0', f['cst'],
                 f['cfop'], f['ac'], v(bc), v(aliq), v(icms), v(0 if cancel else it['vBCST']),
                 v(0 if cancel else it['pICMSST']), v(st), '0',
-                f['ipi_cst'] if com_ipi else '', '', v(f['ipi_bc']) if com_ipi and not cancel else '',
-                v(f['ipi_aliq']) if com_ipi and not cancel else '', v(ipi) if com_ipi else '',
+                ipi_cst_w if com_ipi else '', '', v(ipi_bc_w) if com_ipi else '',
+                v(ipi_al_w) if com_ipi else '', v(ipi) if com_ipi else '',
                 *_pis_cofins(it, f['pis_xml'] and not cancel), f['conta'], v(0)))
+            if not cancel:
+                _fidelidade(n, it, f, bc, aliq, icms, ipi, vl_item[k], emit, ipi_bc_w, ipi_al_w)
             g = grupos[(f['cst'], f['cfop'], aliq if icms else Z)]
             g['opr'] += vl_item[k] - desc[k] + fr[k] + sg[k] + ot[k] + ipi + st
             g['bc'] += bc
@@ -264,12 +301,8 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=(), somente=()):
                 bc, aliq = it['vBC_ICMS'], it['pICMS']
             else:
                 bc, aliq = Z, Z
-            # o Domínio recalcula base x alíquota: os dois têm de fechar com o ICMS realmente creditável
-            if cred and bc and aliq and abs((bc * aliq / 100).quantize(Decimal('0.01')) - cred) > Decimal('0.02'):
-                if it['vCredICMSSN'] and not it['vICMS']:     # Simples: o crédito foi calculado sobre outra base
-                    bc = (cred * 100 / aliq).quantize(Decimal('0.01'))
-                else:                                          # diferimento parcial (CST 51) etc.: alíquota efetiva
-                    aliq = (cred * 100 / bc).quantize(Decimal('0.01'))
+            # REGRA: base, alíquota e ICMS exatamente como no XML (diferimento parcial: base cheia, 19,5% e o
+            # vICMS cobrado; Simples: valor do item, pCredSN e vCredICMSSN). Nada é recalculado.
             return dict(cfop=str(c.get('CFOP sugerido') or ''), ac=str(c.get('Acum. sugerido') or ''),
                         cst=_cst(it), bc=bc, aliq=aliq, icms=cred,
                         ipi=cred_ipi, ipi_cst='00' if cred_ipi else '', ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'],
@@ -284,7 +317,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=(), somente=()):
         def f(it):
             ipi_cst = it['CST_IPI'] or ('50' if it['vIPI'] else '')
             return dict(cfop=it['CFOP'], ac=ac_cfop.get(it['CFOP'], ''), cst=_cst(it),
-                        bc=it['vBC_ICMS'] if it['vICMS'] else Z, aliq=it['pICMS'] if it['vICMS'] else Z,
+                        bc=it['vBC_ICMS'], aliq=it['pICMS'],
                         icms=it['vICMS'], ipi=it['vIPI'], ipi_cst=ipi_cst if it['vIPI'] else '',
                         ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'], ipi_no_custo=False, conta='', pis_xml=True,
                         tipo='00' if it['CFOP'][1:] in ('102', '202', '411') else '04',
@@ -423,6 +456,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=(), somente=()):
     with open(saida, 'w', encoding='latin-1', errors='replace', newline='\r\n') as f:
         f.write('\n'.join(linhas) + '\n')
     res['txt_manual'] = manual
+    res['txt_fidelidade'] = fiel
     return linhas, conf
 
 
@@ -467,6 +501,19 @@ def planilha(conf, res, saida):
             wsm.append(list(m[:4]) + [f'{m[4][:2]}/{m[4][2:4]}/{m[4][4:]}'] + list(m[5:]))
             for cel in wsm[wsm.max_row]:
                 cel.fill = VM
+    fiel = res.get('txt_fidelidade', [])
+    wsf = wb.create_sheet('Conferência com o XML', 1)
+    nd = sum(1 for f in fiel if f[6].startswith('DIVERGENTE'))
+    wsf.append(['Nota', 'Participante', 'Item', 'Campo', 'No XML', 'No TXT', 'Por quê'])
+    for f in fiel:
+        wsf.append(list(f))
+        if f[6].startswith('DIVERGENTE'):
+            for cel in wsf[wsf.max_row]:
+                cel.fill = VM
+    wsf.append([])
+    wsf.append([f'{nd} divergência(s) sem explicação' if nd else
+                'Nenhuma divergência: CST, base, alíquota e valor de ICMS, ST e IPI iguais ao XML em todos os itens '
+                '(as diferenças listadas são só as regras de crédito do escritório).'])
     ws3 = wb.create_sheet('CFOP x acumulador (próprias)')
     ws3.append(['Tipo', 'CFOP', 'Acumulador', 'Nome', 'Notas'])
     R = res['regras']

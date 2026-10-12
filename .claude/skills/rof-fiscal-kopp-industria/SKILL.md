@@ -50,6 +50,8 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - Ajustes pendentes no Domínio (09/2026): vincular ICMS ao 521, 621, 159 e 302; IPI ao 522; DIFAL no 607/608.
 
 ## Decisões do escritório (Rosangela) — já estão no regras.json
+- **TXT fiel ao XML (13/10/2026):** nada recalculado; diferimento do PR (19,5% → 12% cobrado) vai como no XML. Ver regra de
+  ouro na skill do motor e a aba "Conferência com o XML" (tem de mostrar zero divergência).
 - 64283 e 64393 (09/2026, pedido no ERP sem NF-e): a Kopp confirmou que são numerações inutilizadas. Número com
   pedido no ERP mas sem NF-e na SEFAZ segue como inutilizada; o relatório para a Kopp serve só para confirmar.
 - **Formato atual mantido (13/10/2026):** a Kopp segue com os acumuladores como estão (107, 108, 113, 213...). O Domínio
@@ -70,7 +72,7 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - Série 2 do ERP (09/2026: 51 documentos, R$ 259.970,85, "cliente retira", sem NF-e): resposta da Kopp.
 - Estojos Indusbello entram como 1101 (insumo); confirmar se a Kopp só revende (seria 1102).
 - Biomedicare 2140 + 2154 devolvem mais do que a remessa 64068: lançadas (autorizadas).
-- Correção 09/2026: excluir no Domínio e reimportar 1237, 1076, 2153, 64171, 64289 (`_CORRECAO.TXT`).
+- Correção 09/2026: só 64171 e 64289 (DIFAL) — excluir e reimportar pelo `_CORRECAO.TXT`.
 
 ## Histórico do TXT
 09/2026: canceladas importadas pelo zip de XML (nota + evento 110111) sem problema — confirmado pela Rosangela.
