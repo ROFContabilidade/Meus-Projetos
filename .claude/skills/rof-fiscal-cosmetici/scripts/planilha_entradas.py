@@ -158,7 +158,7 @@ COLS_NFE = [('Emissão', 10, 'data', 'd'), ('NF', 8, 'numero', ''), ('Série', 5
             ('Frete', 9, 'vFrete', 'm'), ('Outras desp.', 9, 'vOutro', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('ICMS', 10, 'vICMS', 'm'),
             ('Base ICMS-ST', 10, 'vBCST', 'm'), ('ICMS-ST', 9, 'vST', 'm'), ('IPI', 9, 'vIPI', 'm'), ('PIS', 8, 'vPIS', 'm'),
             ('COFINS', 9, 'vCOFINS', 'm'), ('Base IBS/CBS', 10, 'ibscbs_bc', 'm'), ('IBS', 8, 'vIBS', 'm'), ('CBS', 8, 'vCBS', 'm'),
-            ('Total da nota', 12, 'vNF', 'm'), ('Acumulador (sugestão)', 26, 'acumulador', ''),
+            ('Total da nota', 12, 'vNF', 'm'), ('Acumulador (Domínio)', 30, 'acumulador', ''),
             ('Natureza', 14, 'natureza', ''), ('Crédito ICMS', 10, 'cred_icms', 'm'), ('Crédito IPI', 9, 'cred_ipi', 'm'),
             ('DIFAL', 8, 'difal', 'm'), ('ICMS antecipado', 9, 'antecipado', 'm'), ('Conta contábil (Domínio)', 14, 'conta', ''),
             ('Conferência XML x relatório SIEG', 26, 'conferencia', ''), ('Análise', 50, 'analise', ''),
@@ -169,6 +169,7 @@ COLS_CTE = [('Emissão', 10, 'data', 'd'), ('CT-e', 9, 'numero', ''), ('Série',
             ('CNPJ', 15, 'cnpj', ''), ('Trajeto (UF)', 8, 'uf', ''), ('Situação', 10, 'situacao', ''), ('CFOP', 6, 'cfop', ''),
             ('CST', 5, 'cst', ''), ('Valor do frete', 11, 'vNF', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('% ICMS', 6, 'picms', ''),
             ('ICMS', 10, 'vICMS', 'm'), ('NF-e transportada', 22, 'nfe', ''), ('Fonte', 26, 'fonte', ''),
+            ('Acumulador (Domínio)', 26, 'acumulador', ''),
             ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência XML x relatório SIEG', 30, 'conferencia', ''),
             ('Vai no TXT?', 24, 'txt', ''), ('Base ICMS no TXT', 11, 'txt_bc', 'm'), ('ICMS no TXT', 10, 'txt_icms', 'm'),
             ('Chave de acesso', 46, 'chave', '')]
@@ -185,7 +186,8 @@ COLS_TODAS = [('Emissão', 10, 'data', 'd'), ('Tipo', 6, 'tipo', ''), ('Número'
               ('CNPJ', 15, 'cnpj', ''), ('UF', 6, 'uf', ''), ('Situação', 10, 'situacao', ''), ('CFOP', 9, 'cfop', ''),
               ('Valor total', 12, 'vNF', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('ICMS', 10, 'vICMS', 'm'), ('ICMS-ST', 9, 'vST', 'm'),
               ('IPI', 9, 'vIPI', 'm'), ('ISS', 9, 'iss', 'm'), ('Retenções (NFS-e)', 10, 'total_ret', 'm'),
-              ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência', 26, 'conferencia', ''), ('Vai no TXT?', 22, 'txt', ''),
+              ('Acumulador (Domínio)', 30, 'acumulador', ''), ('Conta contábil (Domínio)', 14, 'conta', ''),
+              ('Conferência', 26, 'conferencia', ''), ('Vai no TXT?', 22, 'txt', ''),
               ('Observação', 30, 'obs', ''), ('Chave', 46, 'chave', '')]
 
 
@@ -229,16 +231,32 @@ def _analise(a, cred, forn, xml_cte, sieg_cte, xml_nfse, sieg_prod, rel_nfse, l_
     sp.ctes(xml_cte, sieg_cte, cred)
     num = lambda v: float(v.replace(',', '.')) if v else 0.0
     no_txt = {}
+    desc = {k: v.get('descricao', '') for k, v in a.cfg.get('acumuladores_entrada', {}).items() if isinstance(v, dict)}
+    desc_cod = {v['codigo']: v.get('descricao', '') for v in a.cfg.get('acumuladores_entrada', {}).values() if isinstance(v, dict) and v.get('codigo')}
+    acum_txt = {}
     for b in sp.c:
         p = b[0] if isinstance(b[0], list) else b
+        cods = list(dict.fromkeys(x[11] for x in (b if isinstance(b[0], list) else []) if x[0] == 'C170'))
+        if cods:
+            acum_txt[p[8]] = ' / '.join(f'{c} - {desc_cod.get(c, "")[:30]}' for c in cods)
         if p[5] == '00':
             no_txt[p[8]] = {'txt_bc': num(p[20]), 'txt_icms': num(p[21]), 'txt_ipi': num(p[24]), 'txt_pis': num(p[25]), 'txt_cof': num(p[26])}
         elif p[5] == '02':
             no_txt[p[8]] = {'cancelada': True}
     for b in sp.d:
         p = b[0]
+        if len(b) > 1:
+            cf = b[1][2]
+            ac = (a.cfg.get('acumuladores_entrada', {}).get(cf) or {}).get('codigo', '')
+            acum_txt[p[9]] = f'{ac} - {desc.get(cf, "")[:30]}' if ac else ''
         no_txt[p[9]] = {'txt_bc': num(p[18]) if p[5] == '00' else 0.0, 'txt_icms': num(p[19]) if p[5] == '00' else 0.0, 'cancelada': p[5] == '02'}
     for r in l_nfe + l_cte:
+        if r['chave'] in acum_txt:
+            r['acumulador'] = acum_txt[r['chave']]
+        elif r['tipo'] == 'CT-e' and r.get('situacao') != 'Cancelado':
+            cf = {'5': '1', '6': '2'}.get(str(r['cfop'])[:1], '') + str(r['cfop'])[1:]
+            ac = (a.cfg.get('acumuladores_entrada', {}).get(cf) or {}).get('codigo', '')
+            r['acumulador'] = f'{ac} - {desc.get(cf, "")[:30]} (quando vier o XML)' if ac else ''
         t = no_txt.get(r['chave'])
         if t is None:
             r['txt'] = ('Não - cancelado (sem XML na pasta)' if r.get('situacao') == 'Cancelado' else
