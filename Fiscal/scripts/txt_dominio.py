@@ -132,7 +132,7 @@ def _rateio(total, pesos):
     return partes
 
 
-def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=()):
+def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=(), somente=()):
     R = res['regras']
     K = R.cnpj
     comp = res['competencia']
@@ -172,6 +172,8 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=()):
 
     def nfe(n, oper, emit, cod_p, info, cancel, rotulo, nome):
         if str(n['numero']).lstrip('0') in excluir:      # vai pelo XML à parte, fora do TXT
+            return
+        if somente and str(n['numero']).lstrip('0') not in somente:   # TXT de correção: só as notas pedidas
             return
         if cancel and canc_fora:
             manual.append((rotulo, n['numero'], nome, n['chave'], dt(n['dt_emissao']),
@@ -259,6 +261,12 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=()):
                 bc, aliq = it['vBC_ICMS'], it['pICMS']
             else:
                 bc, aliq = Z, Z
+            # o Domínio recalcula base x alíquota: os dois têm de fechar com o ICMS realmente creditável
+            if cred and bc and aliq and abs((bc * aliq / 100).quantize(Decimal('0.01')) - cred) > Decimal('0.02'):
+                if it['vCredICMSSN'] and not it['vICMS']:     # Simples: o crédito foi calculado sobre outra base
+                    bc = (cred * 100 / aliq).quantize(Decimal('0.01'))
+                else:                                          # diferimento parcial (CST 51) etc.: alíquota efetiva
+                    aliq = (cred * 100 / bc).quantize(Decimal('0.01'))
             return dict(cfop=str(c.get('CFOP sugerido') or ''), ac=str(c.get('Acum. sugerido') or ''),
                         cst=_cst(it), bc=bc, aliq=aliq, icms=cred,
                         ipi=cred_ipi, ipi_cst='00' if cred_ipi else '', ipi_bc=it['vBC_IPI'], ipi_aliq=it['pIPI'],
@@ -298,7 +306,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=()):
                 n['dest_nome'])
 
     # ------------------------------------------------ inutilizadas
-    for l in res['lacunas']:
+    for l in ([] if somente else res['lacunas']):
         if not l['Situação'].startswith(('Inutilizar', 'Inutilizada')):
             continue
         m = re.search(r'(\d{4}-\d\d-\d\d|\d\d/\d\d/\d{4})', l['Situação'])
@@ -349,7 +357,7 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=()):
             m = re.search(r'(\d{44})', os.path.basename(f))
             if m and m.group(1)[20:22] == '57' and 'canc' not in f.lower():
                 xml_cte.setdefault(m.group(1), f)
-    for c in res.get('cte', []):
+    for c in ([] if somente else res.get('cte', [])):
         st = c['Status']
         if 'NÃO LANÇAR' in st.upper() or 'não lançar' in st:
             continue

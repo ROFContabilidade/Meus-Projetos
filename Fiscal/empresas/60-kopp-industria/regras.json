@@ -1024,6 +1024,14 @@
       ]
     },
     "_importar_por_xml": "Notas que podem ir pelo XML (zip à parte): gera também o TXT _SEM_NOTAS_DO_ZIP sem elas. Rosangela 10/2026: nunca duplicar — se usar o zip, importar o TXT sem essas notas.",
-    "_validado": "3ª versão do TXT de 09/2026 importada no Domínio sem erros (Rosangela, 12/10/2026)."
+    "_validado": "3ª versão do TXT de 09/2026 importada no Domínio sem erros (Rosangela, 12/10/2026).",
+    "reimportar": {
+      "2026-09": [
+        "1237",
+        "1076",
+        "2153"
+      ]
+    },
+    "_reimportar": "Notas corrigidas depois da importação: excluir no Domínio e importar o TXT _CORRECAO. 09/2026: base x alíquota não fechava com o crédito (diferimento parcial CST 51 da Indusbello e crédito do Simples da Biomedicare)."
   }
 }

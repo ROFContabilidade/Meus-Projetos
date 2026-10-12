@@ -1164,6 +1164,11 @@ def main():
         linhas, conf = txt_dominio.gerar(res, saida_t, a.txt_cabecalho, a.nfse_recebidas if com_nfse else None)
         res['txt_conf'] = conf
         txt_dominio.planilha(conf, res, saida_t.replace('.TXT', '_conferencia.xlsx'))
+        corr = {str(x) for x in R.r.get('txt_importacao', {}).get('reimportar', {}).get(comp, [])}
+        if corr:         # TXT de correção: só as notas a excluir no Domínio e importar de novo
+            saida_c = saida_t.replace('.TXT', '_CORRECAO.TXT')
+            lc, _ = txt_dominio.gerar(res, saida_c, a.txt_cabecalho, None, (), corr)
+            print(f'TXT de correção ({len(corr)} notas): {saida_c} ({len(lc)} linhas)')
         por_xml = {str(x) for x in R.r.get('txt_importacao', {}).get('importar_por_xml', {}).get(comp, [])}
         if por_xml:      # versão alternativa: sem as notas que vão pelo XML (zip à parte), para não duplicar
             saida_x = saida_t.replace('.TXT', '_SEM_NOTAS_DO_ZIP.TXT')
