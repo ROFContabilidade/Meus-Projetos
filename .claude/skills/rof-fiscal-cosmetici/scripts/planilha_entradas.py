@@ -126,7 +126,7 @@ def _aba(wb, titulo, sub, cols, linhas, fill=None, primeira=False, contar=None):
     for c, (_, _, k, tp) in enumerate(cols, 1):
         ws.cell(r, c).fill = TOT
         if tp == 'm' and ult > hr:
-            col, s = L(c), L(sit)
+            col, s = L(c), (L(sit) if sit else None)
             f = (f'=SUMPRODUCT(({s}{hr + 1}:{s}{ult}<>"Cancelada")*({s}{hr + 1}:{s}{ult}<>"Cancelado")*{col}{hr + 1}:{col}{ult})'
                  if sit else f'=SUM({col}{hr + 1}:{col}{ult})')
             x = ws.cell(r, c, f); x.font = F(bold=True); x.number_format = MOEDA

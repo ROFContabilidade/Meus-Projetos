@@ -327,6 +327,27 @@ def teste_importacao():
     print('ok SPED de importação (leiaute aceito pelo Domínio, acumulador no COD_NAT, valores = XML, uso e consumo zerado)')
 
 
+def teste_servicos():
+    """Relatório de serviços tomados: separa com e sem retenção, valores do XML, retenções somadas por tributo."""
+    import planilha_nfse
+    from openpyxl import load_workbook
+    base = {'emissao': '2026-09-10', 'competencia': '2026-09-10', 'prest_uf': 'PR', 'mun_incidencia': '4107652', 'simples': False,
+            'cod_trib_nac': '170101', 'servico': 'x', 'descricao': 'servico', 'cstat': '100', 'aliq_iss': 2.0, 'pis': 0.0, 'cofins': 0.0,
+            'tp_ret_piscofins': None, 'chave': '', 'iss_retido': 0.0, 'irrf': 0.0, 'csll': 0.0, 'inss': 0.0, 'total_ret': 0.0}
+    xs = [dict(base, numero='1', prest_cnpj='11111111000191', prest_nome='SEM RETENCAO', valor=100.0, base_iss=100.0, iss=2.0, liquido=100.0),
+          dict(base, numero='2', prest_cnpj='22222222000191', prest_nome='COM IRRF', valor=1000.0, base_iss=1000.0, iss=20.0,
+               irrf=15.0, total_ret=15.0, liquido=985.0)]
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', leitores.ler_xmls([]), {}).executar()
+    destino = os.path.join(tempfile.mkdtemp(), 's.xlsx')
+    rows, sem, com = planilha_nfse.gerar(a, xs, destino)
+    assert [x['numero'] for x in sem] == [1] and [x['numero'] for x in com] == [2] and com[0]['liquido'] == 985.0
+    wb = load_workbook(destino)
+    assert wb.sheetnames == ['Resumo', 'Todas as notas', 'Sem retenção', 'Com retenção']
+    irrf = next(r for r in wb['Resumo'].iter_rows(values_only=True) if r[0] == 'IRRF')
+    assert irrf[1] == 15.0 and 'DARF 1708' in irrf[3], irrf
+    print('ok relatório de serviços tomados (todas / sem retenção / com retenção)')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -339,3 +360,4 @@ if __name__ == '__main__':
     teste_difal_antecipacao()
     teste_contabil()
     teste_importacao()
+    teste_servicos()

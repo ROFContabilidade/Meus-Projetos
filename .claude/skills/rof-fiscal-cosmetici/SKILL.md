@@ -72,6 +72,13 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 - Em todas as abas: conta contábil do Domínio (lancamentos_contabeis), conferência com os relatórios SIEG/ABRASF e, nas NF-e, natureza, créditos de ICMS/IPI, DIFAL, antecipado e a análise de cada nota.
 - **NFS-e tomadas**: retenções do XML (ISS retido, IRRF, vRetCSLL, INSS/vRetCP, vTotalRet), em amarelo as notas com qualquer retenção. Com `tpRetPisCofins` 3, o `vRetCSLL` é o total de PIS, COFINS e CSLL retidos (4,65%), como vem no XML.
 
+## Relatório de serviços tomados - NFS-e (comando `servicos`) - MODELO
+
+`python scripts/fiscal_cosmetici.py servicos --mes AAAA-MM --pasta <pasta do mês>` (ou `--nfse-xml <XML das NFS-e> --nfse RelatorioNFS_ABRASF_*.xlsx`) → `Cosmetici/Fiscal/<AAAA-MM>/Relacao_Servicos_Tomados_Cosmetici_MM-AAAA.xlsx` + base de dados `dados/nfse_tomadas_MM-AAAA.json` (uma linha por nota, todos os campos).
+- **Resumo**: quantidade de notas, valor dos serviços, ISS do prestador, total retido e líquido (todas / sem / com retenção) e as retenções a recolher por tributo com as notas e a guia: ISS retido (guia do município), IRRF (DARF 1708), PIS/COFINS/CSLL (DARF 5952, 4,65%), INSS retido (DCTFWeb) - vencimentos informativos.
+- **Todas as notas**, **Sem retenção**, **Com retenção** (amarelo): emissão, competência, situação, prestador, CNPJ, Simples, município de incidência, código e descrição do serviço, valor, base/alíquota/ISS, ISS retido, IRRF, vRetCSLL, INSS, total retido (vTotalRet), líquido a pagar, tipo de retenção do XML, acumulador, conta contábil e conferência com o relatório ABRASF.
+- Tudo exatamente do XML (sem recálculo). Com `tpRetPisCofins` 3, o vRetCSLL é PIS+COFINS+CSLL juntos. 09/2026: 21 notas, 19 sem e 2 com retenção (Genesis IRRF 10,92; Extralab PIS/COFINS/CSLL 85,35).
+
 ## TXT de importação das notas no Domínio (comando `importacao`)
 
 `python scripts/fiscal_cosmetici.py importacao --mes AAAA-MM --pasta <pasta do mês>` (ou `--xml`, `--sieg-cte`) → `Cosmetici/Fiscal/<AAAA-MM>/IMPORTACAO_DOMINIO_MMAAAA.TXT`. É o leiaute que o Domínio aceita para importar as notas na Escrita Fiscal: SPED EFD ICMS/IPI (versão 020), igual ao arquivo aceito da Kopp Indústria (mesma quantidade de campos em cada registro - conferido no teste), cp1252, CRLF, valores com vírgula.

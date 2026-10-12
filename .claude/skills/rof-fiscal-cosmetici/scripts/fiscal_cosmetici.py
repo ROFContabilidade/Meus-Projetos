@@ -283,6 +283,23 @@ def cmd_entradas(args):
     print(f'Planilha: {destino}')
 
 
+def cmd_servicos(args):
+    """Relatório das NFS-e de serviços tomados (todas / sem retenção / com retenção) e a base de dados do mês."""
+    import planilha_nfse
+    a, _, _, rn, xn, _ = _fontes_entradas(args)
+    saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
+    os.makedirs(os.path.join(saida, 'dados'), exist_ok=True)
+    mm = f'{args.mes[5:]}-{args.mes[:4]}'
+    destino = os.path.join(saida, f'Relacao_Servicos_Tomados_Cosmetici_{mm}.xlsx')
+    rows, sem, com = planilha_nfse.gerar(a, xn, destino, rn or None, carregar('fornecedores.json', {}),
+                                         os.path.join(saida, 'dados', f'nfse_tomadas_{mm}.json'))
+    print(f'NFS-e: {len(rows)} | sem retenção: {len(sem)} | com retenção: {len(com)}')
+    for x in com:
+        print(f'  {x["numero"]} {x["emitente"][:30]} {x["vNF"]:,.2f} -> {x["tem_ret"]} retido {x["total_ret"]:,.2f} líquido {x["liquido"]:,.2f}')
+    print(f'Planilha: {destino}')
+    return rows
+
+
 def cmd_contabil(args):
     """Lançamentos contábeis das entradas no leiaute TXT do Domínio (rascunho para conferência)."""
     import lancamentos_contabeis as lc
@@ -396,6 +413,13 @@ def main(argv=None):
     for arg in ('--xml', '--sieg-produtos', '--sieg-cte', '--nfse', '--nfse-xml'):
         en.add_argument(arg, nargs='*')
     en.set_defaults(func=cmd_entradas)
+    sv = sub.add_parser('servicos', help='relatório das NFS-e de serviços tomados (todas, sem retenção, com retenção)')
+    for arg in ('--pasta', '--saida'):
+        sv.add_argument(arg)
+    sv.add_argument('--mes', required=True)
+    for arg in ('--xml', '--sieg-produtos', '--sieg-cte', '--nfse', '--nfse-xml'):
+        sv.add_argument(arg, nargs='*')
+    sv.set_defaults(func=cmd_servicos)
     co = sub.add_parser('contabil', help='lançamentos contábeis das entradas (TXT Domínio |0000|/|6000|/|6100|), rascunho')
     for arg in ('--pasta', '--saida'):
         co.add_argument(arg)
