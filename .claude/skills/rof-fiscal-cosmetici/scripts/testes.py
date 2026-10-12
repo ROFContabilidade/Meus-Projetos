@@ -345,7 +345,20 @@ def teste_servicos():
     assert wb.sheetnames == ['Todas as notas', 'Com retenção', 'Sem retenção']
     irrf = next(r for r in wb['Com retenção'].iter_rows(values_only=True) if str(r[0]).startswith('IRRF'))
     assert 'DARF 1708' in irrf[0] and irrf[3] == '=SUM(J5:J5)', irrf
-    print('ok relatório de serviços tomados (todas / sem retenção / com retenção)')
+    # conferência obrigatória com o XML: acha divergência entre a planilha e o XML
+    d = tempfile.mkdtemp()
+    modelo = ('<NFSe xmlns="http://www.sped.fazenda.gov.br/nfse"><infNFSe><nNFSe>{n}</nNFSe><emit><CNPJ>{c}</CNPJ></emit>'
+              '<valores><vISSQN>{iss}</vISSQN><vTotalRet>{ret}</vTotalRet><vLiq>{liq}</vLiq></valores><DPS><infDPS><valores>'
+              '<vServPrest><vServ>{v}</vServ></vServPrest><trib><tribMun><tpRetISSQN>1</tpRetISSQN></tribMun><tribFed>{fed}</tribFed>'
+              '</trib></valores></infDPS></DPS></infNFSe></NFSe>')
+    arqs = []
+    for n, c, v, iss, ret, liq, fed in (('1', '11111111000191', '100.00', '2.00', '0.00', '100.00', ''),
+                                         ('2', '22222222000191', '1000.00', '20.00', '15.00', '980.00', '<vRetIRRF>15.00</vRetIRRF>')):
+        arqs.append(os.path.join(d, f'{n}.xml'))
+        open(arqs[-1], 'w').write(modelo.format(n=n, c=c, v=v, iss=iss, ret=ret, liq=liq, fed=fed))
+    notas, campos, dif = planilha_nfse.auditar_xml(destino, arqs)
+    assert notas == 2 and campos == 18 and dif == ['NFS-e 2 Líquido a pagar: planilha 985 x XML 980.0'], dif
+    print('ok relatório de serviços tomados (todas / com / sem retenção) e conferência com o XML')
 
 
 def teste_cte_so_tomadora():

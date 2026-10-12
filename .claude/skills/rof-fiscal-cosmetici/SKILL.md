@@ -7,6 +7,8 @@ description: "COSMETICI INDUSTRIA E COMERCIO DE COSMETICOS (CNPJ 33.039.048/0001
 
 > **Regra de ouro:** nada é corrigido nas notas de entrada nem de saída. Lê-se o XML e escritura-se exatamente o que está nele
 
+**Regra da usuária - conferência em DUAS etapas, em todo relatório:** 1) conferir cada valor contra o **XML** (a fonte - relido de forma independente, campo a campo); 2) só depois **cruzar com os relatórios da pasta** (SIEG, ABRASF, ERP), que **podem ter erro** - divergência do relatório é apontada, nunca copiada. Automático em: `servicos` (auditar_xml: 189 campos em 09/2026 + cruzamento ABRASF), `importacao` (auditar: TXT x XML item a item), `cruzar-entradas` e as colunas de conferência das relações de entradas e saídas. Relatório novo só é entregue depois das duas etapas.
+
 **Regra da usuária - CT-e:** só entram (nos relatórios, nos cruzamentos, nos créditos e no TXT) os CT-e em que a empresa é a **TOMADORA** do serviço (campo toma do XML / tomador do relatório SIEG). CT-e em que a empresa é só remetente ou destinatária e o tomador é outra empresa não é escriturado e não aparece em nenhuma planilha - não gastar tempo com eles.
 > (CFOP, CST, bases, impostos, retenções). Nota que deveria ter retenção e não tem → escritura sem retenção. As divergências da
 > revisão automática são só informativas e nunca alteram valores.
@@ -78,6 +80,7 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 
 `python scripts/fiscal_cosmetici.py servicos --mes AAAA-MM --pasta <pasta do mês>` (ou `--nfse-xml <XML das NFS-e> --nfse RelatorioNFS_ABRASF_*.xlsx`) → `Cosmetici/Fiscal/<AAAA-MM>/Relacao_Servicos_Tomados_Cosmetici_MM-AAAA.xlsx` + base de dados `dados/nfse_tomadas_MM-AAAA.json` (uma linha por nota, todos os campos).
 - Formato pedido pela usuária (simples e detalhado, para o analista fiscal): **1ª aba Todas as notas**, **2ª Com retenção** (com o total de cada retenção e a guia: ISS retido do município, IRRF DARF 1708, PIS/COFINS/CSLL DARF 5952, INSS DCTFWeb - até o dia 20 do mês seguinte), **3ª Sem retenção**. Colunas: emissão, nº, prestador, CNPJ, resumo do serviço, Simples, valor, ISS da nota, ISS retido, IRRF, PIS/COFINS/CSLL, INSS, total retido, líquido a pagar, retenção (Sim - qual / Não), acumulador. Totais no rodapé; nota com retenção em amarelo.
+- Ao gerar, roda as duas conferências: 1) `auditar_xml` relê cada XML (ElementTree direto) e compara valor, ISS, ISS retido, IRRF, vRetCSLL, INSS, total retido, líquido e a marcação de retenção; 2) cruzamento com o RelatorioNFS_ABRASF (coluna e resumo impresso).
 - Tudo exatamente do XML (sem recálculo). Com `tpRetPisCofins` 3, o vRetCSLL é PIS+COFINS+CSLL juntos. 09/2026: 21 notas, 19 sem e 2 com retenção (Genesis IRRF 10,92; Extralab PIS/COFINS/CSLL 85,35).
 
 ## TXT de importação das notas no Domínio (comando `importacao`)

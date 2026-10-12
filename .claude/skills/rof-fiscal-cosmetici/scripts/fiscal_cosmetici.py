@@ -294,6 +294,21 @@ def cmd_servicos(args):
     rows, sem, com = planilha_nfse.gerar(a, xn, destino, rn or None, carregar('fornecedores.json', {}),
                                          os.path.join(saida, 'dados', f'nfse_tomadas_{mm}.json'))
     print(f'NFS-e: {len(rows)} | sem retenção: {len(sem)} | com retenção: {len(com)}')
+    # regra da usuária: 1) conferir com o XML (fonte); 2) depois cruzar com os relatórios da pasta (podem ter erro)
+    caminhos = list(args.nfse_xml or [])
+    if args.pasta:
+        import glob
+        caminhos += [p for p in glob.glob(os.path.join(args.pasta, '**', '*.xml'), recursive=True)
+                     if b'sped.fazenda.gov.br/nfse' in open(p, 'rb').read(600)]
+    n, campos, dif = planilha_nfse.auditar_xml(destino, caminhos)
+    print(f'1) Conferência com o XML (releitura independente): {n} notas, {campos} campos, {len(dif)} diferenças')
+    for d in dif:
+        print('   DIFERENÇA', d)
+    if rn:
+        conf = collections.Counter('OK' if str(x['conferencia']).startswith('OK') else x['conferencia'] for x in rows)
+        print('2) Cruzamento com o relatório ABRASF da pasta:', dict(conf))
+    else:
+        print('2) Cruzamento com o relatório ABRASF: relatório não informado (--nfse) - cruzar antes de entregar')
     for x in com:
         print(f'  {x["numero"]} {x["emitente"][:30]} {x["vNF"]:,.2f} -> {x["tem_ret"]} retido {x["total_ret"]:,.2f} líquido {x["liquido"]:,.2f}')
     print(f'Planilha: {destino}')

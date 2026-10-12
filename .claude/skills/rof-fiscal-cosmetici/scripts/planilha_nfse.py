@@ -90,3 +90,52 @@ def gerar(a, xml_nfse, destino, rel_nfse=None, forn=None, base_json=None):
                        'notas': [{k: (v.isoformat() if isinstance(v, dt.date) else v) for k, v in x.items() if k != 'tipo'} for x in rows]},
                       fh, ensure_ascii=False, indent=1)
     return rows, sem, com
+
+
+def auditar_xml(planilha, caminhos_xml):
+    """Conferência obrigatória (regra da usuária): relê cada XML de NFS-e de forma INDEPENDENTE (ElementTree direto, sem o leitor
+    que monta a planilha) e compara com a aba "Todas as notas", nota a nota e campo a campo. Devolve (notas, campos, diferenças)."""
+    import xml.etree.ElementTree as ET
+    from openpyxl import load_workbook
+    num = lambda t: float(t) if t else 0.0
+    xml = {}
+    for f in caminhos_xml:
+        root = ET.parse(f).getroot()
+        tags = {}
+        for e in root.iter():
+            tags.setdefault(e.tag.split('}')[-1], e.text)
+        emit = next((e for e in root.iter() if e.tag.endswith('}emit')), None)
+        cnpj = next((c.text for c in emit if c.tag.endswith('CNPJ')), '') if emit is not None else ''
+        if not tags.get('nNFSe'):
+            continue
+        ret_iss = tags.get('tpRetISSQN') in ('2', '3')
+        xml[(cnpj, str(int(tags['nNFSe'])))] = {
+            'Valor do serviço': num(tags.get('vServ')), 'ISS da nota': num(tags.get('vISSQN')),
+            'ISS retido': num(tags.get('vISSQN')) if ret_iss else 0.0, 'IRRF retido': num(tags.get('vRetIRRF')),
+            'PIS/COFINS/CSLL retidos': num(tags.get('vRetCSLL')), 'INSS retido': num(tags.get('vRetCP')),
+            'Total retido': num(tags.get('vTotalRet')), 'Líquido a pagar': num(tags.get('vLiq')), '_ret': ret_iss or num(tags.get('vTotalRet')) > 0}
+    ws = load_workbook(planilha)['Todas as notas']
+    h = [c.value for c in ws[4]]
+    dif, n, campos, vistos = [], 0, 0, set()
+    for r in ws.iter_rows(min_row=5, values_only=True):
+        if not isinstance(r[1], int):
+            continue
+        k = (str(r[h.index('CNPJ')]).replace('.', '').replace('/', '').replace('-', ''), str(r[1]))
+        vistos.add(k)
+        n += 1
+        x = xml.get(k)
+        if not x:
+            dif.append(f'NFS-e {k[1]} ({k[0]}): não há XML na pasta')
+            continue
+        for c, v in x.items():
+            if c.startswith('_'):
+                continue
+            campos += 1
+            if abs((r[h.index(c)] or 0.0) - v) > 0.001:
+                dif.append(f'NFS-e {k[1]} {c}: planilha {r[h.index(c)]} x XML {v}')
+        campos += 1
+        if (r[h.index('Retenção')] != 'Não') != x['_ret']:
+            dif.append(f'NFS-e {k[1]}: marcação de retenção diferente do XML')
+    for k in set(xml) - vistos:
+        dif.append(f'XML da NFS-e {k[1]} ({k[0]}) não está na planilha')
+    return n, campos, dif
