@@ -106,7 +106,7 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 - C170 de entrada com CST_IPI >= 50 → tabela de entrada (regra acima) e E510 das entradas reagrupado pelo CST novo (totais conferem com o original);
 - E116 com o código de receita do ICMS próprio do PR **1015** e E250 do ICMS-ST **100099** (os usados em 07 e 08/2026). Em 09/2026 o Domínio gravou 1206 e 2204 → erros "Código inválido... Tabela de Código de Receitas da UF". **Causa no Domínio:** código de recolhimento das guias de ICMS e ICMS-ST no cadastro de impostos da empresa 25 - corrigir lá para não repetir;
 - E990, 9900 e 9999 recontados; arquivo em ISO-8859-1 com CRLF, como o original.
-09/2026: 34 erros do PVA → 32 CST do IPI + E116 + E250 corrigidos (44 linhas alteradas, resto idêntico).
+09/2026: 34 erros do PVA → 32 CST do IPI + E116 + E250 corrigidos (44 linhas alteradas, resto idêntico) - arquivo corrigido validado pela usuária no PVA sem erros (12/10/2026).
 - 09/2026: saídas = XML (180.815,24 / ICMS 16.317,95 / ST 865,16 / IPI 4.403,24); entradas 127.478,55 com os valores do XML; fora: Linares 1923 (sem acumulador) e 29 CT-e sem XML.
 - Não importar também o TXT contábil (`contabil`): a Escrita Fiscal já gera os lançamentos.
 
