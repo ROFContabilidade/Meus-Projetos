@@ -136,7 +136,9 @@ def cte(a, xml_cte, sieg_cte):
     xs = dict(xml_cte or {})
     rs = dict(sieg_cte or {})
     linhas = []
-    for ch in sorted(set(xs) | set(rs), key=lambda c: ((xs.get(c) or rs.get(c))['data'] or a.ini, c)):
+    # regra: só CT-e em que a empresa é TOMADORA do serviço; os demais não são escriturados e não entram em nenhum relatório
+    chaves = [c for c in set(xs) | set(rs) if (xs.get(c) or rs.get(c))['toma_cnpj'] == cnpj]
+    for ch in sorted(chaves, key=lambda c: ((xs.get(c) or rs.get(c))['data'] or a.ini, c)):
         x, r = xs.get(ch), rs.get(ch)
         b = x or r
         toma = (x or r)['toma_cnpj']
@@ -289,7 +291,7 @@ def gerar(a, sieg_prod, xml_cte, sieg_cte, xml_nfse, rel_nfse, destino):
          ['NF', 'Fornecedor', 'Item', 'Produto (XML)', 'CFOP', 'NCM', 'Orig/CST', 'Qtd', 'Valor produto', 'Base ICMS', '% ICMS', 'ICMS',
           'ICMS-ST', 'CST IPI', 'IPI', 'CST PIS/COF', 'PIS', 'COFINS', 'Resultado', 'Chave'],
          [8, 28, 5, 34, 6, 10, 8, 9, 11, 11, 6, 10, 9, 6, 9, 7, 9, 9, 40, 46], l_it, {9, 10, 12, 13, 15, 17, 18}, (), _cor(18))
-    _aba(wb, 'CT-e', 'XML x Relatorio_CTe (SIEG) - todos os CT-e em que a Cosmetici aparece. Amarelo = Cosmetici tomadora sem XML; cinza = tomador é outra empresa ou cancelado.',
+    _aba(wb, 'CT-e', 'XML x Relatorio_CTe (SIEG) - só os CT-e em que a Cosmetici é TOMADORA (os de outros tomadores não são escriturados e ficam fora). Amarelo = sem XML na pasta (pedir); cinza = cancelado.',
          ['CT-e', 'Série', 'Emissão', 'Transportadora', 'CNPJ', 'Trajeto', 'CFOP', 'Tomador', 'Situação', 'XML na pasta', 'Valor XML', 'Valor SIEG',
           'ICMS XML', 'ICMS SIEG', 'NF-e transportada', 'Resultado', 'Chave'],
          [10, 5, 10, 32, 16, 7, 6, 26, 10, 8, 10, 10, 9, 9, 40, 46, 46], l_cte, {11, 12, 13, 14}, {3}, _cor(15))

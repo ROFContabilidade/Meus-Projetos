@@ -348,6 +348,19 @@ def teste_servicos():
     print('ok relatório de serviços tomados (todas / sem retenção / com retenção)')
 
 
+def teste_cte_so_tomadora():
+    """Regra da usuária: CT-e em que a empresa não é tomadora não entra em nenhum relatório nem no TXT."""
+    import cruzamento_entradas as ce
+    import planilha_entradas as pe
+    a = Apuracao(copy.deepcopy(CFG), '2026-09', leitores.ler_xmls([]), {}).executar()
+    base = {'serie': '1', 'data': dt.date(2026, 9, 10), 'cfop': '6352', 'emit_cnpj': '1', 'emit_nome': 'T', 'uf_ini': 'SP', 'uf_fim': 'PR',
+            'vprest': 100.0, 'vbc': 100.0, 'picms': 12.0, 'vicms': 12.0, 'cst': '00', 'autorizada': True, 'chaves_nfe': []}
+    sieg = {'1' * 44: dict(base, chave='1' * 44, numero=1, toma_cnpj=CNPJ), '2' * 44: dict(base, chave='2' * 44, numero=2, toma_cnpj='99999999000191')}
+    assert [ln[0] for ln in ce.cte(a, {}, sieg)] == [1]
+    assert [r['numero'] for r in pe.cte(a, {}, sieg)] == [1]
+    print('ok CT-e só da tomadora nos relatórios')
+
+
 if __name__ == '__main__':
     teste_simples()
     teste_apuracao()
@@ -361,3 +374,4 @@ if __name__ == '__main__':
     teste_contabil()
     teste_importacao()
     teste_servicos()
+    teste_cte_so_tomadora()

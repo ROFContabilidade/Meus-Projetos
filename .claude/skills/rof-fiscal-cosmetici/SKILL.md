@@ -6,6 +6,8 @@ description: "COSMETICI INDUSTRIA E COMERCIO DE COSMETICOS (CNPJ 33.039.048/0001
 # ROF Contabilidade — Fiscal COSMETICI
 
 > **Regra de ouro:** nada é corrigido nas notas de entrada nem de saída. Lê-se o XML e escritura-se exatamente o que está nele
+
+**Regra da usuária - CT-e:** só entram (nos relatórios, nos cruzamentos, nos créditos e no TXT) os CT-e em que a empresa é a **TOMADORA** do serviço (campo toma do XML / tomador do relatório SIEG). CT-e em que a empresa é só remetente ou destinatária e o tomador é outra empresa não é escriturado e não aparece em nenhuma planilha - não gastar tempo com eles.
 > (CFOP, CST, bases, impostos, retenções). Nota que deveria ter retenção e não tem → escritura sem retenção. As divergências da
 > revisão automática são só informativas e nunca alteram valores.
 
