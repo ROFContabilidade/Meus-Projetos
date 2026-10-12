@@ -12,4 +12,10 @@ modo pré-importação: diz como lançar cada nota e compara com o histórico do
 - `scripts/conferencia.py` — regras + cruzamentos; `scripts/planilha.py` — planilha de saída.
 - `empresas/<cod>-<nome>/regras.json` — acumuladores e regras de finalidade da empresa (cresce a cada mês).
 
-Passo a passo: `.claude/skills/rof-fiscal-conferencia-notas/SKILL.md`.
+- `scripts/txt_dominio.py` — TXT de importação no Domínio (EFD ICMS/IPI) com todas as notas do mês.
+- `scripts/planilha_entradas.py`, `scripts/planilha_saidas.py` — planilhas para a analista.
+- `scripts/nova_empresa.py` + `empresas/_modelo-industria/` — cadastro de uma indústria nova no motor.
+
+Passo a passo: `.claude/skills/rof-fiscal-conferencia-notas/SKILL.md` (scripts),
+`.claude/skills/rof-fiscal-motor-industria/SKILL.md` (motor para indústrias) e
+`.claude/skills/rof-fiscal-kopp-industria/SKILL.md` (Kopp, piloto).

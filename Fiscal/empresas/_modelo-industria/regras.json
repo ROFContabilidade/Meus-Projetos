@@ -1,0 +1,602 @@
+{
+  "_modelo": "MODELO DE REGRAS PARA INDÚSTRIA (Lucro Presumido/Real, Domínio). Gerado a partir da Kopp Indústria (piloto, 09/2026). Use scripts/nova_empresa.py para criar a empresa. Tudo marcado com \"CONFERIR\" deve ser trocado pelos dados da nova empresa antes da 1ª rodada. Regras gerais (crédito, canceladas, TXT) já valem; o específico cresce mês a mês em _decisoes.",
+  "empresa": {
+    "codigo_dominio": 0,
+    "nome": "CONFERIR",
+    "cnpj": "CONFERIR",
+    "uf": "PR",
+    "regime": "Lucro Presumido",
+    "atividade": "CONFERIR: o que a empresa fabrica (NCM) e o que revende. É o critério do crédito: só o que entra no produto vendido (insumo, embalagem) ou é revendido com saída tributada.",
+    "aliq_interna_icms": 19.5
+  },
+  "_acumuladores": "CONFERIR: códigos do Domínio da empresa. Tirar do relatório \"Resumo por acumulador\" (PDF/Excel) e do 0400 do SPED. Os códigos abaixo são os da Kopp, só como ponto de partida.",
+  "acumuladores": {
+    "107": "COMPRA DE USO E CONS DENT EST 1.556",
+    "108": "COMPRA DE USO E CONS COM ST 1.407",
+    "113": "COMPRA P/ INDUST DENT EST - A PRAZO",
+    "116": "COMPRA P/ INDUST C ST DENT EST - A PRAZO",
+    "124": "OUTRAS ENTRADAS DENT EST - A VISTA",
+    "133": "DEVOLUÇ VEND DE PRODUÇÃ D/ EST- A VISTA",
+    "150": "DEVOLUÇÃO DE MERC. EM CONSIGNAÇÃO 1.918",
+    "154": "RETORNO DE MERC. REM. P/ IND. ENC. 1.902",
+    "155": "INDUSTRIALIZAÇAO EFET. OUT. 1.124",
+    "207": "COMPRA DE USO E CONS FORA EST - 2.556",
+    "213": "COMPRA P/ INDUST FORA EST - A PRAZO",
+    "224": "OUTRAS ENTRADAS FORA EST - A VISTA",
+    "233": "DEVOLUÇ VEND DE PRODUÇÃO F/EST - A VISTA",
+    "250": "DEVOLUÇÃO DE MERC. EM CONSIGNAÇÃO 2.918",
+    "251": "RETORNO DE MERC. PARA CONSERTO 2.916",
+    "302": "FRETE - SERV. ADQ. C/ ISS OUTRAS",
+    "304": "FRETE - SERV. ADQ. C/ ICMS A PRAZO",
+    "507": "VENDA DE PRODUTOS DENT EST - A PRAZO",
+    "508": "REVENDA DE MERCADORIA ESTADUAL 5.102",
+    "521": "REMESSA DE MERC. EM CONSIGNAÇAO 5.917",
+    "522": "OUTRAS SAIDAS 5.949",
+    "523": "REMESSA EM BONIFICAÇAO 5.910",
+    "526": "REMESSA PARA CONSERTO 5.915",
+    "607": "VENDA DE PRODUTOS FORA EST - A PRAZO",
+    "621": "REMESSA DE MERC. EM CONSIGNAÇAO 6.917",
+    "622": "OUTRAS SAIDAS INTERESTADUAL 6.949",
+    "623": "REMESSA EM BONIFICAÇAO 6.910",
+    "624": "REMESSA DE BEM POR CONT. COMODATO 6908",
+    "119": "COMPRA DE COMBUSTÍVEL/LUBRIFICANTE 2.653 (visto no SPED 06/2026)",
+    "161": "COMPRA P/ RECEBIMENTO FUTURO 1.116 (visto no SPED 06/2026)",
+    "121": "BONIFICAÇÃO E BRINDE DENT EST 1.910 (com crédito de ICMS, confirmado pela Rosangela 10/2026)",
+    "221": "BONIFICAÇÃO E BRINDE FORA EST - A VISTA",
+    "159": "RETORN DE MERC. RET. EXP. OU FEIRA 1.914"
+  },
+  "_finalidades": "INSUMO = matéria-prima, componente ou produto intermediário consumido na fabricação; EMBALAGEM = embalagem do produto vendido; FERRAMENTA = ferramenta de usinagem que se desgasta na produção; USO_CONSUMO = material de escritório, limpeza, EPI, informática, manutenção, alimentação, brindes; REVENDA = mercadoria revendida sem industrialização; ATIVO = bem do imobilizado.",
+  "_compras": "Acumuladores e CFOP por finalidade: conferir com a empresa (o crédito por finalidade é regra geral).",
+  "compras": {
+    "INSUMO": {
+      "interna": {
+        "cfop": "1101",
+        "ac": "113"
+      },
+      "interestadual": {
+        "cfop": "2101",
+        "ac": "213"
+      },
+      "credito_icms": true,
+      "credito_ipi": true
+    },
+    "EMBALAGEM": {
+      "interna": {
+        "cfop": "1101",
+        "ac": "113"
+      },
+      "interestadual": {
+        "cfop": "2101",
+        "ac": "213"
+      },
+      "credito_icms": true,
+      "credito_ipi": true
+    },
+    "FERRAMENTA": {
+      "interna": {
+        "cfop": "1101",
+        "ac": "113"
+      },
+      "interestadual": {
+        "cfop": "2101",
+        "ac": "213"
+      },
+      "credito_icms": true,
+      "credito_ipi": true,
+      "alerta": "Ferramenta de usinagem tratada como insumo (prática do escritório). Confirmar se o crédito de ICMS/IPI é aceito; muitos fiscos tratam como uso e consumo."
+    },
+    "USO_CONSUMO": {
+      "interna": {
+        "cfop": "1556",
+        "ac": "107"
+      },
+      "interestadual": {
+        "cfop": "2556",
+        "ac": "207"
+      },
+      "credito_icms": false,
+      "credito_ipi": false,
+      "difal": true
+    },
+    "REVENDA": {
+      "interna": {
+        "cfop": "1102",
+        "ac": "113"
+      },
+      "interestadual": {
+        "cfop": "2102",
+        "ac": "213"
+      },
+      "credito_icms": true,
+      "credito_ipi": false,
+      "alerta": "Não existe acumulador de compra para comercialização; 1102 entra no 113 (prática confirmada). Conta 55 (revenda), informada pela Rosangela 10/2026."
+    },
+    "ATIVO": {
+      "interna": {
+        "cfop": "1551",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2551",
+        "ac": null
+      },
+      "credito_icms": "CIAP",
+      "credito_ipi": false,
+      "difal": true
+    }
+  },
+  "compras_com_st": {
+    "INSUMO": {
+      "interna": {
+        "cfop": "1401",
+        "ac": "116"
+      },
+      "interestadual": {
+        "cfop": "2401",
+        "ac": null
+      }
+    },
+    "EMBALAGEM": {
+      "interna": {
+        "cfop": "1401",
+        "ac": "116"
+      },
+      "interestadual": {
+        "cfop": "2401",
+        "ac": null
+      }
+    },
+    "FERRAMENTA": {
+      "interna": {
+        "cfop": "1401",
+        "ac": "116"
+      },
+      "interestadual": {
+        "cfop": "2401",
+        "ac": null
+      }
+    },
+    "USO_CONSUMO": {
+      "interna": {
+        "cfop": "1407",
+        "ac": "108"
+      },
+      "interestadual": {
+        "cfop": "2407",
+        "ac": null
+      }
+    },
+    "REVENDA": {
+      "interna": {
+        "cfop": "1403",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2403",
+        "ac": null
+      }
+    }
+  },
+  "_outras_operacoes": "Operações que não são compra: a natureza vem do CFOP do fornecedor (3 últimos dígitos).",
+  "outras_operacoes": {
+    "124": {
+      "descr": "Industrialização efetuada por outra empresa",
+      "interna": {
+        "cfop": "1124",
+        "ac": "155"
+      },
+      "interestadual": {
+        "cfop": "2124",
+        "ac": null
+      }
+    },
+    "125": {
+      "descr": "Industrialização efetuada por outra empresa (merc. não transitou)",
+      "interna": {
+        "cfop": "1125",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2125",
+        "ac": null
+      }
+    },
+    "902": {
+      "descr": "Retorno de mercadoria remetida para industrialização",
+      "interna": {
+        "cfop": "1902",
+        "ac": "154"
+      },
+      "interestadual": {
+        "cfop": "2902",
+        "ac": null
+      }
+    },
+    "916": {
+      "descr": "Retorno de mercadoria remetida para conserto",
+      "interna": {
+        "cfop": "1916",
+        "ac": "151"
+      },
+      "interestadual": {
+        "cfop": "2916",
+        "ac": "251"
+      }
+    },
+    "918": {
+      "descr": "Devolução de mercadoria remetida em consignação",
+      "interna": {
+        "cfop": "1918",
+        "ac": "150"
+      },
+      "interestadual": {
+        "cfop": "2918",
+        "ac": "250"
+      }
+    },
+    "910": {
+      "descr": "Entrada em bonificação/brinde",
+      "interna": {
+        "cfop": "1910",
+        "ac": "121"
+      },
+      "interestadual": {
+        "cfop": "2910",
+        "ac": "221"
+      }
+    },
+    "915": {
+      "descr": "Entrada de mercadoria recebida para conserto",
+      "interna": {
+        "cfop": "1915",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2915",
+        "ac": null
+      }
+    },
+    "949": {
+      "descr": "Outra entrada não especificada",
+      "interna": {
+        "cfop": "1949",
+        "ac": "124"
+      },
+      "interestadual": {
+        "cfop": "2949",
+        "ac": "224"
+      }
+    },
+    "116": {
+      "descr": "Compra originada de encomenda para recebimento futuro (simples faturamento)",
+      "interna": {
+        "cfop": "1116",
+        "ac": "161"
+      },
+      "interestadual": {
+        "cfop": "2116",
+        "ac": null
+      }
+    },
+    "653": {
+      "descr": "Compra de combustível/lubrificante por consumidor final",
+      "interna": {
+        "cfop": "1653",
+        "ac": null
+      },
+      "interestadual": {
+        "cfop": "2653",
+        "ac": "119"
+      }
+    }
+  },
+  "devolucoes_proprias": {
+    "1201": {
+      "ac": "133"
+    },
+    "2201": {
+      "ac": "233"
+    },
+    "1918": {
+      "ac": "150"
+    },
+    "2918": {
+      "ac": "250"
+    },
+    "1949": {
+      "ac": "124"
+    },
+    "2949": {
+      "ac": "224"
+    },
+    "1914": {
+      "ac": "159"
+    }
+  },
+  "saidas": {
+    "5101": {
+      "ac": "507"
+    },
+    "6101": {
+      "ac": "607"
+    },
+    "5102": {
+      "ac": "508"
+    },
+    "5917": {
+      "ac": "521"
+    },
+    "6917": {
+      "ac": "621"
+    },
+    "5949": {
+      "ac": "522"
+    },
+    "6949": {
+      "ac": "622"
+    },
+    "5910": {
+      "ac": "523"
+    },
+    "6910": {
+      "ac": "623"
+    },
+    "5915": {
+      "ac": "526"
+    },
+    "6908": {
+      "ac": "624"
+    },
+    "6102": {
+      "ac": "608"
+    },
+    "5914": {
+      "ac": "631"
+    },
+    "6914": {
+      "ac": "631"
+    },
+    "5901": {
+      "ac": "530"
+    },
+    "5908": {
+      "ac": "524"
+    },
+    "6915": {
+      "ac": "626"
+    },
+    "7101": {
+      "ac": "632"
+    },
+    "5411": {
+      "ac": "525"
+    }
+  },
+  "_finalidade": "Ordem de decisão: 1) item específico (cnpj+código do produto); 2) fornecedor; 3) NCM (prefixo mais longo vence); 4) sem regra -> PENDENTE para análise.",
+  "_contas": "Conta contábil de débito da entrada. Ordem: 1) conta da regra que decidiu a finalidade; 2) histórico do razão (fornecedor -> conta mais usada, 4T2025); 3) conta padrão da finalidade.",
+  "_perfil_venda": "Quando o item comprado (capítulo 90) tem o mesmo nome do que a Kopp vende, o CFOP das saídas decide: >=70% em x102 -> REVENDA; >=70% em x101 -> INSUMO. Só vale sobre regra de NCM/fornecedor, nunca sobre regra de item ou descrição.",
+  "_servicos": "Regra do escritório: o item da LC 116 da NFS-e (ex.: 150601 = 15.06) leva a nota ao acumulador que tem esse item na descrição (\"SERVIÇOS TOMADOS 15.06\" = 815). Quando o item tem mais de um acumulador (17.01, 17.01 - IRRF, 17.01 - IRRF/CSRL...), as retenções da nota escolhem. Retenção que não cabe no acumulador do item vira alerta, nunca deixa a nota sem acumulador. Conta: natureza do serviço > razão (prestador) > padrão. retencao_esperada: itens em que tomador PJ retém IRRF 1,5% e/ou CSRF 4,65% de prestador não optante do Simples.",
+  "_cte": "CT-e: lançar SOMENTE quando a empresa é a tomadora do frete (regra do escritório, confirmada pela Rosangela 10/2026). Remetente/destinatário sem ser tomadora: não lança. Cancelado com a empresa tomadora: lança CANCELADO e zerado. CFOP de entrada x352 (indústria); 304 = frete com ICMS (crédito), 302 = frete sem ICMS.",
+  "cte": {
+    "cfop_sufixo": "352",
+    "ac_com_icms": "304",
+    "ac_sem_icms": "302"
+  },
+  "_xml_prevalece": "Regra do escritório (Rosangela 10/2026): sempre se valida conforme o XML; diferença do relatório do cliente x XML é só informativa.",
+  "xml_prevalece": true,
+  "_uso_consumo": "Regra do escritório (Rosangela 10/2026): uso e consumo (1556/1407/2556/2407), fora da atividade fim, não gera crédito: lançar com base e ICMS zerados. Uso e consumo de fora do estado gera DIFAL a recolher (base dupla PR).",
+  "_antecipado": "Regra do escritório (Rosangela 10/2026): entrada COM crédito e ICMS destacado a 4% (importado) gera ICMS antecipado de 8% sobre a BC do item. No SPED: E111 PR000080 (débito) e PR020212 (crédito) do mesmo valor — conferido em 07/2026 (2.216,43) e 08/2026 (1.933,41).",
+  "antecipado": {
+    "aliquota_origem": "4",
+    "percentual": "8",
+    "cod_debito": "PR000080",
+    "cod_credito": "PR020212"
+  },
+  "_canceladas": "Regra do escritório (Rosangela 10/2026): toda nota cancelada (entrada de terceiro, saída, devolução própria, CT-e com a Kopp tomadora) é LANÇADA com situação CANCELADA, só com participante e chave; valor contábil, base, imposto e crédito zerados. Parâmetro conferido no SPED ICMS/IPI de 07/2026 (11 saídas) e 08/2026 (4 saídas + 1 entrada própria): |C100|IND_OPER|IND_EMIT||55|02|SER|NUM|CHAVE| e o resto vazio — sem COD_PART, datas, valores, C170 nem C190 (Guia Prático: só REG, IND_OPER, IND_EMIT, COD_MOD, COD_SIT, SER, NUM_DOC e CHV_NFE).",
+  "finalidade_por_item": [],
+  "finalidade_por_fornecedor": {},
+  "finalidade_por_ncm": [
+    {
+      "prefixo": "3923",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Saco/sacola plástica de embalagem"
+    },
+    {
+      "prefixo": "4819",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Caixa de papelão para envio do produto"
+    },
+    {
+      "prefixo": "4821",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Etiqueta/rótulo que vai na embalagem do produto vendido (identificação e rastreabilidade do implante)"
+    },
+    {
+      "prefixo": "8207",
+      "finalidade": "FERRAMENTA",
+      "motivo": "Broca/fresa/macho de usinagem"
+    },
+    {
+      "prefixo": "8209",
+      "finalidade": "FERRAMENTA",
+      "motivo": "Inserto/ferramenta de metal duro"
+    },
+    {
+      "prefixo": "7318",
+      "finalidade": "FERRAMENTA",
+      "motivo": "Parafuso de fixação de ferramenta (acessório do porta-ferramenta)"
+    },
+    {
+      "prefixo": "8443",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Toner/cilindro de impressora",
+      "conta": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO"
+    },
+    {
+      "prefixo": "8471",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Peça de informática de baixo valor",
+      "conta": "364 3.2.2.04.011 MATERIAL DE ESCRITORIO"
+    },
+    {
+      "prefixo": "9608",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Canetas (brinde/escritório)"
+    },
+    {
+      "prefixo": "8421",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Filtro/refil de água",
+      "conta": "602 3.1.7.01.003 DESPESAS LABORATORIAS"
+    }
+  ],
+  "_finalidade_por_ncm": "Só NCMs genéricos de indústria (embalagem, ferramenta, limpeza, manutenção). Os NCMs do produto da empresa (matéria-prima e componentes) entram como INSUMO aqui na 1ª rodada.",
+  "finalidade_por_descricao": [
+    {
+      "contem": "LIXO",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Saco de lixo (limpeza), não é embalagem do produto"
+    },
+    {
+      "contem": "TAXA ENTREGA",
+      "finalidade": "SEGUE_NOTA",
+      "motivo": "Taxa de entrega cobrada como item: segue a finalidade dos demais itens da nota"
+    },
+    {
+      "contem": "CAFE",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Copa"
+    },
+    {
+      "contem": "COPO",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Copa"
+    },
+    {
+      "contem": "POUCH",
+      "finalidade": "EMBALAGEM",
+      "motivo": "Saco stand-up pouch para acondicionar componentes e instrumentais vendidos"
+    },
+    {
+      "contem": "CLICHE",
+      "finalidade": "USO_CONSUMO",
+      "motivo": "Clichê = ferramental de impressão da embalagem; não integra o produto"
+    }
+  ],
+  "ignorar_documentos": [],
+  "codigos_difal": [
+    "PR000081"
+  ],
+  "contas_padrao": {
+    "INSUMO": "CONFERIR (plano de contas da empresa)",
+    "EMBALAGEM": "CONFERIR (plano de contas da empresa)",
+    "FERRAMENTA": "CONFERIR (plano de contas da empresa)",
+    "USO_CONSUMO": "CONFERIR (plano de contas da empresa)",
+    "ATIVO": "CONFERIR (plano de contas da empresa)",
+    "REVENDA": "CONFERIR (plano de contas da empresa)"
+  },
+  "conta_por_fornecedor_razao": {},
+  "conta_por_ncm_limpeza": [
+    "3402",
+    "3401",
+    "3405",
+    "3808",
+    "2828",
+    "4818"
+  ],
+  "perfil_venda": {
+    "capitulos": [
+      "CONFERIR: capítulo(s) NCM do que a empresa vende"
+    ],
+    "minimo_saidas": 5,
+    "proporcao": 0.7
+  },
+  "servicos": {
+    "natureza_por_item": {
+      "04.22": {
+        "natureza": "Plano odontológico/saúde dos empregados"
+      },
+      "04.23": {
+        "natureza": "Plano de saúde dos empregados"
+      },
+      "17.09": {
+        "natureza": "Análises/laudos técnicos (controle de qualidade da produção)"
+      },
+      "30.01": {
+        "natureza": "Análises químicas (controle de qualidade da produção)"
+      },
+      "01": {
+        "natureza": "Software, TI e hospedagem"
+      },
+      "14.01": {
+        "natureza": "Manutenção de máquinas/equipamentos"
+      },
+      "14.02": {
+        "natureza": "Assistência técnica"
+      },
+      "17.25": {
+        "natureza": "Propaganda e publicidade (despesa comercial)"
+      },
+      "09.01": {
+        "natureza": "Hospedagem (viagem a trabalho)"
+      },
+      "10.09": {
+        "natureza": "Representação comercial (comissão sobre vendas)"
+      },
+      "26.01": {
+        "natureza": "Coleta e entrega de documentos/objetos"
+      },
+      "17.14": {
+        "natureza": "Advocacia"
+      },
+      "17.01": {
+        "natureza": "Assessoria/consultoria, fornecimento de dados"
+      },
+      "17.02": {
+        "natureza": "Apoio administrativo"
+      },
+      "07.13": {
+        "natureza": "Dedetização/higienização"
+      },
+      "11.02": {
+        "natureza": "Vigilância/monitoramento"
+      },
+      "27.01": {
+        "natureza": "Contribuição CIEE (estágio)"
+      }
+    },
+    "retencao_esperada": {
+      "17.01": "IRRF+CSRF",
+      "17.09": "IRRF+CSRF",
+      "17.14": "IRRF+CSRF",
+      "30.01": "IRRF+CSRF",
+      "14.01": "CSRF",
+      "11.02": "CSRF",
+      "17.05": "CSRF",
+      "17.25": "IRRF+CSRF (confirmar)"
+    },
+    "conta_padrao": "CONFERIR",
+    "conta_por_prestador_razao": {},
+    "_chave_prestador": "nome do prestador só com letras e espaços, sem espaços nas pontas, 20 primeiros caracteres",
+    "retencao_dispensada": {},
+    "outra_competencia": "apontar",
+    "_outra_competencia": "NFS-e de competência anterior que não foi lançada no mês dela: só apontar na planilha, não lançar (decisão Rosangela 09/2026)."
+  },
+  "confirmado_contra_historico": {},
+  "_entradas_canceladas": "Regra do escritório (Rosangela 10/2026): NF-e de fornecedor cancelada é lançada com situação CANCELADA e tudo zerado (valor contábil, base, alíquota, ICMS, IPI, crédito).",
+  "entradas_canceladas": "lancar_zerada",
+  "saidas_icms_zero_9021": "CONFERIR (só para quem vende implante 9021 isento no PR)",
+  "retorno_maior_que_remessa": "lancar_autorizadas",
+  "cbenef_aceito_cfop": [],
+  "_lacuna_sem_fonte": "Regra do escritório (Rosangela 10/2026): número da série de NF-e que não está no relatório do cliente, nem nos XML (cliente e SEFAZ), nem na lista da SEFAZ -> lançar como inutilizado (C100 COD_SIT 05), com a data das notas vizinhas. Número no relatório do cliente sem chave de acesso -> inutilizado com a data de emissão do relatório.",
+  "lacuna_sem_fonte": "inutilizar",
+  "txt_importacao": {
+    "incluir_nfse": false,
+    "_incluir_nfse": "True só se o Domínio da empresa relaciona o modelo 01 a uma espécie de serviço.",
+    "canceladas": "lancar_manual",
+    "_canceladas": "O Domínio ignora o participante de documento cancelado (COD_SIT 02): canceladas vão pelo XML.",
+    "importar_por_xml": {},
+    "reimportar": {}
+  },
+  "_decisoes": []
+}

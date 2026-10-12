@@ -102,5 +102,5 @@ acumulador da importação. NFS-e só com `txt_importacao.incluir_nfse` (Kopp: m
 contra 506 FORNECEDOR MODELO). Atualizar com o razão do período mais recente.
 
 ## Nova empresa
-Copiar `regras.json` da Kopp, trocar `empresa`, `acumuladores` (tirar do relatório "Resumo por acumulador"
-e do 0400 do SPED), `devolucoes_proprias`, `saidas` e zerar fornecedores/NCM específicos.
+Indústria: seguir a skill `rof-fiscal-motor-industria` (`scripts/nova_empresa.py` cria a pasta e o regras.json a partir de
+`empresas/_modelo-industria/`). Empresa já em produção: ver a skill dela (Kopp: `rof-fiscal-kopp-industria`).
