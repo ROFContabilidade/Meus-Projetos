@@ -971,7 +971,8 @@
     "13/10/2026: manter acumuladores atuais; contabilização pela conta do acumulador no Domínio (sem acumulador por conta)",
     "13/10/2026: Kopp confirmou que 64283 e 64393 (pedido no ERP sem NF-e autorizada) são numerações inutilizadas: mantidas no TXT como COD_SIT 05, sem pendência.",
     "13/10/2026: TXT fiel ao XML (sem recalcular base/alíquota); conferência item a item TXT x XML",
-    "13/10/2026: Rosangela conferiu no Domínio a 2153 (Biomedicare, Simples CSOSN 101) importada fiel ao XML: correta. Confirma que o Domínio grava o crédito do arquivo, sem recalcular."
+    "13/10/2026: Rosangela conferiu no Domínio a 2153 (Biomedicare, Simples CSOSN 101) importada fiel ao XML: correta. Confirma que o Domínio grava o crédito do arquivo, sem recalcular.",
+    "13/10/2026: 64171 e 64289 conferidas no Domínio de acordo com o XML; correção de 09/2026 dispensada."
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -1030,13 +1031,8 @@
     },
     "_importar_por_xml": "Notas que podem ir pelo XML (zip à parte): gera também o TXT _SEM_NOTAS_DO_ZIP sem elas. Rosangela 10/2026: nunca duplicar — se usar o zip, importar o TXT sem essas notas.",
     "_validado": "3ª versão do TXT de 09/2026 importada no Domínio sem erros (Rosangela, 12/10/2026).",
-    "reimportar": {
-      "2026-09": [
-        "64171",
-        "64289"
-      ]
-    },
-    "_reimportar": "Notas corrigidas depois da importação: excluir no Domínio e importar o TXT _CORRECAO. 09/2026: só 64171 e 64289 (faltava o DIFAL, C101). 1237, 1076 e 2153 voltaram a ir exatamente como no XML (igual à 1ª importação).",
+    "reimportar": {},
+    "_reimportar": "09/2026 encerrado: Rosangela conferiu 1237, 1076, 2153, 64171 e 64289 no Domínio de acordo com o XML (13/10/2026); nenhuma reimportação.",
     "ipi_base_sem_valor": "informar",
     "_ipi_base_sem_valor": "Fidelidade ao XML: item com base de IPI e IPI zero leva a base (CST 49 na entrada). Exige o IPI (imposto 2) vinculado no acumulador da nota (09/2026: 107, 151, 155), senão o Domínio recusa a nota. \"omitir\" = não levar a base."
   },

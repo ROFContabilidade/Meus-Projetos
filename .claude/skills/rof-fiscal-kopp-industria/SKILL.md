@@ -72,7 +72,6 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - Série 2 do ERP (09/2026: 51 documentos, R$ 259.970,85, "cliente retira", sem NF-e): resposta da Kopp.
 - Estojos Indusbello entram como 1101 (insumo); confirmar se a Kopp só revende (seria 1102).
 - Biomedicare 2140 + 2154 devolvem mais do que a remessa 64068: lançadas (autorizadas).
-- Correção 09/2026: só 64171 e 64289 (DIFAL) — excluir e reimportar pelo `_CORRECAO.TXT`.
 
 ## Histórico do TXT
 09/2026: canceladas importadas pelo zip de XML (nota + evento 110111) sem problema — confirmado pela Rosangela.
