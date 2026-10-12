@@ -598,5 +598,7 @@
     "importar_por_xml": {},
     "reimportar": {}
   },
-  "_decisoes": []
+  "_decisoes": [],
+  "_acumulador_por_conta": "O Domínio gera o lançamento contábil da nota pela conta do ACUMULADOR (guia Contabilidade > Notas) e ignora o COD_CTA do item no TXT (confirmado pela Rosangela 13/10/2026 na nota Concorde 1102015). Para cada acumulador que junta contas diferentes, criar no Domínio um acumulador por conta e informar aqui: {\"acumulador_base\": {\"código da conta\": \"acumulador novo\"}}.",
+  "acumulador_por_conta": {}
 }

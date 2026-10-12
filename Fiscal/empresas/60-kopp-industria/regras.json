@@ -966,7 +966,8 @@
     "10/2026: canceladas (entradas, saídas, devoluções, CT-e tomado) lançadas zeradas com participante e chave",
     "10/2026: NFS-e fora do TXT de importação (modelo 01 sem espécie no Domínio da Kopp)",
     "10/2026: canceladas fora do TXT (Domínio troca o participante); lançar à mão pela lista",
-    "12/10/2026: TXT de importação 09/2026 aceito pelo Domínio sem erros"
+    "12/10/2026: TXT de importação 09/2026 aceito pelo Domínio sem erros",
+    "13/10/2026: Domínio contabiliza pela conta do acumulador; criar acumulador por conta (acumulador_por_conta)"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -1035,5 +1036,12 @@
       ]
     },
     "_reimportar": "Notas corrigidas depois da importação: excluir no Domínio e importar o TXT _CORRECAO. 09/2026: base x alíquota não fechava com o crédito (diferimento parcial CST 51 da Indusbello e crédito do Simples da Biomedicare). 64171 e 64289: saídas a consumidor final de outra UF, faltava o DIFAL (C101)."
+  },
+  "_acumulador_por_conta": "O Domínio gera o lançamento contábil da nota pela conta do ACUMULADOR (guia Contabilidade > Notas) e ignora o COD_CTA do item no TXT (confirmado pela Rosangela 13/10/2026 na nota Concorde 1102015). Para cada acumulador que junta contas diferentes, criar no Domínio um acumulador por conta e informar aqui: {\"acumulador_base\": {\"código da conta\": \"acumulador novo\"}}. Em 09/2026: 107 (58, 604, 602, 360, 521, 364), 108 (360, 604), 113 (55, 56, 606), 213 (606, 56).",
+  "acumulador_por_conta": {
+    "107": {},
+    "108": {},
+    "113": {},
+    "213": {}
   }
 }

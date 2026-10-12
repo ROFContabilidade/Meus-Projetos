@@ -149,6 +149,17 @@ class Regras:
         return None
 
     def classificar_entrada(self, nota, item):
+        """Classifica o item e, se a empresa tiver acumulador próprio para a conta contábil do item
+        (`acumulador_por_conta`), troca o acumulador: o Domínio contabiliza a nota pela conta do acumulador,
+        não pela conta informada no item do TXT."""
+        out = self._classificar_entrada(nota, item)
+        mapa = self.r.get('acumulador_por_conta', {}).get(str(out.get('ac') or ''), {})
+        cod = re.match(r'\s*(\d+)', str(out.get('conta') or ''))
+        if mapa and cod and mapa.get(cod.group(1)):
+            out['ac_base'], out['ac'] = out['ac'], mapa[cod.group(1)]
+        return out
+
+    def _classificar_entrada(self, nota, item):
         """Finalidade, CFOP/acumulador sugeridos e créditos de um item de compra."""
         suf = item['CFOP'][1:]
         escopo = 'interna' if nota['emit_uf'] == self.uf else 'interestadual'

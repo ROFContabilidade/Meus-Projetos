@@ -83,6 +83,7 @@ Leiaute EFD ICMS/IPI (latin-1, CRLF), modelo aceito = EFD da Ectas 08/2026. Erro
 | Valor do ICMS difere (diferença = IPI) | venda a consumidor final com IPI na base do ICMS | não há campo no leiaute: ajustar acumulador ou subir pelo XML |
 | CFOP inválido para o estado / fora do estado | cadastro antigo do participante no Domínio | corrigir a UF do cadastro (o XML está certo) |
 | O imposto 1 não está relacionado no acumulador | acumulador sem ICMS (mesmo com ICMS zero o C190 grava isentas/outras) | vincular ICMS ao acumulador no Domínio |
+| Lançamento contábil na conta errada (ignora o COD_CTA) | o Domínio contabiliza a nota pela conta do ACUMULADOR (Contabilidade > Notas) | um acumulador por conta + `acumulador_por_conta`; depois Utilitários > regerar lançamentos |
 | Crédito "estranho" depois de importar | Domínio recalcula base x alíquota | base x alíquota = ICMS em todo C170 (alíquota efetiva no diferimento; base = crédito/pCredSN no Simples) |
 Outras: COD_NAT do C170 = código do acumulador (0400 com o nome); COD_CTA = conta reduzida; D100 (CT-e) não leva
 acumulador — vale CFOP x acumulador da importação; venda a consumidor final de outra UF leva C101 (DIFAL);

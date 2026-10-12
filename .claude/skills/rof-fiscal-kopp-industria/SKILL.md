@@ -61,6 +61,8 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - NFS-e de outra competência: só apontar, não lançar.
 
 ## Pontos em aberto (atualizar a cada mês)
+- Acumuladores por conta (13/10/2026): criar no Domínio os da planilha `Acumuladores_por_conta_Kopp.xlsx` e preencher
+  `acumulador_por_conta` no regras.json (107: 58/604/602/360/521/364 · 108: 360/604 · 113: 55/56/606 · 213: 606/56).
 - Série 2 do ERP (09/2026: 51 documentos, R$ 259.970,85, "cliente retira", sem NF-e): resposta da Kopp.
 - 64283 (venda PIX R$ 4.088,60, cliente com documento "ME95466") e 64393 (bonificação R$ 12.607,00): pedido no ERP sem
   NF-e autorizada — confirmar se a mercadoria saiu e se os números foram inutilizados na SEFAZ (relatório PDF entregue).
