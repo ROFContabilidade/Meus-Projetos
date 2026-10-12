@@ -31,6 +31,10 @@ from apuracao import Apuracao, faturamento_sped  # noqa: E402
 
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..', '..', '..'))
 CONFIG = os.path.join(RAIZ, 'Cosmetici', 'Fiscal', 'config')
+if not os.path.isdir(CONFIG):
+    # skill instalada fora do repositório Meus-Projetos: usa a configuração que vai dentro do pacote e grava a saída na pasta atual
+    CONFIG = os.path.join(AQUI, '..', 'config')
+    RAIZ = os.getcwd()
 
 
 def carregar(nome, padrao=None):

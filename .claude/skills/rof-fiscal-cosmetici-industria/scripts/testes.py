@@ -12,7 +12,10 @@ import leitores  # noqa: E402
 import txt_dominio  # noqa: E402
 from apuracao import Apuracao  # noqa: E402
 
-CFG = json.load(open(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'Cosmetici', 'Fiscal', 'config', 'cosmetici.json'), encoding='utf-8'))
+_CFG = os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'Cosmetici', 'Fiscal', 'config', 'cosmetici.json')
+if not os.path.exists(_CFG):
+    _CFG = os.path.join(os.path.dirname(__file__), '..', 'config', 'cosmetici.json')
+CFG = json.load(open(_CFG, encoding='utf-8'))
 CNPJ = CFG['empresa']['cnpj']
 
 

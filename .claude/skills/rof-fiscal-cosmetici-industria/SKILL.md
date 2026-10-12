@@ -1,9 +1,11 @@
 ---
-name: "rof-fiscal-cosmetici"
-description: "COSMETICI INDUSTRIA E COMERCIO DE COSMETICOS (CNPJ 33.039.048/0001-62, empresa 25 no Domínio, Lucro Presumido, indústria de cosméticos - PR): automação fiscal do mês. Lê os XML de NF-e/CT-e (ou os relatórios SIEG) e o SPED, apura PIS/COFINS (0,65%/3% + monofásico 2,2%/10,3%), IRPJ/CSLL trimestral, ICMS, ICMS-ST e IPI, confere os XML e entrega a planilha Apuracao_Fiscal_Cosmetici_MM-AAAA.xlsx e o TXT de provisões para o Domínio. Também tem a rotina de organizar a pasta fiscal do mês. Usar quando falarem em fiscal/apuração/impostos/guias/DARF/SPED/XML/faturamento da Cosmetici."
+name: "rof-fiscal-cosmetici-industria"
+description: "COSMETICI INDÚSTRIA (COSMETICI INDUSTRIA E COMERCIO DE COSMETICOS, CNPJ 33.039.048/0001-62, empresa 25 no Domínio, Lucro Presumido, indústria de cosméticos - PR): fechamento fiscal do mês a partir dos XML. Relações de notas de saída e de entrada (dentro/fora do estado, CT-e só da tomadora, NFS-e com e sem retenção) com acumulador e conta do Domínio, conferência com o XML e cruzamento com os relatórios SIEG/ABRASF/ERP, créditos (insumo x uso e consumo, Simples, CT-e), DIFAL, ICMS antecipado de importado 4%, TXT de importação das notas no Domínio (SPED EFD), lançamentos contábeis, apuração de PIS/COFINS, IRPJ/CSLL, ICMS, ST e IPI. Usar quando falarem em fiscal/apuração/notas/XML/TXT/acumuladores/serviços tomados/retenções/SPED/guias da Cosmetici."
 ---
 
-# ROF Contabilidade — Fiscal COSMETICI
+# ROF Contabilidade — Fiscal COSMETICI INDÚSTRIA
+
+> Instalação: no repositório Meus-Projetos a configuração fica em `Cosmetici/Fiscal/config/` e as saídas em `Cosmetici/Fiscal/AAAA-MM/`. Instalada sozinha (pacote `rof-fiscal-cosmetici-industria.zip`), usa `config/` de dentro da skill (acumuladores, contas, fornecedores aprendidos, cabeçalho do SPED) e grava as saídas na pasta atual.
 
 > **Regra de ouro:** nada é corrigido nas notas de entrada nem de saída. Lê-se o XML e escritura-se exatamente o que está nele
 
