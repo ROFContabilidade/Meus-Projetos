@@ -1159,7 +1159,9 @@ def main():
     if a.txt_cabecalho:
         import txt_dominio
         saida_t = os.path.join(os.path.dirname(saida_e) or '.', f'IMPORTACAO_DOMINIO_{comp[5:]}{comp[:4]}.TXT')
-        linhas, conf = txt_dominio.gerar(res, saida_t, a.txt_cabecalho, a.nfse_recebidas)
+        # NFS-e só entram no TXT se a empresa tiver o modelo 01 relacionado a uma espécie no Domínio
+        com_nfse = R.r.get('txt_importacao', {}).get('incluir_nfse', False) if (R := res['regras']) else False
+        linhas, conf = txt_dominio.gerar(res, saida_t, a.txt_cabecalho, a.nfse_recebidas if com_nfse else None)
         res['txt_conf'] = conf
         txt_dominio.planilha(conf, res, saida_t.replace('.TXT', '_conferencia.xlsx'))
         print(f'TXT de importação: {saida_t} ({len(linhas)} linhas)')
