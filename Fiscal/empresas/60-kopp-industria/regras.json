@@ -1029,9 +1029,11 @@
       "2026-09": [
         "1237",
         "1076",
-        "2153"
+        "2153",
+        "64171",
+        "64289"
       ]
     },
-    "_reimportar": "Notas corrigidas depois da importação: excluir no Domínio e importar o TXT _CORRECAO. 09/2026: base x alíquota não fechava com o crédito (diferimento parcial CST 51 da Indusbello e crédito do Simples da Biomedicare)."
+    "_reimportar": "Notas corrigidas depois da importação: excluir no Domínio e importar o TXT _CORRECAO. 09/2026: base x alíquota não fechava com o crédito (diferimento parcial CST 51 da Indusbello e crédito do Simples da Biomedicare). 64171 e 64289: saídas a consumidor final de outra UF, faltava o DIFAL (C101)."
   }
 }

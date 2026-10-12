@@ -78,6 +78,9 @@ e PR020212 (crédito) do mesmo valor (regra `antecipado` em regras.json).
 
 ## TXT de importação no Domínio
 Formato validado: importado sem erros na Kopp 09/2026 (12/10/2026).
+Base x alíquota de cada C170 tem de fechar com o ICMS (o Domínio recalcula): diferimento parcial (CST 51) vai com a
+alíquota efetiva e crédito do Simples com a base = crédito / pCredSN. Venda a consumidor final de outra UF leva C101
+(DIFAL). Notas corrigidas depois da importação: `txt_importacao.reimportar` gera o TXT _CORRECAO só com elas.
 `--txt-cabecalho <SPED anterior da empresa>` gera `IMPORTACAO_DOMINIO_MMAAAA.TXT` (EFD ICMS/IPI, latin-1, CRLF) com
 TODAS as notas do mês e a planilha `_conferencia.xlsx`. Modelo aceito pelo Domínio: EFD da Ectas 08/2026 —
 COD_PART = CNPJ, série sem zeros, contadores com 9 dígitos, NFS-e tomada = C100 modelo 01 com CFOP 1933/2933

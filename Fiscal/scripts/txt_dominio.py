@@ -232,6 +232,9 @@ def gerar(res, saida, cabecalho, nfse_planilha=None, excluir=(), somente=()):
                        v(0 if cancel else n['t_vBCST']), v(tot['st']), v(tot['ipi']),
                        v(0 if cancel or emit == '1' else n['t_vPIS']), v(0 if cancel or emit == '1' else n['t_vCOFINS']),
                        v(0), v(0)))
+        if not cancel and oper == '1' and (n['t_vICMSUFDest'] or n['t_vFCPUFDest']):
+            # DIFAL da venda a consumidor final de outra UF (EC 87/15), como no modelo: C101
+            C.append(linha('C101', v(n['t_vFCPUFDest']), v(n['t_vICMSUFDest']), v(0)))
         C.extend(linhas_it)
         for (cst, cfop, aliq), g in sorted(grupos.items()):
             C.append(linha('C190', cst, cfop, v(aliq), v(g['opr']), v(g['bc']), v(g['icms']), v(g['bcst']),
