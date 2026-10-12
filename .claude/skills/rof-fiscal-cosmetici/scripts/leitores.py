@@ -508,3 +508,39 @@ def ler_registro_saidas_erp(caminho_ou_texto):
     for m in re.finditer(r'NF \d+ (\d+) (\d{1,2}) ([A-Z]{2}) NOTA FISCAL CANCELADA', txt):
         out.append({'numero': int(m.group(1)), 'dia': int(m.group(2)), 'uf': m.group(3), 'cancelada': True, 'vc': 0.0, 'cfop': None})
     return out
+
+
+NS_NFSE = '{http://www.sped.fazenda.gov.br/nfse}'
+
+
+def ler_nfse_nacional(caminho_ou_bytes, origem=''):
+    """NFS-e padrão nacional (NFSe versão 1.x) -> dicionário com os valores exatamente como estão no XML."""
+    b = caminho_ou_bytes if isinstance(caminho_ou_bytes, bytes) else open(caminho_ou_bytes, 'rb').read()
+    root = ET.fromstring(b)
+    inf = root.find(f'.//{NS_NFSE}infNFSe')
+    if inf is None:
+        return None
+    t = lambda p, el=inf: _t(el, p, NS_NFSE)
+    v = lambda p, el=inf: _v(el, p, NS_NFSE)
+    dps = inf.find(f'{NS_NFSE}DPS/{NS_NFSE}infDPS')
+    trib = f'n:valores/n:trib'
+    op = t('n:prest/n:regTrib/n:opSimpNac', dps)
+    pc = f'{trib}/n:tribFed/n:piscofins'
+    return {
+        'origem': origem or (caminho_ou_bytes if isinstance(caminho_ou_bytes, str) else ''),
+        'chave': (inf.get('Id') or '')[3:], 'numero': t('n:nNFSe'), 'cstat': t('n:cStat'),
+        'emissao': _data(t('n:dhEmi', dps)), 'competencia': _data(t('n:dCompet', dps)),
+        'prest_cnpj': t('n:emit/n:CNPJ') or t('n:emit/n:CPF'), 'prest_nome': t('n:emit/n:xNome'), 'prest_uf': t('n:emit/n:enderNac/n:UF'),
+        'mun_prestacao': t('n:xLocPrestacao'), 'mun_incidencia': t('n:xLocIncid'),
+        'toma_cnpj': t('n:toma/n:CNPJ', dps), 'op_simples': op,
+        'simples': op in ('2', '3'), 'cod_trib_nac': t('n:serv/n:cServ/n:cTribNac', dps), 'servico': t('n:xTribNac'),
+        'descricao': (t('n:serv/n:cServ/n:xDescServ', dps) or '')[:200],
+        'valor': v('n:valores/n:vServPrest/n:vServ', dps), 'deducoes': v('n:valores/n:vDedRed/n:vDR', dps),
+        'base_iss': v('n:valores/n:vBC'), 'aliq_iss': v('n:valores/n:pAliqAplic'), 'iss': v('n:valores/n:vISSQN'),
+        'tp_ret_iss': t(f'{trib}/n:tribMun/n:tpRetISSQN', dps),
+        'iss_retido': v('n:valores/n:vISSQN') if t(f'{trib}/n:tribMun/n:tpRetISSQN', dps) in ('2', '3') else 0.0,
+        'irrf': v(f'{trib}/n:tribFed/n:vRetIRRF', dps), 'csll': v(f'{trib}/n:tribFed/n:vRetCSLL', dps),
+        'inss': v(f'{trib}/n:tribFed/n:vRetCP', dps),
+        'pis': v(f'{pc}/n:vPis', dps), 'cofins': v(f'{pc}/n:vCofins', dps), 'tp_ret_piscofins': t(f'{pc}/n:tpRetPisCofins', dps),
+        'total_ret': v('n:valores/n:vTotalRet'), 'liquido': v('n:valores/n:vLiq'),
+    }

@@ -243,6 +243,38 @@ def cmd_saidas(args):
     return rows
 
 
+def cmd_cruzar_entradas(args):
+    import glob
+    import cruzamento_entradas
+    cfg = carregar('cosmetici.json')
+    xml = list(args.xml or [])
+    prod, cte_rel = list(args.sieg_produtos or []), list(args.sieg_cte or [])
+    nfse_rel, nfse_xml = list(args.nfse or []), list(args.nfse_xml or [])
+    if args.pasta:
+        x, p, c, _ = fontes_da_pasta(args.pasta)
+        xml += [a for a in x if not a.lower().endswith('.xml') or '<NFSe' not in open(a, 'rb').read(400).decode('latin-1', 'ignore')]
+        prod += p; cte_rel += c; nfse_rel += nfse_da_pasta(args.pasta)
+        nfse_xml += [a for a in glob.glob(os.path.join(args.pasta, '**', '*.xml'), recursive=True)
+                     if b'sped.fazenda.gov.br/nfse' in open(a, 'rb').read(600)]
+    fontes = leitores.ler_xmls(xml)
+    a = Apuracao(cfg, args.mes, fontes, carregar('fornecedores.json', {})).executar()
+    sp = {}
+    for p in prod:
+        sp.update(leitores.ler_sieg_produtos(p))
+    sc = {}
+    for c in cte_rel:
+        sc.update(leitores.ler_sieg_cte(c))
+    rn = [s for p in nfse_rel for s in leitores.ler_relatorio_nfse_abrasf(p)]
+    xn = [n for n in (leitores.ler_nfse_nacional(p) for p in nfse_xml) if n]
+    saida = args.saida or os.path.join(RAIZ, 'Cosmetici', 'Fiscal', args.mes)
+    os.makedirs(saida, exist_ok=True)
+    destino = os.path.join(saida, f'Cruzamento_Entradas_Relatorios_x_XML_{args.mes[5:]}-{args.mes[:4]}.xlsx')
+    ln, lc, ls = cruzamento_entradas.gerar(a, sp, fontes['cte'], sc, xn, rn, destino)
+    for nome, lin, col in (('NF-e', ln, 18), ('CT-e', lc, 15), ('NFS-e', ls, 24)):
+        print(f'{nome}: {len(lin)} | ' + ', '.join(f'{k}: {v}' for k, v in collections.Counter(str(x[col])[:45] for x in lin).items()))
+    print(f'Planilha: {destino}')
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description='Automação fiscal COSMETICI')
     sub = p.add_subparsers(dest='cmd', required=True)
@@ -276,6 +308,16 @@ def main(argv=None):
     cr.add_argument('--registro-saidas', nargs='*', help='Registro de Saídas do ERP (Saidas Cosmetici.pdf ou .txt)')
     cr.add_argument('--saida')
     cr.set_defaults(func=cmd_creditos)
+    ce = sub.add_parser('cruzar-entradas', help='XML de NF-e/CT-e/NFS-e x relatórios SIEG (produtos, CT-e, NFS-e ABRASF)')
+    ce.add_argument('--mes', required=True)
+    ce.add_argument('--pasta')
+    ce.add_argument('--xml', nargs='*')
+    ce.add_argument('--sieg-produtos', nargs='*')
+    ce.add_argument('--sieg-cte', nargs='*')
+    ce.add_argument('--nfse', nargs='*', help='RelatorioNFS_ABRASF_*.xlsx')
+    ce.add_argument('--nfse-xml', nargs='*', help='XML das NFS-e (padrão nacional)')
+    ce.add_argument('--saida')
+    ce.set_defaults(func=cmd_cruzar_entradas)
     sa = sub.add_parser('saidas', help='relação das notas de saída do mês (XML, canceladas, inutilizadas, sugestão de importação)')
     sa.add_argument('--mes', required=True)
     sa.add_argument('--pasta')

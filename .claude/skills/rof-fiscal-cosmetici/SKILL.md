@@ -63,6 +63,11 @@ Commit/push e enviar a planilha ao usuário (SendUserFile). Não versionar XML, 
 
 `python scripts/fiscal_cosmetici.py saidas --mes AAAA-MM --pasta <pasta do mês>` → `Cosmetici/Fiscal/<AAAA-MM>/Relacao_Saidas_Cosmetici_MM-AAAA.xlsx`: uma aba, uma linha por número (autorizadas, canceladas em vermelho, inutilizadas em cinza), ordem de data de saída + número, com tudo o que está destacado no XML (produtos, desconto, frete, outras, base/ICMS, base ST/ICMS-ST, FCP-ST, IPI, PIS, COFINS, DIFAL UF destino, total), acumulador do Domínio pelo CFOP e a sugestão de importação (como está no XML / cancelada situação 02 / inutilizada situação 05). Totais só das autorizadas.
 
+## Cruzamento das entradas com os relatórios (comando `cruzar-entradas`)
+
+`python scripts/fiscal_cosmetici.py cruzar-entradas --mes AAAA-MM --pasta <pasta do mês>` (ou `--xml`, `--sieg-produtos`, `--sieg-cte`, `--nfse`, `--nfse-xml`) → `Cruzamento_Entradas_Relatorios_x_XML_MM-AAAA.xlsx`: NF-e x Relatorio_Detalhamento_Produtos (valor, ICMS, IPI, ST, nº de itens), CT-e x Relatorio_CTe (valor, base, ICMS, CFOP, tomador, cancelados, sem XML) e NFS-e (XML padrão nacional da pasta `Doc's/Recebidas`) x RelatorioNFS_ABRASF (valor, ISS, IRRF, total retido, líquido, Simples). Só compara; nada é alterado.
+- Downloads pequenos do Drive vêm embutidos na resposta (base64) e não viram arquivo: recuperar do transcript da sessão (`~/.claude/projects/<projeto>/<sessão>.jsonl` e `.../subagents/*.jsonl`, campo `"content"` com `title`) - assim o arquivo sai idêntico ao do Drive. Para muitos arquivos, baixar por um subagente e recuperar do transcript dele.
+
 ## Análise de crédito das entradas (comando `creditos`)
 
 `python scripts/fiscal_cosmetici.py creditos --mes AAAA-MM --xml <zips/pastas> --sieg-produtos Relatorio_Detalhamento_Produtos.xlsx --relatorio-erp "Faturamento Cosmetici.pdf" [--cte-json dados/cte_relatorio_sieg.json]`
