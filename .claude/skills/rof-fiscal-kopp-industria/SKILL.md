@@ -50,6 +50,10 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - Ajustes pendentes no Domínio (09/2026): vincular ICMS ao 521, 621, 159 e 302; IPI ao 522; DIFAL no 607/608.
 
 ## Decisões do escritório (Rosangela) — já estão no regras.json
+- **Formato atual mantido (13/10/2026):** a Kopp segue com os acumuladores como estão (107, 108, 113, 213...). O Domínio
+  contabiliza a nota pela conta do acumulador e ignora a conta do item (COD_CTA) do TXT; o escritório aceita assim e
+  não cria acumulador por conta. `acumulador_por_conta` fica vazio. O TXT continua mandando a conta certa por item
+  (planilhas também), para conferência ou ajuste manual quando necessário. Não oferecer de novo sem pedido.
 - Uso e consumo sem crédito: base e ICMS zerados; de fora do estado gera DIFAL. Conta de revenda: 55.
 - Crédito a 4% → ICMS antecipado 8% (E111 PR000080 / PR020212).
 - Canceladas lançadas zeradas (participante + chave), **pelo XML**; inutilizadas no TXT (COD_SIT 05).
@@ -61,8 +65,6 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - NFS-e de outra competência: só apontar, não lançar.
 
 ## Pontos em aberto (atualizar a cada mês)
-- Acumuladores por conta (13/10/2026): criar no Domínio os da planilha `Acumuladores_por_conta_Kopp.xlsx` e preencher
-  `acumulador_por_conta` no regras.json (107: 58/604/602/360/521/364 · 108: 360/604 · 113: 55/56/606 · 213: 606/56).
 - Série 2 do ERP (09/2026: 51 documentos, R$ 259.970,85, "cliente retira", sem NF-e): resposta da Kopp.
 - 64283 (venda PIX R$ 4.088,60, cliente com documento "ME95466") e 64393 (bonificação R$ 12.607,00): pedido no ERP sem
   NF-e autorizada — confirmar se a mercadoria saiu e se os números foram inutilizados na SEFAZ (relatório PDF entregue).
