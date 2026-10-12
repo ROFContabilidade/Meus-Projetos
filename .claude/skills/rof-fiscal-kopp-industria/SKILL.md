@@ -73,5 +73,6 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - Correção 09/2026: excluir no Domínio e reimportar 1237, 1076, 2153, 64171, 64289 (`_CORRECAO.TXT`).
 
 ## Histórico do TXT
+09/2026: canceladas importadas pelo zip de XML (nota + evento 110111) sem problema — confirmado pela Rosangela.
 09/2026: 3 rodadas de erro até importar sem erros (12/10/2026); depois, revisão do crédito (base x alíquota no
 diferimento e no Simples) e DIFAL das saídas (C101). Ver tabela de erros na skill do motor.
