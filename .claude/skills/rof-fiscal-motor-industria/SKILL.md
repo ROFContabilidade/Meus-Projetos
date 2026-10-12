@@ -73,6 +73,7 @@ imposto zero (CST 00 do ERP) e base de IPI com IPI zero também vão (IPI só ba
 acumulador). Únicas diferenças permitidas = regras de crédito do escritório (uso e consumo sem crédito: base/ICMS
 zerados; IPI sem crédito no custo do item), e o valor da nota nunca muda. A aba "Conferência com o XML" do
 _conferencia.xlsx compara campo a campo; qualquer "DIVERGENTE DO XML" bloqueia a entrega até ser corrigido no motor.
+Validado: nota do Simples (Kopp 2153) importada fiel ao XML ficou correta no Domínio (13/10/2026).
 IBS/CBS: o leiaute EFD ICMS/IPI aceito pelo Domínio não tem campo; ficam no XML (o Domínio lê ao importar XML).
 
 ## 5. TXT de importação no Domínio — o que aprendemos (Kopp 09/2026, aceito sem erros em 12/10/2026)

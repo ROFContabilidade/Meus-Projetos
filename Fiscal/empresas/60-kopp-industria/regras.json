@@ -970,7 +970,8 @@
     "13/10/2026: Domínio contabiliza pela conta do acumulador; criar acumulador por conta (acumulador_por_conta)",
     "13/10/2026: manter acumuladores atuais; contabilização pela conta do acumulador no Domínio (sem acumulador por conta)",
     "13/10/2026: Kopp confirmou que 64283 e 64393 (pedido no ERP sem NF-e autorizada) são numerações inutilizadas: mantidas no TXT como COD_SIT 05, sem pendência.",
-    "13/10/2026: TXT fiel ao XML (sem recalcular base/alíquota); conferência item a item TXT x XML"
+    "13/10/2026: TXT fiel ao XML (sem recalcular base/alíquota); conferência item a item TXT x XML",
+    "13/10/2026: Rosangela conferiu no Domínio a 2153 (Biomedicare, Simples CSOSN 101) importada fiel ao XML: correta. Confirma que o Domínio grava o crédito do arquivo, sem recalcular."
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
