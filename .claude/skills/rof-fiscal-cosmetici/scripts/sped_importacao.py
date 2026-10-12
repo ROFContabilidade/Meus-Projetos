@@ -50,6 +50,19 @@ def _zerar(x):
     return x
 
 
+def _credito_sn(i, l):
+    """Crédito do Simples (LC 123/06 art. 23): CSOSN 101/201/900 com pCredSN e vCredICMSSN informados no XML e compra da
+    atividade-fim (insumo/embalagem). Sem o valor no XML, ou com CSOSN 102/103/300/400/500, não há crédito."""
+    return (i.get('csosn') in ('101', '201', '900') and (i.get('vcredsn') or 0) > 0 and (i.get('pcredsn') or 0) > 0
+            and l['natureza'] == 'insumo')
+
+
+def _simples(x, i):
+    """Crédito do Simples no C170 com os campos do próprio XML: alíquota = pCredSN, ICMS = vCredICMSSN, base = valor do item."""
+    x.update(bc=R(i['vprod'] - i['vdesc']), aliq=i['pcredsn'], icms=i['vcredsn'], credito_sn=True)
+    return x
+
+
 def _xml(i):
     """Valores do item EXATAMENTE como estão no XML - nada é recalculado nem zerado (base, alíquota e valor de ICMS, com o
     diferimento do PR já aplicado pelo emitente no vICMS; ST; IPI; PIS; COFINS)."""
@@ -102,7 +115,7 @@ class Sped:
                            + [''] * 19])
             return
         t = n['tot']   # totais exatamente do XML (ICMSTot); se algum item foi zerado (uso e consumo), a soma dos C170
-        if any(x.get('zerado') for x in itens170):
+        if any(x.get('zerado') or x.get('credito_sn') for x in itens170):
             sm = lambda k: R(sum(x[k] for x in itens170))
             t = {**t, 'vBC': sm('bc'), 'vICMS': sm('icms'), 'vBCST': sm('bcst'), 'vST': sm('st'), 'vIPI': sm('ipi'),
                  'vPIS': sm('pis'), 'vCOFINS': sm('cof')}
@@ -153,7 +166,11 @@ class Sped:
                 x = {**_xml(i), 'cod': cod, 'un': un, 'cst': _cst(i), 'cfop': cf,
                      'nat': self.natureza(ac['codigo'], ac.get('descricao')),
                      'cta': contas.get((n['chave'], cf), ''), 'vc': R(l['vc'])}
-                itens.append(_zerar(x) if l['natureza'] in SEM_CREDITO else x)
+                if l['natureza'] in SEM_CREDITO:
+                    x = _zerar(x)
+                elif _credito_sn(i, l):
+                    x = _simples(x, i)
+                itens.append(x)
             self._c100('0', '0' if propria else '1', part, n, '00', itens)
         for n in self.a.canceladas:
             if not n.get('propria'):
@@ -301,7 +318,7 @@ def auditar(linhas, a, cte_xml=None, cred=None):
             atual, k = notas.get(p[8]), 0
             if atual and p[5] == '00':
                 docs += 1
-                if 'uso' in nat.get(atual['chave'], []):
+                if 'uso' in nat.get(atual['chave'], []) or any(i.get('csosn') in ('101', '201', '900') and i.get('vcredsn') for i in atual['itens']):
                     continue   # totais = soma dos itens (conferidos item a item)
                 for pos, chave in tot_c100:
                     if abs(num(p[pos]) - (atual['tot'].get(chave) or 0.0)) > 0.005:
@@ -310,6 +327,8 @@ def auditar(linhas, a, cte_xml=None, cred=None):
             i = atual['itens'][k]
             if k < len(nat.get(atual['chave'], [])) and nat[atual['chave']][k] in SEM_CREDITO:
                 i = {**i, **zeros}
+            elif k < len(nat.get(atual['chave'], [])) and _credito_sn(i, {'natureza': nat[atual['chave']][k]}):
+                i = {**i, 'vbc': R(i['vprod'] - i['vdesc']), 'picms': i['pcredsn'], 'vicms': i['vcredsn']}
             k += 1
             itens += 1
             for pos, chave in campos:
