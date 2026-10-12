@@ -24,7 +24,7 @@ COLS = [  # (título, largura, chave, moeda)
     ('FCP-ST', 8, 'vFCPST', True), ('IPI', 9, 'vIPI', True), ('PIS', 9, 'vPIS', True), ('COFINS', 9, 'vCOFINS', True),
     ('DIFAL UF destino', 9, 'vICMSUFDest', True), ('Base IBS/CBS', 11, 'ibscbs_bc', True), ('IBS', 8, 'vIBS', True),
     ('CBS', 8, 'vCBS', True), ('Total da nota', 12, 'vNF', True),
-    ('Acumulador Domínio', 22, 'acumulador', False), ('Importar no Domínio', 30, 'importar', False),
+    ('Acumulador Domínio', 22, 'acumulador', False), ('Importar no Domínio (TXT)', 30, 'importar', False),
     ('Conferência XML x Faturamento x Registro (ERP)', 30, 'conferencia', False), ('Análise (informativa - segue o XML)', 60, 'analise', False),
     ('Chave de acesso', 46, 'chave', False),
 ]

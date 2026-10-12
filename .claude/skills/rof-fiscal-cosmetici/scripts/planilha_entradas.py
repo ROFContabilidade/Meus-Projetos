@@ -161,12 +161,17 @@ COLS_NFE = [('Emissão', 10, 'data', 'd'), ('NF', 8, 'numero', ''), ('Série', 5
             ('Total da nota', 12, 'vNF', 'm'), ('Acumulador (sugestão)', 26, 'acumulador', ''),
             ('Natureza', 14, 'natureza', ''), ('Crédito ICMS', 10, 'cred_icms', 'm'), ('Crédito IPI', 9, 'cred_ipi', 'm'),
             ('DIFAL', 8, 'difal', 'm'), ('ICMS antecipado', 9, 'antecipado', 'm'), ('Conta contábil (Domínio)', 14, 'conta', ''),
-            ('Conferência XML x relatório SIEG', 26, 'conferencia', ''), ('Análise', 50, 'analise', ''), ('Chave de acesso', 46, 'chave', '')]
+            ('Conferência XML x relatório SIEG', 26, 'conferencia', ''), ('Análise', 50, 'analise', ''),
+            ('Vai no TXT?', 22, 'txt', ''), ('Base ICMS no TXT', 11, 'txt_bc', 'm'), ('ICMS no TXT', 10, 'txt_icms', 'm'),
+            ('IPI no TXT', 9, 'txt_ipi', 'm'), ('PIS no TXT', 8, 'txt_pis', 'm'), ('COFINS no TXT', 9, 'txt_cof', 'm'),
+            ('Chave de acesso', 46, 'chave', '')]
 COLS_CTE = [('Emissão', 10, 'data', 'd'), ('CT-e', 9, 'numero', ''), ('Série', 5, 'serie', ''), ('Transportadora', 32, 'emitente', ''),
             ('CNPJ', 15, 'cnpj', ''), ('Trajeto (UF)', 8, 'uf', ''), ('Situação', 10, 'situacao', ''), ('CFOP', 6, 'cfop', ''),
             ('CST', 5, 'cst', ''), ('Valor do frete', 11, 'vNF', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('% ICMS', 6, 'picms', ''),
             ('ICMS', 10, 'vICMS', 'm'), ('NF-e transportada', 22, 'nfe', ''), ('Fonte', 26, 'fonte', ''),
-            ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência XML x relatório SIEG', 30, 'conferencia', ''), ('Chave de acesso', 46, 'chave', '')]
+            ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência XML x relatório SIEG', 30, 'conferencia', ''),
+            ('Vai no TXT?', 24, 'txt', ''), ('Base ICMS no TXT', 11, 'txt_bc', 'm'), ('ICMS no TXT', 10, 'txt_icms', 'm'),
+            ('Chave de acesso', 46, 'chave', '')]
 COLS_NFSE = [('Emissão', 10, 'data', 'd'), ('NFS-e', 9, 'numero', ''), ('Prestador', 30, 'emitente', ''), ('CNPJ', 15, 'cnpj', ''),
              ('Situação', 10, 'situacao', ''), ('Simples', 7, 'simples', ''), ('Município incidência', 14, 'municipio', ''),
              ('Cód. serviço', 8, 'cod', ''), ('Serviço', 26, 'servico', ''), ('Valor', 11, 'vNF', 'm'), ('Base ISS', 10, 'base_iss', 'm'),
@@ -180,7 +185,7 @@ COLS_TODAS = [('Emissão', 10, 'data', 'd'), ('Tipo', 6, 'tipo', ''), ('Número'
               ('CNPJ', 15, 'cnpj', ''), ('UF', 6, 'uf', ''), ('Situação', 10, 'situacao', ''), ('CFOP', 9, 'cfop', ''),
               ('Valor total', 12, 'vNF', 'm'), ('Base ICMS', 11, 'vBC', 'm'), ('ICMS', 10, 'vICMS', 'm'), ('ICMS-ST', 9, 'vST', 'm'),
               ('IPI', 9, 'vIPI', 'm'), ('ISS', 9, 'iss', 'm'), ('Retenções (NFS-e)', 10, 'total_ret', 'm'),
-              ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência', 26, 'conferencia', ''),
+              ('Conta contábil (Domínio)', 14, 'conta', ''), ('Conferência', 26, 'conferencia', ''), ('Vai no TXT?', 22, 'txt', ''),
               ('Observação', 30, 'obs', ''), ('Chave', 46, 'chave', '')]
 
 
@@ -217,6 +222,35 @@ def _analise(a, cred, forn, xml_cte, sieg_cte, xml_nfse, sieg_prod, rel_nfse, l_
     for r in l_cte:
         r['conta'] = ' | '.join(conta.get(('CT-e', str(r['numero']), r['cnpj']), ['cancelado - sem lançamento'] if r['situacao'] == 'Cancelado' else []))
         r['conferencia'] = conf_cte.get(r['chave'], '')
+    # o que vai no TXT de importação (sped_importacao): uso e consumo com bases zeradas, demais exatamente do XML
+    import sped_importacao as si
+    sp = si.Sped(a)
+    sp.entradas(cred, {})
+    sp.ctes(xml_cte, sieg_cte, cred)
+    num = lambda v: float(v.replace(',', '.')) if v else 0.0
+    no_txt = {}
+    for b in sp.c:
+        p = b[0] if isinstance(b[0], list) else b
+        if p[5] == '00':
+            no_txt[p[8]] = {'txt_bc': num(p[20]), 'txt_icms': num(p[21]), 'txt_ipi': num(p[24]), 'txt_pis': num(p[25]), 'txt_cof': num(p[26])}
+        elif p[5] == '02':
+            no_txt[p[8]] = {'cancelada': True}
+    for b in sp.d:
+        p = b[0]
+        no_txt[p[9]] = {'txt_bc': num(p[18]) if p[5] == '00' else 0.0, 'txt_icms': num(p[19]) if p[5] == '00' else 0.0, 'cancelada': p[5] == '02'}
+    for r in l_nfe + l_cte:
+        t = no_txt.get(r['chave'])
+        if t is None:
+            r['txt'] = ('Não - cancelado (sem XML na pasta)' if r.get('situacao') == 'Cancelado' else
+                        'NÃO - ' + ('sem XML na pasta (pedir o XML)' if r.get('fonte', 'XML') != 'XML' else 'sem acumulador para o CFOP de entrada'))
+        elif t.get('cancelada'):
+            r['txt'] = 'Sim - cancelada (situação 02)'
+        else:
+            zerado = r.get('natureza') == 'uso' or (r['tipo'] == 'CT-e' and r.get('vICMS') and not t['txt_icms'])
+            r['txt'] = 'Sim - uso e consumo: bases zeradas' if zerado else 'Sim - exatamente o XML'
+            r.update({k: v for k, v in t.items() if k.startswith('txt_')})
+    for r in l_nfse:
+        r['txt'] = 'Não - NFS-e não entra no SPED ICMS/IPI'
     for r in l_nfse:
         r['conta'] = ' | '.join(conta.get(('NFS-e', str(r['numero']), r['cnpj']), []))
         r['conferencia'] = conf_nfse.get((r['cnpj'], str(r['numero'])), 'sem relatório ABRASF' if not rel_nfse else 'não está no relatório')
