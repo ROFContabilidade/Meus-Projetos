@@ -39,6 +39,17 @@ def _cst(i):
     return f'{i.get("orig") or "0"}{(i.get("cst_icms") or "00")[-2:]}'
 
 
+SEM_CREDITO = {'uso'}   # natureza fora da atividade-fim (uso e consumo, material fabril que não entra no cosmético)
+
+
+def _zerar(x):
+    """Compra fora da atividade-fim: mantém CST e valores da nota, zera base/alíquota/valor de ICMS, ST, IPI e PIS/COFINS
+    (CST 98), exatamente como no arquivo aceito pelo Domínio (Kopp, 1556/2556/1407)."""
+    x.update(bc=0.0, aliq=0.0, icms=0.0, bcst=0.0, aliqst=0.0, st=0.0, cst_ipi='', enq='', bcipi=0.0, aliqipi=0.0, ipi=0.0,
+             cst_pis='98', bcpis=0.0, ppis=0.0, pis=0.0, cst_cof='98', bccof=0.0, pcof=0.0, cof=0.0, zerado=True)
+    return x
+
+
 def _xml(i):
     """Valores do item EXATAMENTE como estão no XML - nada é recalculado nem zerado (base, alíquota e valor de ICMS, com o
     diferimento do PR já aplicado pelo emitente no vICMS; ST; IPI; PIS; COFINS)."""
@@ -90,7 +101,11 @@ class Sped:
             self.c.append([['C100', oper, emit, '', '55', sit, ser, str(n['numero']), n.get('chave') or '', dt8(n.get('dhemi')) if sit == '05' else '']
                            + [''] * 19])
             return
-        t = n['tot']   # totais exatamente do XML (ICMSTot)
+        t = n['tot']   # totais exatamente do XML (ICMSTot); se algum item foi zerado (uso e consumo), a soma dos C170
+        if any(x.get('zerado') for x in itens170):
+            sm = lambda k: R(sum(x[k] for x in itens170))
+            t = {**t, 'vBC': sm('bc'), 'vICMS': sm('icms'), 'vBCST': sm('bcst'), 'vST': sm('st'), 'vIPI': sm('ipi'),
+                 'vPIS': sm('pis'), 'vCOFINS': sm('cof')}
         c100 = ['C100', oper, emit, part, '55', sit, ser, str(n['numero']), n['chave'], dt8(n['dhemi']),
                 dt8(n.get('dhsaient') or n['dhemi']), m(t.get('vNF')), n.get('ind_pag') if n.get('ind_pag') in ('0', '1') else '2',
                 m(t.get('vDesc')), m(0), m(t.get('vProd')), IND_FRT.get(n.get('mod_frete') or '9', '9'), m(t.get('vFrete')),
@@ -135,9 +150,10 @@ class Sped:
                 ac = acum[cf]
                 tipo = {'insumo': '01', 'uso': '07', 'ativo': '08'}.get(l['natureza'], '99')
                 cod, un = self.item('F', n['emit_cnpj'], i, tipo)
-                itens.append({**_xml(i), 'cod': cod, 'un': un, 'cst': _cst(i), 'cfop': cf,
-                              'nat': self.natureza(ac['codigo'], ac.get('descricao')),
-                              'cta': contas.get((n['chave'], cf), ''), 'vc': R(l['vc'])})
+                x = {**_xml(i), 'cod': cod, 'un': un, 'cst': _cst(i), 'cfop': cf,
+                     'nat': self.natureza(ac['codigo'], ac.get('descricao')),
+                     'cta': contas.get((n['chave'], cf), ''), 'vc': R(l['vc'])}
+                itens.append(_zerar(x) if l['natureza'] in SEM_CREDITO else x)
             self._c100('0', '0' if propria else '1', part, n, '00', itens)
         for n in self.a.canceladas:
             if not n.get('propria'):
@@ -174,6 +190,7 @@ class Sped:
     def ctes(self, cte_xml, cte_sieg, cred):
         acum = self.a.cfg.get('acumuladores_entrada', {})
         rs = dict(cte_sieg or {})
+        credito = {c.get('chave'): c for c in cred.cte}
         for ch, x in sorted((cte_xml or {}).items(), key=lambda kv: (kv[1]['data'], kv[1]['numero'])):
             if x['toma_cnpj'] != self.a.cnpj:
                 continue
@@ -185,13 +202,16 @@ class Sped:
             part = self.participante(x['emit_cnpj'], x.get('emit_end'), x['emit_nome'])
             cf = {'5': '1', '6': '2'}.get(x['cfop'][:1], x['cfop'][:1]) + x['cfop'][1:]
             bc, icms = R(x['vbc']), R(x['vicms'])     # exatamente do XML do CT-e
+            sem_credito = ch in credito and not credito[ch].get('credito') and icms
+            if sem_credito:                           # frete de compra fora da atividade-fim: base e ICMS zerados
+                bc = icms = 0.0
             ac = acum.get(cf) or {}
             conta = (ac.get('conta') or {}).get('debito', '') if isinstance(ac.get('conta'), dict) else ''
             cst = '0' + (x.get('cst') or '00')[-2:]
             self.d.append([['D100', '0', '1', part, '57', '00', ser, '', str(x['numero']), ch, dt8(x['data']), dt8(x['data']), '0', '',
                             m(x['vprest']), m(0), '1', m(x['vprest']), m(bc), m(icms), m(0 if bc else x['vprest']), '', conta,
                             x.get('cmun_ini') or '', x.get('cmun_fim') or ''],
-                           ['D190', cst, cf, m(x['picms']), m(x['vprest']), m(bc), m(icms), m(0), '']])
+                           ['D190', cst, cf, m(0 if sem_credito else x['picms']), m(x['vprest']), m(bc), m(icms), m(0), '']])
         for ch, r in rs.items():
             if r['toma_cnpj'] == self.a.cnpj and ch not in (cte_xml or {}):
                 self.pend.append(('CT-e', r['numero'], r['emit_nome'],
@@ -258,12 +278,17 @@ def gerar(a, cred, cte_xml, cte_sieg, contas, cab, destino):
     return s, linhas
 
 
-def auditar(linhas, a, cte_xml=None):
+def auditar(linhas, a, cte_xml=None, cred=None):
     """Confere o TXT gerado contra o XML, campo a campo: cada C170 com o item do XML (CST, base, alíquota e valor de ICMS, ST, IPI,
     PIS e COFINS, quantidade, valor, desconto), cada C100 com os totais do XML e cada D100 com o XML do CT-e.
     Devolve (documentos conferidos, itens conferidos, lista de diferenças)."""
     num = lambda x: float(x.replace(',', '.')) if x else 0.0
     notas = {n['chave']: n for n in a.entradas + a.saidas}
+    nat = {}
+    for l in (cred.linhas if cred else []):
+        nat.setdefault(l['nota']['chave'], []).append(l['natureza'])
+    zeros = {'vbc': 0, 'picms': 0, 'vicms': 0, 'vbcst': 0, 'picmsst': 0, 'vst': 0, 'vbc_ipi': 0, 'pipi': 0, 'vipi': 0,
+             'vbc_pis': 0, 'ppis': 0, 'vpis': 0, 'vbc_cof': 0, 'pcof': 0, 'vcof': 0, 'cst_ipi': '', 'cst_pis': '98', 'cst_cof': '98'}
     dif, docs, itens = [], 0, 0
     atual, k = None, 0
     tot_c100 = [(11, 'vNF'), (13, 'vDesc'), (15, 'vProd'), (17, 'vFrete'), (18, 'vSeg'), (19, 'vOutro'), (20, 'vBC'), (21, 'vICMS'),
@@ -276,11 +301,15 @@ def auditar(linhas, a, cte_xml=None):
             atual, k = notas.get(p[8]), 0
             if atual and p[5] == '00':
                 docs += 1
+                if 'uso' in nat.get(atual['chave'], []):
+                    continue   # totais = soma dos itens (conferidos item a item)
                 for pos, chave in tot_c100:
                     if abs(num(p[pos]) - (atual['tot'].get(chave) or 0.0)) > 0.005:
                         dif.append(f'NF {p[7]} C100 {chave}: TXT {p[pos]} x XML {atual["tot"].get(chave)}')
         elif p[0] == 'C170' and atual:
             i = atual['itens'][k]
+            if k < len(nat.get(atual['chave'], [])) and nat[atual['chave']][k] in SEM_CREDITO:
+                i = {**i, **zeros}
             k += 1
             itens += 1
             for pos, chave in campos:
@@ -292,6 +321,8 @@ def auditar(linhas, a, cte_xml=None):
                     dif.append(f'NF {atual["numero"]} item {k} CST: TXT {p[pos]} x XML {v}')
         elif p[0] == 'D100' and p[5] == '00':
             x = (cte_xml or {}).get(p[9])
+            if x and cred and any(c.get('chave') == p[9] and not c.get('credito') for c in cred.cte) and x.get('vicms'):
+                x = {**x, 'vbc': 0.0, 'vicms': 0.0}
             docs += 1
             for pos, chave in ((14, 'vprest'), (18, 'vbc'), (19, 'vicms')):
                 if x and abs(num(p[pos]) - (x.get(chave) or 0.0)) > 0.005:

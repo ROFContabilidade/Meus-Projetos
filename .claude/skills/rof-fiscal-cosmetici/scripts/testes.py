@@ -316,9 +316,15 @@ def teste_importacao():
     c170 = [l.split('|') for l in L if l.startswith('|C170|')]
     assert c170[0][11] == '1101' and c170[0][12] == '100' and c170[0][15] == '195,00', c170[0]   # CFOP de entrada, acumulador, crédito
     assert c170[1][11] == '6101' and c170[1][12] == '201', c170[1]
-    docs, n_itens, dif = sped_importacao.auditar(L, a)
+    docs, n_itens, dif = sped_importacao.auditar(L, a, None, cred)
     assert docs == 2 and n_itens == 2 and not dif, dif
-    print('ok SPED de importação (leiaute aceito pelo Domínio, acumulador no COD_NAT, valores = XML)')
+    # compra fora da atividade-fim (uso e consumo): CST do XML, bases de ICMS/IPI/PIS zeradas, PIS/COFINS CST 98 (como a Kopp)
+    cred_uso = Credito(a, {}, [], {forn_cnpj: 'uso'}).analisar()
+    s2, L2 = sped_importacao.gerar(a, cred_uso, {}, {}, {}, CFG['sped_cabecalho'], destino)
+    e = next(l.split('|') for l in L2 if l.startswith('|C170|') and '|1556|' in l)
+    assert e[10] == '000' and e[13:16] == ['0,00', '0,00', '0,00'] and e[20] == '' and e[25] == '98' and e[31] == '98', e
+    assert not sped_importacao.auditar(L2, a, None, cred_uso)[2]
+    print('ok SPED de importação (leiaute aceito pelo Domínio, acumulador no COD_NAT, valores = XML, uso e consumo zerado)')
 
 
 if __name__ == '__main__':
