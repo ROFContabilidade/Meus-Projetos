@@ -965,7 +965,8 @@
     "10/2026: crédito a 4% -> ICMS antecipado 8% (E111 PR000080/PR020212)",
     "10/2026: canceladas (entradas, saídas, devoluções, CT-e tomado) lançadas zeradas com participante e chave",
     "10/2026: NFS-e fora do TXT de importação (modelo 01 sem espécie no Domínio da Kopp)",
-    "10/2026: canceladas fora do TXT (Domínio troca o participante); lançar à mão pela lista"
+    "10/2026: canceladas fora do TXT (Domínio troca o participante); lançar à mão pela lista",
+    "12/10/2026: TXT de importação 09/2026 aceito pelo Domínio sem erros"
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
@@ -1022,6 +1023,7 @@
         "64360"
       ]
     },
-    "_importar_por_xml": "Notas que podem ir pelo XML (zip à parte): gera também o TXT _SEM_NOTAS_DO_ZIP sem elas. Rosangela 10/2026: nunca duplicar — se usar o zip, importar o TXT sem essas notas."
+    "_importar_por_xml": "Notas que podem ir pelo XML (zip à parte): gera também o TXT _SEM_NOTAS_DO_ZIP sem elas. Rosangela 10/2026: nunca duplicar — se usar o zip, importar o TXT sem essas notas.",
+    "_validado": "3ª versão do TXT de 09/2026 importada no Domínio sem erros (Rosangela, 12/10/2026)."
   }
 }

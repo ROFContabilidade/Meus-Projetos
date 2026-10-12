@@ -77,6 +77,7 @@ Entrada com crédito e ICMS destacado a 4% (importado): antecipado de 8% sobre a
 e PR020212 (crédito) do mesmo valor (regra `antecipado` em regras.json).
 
 ## TXT de importação no Domínio
+Formato validado: importado sem erros na Kopp 09/2026 (12/10/2026).
 `--txt-cabecalho <SPED anterior da empresa>` gera `IMPORTACAO_DOMINIO_MMAAAA.TXT` (EFD ICMS/IPI, latin-1, CRLF) com
 TODAS as notas do mês e a planilha `_conferencia.xlsx`. Modelo aceito pelo Domínio: EFD da Ectas 08/2026 —
 COD_PART = CNPJ, série sem zeros, contadores com 9 dígitos, NFS-e tomada = C100 modelo 01 com CFOP 1933/2933
