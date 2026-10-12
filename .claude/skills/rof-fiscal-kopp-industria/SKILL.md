@@ -50,6 +50,8 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 - Ajustes pendentes no Domínio (09/2026): vincular ICMS ao 521, 621, 159 e 302; IPI ao 522; DIFAL no 607/608.
 
 ## Decisões do escritório (Rosangela) — já estão no regras.json
+- 64283 e 64393 (09/2026, pedido no ERP sem NF-e): a Kopp confirmou que são numerações inutilizadas. Número com
+  pedido no ERP mas sem NF-e na SEFAZ segue como inutilizada; o relatório para a Kopp serve só para confirmar.
 - **Formato atual mantido (13/10/2026):** a Kopp segue com os acumuladores como estão (107, 108, 113, 213...). O Domínio
   contabiliza a nota pela conta do acumulador e ignora a conta do item (COD_CTA) do TXT; o escritório aceita assim e
   não cria acumulador por conta. `acumulador_por_conta` fica vazio. O TXT continua mandando a conta certa por item
@@ -66,8 +68,6 @@ relatório Canceladas e inutilizadas, inutilizadas (o TXT já leva).
 
 ## Pontos em aberto (atualizar a cada mês)
 - Série 2 do ERP (09/2026: 51 documentos, R$ 259.970,85, "cliente retira", sem NF-e): resposta da Kopp.
-- 64283 (venda PIX R$ 4.088,60, cliente com documento "ME95466") e 64393 (bonificação R$ 12.607,00): pedido no ERP sem
-  NF-e autorizada — confirmar se a mercadoria saiu e se os números foram inutilizados na SEFAZ (relatório PDF entregue).
 - Estojos Indusbello entram como 1101 (insumo); confirmar se a Kopp só revende (seria 1102).
 - Biomedicare 2140 + 2154 devolvem mais do que a remessa 64068: lançadas (autorizadas).
 - Correção 09/2026: excluir no Domínio e reimportar 1237, 1076, 2153, 64171, 64289 (`_CORRECAO.TXT`).

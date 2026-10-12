@@ -968,7 +968,8 @@
     "10/2026: canceladas fora do TXT (Domínio troca o participante); lançar à mão pela lista",
     "12/10/2026: TXT de importação 09/2026 aceito pelo Domínio sem erros",
     "13/10/2026: Domínio contabiliza pela conta do acumulador; criar acumulador por conta (acumulador_por_conta)",
-    "13/10/2026: manter acumuladores atuais; contabilização pela conta do acumulador no Domínio (sem acumulador por conta)"
+    "13/10/2026: manter acumuladores atuais; contabilização pela conta do acumulador no Domínio (sem acumulador por conta)",
+    "13/10/2026: Kopp confirmou que 64283 e 64393 (pedido no ERP sem NF-e autorizada) são numerações inutilizadas: mantidas no TXT como COD_SIT 05, sem pendência."
   ],
   "_confirmado_contra_historico": "Fornecedores cuja nova classificação foi confirmada pelo escritório: não comparar mais com o histórico antigo.",
   "confirmado_contra_historico": {
