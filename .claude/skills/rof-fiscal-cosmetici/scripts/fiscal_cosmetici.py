@@ -270,7 +270,8 @@ def cmd_cruzar_entradas(args):
     os.makedirs(saida, exist_ok=True)
     destino = os.path.join(saida, f'Cruzamento_Entradas_Relatorios_x_XML_{args.mes[5:]}-{args.mes[:4]}.xlsx')
     ln, lc, ls = cruzamento_entradas.gerar(a, sp, fontes['cte'], sc, xn, rn, destino)
-    for nome, lin, col in (('NF-e', ln, 18), ('CT-e', lc, 15), ('NFS-e', ls, 24)):
+    li = cruzamento_entradas.nfe_itens(a, sp)
+    for nome, lin, col in (('NF-e', ln, 18), ('NF-e itens', li, 18), ('CT-e', lc, 15), ('NFS-e', ls, 24)):
         print(f'{nome}: {len(lin)} | ' + ', '.join(f'{k}: {v}' for k, v in collections.Counter(str(x[col])[:45] for x in lin).items()))
     print(f'Planilha: {destino}')
 

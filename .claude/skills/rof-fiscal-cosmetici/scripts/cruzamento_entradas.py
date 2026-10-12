@@ -54,6 +54,83 @@ def nfe(a, sieg):
     return linhas
 
 
+CAMPOS_ITEM = [  # (rótulo, chave, tipo) - tudo o que o Detalhamento de Produtos traz por item
+    ('CFOP', 'cfop', 'c'), ('NCM', 'ncm', 'c'), ('CEST', 'cest', 'c'), ('origem', 'orig', 'c'), ('CST ICMS', 'cst_icms', 'c'),
+    ('quantidade', 'qtd', 'q'), ('valor produto', 'vprod', 'v'), ('desconto', 'vdesc', 'v'), ('frete', 'vfrete', 'v'),
+    ('outras desp.', 'voutro', 'v'), ('base ICMS', 'vbc', 'v'), ('% ICMS', 'picms', 'v'), ('ICMS', 'vicms', 'v'),
+    ('base ST', 'vbcst', 'v'), ('ICMS-ST', 'vst', 'v'), ('CST IPI', 'cst_ipi', 'c'), ('base IPI', 'vbc_ipi', 'v'),
+    ('% IPI', 'pipi', 'v'), ('IPI', 'vipi', 'v'), ('CST PIS', 'cst_pis', 'c'), ('base PIS', 'vbc_pis', 'v'), ('PIS', 'vpis', 'v'),
+    ('CST COFINS', 'cst_cof', 'c'), ('base COFINS', 'vbc_cof', 'v'), ('COFINS', 'vcof', 'v'),
+]
+
+
+def _cod(v):
+    v = str(v if v is not None else '').strip()
+    if v.endswith('.0'):
+        v = v[:-2]
+    return v.zfill(2) if v.isdigit() and len(v) < 2 else v
+
+
+def _nome(x):
+    return ' '.join(str(x or '').upper().split())
+
+
+def _parear(ix, iss):
+    """Itens do XML x linhas do relatório (o SIEG não traz o nº do item): pela ordem quando a descrição bate, senão pela descrição e valor."""
+    if len(ix) == len(iss) and all(_nome(a['xprod']) == _nome(b['xprod']) for a, b in zip(ix, iss)):
+        return list(zip(ix, iss))
+    livres, pares = list(iss), []
+    for a in ix:
+        cand = [b for b in livres if _nome(b['xprod']) == _nome(a['xprod'])] or livres
+        b = min(cand, key=lambda b: abs((b['vprod'] or 0) - (a['vprod'] or 0))) if cand else None
+        if b is not None:
+            livres.remove(b)
+        pares.append((a, b))
+    return pares + [(None, b) for b in livres]
+
+
+def nfe_itens(a, sieg):
+    """Item a item: cada campo do Detalhamento de Produtos contra o mesmo campo do XML."""
+    rel = sieg or {}
+    linhas = []
+    for n in sorted(a.entradas, key=lambda n: (n['dhemi'], n['numero'])):
+        s = rel.get(n['chave'])
+        if not s:
+            continue
+        for x, r in _parear(n['itens'], s['itens']):
+            if x is None:
+                res = 'Item só no relatório'
+            elif r is None:
+                res = 'Item só no XML'
+            else:
+                d, obs = [], []
+                pular = set()
+                for imp, ks in (('PIS', ('cst_pis', 'vbc_pis', 'vpis')), ('COFINS', ('cst_cof', 'vbc_cof', 'vcof'))):
+                    # o SIEG não exporta o grupo PISOutr/COFINSOutr (CST 49 a 99): só aceita a ausência se o XML não tem valor
+                    if not _cod(r.get(ks[0])) and _cod(x.get(ks[0])) >= '49' and not (x.get(ks[2]) or 0) and not (r.get(ks[2]) or 0):
+                        pular |= set(ks)
+                        obs.append(f'{imp} CST {_cod(x.get(ks[0]))} sem valor (o relatório não traz esse grupo)')
+                for rot, k, t in CAMPOS_ITEM:
+                    vx, vr = x.get(k), r.get(k)
+                    if k in pular:
+                        continue
+                    if k == 'ncm':
+                        vx, vr = (str(v or '').split('.')[0].zfill(8).replace('00000000', '') for v in (vx, vr))
+                    if t == 'c':
+                        if _cod(vx) != _cod(vr) and not (k == 'cest' and not _cod(vr)):
+                            d.append(f'{rot}: XML {_cod(vx) or "-"} x relatório {_cod(vr) or "-"}')
+                    elif abs((vx or 0) - (vr or 0)) > (0.0001 if t == 'q' else 0.01):
+                        d.append(f'{rot}: XML {vx or 0:,.2f} x relatório {vr or 0:,.2f}')
+                if _nome(x['xprod']) != _nome(r['xprod']):
+                    d.append('descrição diferente')
+                res = '; '.join(d) if d else 'OK' + (f' ({"; ".join(obs)})' if obs else '')
+            b = x or r
+            linhas.append([n['numero'], n['emit_nome'], b['n_item'] if x else None, b['xprod'], b['cfop'], b['ncm'],
+                           f'{b.get("orig") or ""}/{b.get("cst_icms") or ""}', b['qtd'], b['vprod'], b['vbc'], b['picms'], b['vicms'], b['vst'],
+                           b.get('cst_ipi') or '', b['vipi'], b.get('cst_pis') or '', b['vpis'], b['vcof'], res, n['chave']])
+    return linhas
+
+
 def cte(a, xml_cte, sieg_cte):
     cnpj = a.cnpj
     xs = dict(xml_cte or {})
@@ -77,6 +154,17 @@ def cte(a, xml_cte, sieg_cte):
                 d.append(f'CFOP XML {x["cfop"]} x relatório {r["cfop"]}')
             if x['toma_cnpj'] != r['toma_cnpj']:
                 d.append(f'tomador XML {x["toma_cnpj"]} x relatório {r["toma_cnpj"]}')
+            if x['data'] != r['data']:
+                d.append(f'emissão XML {x["data"]:%d/%m/%Y} x relatório {r["data"]:%d/%m/%Y}' if x['data'] and r['data'] else 'emissão diferente')
+            if x.get('picms') is not None and abs((x.get('picms') or 0) - (r.get('picms') or 0)) > 0.001:
+                d.append(f'% ICMS XML {x.get("picms") or 0:g} x relatório {r.get("picms") or 0:g}')
+            if (x.get('cst') or '') != (r.get('cst') or ''):
+                d.append(f'CST XML {x.get("cst") or "-"} x relatório {r.get("cst") or "-"}')
+            if (x['emit_cnpj'], x['uf_ini'], x['uf_fim']) != (r['emit_cnpj'], r['uf_ini'], r['uf_fim']):
+                d.append('emitente/trajeto diferente')
+            nf_r = [k for k in r['chaves_nfe'] if len(k) == 44]
+            if any(k not in x['chaves_nfe'] for k in nf_r) or (x['chaves_nfe'] and not nf_r):
+                d.append('NF-e vinculada diferente')
             res = 'OK' if not d else '; '.join(d)
         nfes = (x or r)['chaves_nfe']
         linhas.append([b['numero'], b['serie'], b['data'], b['emit_nome'], b['emit_cnpj'], f'{b.get("uf_ini") or ""}-{b.get("uf_fim") or ""}',
@@ -98,9 +186,21 @@ def nfse(xml_nfse, rel_nfse):
             ret_s = R(s['valor'] - s['liquido'] - s['desconto'])
             d = _cmp([('valor', x['valor'], s['valor']), ('ISS', x['iss'], s['iss']), ('IRRF', x['irrf'], s['ir']),
                       ('total retido', ret_x, ret_s), ('líquido', x['liquido'], s['liquido'])])
+            sem_bc = not x['base_iss'] and not x['iss'] and not x['iss_retido'] and abs(s['base'] - x['valor']) <= 0.01
+            d += _cmp([('base ISS', None if sem_bc else x['base_iss'], s['base']), ('PIS', x['pis'], s['pis']), ('COFINS', x['cofins'], s['cofins'])])
+            if bool(x['iss_retido']) != bool(s['iss_retido']):
+                d.append(f'ISS retido: XML {"sim" if x["iss_retido"] else "não"} x relatório {"sim" if s["iss_retido"] else "não"}')
+            cx, cs = str(x.get('cod_trib_nac') or '')[:4], str(s.get('cod_servico') or '').zfill(4)
+            if cx and cs.strip('0') and cx != cs:
+                d.append(f'código serviço XML {x.get("cod_trib_nac")} x relatório {s.get("cod_servico")}')
+            ex, es = str(x.get('emissao') or '')[:10], str(s.get('data') or '')[:10]
+            if ex and es and ex != es:
+                d.append(f'emissão XML {ex} x relatório {es}')
+            if s.get('cancelada'):
+                d.append('cancelada no relatório')
             if x['simples'] != s['simples']:
                 d.append(f'Simples: XML {"sim" if x["simples"] else "não"} x relatório {"sim" if s["simples"] else "não"}')
-            res = 'OK' if not d else '; '.join(d)
+            res = '; '.join(d) if d else 'OK' + (' (XML sem base do ISS - Simples, sem retenção; o relatório repete o valor)' if sem_bc else '')
         else:
             res = 'Sem XML na pasta' if s else 'Não está no relatório ABRASF'
         b = x or {}
@@ -147,7 +247,7 @@ def _cor(res_col, sit_col=None, sit_cinza=()):
         if sit_col is not None and ln[sit_col] in sit_cinza:
             return CINZA
         res = ln[res_col]
-        if res == 'OK':
+        if res.startswith('OK'):
             return OK
         if res.startswith(('Sem XML', 'Não está')) and 'tomador é outra empresa' not in res:
             return INFO
@@ -160,6 +260,7 @@ def _cor(res_col, sit_col=None, sit_cinza=()):
 def gerar(a, sieg_prod, xml_cte, sieg_cte, xml_nfse, rel_nfse, destino):
     wb = Workbook()
     l_nfe, l_cte, l_nfse = nfe(a, sieg_prod), cte(a, xml_cte, sieg_cte), nfse(xml_nfse, rel_nfse)
+    l_it = nfe_itens(a, sieg_prod)
     conta = lambda ls, col, pref='OK': sum(1 for x in ls if str(x[col]).startswith(pref))
     ws = wb.active; ws.title = 'Resumo'
     ws['A1'] = f'COSMETICI {a.mes[5:]}/{a.mes[:4]} - Entradas: XML x relatórios da pasta (SIEG)'; ws['A1'].font = Font(bold=True, size=12)
@@ -170,11 +271,12 @@ def gerar(a, sieg_prod, xml_cte, sieg_cte, xml_nfse, rel_nfse, destino):
         x = ws.cell(4, c, t); x.font = Font(bold=True, color='FFFFFF', size=9); x.fill = H; x.alignment = Alignment(wrap_text=True)
         ws.column_dimensions[L(c)].width = [12, 40, 8, 12, 14, 14, 14, 11][c - 1]
     def linha(r, doc, rel, ls, col_res):
-        vals = [doc, rel, len(ls), conta(ls, col_res), sum(1 for x in ls if str(x[col_res]) != 'OK' and not str(x[col_res]).startswith(('Sem XML', 'Não está', 'Cancelada', 'CT-e cancelado'))),
+        vals = [doc, rel, len(ls), conta(ls, col_res), sum(1 for x in ls if not str(x[col_res]).startswith(('OK', 'Sem XML', 'Não está', 'Cancelada', 'CT-e cancelado'))),
                 conta(ls, col_res, 'Sem XML'), conta(ls, col_res, 'Não está'), sum(1 for x in ls if 'ancel' in str(x[col_res]))]
         for c, v in enumerate(vals, 1):
             ws.cell(r, c, v).font = Font(size=9)
     linha(5, 'NF-e', 'Relatorio_Detalhamento_Produtos.xlsx (entradas)', l_nfe, 18)
+    linha(8, 'NF-e itens', 'Relatorio_Detalhamento_Produtos.xlsx (item a item, 25 campos)', l_it, 18)
     linha(6, 'CT-e', 'Relatorio_CTe.xlsx', l_cte, 15)
     linha(7, 'NFS-e', 'RelatorioNFS_ABRASF_33039048000162_AAAA-MM.xlsx', l_nfse, 24)
     _aba(wb, 'NF-e entradas', 'XML x Relatorio_Detalhamento_Produtos (SIEG) - por chave. Verde = confere; vermelho = diferença; amarelo = falta de um lado; cinza = cancelada.',
@@ -182,6 +284,11 @@ def gerar(a, sieg_prod, xml_cte, sieg_cte, xml_nfse, rel_nfse, destino):
           'ICMS XML', 'ICMS SIEG', 'IPI XML', 'IPI SIEG', 'ST XML', 'ST SIEG', 'Resultado', 'Chave'],
          [8, 5, 10, 32, 16, 4, 12, 10, 7, 7, 11, 11, 10, 10, 9, 9, 8, 8, 40, 46], l_nfe, set(range(11, 19)), {3},
          _cor(18, 6, ('Cancelada',)))
+    _aba(wb, 'NF-e itens', 'Item a item, XML x Detalhamento de Produtos: CFOP, NCM, CEST, origem, CST, quantidade, valores, bases, alíquotas, ICMS, ST, '
+         'IPI, PIS e COFINS (25 campos). Valores mostrados = XML; a coluna Resultado lista cada campo que difere.',
+         ['NF', 'Fornecedor', 'Item', 'Produto (XML)', 'CFOP', 'NCM', 'Orig/CST', 'Qtd', 'Valor produto', 'Base ICMS', '% ICMS', 'ICMS',
+          'ICMS-ST', 'CST IPI', 'IPI', 'CST PIS/COF', 'PIS', 'COFINS', 'Resultado', 'Chave'],
+         [8, 28, 5, 34, 6, 10, 8, 9, 11, 11, 6, 10, 9, 6, 9, 7, 9, 9, 40, 46], l_it, {9, 10, 12, 13, 15, 17, 18}, (), _cor(18))
     _aba(wb, 'CT-e', 'XML x Relatorio_CTe (SIEG) - todos os CT-e em que a Cosmetici aparece. Amarelo = Cosmetici tomadora sem XML; cinza = tomador é outra empresa ou cancelado.',
          ['CT-e', 'Série', 'Emissão', 'Transportadora', 'CNPJ', 'Trajeto', 'CFOP', 'Tomador', 'Situação', 'XML na pasta', 'Valor XML', 'Valor SIEG',
           'ICMS XML', 'ICMS SIEG', 'NF-e transportada', 'Resultado', 'Chave'],
