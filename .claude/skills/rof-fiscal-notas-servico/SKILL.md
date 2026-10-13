@@ -138,6 +138,15 @@ Se a pasta `Relatorio` do mês tiver o **relatório da prefeitura** (NFS-e emiti
 cancelada/substituída, total do mês. A prefeitura de Curitiba lista por competência (inclui nota emitida no mês seguinte com
 competência do mês); o portal lista por data de geração. O resultado vai em `"apontamentos_gerais"` do `empresa.json`.
 
+A pasta `Relatorio(s)` costuma ter também o **Acompanhamento de Entradas do Domínio** (`Serviços Tomados <Empresa> MM_AAAA.xls`,
+.xls antigo): é a escrita fiscal. Cruzar também com ele (nota lançada sem documento na pasta, valor lançado diferente,
+nota de outra competência lançada no mês). Datas vêm como serial do Excel (46266 = 01/09/2026).
+
+**Lendo arquivos do Drive:** PDF do DANFSe sai bem com `read_file_content` (texto). Para .xls/XML, `download_file_content`
+de arquivo grande fica salvo em `tool-results/*.txt` (JSON). Decodificar com
+`jq -r .content <arquivo> | base64 -d > <pasta própria>/rel.xls` e ler o .xls com `xlrd` (`pip install xlrd`).
+Imagem (.jpeg) de NFS-e municipal (ex.: SP) às vezes não traz texto: apontar e cruzar pelo relatório.
+
 ## 4. Gerar a planilha
 
 ```bash
