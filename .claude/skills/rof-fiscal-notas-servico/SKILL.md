@@ -157,15 +157,19 @@ Abas:
 
 ## 5. Entrega
 
-1. Salvar em `Notas-Servico/<NUM_Empresa>/<AAAA-MM>/` (planilha + `config/` com `notas.json` e `empresa.json`).
-   Não versionar XML/PDF de clientes no repositório.
-2. Enviar a planilha (SendUserFile) e responder no chat, curto:
+1. **Dados de clientes NUNCA vão para o GitHub** (no repositório fica só a skill). Trabalhar numa pasta temporária
+   (scratchpad da sessão, ex.: `<scratchpad>/Notas-Servico/<NUM_Empresa>/<AAAA-MM>/` com `config/notas.json` e `empresa.json`).
+2. **Salvar a planilha no Google Drive, na pasta `Relatorio` do mês da empresa** - sem pedir permissão (autorizado pela
+   Rosangela em 13/10/2026): `Arquivos RENATA Dominio > <NUM - Empresa> > <ANO> > MM_AAAA > Relatorio`.
+   Upload com `create_file` (base64, `disableConversionToGoogleType: true`). O conector não substitui conteúdo de arquivo:
+   versão nova vai com sufixo `_v2`, `_v3`...
+3. Enviar a planilha (SendUserFile) e responder no chat, curto:
    - Prestado: **anexo de tributação de cada atividade** (ex.: 17.06 → III; 10.09 → V com Fator R), sequência (de-até, faltando, canceladas), total faturado,
      total de retenções sofridas e os **ERROS**.
    - Tomado: notas com retenção devida (quanto de IRRF, CSRF, INSS e ISS a recolher) e os **ERROS**.
    - O que ficou em dúvida e o que preciso da analista.
-3. Commit/push no branch de trabalho.
-4. Se a empresa tiver skill própria, registrar lá o anexo confirmado e as decisões novas da analista.
+4. Commit/push no branch só das mudanças da skill.
+5. Se a empresa tiver skill própria, registrar lá o anexo confirmado e as decisões novas da analista.
 
 ## Cuidados
 
