@@ -332,6 +332,8 @@ def retencoes_esperadas(nota):
     obs = [desc]
     if enq == 'manutencao' and nota.get('cessao_mao_obra'):
         inss = 11
+    if enq in ('limpeza_conservacao', 'seguranca_vigilancia') and nota.get('cessao_mao_obra') is False:
+        inss = 0; obs.append('Sem cessão de mão de obra/empreitada: sem INSS 11%')
     v = float(nota.get('valor_servico') or 0)
     if nota.get('prestador_mei'):
         ir = cs = inss = 0; obs.append('Prestador MEI: sem retenção de IRRF/CSRF/INSS (conferir cessão de mão de obra p/ MEI)')
