@@ -10,6 +10,7 @@ notas.json      lista gerada por ler_nfse_xml.py (ou montada à mão a partir do
                   (tomado) "enquadramento": chave de tabelas.RETENCOES (senão usa o sugerido pelo item, com alerta),
                   "prestador_simples"/"prestador_mei"/"prestador_anexo_iv": bool (senão lê do regime/texto da nota),
                   "cessao_mao_obra": bool, "base_inss": valor
+                  "valor_zero_ok": true quando a nota tem mesmo valor R$ 0,00 (ex.: pedido de crédito em cartão de benefícios)
 empresa.json    saída de consulta_cnpj.py --json, opcionalmente com "conclusao_anexo": "anexo de cada atividade e o porquê"
                   e "apontamentos_gerais": ["ALERTA: ...", ...] (cruzamento com relatórios da prefeitura/portal etc.)
 """
@@ -73,7 +74,9 @@ def checks_comuns(n, emp, comp, lado):
     if comp and n.get('data_emissao') and n['data_emissao'][:7] != comp and not (n.get('competencia') or '').startswith(comp):
         a.append(('ALERTA', f"Emitida em {data(n['data_emissao'])}, fora do mês {comp}"))
     vs = v(n.get('valor_servico'))
-    if not vs:
+    if not vs and n.get('valor_zero_ok'):
+        a.append(('APONTAMENTO', 'Nota com valor do serviço R$ 0,00 (documento só informativo, ex.: crédito de benefícios) - confirmado na leitura'))
+    elif not vs:
         a.append(('ERRO', 'Valor do serviço não encontrado/zerado'))
     base, al, iss = n.get('base_iss'), n.get('aliquota_iss'), n.get('valor_iss')
     if base is not None and al is not None and iss is not None and abs(v(base) * v(al) / 100 - v(iss)) > TOL:
