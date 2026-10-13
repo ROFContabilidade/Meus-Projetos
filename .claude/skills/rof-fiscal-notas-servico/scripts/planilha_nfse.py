@@ -69,7 +69,10 @@ def checks_comuns(n, emp, comp, lado):
     if n.get('substituida'):
         a.append(('ALERTA', f"Nota substitui outra ({n['substituida']}) - conferir se a substituída não foi lançada"))
     if comp and n.get('competencia') and n['competencia'][:7] != comp:
-        a.append(('ERRO', f"Competência {n['competencia'][:7]} diferente do mês em análise {comp}"))
+        if (n.get('lancada_competencia') or '')[:7] == comp:
+            a.append(('APONTAMENTO', f"Competência da nota {n['competencia'][:7]}, lançada em {comp} por decisão da analista"))
+        else:
+            a.append(('ERRO', f"Competência {n['competencia'][:7]} diferente do mês em análise {comp}"))
     if comp and n.get('data_emissao') and n['data_emissao'][:7] != comp and not (n.get('competencia') or '').startswith(comp):
         a.append(('ALERTA', f"Emitida em {data(n['data_emissao'])}, fora do mês {comp}"))
     vs = v(n.get('valor_servico'))

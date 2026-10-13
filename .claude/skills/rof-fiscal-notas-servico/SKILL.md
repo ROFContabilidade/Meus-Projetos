@@ -73,6 +73,7 @@ se continuar a dúvida, dizer que é dúvida.
 **Comuns (prestado e tomado)**
 - Sequência: números faltando, repetidos, notas canceladas ou substituídas (a substituída não pode entrar).
 - Competência/data de emissão fora do mês; nota emitida num mês com competência de outro.
+  Se a analista decidir lançar a nota no mês em análise, gravar `"lancada_competencia": "AAAA-MM"` na nota (o ERRO vira APONTAMENTO).
 - Valor líquido ≠ valor do serviço - desconto incondicionado - retenções (ISS retido conta).
 - ISS ≠ base × alíquota; base ≠ valor - deduções - desconto incondicionado.
 - Retenção escrita só na discriminação/informações complementares e **não** nos campos próprios (ou o contrário);
