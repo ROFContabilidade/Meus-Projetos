@@ -146,10 +146,12 @@ python3 $S/planilha_nfse.py tomado   notas.json empresa.json "NFSe_Tomadas_<Empr
 ```
 
 Abas:
-- **Notas Prestadas** - nº (ordem crescente), emissão, competência, situação, tomador (CPF/CNPJ e nome), item LC 116,
+- **Notas Prestadas** - nº (ordem crescente), emissão, competência, situação, tomador (CPF/CNPJ e nome), **município do tomador,
+  local da prestação e município de incidência do ISS** (preencher `tomador_municipio`, `municipio_prestacao`, `municipio_incidencia`
+  com o nome da cidade/UF; alerta automático quando local da prestação ≠ município do tomador), item LC 116,
   atividade, **anexo do Simples da atividade**, discriminação, informações complementares, valor, base, alíquota e valor do ISS, ISS retido, IRRF, PIS, COFINS,
   CSLL, INSS, total retido, líquido, status; no título a sequência e os números faltando.
-- **Notas Tomadas** - os mesmos dados do lado do prestador + regime do prestador, enquadramento, alíquotas e valores
+- **Notas Tomadas** - os mesmos dados do lado do prestador (com local da prestação e município de incidência do ISS) + regime do prestador, enquadramento, alíquotas e valores
   **esperados** de IRRF/CSRF/INSS e a observação da regra aplicada.
 - **Inconsistências** - uma linha por apontamento (ERRO / ALERTA / APONTAMENTO), com colunas "Resolvido?" e "Observação" para a analista.
 - **Empresa e CNAEs** - dados da consulta, anexo de cada CNAE, **faturamento do mês por anexo/atividade** e a conclusão.

@@ -86,6 +86,9 @@ def checks_comuns(n, emp, comp, lado):
             a.append(('ERRO', f"Valor líquido da nota {v(n['valor_liquido']):.2f} ≠ calculado {calc:.2f} (valor - desc. incond. - retenções)"))
     if str(n.get('iss_retido', '')).startswith('Sim') and len(re.sub(r'\D', '', n.get('tomador_doc') or '')) == 11:
         a.append(('ERRO', 'ISS marcado como retido com tomador pessoa física (CPF) - PF não é substituto tributário'))
+    lp, mt = (n.get('municipio_prestacao') or '').strip(), (n.get('tomador_municipio') or '').strip()
+    if lado == 'prestado' and lp and mt and not lp.isdigit() and not mt.isdigit() and lp.lower() != mt.lower():
+        a.append(('ALERTA', f'Local da prestação ({lp}) diferente do município do tomador ({mt}) - confirmar onde o serviço foi feito'))
     if not (n.get('descricao') or '').strip():
         a.append(('ERRO', 'Nota sem discriminação do serviço'))
     elif len(n['descricao'].strip()) < 15:
@@ -276,20 +279,22 @@ def gerar(tipo, notas, emp, dst, comp=None):
             extra.append(('ERRO', f"Quebra de sequência - números não recebidos: {', '.join(map(str, seq['faltam']))} (pedir as notas ou confirmar cancelamento)"))
         if seq['dup']:
             extra.append(('ERRO', f"Números repetidos: {', '.join(map(str, seq['dup']))}"))
-        H = ['Nº', 'Emissão', 'Compet.', 'Situação', 'CPF/CNPJ tomador', 'Tomador', 'Item LC 116 / cód.', 'Atividade prestada',
+        H = ['Nº', 'Emissão', 'Compet.', 'Situação', 'CPF/CNPJ tomador', 'Tomador', 'Município do tomador', 'Local da prestação',
+             'Município de incidência do ISS', 'Item LC 116 / cód.', 'Atividade prestada',
              'Anexo Simples (atividade)', 'Discriminação', 'Informações complementares', 'Valor serviço', 'Base ISS', 'Alíq. ISS %', 'ISS', 'ISS retido?',
              'IRRF', 'PIS', 'COFINS', 'CSLL', 'INSS', 'Total retido', 'Valor líquido', 'Status']
-        cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 10, 30, 14, 45, 40, 12, 12, 7, 10, 10, 9, 9, 9, 9, 9, 10, 12, 10])
+        cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 16, 16, 16, 10, 30, 14, 45, 40, 12, 12, 7, 10, 10, 9, 9, 9, 9, 9, 10, 12, 10])
         for i, (n, a) in enumerate(linhas, 5):
             n['_part'] = n.get('tomador_nome')
             put(ws, i, [n.get('numero'), data(n.get('data_emissao')), (n.get('competencia') or '')[:7], 'Cancelada' if cancelada(n) else 'Normal',
-                        doc(n.get('tomador_doc')), n.get('tomador_nome'), n.get('_item') or n.get('item_lc116'),
+                        doc(n.get('tomador_doc')), n.get('tomador_nome'), n.get('tomador_municipio'), n.get('municipio_prestacao'),
+                        n.get('municipio_incidencia'), n.get('_item') or n.get('item_lc116'),
                         n.get('atividade') or n.get('_anexo_desc'), n['_anexo'] if emp.get('simples') else 'Não optante', n.get('descricao'),
                         n.get('info_complementar'), n.get('valor_servico'), n.get('base_iss'), n.get('aliquota_iss'), n.get('valor_iss'),
                         n.get('iss_retido'), n.get('irrf'), n.get('pis'), n.get('cofins'), n.get('csll'), n.get('inss'),
                         total_ret(n), n.get('valor_liquido'), 'ERRO' if gravidade_fill(a) is ERRO else 'Conferir' if a else 'OK'],
-                money=(12, 13, 15, 17, 18, 19, 20, 21, 22, 23))
-            ws.cell(i, 24).fill = gravidade_fill(a)
+                money=(15, 16, 18, 20, 21, 22, 23, 24, 25, 26))
+            ws.cell(i, 27).fill = gravidade_fill(a)
         fim = 4 + len(linhas)
         fat = {}
         for n, _ in linhas:
@@ -301,25 +306,27 @@ def gerar(tipo, notas, emp, dst, comp=None):
         linhas = tomado(notas, emp, comp)
         titulo(ws, f"NFS-e TOMADAS - {emp.get('razao_social')} - {comp or ''}",
                'Retenção esperada calculada pelo enquadramento da atividade e pelo regime do prestador (aba Regras de retenção)')
-        H = ['Nº', 'Emissão', 'Compet.', 'Situação', 'CNPJ prestador', 'Prestador', 'Regime prestador', 'Item LC 116 / cód.',
+        H = ['Nº', 'Emissão', 'Compet.', 'Situação', 'CNPJ prestador', 'Prestador', 'Local da prestação', 'Município de incidência do ISS',
+             'Regime prestador', 'Item LC 116 / cód.',
              'Atividade', 'Discriminação', 'Informações complementares', 'Valor serviço', 'Alíq. ISS %', 'ISS', 'ISS retido?',
              'IRRF nota', 'PIS+COFINS+CSLL nota', 'INSS nota', 'Enquadramento', 'Alíquotas esperadas',
              'IRRF esperado', 'CSRF esperada', 'INSS esperado', 'Valor líquido', 'Obs. retenção', 'Status']
-        cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 13, 10, 28, 45, 35, 12, 7, 10, 10, 10, 11, 10, 20, 22, 10, 10, 10, 12, 45, 10])
+        cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 16, 16, 13, 10, 28, 45, 35, 12, 7, 10, 10, 10, 11, 10, 20, 22, 10, 10, 10, 12, 45, 10])
         for i, (n, a) in enumerate(linhas, 5):
             n['_part'] = n.get('prestador_nome'); e = n.get('_esp') or {}
             reg = n.get('prestador_regime_sn') or ''
             if 'prestador_mei' in n or 'prestador_simples' in n:
                 reg = 'MEI' if n.get('prestador_mei') else ('Simples' + (' Anexo IV' if n.get('prestador_anexo_iv') else '')) if n.get('prestador_simples') else 'Não optante'
             put(ws, i, [n.get('numero'), data(n.get('data_emissao')), (n.get('competencia') or '')[:7], 'Cancelada' if cancelada(n) else 'Normal',
-                        doc(n.get('prestador_cnpj')), n.get('prestador_nome'), reg, n.get('_item') or n.get('item_lc116'),
+                        doc(n.get('prestador_cnpj')), n.get('prestador_nome'), n.get('municipio_prestacao'), n.get('municipio_incidencia'),
+                        reg, n.get('_item') or n.get('item_lc116'),
                         n.get('atividade') or n.get('_item_desc'),
                         n.get('descricao'), n.get('info_complementar'), n.get('valor_servico'), n.get('aliquota_iss'), n.get('valor_iss'),
                         n.get('iss_retido'), n.get('irrf'), round(v(n.get('pis')) + v(n.get('cofins')) + v(n.get('csll')), 2), n.get('inss'),
                         n.get('enquadramento'), e.get('aliquotas'), e.get('irrf'), e.get('csrf'), e.get('inss'), n.get('valor_liquido'),
                         e.get('obs'), 'ERRO' if gravidade_fill(a) is ERRO else 'Conferir' if a else 'OK'],
-                money=(12, 14, 16, 17, 18, 21, 22, 23, 24))
-            ws.cell(i, 26).fill = gravidade_fill(a)
+                money=(14, 16, 18, 19, 20, 23, 24, 25, 26))
+            ws.cell(i, 28).fill = gravidade_fill(a)
         fim = 4 + len(linhas)
         wr = wb.create_sheet('Regras de retenção')
         titulo(wr, 'Enquadramentos usados', 'Dispensa: IRRF e CSRF <= R$ 10,00; INSS < R$ 10,00. Simples: sem IRRF/CSRF; INSS só Anexo IV. MEI: sem retenção.')
@@ -332,12 +339,12 @@ def gerar(tipo, notas, emp, dst, comp=None):
     t = fim + 1
     ws.cell(t, 1, 'TOTAL (sem canceladas)').font = F(bold=True)
     ativos = [n for n, _ in linhas if not cancelada(n)]
-    cols = {'prestado': {12: 'valor_servico', 15: 'valor_iss', 17: 'irrf', 18: 'pis', 19: 'cofins', 20: 'csll', 21: 'inss', 23: 'valor_liquido'},
-            'tomado': {12: 'valor_servico', 14: 'valor_iss', 16: 'irrf', 18: 'inss', 24: 'valor_liquido'}}[tipo]
+    cols = {'prestado': {15: 'valor_servico', 18: 'valor_iss', 20: 'irrf', 21: 'pis', 22: 'cofins', 23: 'csll', 24: 'inss', 26: 'valor_liquido'},
+            'tomado': {14: 'valor_servico', 16: 'valor_iss', 18: 'irrf', 20: 'inss', 26: 'valor_liquido'}}[tipo]
     for c, k in cols.items():
         x = ws.cell(t, c, round(sum(v(n.get(k)) for n in ativos), 2)); x.font = F(bold=True); x.number_format = MOEDA
     if tipo == 'tomado':
-        for c, k in ((21, 'irrf'), (22, 'csrf'), (23, 'inss')):
+        for c, k in ((23, 'irrf'), (24, 'csrf'), (25, 'inss')):
             x = ws.cell(t, c, round(sum(v((n.get('_esp') or {}).get(k)) for n in ativos), 2)); x.font = F(bold=True); x.number_format = MOEDA
     ws.freeze_panes = 'B5'; ws.auto_filter.ref = f'A4:{ws.cell(4, ws.max_column).column_letter}{max(fim, 5)}'
     aba_incons(wb, linhas, extra)

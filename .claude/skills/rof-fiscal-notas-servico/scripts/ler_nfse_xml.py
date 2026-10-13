@@ -72,7 +72,7 @@ def nota_nacional(inf, arq):
         'tomador_doc': (achar(toma, 'CNPJ', 'CPF', 'NIF') if toma is not None else ''),
         'tomador_nome': (achar(toma, 'xNome') if toma is not None else ''),
         'tomador_municipio': (achar(toma, 'cMun') if toma is not None else ''),
-        'municipio_prestacao': achar(dps, 'cLocPrestacao') or achar(inf, 'xLocPrestacao'),
+        'municipio_prestacao': achar(inf, 'xLocPrestacao') or achar(dps, 'cLocPrestacao'),
         'municipio_incidencia': achar(inf, 'xLocIncid') or achar(inf, 'cLocIncid'),
         'item_lc116': achar(serv, 'cTribNac') if serv is not None else '',
         'trib_municipal': achar(serv, 'cTribMun') if serv is not None else '',
