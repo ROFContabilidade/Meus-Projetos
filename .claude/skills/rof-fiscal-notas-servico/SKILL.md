@@ -65,7 +65,8 @@ se continuar a dúvida, dizer que é dúvida.
   JSON à mão, com os mesmos campos. Se tiver XML e PDF da mesma nota, conferir um contra o outro.
 - **Depois do script, ler cada nota de verdade** (discriminação, informações complementares, valores) e completar no JSON
   o que o script não achou. Campo que não existe na nota fica vazio e vira apontamento - nunca inventar.
-- O que eu (Claude) encontrar lendo vai no campo `"apontamentos": ["..."]` de cada nota.
+- O que eu (Claude) encontrar lendo vai no campo `"apontamentos": ["..."]` de cada nota. Começar o texto com `ERRO: ` ou
+  `ALERTA: ` para dar a gravidade (sem prefixo = APONTAMENTO, só observação).
 
 ### O que procurar (lista mínima - apontar tudo o que mais parecer errado)
 

@@ -5,6 +5,7 @@ python planilha_nfse.py tomado   notas.json empresa.json saida.xlsx [--competenc
 
 notas.json      lista gerada por ler_nfse_xml.py (ou montada à mão a partir do PDF), podendo ter, por nota:
                   "apontamentos": ["texto", ...]   inconsistências que você (Claude) encontrou lendo a nota
+                                  (prefixo "ERRO: " ou "ALERTA: " define a gravidade; sem prefixo = APONTAMENTO)
                   (prestado) "anexo": anexo decidido para a atividade da nota (senão usa a tabela pelo item da LC 116)
                   (tomado) "enquadramento": chave de tabelas.RETENCOES (senão usa o sugerido pelo item, com alerta),
                   "prestador_simples"/"prestador_mei"/"prestador_anexo_iv": bool (senão lê do regime/texto da nota),
@@ -48,6 +49,15 @@ def cancelada(n):
 def total_ret(n):
     return round(sum(v(n.get(k)) for k in ('irrf', 'pis', 'cofins', 'csll', 'inss'))
                  + (v(n.get('valor_iss')) if str(n.get('iss_retido', '')).startswith('Sim') else 0), 2)
+
+
+def apontamentos(n):
+    """Apontamentos da leitura; prefixo "ERRO: " ou "ALERTA: " define a gravidade."""
+    out = []
+    for t in n.get('apontamentos', []):
+        g = next((x for x in ('ERRO', 'ALERTA') if t.startswith(x + ': ')), None)
+        out.append((g, t[len(g) + 2:]) if g else ('APONTAMENTO', t))
+    return out
 
 
 def checks_comuns(n, emp, comp, lado):
@@ -117,7 +127,7 @@ def prestado(notas, emp, comp):
             a.append(('ERRO', 'Nota emitida como optante do Simples, mas o CNPJ NÃO é optante na Receita'))
         if simples and not mei and 'simples' not in (n.get('info_complementar') or '').lower() and n.get('layout') != 'NFS-e Nacional':
             a.append(('ALERTA', 'Sem a frase "Documento emitido por ME ou EPP optante pelo Simples Nacional" nas informações complementares'))
-        a += [('APONTAMENTO', t) for t in n.get('apontamentos', [])]
+        a += apontamentos(n)
         linhas.append((n, a))
     # sequência
     nums = sorted({int(re.sub(r'\D', '', n['numero'])) for n in notas if re.sub(r'\D', '', n.get('numero') or '')})
@@ -174,7 +184,7 @@ def tomado(notas, emp, comp):
                         a.append(('ERRO', f'{nome}: destacado {dest[k]:.2f} ≠ esperado {esp[k]:.2f}'))
             n['_dest'] = dest
         n['_esp'] = esp
-        a += [('APONTAMENTO', t) for t in n.get('apontamentos', [])]
+        a += apontamentos(n)
         linhas.append((n, a))
     return linhas
 
