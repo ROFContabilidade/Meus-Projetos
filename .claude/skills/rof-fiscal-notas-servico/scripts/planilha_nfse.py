@@ -1,22 +1,22 @@
 """Planilha de conferência de NFS-e (prestadas ou tomadas) com apontamento de inconsistências.
 
 python planilha_nfse.py prestado notas.json empresa.json saida.xlsx [--competencia AAAA-MM]
-python planilha_nfse.py tomado   notas.json empresa.json saida.xlsx [--competencia AAAA-MM] [--prestadores prestadores.json]
+python planilha_nfse.py tomado   notas.json empresa.json saida.xlsx [--competencia AAAA-MM]
 
 notas.json      lista gerada por ler_nfse_xml.py (ou montada à mão a partir do PDF), podendo ter, por nota:
                   "apontamentos": ["texto", ...]   inconsistências que você (Claude) encontrou lendo a nota
-                  (tomado) "enquadramento": chave de tabelas.RETENCOES, "prestador_simples": bool,
-                  "prestador_mei": bool, "prestador_anexo_iv": bool, "cessao_mao_obra": bool, "base_inss": valor
-empresa.json    saída de consulta_cnpj.py --json, opcionalmente com:
-                  "conclusao_anexo": "texto com o anexo e o porquê", "fator_r": "texto", "rbt12": valor
-prestadores.json (tomado) {cnpj: saída de consulta_cnpj.py} para a aba Prestadores.
+                  (prestado) "anexo": anexo decidido para a atividade da nota (senão usa a tabela pelo item da LC 116)
+                  (tomado) "enquadramento": chave de tabelas.RETENCOES (senão usa o sugerido pelo item, com alerta),
+                  "prestador_simples"/"prestador_mei"/"prestador_anexo_iv": bool (senão lê do regime/texto da nota),
+                  "cessao_mao_obra": bool, "base_inss": valor
+empresa.json    saída de consulta_cnpj.py --json, opcionalmente com "conclusao_anexo": "anexo de cada atividade e o porquê"
 """
 import json, os, re, sys
 from collections import Counter
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from tabelas import retencoes_esperadas, RETENCOES
+from tabelas import retencoes_esperadas, RETENCOES, anexo_item, ITENS_RETENCAO_ISS
 
 F = lambda **k: Font(**{'name': 'Arial', 'size': 9, **k})
 thin = Side(style='thin', color='BFBFBF'); B = Border(top=thin, bottom=thin, left=thin, right=thin)
@@ -90,6 +90,15 @@ def prestado(notas, emp, comp):
     linhas, incons = [], []
     for n in notas:
         a = checks_comuns(n, emp, comp, 'prestado')
+        it, an, desc_it, _ = anexo_item(n.get('item_lc116'))
+        n['_item'] = it; n['_anexo'] = n.get('anexo') or an; n['_anexo_desc'] = desc_it
+        if simples and not mei:
+            if 'IMPEDITIVO' in n['_anexo']:
+                a.append(('ERRO', f'Atividade {it} ({desc_it}) é IMPEDITIVA ou duvidosa no Simples - conferir'))
+            elif n['_anexo'] == '?' or ('conferir' in desc_it and not n.get('anexo')):
+                a.append(('ALERTA', f'Anexo da atividade {it or "(sem item)"} não definido pela tabela: {desc_it} - decidir e preencher "anexo" na nota'))
+            if n['_anexo'] == 'IV':
+                a.append(('ALERTA', f'Atividade {it} no Anexo IV: CPP fora do DAS (INSS patronal à parte) e sujeita a retenção de INSS 11% se houver cessão/empreitada'))
         if cnpj and re.sub(r'\D', '', n.get('prestador_cnpj') or '') not in ('', cnpj):
             a.append(('ERRO', f"Prestador da nota ({doc(n['prestador_cnpj'])}) não é a empresa {doc(cnpj)}"))
         if not re.sub(r'\D', '', n.get('tomador_doc') or ''):
@@ -127,10 +136,30 @@ def tomado(notas, emp, comp):
             a.append(('ERRO', f"Tomador da nota ({doc(n.get('tomador_doc'))}) não é a empresa {doc(cnpj)}"))
         if vistos[(re.sub(r'\D', '', n.get('prestador_cnpj') or ''), n.get('numero'))] > 1:
             a.append(('ERRO', 'Nota em duplicidade (mesmo prestador e número)'))
-        if 'prestador_simples' in n and str(n.get('prestador_regime_sn', '')).startswith('Não') and n['prestador_simples']:
-            a.append(('ALERTA', 'Nota diz NÃO optante, mas a consulta do CNPJ indica optante do Simples'))
+        it, _, desc_it, enq_sug = anexo_item(n.get('item_lc116'))
+        n['_item'] = it; n['_item_desc'] = desc_it
+        texto = ' '.join(str(n.get(k) or '') for k in ('info_complementar', 'descricao')).lower()
+        reg = str(n.get('prestador_regime_sn') or '')
+        if 'prestador_mei' not in n:
+            n['prestador_mei'] = reg == 'MEI' or 'microempreendedor individual' in texto
+        if 'prestador_simples' not in n:
+            n['prestador_simples'] = 'Simples' in reg or 'simples nacional' in texto
+            if ('Simples' in reg and 'não optante' in texto) or (reg.startswith('Não') and 'optante pelo simples' in texto):
+                a.append(('ALERTA', 'Regime do prestador contraditório na nota (campo x texto) - conferir se é optante do Simples'))
+        if not reg and 'simples' not in texto and not n.get('prestador_mei'):
+            a.append(('ALERTA', 'Nota não informa se o prestador é do Simples - considerado NÃO optante'))
+        if n.get('prestador_simples') and 'prestador_anexo_iv' not in n and enq_sug in ('construcao_empreitada', 'limpeza_conservacao', 'seguranca_vigilancia'):
+            n['prestador_anexo_iv'] = True
+            a.append(('ALERTA', f'Prestador do Simples com atividade de Anexo IV ({it}) - sofre INSS 11% se houver cessão/empreitada'))
         if not n.get('enquadramento'):
-            a.append(('ALERTA', 'Atividade ainda não enquadrada para retenção (campo "enquadramento")'))
+            if enq_sug:
+                n['enquadramento'] = enq_sug
+                a.append(('ALERTA', f'Enquadramento "{enq_sug}" sugerido pelo item {it} ({desc_it}) - confirmar pela discriminação'))
+            else:
+                a.append(('ERRO', 'Atividade sem item da LC 116 reconhecido - enquadrar pela discriminação (campo "enquadramento")'))
+        if it in ITENS_RETENCAO_ISS and not str(n.get('iss_retido', '')).startswith('Sim') and not n.get('prestador_mei'):
+            a.append(('ALERTA', f'Item {it} tem retenção de ISS pelo tomador (LC 116 art. 6º §2º II) e a nota não marca ISS retido - conferir local da prestação e lei do município'))
+        if not n.get('enquadramento'):
             esp = None
         else:
             esp = retencoes_esperadas(n)
@@ -176,7 +205,7 @@ def titulo(ws, txt, sub):
     ws['A2'] = sub; ws['A2'].font = F(italic=True, color='666666')
 
 
-def aba_empresa(wb, emp):
+def aba_empresa(wb, emp, fat=None):
     ws = wb.create_sheet('Empresa e CNAEs')
     titulo(ws, f"{emp.get('razao_social')} - CNPJ {doc(emp.get('cnpj'))}", f"Consulta: {emp.get('fonte', '')}")
     info = [('Situação cadastral', emp.get('situacao')), ('Município', emp.get('municipio')),
@@ -191,12 +220,17 @@ def aba_empresa(wb, emp):
     for i, c in enumerate(emp.get('cnaes', []), r + 1):
         put(ws, i, [c['tipo'], c['cnae'], c['descricao'], c['anexo_sugerido'], c['obs_anexo']])
     r = r + len(emp.get('cnaes', [])) + 2
-    for k, rot in (('conclusao_anexo', 'CONCLUSÃO - ANEXO DE TRIBUTAÇÃO'), ('fator_r', 'Fator R'), ('rbt12', 'RBT12')):
+    if fat:
+        cab(ws, r, ['Anexo', 'Item LC 116', 'Atividade', 'Faturamento do mês', ''], [12, 12, 60, 16, 70])
+        for i, ((an, it, d), val) in enumerate(sorted(fat.items()), r + 1):
+            put(ws, i, [an, it, d, round(val, 2), ''], money=(4,))
+        r += len(fat) + 2
+    for k, rot in (('conclusao_anexo', 'CONCLUSÃO - ANEXO DE TRIBUTAÇÃO'),):
         if emp.get(k) not in (None, ''):
             ws.cell(r, 1, rot).font = F(bold=True); x = ws.cell(r, 2, emp[k]); x.font = F(bold=k == 'conclusao_anexo')
             ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=5); x.alignment = Alignment(wrap_text=True, vertical='top')
             ws.row_dimensions[r].height = 15 * (1 + len(str(emp[k])) // 120); r += 1
-    ws.cell(r + 1, 1, 'Anexo sugerido é atalho da tabela interna: a palavra final é do Anexo VI da Res. CGSN 140/2018 + histórico do DAS.').font = F(italic=True, color='666666')
+    ws.cell(r + 1, 1, 'O anexo é da ATIVIDADE da nota (item da LC 116). "V (Fator R)" = Anexo V, ou III se o Fator R for >= 28%. Referência: art. 18 LC 123/2006 e Anexo VI da Res. CGSN 140/2018.').font = F(italic=True, color='666666')
 
 
 def aba_incons(wb, linhas, extra=()):
@@ -215,7 +249,7 @@ def aba_incons(wb, linhas, extra=()):
     ws.freeze_panes = 'A5'; ws.auto_filter.ref = f'A4:G{max(r - 1, 5)}'
 
 
-def gerar(tipo, notas, emp, dst, comp=None, prestadores=None):
+def gerar(tipo, notas, emp, dst, comp=None):
     wb = Workbook(); ws = wb.active
     notas = sorted(notas, key=lambda n: (re.sub(r'\D', '', n.get('prestador_cnpj') or '') if tipo == 'tomado' else '',
                                          int(re.sub(r'\D', '', n.get('numero') or '0') or 0)))
@@ -231,20 +265,25 @@ def gerar(tipo, notas, emp, dst, comp=None, prestadores=None):
         if seq['dup']:
             extra.append(('ERRO', f"Números repetidos: {', '.join(map(str, seq['dup']))}"))
         H = ['Nº', 'Emissão', 'Compet.', 'Situação', 'CPF/CNPJ tomador', 'Tomador', 'Item LC 116 / cód.', 'Atividade prestada',
-             'Discriminação', 'Informações complementares', 'Valor serviço', 'Base ISS', 'Alíq. ISS %', 'ISS', 'ISS retido?',
+             'Anexo Simples (atividade)', 'Discriminação', 'Informações complementares', 'Valor serviço', 'Base ISS', 'Alíq. ISS %', 'ISS', 'ISS retido?',
              'IRRF', 'PIS', 'COFINS', 'CSLL', 'INSS', 'Total retido', 'Valor líquido', 'Status']
-        cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 10, 30, 45, 40, 12, 12, 7, 10, 10, 9, 9, 9, 9, 9, 10, 12, 10])
+        cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 10, 30, 14, 45, 40, 12, 12, 7, 10, 10, 9, 9, 9, 9, 9, 10, 12, 10])
         for i, (n, a) in enumerate(linhas, 5):
             n['_part'] = n.get('tomador_nome')
             put(ws, i, [n.get('numero'), data(n.get('data_emissao')), (n.get('competencia') or '')[:7], 'Cancelada' if cancelada(n) else 'Normal',
-                        doc(n.get('tomador_doc')), n.get('tomador_nome'), n.get('item_lc116'), n.get('atividade'), n.get('descricao'),
+                        doc(n.get('tomador_doc')), n.get('tomador_nome'), n.get('_item') or n.get('item_lc116'),
+                        n.get('atividade') or n.get('_anexo_desc'), n['_anexo'] if emp.get('simples') else 'Não optante', n.get('descricao'),
                         n.get('info_complementar'), n.get('valor_servico'), n.get('base_iss'), n.get('aliquota_iss'), n.get('valor_iss'),
                         n.get('iss_retido'), n.get('irrf'), n.get('pis'), n.get('cofins'), n.get('csll'), n.get('inss'),
                         total_ret(n), n.get('valor_liquido'), 'ERRO' if gravidade_fill(a) is ERRO else 'Conferir' if a else 'OK'],
-                money=(11, 12, 14, 16, 17, 18, 19, 20, 21, 22))
-            ws.cell(i, 23).fill = gravidade_fill(a)
+                money=(12, 13, 15, 17, 18, 19, 20, 21, 22, 23))
+            ws.cell(i, 24).fill = gravidade_fill(a)
         fim = 4 + len(linhas)
-        aba_empresa(wb, emp)
+        fat = {}
+        for n, _ in linhas:
+            if not cancelada(n):
+                k = (n['_anexo'], n['_item'], n['_anexo_desc']); fat[k] = fat.get(k, 0) + v(n.get('valor_servico'))
+        aba_empresa(wb, emp, fat)
     else:
         ws.title = 'Notas Tomadas'
         linhas = tomado(notas, emp, comp)
@@ -261,7 +300,8 @@ def gerar(tipo, notas, emp, dst, comp=None, prestadores=None):
             if 'prestador_mei' in n or 'prestador_simples' in n:
                 reg = 'MEI' if n.get('prestador_mei') else ('Simples' + (' Anexo IV' if n.get('prestador_anexo_iv') else '')) if n.get('prestador_simples') else 'Não optante'
             put(ws, i, [n.get('numero'), data(n.get('data_emissao')), (n.get('competencia') or '')[:7], 'Cancelada' if cancelada(n) else 'Normal',
-                        doc(n.get('prestador_cnpj')), n.get('prestador_nome'), reg, n.get('item_lc116'), n.get('atividade'),
+                        doc(n.get('prestador_cnpj')), n.get('prestador_nome'), reg, n.get('_item') or n.get('item_lc116'),
+                        n.get('atividade') or n.get('_item_desc'),
                         n.get('descricao'), n.get('info_complementar'), n.get('valor_servico'), n.get('aliquota_iss'), n.get('valor_iss'),
                         n.get('iss_retido'), n.get('irrf'), round(v(n.get('pis')) + v(n.get('cofins')) + v(n.get('csll')), 2), n.get('inss'),
                         n.get('enquadramento'), e.get('aliquotas'), e.get('irrf'), e.get('csrf'), e.get('inss'), n.get('valor_liquido'),
@@ -269,28 +309,18 @@ def gerar(tipo, notas, emp, dst, comp=None, prestadores=None):
                 money=(12, 14, 16, 17, 18, 21, 22, 23, 24))
             ws.cell(i, 26).fill = gravidade_fill(a)
         fim = 4 + len(linhas)
-        if prestadores:
-            wp = wb.create_sheet('Prestadores')
-            titulo(wp, 'Prestadores consultados (CNAE e Simples)', 'Fonte: base CNPJ da Receita Federal')
-            cab(wp, 4, ['CNPJ', 'Razão social', 'Simples', 'MEI', 'CNAE principal', 'Descrição', 'Anexo sugerido', 'Situação'],
-                [17, 36, 8, 6, 11, 55, 14, 10])
-            for i, (c, p) in enumerate(prestadores.items(), 5):
-                cp = (p.get('cnaes') or [{}])[0]
-                put(wp, i, [doc(c), p.get('razao_social'), 'Sim' if p.get('simples') else 'Não', 'Sim' if p.get('mei') else 'Não',
-                            cp.get('cnae'), cp.get('descricao'), cp.get('anexo_sugerido'), p.get('situacao')])
         wr = wb.create_sheet('Regras de retenção')
         titulo(wr, 'Enquadramentos usados', 'Dispensa: IRRF e CSRF <= R$ 10,00; INSS < R$ 10,00. Simples: sem IRRF/CSRF; INSS só Anexo IV. MEI: sem retenção.')
         cab(wr, 4, ['Enquadramento', 'IRRF %', 'CSRF %', 'INSS %', 'Base legal / observação'], [30, 8, 8, 8, 100])
         for i, (k, (a1, a2, a3, d)) in enumerate(RETENCOES.items(), 5):
             put(wr, i, [k, a1, a2, a3, d])
-        ws_e = emp
         if emp.get('cnaes'):
-            aba_empresa(wb, ws_e)
+            aba_empresa(wb, emp)
     # totais
     t = fim + 1
     ws.cell(t, 1, 'TOTAL (sem canceladas)').font = F(bold=True)
     ativos = [n for n, _ in linhas if not cancelada(n)]
-    cols = {'prestado': {11: 'valor_servico', 14: 'valor_iss', 16: 'irrf', 17: 'pis', 18: 'cofins', 19: 'csll', 20: 'inss', 22: 'valor_liquido'},
+    cols = {'prestado': {12: 'valor_servico', 15: 'valor_iss', 17: 'irrf', 18: 'pis', 19: 'cofins', 20: 'csll', 21: 'inss', 23: 'valor_liquido'},
             'tomado': {12: 'valor_servico', 14: 'valor_iss', 16: 'irrf', 18: 'inss', 24: 'valor_liquido'}}[tipo]
     for c, k in cols.items():
         x = ws.cell(t, c, round(sum(v(n.get(k)) for n in ativos), 2)); x.font = F(bold=True); x.number_format = MOEDA
@@ -308,7 +338,6 @@ def gerar(tipo, notas, emp, dst, comp=None, prestadores=None):
 if __name__ == '__main__':
     a = sys.argv[1:]
     opt = lambda k: a[a.index(k) + 1] if k in a else None
-    comp, prest = opt('--competencia'), opt('--prestadores')
+    comp = opt('--competencia')
     tipo, fn, fe, dst = a[:4]
-    gerar(tipo, json.load(open(fn, encoding='utf-8')), json.load(open(fe, encoding='utf-8')), dst, comp,
-          json.load(open(prest, encoding='utf-8')) if prest else None)
+    gerar(tipo, json.load(open(fn, encoding='utf-8')), json.load(open(fe, encoding='utf-8')), dst, comp)

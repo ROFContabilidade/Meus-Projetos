@@ -1,6 +1,6 @@
 ---
 name: "rof-fiscal-notas-servico"
-description: "ROF Contabilidade - leitura e conferência de NOTAS FISCAIS DE SERVIÇO (NFS-e) PRESTADAS e TOMADAS de qualquer empresa do escritório. Sempre pergunta primeiro se é PRESTADO ou TOMADO e pede o CNPJ. Consulta o CNAE na Receita; no PRESTADO aponta o anexo do Simples Nacional e monta a planilha com a sequência das notas, atividade, tomador, alíquota de ISS, informações complementares, discriminação e retenções; no TOMADO confere se a atividade de cada prestador tem retenção (IRRF, CSRF, INSS e ISS) e compara com o que a nota destaca. Aponta toda inconsistência. Usar quando enviarem XML/PDF de NFS-e, falarem em notas de serviço, serviços prestados ou tomados, retenções, ISS retido, sequência de notas, anexo do Simples ou CNAE para nota de serviço."
+description: "ROF Contabilidade - leitura e conferência de NOTAS FISCAIS DE SERVIÇO (NFS-e) PRESTADAS e TOMADAS de qualquer empresa do escritório. Sempre pergunta primeiro se é PRESTADO ou TOMADO e pede o CNPJ. Consulta o CNAE da empresa na Receita; no PRESTADO aponta o anexo do Simples Nacional de cada ATIVIDADE da nota (ex.: 17.06 = Anexo III, 10.09 = Anexo V com Fator R) e monta a planilha com a sequência das notas, atividade, tomador, alíquota de ISS, informações complementares, discriminação e retenções; no TOMADO lê com atenção a atividade destacada em cada nota (sem consultar o CNPJ do prestador), confere se tem ou deveria ter retenção (IRRF, CSRF, INSS e ISS) e compara com o que a nota destaca. Aponta toda inconsistência. Usar quando enviarem XML/PDF de NFS-e, falarem em notas de serviço, serviços prestados ou tomados, retenções, ISS retido, sequência de notas, anexo do Simples ou CNAE para nota de serviço."
 ---
 
 # ROF - Leitura de NFS-e prestadas e tomadas
@@ -17,11 +17,8 @@ e as informações complementares, e apontar **tudo** o que estiver estranho. É
 2. **"Qual o CNPJ da empresa?"** - consultar o CNAE (passo 2). Se a empresa já tem skill própria
    (`rof-contabilidade-<empresa>`), ler o regime/anexo registrado nela e comparar com a consulta.
 3. **Competência** (mês/ano) das notas.
-4. No **PRESTADO**, se for do Simples: perguntar o **RBT12** e a **folha dos últimos 12 meses** (Fator R) quando houver
-   CNAE do Anexo V/III pelo Fator R e o anexo não estiver registrado na skill da empresa. Sem esses dados, apontar o anexo
-   como "V ou III conforme Fator R" e dizer o que falta.
-5. No **TOMADO**: os CNPJs dos prestadores saem das próprias notas; consultar **cada CNPJ de prestador** (CNAE e Simples/MEI).
-   Se a nota vier sem CNPJ legível (PDF ruim), **pedir o CNPJ** em vez de supor.
+
+**Não** pedir faturamento (RBT12) nem folha: o Fator R não é calculado aqui. **Não** consultar o CNPJ dos prestadores no tomado.
 
 Fazer as perguntas juntas, numa mensagem só, e esperar a resposta.
 
@@ -37,22 +34,28 @@ Traz razão social, situação, município, **Simples (data de opção/exclusão
 **Anexo VI da Resolução CGSN 140/2018** e do art. 18 da LC 123/2006. Quando vier "conferir" ou "?", pesquisar e decidir;
 se continuar a dúvida, dizer que é dúvida.
 
-### Como fechar o anexo (PRESTADO, empresa do Simples)
+### Como apontar o anexo (PRESTADO, empresa do Simples)
 
-- O anexo é da **atividade efetivamente prestada em cada nota** (item da LC 116 + discriminação), não só do CNAE principal.
-  Uma empresa pode ter receitas em anexos diferentes no mesmo mês: separar por anexo na planilha.
+- O anexo é da **atividade destacada em cada nota** (item da LC 116 + discriminação), não só do CNAE principal. Exemplos:
+  **17.06 promoção de vendas / propaganda → Anexo III** (padrão do escritório); **10.09 representação → Anexo V com Fator R**;
+  17.19 contabilidade → III; 17.01 consultoria → V com Fator R; 7.02 obra → IV.
+- Escrever "**Anexo V (Fator R)**" para as atividades do §5º-I, sem calcular o Fator R (= Anexo V, ou III se folha/receita ≥ 28%).
+- A tabela `ITENS_LC116` em `tabelas.py` dá o anexo de cada item; ela vira a coluna **"Anexo Simples (atividade)"** e o
+  quadro **faturamento por anexo** na aba Empresa e CNAEs. Quando a discriminação mostrar outra atividade, ou a tabela disser
+  "conferir"/"?", decidir e gravar `"anexo"` na nota (com o porquê em `"apontamentos"`). Quando a analista definir um anexo
+  diferente do da tabela, **atualizar `ITENS_LC116`** para valer nas próximas empresas.
+- Uma empresa pode ter receitas em anexos diferentes no mesmo mês: o quadro separa por anexo.
 - **Anexo III** direto: contabilidade, fisioterapia, academias, ensino, estética/beleza, corretagem, agência de viagem,
   software (§5º-D), manutenção/reparos, transporte municipal, locação de bens móveis etc.
-- **Anexo V ou III pelo Fator R** (§5º-I e §5º-J): medicina, odontologia, psicologia, nutrição, fono, engenharia, arquitetura,
+- **Anexo V (Fator R)** (§5º-I e §5º-J): medicina, odontologia, psicologia, nutrição, fono, engenharia, arquitetura,
   consultoria, auditoria, publicidade, representação comercial, intermediação, despachante, tradução, TI (consultoria/suporte) etc.
-  **Fator R = folha 12 meses / RBT12 ≥ 28% → Anexo III; abaixo → Anexo V.**
 - **Anexo IV** (§5º-C): construção civil, vigilância, limpeza/conservação, paisagismo, advocacia. CPP fora do DAS e
   **sofre retenção de INSS 11%** quando houver cessão de mão de obra/empreitada.
 - **Atividade impeditiva** (cessão/locação de mão de obra fora do Anexo IV, holding, factoring etc.): apontar como ERRO grave.
 - Nota com atividade que **não está em nenhum CNAE do CNPJ**: apontar (precisa incluir o CNAE ou a nota está errada).
-- Gravar a conclusão em `empresa.json` (`"conclusao_anexo"`, `"fator_r"`, `"rbt12"`) - aparece na aba **Empresa e CNAEs**.
-  Escrever o anexo de cada atividade e o porquê, ex.: *"Anexo III - 17.19 contabilidade (6920-6/01, §5º-B XIV). Consultoria
-  tributária (6920-6/02) seria Anexo V/III pelo Fator R, mas não houve nota dessa atividade no mês."*
+- Gravar a conclusão em `empresa.json` (`"conclusao_anexo"`) - aparece na aba **Empresa e CNAEs**.
+  Escrever o anexo de cada atividade e o porquê, ex.: *"17.06 promoção de vendas - Anexo III (R$ 1.000,00). 10.09
+  representação comercial - Anexo V (Fator R) (R$ 5.000,00)."*
 
 ## 3. Ler as notas
 
@@ -84,13 +87,18 @@ se continuar a dúvida, dizer que é dúvida.
 - Empresa do Simples com **IRRF/PIS/COFINS/CSLL destacados** (optante não sofre, salvo pagamento por órgão público federal -
   IN RFB 1.234/2012) → ERRO.
 - Simples com INSS retido fora do Anexo IV → conferir.
-- Alíquota de ISS do Simples fora de 2% a 5%, ou diferente da alíquota efetiva da faixa (com o RBT12).
+- Alíquota de ISS do Simples fora de 2% a 5%.
 - Nota marcada "não optante" com CNPJ optante (ou o contrário); falta da frase do Simples nas informações complementares.
 - MEI: não destaca ISS na nota; alertar se vier ISS/retenção.
 - Tomador órgão público: conferir retenções da IN RFB 1.234/2012 e a regra do município.
 - Atividade da nota em anexo diferente do que vem sendo tributado no DAS.
 
-**TOMADO** - para cada nota decidir o `"enquadramento"` da atividade (chaves em `tabelas.RETENCOES`):
+**TOMADO** - **não consultar o CNPJ do prestador**. Tudo sai da nota: ler com muita atenção o **item da LC 116, a atividade
+e a discriminação** e decidir se tem ou deveria ter retenção. O regime do prestador vem do campo da nota (Simples/MEI/não optante)
+ou do texto ("optante pelo Simples Nacional"); se a nota não disser, considerar não optante e apontar.
+O script sugere o enquadramento pelo item (`ITENS_LC116`) e marca ALERTA "confirmar": **conferir sempre com a discriminação** -
+item e descrição que não combinam são apontamento, e o que vale é o serviço realmente prestado. Gravar o enquadramento
+decidido em `"enquadramento"` (chaves em `tabelas.RETENCOES`):
 
 | enquadramento | IRRF | CSRF (4,65%) | INSS 11% | Exemplos |
 |---|---|---|---|---|
@@ -105,9 +113,9 @@ se continuar a dúvida, dizer que é dúvida.
 | `construcao_empreitada` | - | - | sim | obra, reforma, empreitada (ISS no local da obra) |
 | `transporte` / `sem_retencao` | - | - | - | frete, demais serviços |
 
-\* INSS só com cessão de mão de obra ou empreitada (IN RFB 2.110/2022). Marcar também na nota:
-`"prestador_simples"`, `"prestador_mei"`, `"prestador_anexo_iv"` (da consulta do CNPJ do prestador) e `"base_inss"` se houver
-dedução de material/equipamento.
+\* INSS só com cessão de mão de obra ou empreitada (IN RFB 2.110/2022). Se precisar corrigir o que a nota diz, gravar
+`"prestador_simples"`, `"prestador_mei"`, `"prestador_anexo_iv"` (Simples com atividade de obra/limpeza/vigilância é marcado
+automaticamente) e `"base_inss"` se houver dedução de material/equipamento.
 
 Regras aplicadas pelo script: prestador **Simples** não sofre IRRF nem CSRF e só sofre INSS se for Anexo IV; **MEI** sem retenção;
 **dispensa** quando o IRRF ou a CSRF calculados forem ≤ R$ 10,00 e o INSS < R$ 10,00.
@@ -126,26 +134,25 @@ EFD-Reinf (R-2010) / DCTFWeb, ISS na guia do município. Prestado com retenção
 
 ```bash
 python3 $S/planilha_nfse.py prestado notas.json empresa.json "NFSe_Prestadas_<Empresa>_MM-AAAA.xlsx" --competencia AAAA-MM
-python3 $S/planilha_nfse.py tomado   notas.json empresa.json "NFSe_Tomadas_<Empresa>_MM-AAAA.xlsx"   --competencia AAAA-MM --prestadores prestadores.json
+python3 $S/planilha_nfse.py tomado   notas.json empresa.json "NFSe_Tomadas_<Empresa>_MM-AAAA.xlsx"   --competencia AAAA-MM
 ```
-(`prestadores.json` = `{cnpj: saída do consulta_cnpj.py}` de cada prestador.)
 
 Abas:
 - **Notas Prestadas** - nº (ordem crescente), emissão, competência, situação, tomador (CPF/CNPJ e nome), item LC 116,
-  atividade, discriminação, informações complementares, valor, base, alíquota e valor do ISS, ISS retido, IRRF, PIS, COFINS,
+  atividade, **anexo do Simples da atividade**, discriminação, informações complementares, valor, base, alíquota e valor do ISS, ISS retido, IRRF, PIS, COFINS,
   CSLL, INSS, total retido, líquido, status; no título a sequência e os números faltando.
 - **Notas Tomadas** - os mesmos dados do lado do prestador + regime do prestador, enquadramento, alíquotas e valores
   **esperados** de IRRF/CSRF/INSS e a observação da regra aplicada.
 - **Inconsistências** - uma linha por apontamento (ERRO / ALERTA / APONTAMENTO), com colunas "Resolvido?" e "Observação" para a analista.
-- **Empresa e CNAEs** - dados da consulta, anexo de cada CNAE e a **conclusão do anexo**.
-- **Prestadores** e **Regras de retenção** (tomado).
+- **Empresa e CNAEs** - dados da consulta, anexo de cada CNAE, **faturamento do mês por anexo/atividade** e a conclusão.
+- **Regras de retenção** (tomado).
 
 ## 5. Entrega
 
-1. Salvar em `Notas-Servico/<NUM_Empresa>/<AAAA-MM>/` (planilha + `config/` com `notas.json`, `empresa.json`, `prestadores.json`).
+1. Salvar em `Notas-Servico/<NUM_Empresa>/<AAAA-MM>/` (planilha + `config/` com `notas.json` e `empresa.json`).
    Não versionar XML/PDF de clientes no repositório.
 2. Enviar a planilha (SendUserFile) e responder no chat, curto:
-   - Prestado: **anexo de tributação** (por atividade, com o motivo), sequência (de-até, faltando, canceladas), total faturado,
+   - Prestado: **anexo de tributação de cada atividade** (ex.: 17.06 → III; 10.09 → V com Fator R), sequência (de-até, faltando, canceladas), total faturado,
      total de retenções sofridas e os **ERROS**.
    - Tomado: notas com retenção devida (quanto de IRRF, CSRF, INSS e ISS a recolher) e os **ERROS**.
    - O que ficou em dúvida e o que preciso da analista.
