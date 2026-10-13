@@ -11,6 +11,7 @@ notas.json      lista gerada por ler_nfse_xml.py (ou montada à mão a partir do
                   "prestador_simples"/"prestador_mei"/"prestador_anexo_iv": bool (senão lê do regime/texto da nota),
                   "cessao_mao_obra": bool, "base_inss": valor
 empresa.json    saída de consulta_cnpj.py --json, opcionalmente com "conclusao_anexo": "anexo de cada atividade e o porquê"
+                  e "apontamentos_gerais": ["ALERTA: ...", ...] (cruzamento com relatórios da prefeitura/portal etc.)
 """
 import json, os, re, sys
 from collections import Counter
@@ -263,7 +264,8 @@ def gerar(tipo, notas, emp, dst, comp=None):
     wb = Workbook(); ws = wb.active
     notas = sorted(notas, key=lambda n: (re.sub(r'\D', '', n.get('prestador_cnpj') or '') if tipo == 'tomado' else '',
                                          int(re.sub(r'\D', '', n.get('numero') or '0') or 0)))
-    extra = []
+    extra = [(t.split(': ', 1)[0], t.split(': ', 1)[1]) if t.split(': ', 1)[0] in ('ERRO', 'ALERTA') else ('APONTAMENTO', t)
+             for t in emp.get('apontamentos_gerais', [])]
     if tipo == 'prestado':
         ws.title = 'Notas Prestadas'
         linhas, seq = prestado(notas, emp, comp)

@@ -131,6 +131,13 @@ o resultado nos `"apontamentos"` da nota (ex.: "ISS 2% deveria ser retido - item
 Guias que saem das retenções (citar no resumo final): IRRF **1708**, CSRF **5952** (DARF/DCTFWeb conforme a época), INSS na
 EFD-Reinf (R-2010) / DCTFWeb, ISS na guia do município. Prestado com retenção sofrida: conferir informe/R-2020.
 
+### Cruzar com os relatórios
+
+Se a pasta `Relatorio` do mês tiver o **relatório da prefeitura** (NFS-e emitidas) e/ou a **planilha do portal nacional**
+(Emitidas - Completa), cruzar número a número e valor a valor com as notas lidas: nota que aparece só de um lado, valor diferente,
+cancelada/substituída, total do mês. A prefeitura de Curitiba lista por competência (inclui nota emitida no mês seguinte com
+competência do mês); o portal lista por data de geração. O resultado vai em `"apontamentos_gerais"` do `empresa.json`.
+
 ## 4. Gerar a planilha
 
 ```bash
