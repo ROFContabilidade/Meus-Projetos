@@ -59,6 +59,16 @@ se continuar a dúvida, dizer que é dúvida.
 
 ## 3. Ler as notas
 
+**Antes de tudo, achar TODOS os documentos do mês no Drive** (`<NUM - Empresa> > <ANO> > MM_AAAA`): `Doc's/Tomados`
+(XML + DANFSe de cada nota), ZIPs (ex.: `9-SETEMBRO.zip`) e a pasta `Relatorio`. Na busca do Drive, **seguir o `nextPageToken` até
+acabar** - a primeira página pode mostrar só alguns PDFs e esconder dezenas de XML. Ler as notas pelos **XML/DANFSe da pasta**;
+o relatório do portal e o da prefeitura servem para **cruzar**, não para substituir a leitura.
+- O relatório "Recebidas - Completa" do Portal Nacional lista por **data de geração**: nota emitida no mês seguinte com
+  competência do mês **não aparece** nele (e nota antiga gerada no mês aparece). Montar a lista pela **competência** dos XML.
+- O conector não lê XML (`read_file_content`): o DANFSe em PDF da mesma chave tem os mesmos dados; XML pequeno vem em base64
+  no `download_file_content` (decodificar os trechos necessários). ZIP grande é salvo em arquivo: decodificar e `unzip`.
+- XML de valor zero (ex.: VR/VA - taxa de administração zero) não é despesa de serviço: apontar e não lançar.
+
 - **XML** (preferir sempre): `python3 -I $S/ler_nfse_xml.py <pasta ou arquivos> --saida notas.json`
   Lê NFS-e **Padrão Nacional** (nfse.gov.br) e **ABRASF/municipais**. Arquivos baixados ficam numa pasta própria; rodar com `-I`.
 - **PDF**: `pdftotext -layout nota.pdf -` (ou a skill `anthropic-skills:pdf`; OCR se for imagem) e preencher o mesmo
