@@ -139,6 +139,11 @@ Se a pasta `Relatorio` do mês tiver o **relatório da prefeitura** (NFS-e emiti
 cancelada/substituída, total do mês. A prefeitura de Curitiba lista por competência (inclui nota emitida no mês seguinte com
 competência do mês); o portal lista por data de geração. O resultado vai em `"apontamentos_gerais"` do `empresa.json`.
 
+Se houver o relatório do **Domínio** (Acompanhamento de Entradas / Serviços Tomados, `.xls`), cruzar também: nota lançada que não
+está no portal (ou o contrário), valor diferente e **retenções (IRRF/CRF) que a nota destaca e o lançamento não tem**. O `.xls` não
+abre com `read_file_content`: baixar com `download_file_content` (o resultado grande vai para um arquivo JSON), decodificar o
+base64 numa pasta própria e ler com `xlrd` (`pip install xlrd`).
+
 ## 4. Gerar a planilha
 
 ```bash
