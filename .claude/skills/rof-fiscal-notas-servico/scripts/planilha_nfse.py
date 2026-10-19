@@ -61,6 +61,16 @@ def apontamentos(n):
     return out
 
 
+def meses_recebimento(n):
+    """Meses (AAAA-MM) das datas de recebimento da nota ("data_recebimento": "dd/mm/aaaa e dd/mm/aaaa")."""
+    return sorted({f'{a}-{m}' for _, m, a in re.findall(r'(\d{2})/(\d{2})/(\d{4})', str(n.get('data_recebimento') or ''))})
+
+
+def no_caixa_do_mes(n, emp, comp):
+    """Regime de caixa: a nota entra no mês só se todos os recebimentos forem do mês."""
+    return not (emp.get('regime_caixa') and comp) or meses_recebimento(n) == [comp]
+
+
 def checks_comuns(n, emp, comp, lado):
     """lado = 'prestado' ou 'tomado'. Retorna lista de (gravidade, texto)."""
     a = []
@@ -68,9 +78,20 @@ def checks_comuns(n, emp, comp, lado):
         a.append(('ALERTA', 'Nota CANCELADA - não entra no faturamento/apuração; conferir se o cancelamento está no portal'))
     if n.get('substituida'):
         a.append(('ALERTA', f"Nota substitui outra ({n['substituida']}) - conferir se a substituída não foi lançada"))
-    if comp and n.get('competencia') and n['competencia'][:7] != comp:
+    caixa = lado == 'prestado' and emp.get('regime_caixa')
+    if caixa and comp:
+        # regime de caixa (Res. CGSN 140/2018 art. 16): vale a data do recebimento, não a competência/emissão da nota
+        meses = meses_recebimento(n)
+        if not meses:
+            a.append(('ALERTA', 'Empresa no regime de caixa e a nota não informa a data do recebimento - confirmar o mês em que entra no PGDAS-D'))
+        elif meses != [comp]:
+            fora = [m for m in meses if m != comp]
+            a.append(('ERRO', f"Regime de caixa: recebimento em {n['data_recebimento']} - receita de {', '.join(fora)}, não de {comp}. Conferir se entrou no PGDAS-D de {', '.join(fora)}; se não, retificar"))
+        elif (n.get('competencia') or '')[:7] not in ('', comp):
+            a.append(('APONTAMENTO', f"Regime de caixa: recebida em {n['data_recebimento']} - entra em {comp}; a competência da nota ({n['competencia'][:7]}) não muda o período"))
+    elif comp and n.get('competencia') and n['competencia'][:7] != comp:
         a.append(('ERRO', f"Competência {n['competencia'][:7]} diferente do mês em análise {comp}"))
-    if comp and n.get('data_emissao') and n['data_emissao'][:7] != comp and not (n.get('competencia') or '').startswith(comp):
+    if not caixa and comp and n.get('data_emissao') and n['data_emissao'][:7] != comp and not (n.get('competencia') or '').startswith(comp):
         a.append(('ALERTA', f"Emitida em {data(n['data_emissao'])}, fora do mês {comp}"))
     vs = v(n.get('valor_servico'))
     if not vs:
@@ -279,26 +300,26 @@ def gerar(tipo, notas, emp, dst, comp=None):
             extra.append(('ERRO', f"Quebra de sequência - números não recebidos: {', '.join(map(str, seq['faltam']))} (pedir as notas ou confirmar cancelamento)"))
         if seq['dup']:
             extra.append(('ERRO', f"Números repetidos: {', '.join(map(str, seq['dup']))}"))
-        H = ['Nº', 'Emissão', 'Compet.', 'Situação', 'CPF/CNPJ tomador', 'Tomador', 'Município do tomador', 'Local da prestação',
+        H = ['Nº', 'Emissão', 'Compet.', 'Recebimento', 'Situação', 'CPF/CNPJ tomador', 'Tomador', 'Município do tomador', 'Local da prestação',
              'Município de incidência do ISS', 'Item LC 116 / cód.', 'Atividade prestada',
              'Anexo Simples (atividade)', 'Discriminação', 'Informações complementares', 'Valor serviço', 'Base ISS', 'Alíq. ISS %', 'ISS', 'ISS retido?',
              'IRRF', 'PIS', 'COFINS', 'CSLL', 'INSS', 'Total retido', 'Valor líquido', 'Status']
-        cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 16, 16, 16, 10, 30, 14, 45, 40, 12, 12, 7, 10, 10, 9, 9, 9, 9, 9, 10, 12, 10])
+        cab(ws, 4, H, [7, 10, 9, 14, 10, 17, 30, 16, 16, 16, 10, 30, 14, 45, 40, 12, 12, 7, 10, 10, 9, 9, 9, 9, 9, 10, 12, 10])
         for i, (n, a) in enumerate(linhas, 5):
             n['_part'] = n.get('tomador_nome')
-            put(ws, i, [n.get('numero'), data(n.get('data_emissao')), (n.get('competencia') or '')[:7], 'Cancelada' if cancelada(n) else 'Normal',
-                        doc(n.get('tomador_doc')), n.get('tomador_nome'), n.get('tomador_municipio'), n.get('municipio_prestacao'),
+            put(ws, i, [n.get('numero'), data(n.get('data_emissao')), (n.get('competencia') or '')[:7], n.get('data_recebimento'),
+                        'Cancelada' if cancelada(n) else 'Normal', doc(n.get('tomador_doc')), n.get('tomador_nome'), n.get('tomador_municipio'), n.get('municipio_prestacao'),
                         n.get('municipio_incidencia'), n.get('_item') or n.get('item_lc116'),
                         n.get('atividade') or n.get('_anexo_desc'), n['_anexo'] if emp.get('simples') else 'Não optante', n.get('descricao'),
                         n.get('info_complementar'), n.get('valor_servico'), n.get('base_iss'), n.get('aliquota_iss'), n.get('valor_iss'),
                         n.get('iss_retido'), n.get('irrf'), n.get('pis'), n.get('cofins'), n.get('csll'), n.get('inss'),
                         total_ret(n), n.get('valor_liquido'), 'ERRO' if gravidade_fill(a) is ERRO else 'Conferir' if a else 'OK'],
-                money=(15, 16, 18, 20, 21, 22, 23, 24, 25, 26))
-            ws.cell(i, 27).fill = gravidade_fill(a)
+                money=(16, 17, 19, 21, 22, 23, 24, 25, 26, 27))
+            ws.cell(i, 28).fill = gravidade_fill(a)
         fim = 4 + len(linhas)
         fat = {}
         for n, _ in linhas:
-            if not cancelada(n):
+            if not cancelada(n) and no_caixa_do_mes(n, emp, comp):
                 k = (n['_anexo'], n['_item'], n['_anexo_desc']); fat[k] = fat.get(k, 0) + v(n.get('valor_servico'))
         aba_empresa(wb, emp, fat)
     else:
@@ -339,7 +360,10 @@ def gerar(tipo, notas, emp, dst, comp=None):
     t = fim + 1
     ws.cell(t, 1, 'TOTAL (sem canceladas)').font = F(bold=True)
     ativos = [n for n, _ in linhas if not cancelada(n)]
-    cols = {'prestado': {15: 'valor_servico', 18: 'valor_iss', 20: 'irrf', 21: 'pis', 22: 'cofins', 23: 'csll', 24: 'inss', 26: 'valor_liquido'},
+    if tipo == 'prestado' and emp.get('regime_caixa') and comp:
+        ws.cell(t, 1, f'TOTAL recebido em {comp} (caixa, sem canceladas)')
+        ativos = [n for n in ativos if no_caixa_do_mes(n, emp, comp)]
+    cols = {'prestado': {16: 'valor_servico', 19: 'valor_iss', 21: 'irrf', 22: 'pis', 23: 'cofins', 24: 'csll', 25: 'inss', 27: 'valor_liquido'},
             'tomado': {14: 'valor_servico', 16: 'valor_iss', 18: 'irrf', 20: 'inss', 26: 'valor_liquido'}}[tipo]
     for c, k in cols.items():
         x = ws.cell(t, c, round(sum(v(n.get(k)) for n in ativos), 2)); x.font = F(bold=True); x.number_format = MOEDA

@@ -85,6 +85,11 @@ se continuar a dúvida, dizer que é dúvida.
 - Reforma tributária (2026 em diante): campos IBS/CBS ausentes ou estranhos no layout nacional - apontar como ALERTA.
 
 **PRESTADO**
+- **Regime de caixa** (Res. CGSN 140/2018 art. 16): quando a analista disser que a empresa apura pelo recebimento, gravar
+  `"regime_caixa": true` no `empresa.json` e a data do pagamento da discriminação em `"data_recebimento"` de cada nota
+  (`"dd/mm/aaaa"` ou `"dd/mm/aaaa e dd/mm/aaaa"`). Aí o mês da planilha é o do recebimento: competência/emissão em outro
+  mês viram só apontamento, recebimento fora do mês vira ERRO (receita de outro PA - conferir/retificar o PGDAS-D) e o
+  total e o faturamento por anexo só somam o que foi recebido no mês. Empresas confirmadas no caixa: 106 Everton Soares Advocacia.
 - Empresa do Simples com **IRRF/PIS/COFINS/CSLL destacados** (optante não sofre, salvo pagamento por órgão público federal -
   IN RFB 1.234/2012) → ERRO.
 - Simples com INSS retido fora do Anexo IV → conferir.
