@@ -44,12 +44,6 @@ Buscar com `search_files` (`parentId` da pasta do mês) e ler o PDF com `read_fi
 | 358 | SEGURO PREDIAL | despesa do seguro |
 | 352 / 372 | Multas de mora / juros de mora | encargos de boleto pago em atraso |
 
-### Decisões da Rosangela (out/2026)
-
-- **Tokio Marine → D 535 / C 8** está correto; a contrapartida (provisão do seguro) a Rosangela lança no Domínio. Não precisa apontar.
-- **9,00C antigo na conta 510** (diferença RBA): saldo conhecido, antigo — **não apontar** como pendência.
-- **Fornecedor sem pagamento no mês (506 Singular etc.)**: segue credor até o pagamento, aí faz a baixa (D 506 / C 8). Não é inconsistência.
-
 Lançamento que não se encaixa na tabela → **perguntar** antes de gerar o TXT (não inventar conta). Registrar aqui toda decisão nova.
 
 ## Leiaute do TXT (igual ao de agosto/2026 importado)
@@ -72,4 +66,4 @@ Lançamento que não se encaixa na tabela → **perguntar** antes de gerar o TXT
 | Mês | Saldo inicial | Entradas | Saídas | Saldo final | Observações |
 |---|---|---|---|---|---|
 | 08/2026 | 9.336,59 | 3.015,64 | 1.922,82 | 10.429,41 | Balancete 08/2026: 506 = 180,00C; 510 = 9,00C; 526 = 505,26C; 527 = 154,31C. |
-| 09/2026 | 10.429,41 | 3.090,14 | 2.323,64 | 11.195,91 | 6 taxas condominiais (D 8 / C 504). Pagos RBA 219,00 (= nota de agosto; 9,00C antigo segue em 510), Samae 505,26 e Celesc 154,31 (zeram as provisões de agosto), Tokio Marine 555,07 em 535 (confirmado; contrapartida lançada pela Rosangela), Cezar 540,00 (363), Carlos André 350,00 (357). Singular Soluções sem pagamento no mês (506 segue 180,00C até a baixa). **TXT confirmado pela Rosangela.** |
+| 09/2026 | 10.429,41 | 3.090,14 | 2.323,64 | 11.195,91 | 6 taxas condominiais (D 8 / C 504). Pagos RBA 219,00 (= nota de agosto; os 9,00C que sobraram em 510 em agosto — pago 210,00 contra provisão de 219,00 — continuam em aberto, conferir), Samae 505,26 e Celesc 154,31 (zeram as provisões de agosto), Tokio Marine 555,07 em 535 (valor diferente das parcelas de 636,05 — conferir se é apólice nova e se a provisão D 358 / C 535 foi lançada), Cezar 540,00 (363), Carlos André 350,00 (357). Singular Soluções sem pagamento no mês (506 segue 180,00C). |
