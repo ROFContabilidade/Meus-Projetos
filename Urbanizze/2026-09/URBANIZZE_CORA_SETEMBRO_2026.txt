@@ -1,0 +1,25 @@
+|0000|56236808000127|
+|6000|X||||
+|6100|08/09/2026|8|504|400,34||Pagamento recebido Gilmar Guanabara 482.149.149-49||||
+|6000|X||||
+|6100|08/09/2026|8|504|495,83||Pagamento recebido Ivan Fazolo 027.716.739-67||||
+|6000|X||||
+|6100|08/09/2026|8|504|548,20||Pagamento recebido Ediane Fazolo Griss 056.461.539-05||||
+|6000|X||||
+|6100|10/09/2026|8|504|544,97||Pagamento recebido Maria Bernardete Zanin 385.485.180-49||||
+|6000|X||||
+|6100|10/09/2026|8|504|495,83||Pagamento recebido Sabrina Eliane Melloto 028.743.949-63||||
+|6000|X||||
+|6100|10/09/2026|8|504|604,97||Pagamento recebido Felipe Eduardo Hide 028.866.409-48||||
+|6000|X||||
+|6100|10/09/2026|510|8|219,00||Boleto pago Rba Contabilidade Ltda 29.650.531/0001-01||||
+|6000|X||||
+|6100|15/09/2026|363|8|540,00||Transf Pix enviada Cezar Almir Paludo 733.475.409-30||||
+|6000|X||||
+|6100|18/09/2026|535|8|555,07||Boleto pago Tokio Marine Seguradora 33.164.021/0001-00||||
+|6000|X||||
+|6100|18/09/2026|527|8|154,31||Boleto pago Celesc Distribuicao S.a 08.336.783/0001-90||||
+|6000|X||||
+|6100|18/09/2026|526|8|505,26||Boleto pago Samae Gov Celso Ra||||
+|6000|X||||
+|6100|25/09/2026|357|8|350,00||Transf Pix enviada Carlos André da Silva 591.670.339-20||||
