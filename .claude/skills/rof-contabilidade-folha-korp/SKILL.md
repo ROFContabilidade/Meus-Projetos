@@ -13,6 +13,10 @@ Use quando Everton/Rosangela enviarem o TXT da folha exportado do Domínio para 
 2. **Planilha de fechamento das contas patrimoniais** — `Fechamento_Folha_Korp_<Empresa>_MM-AAAA.xlsx` (um arquivo por mês)
 3. **TXT corrigido** — `Folha_Korp_<Empresa>_MM-AAAA.txt` (só a empresa em questão)
 
+**Quando os erros restantes forem poucos** (ex.: 09/2026: 2 obrigatórios + 2 avisos) e o TXT já tiver sido gerado/importado, a usuária pode pedir só a **planilha de lançamentos a corrigir manualmente** (`Korp/Correcoes_Manuais_Folha_Korp_MM-AAAA.xlsx`): empresa, Seq do registro 03, data, débito/crédito atual, valor, histórico, CC, débito/crédito correto, ação (excluir / trocar conta / conferir), motivo, e colunas amarelas "Corrigido?" e "Observação". Aba "Conferência" com os saldos patrimoniais depois das correções.
+
+**Planilhas sempre com valores já calculados** (o visualizador do app/Drive não calcula fórmulas; só o contador "Corrigidos: X de N" é fórmula). **Não gravar abas dentro do `Extrato Mensal` do Domínio** — o fechamento é arquivo próprio.
+
 **Cada mês é separado — não misturar meses.** Os 3 arquivos de cada mês ficam em `Korp/<Matriz|Filial>/<AAAA-MM>/` no repositório; fazer commit/push e enviar os arquivos ao usuário (SendUserFile). O TXT não vai para o Google Drive pelo conector (tamanho + precisa manter ANSI).
 
 O TXT de um mês pode trazer lançamentos de competência de outro mês (rescisão com demissão no último dia exportada no mês seguinte; férias pagas no fim do mês para gozo no mês seguinte; rescisão que só sai no TXT do mês seguinte). **Não mover lançamentos entre TXTs**: o TXT corrigido de cada mês contém o que o Domínio exportou naquele mês (com as contas corrigidas). Na planilha de fechamento esses valores ficam na coluna "Competência de outros meses", e na planilha de correções como nota.
@@ -21,7 +25,7 @@ Antes de gerar o TXT, **avaliar os lançamentos e apresentar as correções**; p
 
 ## Passo a passo de cada mês (Matriz e Filial)
 
-1. **Pedir/receber:** TXT do Domínio (`Folha.txt`, vem com Matriz 140 e Filial 145 juntas) e balancete do mês (`Balancete_MM.AA.xls`). **Buscar no Google Drive** o extrato da folha: `Filial_Extrato Mensal_MM.AA.xlsx` / `Matriz_Extrato Mensal_MM.AA.xlsx` (pasta Korp, id `1qjpoKwo5uI4PtIKBkCLpuE7tf9h6tNcY`).
+1. **Pedir/receber:** TXT do Domínio (`Folha.txt`, vem com Matriz 140 e Filial 145 juntas) e balancete do mês (`Balancete_MM.AA.xls`). **Buscar no Google Drive** o extrato da folha: `Filial_Extrato Mensal_MM.AA.xlsx` / `Matriz_Extrato Mensal_MM.AA.xlsx` (pasta Korp, id `1qjpoKwo5uI4PtIKBkCLpuE7tf9h6tNcY`; o xlsx vem em base64 — salvar a resposta em arquivo e decodificar com `python -I`). Pedir também a **Relação de Rescisões Calculadas** da Matriz e da Filial (período = mês anterior + mês; é o que mostra quem foi demitido e não saiu no TXT) e ter à mão o **Extrato Mensal do mês anterior** (detalhe das verbas das rescisões que atrasaram).
 2. **Separar a empresa** pedida (colunas 558–564 do registro 03) — nunca misturar Matriz e Filial.
 3. `scripts/extrato.py` no extrato e `scripts/txt_dominio.py <Folha.txt> 145|140` no TXT; mapear os blocos de CC (Filial) e comparar funcionário × rubrica × conta.
 4. **Primeiro verificar a tabela de erros recorrentes** (abaixo) e as **pendências do mês anterior** (seção Histórico); depois procurar erros novos: conta errada para o grupo, lançamento invertido, conta inexistente, rubrica que não saiu, rescisões/férias/adiantamentos.
@@ -59,6 +63,7 @@ O Domínio exporta **um único TXT com as duas empresas** sob o cabeçalho da Ma
 |---|---|---|
 | Extrato Mensal da folha (`Filial_Extrato Mensal_MM.AA.xlsx` / `Matriz_Extrato Mensal_MM.AA.xlsx`) | Google Drive, pasta Korp (buscar pelo título; baixar com `download_file_content` e decodificar o base64) | `scripts/extrato.py` — CC, funcionário, rubrica (código, nome, P/D), encargos por CC |
 | TXT da folha (`Folha.txt`) | anexo do usuário | `scripts/txt_dominio.py` — registros 02/03/05, cp1252 |
+| Relação de Rescisões Calculadas (`Relação de Rescisões Calculadas.xls`, uma por empresa) | anexo do usuário | LibreOffice `--convert-to xlsx` + openpyxl; só totais por pessoa |
 | Balancete (`Balancete_MM.AA.xls`) | anexo do usuário | `python_calamine` (o xls do Domínio não abre com xlrd/LibreOffice) |
 | Plano de contas Korp (`Plano_de_Contas.xls`) | anexo do usuário | `python_calamine`; conferir se a conta existe, é analítica e não é "NAO USAR" |
 
@@ -121,6 +126,13 @@ Decisões já confirmadas pelo usuário:
 - VR/VA/ajuda de custo não utilizados na rescisão: **D 2523 / C Ajuda de Custo do grupo** (DES 2888; Suporte 3146).
 - Consignado (crédito do trabalhador) com provisão/estorno (9752/9754) e "PROVISAO DESC. EMP. CRED. TRAB." no cálculo de férias: **excluir do TXT** a provisão e o estorno; manter só os descontos efetivos (9750/9751, 714/717/721/730) — o 3137 tem de fechar com o extrato (confirmado em 08/2026).
 - Diferença de férias paga na folha (940/8112/8189): D conta de férias do grupo / **C 2521**.
+- **Consignado com estorno sem provisão (Filial, 09/2026):** excluir só o estorno (D 3137 / C 2521 459,65); o 3137 do mês tem de ser Σ dos descontos efetivos. (A anotação anterior de "manter o estorno em 09" estava errada.)
+- **Adiantamento de férias (937) de férias pagas em mês anterior:** não relançar (baixa já feita no TXT daquele mês); fica no fechamento como "competência de outros meses" negativa (09/2026: Matheus e Ana, 3.542,61 na Filial).
+- **Adiantamento salarial na rescisão (695 "VALE")**: D 2523 / C 2464.
+- **Aviso prévio reavido (rubrica 49, pedido de demissão sem cumprir aviso):** desconto da rescisão, D 2523 / C salário do grupo.
+- **Rescisão do comercial com 2900/2924 (Qualidade):** manter as contas do Domínio e o CC do funcionário; só avisar e sugerir corrigir no Domínio.
+- **Matriz — CC pelo número do registro 05, não pelo CC do extrato** (a numeração do extrato é outra: DES WEB e DES BACKOFFICE = Desenvolvimento → CC337).
+- **VA diferença CCT (25/09):** fora do extrato mensal; manter no TXT e anotar como "outros cálculos".
 
 ## Conferência obrigatória (extrato × TXT × balancete)
 
@@ -133,6 +145,10 @@ Com `scripts/extrato.py` somar por CC/funcionário/rubrica e comparar com o TXT 
 5. Toda rubrica do extrato tem lançamento no TXT (procurar férias, rescisões e adiantamentos que não saíram).
 6. Toda conta do TXT existe no plano Korp (ex.: 252/253 não existem — código truncado de 2523).
 7. Após gerar o TXT: **todo lançamento com 05 nos dois lados (Matriz e Filial)**; simular o que a Korp grava (somar só os lados com 05) e bater com o fechamento; mesmo tamanho de registro (01=55, 02=165, 03=664, 05=138, 99=100), cp1252 + CRLF, nenhum CC numérico remanescente, passivos fechando com o extrato.
+
+8. **3137 consignado = Σ dos descontos efetivos do extrato** (9750/9751 e 714/717/721/730), nunca depois de provisão/estorno: 9752 (provisão) e 9754 (estorno) se anulam no extrato. Se o Domínio exportar o estorno **sem** a provisão (09/2026, Filial, Ana: D 3137 / C 2521 459,65), **excluir o estorno**. Se o lançamento D 3137 / C 2521 não tiver provisão correspondente nem for estorno (09/2026, Matriz, Maria Fernanda 1.234,27), conferir contra o extrato: se o saldo só fecha invertendo, é desconto invertido → D 2521 / C 3137.
+9. **Cada rescisão da Relação de Rescisões Calculadas** (proventos, descontos, líquido, FGTS rescisório) precisa bater com os lançamentos: proventos = créditos em 2523 de despesa; descontos = débitos em 2523; líquido = saldo de 2523; FGTS = créditos em 2530.
+10. **Conta de despesa × CC:** conferir cada lançamento de despesa contra o grupo do CC (tabela "Grupos de contas"). Exceção conhecida e só avisada: rescisão do comercial que o Domínio exporta com 2900/2924 (Qualidade) — manter o CC do funcionário.
 
 ## Erros recorrentes da integração da Filial (verificar primeiro — vistos de 05 a 08/2026; enquanto o Domínio não for corrigido, repetem todo mês)
 
@@ -168,7 +184,19 @@ Erros novos em 07/2026 (Filial):
 
 Erros novos em 08/2026 (Filial): rescisão (CC 7) com verbas creditadas em 2521/2524/2525; INSS da rescisão (826) D 2885; VR não utilizado (657) D 2888 / C 2934 (invertido e em conta da Qualidade); FGTS de aviso prévio C 2533 (IRRF); conta **2855** inexistente no INSS patronal (é 2885); FGTS férias D 2885 (é 2886); horas extras do ADM (CC 10) C 2524; adiantamentos de férias (937) não exportados; consignado com provisão/estorno lançados no cálculo de férias.
 
+Erros novos em 09/2026 (Filial): salário do CC 5 (Bruno) D 2323 / **C 2531** (é C 2521); afastamento por doença do DES D 2521 / C 2884 invertido; INSS terceiros 13º do ADM C 2521 (é 2531); rescisão da Isabele (CC 10) com INSS em D 2998, verbas em 2521/2524/2525 e VR/multa de estabilidade em D 2521 (tudo em 2523); bolsa afastamento do estagiário C 2521 (é 2526); ajuda de custo dos estagiários C 2521 (é 2526, dividir quando o bloco mistura CLT); consignado da Ana com estorno e **sem** a provisão (excluir o estorno); adiantamento salarial da rescisão do Enzo (rubrica 695 "VALE") lançado D 2464 / C 2521 (é D 2523 / C 2464); FGTS de aviso prévio C 2533 (é 2530).
+
+Erros novos em 09/2026 (Matriz): rescisão do Augusto com verbas em 2521/2524/2525 (→ 2523), FGTS de rescisão e de aviso prévio C 2533 (→ 2530), IRRF 13º da rescisão D 2525 / C 2531 (→ D 2523 / C 2533); FGTS de férias C 2533 (→ 2530) e com débito em 2885 (→ 2886); INSS de férias C 2885 (→ C 2531) ou D 2885 (→ D 2524); horas extras 100% D 2521 / C 2917 invertidas; VT D 3144 / C 2521 invertido; desconto troco de férias D 2524 / C 2907 (→ D 2521); média horas férias D 2524 / C 3098 invertida; desconto consignado D 3137 / C 2521 invertido (ver conferência 8); 5 lançamentos sem `05` (INSS/IRRF da rescisão e compensação do salário-maternidade) — completar com o CC do funcionário (rescisão do Augusto: CC337; compensação: CC320).
+
 Rescisões inteiras podem não sair no TXT (06/2026: Antônio Henrique, CC 7, demitido em 30/06) — conferir cada funcionário "Demitido" do extrato. O FGTS da rescisão está no "Valor FGTS" da linha do funcionário e no "Valor FGTS Rescisório" do total do extrato (fica fora do "Valor do FGTS" geral).
+
+## Rescisões de meses anteriores que o Domínio não exportou (aprendido em 09/2026)
+
+1. A **Relação de Rescisões Calculadas** (período de 2 meses) lista quem foi demitido. Para cada demitido, procurar a rescisão no TXT do mês; se não estiver, **procurar no TXT já importado do mês da demissão** (ex.: Kelyanne, Matriz, demitida em 28/08, já estava no TXT de 08 — **não** relançar em 09) e só então tratar como pendente.
+2. A relação traz só **totais** (proventos, descontos, líquido, FGTS rescisório). O **detalhe das verbas** vem do **Extrato Mensal do mês da demissão** (Drive): seção de cada funcionário "Demitido" (rubricas P/D) e o "Resumo por Rubricas do Centro de Custo". Em CC com mais de um demitido o Domínio exporta as verbas **somadas por CC** (Enzo + Wellington, CC 8): aceitável, o resultado contábil é o mesmo.
+3. Montar: D despesa do grupo / C 2523 (proventos); D 2523 / C conta do desconto (INSS 826/989 → 2531, consignado 714/717/721/730 → 3137, adiantamento 695 → 2464, VR/ajuda não utilizados → ajuda de custo do grupo); FGTS D despesa / C 2530. CC pelo extrato (CC 4 COM → CC379; CC 8 → CC345). Lançar no TXT do mês em que o Domínio exportou (ou no mês que o usuário definir) e tratar como "competência de outros meses" no fechamento.
+4. Validar sempre: proventos, descontos, líquido, FGTS e INSS por pessoa/CC contra a relação **e** contra o extrato (conferência 9).
+5. Se o INSS patronal (Empresa/Terceiros/RAT) do CC no extrato do mês da demissão já bate com os lançamentos do TXT daquele mês, não falta patronal da rescisão.
 
 No Domínio a integração é por **centro de custo → lançamento (conta débito, conta crédito, histórico) → rubricas selecionadas**; abas Folha (rubricas), Rescisão, Empresa (encargos patronais), Provisão de Férias/13º etc. A planilha de correções indica CC + rubrica + aba para o usuário corrigir lá.
 
@@ -182,19 +210,23 @@ No Domínio a integração é por **centro de custo → lançamento (conta débi
 | 06/2026 | TXT corrigido entregue (CC nos 2 lados) | Horas extras 100% do Bruno (165,36 + DSR 39,37) mantidas por decisão, apesar de fora do extrato; rescisão do Antônio Henrique (competência 06) saiu no TXT de 07; VR não utilizado do CC 8 → C 3146 |
 | 07/2026 | TXT corrigido entregue | Contém a rescisão do Antônio (09/07, competência 06) e as férias da Fernanda pagas em 31/07 (gozo em 08); faltou a rescisão de estágio da Isabele (veio no TXT de 08); reembolso 617 mantido em 2891; CC 1 GERAL = CC320 |
 | 08/2026 | TXT corrigido entregue | Consignado da Ana: estorno (459,65) e provisão de férias (919,30) excluídos; rescisão Alyson/Wendel reclassificada para 2523; adiantamentos (Matheus, Ana, Fernanda) incluídos; Isabele recontratada em 03/08 como celetista no CC 10 (contas ADM 2994/2996/2997/3144) |
+| 09/2026 | TXT da outra SKILL (231 lançamentos, CC nos 2 lados) validado; **2 correções manuais** (planilha `Korp/Correcoes_Manuais_Folha_Korp_09-2026.xlsx`) + 2 avisos | Rescisões de agosto (Guilherme CC379, Enzo/Wellington CC345) entraram no TXT de 09 com detalhe do Extrato 08.26 (líquido 24.700,80, FGTS 4.254,19, INSS 1.023,65, consignado do Enzo 2.416,71, adiantamento 1.769,67 em 2464); Isabele (rescisão 03/09, líquido 0,00) em 2523; excluir o estorno do consignado da Ana (seq 510); avisos: Guilherme com 2900 (3,00) e 2924 (251,00) |
 
-**Pendências para 09/2026 (Filial) — conferir no TXT de setembro:**
-- Rescisões de **Guilherme Tinti (CC 4, 24/08)**, **Enzo Muniz (CC 8, 27/08)** e **Wellington Cordeiro (CC 8, 28/08)** não saíram no TXT de 08: líquido 9.151,01 / 6.958,54 / 8.591,25; FGTS 1.669,39 / 1.988,87 / 595,93; INSS 311,41 / 344,70 / 367,54; consignado do Enzo 2.416,71. Devem vir no TXT de 09 — lançar em 2523 (CC379 / CC345) e tratar como "competência de outros meses".
-- Férias do **Matheus (CC 7)** e da **Ana Paula (CC 8)** foram pagas inteiras em 08 (TXT de 08); a parte de 09 aparece no extrato de 09 sem lançamento novo — não duplicar (INSS 223,90 / 308,26; IRRF 228,13 / 146,48).
-- Integração do Domínio ainda não corrigida (a usuária está corrigindo pela planilha de correções) — verificar se os erros recorrentes sumiram.
+**Pendências para 10/2026 (Filial) — conferir no TXT de outubro:**
+- Confirmar se as correções manuais de 09 foram feitas na Korp (estorno da Ana excluído) — o 3137 de 09 tem de ficar em 3.811,33 (folha 1.394,62 + Enzo 2.416,71, competência 08).
+- Férias do **Matheus** e da **Ana** (pagas em 08 e 09) e qualquer férias paga no fim de 09 com gozo em 10: não duplicar baixas de adiantamento (conferência acima).
+- Pedir a **Relação de Rescisões Calculadas** (09 e 10) e conferir cada demitido contra o TXT de 10 e contra o TXT já importado de 09 antes de dar como pendente.
+- Integração do Domínio ainda com os erros recorrentes (tabelas acima) — verificar se a usuária já corrigiu na origem; os erros novos de 09 estão listados.
+- Isabele (CC 10, ADM) saiu em 03/09 — não deve haver lançamentos dela em 10.
 
-**Matriz (140)** — extratos no Drive: `Matriz_Extrato Mensal_05.26/06.26/07.26.xlsx` (08 não está no Drive).
+**Matriz (140)** — extratos no Drive: `Matriz_Extrato Mensal_05.26/06.26/07.26/08.26/09.26.xlsx`.
 
 | Mês | Situação | Observações |
 |---|---|---|
 | até 08/2026 | Importados na Korp pelo padrão antigo (só troca de CC 1–6 → Korp) | Contrapartidas sem CC não entraram e foram **lançadas à mão** pela usuária — **não gerar complemento** para esses meses (duplicaria) |
 | 08/2026 | `Folha_Korp_140_corrigida.txt` (cópia em `Korp/Matriz/2026-08/config/`) | 248 de 251 lançamentos com CC nos 2 lados; 3 sem nenhum 05 ficaram fora e foram lançados à mão: compensação de salário-maternidade D 2531 / C 2996 8.124,60 (CC644) e INSS de rescisão D 2523 / C 2531 319,41 + 230,81 (CC337). Observação a revisar: rescisão com conta 3012 (Provisões Qualidade) e CC337 (Desenvolvimento) — conta e CC de grupos diferentes |
-| 09/2026 em diante | Gerar pelo padrão completo (3 entregas) com `cc_map` 1–6 e CC nos dois lados | Config de exemplo: `{"empresa":"0000140","cnpj":"03623045000100","cc_map":{"0000001":"CC337","0000002":"CC506","0000003":"CC345","0000004":"CC644","0000005":"CC320","0000006":"CC379"}}` |
+| 09/2026 | TXT da outra SKILL (291 lançamentos, CC nos 2 lados, sem divergência do CC do Domínio) validado; **1 correção manual** (seq 1062, FGTS de férias D 2885 → D 2886, 25,35) | Rescisão do Augusto (DES WEB, CC337, 30/09): líquido 34.579,17 = saldo de 2523; FGTS rescisório 10.204,15; descontos 3.621,61. Consignado: lançamento D 3137 / C 2521 1.234,27 era desconto invertido (3137 = 2.427,67 = extrato). Compensação do salário-maternidade 4.062,30 → CC320. **Kelyanne** (demitida 28/08) já estava no TXT de 08 — não pendente; em 08 as verbas ficaram em 2524/2525/2521 (padrão antigo), então o líquido 9.352,58 não aparece em 2523 na Korp (reclassificação opcional, não feita) |
+| 10/2026 em diante | Gerar pelo padrão completo (3 entregas) com `cc_map` 1–6 e CC nos dois lados | Config de exemplo: `{"empresa":"0000140","cnpj":"03623045000100","cc_map":{"0000001":"CC337","0000002":"CC506","0000003":"CC345","0000004":"CC644","0000005":"CC320","0000006":"CC379"}}` |
 
 ## Formato das planilhas
 
