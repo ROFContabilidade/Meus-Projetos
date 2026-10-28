@@ -1,3 +1,7 @@
 __pycache__/
 Sincronizar-Pastas-Drive/logs/
 Notas-Servico/
+Conversor-Extratos/conversor.log
+Conversor-Extratos/estado.json
+Conversor-Extratos/config.json
+Conversor-Extratos/python.txt
