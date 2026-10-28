@@ -123,18 +123,19 @@ def ler_texto_bytes(b):
 # ----------------------------------------------------------------- linhas e colunas
 
 class Linha:
-    __slots__ = ('pag', 'toks', 'ocr')
+    __slots__ = ('pag', 'toks', 'ocr', 'y', 'h')
 
-    def __init__(self, pag, toks, ocr=False):
-        self.pag, self.toks, self.ocr = pag, toks, ocr   # toks: [(texto, x0, x1)] com x de 0 a 1
+    def __init__(self, pag, toks, ocr=False, y=0.0, h=0.01):
+        # toks: [(texto, x0, x1)] com x de 0 a 1; y = centro da linha e h = altura, de 0 a 1 na pagina
+        self.pag, self.toks, self.ocr, self.y, self.h = pag, toks, ocr, y, h
 
     @property
     def texto(self):
         return ' '.join(t for t, _, _ in self.toks)
 
 
-def agrupa_linhas(palavras, largura):
-    """[(x0,y0,x1,y1,texto)] -> lista de linhas [(texto,x0,x1)], agrupando pela altura na pagina."""
+def agrupa_linhas(palavras, largura, altura):
+    """[(x0,y0,x1,y1,texto)] -> [(toks, y, h)], agrupando as palavras pela altura na pagina."""
     pal = sorted(palavras, key=lambda w: ((w[1] + w[3]) / 2, w[0]))
     linhas = []
     for x0, y0, x1, y1, t in pal:
@@ -145,7 +146,7 @@ def agrupa_linhas(palavras, largura):
             ln['c'] = (ln['c'] * (len(ln['w']) - 1) + c) / len(ln['w'])
         else:
             linhas.append({'c': c, 'h': h, 'w': [(t, x0 / largura, x1 / largura)]})
-    return [sorted(ln['w'], key=lambda w: w[1]) for ln in linhas]
+    return [(sorted(ln['w'], key=lambda w: w[1]), ln['c'] / altura, ln['h'] / altura) for ln in linhas]
 
 
 COLS = {
@@ -161,15 +162,67 @@ COLS = {
 
 def cabecalho_colunas(ln):
     """Linha 'Data Historico Docto Credito Debito Saldo' -> {coluna: centro x}; None se nao for."""
-    achou = {}
+    achou, outros, ult, esq, fim_ant = {}, [], None, [], 0.0
     for t, x0, x1 in ln.toks:
         k = norm(t).strip(':')
-        for col, nomes in COLS.items():
-            if k in nomes and col not in achou:
-                achou[col] = (x0 + x1) / 2
-    if 'data' in achou and ('hist' in achou or 'doc' in achou) and achou.keys() & {'valor', 'cred', 'deb', 'saldo'}:
+        if k in ('(r$)', 'r$', '(rs)') and ult:          # 'Valor (R$)': a coluna e o conjunto
+            c, a0 = ult
+            achou[c] = (a0 + x1) / 2
+            continue
+        col = next((c for c, nomes in COLS.items() if k in nomes and c not in achou), None)
+        if col:
+            achou[col], ult = (x0 + x1) / 2, (col, x0)
+            esq.append((x0, col))
+        elif esq and esq[-1][1].startswith('_') and x0 - fim_ant < 0.02:
+            pass                                          # continua a coluna anterior
+        else:
+            outros.append((x0 + x1) / 2)
+            esq.append((x0, f'_{len(outros)}'))
+            ult = None
+        fim_ant = x1
+    if 'data' in achou and ('hist' in achou or 'doc' in achou) and achou.keys() & VCOLS:
+        achou['_outros'] = outros
+        achou['_esq'] = sorted(esq)
         return achou
     return None
+
+
+VCOLS = {'valor', 'cred', 'deb', 'saldo'}
+
+
+def coluna_de(x, cols):
+    cands = [(abs(v - x), k) for k, v in cols.items() if not k.startswith('_')] + \
+        [(abs(v - x), '_') for v in cols.get('_outros', [])]
+    return min(cands)[1] if cands else None
+
+
+def extrai_valores(toks, cols):
+    """Com cabecalho de colunas: pega os valores pela coluna (mesmo no meio da linha, ex.: Stone com
+    a contraparte depois do saldo). Sem cabecalho: valores no fim da linha."""
+    if not cols or not (cols.keys() & VCOLS):
+        return tira_valores(toks)
+    vals, texto, i = [], [], 0
+    while i < len(toks):
+        t, x0, x1 = toks[i]
+        v = le_valor(t)
+        if v and coluna_de((x0 + x1) / 2, cols) in VCOLS:
+            num, sinal = v
+            while texto and texto[-1][0] in ('R$', '-', '+', '-R$', '+R$', 'R$-'):
+                tk = texto.pop()[0]
+                if '-' in tk:
+                    sinal = -1
+                elif '+' in tk:
+                    sinal = 1
+            if i + 1 < len(toks) and toks[i + 1][0] in ('C', 'D', '€'):
+                sinal = -1 if toks[i + 1][0] == 'D' else 1
+                i += 1
+            vals.append((num, sinal, (x0 + x1) / 2))
+        else:
+            texto.append(toks[i])
+        i += 1
+    if not vals:
+        return tira_valores(toks)
+    return vals[:3], texto
 
 
 # ----------------------------------------------------------------- cabecalho/rodape repetido e avisos
@@ -209,17 +262,20 @@ def pasta_imagens(arq):
 
 
 def ler_tsv_ocr(p):
-    """Formato do ocr_windows.ps1: uma linha por linha do extrato; palavras separadas por TAB,
-    cada palavra 'x0 x1 texto' (x de 0 a 1)."""
+    """Formato do ocr_windows.ps1: uma linha por linha do extrato, '#y h' e as palavras separadas por TAB,
+    cada palavra 'x0 x1 texto' (tudo de 0 a 1 na pagina)."""
     linhas = []
-    for row in p.read_text(encoding='utf-8-sig').splitlines():
-        toks = []
+    for i, row in enumerate(p.read_text(encoding='utf-8-sig').splitlines()):
+        toks, y, h = [], i * 0.012, 0.01
         for w in row.split('\t'):
+            if w.startswith('#'):
+                y, h = (float(v) for v in w[1:].split())
+                continue
             partes = w.split(' ', 2)
             if len(partes) == 3:
                 toks.append((partes[2], float(partes[0]), float(partes[1])))
         if toks:
-            linhas.append(toks)
+            linhas.append((toks, y, h))
     return linhas
 
 
@@ -251,15 +307,15 @@ def _ocr_tesseract(arq, pags, pasta):
             png = pasta / f'p{p}.png'
             doc[p - 1].get_pixmap(dpi=200).save(png)
             out = subprocess.run(['tesseract', str(png), '-', '-l', 'por', 'tsv'], capture_output=True, text=True).stdout
-            pal, larg = [], 1
+            pal, larg, alt = [], 1, 1
             for row in out.splitlines()[1:]:
                 c = row.split('\t')
                 if len(c) == 12 and c[0] == '1':
-                    larg = int(c[8])
+                    larg, alt = int(c[8]), int(c[9])
                 if len(c) == 12 and c[0] == '5' and c[11].strip():
                     x, y, w, h = map(int, c[6:10])
                     pal.append((x, y, x + w, y + h, c[11].strip()))
-            res[p] = agrupa_linhas(pal, larg)
+            res[p] = agrupa_linhas(pal, larg, alt)
     return res
 
 
@@ -277,7 +333,7 @@ def ler_pdf(arq):
     for i, pg in enumerate(doc, 1):
         pal = [w[:5] for w in pg.get_text('words')]
         cru += len(pg.get_text())
-        paginas.append([Linha(i, toks) for toks in agrupa_linhas(pal, pg.rect.width or 1)])
+        paginas.append([Linha(i, toks, y=y, h=h) for toks, y, h in agrupa_linhas(pal, pg.rect.width or 1, pg.rect.height or 1)])
     n = len(doc)
     doc.close()
     rep = repetidas(paginas)
@@ -295,17 +351,22 @@ def ler_pdf(arq):
         for p in escaneadas:
             base = [ln.texto for ln in paginas[p - 1]]
             novas = []
-            for toks in res.get(p, []):
-                ln = Linha(p, toks, ocr=True)
+            for toks, y, h in res.get(p, []):
+                ln = Linha(p, toks, ocr=True, y=y, h=h)
                 cru += len(ln.texto) + 1
                 if not repete(ln.texto, base, rep):
                     novas.append(ln)
-            if novas:
-                paginas[p - 1] = [Linha(p, ln.toks, ocr=False) for ln in paginas[p - 1]] + novas
+            if novas:   # camada de texto sem mapa de fonte vira lixo ("?@ABC8@D"): fica so o OCR
+                paginas[p - 1] = [ln for ln in paginas[p - 1] if not lixo(ln.texto)] + novas
             else:
                 info['sem_texto'].append(p)
         rep = repetidas(paginas)       # de novo, agora com o cabecalho lido pelo OCR
     return paginas, rep, info, cru
+
+
+def lixo(txt):
+    t = txt.replace(' ', '')
+    return not t or sum(c in '!"#$%&\'()*+;<=>?@[\\]^_`{|}~' for c in t) / len(t) > 0.15
 
 
 def repete(txt, base, rep):
@@ -378,8 +439,8 @@ def tira_valores(toks):
         for _ in range(2):              # '- R$ 45,90' / 'R$ 45,90' / '- 45,90'
             if j >= 1 and toks[j - 1][0] == 'R$':
                 j -= 1
-            elif j >= 1 and toks[j - 1][0] in ('-', '+'):
-                sinal = -1 if toks[j - 1][0] == '-' else 1
+            elif j >= 1 and toks[j - 1][0] in ('-', '+', '-R$', '+R$'):
+                sinal = -1 if '-' in toks[j - 1][0] else 1
                 j -= 1
         vals.insert(0, (num, sinal, x))
         i = j
@@ -390,7 +451,7 @@ def separa_doc(resto, cols):
     if len(resto) < 2:
         return resto, ''
     t, x0, x1 = resto[-1]
-    if not re.match(r'^\d[\d./-]{2,}$', t) or le_valor(t):
+    if not re.match(r'^\d[\d./-]{2,}$', t) or le_valor(t) or re.match(r'^\d{2}/\d{2}(/\d{2,4})?$', t):
         return resto, ''
     if cols and 'doc' in cols and 'hist' in cols:
         c = (x0 + x1) / 2
@@ -455,7 +516,7 @@ def achar_periodo(texto):
                     dt.date(int(m[6]), MESES_EXT[m[5].lower()], int(m[4])))
         except ValueError:
             pass
-    for m in re.finditer(r'(\d{2}/\d{2}/\d{4})\s*(?:a|à|ate|até|-|–)\s*(\d{2}/\d{2}/\d{4})', texto, re.I):
+    for m in re.finditer(r'(\d{2}/\d{2}/\d{4})\s*(?:a|à|ate|até|e|-|–)\s*(\d{2}/\d{2}/\d{4})', texto, re.I):
         a, b = data_dmy(m[1]), data_dmy(m[2])
         if a and b and a <= b:
             return a, b
@@ -479,7 +540,8 @@ NOME_BANCO = {c: n for c, n, _ in BANCOS}
 
 def dados_conta(texto):
     t = texto[:6000]
-    banco = next((f'{n} ({c})' for c, n, p in BANCOS if re.search(p, t, re.I)), '?')
+    achados = [(m.start(), f'{n} ({c})') for c, n, p in BANCOS for m in [re.search(p, t, re.I)] if m]
+    banco = min(achados)[1] if achados else '?'
     ag = re.search(r'ag(?:[eê]ncia|\.)?\s*(?:n[ºo°.]*)?\s*[:\-]?\s*(\d{3,5}(?:-[\dxX])?)\b', t, re.I)
     conta = re.search(r'conta(?:\s*corrente|\s*pagamento|\s*poupan[cç]a)?\s*(?:n[ºo°.]*)?\s*[:\-]?\s*([\d.]{3,15}-?[\dxX]?)\b', t, re.I)
     tit = re.search(r'(?:titular|cliente|nome|correntista|associado)\s*[:\-]\s*([^\n|]{3,70})', t, re.I)
@@ -487,80 +549,110 @@ def dados_conta(texto):
             'titular': re.split(r'\s{2,}|\s(?:cpf|cnpj|ag[eê]ncia|conta)\b', tit[1].strip(), flags=re.I)[0] if tit else ''}
 
 
+def coluna_texto(x0, cols):
+    """Coluna de uma palavra de texto pela borda esquerda dos titulos do cabecalho."""
+    esq = cols.get('_esq', []) if cols else []
+    nome = esq[0][1] if esq else ''
+    for xe, c in esq:
+        if x0 >= xe - 0.01:
+            nome = c
+    return nome
+
+
 def montar_tabela(paginas, rep, texto_todo):
-    """Linhas do PDF -> (lancamentos, fora_da_tabela, saldo_ini, saldo_fin, linhas_com_valor)."""
+    """Linhas do PDF -> (lancamentos, fora_da_tabela, saldo_ini, saldo_fin, linhas_com_valor, periodo).
+    Cada linha com valor e um lancamento; as linhas de texto sem valor vao para o lancamento mais proximo
+    na pagina (acima ou abaixo), assim funciona com historico em 2 ou 3 linhas antes ou depois do valor."""
     periodo = achar_periodo(texto_todo)
     anos = Counter(re.findall(r'\b\d{2}/\d{2}/(\d{4})\b', texto_todo))
     ano_f = ano_por_periodo(periodo, anos.most_common(1)[0][0] if anos else None)
-    rows, fora = [], []
-    saldo_ini = saldo_fin = None
-    cols = None
-    data_atual = None
-    secao = None
-    pend = []
-    com_valor = 0
-    vistos_rep = set()
-    seq = [ln for linhas in paginas for ln in linhas]
-    for idx, ln in enumerate(seq):
+    fora, vistos_rep, itens, cols = [], set(), [], None
+    for ln in (ln for linhas in paginas for ln in linhas):
         k = chave_rep(ln.texto)
         c = cabecalho_colunas(ln)
         if c:
             cols = c
             continue
         data, resto = tira_data(ln.toks, ano_f)
-        vals, resto = tira_valores(resto)
+        vals, resto = extrai_valores(resto, cols)
         if k in rep or (e_aviso(ln.texto) and not vals):
             if k in rep and k not in vistos_rep and not e_aviso(ln.texto):
                 vistos_rep.add(k)
                 fora.append(ln)         # cabecalho repetido: guarda so a primeira vez
             continue
-        hist_toks, doc = separa_doc(resto, cols) if vals else (resto, '')
-        hist = ' '.join(t for t, _, _ in hist_toks).strip(' -|')
-        h = norm(hist)
+        txt = ' '.join(t for t, _, _ in resto).strip(' -|')
+        if vals:
+            itens.append({'k': 'V', 'ln': ln, 'data': data, 'vals': vals, 'resto': resto, 'cols': cols, 'anexo': []})
+        elif data and not txt:
+            itens.append({'k': 'D', 'data': data})
+        elif txt and any(ch.isalnum() for ch in txt):
+            itens.append({'k': 'T', 'ln': ln, 'data': data, 'resto': resto})
+    # linhas de texto -> lancamento mais proximo na mesma pagina
+    vs = [i for i, it in enumerate(itens) if it['k'] == 'V']
+    for i, it in enumerate(itens):
+        if it['k'] != 'T':
+            continue
+        ln, melhor = it['ln'], None
+        ant = next((j for j in reversed(vs) if j < i), None)
+        prx = next((j for j in vs if j > i), None)
+        for j in (ant, prx):
+            if j is None or itens[j]['ln'].pag != ln.pag:
+                continue
+            v = itens[j]['ln']
+            d = abs(v.y - ln.y)
+            if d <= 2.2 * max(v.h, ln.h) and (melhor is None or d < melhor[0]):
+                melhor = (d, j)
+        if melhor:
+            itens[melhor[1]]['anexo'].append(it)
+        else:
+            fora.append(ln)
+    rows, saldo_ini, saldo_fin, data_atual, secao = [], None, None, None, None
+    for it in itens:
+        if it['k'] == 'D':
+            data_atual = it['data']
+            continue
+        if it['k'] != 'V':
+            continue
+        ln, cols = it['ln'], it['cols']
+        data = it['data'] or next((a['data'] for a in it['anexo'] if a['data']), None)
         if data:
             data_atual = data
-        if pend and pend[-1][0] != idx - 1:
-            fora.extend(p for _, p in pend)
-            pend = []
-        if not vals:
-            if not hist:
-                continue
-            if data:                                   # 1a linha de um lancamento com valor na linha de baixo
-                fora.extend(p for _, p in pend)
-                pend = [(idx, ln)]
-                continue
-            if pend and len(pend) < 2:
-                pend.append((idx, ln))
-                continue
-            prox = seq[idx + 1] if idx + 1 < len(seq) else None
-            if prox and prox.pag == ln.pag:
-                pd, pr = tira_data(prox.toks, ano_f)
-                if not pd and tira_valores(pr)[0] and not RE_SALDO.match(norm(prox.texto)):
-                    fora.extend(p for _, p in pend)
-                    pend = [(idx, ln)]
-                    continue
-            if rows and rows[-1]['ln_idx'] == idx - 1 and rows[-1]['pag'] == ln.pag and len(hist) <= 80:
-                rows[-1]['hist'] += ' ' + hist          # continuacao do historico anterior
-                rows[-1]['ln_idx'] = idx
-                continue
-            fora.extend(p for _, p in pend)
-            pend = []
-            if any(ch.isalnum() for ch in ln.texto):
-                fora.append(ln)
-            continue
-        com_valor += 1
-        if pend:
-            pre = [' '.join(t for t, _, _ in tira_data(p.toks, ano_f)[1]) for _, p in pend]
-            hist = (' '.join(pre) + ' ' + hist).strip()
-            h = norm(hist)
-            pend = []
-        valor, sinal, saldo = atribui_valores(vals, cols)
+        resto, doc = separa_doc(it['resto'], cols)
+        partes = [(tok, ln.y) for tok in resto] + [(tok, a['ln'].y) for a in it['anexo'] for tok in a['resto']]
+        if cols and cols.get('_esq'):
+            ordem = {c: n for n, (_, c) in enumerate(cols['_esq'])}
+            if 'doc' in ordem and not doc:
+                docs = [t for (t, x0, _), _ in partes if coluna_texto(x0, cols) == 'doc' and re.match(r'^\d[\d./-]{2,}$', t)]
+                if len(docs) == 1:
+                    doc = docs[0]
+                    partes = [p for p in partes if p[0][0] != doc]
+            partes.sort(key=lambda p: (ordem.get(coluna_texto(p[0][1], cols), 0), p[1], p[0][1]))
+            grupos, ult = [], None
+            for (t, x0, _), _ in partes:
+                c = coluna_texto(x0, cols)
+                if c != ult:
+                    grupos.append([])
+                    ult = c
+                grupos[-1].append(t)
+            hist = ' / '.join(' '.join(g) for g in grupos)
+        else:
+            partes.sort(key=lambda p: (p[1], p[0][1]))
+            hist = ' '.join(t for (t, _, _), _ in partes)
+        hist = re.sub(r'\s+', ' ', hist).strip(' -|/')
+        h = norm(hist)
+        proprio = ' '.join(t for t, _, _ in resto).strip(' -|/')
+        if proprio and (RE_TOTAL.match(norm(proprio)) or RE_SALDO.match(norm(proprio))):
+            fora.extend(a['ln'] for a in it['anexo'])     # linha de saldo/total: nao junta texto vizinho
+            hist, h = proprio, norm(proprio)
+        valor, sinal, saldo = atribui_valores(it['vals'], cols)
+        ocr = ln.ocr or any(a['ln'].ocr for a in it['anexo'])
         if RE_TOTAL.match(h):
             if re.search(r'entrada|credito|recebid', h):
                 secao = 1
             elif re.search(r'saida|debito|pago|gasto', h):
                 secao = -1
             fora.append(ln)
+            fora.extend(a['ln'] for a in it['anexo'])
             continue
         if RE_SALDO.match(h):
             v = saldo or (com_sinal(valor, sinal) if valor and valor != 'X' else None)
@@ -570,19 +662,19 @@ def montar_tabela(paginas, rep, texto_todo):
                 saldo_ini = v
             elif re.search(r'\bfinal\b|\batual\b', h):
                 saldo_fin = v
-            elif re.search(r'\bdo dia\b|^saldo em\b|^saldo$|^saldo [\d/]+$|^s a l d o', h) and data_atual:
+            elif (data or data_atual) and not re.search(r'invest|poup|aplic|limite|bloq|cdb|fundo|cheque', h):
                 rows.append({'data': data or data_atual, 'hist': hist, 'doc': doc, 'valor': None, 'sinal': None,
-                             'saldo': v, 'pag': ln.pag, 'ocr': ln.ocr, 'ln_idx': idx, 'tipo': 's', 'secao': None})
+                             'saldo': v, 'pag': ln.pag, 'ocr': ocr, 'tipo': 's', 'secao': None})
             else:
                 fora.append(ln)
             continue
         if valor in ('X', None) or not (data or data_atual) or not hist:
             fora.append(ln)
+            fora.extend(a['ln'] for a in it['anexo'])
             continue
         rows.append({'data': data or data_atual, 'hist': hist, 'doc': doc, 'valor': valor, 'sinal': sinal,
-                     'saldo': saldo, 'pag': ln.pag, 'ocr': ln.ocr, 'ln_idx': idx, 'tipo': 't', 'secao': secao})
-    fora.extend(p for _, p in pend)
-    return rows, fora, saldo_ini, saldo_fin, com_valor, periodo
+                     'saldo': saldo, 'pag': ln.pag, 'ocr': ocr, 'tipo': 't', 'secao': secao})
+    return rows, fora, saldo_ini, saldo_fin, len(vs), periodo
 
 
 def chave_data(s):
@@ -612,6 +704,10 @@ def completa_sinais(rows, saldo_ini):
             ant = dec(r['saldo'])
         elif ant is not None and r['tipo'] == 't' and r['sinal']:
             ant += r['sinal'] * dec(r['valor'])
+    if any(r['sinal'] == -1 for r in t):      # extrato que so marca a saida ("-R$ 120,00"): o resto e entrada
+        for r in t:
+            if r['sinal'] is None:
+                r['sinal'] = 1
     return crono
 
 
@@ -630,9 +726,11 @@ def conferir(rows, saldo_ini, saldo_fin, crono=None):
             saldo_ini = fmt(dec(prim['saldo']) - prim['sinal'] * dec(prim['valor']))
             obs_ini = ' (calc. pela 1ª linha)'
         elif prim and prim['tipo'] == 's':
-            idx = crono.index(prim)
-            if all(r['tipo'] == 's' for r in crono[:idx + 1]):
-                saldo_ini, obs_ini = prim['saldo'], ' (1º saldo)'
+            antes = crono[:crono.index(prim)]
+            if all(r['tipo'] == 's' or r['sinal'] for r in antes):
+                soma = sum((r['sinal'] * dec(r['valor']) for r in antes if r['tipo'] == 't'), Decimal(0))
+                saldo_ini = fmt(dec(prim['saldo']) - soma)
+                obs_ini = ' (calc. pelo 1º saldo do dia)' if soma else ' (1º saldo)'
     if saldo_fin is None:
         ult = next((r for r in reversed(crono) if r['saldo']), None)
         saldo_fin = ult['saldo'] if ult else None
@@ -755,6 +853,11 @@ def converter_pdf(arq):
     texto_todo = '\n'.join(ln.texto for linhas in paginas for ln in linhas)
     conta = dados_conta(texto_todo)
     rows, fora, si, sf, com_valor, periodo = montar_tabela(paginas, rep, texto_todo)
+    fora_per = []
+    if periodo:     # ex.: Bradesco com "Ultimos lancamentos" do mes seguinte depois do total
+        dentro = lambda r: (lambda d: d is None or periodo[0] <= d <= periodo[1])(data_dmy(r['data']))  # noqa: E731
+        fora_per = [r for r in rows if not dentro(r)]
+        rows = [r for r in rows if dentro(r)]
     crono = completa_sinais(rows, si)
     n_ocr = len(info['ocr'])
     metodo = 'OCR' if n_ocr == info['paginas'] else ('texto do PDF + OCR' if n_ocr else 'texto do PDF')
@@ -777,11 +880,15 @@ def converter_pdf(arq):
     saldos = conferir(rows, si, sf, crono)
     tab, obs_tab = tabela_md(rows)
     fora = [ln for ln in fora if any(ch.isalnum() for ch in ln.texto) and not so_cabecalho(ln, conta, periodo)]
+    if fora_per:
+        obs_tab.append(f'{len(fora_per)} lançamento(s) fora do período no fim')
     if fora:
         obs_tab.append(f'{len(fora)} linha(s) fora da tabela no fim')
     cab = cabecalho_md(Path(arq).name, conta, periodo_texto(periodo, rows), arq, n_pag, metodo, ocr_txt, saldos,
                        obs + obs_tab)
     out = cab + [''] + tab
+    if fora_per:
+        out += ['## Fora do período (não entram no Confere)'] + tabela_md(fora_per)[0][1:]
     if fora:
         out += ['## Fora da tabela'] + [f'p{ln.pag}{" [OCR]" if ln.ocr else ""}|{ln.texto}' for ln in fora]
     return out, cru, len(t), saldos[-1]

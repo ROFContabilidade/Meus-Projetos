@@ -21,6 +21,12 @@ pelo arquivo único `INSTALAR_CONVERSOR.bat`.
 - OCR que relê o cabeçalho é removido; OCR vazio → `(OCR sem texto: abrir a imagem da página)`; nenhuma página some.
 - Nunca arredondar/corrigir valor, data ou nome. Débito com `-`. Sinal vem de: `-`/`D`/`C`/parênteses, coluna
   Crédito/Débito do cabeçalho, seção "Total de entradas/saídas", ou diferença do saldo da linha; senão `(sinal?)`.
+- Montagem: cada linha com valor = 1 lançamento; linha de texto sem valor vai para o lançamento mais próximo na
+  página (acima ou abaixo, até ~2 alturas de linha). Com cabeçalho de colunas (Data/Histórico/Valor/Saldo...), os
+  valores são lidos pela coluna (mesmo no meio da linha) e o histórico junta as colunas de texto com ` / `.
+- Lançamentos com data fora do período do cabeçalho vão para `## Fora do período` e não entram no Confere.
+- Testado em 28/10/2026 com extratos reais de set/2026 (Sicredi, Bradesco, Itaú x2, Stone, PagBank, Santander
+  escaneado): todos com `Confere: sim`; PDF da Stone e do Sicredi bateram com o OFX do mesmo mês.
 - Layout inseguro (sem lançamentos ou >25% das linhas com valor fora da tabela) → texto limpo por página.
 - Ao mudar qualquer arquivo, rodar `python gerar_instalador.py` (regera `INSTALAR_CONVERSOR.bat` e confere os 8 arquivos).
 - `.ps1` salvos em UTF-8 **com BOM** (Windows PowerShell 5.1). `.bat` só ASCII.

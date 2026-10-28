@@ -5,7 +5,7 @@
   Para cada pagina N grava na pasta -Saida:
     pN.png  imagem da pagina (para conferir valores e datas)
     pN.txt  texto lido, uma linha por linha do extrato
-    pN.tsv  mesmo texto com a posicao de cada palavra (usado pelo conversor.py para achar as colunas)
+    pN.tsv  mesmo texto com a posicao da linha (#y h) e de cada palavra (usado pelo conversor.py para achar as colunas)
 
   Uso: powershell -File ocr_windows.ps1 -Pdf "C:\...\extrato.pdf" -Saida "C:\...\pasta" [-Paginas "1,3"]
        sem -Paginas = todas as paginas.  -Contar = so mostra o numero de paginas.
@@ -90,6 +90,7 @@ foreach ($p in $lista) {
     $bmp = Esperar ($dec.GetSoftwareBitmapAsync()) ([Windows.Graphics.Imaging.SoftwareBitmap])
     $res = Esperar ($motor.RecognizeAsync($bmp)) ([Windows.Media.Ocr.OcrResult])
     $larg = [double]$bmp.PixelWidth
+    $alt = [double]$bmp.PixelHeight
 
     # junta as palavras pela altura na pagina (as colunas do extrato ficam na mesma linha)
     $pal = foreach ($l in $res.Lines) { foreach ($wd in $l.Words) {
@@ -110,7 +111,8 @@ foreach ($p in $lista) {
     foreach ($ln in $linhas) {
         $ws = $ln.W | Sort-Object X0
         $txt.Add((($ws | ForEach-Object { $_.T }) -join ' '))
-        $tsv.Add((($ws | ForEach-Object { '{0} {1} {2}' -f ($_.X0 / $larg).ToString('0.####', $cult), ($_.X1 / $larg).ToString('0.####', $cult), $_.T }) -join "`t"))
+        $pos = '#{0} {1}' -f ($ln.C / $alt).ToString('0.#####', $cult), ($ln.H / $alt).ToString('0.#####', $cult)
+        $tsv.Add($pos + "`t" + (($ws | ForEach-Object { '{0} {1} {2}' -f ($_.X0 / $larg).ToString('0.####', $cult), ($_.X1 / $larg).ToString('0.####', $cult), $_.T }) -join "`t"))
     }
     [IO.File]::WriteAllLines((Join-Path $Saida "p$p.txt"), [string[]]$txt, $utf8)
     [IO.File]::WriteAllLines((Join-Path $Saida "p$p.tsv"), [string[]]$tsv, $utf8)
