@@ -61,7 +61,9 @@ if (-not $py) {
 if ($py) {
     Write-Host "       Python: $py"
     Write-Host '       Instalando pymupdf e openpyxl (leitura de PDF e Excel) ...'
-    & $py -m pip install --user --upgrade --disable-pip-version-check -q pymupdf openpyxl
+    $ErrorActionPreference = 'Continue'
+    & $py -m pip install --user --upgrade --disable-pip-version-check --no-warn-script-location -q pymupdf openpyxl
+    $ErrorActionPreference = 'Stop'
     $ok = $false
     try { & $py -c 'import pymupdf, openpyxl' 2>$null; $ok = ($LASTEXITCODE -eq 0) } catch { }
     if (-not $ok) { Write-Host '       ATENCAO: pymupdf nao instalou. Tire um print e envie.'; $py = $null }
