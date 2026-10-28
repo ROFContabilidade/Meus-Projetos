@@ -32,3 +32,6 @@ pelo arquivo único `INSTALAR_CONVERSOR.bat`.
 - `.ps1` salvos em UTF-8 **com BOM** (Windows PowerShell 5.1). `.bat` só ASCII.
 - Testes fora do Windows: `ROF_OCR_TESTE=tesseract python conversor.py --stats arquivo.pdf` (tesseract só para teste).
   O OCR do Windows (`ocr_windows.ps1`) não é testável fora do Windows.
+- 28/10/2026: instalado no PC da Rosângela (`C:\Users\User\OneDrive\EXTRATOS`); teste escaneado com OCR do Windows:
+  12 lançamentos, `Confere: sim`. O OCR do Windows lê zero como `o` (`1.500,oo`) e parte datas (`1 3/10/2026`):
+  `arruma_ocr()` corrige; não remover.
