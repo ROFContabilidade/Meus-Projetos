@@ -352,7 +352,7 @@ def ler_pdf(arq):
             base = [ln.texto for ln in paginas[p - 1]]
             novas = []
             for toks, y, h in res.get(p, []):
-                ln = Linha(p, toks, ocr=True, y=y, h=h)
+                ln = Linha(p, arruma_ocr(toks), ocr=True, y=y, h=h)
                 cru += len(ln.texto) + 1
                 if not repete(ln.texto, base, rep):
                     novas.append(ln)
@@ -362,6 +362,38 @@ def ler_pdf(arq):
                 info['sem_texto'].append(p)
         rep = repetidas(paginas)       # de novo, agora com o cabecalho lido pelo OCR
     return paginas, rep, info, cru
+
+
+def arruma_ocr(toks):
+    """Numeros que o OCR quebra ou le torto: '1.' '500,00' / '1 500,00' / '1.500, 00' / '1.500.00' / 'l.5OO,00'."""
+    def limpa(t):
+        if sum(c.isdigit() for c in t) >= 2 and re.fullmatch(r'[-+(R$]*[\dOoIl|SB.,]+[)CD-]?', t):
+            t = t.translate(str.maketrans({'O': '0', 'o': '0', 'I': '1', 'l': '1', '|': '1', 'S': '5', 'B': '8'}))
+        return t
+
+    def decimal_br(t):
+        m = re.fullmatch(r'([-+(]?(?:R\$)?-?)([\d.,]+?)([.,])(\d{2})(\)?[CD-]?)', t)
+        if not m or not re.fullmatch(r'\d{1,3}([.,]?\d{3})*|\d+', m[2]):
+            return t
+        inteiro = re.sub(r'[.,]', '', m[2])
+        milhar = f'{int(inteiro):,}'.replace(',', '.') if m[2] != inteiro else inteiro
+        return f'{m[1]}{milhar},{m[4]}{m[5]}'
+
+    out = []
+    for t, x0, x1 in toks:
+        t = limpa(t)
+        if out:
+            a, ax0, ax1 = out[-1]
+            junto = None
+            if re.fullmatch(r'-?(R\$)?-?\d{1,3}[.,]?', a) and (a[-1] in '.,' or x0 - ax1 < 0.012) and re.fullmatch(r'[.,]?\d{3}([.,]\d{3})*[.,]\s?\d{2}[CD-]?', t):
+                junto = a.rstrip('.,') + '.' + t.lstrip('.,')                # '1.' + '500,00'
+            elif re.fullmatch(r'-?(R\$)?-?[\d.]*\d[.,]', a) and re.fullmatch(r'\d{2}[CD-]?', t):
+                junto = a[:-1] + ',' + t                                       # '1.500,' + '00'
+            if junto and x0 - ax1 < 0.03:
+                out[-1] = (junto, ax0, x1)
+                continue
+        out.append((t, x0, x1))
+    return [(decimal_br(t) if re.search(r'\d[.,]\d{2}\)?[CD-]?$', t) else t, x0, x1) for t, x0, x1 in out]
 
 
 def lixo(txt):
