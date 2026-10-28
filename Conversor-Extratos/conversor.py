@@ -389,6 +389,10 @@ def arruma_ocr(toks):
                 junto = a.rstrip('.,') + '.' + t.lstrip('.,')                # '1.' + '500,00'
             elif re.fullmatch(r'-?(R\$)?-?[\d.]*\d[.,]', a) and re.fullmatch(r'\d{2}[CD-]?', t):
                 junto = a[:-1] + ',' + t                                       # '1.500,' + '00'
+            data_re = r'\d{2}/\d{2}(/\d{2}|/\d{4})?'
+            if not junto and len(out) == 1 and re.fullmatch(r'[\d/]+', a) and re.fullmatch(r'[\d/]+', t) \
+                    and re.fullmatch(data_re, a + t) and not re.fullmatch(data_re, t):
+                junto = a + t                                    # data no inicio da linha: '1' + '3/10/2026'
             if junto and x0 - ax1 < 0.03:
                 out[-1] = (junto, ax0, x1)
                 continue
