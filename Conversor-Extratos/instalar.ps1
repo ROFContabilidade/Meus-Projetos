@@ -95,14 +95,14 @@ Write-Host '  3/6  Criando a tarefa automatica ...'
 Write-Host ''
 # limpeza: .md que a versao anterior criou para comprovantes, balancetes, planilhas... (pede SIM)
 if ($py) {
-    Write-Host '       Procurando .md criados para documentos que NAO sao extrato (comprovantes, balancetes...) ...'
+    Write-Host '       Procurando .md antigos para refazer ...'
     $ErrorActionPreference = 'Continue'
     $lista = & $py (Join-Path $ferr 'conversor.py') --limpar
     $ErrorActionPreference = 'Stop'
     $ultima = @($lista)[-1]
     Write-Host "       $ultima"
     if ($ultima -match '^[1-9]|e [1-9]') {
-        Write-Host '       (os extratos lidos errado pela versao anterior sao convertidos de novo em ate 5 minutos)'
+        Write-Host '       (os apagados sao convertidos de novo, com a versao nova, em ate 5 minutos)'
         $q = Read-Host '       Apagar esses .md? Os originais NAO sao tocados (no Drive vao para a Lixeira). Digite SIM'
         if ($q -eq 'SIM') { & $py (Join-Path $ferr 'conversor.py') --limpar --apagar | Select-Object -Last 1 | ForEach-Object { Write-Host "       $_" } }
     }
@@ -129,6 +129,7 @@ $regra = @"
 $marca
 ## Extratos bancários (conversor ROF)
 - Para analisar um extrato, leia o ``<nome>_extrato.md`` que fica ao lado do original (em ``$entrada`` ou nas pastas ``Extrato`` dos clientes no Google Drive: Arquivos RENATA Dominio, Arquivos ROF Dominio e Arquivos PROTECTION Dominio\25 - Cosmetici). **Nunca** leia o PDF ou o OFX original.
+- Na pasta Extrato também há ``_extrato.md`` de comprovantes/relatórios/planilhas: começam com ``# Documento - `` (texto limpo, sem Confere); use-os para conferir lançamentos.
 - Só abra a imagem da página (pasta indicada na linha ``Origem`` do .md) quando a linha estiver marcada ``[OCR pN]`` e o valor parecer duvidoso, ou quando a linha ``Confere`` disser ``NÃO``.
 - Se o ``_extrato.md`` ainda não existir, rode o conversor primeiro: ``"$py" "$ferr\conversor.py" "<arquivo>"`` (sem Python: ``powershell -File "$ferr\converter_sem_python.ps1" "<arquivo>"``).
 - Programas e explicação: ``$ferr\LEIA-ME.md``.

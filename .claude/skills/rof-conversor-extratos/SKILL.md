@@ -16,12 +16,16 @@ pelo arquivo único `INSTALAR_CONVERSOR.bat`.
   - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos PROTECTION Dominio\25 - Cosmetici` — **só a Cosmetici**
     (não a 31 - Cosmeticon nem a 30 - F.V.S).
 - Só arquivos salvos desde 01/09/2026 (`desde` no config.json; pasta `MM_AAAA` anterior também é pulada).
-- Filtro `eh_extrato_drive()` (29/10/2026, depois de ~700 .md criados para não-extratos): só pasta que COMEÇA com
-  "Extrato" (não "Controle de Extratos"); pula subpastas de comprovantes/contas pagas/notas/boletos/guias/folha;
-  pula nomes de relatório, conferência, balancete, lançamentos, retiradas, conciliação, controle, faltantes,
-  pró-labore, pagamento, comprovante, boleto, guia, DARF, DAS, INSS, FGTS, NF, aluguel, condomínio, planilha,
-  repasse, parcela, empréstimo, fatura (nome que começa com "Extrato" só é barrado por palavras fortes).
-- `--limpar` lista e `--limpar --apagar` apaga os `_extrato.md` (só os que começam com `# Extrato - `) de arquivos que o filtro barra e os de extratos com `Confere: NÃO`/texto por página (para converter de novo com a versão nova); o instalador pergunta SIM antes. O `_extrato.md` fica dentro da
+- 29/10/2026 (pedido da Rosângela): converte **tudo** dentro das pastas que começam com "Extrato" (inclusive
+  subpastas "Comprovantes"). `eh_extrato_drive()` só decide o MODO: extrato (tabela + Confere) ou documento
+  (`# Documento - nome`, texto limpo por página / linhas da planilha, sem tabela). Vira documento: subpasta de
+  comprovantes/contas pagas/notas/boletos/guias/folha, ou nome com relatório, conferência, balancete, lançamentos,
+  retiradas, conciliação, controle, faltantes, pró-labore, pagamento, comprovante, boleto, guia, DARF, DAS, INSS,
+  FGTS, NF, aluguel, condomínio, planilha, repasse, parcela, empréstimo, fatura (nome que começa com "Extrato" só
+  vira documento com palavras fortes). Pastas fora de "Extrato" (Folha, "Controle de Extratos") não são lidas.
+- `--limpar` lista e `--limpar --apagar` apaga os `_extrato.md` do conversor (`# Extrato - ` / `# Documento - `) fora
+  das pastas Extrato, os de documentos feitos como extrato e os de extratos com `Confere: NÃO`/texto por página
+  (o conversor refaz em até 5 min); o instalador pergunta SIM antes. O `_extrato.md` fica dentro da
   própria pasta "Extrato" do cliente, ao lado do original (o original nunca é alterado).
 - Lista em `PASTAS_DRIVE` (conversor.py) e em `instalar.ps1` (config.json); mudar nos dois e regerar o instalador.
 

@@ -961,6 +961,54 @@ def saldo_resumo(texto, rotulo):
     return ('-' if neg else '') + m[2]
 
 
+def converter_documento(arq):
+    """Comprovante, relatorio, balancete, planilha... dentro da pasta Extrato: so o texto limpo, sem tabela/Confere."""
+    ext = Path(arq).suffix.lower()
+    agora = dt.datetime.now().strftime('%d/%m/%Y %H:%M')
+    if ext == '.pdf':
+        paginas, rep, info, cru = ler_pdf(arq)
+        corpo = texto_por_pagina(paginas, rep, info)
+        if len(paginas) == 1 and not info['ocr']:
+            corpo = corpo[1:]                       # 1 pagina: sem o titulo "## Pagina 1"
+        metodo = 'OCR' if info['ocr'] else 'texto do PDF'
+        qtd = f'{info["paginas"]} página(s)'
+        if info['ocr']:
+            metodo += f' (imagens: {info["imagens"]})'
+    else:
+        if ext == '.csv':
+            txt = ler_texto_bytes(Path(arq).read_bytes())
+            folhas = [('', [r.split(';') if r.count(';') >= r.count(',') else r.split(',') for r in txt.splitlines()])]
+        else:
+            import openpyxl
+            wb = openpyxl.load_workbook(arq, read_only=True, data_only=True)
+            folhas = [(ws.title, [list(r) for r in ws.iter_rows(values_only=True)]) for ws in wb.worksheets]
+        corpo, cru = [], 0
+        for nome, ls in folhas:
+            def cel(c):
+                if c is None:
+                    return ''
+                if isinstance(c, (dt.date, dt.datetime)):
+                    return c.strftime('%d/%m/%Y')
+                if isinstance(c, float):
+                    return valor_planilha(c)                  # 1500.5 -> 1500,50
+                return str(c).replace('|', '/').replace('\n', ' ')
+            linhas = ['|'.join(cel(c) for c in r).rstrip('|') for r in ls]
+            linhas = [x for x in linhas if x.strip('|').strip()]
+            cru += sum(len(x) for x in linhas)
+            if linhas:
+                corpo += ([f'## Aba {nome}'] if len(folhas) > 1 else []) + linhas
+        metodo, qtd = ext[1:].upper(), f'{len(folhas)} aba(s)'
+    try:
+        base = Path(ler_config().get('entrada') or AQUI.parent).resolve().parent
+        origem = Path(arq).resolve().relative_to(base)
+    except (ValueError, OSError):
+        origem = arq
+    cab = [f'# Documento - {Path(arq).name}',
+           f'Tipo: documento (não é extrato bancário: comprovante, relatório, planilha...) | Origem: {origem} | {qtd} | '
+           f'método: {metodo} | gerado em {agora}', '']
+    return cab + corpo, cru, 0, 'documento'
+
+
 def converter_pdf(arq):
     paginas, rep, info, cru = ler_pdf(arq)
     texto_todo = '\n'.join(ln.texto for linhas in paginas for ln in linhas)
@@ -1291,11 +1339,13 @@ def registrar(arq, resultado):
         pass
 
 
-def converter(arq, stats=False):
+def converter(arq, stats=False, modo='extrato'):
     arq = Path(arq).resolve()
     t0 = time.time()
     ext = arq.suffix.lower()
-    if ext == '.pdf':
+    if modo == 'documento' and ext != '.ofx':
+        linhas, cru, n, conf = converter_documento(arq)
+    elif ext == '.pdf':
         linhas, cru, n, conf = converter_pdf(arq)
     elif ext == '.ofx':
         linhas, cru, n, conf = converter_ofx(arq)
@@ -1310,7 +1360,8 @@ def converter(arq, stats=False):
     os.replace(tmp, alvo)
     seg = time.time() - t0
     conf_curto = conf.split(';')[0] if conf else ''
-    res = f'ok {n} lanç. | confere: {conf_curto} | {seg:.1f}s -> {alvo.name}'
+    res = (f'ok documento | {seg:.1f}s -> {alvo.name}' if conf == 'documento' else
+           f'ok {n} lanç. | confere: {conf_curto} | {seg:.1f}s -> {alvo.name}')
     registrar(arq, res)
     msg(f'{arq.name}: {res}')
     if stats:
@@ -1362,6 +1413,10 @@ def eh_extrato_drive(rel_parts, nome):
     i = next((n for n, p in enumerate(partes) if p.startswith('extrato')), None)
     if i is None or any(RE_PASTA_NAO.search(p) for p in partes[i + 1:]):
         return False
+    return nome_de_extrato(nome)
+
+
+def nome_de_extrato(nome):
     base = norm(Path(nome).stem).replace('_', ' ')
     if base.startswith('extrato'):      # "Extrato_Lancamentos_3918..." e extrato; so barra o que e claramente outra coisa
         return not re.search(r'comprov|relatorio|conciliacao|controle|faltante|balancete|retirada', base)
@@ -1404,8 +1459,8 @@ def candidatos(stats_cfg):
                 p = Path(pasta) / a
                 if p.suffix.lower() not in EXTS or a.startswith(('~$', '.')):
                     continue
-                if so_extrato and not eh_extrato_drive(rel, a):
-                    continue
+                modo = ('extrato' if eh_extrato_drive(rel, a) else 'documento') if so_extrato else \
+                    ('extrato' if nome_de_extrato(a) else 'documento')
                 if p.with_name(p.stem + '_extrato.md').exists():
                     continue
                 try:
@@ -1414,7 +1469,7 @@ def candidatos(stats_cfg):
                     continue
                 if so_extrato and mt < desde:
                     continue
-                yield p, mt
+                yield p, mt, modo
 
 
 def limpar(apagar=False):
@@ -1440,17 +1495,19 @@ def limpar(apagar=False):
                         cab = [f.readline() for _ in range(8)]
                 except OSError:
                     continue
-                if not cab[0].startswith('# Extrato - '):
+                if not cab[0].startswith(('# Extrato - ', '# Documento - ')):
                     continue                     # .md que nao foi o conversor que fez
-                if not eh_extrato_drive(rel, nome_orig):
-                    achados.append(md)           # nao e extrato
+                if not any(norm(p).startswith('extrato') for p in rel):
+                    achados.append(md)           # fora de pasta Extrato (ex.: "Controle de Extratos")
+                elif not eh_extrato_drive(rel, nome_orig) and cab[0].startswith('# Extrato - '):
+                    refazer.append(md)           # documento convertido como extrato: refaz como documento
                 elif origs and any('Confere: NÃO' in c or 'NÃO montada' in c for c in cab):
                     refazer.append(md)           # extrato que a versao anterior leu errado: apaga para converter de novo
     for md in achados:
         msg(f'  {md}')
     for md in refazer:
         msg(f'  (refazer) {md}')
-    msg(f'{len(achados)} .md de documentos que não são extrato e {len(refazer)} de extratos para converter de novo.')
+    msg(f'{len(achados)} .md fora das pastas Extrato e {len(refazer)} para converter de novo.')
     if apagar:
         n = 0
         for md in achados + refazer:
@@ -1480,13 +1537,13 @@ def varrer(stats=False):
         except (OSError, ValueError):
             estado = {}
         feitos = 0
-        for p, mt in candidatos(cfg):
+        for p, mt, modo in candidatos(cfg):
             if time.time() - mt < 20:           # ainda baixando/salvando
                 continue
             if estado.get(str(p)) == mt:         # ja deu erro nesta versao do arquivo
                 continue
             try:
-                converter(p, stats)
+                converter(p, stats, modo)
                 estado.pop(str(p), None)
                 feitos += 1
             except Exception as e:  # noqa: BLE001
@@ -1521,7 +1578,7 @@ def main(argv):
     erros = 0
     for a in arqs:
         try:
-            converter(a, stats)
+            converter(a, stats, 'extrato' if nome_de_extrato(Path(a).name) else 'documento')
         except Exception as e:  # noqa: BLE001
             erros += 1
             registrar(a, f'ERRO: {e}')
