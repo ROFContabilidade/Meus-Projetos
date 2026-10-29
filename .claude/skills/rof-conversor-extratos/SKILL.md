@@ -8,6 +8,17 @@ description: "Conversor local de extratos bancários da ROF Contabilidade (PDF c
 Programa em `Conversor-Extratos/`. Roda no Windows da Rosângela; instalado em `%OneDrive%\EXTRATOS\_ferramentas`
 pelo arquivo único `INSTALAR_CONVERSOR.bat`.
 
+## Onde o conversor procura (pedido da Rosângela em 29/10/2026)
+- `OneDrive\EXTRATOS\01 - Entrada` (tudo) e, no Google Drive **G:**, só as subpastas chamadas **"Extrato"**
+  (ex.: `<NUM - Empresa>\2026\09_2026\Extrato`) de:
+  - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio`
+  - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos ROF Dominio`
+  - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos PROTECTION Dominio\25 - Cosmetici` — **só a Cosmetici**
+    (não a 31 - Cosmeticon nem a 30 - F.V.S).
+- Só arquivos salvos desde 01/09/2026 (`desde` no config.json); pula `comprovante*`. O `_extrato.md` fica dentro da
+  própria pasta "Extrato" do cliente, ao lado do original (o original nunca é alterado).
+- Lista em `PASTAS_DRIVE` (conversor.py) e em `instalar.ps1` (config.json); mudar nos dois e regerar o instalador.
+
 ## Regra para analisar extratos
 - Ler sempre o `<nome>_extrato.md`, **nunca** o PDF/OFX original.
 - Abrir a imagem da página (`%TEMP%\ROF-Extratos-OCR\<nome>-<hash>\pN.png`, citada na linha `Origem`) só quando a

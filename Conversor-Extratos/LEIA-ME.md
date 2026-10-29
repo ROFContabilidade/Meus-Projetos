@@ -4,8 +4,18 @@ Transforma extratos **PDF (com texto ou escaneado), OFX, CSV e XLSX** num arquiv
 curto, para analisar no Claude gastando poucos tokens. **Tudo roda no computador**: nada vai para a internet.
 O OCR é o do próprio Windows. O original **nunca** é apagado, movido nem alterado.
 
+## Onde ele procura (a cada 5 minutos)
+- `EXTRATOS\01 - Entrada` e subpastas: todo arquivo.
+- Google Drive (G:), **só nas subpastas chamadas "Extrato"** (ex.: `67 - Ligiane\2026\09_2026\Extrato`) e só arquivos
+  salvos a partir de **01/09/2026** (para não converter o histórico inteiro); pula os `comprovante...`:
+  - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio`
+  - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos ROF Dominio`
+  - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos PROTECTION Dominio\25 - Cosmetici` (só a Cosmetici)
+- Se o Drive montar em outra letra, ele procura sozinho nas outras letras. As pastas e a data ficam em `config.json`
+  (`pastas_drive`, `desde`). O `.md` é gravado ao lado do original, dentro da pasta "Extrato" do cliente.
+
 ## Como usar
-- Salve ou baixe o extrato em `EXTRATOS\01 - Entrada` (pode usar uma subpasta por cliente).
+- Salve o extrato na pasta "Extrato" do cliente no Drive, ou em `EXTRATOS\01 - Entrada`.
 - Em até 5 minutos aparece ao lado o `itau-out-2026_extrato.md` (mesmo nome + `_extrato.md`).
 - Para converter na hora:
   - dois cliques em **Converter extratos agora** (área de trabalho): converte tudo o que for novo na pasta de entrada;

@@ -1237,12 +1237,63 @@ def ler_config():
         return {}
 
 
+PASTAS_DRIVE = [  # pastas dos clientes no Google Drive: so as subpastas "Extrato" (ver LEIA-ME)
+    r'G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio',
+    r'G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos ROF Dominio',
+    r'G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos PROTECTION Dominio\25 - Cosmetici',
+]
+DESDE_PADRAO = '2026-09-01'
+
+
+def acha_pasta(p):
+    """O Google Drive pode montar em outra letra (G:, H:, I:...): procura a mesma pasta nas outras letras."""
+    if os.path.isdir(p) or os.name != 'nt' or not re.match(r'^[A-Za-z]:\\', p):
+        return p if os.path.isdir(p) else None
+    for letra in 'DEFGHIJKLMNOPQRSTUVWXYZ':
+        q = letra + p[1:]
+        if os.path.isdir(q):
+            return q
+    return None
+
+
+def candidatos(stats_cfg):
+    """(arquivo, mtime) a converter: tudo da pasta de entrada + o que estiver em subpastas 'Extrato'
+    das pastas do Drive, alterado desde a data 'desde' (para nao converter o historico inteiro)."""
+    cfg = stats_cfg
+    entrada = cfg.get('entrada') or str(AQUI.parent / '01 - Entrada')
+    raizes = [(entrada, False)] + [(p, True) for p in cfg.get('pastas_drive', PASTAS_DRIVE)]
+    try:
+        desde = dt.datetime.fromisoformat(cfg.get('desde', DESDE_PADRAO)).timestamp()
+    except ValueError:
+        desde = 0
+    for raiz0, so_extrato in raizes:
+        raiz = acha_pasta(raiz0)
+        if not raiz:
+            msg(f'Pasta não encontrada (Google Drive aberto?): {raiz0}')
+            continue
+        for pasta, dirs, arqs in os.walk(raiz):
+            dirs[:] = [d for d in dirs if not d.startswith(('.', '_', '~'))]
+            if so_extrato and not any('extrato' in norm(parte) for parte in Path(pasta).relative_to(raiz).parts):
+                continue
+            for a in sorted(arqs):
+                p = Path(pasta) / a
+                if p.suffix.lower() not in EXTS or a.startswith(('~$', '.')):
+                    continue
+                if so_extrato and norm(a).startswith('comprovante'):
+                    continue
+                if p.with_name(p.stem + '_extrato.md').exists():
+                    continue
+                try:
+                    mt = p.stat().st_mtime
+                except OSError:
+                    continue
+                if so_extrato and mt < desde:
+                    continue
+                yield p, mt
+
+
 def varrer(stats=False):
-    entrada = ler_config().get('entrada') or str(AQUI.parent / '01 - Entrada')
-    if not os.path.isdir(entrada):
-        registrar(entrada, 'ERRO: pasta de entrada não encontrada')
-        msg(f'Pasta de entrada não encontrada: {entrada}')
-        return
+    cfg = ler_config()
     trava = AQUI / 'conversor.lock'
     try:
         if trava.exists() and time.time() - trava.stat().st_mtime < 3600:
@@ -1257,30 +1308,23 @@ def varrer(stats=False):
         except (OSError, ValueError):
             estado = {}
         feitos = 0
-        for raiz, dirs, arqs in os.walk(entrada):
-            dirs[:] = [d for d in dirs if not d.startswith(('.', '_', '~'))]
-            for a in sorted(arqs):
-                p = Path(raiz) / a
-                if p.suffix.lower() not in EXTS or a.startswith(('~$', '.')):
-                    continue
-                if p.with_name(p.stem + '_extrato.md').exists():
-                    continue
-                try:
-                    mt = p.stat().st_mtime
-                except OSError:
-                    continue
-                if time.time() - mt < 20:           # ainda baixando/salvando
-                    continue
-                if estado.get(str(p)) == mt:         # ja deu erro nesta versao do arquivo
-                    continue
-                try:
-                    converter(p, stats)
-                    estado.pop(str(p), None)
-                    feitos += 1
-                except Exception as e:  # noqa: BLE001
-                    estado[str(p)] = mt
-                    registrar(p, f'ERRO: {e}')
-                    msg(f'{a}: ERRO: {e}')
+        for p, mt in candidatos(cfg):
+            if time.time() - mt < 20:           # ainda baixando/salvando
+                continue
+            if estado.get(str(p)) == mt:         # ja deu erro nesta versao do arquivo
+                continue
+            try:
+                converter(p, stats)
+                estado.pop(str(p), None)
+                feitos += 1
+            except Exception as e:  # noqa: BLE001
+                estado[str(p)] = mt
+                registrar(p, f'ERRO: {e}')
+                msg(f'{p.name}: ERRO: {e}')
+            try:
+                trava.write_text(str(os.getpid()))   # avisa que ainda esta rodando
+            except OSError:
+                pass
         ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=0), encoding='utf-8')
         if not feitos:
             msg('Nada novo para converter.')

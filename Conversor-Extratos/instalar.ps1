@@ -25,7 +25,18 @@ foreach ($f in 'conversor.py', 'ocr_windows.ps1', 'converter_sem_python.ps1', 'a
     Copy-Item -LiteralPath (Join-Path $origem $f) -Destination $ferr -Force
 }
 Get-ChildItem -LiteralPath $ferr | Unblock-File
-$cfg = @{ entrada = $entrada } | ConvertTo-Json
+# pastas dos clientes no Google Drive: o conversor olha so as subpastas "Extrato", arquivos desde 01/09/2026
+$drive = @('G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio',
+           'G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos ROF Dominio',
+           'G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos PROTECTION Dominio\25 - Cosmetici')
+$cfg = @{ entrada = $entrada; pastas_drive = $drive; desde = '2026-09-01' } | ConvertTo-Json
+foreach ($d in $drive) {
+    $ok = $false
+    foreach ($l in 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'D', 'E', 'F') {
+        if (Test-Path -LiteralPath ($l + $d.Substring(1))) { $ok = $true; break }
+    }
+    Write-Host ('       Drive: {0} {1}' -f $(if ($ok) { 'OK      ' } else { 'NAO ACHEI' }), $d)
+}
 [IO.File]::WriteAllText((Join-Path $ferr 'config.json'), $cfg, $utf8)
 
 # 3) Python
@@ -101,7 +112,7 @@ $marca = '<!-- ROF-CONVERSOR-EXTRATOS -->'
 $regra = @"
 $marca
 ## Extratos bancários (conversor ROF)
-- Para analisar um extrato, leia o ``<nome>_extrato.md`` que fica ao lado do original em ``$entrada``. **Nunca** leia o PDF ou o OFX original.
+- Para analisar um extrato, leia o ``<nome>_extrato.md`` que fica ao lado do original (em ``$entrada`` ou nas pastas ``Extrato`` dos clientes no Google Drive: Arquivos RENATA Dominio, Arquivos ROF Dominio e Arquivos PROTECTION Dominio\25 - Cosmetici). **Nunca** leia o PDF ou o OFX original.
 - Só abra a imagem da página (pasta indicada na linha ``Origem`` do .md) quando a linha estiver marcada ``[OCR pN]`` e o valor parecer duvidoso, ou quando a linha ``Confere`` disser ``NÃO``.
 - Se o ``_extrato.md`` ainda não existir, rode o conversor primeiro: ``"$py" "$ferr\conversor.py" "<arquivo>"`` (sem Python: ``powershell -File "$ferr\converter_sem_python.ps1" "<arquivo>"``).
 - Programas e explicação: ``$ferr\LEIA-ME.md``.
