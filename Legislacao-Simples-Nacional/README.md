@@ -14,6 +14,17 @@ Origem: PDFs no Drive (*Arquivos ROF Dominio › Legislação Simples Nacional* 
 | resolucao-cgsn-186-2026.md | Resolução CGSN 186/2026 | Opção pelo Simples e pelo regime regular de IBS/CBS para 2027. |
 | resolucao-cgsn-194-2026.md | Resolução CGSN 194/2026 | Prorroga prazos: Simples até 15/10/2026; regime regular de IBS/CBS até 30/10/2026; cancelamento de 03/11 a 20/12/2026. |
 
+## Reforma tributária – material de apoio (pasta `reforma-tributaria/`)
+Origem: Drive *Trabalho ROF › Procedimentos › Reforma Tributaria*.
+
+| Arquivo | Conteúdo |
+|---|---|
+| reforma-tributaria/lc214-sumario.md | Sumário da LC 214: capítulos e artigos. Anexos XVIII a XXIII = tabelas do Simples (LC 123) |
+| reforma-tributaria/simples-nacional-exemplos.md | Exercícios 2025 × 2033 (DAS × regime regular), serviço e comércio – material de estudo, não é lei |
+| reforma-tributaria/anexo-vii-indop-ibs-cbs.md | Indicador de operação (local da operação, art. 11 da LC 214) |
+| reforma-tributaria/anexo-viii-correlacao-nbs-indop-cclasstrib.md | Correlação item LC 116 × NBS × indOp × cClassTrib |
+| reforma-tributaria/anexo-i-nfse-leiaute-dps-v1-01.md | Leiaute da DPS/NFS-e nacional v1.01 (09/02/2026) |
+
 ## Dispositivos-chave já conferidos (estudo empresa 75 – A F EMERICH)
 
 - **Segregação do monofásico hoje:** LC 123, art. 18, §4º-A, I.
