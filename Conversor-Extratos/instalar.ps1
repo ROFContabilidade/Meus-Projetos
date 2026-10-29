@@ -101,7 +101,8 @@ if ($py) {
     $ErrorActionPreference = 'Stop'
     $ultima = @($lista)[-1]
     Write-Host "       $ultima"
-    if ($ultima -match '^[1-9]') {
+    if ($ultima -match '^[1-9]|e [1-9]') {
+        Write-Host '       (os extratos lidos errado pela versao anterior sao convertidos de novo em ate 5 minutos)'
         $q = Read-Host '       Apagar esses .md? Os originais NAO sao tocados (no Drive vao para a Lixeira). Digite SIM'
         if ($q -eq 'SIM') { & $py (Join-Path $ferr 'conversor.py') --limpar --apagar | Select-Object -Last 1 | ForEach-Object { Write-Host "       $_" } }
     }

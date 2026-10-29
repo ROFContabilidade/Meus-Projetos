@@ -1421,7 +1421,7 @@ def limpar(apagar=False):
     """Acha os _extrato.md que o conversor criou nas pastas do Drive para arquivos que NAO sao extrato
     (comprovantes, balancetes, planilhas...). Sem apagar=True so lista. So apaga .md que comecam com '# Extrato - '."""
     cfg = ler_config()
-    achados = []
+    achados, refazer = [], []
     for raiz0 in cfg.get('pastas_drive', PASTAS_DRIVE):
         raiz = acha_pasta(raiz0)
         if not raiz:
@@ -1434,22 +1434,26 @@ def limpar(apagar=False):
                     continue
                 origs = [x for x in arqs if Path(x).stem == m[1] and Path(x).suffix.lower() in EXTS]
                 nome_orig = origs[0] if origs else m[1] + '.pdf'
-                if eh_extrato_drive(rel, nome_orig):
-                    continue
                 md = Path(pasta) / a
                 try:
                     with md.open(encoding='utf-8', errors='replace') as f:
-                        if not f.readline().startswith('# Extrato - '):
-                            continue
+                        cab = [f.readline() for _ in range(8)]
                 except OSError:
                     continue
-                achados.append(md)
+                if not cab[0].startswith('# Extrato - '):
+                    continue                     # .md que nao foi o conversor que fez
+                if not eh_extrato_drive(rel, nome_orig):
+                    achados.append(md)           # nao e extrato
+                elif origs and any('Confere: NÃO' in c or 'NÃO montada' in c for c in cab):
+                    refazer.append(md)           # extrato que a versao anterior leu errado: apaga para converter de novo
     for md in achados:
         msg(f'  {md}')
-    msg(f'{len(achados)} arquivo(s) .md de documentos que não são extrato.')
+    for md in refazer:
+        msg(f'  (refazer) {md}')
+    msg(f'{len(achados)} .md de documentos que não são extrato e {len(refazer)} de extratos para converter de novo.')
     if apagar:
         n = 0
-        for md in achados:
+        for md in achados + refazer:
             try:
                 md.unlink()
                 n += 1
@@ -1457,7 +1461,7 @@ def limpar(apagar=False):
                 msg(f'  não apagou {md.name}: {e}')
         registrar('limpeza', f'apagados {n} .md de documentos que não são extrato')
         msg(f'Apagados: {n} (no Google Drive vão para a Lixeira).')
-    return achados
+    return achados + refazer
 
 
 def varrer(stats=False):

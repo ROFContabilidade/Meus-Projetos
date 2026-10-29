@@ -21,7 +21,7 @@ pelo arquivo único `INSTALAR_CONVERSOR.bat`.
   pula nomes de relatório, conferência, balancete, lançamentos, retiradas, conciliação, controle, faltantes,
   pró-labore, pagamento, comprovante, boleto, guia, DARF, DAS, INSS, FGTS, NF, aluguel, condomínio, planilha,
   repasse, parcela, empréstimo, fatura (nome que começa com "Extrato" só é barrado por palavras fortes).
-- `--limpar` lista e `--limpar --apagar` apaga os `_extrato.md` (só os que começam com `# Extrato - `) de arquivos
+- `--limpar` lista e `--limpar --apagar` apaga os `_extrato.md` (só os que começam com `# Extrato - `) de arquivos que o filtro barra e os de extratos com `Confere: NÃO`/texto por página (para converter de novo com a versão nova);
   que o filtro barra; o instalador pergunta SIM antes. O `_extrato.md` fica dentro da
   própria pasta "Extrato" do cliente, ao lado do original (o original nunca é alterado).
 - Lista em `PASTAS_DRIVE` (conversor.py) e em `instalar.ps1` (config.json); mudar nos dois e regerar o instalador.
