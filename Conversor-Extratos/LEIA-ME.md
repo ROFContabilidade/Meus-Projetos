@@ -7,7 +7,9 @@ O OCR é o do próprio Windows. O original **nunca** é apagado, movido nem alte
 ## Onde ele procura (a cada 5 minutos)
 - `EXTRATOS\01 - Entrada` e subpastas: todo arquivo.
 - Google Drive (G:), **só nas subpastas chamadas "Extrato"** (ex.: `67 - Ligiane\2026\09_2026\Extrato`) e só arquivos
-  salvos a partir de **01/09/2026** (para não converter o histórico inteiro); pula os `comprovante...`:
+  salvos a partir de **01/09/2026** (para não converter o histórico inteiro). Não converte o que não é extrato:
+  subpastas de comprovantes/notas/boletos dentro da pasta Extrato, nem arquivos com nome de relatório, balancete,
+  conciliação, lançamentos, retiradas, comprovante, boleto, guia, DARF, FGTS, aluguel, parcela etc.:
   - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio`
   - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos ROF Dominio`
   - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos PROTECTION Dominio\25 - Cosmetici` (só a Cosmetici)
@@ -71,4 +73,6 @@ data|histórico|doc|valor|saldo
 - **PDF com senha**: abra no navegador, imprima como PDF sem senha e salve na entrada.
 - **.xls antigo**: abra no Excel e salve como `.xlsx`.
 - Reinstalar ou mudar a pasta: rode o `INSTALAR_CONVERSOR.bat` de novo.
+- Apagar `.md` criados para documentos que não são extrato: `python conversor.py --limpar` (só lista) e
+  `python conversor.py --limpar --apagar` (apaga; só `.md` feitos pelo conversor; o instalador pergunta antes).
 - Tirar a tarefa: Agendador de Tarefas > **ROF - Converter extratos** > Excluir.

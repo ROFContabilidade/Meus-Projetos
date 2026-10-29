@@ -152,7 +152,7 @@ def agrupa_linhas(palavras, largura, altura):
 COLS = {
     'data': {'data', 'dt', 'date'},
     'hist': {'historico', 'descricao', 'lancamento', 'lancamentos', 'detalhe', 'detalhes', 'movimentacao'},
-    'doc': {'documento', 'doc', 'doc.', 'docto', 'docto.', 'nº', 'n.doc', 'ndoc', 'numero', 'ref', 'ref.'},
+    'doc': {'documento', 'doc', 'doc.', 'docto', 'docto.', 'nº', 'n.doc', 'ndoc', 'numero', 'ref', 'ref.', 'id'},
     'cred': {'credito', 'creditos', 'entrada', 'entradas', 'deposito', 'depositos', '(+)'},
     'deb': {'debito', 'debitos', 'saida', 'saidas', 'retirada', 'retiradas', '(-)'},
     'valor': {'valor', 'valores', 'valor(r$)', 'montante'},
@@ -207,8 +207,9 @@ def extrai_valores(toks, cols):
         v = le_valor(t)
         if v and coluna_de((x0 + x1) / 2, cols) in VCOLS:
             num, sinal = v
-            while texto and texto[-1][0] in ('R$', '-', '+', '-R$', '+R$', 'R$-'):
-                tk = texto.pop()[0]
+            esq = x0
+            while texto and texto[-1][0] in ('R$', '-', '+', '-R$', '+R$', 'R$-') and esq - texto[-1][2] < 0.012:
+                tk, esq, _ = texto.pop()
                 if '-' in tk:
                     sinal = -1
                 elif '+' in tk:
@@ -239,13 +240,18 @@ def chave_rep(txt):
 
 
 def repetidas(paginas):
-    """Linhas que aparecem em mais da metade das paginas (cabecalho/rodape)."""
+    """Cabecalho/rodape: a mesma linha, NA MESMA ALTURA da pagina, em mais da metade das paginas.
+    (So o texto nao basta: "Pagamento com QR Pix" se repete em todas as paginas e e lancamento.)"""
     if len(paginas) < 2:
         return set()
     cont = Counter()
     for linhas in paginas:
-        cont.update({chave_rep(ln.texto) for ln in linhas})
+        cont.update({(chave_rep(ln.texto), round(ln.y * 40) + d) for ln in linhas for d in (-1, 0, 1)})
     return {k for k, n in cont.items() if n > len(paginas) / 2}
+
+
+def e_rep(ln, rep):
+    return (chave_rep(ln.texto), round(ln.y * 40)) in rep
 
 
 def e_aviso(txt):
@@ -339,7 +345,7 @@ def ler_pdf(arq):
     rep = repetidas(paginas)
     escaneadas = []
     for i, linhas in enumerate(paginas, 1):
-        proprio = ''.join(ln.texto for ln in linhas if chave_rep(ln.texto) not in rep and not e_aviso(ln.texto))
+        proprio = ''.join(ln.texto for ln in linhas if not e_rep(ln, rep) and not e_aviso(ln.texto))
         bons = sum(1 for c in proprio if c.isalnum() or c in ',.-/')
         if bons < MIN_CHARS_TEXTO:     # escaneada: decide pelo texto, nunca pelo numero de imagens
             escaneadas.append(i)
@@ -354,7 +360,7 @@ def ler_pdf(arq):
             for toks, y, h in res.get(p, []):
                 ln = Linha(p, arruma_ocr(toks), ocr=True, y=y, h=h)
                 cru += len(ln.texto) + 1
-                if not repete(ln.texto, base, rep):
+                if not repete(ln, base, rep):
                     novas.append(ln)
             if novas:   # camada de texto sem mapa de fonte vira lixo ("?@ABC8@D"): fica so o OCR
                 paginas[p - 1] = [ln for ln in paginas[p - 1] if not lixo(ln.texto)] + novas
@@ -405,13 +411,15 @@ def lixo(txt):
     return not t or sum(c in '!"#$%&\'()*+;<=>?@[\\]^_`{|}~' for c in t) / len(t) > 0.15
 
 
-def repete(txt, base, rep):
+def repete(ln, base, rep):
     """Linha do OCR que so rele o cabecalho/rodape (ou o texto que a pagina ja tinha)."""
-    k = chave_rep(txt)
-    if k in rep:
+    k = chave_rep(ln.texto)
+    if e_rep(ln, rep):
         return True
-    for b in list(base) + list(rep):
-        kb = chave_rep(b) if b not in rep else b
+    outros = [chave_rep(b) for b in base]
+    if ln.y < 0.15 or ln.y > 0.85:          # topo/rodape: compara tambem com o cabecalho das outras paginas
+        outros += [t for t, _ in rep]
+    for kb in outros:
         if abs(len(kb) - len(k)) <= max(3, len(k) // 5) and difflib.SequenceMatcher(None, k, kb).ratio() >= 0.85:
             return True
     return False
@@ -435,6 +443,9 @@ def tira_data(toks, ano_padrao):
         d, mo, a = m[1], int(m[2]), m[3]
     elif m2 and norm(m2[2]) in MESES:
         d, mo, a = m2[1], MESES[norm(m2[2])], m2[3]
+    elif re.match(r'^\d{1,2}$', t0) and len(toks) > 3 and norm(toks[1][0]) == 'de' and norm(toks[2][0]) in MESES_EXT \
+            and norm(toks[3][0]) == 'de' and len(toks) > 4 and re.match(r'^\d{4}$', toks[4][0]):
+        d, mo, a, usados = f'{int(t0):02d}', MESES_EXT[norm(toks[2][0])], toks[4][0], 5
     elif re.match(r'^\d{2}$', t0) and len(toks) > 1 and norm(toks[1][0]).strip('.') in MESES:
         d, mo, a = t0, MESES[norm(toks[1][0]).strip('.')], None
         usados = 2
@@ -460,7 +471,8 @@ def tira_valores(toks):
     vals, i = [], len(toks)
     while i > 0 and len(vals) < 3:
         j, suf = i, None
-        if j >= 2 and toks[j - 1][0] in ('C', 'D', '-', '+', '*', '€'):   # OCR costuma ler 'C' como '€'
+        if j >= 2 and toks[j - 1][0] in ('C', 'D', '-', '+', '*', '€') and \
+                (toks[j - 1][0] not in '-+' or toks[j - 1][1] - toks[j - 2][2] < 0.012):  # OCR le 'C' como '€'
             suf, j = toks[j - 1][0].replace('€', 'C'), j - 1
         v = le_valor(toks[j - 1][0])
         if not v:
@@ -475,7 +487,7 @@ def tira_valores(toks):
         for _ in range(2):              # '- R$ 45,90' / 'R$ 45,90' / '- 45,90'
             if j >= 1 and toks[j - 1][0] == 'R$':
                 j -= 1
-            elif j >= 1 and toks[j - 1][0] in ('-', '+', '-R$', '+R$'):
+            elif j >= 1 and toks[j - 1][0] in ('-', '+', '-R$', '+R$') and toks[j][1] - toks[j - 1][2] < 0.012:
                 sinal = -1 if '-' in toks[j - 1][0] else 1
                 j -= 1
         vals.insert(0, (num, sinal, x))
@@ -552,8 +564,8 @@ def achar_periodo(texto):
                     dt.date(int(m[6]), MESES_EXT[m[5].lower()], int(m[4])))
         except ValueError:
             pass
-    for m in re.finditer(r'(\d{2}/\d{2}/\d{4})\s*(?:a|à|ate|até|e|-|–)\s*(\d{2}/\d{2}/\d{4})', texto, re.I):
-        a, b = data_dmy(m[1]), data_dmy(m[2])
+    for m in re.finditer(r'(\d{2}[/-]\d{2}[/-]\d{4})\s*(?:a|à|al|ate|até|e|-|–)\s*(\d{2}[/-]\d{2}[/-]\d{4})', texto, re.I):
+        a, b = data_dmy(m[1].replace('-', '/')), data_dmy(m[2].replace('-', '/'))
         if a and b and a <= b:
             return a, b
     return None
@@ -574,10 +586,16 @@ BANCOS = [  # (codigo, nome, padrao no texto)
 NOME_BANCO = {c: n for c, n, _ in BANCOS}
 
 
-def dados_conta(texto):
-    t = texto[:6000]
+def acha_banco(t):
     achados = [(m.start(), f'{n} ({c})') for c, n, p in BANCOS for m in [re.search(p, t, re.I)] if m]
-    banco = min(achados)[1] if achados else '?'
+    return min(achados)[1] if achados else None
+
+
+def dados_conta(texto, topo=''):
+    """topo = cabecalho/rodape repetido + inicio da 1a pagina: o banco do extrato aparece ali; no corpo
+    aparecem os bancos das contrapartes (Pix para Itau, Mercado Pago...)."""
+    t = texto[:6000]
+    banco = acha_banco(topo) or acha_banco(t) or '?'
     ag = re.search(r'ag(?:[eê]ncia|\.)?\s*(?:n[ºo°.]*)?\s*[:\-]?\s*(\d{3,5}(?:-[\dxX])?)\b', t, re.I)
     conta = re.search(r'conta(?:\s*corrente|\s*pagamento|\s*poupan[cç]a)?\s*(?:n[ºo°.]*)?\s*[:\-]?\s*([\d.]{3,15}-?[\dxX]?)\b', t, re.I)
     tit = re.search(r'(?:titular|cliente|nome|correntista|associado)\s*[:\-]\s*([^\n|]{3,70})', t, re.I)
@@ -602,17 +620,18 @@ def montar_tabela(paginas, rep, texto_todo):
     periodo = achar_periodo(texto_todo)
     anos = Counter(re.findall(r'\b\d{2}/\d{2}/(\d{4})\b', texto_todo))
     ano_f = ano_por_periodo(periodo, anos.most_common(1)[0][0] if anos else None)
-    fora, vistos_rep, itens, cols = [], set(), [], None
+    fora, vistos_rep, itens, cols, topo_pag = [], set(), [], None, {}
     for ln in (ln for linhas in paginas for ln in linhas):
         k = chave_rep(ln.texto)
         c = cabecalho_colunas(ln)
         if c:
             cols = c
+            topo_pag[ln.pag] = ln.y
             continue
         data, resto = tira_data(ln.toks, ano_f)
         vals, resto = extrai_valores(resto, cols)
-        if k in rep or (e_aviso(ln.texto) and not vals):
-            if k in rep and k not in vistos_rep and not e_aviso(ln.texto):
+        if e_rep(ln, rep) or (e_aviso(ln.texto) and not vals):
+            if e_rep(ln, rep) and k not in vistos_rep and not e_aviso(ln.texto):
                 vistos_rep.add(k)
                 fora.append(ln)         # cabecalho repetido: guarda so a primeira vez
             continue
@@ -625,10 +644,20 @@ def montar_tabela(paginas, rep, texto_todo):
             itens.append({'k': 'T', 'ln': ln, 'data': data, 'resto': resto})
     # linhas de texto -> lancamento mais proximo na mesma pagina
     vs = [i for i, it in enumerate(itens) if it['k'] == 'V']
+    gaps = {}
+    for a, b in zip(vs, vs[1:]):
+        la, lb = itens[a]['ln'], itens[b]['ln']
+        if la.pag == lb.pag and lb.y > la.y:
+            gaps.setdefault(la.pag, []).append(lb.y - la.y)
     for i, it in enumerate(itens):
         if it['k'] != 'T':
             continue
         ln, melhor = it['ln'], None
+        g = sorted(gaps.get(ln.pag, [0]))
+        limite = max(2.2 * ln.h, 0.75 * g[len(g) // 2])
+        if ln.pag in topo_pag and ln.y < topo_pag[ln.pag]:
+            fora.append(ln)             # acima do cabecalho das colunas: dados da conta, nao lancamento
+            continue
         ant = next((j for j in reversed(vs) if j < i), None)
         prx = next((j for j in vs if j > i), None)
         for j in (ant, prx):
@@ -636,7 +665,7 @@ def montar_tabela(paginas, rep, texto_todo):
                 continue
             v = itens[j]['ln']
             d = abs(v.y - ln.y)
-            if d <= 2.2 * max(v.h, ln.h) and (melhor is None or d < melhor[0]):
+            if d <= max(limite, 2.2 * v.h) and (melhor is None or d < melhor[0]):
                 melhor = (d, j)
         if melhor:
             itens[melhor[1]]['anexo'].append(it)
@@ -644,8 +673,9 @@ def montar_tabela(paginas, rep, texto_todo):
             fora.append(ln)
     rows, saldo_ini, saldo_fin, data_atual, secao = [], None, None, None, None
     for it in itens:
-        if it['k'] == 'D':
+        if it['k'] in 'DT' and it['data']:
             data_atual = it['data']
+        if it['k'] == 'D':
             continue
         if it['k'] != 'V':
             continue
@@ -747,6 +777,42 @@ def completa_sinais(rows, saldo_ini):
     return crono
 
 
+RE_APLIC_AUT = re.compile(r'^(apl|res)\.? aplic aut')
+
+
+def ajusta_saldos(rows):
+    """Itau com aplicacao automatica: o saldo que fecha e o 'SALDO TOTAL DISPONIVEL DIA' (conta + aplicacao);
+    'SALDO MOVIMENTACAO CONTA' vira informativo e APL/RES APLIC AUT (conta <-> aplicacao) nao entram no Confere."""
+    if not any('total disponivel' in norm(r['hist']) for r in rows if r['tipo'] == 's'):
+        return False
+    for r in rows:
+        h = norm(r['hist'])
+        if r['tipo'] == 's' and 'movimentacao conta' in h:
+            r['tipo'] = 'i'
+        elif r['tipo'] == 't' and RE_APLIC_AUT.match(h):
+            r['tipo'] = 'a'
+    return True
+
+
+def reordena_saldo_dia(rows):
+    """Inter: o 'Saldo do dia' vem antes dos lancamentos do dia mas e o saldo do FIM do dia -> vai para depois."""
+    i = 0
+    while i < len(rows):
+        r = rows[i]
+        if r['tipo'] == 's':
+            j = i + 1
+            while j < len(rows) and rows[j]['data'] == r['data'] and rows[j]['tipo'] == 't':
+                j += 1
+            dia = rows[i + 1:j]
+            com_saldo = [x for x in dia if x['saldo']]
+            if dia and com_saldo and com_saldo[-1]['saldo'] == r['saldo'] and dia[0]['saldo'] != r['saldo']:
+                rows[i:j] = dia + [r]
+                i = j
+                continue
+        i += 1
+    return rows
+
+
 def conferir(rows, saldo_ini, saldo_fin, crono=None):
     """-> (creditos, qtd, debitos, qtd, saldo_ini, saldo_fin, texto_confere)."""
     t = [r for r in rows if r['tipo'] == 't']
@@ -757,7 +823,7 @@ def conferir(rows, saldo_ini, saldo_fin, crono=None):
     crono = crono or rows
     obs_ini = ''
     if saldo_ini is None:
-        prim = next((r for r in crono if r['saldo']), None)
+        prim = next((r for r in crono if r['saldo'] and r['tipo'] in 'st'), None)
         if prim and prim['tipo'] == 't' and prim['sinal']:
             saldo_ini = fmt(dec(prim['saldo']) - prim['sinal'] * dec(prim['valor']))
             obs_ini = ' (calc. pela 1ª linha)'
@@ -768,7 +834,7 @@ def conferir(rows, saldo_ini, saldo_fin, crono=None):
                 saldo_ini = fmt(dec(prim['saldo']) - soma)
                 obs_ini = ' (calc. pelo 1º saldo do dia)' if soma else ' (1º saldo)'
     if saldo_fin is None:
-        ult = next((r for r in reversed(crono) if r['saldo']), None)
+        ult = next((r for r in reversed(crono) if r['saldo'] and r['tipo'] in 'st'), None)
         saldo_fin = ult['saldo'] if ult else None
     quebra = None
     if saldo_ini is not None:
@@ -776,7 +842,7 @@ def conferir(rows, saldo_ini, saldo_fin, crono=None):
         for r in crono:
             if r['tipo'] == 't' and r['sinal']:
                 run += r['sinal'] * dec(r['valor'])
-            if r['saldo'] and dec(r['saldo']) is not None and run != dec(r['saldo']):
+            if r['tipo'] in 'st' and r['saldo'] and dec(r['saldo']) is not None and run != dec(r['saldo']):
                 quebra = quebra or r
                 run = dec(r['saldo'])
     if sem:
@@ -797,6 +863,8 @@ def linha_tabela(r, tem_doc, tem_saldo, tem_ocr):
     hist = r['hist'].replace('|', '/')
     if r['tipo'] == 't' and r['sinal'] is None:
         hist += ' (sinal?)'
+    if r['tipo'] == 'a':
+        hist += ' (aplic. automática: fora do Confere)'
     campos = [r['data'], hist]
     if tem_doc:
         campos.append(r['doc'])
@@ -862,7 +930,7 @@ def texto_por_pagina(paginas, rep, info):
         n = 0
         for ln in linhas:
             k = chave_rep(ln.texto)
-            if e_aviso(ln.texto) or (k in rep and k in vistos):
+            if e_aviso(ln.texto) or (e_rep(ln, rep) and k in vistos):
                 continue
             vistos.add(k)
             out.append(ln.texto)
@@ -884,11 +952,26 @@ def so_cabecalho(ln, conta, periodo):
     return bool(re.search(r'extrato|' + re.escape(conta['banco'].split(' (')[0]), ln.texto, re.I)) and conta['banco'] != '?'
 
 
+def saldo_resumo(texto, rotulo):
+    """Valor logo depois do rotulo, na mesma linha (resumo do topo do extrato)."""
+    m = re.search(rotulo + r'\s*:?\s*(?:R\$)?\s*(-?)\s*(?:R\$)?\s*((?:\d{1,3}(?:\.\d{3})+|\d+),\d{2})(\s?[CD]\b)?', texto, re.I)
+    if not m:
+        return None
+    neg = m[1] == '-' or (m[3] or '').strip() == 'D'
+    return ('-' if neg else '') + m[2]
+
+
 def converter_pdf(arq):
     paginas, rep, info, cru = ler_pdf(arq)
     texto_todo = '\n'.join(ln.texto for linhas in paginas for ln in linhas)
-    conta = dados_conta(texto_todo)
+    topo = '\n'.join([ln.texto for linhas in paginas for ln in linhas if e_rep(ln, rep)] +
+                     [ln.texto for ln in (paginas[0][:8] if paginas else [])])
+    conta = dados_conta(texto_todo, topo)
     rows, fora, si, sf, com_valor, periodo = montar_tabela(paginas, rep, texto_todo)
+    si = saldo_resumo(texto_todo, r'saldo (?:anterior|inicial)') or si
+    sf = saldo_resumo(texto_todo, r'saldo final(?: do per[ií]odo)?') or sf
+    reordena_saldo_dia(rows)
+    aplic = ajusta_saldos(rows)
     fora_per = []
     if periodo:     # ex.: Bradesco com "Ultimos lancamentos" do mes seguinte depois do total
         dentro = lambda r: (lambda d: d is None or periodo[0] <= d <= periodo[1])(data_dmy(r['data']))  # noqa: E731
@@ -900,7 +983,7 @@ def converter_pdf(arq):
     ocr_txt = ''
     if n_ocr:
         ocr_txt = f' | OCR: {n_ocr} pág. (p{",".join(map(str, info["ocr"]))}; imagens: {info["imagens"]})'
-    obs = []
+    obs = ['aplicação automática: o Confere usa o SALDO TOTAL DISPONÍVEL (conta + aplicação); APL/RES APLIC AUT ficam fora da soma'] if aplic else []
     if info['erro_ocr']:
         obs.append(info['erro_ocr'])
     for p in info['sem_texto']:
@@ -1090,6 +1173,9 @@ def tabela_planilha(linhas):
         doc = str(cel(r, 'doc') or '').strip()
         doc = doc[:-2] if doc.endswith('.0') else doc
         saldo = valor_planilha(cel(r, 'saldo'))
+        if saldo and saldo.startswith('X'):        # anotacao feita na coluna do saldo ("OK", "NF 64140")
+            hist = f'{hist} / {str(cel(r, "saldo")).strip()}'
+            saldo = None
         val = None
         for k, s in (('valor', 0), ('cred', 1), ('deb', -1)):
             v = valor_planilha(cel(r, k))
@@ -1166,8 +1252,12 @@ def converter_planilha(arq):
             confs.append('texto')
             continue
         rows, si, sf, fora = res
+        reordena_saldo_dia(rows)
+        aplic = ajusta_saldos(rows)
         saldos = conferir(rows, si, sf)
         tab, obs = tabela_md(rows)
+        if aplic:
+            obs.insert(0, 'aplicação automática: o Confere usa o SALDO TOTAL DISPONÍVEL (conta + aplicação); APL/RES APLIC AUT ficam fora da soma')
         if fora:
             obs.append(f'{len(fora)} linha(s) fora da tabela no fim')
         cab = cabecalho_md(Path(arq).name + sufixo, conta, periodo_texto(achar_periodo(texto), rows), arq,
@@ -1256,6 +1346,37 @@ def acha_pasta(p):
     return None
 
 
+# o que NAO e extrato dentro das pastas "Extrato" dos clientes (visto no Drive em 29/10/2026)
+RE_PASTA_NAO = re.compile(r'comprova|contas? pagas|pagamento|nota|\bnfs?\b|boleto|guia|folha|recibo|despesa|controle|'
+                          r'historico|relatorio|conciliacao|lancamento')
+RE_ARQ_NAO = re.compile(r'comprov|relatorio|relato_rio|conferencia|balancete|lancamento|retirada|conciliacao|controle|'
+                        r'faltante|pro ?labore|prolabore|pagamento|folha|guia|darf|\bdas\b|inss|fgts|\bnfs?\b|nota|'
+                        r'recibo|boleto|aluguel|condominio|planilha|repasse|assistencia|funeral|parcela|emprestimo|'
+                        r'fatura|devolucao|financeiro|imposto|tributo|holerite|\bvt\b|rescisao|ferias')
+
+
+def eh_extrato_drive(rel_parts, nome):
+    """Arquivo das pastas do Drive que deve ser convertido: dentro de uma pasta que comeca com 'Extrato'
+    (sem subpasta de comprovantes, notas...) e com nome que nao seja de relatorio/planilha/comprovante."""
+    partes = [norm(p) for p in rel_parts]
+    i = next((n for n, p in enumerate(partes) if p.startswith('extrato')), None)
+    if i is None or any(RE_PASTA_NAO.search(p) for p in partes[i + 1:]):
+        return False
+    base = norm(Path(nome).stem).replace('_', ' ')
+    if base.startswith('extrato'):      # "Extrato_Lancamentos_3918..." e extrato; so barra o que e claramente outra coisa
+        return not re.search(r'comprov|relatorio|conciliacao|controle|faltante|balancete|retirada', base)
+    return not RE_ARQ_NAO.search(base)
+
+
+def mes_da_pasta(rel_parts):
+    """'09_2026' no caminho -> date(2026, 9, 1)."""
+    for p in rel_parts:
+        m = re.fullmatch(r'(\d{2})[_.-](\d{4})', p.strip())
+        if m and 1 <= int(m[1]) <= 12:
+            return dt.date(int(m[2]), int(m[1]), 1)
+    return None
+
+
 def candidatos(stats_cfg):
     """(arquivo, mtime) a converter: tudo da pasta de entrada + o que estiver em subpastas 'Extrato'
     das pastas do Drive, alterado desde a data 'desde' (para nao converter o historico inteiro)."""
@@ -1273,13 +1394,17 @@ def candidatos(stats_cfg):
             continue
         for pasta, dirs, arqs in os.walk(raiz):
             dirs[:] = [d for d in dirs if not d.startswith(('.', '_', '~'))]
-            if so_extrato and not any('extrato' in norm(parte) for parte in Path(pasta).relative_to(raiz).parts):
+            rel = Path(pasta).relative_to(raiz).parts
+            if so_extrato and not any(norm(parte).startswith('extrato') for parte in rel):
+                continue
+            mes = mes_da_pasta(rel)
+            if so_extrato and mes and mes < dt.date.fromtimestamp(desde):
                 continue
             for a in sorted(arqs):
                 p = Path(pasta) / a
                 if p.suffix.lower() not in EXTS or a.startswith(('~$', '.')):
                     continue
-                if so_extrato and norm(a).startswith('comprovante'):
+                if so_extrato and not eh_extrato_drive(rel, a):
                     continue
                 if p.with_name(p.stem + '_extrato.md').exists():
                     continue
@@ -1290,6 +1415,49 @@ def candidatos(stats_cfg):
                 if so_extrato and mt < desde:
                     continue
                 yield p, mt
+
+
+def limpar(apagar=False):
+    """Acha os _extrato.md que o conversor criou nas pastas do Drive para arquivos que NAO sao extrato
+    (comprovantes, balancetes, planilhas...). Sem apagar=True so lista. So apaga .md que comecam com '# Extrato - '."""
+    cfg = ler_config()
+    achados = []
+    for raiz0 in cfg.get('pastas_drive', PASTAS_DRIVE):
+        raiz = acha_pasta(raiz0)
+        if not raiz:
+            continue
+        for pasta, dirs, arqs in os.walk(raiz):
+            rel = Path(pasta).relative_to(raiz).parts
+            for a in arqs:
+                m = re.fullmatch(r'(.+)_extrato( \(\d+\))?\.md', a)
+                if not m:
+                    continue
+                origs = [x for x in arqs if Path(x).stem == m[1] and Path(x).suffix.lower() in EXTS]
+                nome_orig = origs[0] if origs else m[1] + '.pdf'
+                if eh_extrato_drive(rel, nome_orig):
+                    continue
+                md = Path(pasta) / a
+                try:
+                    with md.open(encoding='utf-8', errors='replace') as f:
+                        if not f.readline().startswith('# Extrato - '):
+                            continue
+                except OSError:
+                    continue
+                achados.append(md)
+    for md in achados:
+        msg(f'  {md}')
+    msg(f'{len(achados)} arquivo(s) .md de documentos que não são extrato.')
+    if apagar:
+        n = 0
+        for md in achados:
+            try:
+                md.unlink()
+                n += 1
+            except OSError as e:
+                msg(f'  não apagou {md.name}: {e}')
+        registrar('limpeza', f'apagados {n} .md de documentos que não são extrato')
+        msg(f'Apagados: {n} (no Google Drive vão para a Lixeira).')
+    return achados
 
 
 def varrer(stats=False):
@@ -1340,6 +1508,9 @@ def main(argv):
     OCULTO = '--oculto' in argv
     stats = '--stats' in argv
     arqs = [a for a in argv if not a.startswith('--')]
+    if '--limpar' in argv:
+        limpar(apagar='--apagar' in argv)
+        return 0
     if not arqs:
         varrer(stats)
         return 0

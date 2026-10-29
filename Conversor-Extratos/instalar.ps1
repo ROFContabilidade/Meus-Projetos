@@ -93,6 +93,21 @@ Write-Host '  3/6  Criando a tarefa automatica ...'
 
 # 5) atalhos
 Write-Host ''
+# limpeza: .md que a versao anterior criou para comprovantes, balancetes, planilhas... (pede SIM)
+if ($py) {
+    Write-Host '       Procurando .md criados para documentos que NAO sao extrato (comprovantes, balancetes...) ...'
+    $ErrorActionPreference = 'Continue'
+    $lista = & $py (Join-Path $ferr 'conversor.py') --limpar
+    $ErrorActionPreference = 'Stop'
+    $ultima = @($lista)[-1]
+    Write-Host "       $ultima"
+    if ($ultima -match '^[1-9]') {
+        $q = Read-Host '       Apagar esses .md? Os originais NAO sao tocados (no Drive vao para a Lixeira). Digite SIM'
+        if ($q -eq 'SIM') { & $py (Join-Path $ferr 'conversor.py') --limpar --apagar | Select-Object -Last 1 | ForEach-Object { Write-Host "       $_" } }
+    }
+}
+
+Write-Host ''
 Write-Host '  4/6  Criando atalhos ...'
 $sh = New-Object -ComObject WScript.Shell
 $bat = Join-Path $ferr 'CONVERTER_AGORA.bat'

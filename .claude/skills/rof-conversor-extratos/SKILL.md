@@ -15,7 +15,14 @@ pelo arquivo único `INSTALAR_CONVERSOR.bat`.
   - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos ROF Dominio`
   - `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos PROTECTION Dominio\25 - Cosmetici` — **só a Cosmetici**
     (não a 31 - Cosmeticon nem a 30 - F.V.S).
-- Só arquivos salvos desde 01/09/2026 (`desde` no config.json); pula `comprovante*`. O `_extrato.md` fica dentro da
+- Só arquivos salvos desde 01/09/2026 (`desde` no config.json; pasta `MM_AAAA` anterior também é pulada).
+- Filtro `eh_extrato_drive()` (29/10/2026, depois de ~700 .md criados para não-extratos): só pasta que COMEÇA com
+  "Extrato" (não "Controle de Extratos"); pula subpastas de comprovantes/contas pagas/notas/boletos/guias/folha;
+  pula nomes de relatório, conferência, balancete, lançamentos, retiradas, conciliação, controle, faltantes,
+  pró-labore, pagamento, comprovante, boleto, guia, DARF, DAS, INSS, FGTS, NF, aluguel, condomínio, planilha,
+  repasse, parcela, empréstimo, fatura (nome que começa com "Extrato" só é barrado por palavras fortes).
+- `--limpar` lista e `--limpar --apagar` apaga os `_extrato.md` (só os que começam com `# Extrato - `) de arquivos
+  que o filtro barra; o instalador pergunta SIM antes. O `_extrato.md` fica dentro da
   própria pasta "Extrato" do cliente, ao lado do original (o original nunca é alterado).
 - Lista em `PASTAS_DRIVE` (conversor.py) e em `instalar.ps1` (config.json); mudar nos dois e regerar o instalador.
 
@@ -36,6 +43,13 @@ pelo arquivo único `INSTALAR_CONVERSOR.bat`.
   página (acima ou abaixo, até ~2 alturas de linha). Com cabeçalho de colunas (Data/Histórico/Valor/Saldo...), os
   valores são lidos pela coluna (mesmo no meio da linha) e o histórico junta as colunas de texto com ` / `.
 - Lançamentos com data fora do período do cabeçalho vão para `## Fora do período` e não entram no Confere.
+- Layouts ajustados com extratos reais (29/10/2026): Nubank PDF ("-" separador vs. sinal colado; seção Total de
+  entradas/saídas), Mercado Pago PDF (saldo inicial e final na mesma linha do resumo; histórico acima e abaixo do
+  valor; coluna ID = doc), Inter PDF (data "1 de Julho de 2026"; "Saldo do dia" é o saldo do FIM do dia e vem antes
+  dos lançamentos), Itaú Excel detalhado (anotações na coluna Saldo vão para o histórico; aplicação automática:
+  Confere pelo SALDO TOTAL DISPONÍVEL, APL/RES APLIC AUT fora da soma, "saldo movimentação conta" informativo).
+- Cabeçalho/rodapé repetido = mesmo texto NA MESMA ALTURA em mais da metade das páginas (só texto apagava
+  descrições como "Pagamento com QR Pix").
 - Testado em 28/10/2026 com extratos reais de set/2026 (Sicredi, Bradesco, Itaú x2, Stone, PagBank, Santander
   escaneado): todos com `Confere: sim`; PDF da Stone e do Sicredi bateram com o OFX do mesmo mês.
 - Layout inseguro (sem lançamentos ou >25% das linhas com valor fora da tabela) → texto limpo por página.
