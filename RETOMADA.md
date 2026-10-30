@@ -36,6 +36,15 @@ Skills de ~140 empresas (cada empresa com a sua skill e a sua cultura) gastando 
 - Cuidado: o `conversor.lock` fica na pasta do OneDrive; se travar, bloqueia por até 1 h ("Outra conversão já está rodando"). O Bloco de Notas do Windows 11 só grava com Ctrl+S (conferir a data do arquivo).
 - Pendente: decidir se volta `desde` para 2026-09-01; tratar os NÃO de julho/agosto quando a competência for trabalhada.
 
+## Validação do conversor por banco (30/10/2026)
+Método: PDF original do Drive passado na mesma versão do conversor + saldo linha a linha + comparação com OFX do mesmo mês (data+valor).
+- OK, linhas corretas: Bradesco (148 set: 231/231 = OFX), Mercado Pago (148 set: 473 linhas, releitura independente sem divergência), Santander (147 set: 128/128 = OFX), Inter (RBA set), Sicredi (Mohr set), BB (Marca Metal set), Cora (FWL set), Sicoob layout Everton (set).
+- Linhas certas, cabeçalho errado (Confere NÃO falso): Santander (vem de trás para frente; pegou "Saldo Disponível" do dia da emissão como saldo inicial; correto −37.879,41); Sicredi Mohr (extrato até 10/10; saldo final pego errado).
+- ERRO REAL nas linhas: Sicoob layout "SISBR" (Pai e Filhos, conta 92.010-0): valor e letra C/D em linhas diferentes perdem o sinal (ex. PIX EMIT 1.400,00 D virou +1.400); depósito bloqueado (valor com *) contado e depois "LIBER.DEPÓSITO BLOQ" contado de novo; histórico deslocado (DOC/CPF da linha anterior grudado na seguinte); saldo final pegou "conta capital" 60,64 (real 32.017,47). Confere NÃO pegou.
+- Cresol (Cross ago): extrato de trás para frente; quadro de resumo do rodapé (Limite de crédito 2.000,00, IOF, juros acumulados) virou lançamento. Confere NÃO pegou.
+- Não validados (PDF escaneado, dependem do OCR do Windows): Caixa (FWL), C6 (Catia), Nubank (Everton). Itaú PDF da Mohr sai como "texto por página" (sem tabela).
+- A corrigir no conversor.py: Sicoob SISBR, Cresol, saldo inicial/final em layouts invertidos.
+
 ## Como a Rosangela atualiza skills (aprendido)
 - Configurações > Skills > **+ Adicionar** > enviar **um zip por vez** (vários de uma vez falha).
 - Enviar **só o zip**; nunca o SKILL.md solto (substitui a skill e apaga references/scripts).
