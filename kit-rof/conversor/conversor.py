@@ -1534,6 +1534,10 @@ def limpar(apagar=False):
     """Acha os _extrato.md que o conversor criou nas pastas do Drive para arquivos que NAO sao extrato
     (comprovantes, balancetes, planilhas...). Sem apagar=True so lista. So apaga .md que comecam com '# Extrato - '."""
     cfg = ler_config()
+    try:
+        desde = dt.datetime.fromisoformat(cfg.get('desde', DESDE_PADRAO)).timestamp()
+    except ValueError:
+        desde = 0
     achados, refazer = [], []
     for raiz0 in cfg.get('pastas_drive', PASTAS_DRIVE):
         raiz = acha_pasta(raiz0)
@@ -1558,7 +1562,16 @@ def limpar(apagar=False):
                 if not eh_extrato_drive(rel, nome_orig):
                     achados.append(md)           # nao e extrato
                 elif origs and any('Confere: NÃO' in c or 'NÃO montada' in c for c in cab):
-                    refazer.append(md)           # extrato que a versao anterior leu errado: apaga para converter de novo
+                    # extrato que a versao anterior leu errado: apaga para converter de novo, mas so se a conversao
+                    # automatica vai pegar o original de volta (mesmo corte 'desde' de candidatos)
+                    mes = mes_da_pasta(rel)
+                    try:
+                        mt = (Path(pasta) / origs[0]).stat().st_mtime
+                    except OSError:
+                        continue
+                    if (mes and mes < dt.date.fromtimestamp(desde)) or mt < desde:
+                        continue
+                    refazer.append(md)
     for md in achados:
         msg(f'  {md}')
     for md in refazer:
