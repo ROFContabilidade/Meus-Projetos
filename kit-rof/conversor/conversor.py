@@ -123,11 +123,11 @@ def ler_texto_bytes(b):
 # ----------------------------------------------------------------- linhas e colunas
 
 class Linha:
-    __slots__ = ('pag', 'toks', 'ocr', 'y', 'h')
+    __slots__ = ('pag', 'toks', 'ocr', 'y', 'h', 'resumo')
 
     def __init__(self, pag, toks, ocr=False, y=0.0, h=0.01):
         # toks: [(texto, x0, x1)] com x de 0 a 1; y = centro da linha e h = altura, de 0 a 1 na pagina
-        self.pag, self.toks, self.ocr, self.y, self.h = pag, toks, ocr, y, h
+        self.pag, self.toks, self.ocr, self.y, self.h, self.resumo = pag, toks, ocr, y, h, False
 
     @property
     def texto(self):
@@ -429,6 +429,7 @@ def repete(ln, base, rep):
 
 RE_SALDO = re.compile(r'^(saldo|s a l d o)\b')
 RE_TOTAL = re.compile(r'^(total|subtotal|soma|resumo)\b')
+RE_FIM_TABELA = re.compile(r'^(totalizadores|resumo)$|^lancamentos futuros')
 
 
 def tira_data(toks, ano_padrao):
@@ -621,8 +622,15 @@ def montar_tabela(paginas, rep, texto_todo):
     anos = Counter(re.findall(r'\b\d{2}/\d{2}/(\d{4})\b', texto_todo))
     ano_f = ano_por_periodo(periodo, anos.most_common(1)[0][0] if anos else None)
     fora, vistos_rep, itens, cols, topo_pag = [], set(), [], None, {}
+    fim_tabela = False
     for ln in (ln for linhas in paginas for ln in linhas):
         k = chave_rep(ln.texto)
+        if not fim_tabela and RE_FIM_TABELA.match(norm(ln.texto)) and any(it['k'] == 'V' for it in itens):
+            fim_tabela = True       # quadro de resumo depois dos lancamentos (Cresol "Totalizadores")
+        if fim_tabela:
+            ln.resumo = True        # nao conta como linha com valor perdida (ver converter_pdf)
+            fora.append(ln)
+            continue
         c = cabecalho_colunas(ln)
         if c:
             cols = c
@@ -671,7 +679,7 @@ def montar_tabela(paginas, rep, texto_todo):
             itens[melhor[1]]['anexo'].append(it)
         else:
             fora.append(ln)
-    rows, saldo_ini, saldo_fin, data_atual, secao = [], None, None, None, None
+    rows, saldo_ini, saldo_fin, data_atual, secao, saldo_atual = [], None, None, None, None, None
     for it in itens:
         if it['k'] in 'DT' and it['data']:
             data_atual = it['data']
@@ -726,11 +734,14 @@ def montar_tabela(paginas, rep, texto_todo):
                 fora.append(ln)
             elif re.search(r'anterior|inicial', h) and saldo_ini is None:
                 saldo_ini = v
-            elif re.search(r'\bfinal\b|\batual\b', h):
+            elif re.search(r'\bfinal\b', h):
                 saldo_fin = v
+            elif re.search(r'\batual\b', h):
+                saldo_atual = v     # posicao no dia da emissao: so vale se o extrato nao tem saldo por linha
             elif (data or data_atual) and not re.search(r'invest|poup|aplic|limite|bloq|cdb|fundo|cheque', h):
                 rows.append({'data': data or data_atual, 'hist': hist, 'doc': doc, 'valor': None, 'sinal': None,
-                             'saldo': v, 'pag': ln.pag, 'ocr': ocr, 'tipo': 's', 'secao': None})
+                             'saldo': v, 'pag': ln.pag, 'ocr': ocr, 'tipo': 's', 'secao': None,
+                             'sem_data': not data, 'ln': ln})
             else:
                 fora.append(ln)
             continue
@@ -740,6 +751,8 @@ def montar_tabela(paginas, rep, texto_todo):
             continue
         rows.append({'data': data or data_atual, 'hist': hist, 'doc': doc, 'valor': valor, 'sinal': sinal,
                      'saldo': saldo, 'pag': ln.pag, 'ocr': ocr, 'tipo': 't', 'secao': secao})
+    if saldo_fin is None and saldo_atual and not any(r['saldo'] for r in rows):
+        saldo_fin = saldo_atual
     return rows, fora, saldo_ini, saldo_fin, len(vs), periodo
 
 
@@ -961,6 +974,91 @@ def saldo_resumo(texto, rotulo):
     return ('-' if neg else '') + m[2]
 
 
+RE_SISBR_LANC = re.compile(r'^(\d{2}/\d{2})\s+(.*?)\s*(?:((?:\d{1,3}(?:\.\d{3})+|\d+),\d{2})\s*([CD*])?)?$')
+
+
+def sicoob_sisbr(paginas, periodo):
+    """Sicoob SISBR 'EXTRATO CONTA CORRENTE' (cabecalho 'DATA HISTORICO VALOR'): uma linha por lancamento com
+    'dd/mm HISTORICO 1.234,56D'; quando o valor nao cabe, a letra C/D/* vem sozinha na linha de baixo; as linhas
+    seguintes (favorecido, CPF/CNPJ, 'DOC.: ...') sao do mesmo lancamento. Valor com '*' e deposito bloqueado:
+    nao mexe no saldo (entra depois como 'LIBER.DEPOSITO BLOQ'). -> (rows, saldo_ini, saldo_fin) ou None."""
+    linhas = [ln for pag in paginas for ln in pag]
+    if not any(norm(ln.texto) == 'data historico valor' for ln in linhas[:40]):
+        return None
+    ano = lambda mo: str(periodo[1].year if not periodo or periodo[0].year == periodo[1].year  # noqa: E731
+                         else (periodo[0].year if mo >= periodo[0].month else periodo[1].year))
+    rows, atual, si, sf, dentro = [], None, None, None, False
+
+    def fecha():
+        if not atual:
+            return
+        r = atual
+        extra = [t for t in r.pop('extra') if not t.startswith('DOC.:')]
+        doc = next((t[5:].strip() for t in r.pop('docs')), '')
+        r['hist'] = ' / '.join([r['hist']] + extra)
+        r['doc'] = '' if doc.lower() == 'pix' else doc
+        rows.append(r)
+
+    for ln in linhas:
+        t = ln.texto.strip()
+        n = norm(t)
+        if n == 'data historico valor':
+            dentro = True
+            continue
+        if not dentro:
+            continue
+        if n.startswith('resumo'):
+            fecha()
+            atual, dentro = None, False
+            continue
+        m = RE_SISBR_LANC.match(t)
+        if m and 1 <= int(m[1][3:5]) <= 12:
+            fecha()
+            atual = None
+            data = f'{m[1]}/{ano(int(m[1][3:5]))}'
+            hist, num, flag = m[2].strip(), m[3], m[4]
+            h = norm(hist)
+            if h.startswith('saldo'):
+                if num and 'bloq' not in h:
+                    v = ('-' if flag == 'D' else '') + num
+                    if 'anterior' in h:
+                        si = v
+                    else:
+                        atual = {'data': data, 'hist': hist, 'doc': '', 'valor': None, 'sinal': None, 'saldo': v,
+                                 'pag': ln.pag, 'ocr': ln.ocr, 'tipo': 's', 'secao': None, 'extra': [], 'docs': [],
+                                 '_falta': flag is None}
+                continue
+            if not num:
+                continue
+            atual = {'data': data, 'hist': hist, 'doc': '', 'valor': num,
+                     'sinal': {'C': 1, 'D': -1}.get(flag), 'saldo': None, 'pag': ln.pag, 'ocr': ln.ocr,
+                     'tipo': 'b' if flag == '*' else 't', 'secao': None, 'extra': [], 'docs': [],
+                     '_falta': flag is None}
+            continue
+        if atual is None:
+            continue
+        if t in ('C', 'D', '*') and atual.get('_falta'):
+            atual['_falta'] = False
+            if atual['tipo'] == 's':
+                if t == 'D':
+                    atual['saldo'] = '-' + atual['saldo']
+            elif t == '*':
+                atual['tipo'] = 'b'
+            else:
+                atual['sinal'] = 1 if t == 'C' else -1
+            continue
+        (atual['docs'] if t.startswith('DOC.:') else atual['extra']).append(t)
+    fecha()
+    for r in rows:
+        r.pop('_falta', None)
+        if r['tipo'] == 'b':
+            r['sinal'] = 1
+    saldos_dia = [r for r in rows if r['tipo'] == 's']
+    if saldos_dia:
+        sf = saldos_dia[-1]['saldo']
+    return rows, si, sf
+
+
 def converter_pdf(arq):
     paginas, rep, info, cru = ler_pdf(arq)
     texto_todo = '\n'.join(ln.texto for linhas in paginas for ln in linhas)
@@ -970,6 +1068,16 @@ def converter_pdf(arq):
     rows, fora, si, sf, com_valor, periodo = montar_tabela(paginas, rep, texto_todo)
     si = saldo_resumo(texto_todo, r'saldo (?:anterior|inicial)') or si
     sf = saldo_resumo(texto_todo, r'saldo final(?: do per[ií]odo)?') or sf
+    sisbr = sicoob_sisbr(paginas, periodo)
+    if sisbr:
+        rows, si, sf = sisbr
+        fora, com_valor = [], len(rows)
+    t_ = [r for r in rows if r['tipo'] == 't']
+    if len(t_) >= 2 and chave_data(t_[0]['data']) > chave_data(t_[-1]['data']):
+        # extrato do mais novo para o mais antigo (Santander): saldo sem data depois do ultimo lancamento e a
+        # posicao do dia da emissao ("Saldo Disponivel"), nao o saldo do inicio do periodo
+        while rows and rows[-1]['tipo'] == 's' and rows[-1].get('sem_data'):
+            fora.insert(0, rows.pop()['ln'])
     reordena_saldo_dia(rows)
     aplic = ajusta_saldos(rows)
     fora_per = []
@@ -988,7 +1096,7 @@ def converter_pdf(arq):
         obs.append(info['erro_ocr'])
     for p in info['sem_texto']:
         obs.append(f'p{p} [OCR] sem texto: abrir a imagem da página ({Path(info["imagens"]) / f"p{p}.png"})')
-    fora_valor = sum(1 for ln in fora if tira_valores(tira_data(ln.toks, None)[1])[0])
+    fora_valor = sum(1 for ln in fora if not ln.resumo and tira_valores(tira_data(ln.toks, None)[1])[0])
     t = [r for r in rows if r['tipo'] == 't']
     seguro = t and fora_valor <= max(3, 0.25 * com_valor)
     n_pag = f'{info["paginas"]} página(s)'
@@ -997,6 +1105,8 @@ def converter_pdf(arq):
         cab = cabecalho_md(Path(arq).name, conta, periodo_texto(periodo, rows), arq, n_pag, metodo, ocr_txt, None, obs)
         return cab + [''] + texto_por_pagina(paginas, rep, info), cru, len(t), 'texto por página'
     saldos = conferir(rows, si, sf, crono)
+    bloq = [r for r in rows if r['tipo'] == 'b']
+    rows = [r for r in rows if r['tipo'] != 'b']
     tab, obs_tab = tabela_md(rows)
     fora = [ln for ln in fora if any(ch.isalnum() for ch in ln.texto) and not so_cabecalho(ln, conta, periodo)]
     if fora_per:
@@ -1006,6 +1116,9 @@ def converter_pdf(arq):
     cab = cabecalho_md(Path(arq).name, conta, periodo_texto(periodo, rows), arq, n_pag, metodo, ocr_txt, saldos,
                        obs + obs_tab)
     out = cab + [''] + tab
+    if bloq:
+        out += ['## Depósito bloqueado (NÃO lançar: o valor entra depois como LIBER.DEPÓSITO BLOQ)'] + \
+            tabela_md(bloq)[0][1:]
     if fora_per:
         out += ['## Fora do período (não entram no Confere)'] + tabela_md(fora_per)[0][1:]
     if fora:

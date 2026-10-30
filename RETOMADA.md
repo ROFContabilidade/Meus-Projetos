@@ -43,7 +43,11 @@ Método: PDF original do Drive passado na mesma versão do conversor + saldo lin
 - ERRO REAL nas linhas: Sicoob layout "SISBR" (Pai e Filhos, conta 92.010-0): valor e letra C/D em linhas diferentes perdem o sinal (ex. PIX EMIT 1.400,00 D virou +1.400); depósito bloqueado (valor com *) contado e depois "LIBER.DEPÓSITO BLOQ" contado de novo; histórico deslocado (DOC/CPF da linha anterior grudado na seguinte); saldo final pegou "conta capital" 60,64 (real 32.017,47). Confere NÃO pegou.
 - Cresol (Cross ago): extrato de trás para frente; quadro de resumo do rodapé (Limite de crédito 2.000,00, IOF, juros acumulados) virou lançamento. Confere NÃO pegou.
 - Não validados (PDF escaneado, dependem do OCR do Windows): Caixa (FWL), C6 (Catia), Nubank (Everton). Itaú PDF da Mohr sai como "texto por página" (sem tabela).
-- A corrigir no conversor.py: Sicoob SISBR, Cresol, saldo inicial/final em layouts invertidos.
+- CORRIGIDO em `kit-rof/conversor/conversor.py` (30/10/2026, falta a Rosangela instalar em `_ferramentas`):
+  Sicoob SISBR (leitor próprio `sicoob_sisbr`; depósito bloqueado vai para seção "## Depósito bloqueado", fora da tabela),
+  Cresol (tabela para em "Totalizadores"/"Resumo"), Santander (saldo sem data no fim de extrato invertido não é saldo inicial),
+  Sicredi ("Lançamentos Futuros" fora; "Saldo Atual" só vale se não há saldo por linha). Regressão: Bradesco, MP, Inter, BB, Cora, Sicoob Everton iguais.
+- Depois de instalar: rodar a limpeza (`conversor.py --limpar --apagar`) para refazer os .md com Confere NÃO.
 
 ## Como a Rosangela atualiza skills (aprendido)
 - Configurações > Skills > **+ Adicionar** > enviar **um zip por vez** (vários de uma vez falha).
