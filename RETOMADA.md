@@ -27,6 +27,15 @@ Skills de ~140 empresas (cada empresa com a sua skill e a sua cultura) gastando 
 4. Pendente: liberar sites do governo na rede do ambiente (Planalto bloqueado; sugerido `*.gov.br` e `gov.br` em Domínios permitidos, modo Custom, mantendo a lista padrão).
 5. Achados a tratar: regra genérica "PIX ENVIADO" CONFIRMADO em JL Mangoni, Aphrodite, Vivare (362) e JS de Moraes (525); DC GRUP e DCK são a mesma empresa em duas skills.
 
+## Conversor de extratos: ocorrido de 30/10/2026
+- A "limpeza" de 29/10 07:37 apagou os `.md` com Confere NÃO, mas o conversor só refaz a partir de `desde` (config.json) = 2026-09-01. Julho/agosto ficaram sem `.md` (ex.: 148 Mercado Pago 08).
+- Corrigido: `desde` passou para `2026-07-01` (30/10 14:08). Em 30/10 15:07-15:13 converteu 246 arquivos: 68 Confere sim, 60 NÃO, 10 ERRO, 108 texto/OFX sem saldo.
+- 148: 07 e 08 Mercado Pago agora Confere sim. 147 (SDM) 08: Mercado Pago NÃO (R$ 299,90) e Inter NÃO (R$ 10.261,40).
+- ERROS de julho: OFX com `decimal.ConversionSyntax` (Aphrodite, Vivare), .xls antigo (Kopp Comércio, Mohr), PDF com senha (JNK Prado, Raissa, Andre Viana, Mark 1), xlsx inválido (Andre Viana).
+- Arquivo único sem `.md`: arrastar o original sobre `CONVERTER_AGORA.bat`.
+- Cuidado: o `conversor.lock` fica na pasta do OneDrive; se travar, bloqueia por até 1 h ("Outra conversão já está rodando"). O Bloco de Notas do Windows 11 só grava com Ctrl+S (conferir a data do arquivo).
+- Pendente: decidir se volta `desde` para 2026-09-01; tratar os NÃO de julho/agosto quando a competência for trabalhada.
+
 ## Como a Rosangela atualiza skills (aprendido)
 - Configurações > Skills > **+ Adicionar** > enviar **um zip por vez** (vários de uma vez falha).
 - Enviar **só o zip**; nunca o SKILL.md solto (substitui a skill e apaga references/scripts).
