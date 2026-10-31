@@ -761,11 +761,43 @@ def chave_data(s):
     return (int(m[3] or 0), int(m[2]), int(m[1])) if m else (0, 0, 0)
 
 
+def quebras_saldo(seq):
+    """Quantas vezes o saldo da linha nao bate com o saldo anterior + valor (so linhas com sinal conhecido)."""
+    ant, n = None, 0
+    for r in seq:
+        s = dec(r['saldo']) if r['saldo'] else None
+        if s is None:
+            continue
+        if ant is not None and r['tipo'] == 't' and r['sinal'] and dec(r['valor']) is not None \
+                and ant + r['sinal'] * dec(r['valor']) != s:
+            n += 1
+        ant = s
+    return n
+
+
+def inverte_dias(rows):
+    """Dias do mais novo para o mais antigo, mas cada dia em ordem normal (Caixa): inverte so a ordem dos dias."""
+    blocos = []
+    for r in rows:
+        if blocos and r['data'] == blocos[-1][0]['data']:
+            blocos[-1].append(r)
+        else:
+            blocos.append([r])
+    return [r for b in reversed(blocos) for r in b]
+
+
+def ordem_cronologica(rows):
+    t = [r for r in rows if r['tipo'] == 't']
+    if not (len(t) >= 2 and chave_data(t[0]['data']) > chave_data(t[-1]['data'])):
+        return list(rows)
+    tudo, dias = list(reversed(rows)), inverte_dias(rows)
+    return dias if quebras_saldo(dias) < quebras_saldo(tudo) else tudo
+
+
 def completa_sinais(rows, saldo_ini):
     """Sinal que o extrato nao mostra: secao (entradas/saidas) ou diferenca do saldo da linha."""
     t = [r for r in rows if r['tipo'] == 't']
-    desc = len(t) >= 2 and chave_data(t[0]['data']) > chave_data(t[-1]['data'])
-    crono = list(reversed(rows)) if desc else list(rows)
+    crono = ordem_cronologica(rows)
     ant = dec(saldo_ini) if saldo_ini else None
     for r in crono:
         if r['tipo'] == 't' and r['sinal'] is None:
@@ -1367,10 +1399,8 @@ def converter_planilha(arq):
         rows, si, sf, fora = res
         reordena_saldo_dia(rows)
         aplic = ajusta_saldos(rows)
-        t_ = [r for r in rows if r['tipo'] == 't']
         # planilha do mais novo para o mais antigo (CSV do Inter): o Confere percorre em ordem cronologica
-        crono = list(reversed(rows)) if len(t_) >= 2 and chave_data(t_[0]['data']) > chave_data(t_[-1]['data']) else None
-        saldos = conferir(rows, si, sf, crono)
+        saldos = conferir(rows, si, sf, ordem_cronologica(rows))
         tab, obs = tabela_md(rows)
         if aplic:
             obs.insert(0, 'aplicação automática: o Confere usa o SALDO TOTAL DISPONÍVEL (conta + aplicação); APL/RES APLIC AUT ficam fora da soma')
