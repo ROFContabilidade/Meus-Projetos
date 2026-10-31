@@ -13,6 +13,7 @@ import csv
 import datetime as dt
 import difflib
 import hashlib
+import struct
 import html
 import io
 import json
@@ -327,6 +328,216 @@ def _ocr_tesseract(arq, pags, pasta):
 
 # ----------------------------------------------------------------- PDF
 
+# ----------------------------------------------------------------- PDF com fonte sem mapa de caracteres
+# PDF "impresso" de novo (ex.: Ghostscript) perde o ToUnicode: o texto sai "!"#$%&". Se a fonte embutida e a
+# mesma de um extrato bom, cada letra e reconhecida pelo DESENHO do glifo (assinatura dos pontos do contorno).
+# Referencia: Avenir LT W01 55 Roman (extrato Cora FWL 09/2026, com ToUnicode). '*' conferido no desenho.
+GLIFOS_REF = {
+    'vazio': ' ', '97c2b23e1d': '$', '29d6826575': '*', '927c6119b0': '+', 'ae5944a8a9': ',', '26b72b8763': '-',
+    '80301367b3': '.', '86bd01671b': '/', '9326517b38': '0', '4a9358dcf0': '1', '3e3b8b5344': '2',
+    'c0d90eb138': '3', '960063f902': '4', 'cca704960c': '5', '7347eed503': '6', '54c75d3505': '7',
+    'b1b03912d4': '8', 'c9cd9b93f8': '9', 'c2fa876f21': ':', 'f901d09e9e': 'A', '5c2c1d2e96': 'B',
+    'a299160286': 'C', 'adf83a1dac': 'D', 'ce716328d8': 'E', '84b575821c': 'F', '4d6b893289': 'G',
+    '7d53b60bd4': 'H', 'bcda5a6b06': 'I', '555679df22': 'J', '5f078c6f35': 'K', '5d872e418b': 'L',
+    '94f44973ec': 'M', '7b1872f898': 'N', '4e81398b6e': 'O', '9bdaeb0ef7': 'P', '64cb2c80c2': 'Q',
+    '89c58be86d': 'R', '55bfda4dd7': 'S', 'eefed1e4a8': 'T', 'f80f7e0a1a': 'U', '9d478e1f05': 'V',
+    '6dc8ae1085': 'W', '230d3097d4': 'X', '38df5363b6': 'Y', 'a9b7af2557': 'a', '685df05226': 'b',
+    '7735e8fea5': 'c', 'd1d10d9ab4': 'd', '51088a024d': 'e', '896679646e': 'f', '77ac15eeb0': 'g',
+    '7cbbe521ff': 'h', 'ceaeaef0fd': 'i', '36eba2165b': 'l', 'c31f4f06ca': 'm', '3ca7f43e15': 'n',
+    '94f081914f': 'o', '98cc065069': 'p', '27a59c4b74': 'q', '3926e639fe': 'r', '9604075994': 's',
+    '115a4ad91a': 't', '55cc20cd27': 'u', 'ddeaddc1b2': 'v', 'adb4231900': 'w', '36e43f58a1': 'x',
+    '92c9635159': 'y', '11178e2e2e': 'à', '903cc0c172': 'á', '1f81614d1c': 'ç', 'c8b3bb028d': 'é',
+    '2d9ccd9515': 'ê', 'ec01fe0f17': 'í', '209fbec270': 'õ', '8d9d866861': 'ú', '161f78dcba': '…',
+}
+
+
+def _ttf_tabelas(b):
+    n = struct.unpack('>H', b[4:6])[0]
+    return {b[12 + 16 * i:16 + 16 * i].decode('latin1'): struct.unpack('>II', b[20 + 16 * i:28 + 16 * i]) for i in range(n)}
+
+def _ttf_cmap(b, t):
+    off, _ = t['cmap']
+    n = struct.unpack('>H', b[off + 2:off + 4])[0]
+    subs = {}
+    for i in range(n):
+        p, e, o = struct.unpack('>HHI', b[off + 4 + 8 * i:off + 12 + 8 * i])
+        subs[(p, e)] = off + o
+    res = {}
+    for k in ((1, 0), (3, 0), (3, 1)):
+        if k not in subs:
+            continue
+        o = subs[k]
+        fmt = struct.unpack('>H', b[o:o + 2])[0]
+        if fmt == 0:
+            for c in range(256):
+                res.setdefault(c, b[o + 6 + c])
+        elif fmt == 6:
+            first, cnt = struct.unpack('>HH', b[o + 6:o + 10])
+            for i in range(cnt):
+                res.setdefault(first + i, struct.unpack('>H', b[o + 10 + 2 * i:o + 12 + 2 * i])[0])
+        elif fmt == 4:
+            seg = struct.unpack('>H', b[o + 6:o + 8])[0] // 2
+            ends = struct.unpack(f'>{seg}H', b[o + 14:o + 14 + 2 * seg])
+            p = o + 16 + 2 * seg
+            starts = struct.unpack(f'>{seg}H', b[p:p + 2 * seg])
+            deltas = struct.unpack(f'>{seg}h', b[p + 2 * seg:p + 4 * seg])
+            ro = p + 4 * seg
+            ranges = struct.unpack(f'>{seg}H', b[ro:ro + 2 * seg])
+            for s in range(seg):
+                for c in range(starts[s], ends[s] + 1):
+                    if c == 0xFFFF:
+                        continue
+                    if ranges[s] == 0:
+                        g = (c + deltas[s]) & 0xFFFF
+                    else:
+                        a = ro + 2 * s + ranges[s] + 2 * (c - starts[s])
+                        g = struct.unpack('>H', b[a:a + 2])[0]
+                        g = (g + deltas[s]) & 0xFFFF if g else 0
+                    res.setdefault(c & 0xFF if k == (3, 0) else c, g)
+    return res
+
+def _ttf_glifo(b, t, loca, gid, prof=0):
+    """-> (pontos, fins_de_contorno) com componentes resolvidos."""
+    g0, g1 = loca[gid], loca[gid + 1]
+    if g1 <= g0 or prof > 8:
+        return [], []
+    o = t['glyf'][0] + g0
+    nc = struct.unpack('>h', b[o:o + 2])[0]
+    p = o + 10
+    if nc >= 0:
+        fins = list(struct.unpack(f'>{nc}H', b[p:p + 2 * nc])); p += 2 * nc
+        il = struct.unpack('>H', b[p:p + 2])[0]; p += 2 + il
+        npt = fins[-1] + 1 if fins else 0
+        flags = []
+        while len(flags) < npt:
+            f = b[p]; p += 1; flags.append(f)
+            if f & 8:
+                r = b[p]; p += 1; flags += [f] * r
+        xs, ys, v = [], [], 0
+        for f in flags:
+            if f & 2:
+                d = b[p]; p += 1; v += d if f & 16 else -d
+            elif not f & 16:
+                v += struct.unpack('>h', b[p:p + 2])[0]; p += 2
+            xs.append(v)
+        v = 0
+        for f in flags:
+            if f & 4:
+                d = b[p]; p += 1; v += d if f & 32 else -d
+            elif not f & 32:
+                v += struct.unpack('>h', b[p:p + 2])[0]; p += 2
+            ys.append(v)
+        return list(zip(xs, ys)), fins
+    pts, fins = [], []
+    while True:
+        fl, gi = struct.unpack('>HH', b[p:p + 4]); p += 4
+        if fl & 1:
+            a1, a2 = struct.unpack('>hh', b[p:p + 4]); p += 4
+        else:
+            a1, a2 = struct.unpack('>bb', b[p:p + 2]); p += 2
+        esc = (1, 0, 0, 1)
+        if fl & 8:
+            s = struct.unpack('>h', b[p:p + 2])[0] / 16384; p += 2; esc = (s, 0, 0, s)
+        elif fl & 0x40:
+            sx, sy = struct.unpack('>hh', b[p:p + 4]); p += 4; esc = (sx / 16384, 0, 0, sy / 16384)
+        elif fl & 0x80:
+            esc = tuple(v / 16384 for v in struct.unpack('>hhhh', b[p:p + 8])); p += 8
+        cp, cf = _ttf_glifo(b, t, loca, gi, prof + 1)
+        dx, dy = (a1, a2) if fl & 2 else (0, 0)
+        base = len(pts)
+        pts += [(round(x * esc[0] + y * esc[2] + dx), round(x * esc[1] + y * esc[3] + dy)) for x, y in cp]
+        fins += [base + e for e in cf]
+        if not fl & 0x20:
+            break
+    return pts, fins
+
+def ttf_assinaturas(b, por_gid=False):
+    """Fonte TrueType (bytes) -> {codigo (ou gid): assinatura do desenho do glifo}."""
+    t = _ttf_tabelas(b)
+    if not {'cmap', 'glyf', 'loca', 'head', 'maxp'} <= t.keys():
+        return {}
+    ho = t['head'][0]
+    longo = struct.unpack('>h', b[ho + 50:ho + 52])[0]
+    ng = struct.unpack('>H', b[t['maxp'][0] + 4:t['maxp'][0] + 6])[0]
+    lo = t['loca'][0]
+    loca = struct.unpack(f'>{ng + 1}I', b[lo:lo + 4 * (ng + 1)]) if longo else \
+        [v * 2 for v in struct.unpack(f'>{ng + 1}H', b[lo:lo + 2 * (ng + 1)])]
+    res = {}
+    pares = [(g, g) for g in range(ng)] if por_gid else _ttf_cmap(b, t).items()
+    for c, g in pares:
+        if g >= ng:
+            continue
+        pts, fins = _ttf_glifo(b, t, loca, g)
+        if not pts:
+            res[c] = 'vazio'
+            continue
+        mx, my = min(x for x, _ in pts), min(y for _, y in pts)
+        res[c] = hashlib.md5(repr(([(x - mx, y - my) for x, y in pts], fins)).encode()).hexdigest()[:10]
+    return res
+
+
+def mapa_fonte_sem_unicode(doc, xref):
+    """Fonte TrueType simples sem ToUnicode -> {codigo: caractere} pelo desenho; None se nao der."""
+    try:
+        obj = doc.xref_object(xref)
+        if '/ToUnicode' in obj or '/TrueType' not in obj:
+            return None
+        sig = ttf_assinaturas(doc.extract_font(xref)[3])
+    except Exception:  # noqa: BLE001 - fonte que nao abre: segue o caminho normal (OCR)
+        return None
+    mapa = {c: GLIFOS_REF[h] for c, h in sig.items() if h in GLIFOS_REF}
+    return mapa if sum(v != ' ' for v in mapa.values()) >= 20 else None
+
+
+def palavras_decodificadas(pg, mapas):
+    """Palavras (x0, y0, x1, y1, texto) da pagina, trocando os codigos pelos caracteres do desenho.
+    Texto desenhado duas vezes no mesmo lugar (negrito simulado) entra uma vez so. None se sobrar codigo sem letra."""
+    chars, vistos, sem = [], set(), 0
+    try:
+        import pymupdf
+    except ImportError:
+        import fitz as pymupdf
+    flags = pymupdf.TEXTFLAGS_RAWDICT | pymupdf.TEXT_INHIBIT_SPACES   # sem espaco inventado (o codigo 32 e letra)
+    for bl in pg.get_text('rawdict', flags=flags)['blocks']:
+        for ln in bl.get('lines', []):
+            for sp in ln['spans']:
+                mapa = next((m for nome, m in mapas.items() if sp['font'] == nome or sp['font'].endswith('+' + nome)
+                             or nome.endswith('+' + sp['font']) or nome.split('+')[-1] == sp['font'].split('+')[-1]), None)
+                for ch in sp['chars']:
+                    c = ch['c']
+                    if mapa is not None:
+                        c = mapa.get(ord(c))
+                        if c is None:
+                            sem += 1
+                            c = '?'
+                    x0, y0, x1, y1 = ch['bbox']
+                    k = (round(x0 * 2), round(y1 * 2), c)
+                    if k in vistos:
+                        continue
+                    vistos.add(k)
+                    chars.append((x0, y0, x1, y1, c))
+    if sem > 2:
+        return None
+    chars.sort(key=lambda t: (round(t[3]), t[0]))
+    pal, cur = [], None
+    for x0, y0, x1, y1, c in chars:
+        novo = cur is None or round(y1) != round(cur[3]) or x0 - cur[2] > 0.3 * (y1 - y0)
+        if c.isspace():
+            if cur:
+                pal.append(cur)
+            cur = None
+            continue
+        if novo:
+            if cur:
+                pal.append(cur)
+            cur = [x0, y0, x1, y1, c]
+        else:
+            cur[2], cur[1], cur[3], cur[4] = max(cur[2], x1), min(cur[1], y0), max(cur[3], y1), cur[4] + c
+    if cur:
+        pal.append(cur)
+    return [tuple(p) for p in pal]
+
+
 def ler_pdf(arq):
     try:
         import pymupdf
@@ -335,9 +546,20 @@ def ler_pdf(arq):
     doc = pymupdf.open(arq)
     if doc.needs_pass and not doc.authenticate(''):
         raise RuntimeError('PDF protegido por senha')
-    paginas, cru = [], 0
+    paginas, cru, decod = [], 0, []
+    mapas = {}
+    for pg in doc:
+        for x in pg.get_fonts():
+            if x[3] not in mapas:
+                mapas[x[3]] = mapa_fonte_sem_unicode(doc, x[0])
+    mapas = {k: v for k, v in mapas.items() if v}
     for i, pg in enumerate(doc, 1):
         pal = [w[:5] for w in pg.get_text('words')]
+        if mapas and lixo(' '.join(w[4] for w in pal)):     # so mexe quando o texto normal sai embaralhado
+            dec_ = palavras_decodificadas(pg, mapas)
+            if dec_:
+                pal = dec_
+                decod.append(i)
         cru += len(pg.get_text())
         paginas.append([Linha(i, toks, y=y, h=h) for toks, y, h in agrupa_linhas(pal, pg.rect.width or 1, pg.rect.height or 1)])
     n = len(doc)
@@ -349,7 +571,7 @@ def ler_pdf(arq):
         bons = sum(1 for c in proprio if c.isalnum() or c in ',.-/')
         if bons < MIN_CHARS_TEXTO:     # escaneada: decide pelo texto, nunca pelo numero de imagens
             escaneadas.append(i)
-    info = {'paginas': n, 'ocr': escaneadas, 'erro_ocr': None, 'imagens': None, 'sem_texto': []}
+    info = {'paginas': n, 'ocr': escaneadas, 'erro_ocr': None, 'imagens': None, 'sem_texto': [], 'decod': decod}
     if escaneadas:
         pasta = pasta_imagens(arq)
         info['imagens'] = str(pasta)
@@ -1126,6 +1348,9 @@ def converter_pdf(arq):
     obs = ['aplicação automática: o Confere usa o SALDO TOTAL DISPONÍVEL (conta + aplicação); APL/RES APLIC AUT ficam fora da soma'] if aplic else []
     if info['erro_ocr']:
         obs.append(info['erro_ocr'])
+    if info.get('decod'):
+        obs.append(f'fonte sem mapa de caracteres (PDF regravado): texto das pág. {",".join(map(str, info["decod"]))} '
+                   'recuperado pelo desenho das letras; conferir com o OFX se houver')
     for p in info['sem_texto']:
         obs.append(f'p{p} [OCR] sem texto: abrir a imagem da página ({Path(info["imagens"]) / f"p{p}.png"})')
     fora_valor = sum(1 for ln in fora if not ln.resumo and tira_valores(tira_data(ln.toks, None)[1])[0])
