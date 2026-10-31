@@ -1367,7 +1367,10 @@ def converter_planilha(arq):
         rows, si, sf, fora = res
         reordena_saldo_dia(rows)
         aplic = ajusta_saldos(rows)
-        saldos = conferir(rows, si, sf)
+        t_ = [r for r in rows if r['tipo'] == 't']
+        # planilha do mais novo para o mais antigo (CSV do Inter): o Confere percorre em ordem cronologica
+        crono = list(reversed(rows)) if len(t_) >= 2 and chave_data(t_[0]['data']) > chave_data(t_[-1]['data']) else None
+        saldos = conferir(rows, si, sf, crono)
         tab, obs = tabela_md(rows)
         if aplic:
             obs.insert(0, 'aplicação automática: o Confere usa o SALDO TOTAL DISPONÍVEL (conta + aplicação); APL/RES APLIC AUT ficam fora da soma')
