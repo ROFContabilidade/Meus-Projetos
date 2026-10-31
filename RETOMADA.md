@@ -1,6 +1,6 @@
 # Retomada: skills ROF (economia de tokens e autonomia)
 
-Resumo da sessão de 29/10/2026 (Rosangela). Ler só este arquivo para continuar; não precisa reler a conversa anterior.
+Resumo das sessões de 29 e 30/10/2026 (Rosangela). Ler só este arquivo para continuar; não precisa reler a conversa anterior.
 
 ## Objetivo
 Skills de ~140 empresas (cada empresa com a sua skill e a sua cultura) gastando menos tokens e mais autônomas, para depois rodarem por rotinas agendadas.
@@ -43,7 +43,7 @@ Método: PDF original do Drive passado na mesma versão do conversor + saldo lin
 - ERRO REAL nas linhas: Sicoob layout "SISBR" (Pai e Filhos, conta 92.010-0): valor e letra C/D em linhas diferentes perdem o sinal (ex. PIX EMIT 1.400,00 D virou +1.400); depósito bloqueado (valor com *) contado e depois "LIBER.DEPÓSITO BLOQ" contado de novo; histórico deslocado (DOC/CPF da linha anterior grudado na seguinte); saldo final pegou "conta capital" 60,64 (real 32.017,47). Confere NÃO pegou.
 - Cresol (Cross ago): extrato de trás para frente; quadro de resumo do rodapé (Limite de crédito 2.000,00, IOF, juros acumulados) virou lançamento. Confere NÃO pegou.
 - Não validados (PDF escaneado, dependem do OCR do Windows): Caixa (FWL), C6 (Catia), Nubank (Everton). Itaú PDF da Mohr sai como "texto por página" (sem tabela).
-- CORRIGIDO em `kit-rof/conversor/conversor.py` (30/10/2026, falta a Rosangela instalar em `_ferramentas`):
+- CORRIGIDO em `kit-rof/conversor/conversor.py` (30/10/2026):
   Sicoob SISBR (leitor próprio `sicoob_sisbr`; depósito bloqueado vai para seção "## Depósito bloqueado", fora da tabela),
   Cresol (tabela para em "Totalizadores"/"Resumo"), Santander (saldo sem data no fim de extrato invertido não é saldo inicial),
   Sicredi ("Lançamentos Futuros" fora; "Saldo Atual" só vale se não há saldo por linha). Regressão: Bradesco, MP, Inter, BB, Cora, Sicoob Everton iguais.
@@ -53,6 +53,12 @@ Método: PDF original do Drive passado na mesma versão do conversor + saldo lin
   "INTER Extrato-01-09...-CSV"); C6 "Extato 6C_09.26.pdf" (dif. 39.525,33); "extrato pj agosto.pdf" (dif. -2.893,71) e
   "extrato setembro.pdf" (dif. 232,98) da 155 L R J Santos; "texto por página": Extrato Infiniti, Itaú Conta Garantida (Jungle),
   Cora FWL 07 e 08 (o de 09 sai certo).
+
+## Como trabalhar no conversor (para a próxima sessão)
+- Código: `kit-rof/conversor/conversor.py` (branch `claude/affectionate-edison-id48dx`). No PC dela fica em `C:\Users\User\OneDrive\EXTRATOS\_ferramentas` (com `config.json`, `estado.json`, `conversor.log`, `CONVERTER_AGORA.bat`, `REFAZER_NAO.bat`).
+- Testar aqui: baixar o original pelo conector do Drive, `pip install pymupdf pdfplumber` num venv e rodar `python -I conversor.py arquivo.pdf`; comparar com OFX/CSV do mesmo mês e conferir saldo linha a linha. Antes de entregar, rodar a versão antiga e a nova nos extratos que já davam "sim" (não pode mudar nada).
+- Entregar para ela: link raw do GitHub (`https://github.com/rofcontabilidade/meus-projetos/raw/claude/affectionate-edison-id48dx/kit-rof/conversor/conversor.py`), Ctrl+S em `_ferramentas`, Tipo "Todos os arquivos". Cuidado: o Chrome traduz o código (desligar tradução) e o Windows esconde ".txt" (conferir Tipo = Python File / Arquivo em Lotes).
+- Depois de instalar: dois cliques em `REFAZER_NAO` (lista, ela confirma com S, refaz). Log ela manda arrastando `conversor` (Documento de Texto) para a conversa.
 
 ## Como a Rosangela atualiza skills (aprendido)
 - Configurações > Skills > **+ Adicionar** > enviar **um zip por vez** (vários de uma vez falha).
