@@ -1313,6 +1313,77 @@ def sicoob_sisbr(paginas, periodo):
     return rows, si, sf
 
 
+MESES_ABREV = {'jan': 1, 'fev': 2, 'feb': 2, 'mar': 3, 'abr': 4, 'apr': 4, 'mai': 5, 'may': 5, 'jun': 6, 'jul': 7,
+               'ago': 8, 'aug': 8, 'set': 9, 'sep': 9, 'out': 10, 'oct': 10, 'nov': 11, 'dez': 12, 'dec': 12}
+RE_IP_DATA = re.compile(r'^(\d{1,2}) ([A-Za-z]{3}),? (\d{4})\b')
+RE_IP_HORA = re.compile(r'^\d{2}:\d{2}$')
+RE_IP_VALOR = re.compile(r'^([+-])\s?(\d{1,3}(?:\.\d{3})*,\d{2})$')
+
+
+def infinitepay(paginas):
+    """InfinitePay / CloudWalk 'Relatorio de movimentacoes': colunas Data | Hora | Tipo | Nome | Detalhe | Valor,
+    valor com sinal (+103,42 / -100,00), data so na 1a linha do dia ('01 Jul, 2026'), nome quebrado em linhas
+    acima e abaixo da linha da hora/valor e 'Saldo do dia' no fim de cada dia. -> (rows, saldo_ini, saldo_fin) ou None."""
+    topo = ' '.join(ln.texto for ln in (paginas[0][:12] if paginas else []))
+    if 'relatorio de movimentacoes' not in norm(topo) or not re.search(r'cloudwalk|infinitepay', norm(topo + ' '.join(
+            ln.texto for pag in paginas[:1] for ln in pag))):
+        return None
+    tudo = '\n'.join(ln.texto for pag in paginas for ln in pag)
+    m_ini = re.search(r'Saldo inicial\s*([+-])\s*(\d{1,3}(?:\.\d{3})*,\d{2})', tudo)
+    m_fin = re.search(r'Saldo final do per[ií]odo\s*([+-])\s*(\d{1,3}(?:\.\d{3})*,\d{2})', tudo)
+    sinal_txt = lambda m: ('-' if m[1] == '-' else '') + m[2]  # noqa: E731
+    rows, data = [], None
+    for pag in paginas:
+        ancoras, soltas, dentro = [], [], False
+        for ln in pag:
+            if ln.ocr:       # PDF gerado com texto (WeasyPrint): pagina curta no fim nao precisa do OCR
+                continue
+            n = norm(ln.texto)
+            if n.startswith('data hora tipo de transacao'):
+                dentro = True
+                continue
+            if not dentro:
+                continue
+            md = RE_IP_DATA.match(ln.texto)
+            if md and md[2].lower() in MESES_ABREV:
+                data = f'{int(md[1]):02d}/{MESES_ABREV[md[2].lower()]:02d}/{md[3]}'
+            toks = [(t, x0) for t, x0, _ in ln.toks if not (md and x0 < 0.11)]
+            direita = ''.join(t for t, x0 in toks if x0 >= 0.85).replace(' ', '')
+            mv = RE_IP_VALOR.match(direita)
+            if 'saldo do dia' in n and mv:
+                ancoras.append({'ln': ln, 'data': data, 'saldo': sinal_txt(mv), 'tipo': 's'})
+            elif mv and any(RE_IP_HORA.match(t) for t, x0 in toks if x0 < 0.19):
+                ancoras.append({'ln': ln, 'data': data, 'valor': mv[2], 'sinal': 1 if mv[1] == '+' else -1,
+                                'tipo': 't', 'toks': [(t, x0) for t, x0 in toks if x0 < 0.85], 'extra': []})
+            elif toks and all(0.19 <= x0 < 0.85 for _, x0 in toks):
+                soltas.append((ln, toks))
+            elif toks and n and not n.startswith(('a central de ajuda', 'pagina ')):
+                if any(RE_IP_VALOR.match(t.replace(' ', '')) for t, _ in toks):
+                    return None          # linha com valor que nao se encaixou: layout mudou, nao arrisca
+        for ln, toks in soltas:          # pedaco do nome: vai para o lancamento mais perto (acima ou abaixo)
+            perto = min((a for a in ancoras if a['tipo'] == 't'), key=lambda a: abs(a['ln'].y - ln.y), default=None)
+            if perto is None or abs(perto['ln'].y - ln.y) > 2.5 * max(ln.h, perto['ln'].h):
+                return None
+            perto['extra'].append((ln.y, toks))
+        for a in ancoras:
+            if a['data'] is None:
+                return None
+            if a['tipo'] == 's':
+                rows.append({'data': a['data'], 'hist': 'Saldo do dia', 'doc': '', 'valor': None, 'sinal': None,
+                             'saldo': a['saldo'], 'pag': a['ln'].pag, 'ocr': a['ln'].ocr, 'tipo': 's', 'secao': None})
+                continue
+            partes = sorted([(a['ln'].y, a['toks'])] + a['extra'], key=lambda p: p[0])
+            col = lambda lo, hi: ' '.join(t for _, ts in partes for t, x0 in ts if lo <= x0 < hi)  # noqa: E731
+            hora = next((t for t, x0 in a['toks'] if RE_IP_HORA.match(t)), '')
+            hist = ' '.join(p for p in (col(0.19, 0.35), col(0.35, 0.67), col(0.67, 0.85)) if p)
+            rows.append({'data': a['data'], 'hist': f'{hist} ({hora})' if hora else hist, 'doc': '', 'valor': a['valor'],
+                         'sinal': a['sinal'], 'saldo': None, 'pag': a['ln'].pag, 'ocr': a['ln'].ocr, 'tipo': 't',
+                         'secao': None})
+    if not any(r['tipo'] == 't' for r in rows):
+        return None
+    return rows, (sinal_txt(m_ini) if m_ini else None), (sinal_txt(m_fin) if m_fin else None)
+
+
 def converter_pdf(arq):
     paginas, rep, info, cru = ler_pdf(arq)
     texto_todo = '\n'.join(ln.texto for linhas in paginas for ln in linhas)
@@ -1325,6 +1396,10 @@ def converter_pdf(arq):
     sisbr = sicoob_sisbr(paginas, periodo)
     if sisbr:
         rows, si, sf = sisbr
+        fora, com_valor = [], len(rows)
+    ip = None if sisbr else infinitepay(paginas)
+    if ip:
+        rows, si, sf = ip
         fora, com_valor = [], len(rows)
     t_ = [r for r in rows if r['tipo'] == 't']
     if len(t_) >= 2 and chave_data(t_[0]['data']) > chave_data(t_[-1]['data']):
@@ -1356,6 +1431,10 @@ def converter_pdf(arq):
     fora_valor = sum(1 for ln in fora if not ln.resumo and tira_valores(tira_data(ln.toks, None)[1])[0])
     t = [r for r in rows if r['tipo'] == 't']
     seguro = t and fora_valor <= max(3, 0.25 * com_valor)
+    sem_mov = not t and si is not None and any(r['tipo'] == 's' for r in rows) and fora_valor <= 3
+    if sem_mov:      # mes sem nenhum lancamento (ex.: Itau conta garantida): so saldo anterior e saldo atual
+        seguro = True
+        obs.append('sem lançamentos no período: só saldo anterior e saldo atual')
     n_pag = f'{info["paginas"]} página(s)'
     if not seguro:
         obs.insert(0, 'tabela NÃO montada com segurança (layout não reconhecido): texto limpo por página abaixo')
