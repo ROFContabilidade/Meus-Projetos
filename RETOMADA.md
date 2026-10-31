@@ -47,7 +47,12 @@ Método: PDF original do Drive passado na mesma versão do conversor + saldo lin
   Sicoob SISBR (leitor próprio `sicoob_sisbr`; depósito bloqueado vai para seção "## Depósito bloqueado", fora da tabela),
   Cresol (tabela para em "Totalizadores"/"Resumo"), Santander (saldo sem data no fim de extrato invertido não é saldo inicial),
   Sicredi ("Lançamentos Futuros" fora; "Saldo Atual" só vale se não há saldo por linha). Regressão: Bradesco, MP, Inter, BB, Cora, Sicoob Everton iguais.
-- Depois de instalar: rodar a limpeza (`conversor.py --limpar --apagar`) para refazer os .md com Confere NÃO.
+- INSTALADO e refeito em 30/10/2026 ~19h (REFAZER_NAO.bat em `_ferramentas`; limpeza agora respeita o corte `desde`).
+  Conferido no Drive: Pai e Filhos Sicoob set, Cross Cresol ago, SDM Santander set e Mohr Sicredi set = Confere sim.
+- Ainda NÃO / sem tabela (próximos a olhar): CSV do Inter (Jungle "Extrato-01-07-2026-a-19-10-2026-CSV", 4 meses em 3 pastas;
+  "INTER Extrato-01-09...-CSV"); C6 "Extato 6C_09.26.pdf" (dif. 39.525,33); "extrato pj agosto.pdf" (dif. -2.893,71) e
+  "extrato setembro.pdf" (dif. 232,98) da 155 L R J Santos; "texto por página": Extrato Infiniti, Itaú Conta Garantida (Jungle),
+  Cora FWL 07 e 08 (o de 09 sai certo).
 
 ## Como a Rosangela atualiza skills (aprendido)
 - Configurações > Skills > **+ Adicionar** > enviar **um zip por vez** (vários de uma vez falha).
