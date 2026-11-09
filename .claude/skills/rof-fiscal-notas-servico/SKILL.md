@@ -59,9 +59,13 @@ se continuar a dúvida, dizer que é dúvida.
 
 ## 3. Ler as notas
 
-- **XML** (preferir sempre): `python3 -I $S/ler_nfse_xml.py <pasta ou arquivos> --saida notas.json`
+- **Ordem de leitura (regra da Rosangela, 09/11/2026):** ler os documentos em **MD, OFX, XLS/XLSX** (e dados estruturados como
+  XML) e usar **PDF somente em último caso**, quando não existir o mesmo dado em outro formato. Antes de abrir PDF, procurar na
+  pasta do mês (`Relatorio`, `Prestados`, `Tomados`) a planilha do portal nacional/prefeitura, o XML ou outro arquivo da mesma nota.
+  Se tiver de usar PDF, dizer no resumo final quais notas foram lidas por PDF e por quê.
+- **XML** (preferir sempre quando houver): `python3 -I $S/ler_nfse_xml.py <pasta ou arquivos> --saida notas.json`
   Lê NFS-e **Padrão Nacional** (nfse.gov.br) e **ABRASF/municipais**. Arquivos baixados ficam numa pasta própria; rodar com `-I`.
-- **PDF**: `pdftotext -layout nota.pdf -` (ou a skill `anthropic-skills:pdf`; OCR se for imagem) e preencher o mesmo
+- **PDF (último caso)**: `pdftotext -layout nota.pdf -` (ou a skill `anthropic-skills:pdf`; OCR se for imagem) e preencher o mesmo
   JSON à mão, com os mesmos campos. Se tiver XML e PDF da mesma nota, conferir um contra o outro.
 - **Depois do script, ler cada nota de verdade** (discriminação, informações complementares, valores) e completar no JSON
   o que o script não achou. Campo que não existe na nota fica vazio e vira apontamento - nunca inventar.
