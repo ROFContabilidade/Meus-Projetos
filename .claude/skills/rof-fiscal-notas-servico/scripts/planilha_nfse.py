@@ -181,7 +181,7 @@ def tomado(notas, emp, comp):
             for k, nome in (('irrf', 'IRRF'), ('csrf', 'CSRF (PIS+COFINS+CSLL)'), ('inss', 'INSS')):
                 if abs(dest[k] - esp[k]) > TOL:
                     if esp[k] and not dest[k]:
-                        a.append(('ERRO', f'{nome}: deveria reter {esp[k]:.2f} e a nota não destaca - a empresa (tomadora) é responsável pelo recolhimento'))
+                        a.append(('ALERTA', f'{nome}: esperado {esp[k]:.2f}, a nota foi emitida sem destacar - NÃO recolher (decisão do escritório: só se recolhe o que a nota destaca)'))
                     elif dest[k] and not esp[k]:
                         a.append(('ALERTA', f'{nome}: nota destaca {dest[k]:.2f}, mas não se esperava retenção ({esp["obs"]})'))
                     else:
