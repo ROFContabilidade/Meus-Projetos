@@ -121,6 +121,9 @@ automaticamente) e `"base_inss"` se houver dedução de material/equipamento.
 Regras aplicadas pelo script: prestador **Simples** não sofre IRRF nem CSRF e só sofre INSS se for Anexo IV; **MEI** sem retenção;
 **dispensa** quando o IRRF ou a CSRF calculados forem ≤ R$ 10,00 e o INSS < R$ 10,00.
 O script compara o **esperado** com o **destacado**: retenção devida e não destacada é ERRO (a tomadora responde pelo recolhimento).
+**Decisão da Rosangela (09/11/2026): retenção que NÃO está destacada na nota não é recolhida pelo escritório.** Nesses casos
+gravar `"enquadramento": "sem_retencao"` e registrar nos `"apontamentos"` o valor que seria devido (só como registro), sem ERRO.
+No resumo, só listar como "a recolher" o que a nota destaca.
 
 **ISS no tomado**: conferir se o serviço tem **retenção na fonte pelo tomador** - LC 116 art. 6º §2º (itens 3.05, 7.02, 7.04, 7.05,
 7.09, 7.10, 7.12, 7.16, 7.17, 7.19, 11.02, 17.05 e 17.10, e os do art. 3º prestados no município do tomador) + **lei do
