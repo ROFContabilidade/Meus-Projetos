@@ -218,6 +218,7 @@ ITENS_LC116 = {
     '11.02': ('IV', 'Vigilância, segurança ou monitoramento (§5º-C)', 'seguranca_vigilancia'),
     '11.03': ('IV', 'Escolta - conferir', 'seguranca_vigilancia'),
     '11.04': ('III', 'Armazenamento, depósito, carga e descarga', 'sem_retencao'),
+    '11.05': ('III', 'Monitoramento e rastreamento a distância (LC 183/2021) - III quando só eletrônico/remoto (residual §5º-F); vigilância/portaria presencial = item 11.02 Anexo IV', 'seguranca_vigilancia'),
     '12': ('III', 'Diversões, lazer, entretenimento, shows, eventos', 'sem_retencao'),
     '13.02': ('III', 'Fonografia, gravação de sons', 'sem_retencao'),
     '13.03': ('III', 'Fotografia e cinematografia', 'sem_retencao'),
