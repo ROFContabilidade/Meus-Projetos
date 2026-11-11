@@ -218,6 +218,10 @@ ITENS_LC116 = {
     '11.02': ('IV', 'Vigilância, segurança ou monitoramento (§5º-C)', 'seguranca_vigilancia'),
     '11.03': ('IV', 'Escolta - conferir', 'seguranca_vigilancia'),
     '11.04': ('III', 'Armazenamento, depósito, carga e descarga', 'sem_retencao'),
+    '14.01': ('III', 'Manutenção, conserto, revisão e conservação de máquinas, aparelhos e equipamentos (inclui calibração de instrumentos - CNAE 3312-1/02)', 'manutencao'),
+    '14.02': ('III', 'Assistência técnica', 'manutencao'),
+    '14.03': ('III', 'Recondicionamento de motores', 'manutencao'),
+    '14.06': ('III', 'Instalação e montagem de aparelhos/máquinas/equipamentos', 'manutencao'),
     '12': ('III', 'Diversões, lazer, entretenimento, shows, eventos', 'sem_retencao'),
     '13.02': ('III', 'Fonografia, gravação de sons', 'sem_retencao'),
     '13.03': ('III', 'Fotografia e cinematografia', 'sem_retencao'),
@@ -326,12 +330,15 @@ DISPENSA = 10.00  # IRRF e CSRF: dispensado quando o valor a reter for <= R$ 10,
 def retencoes_esperadas(nota):
     """Calcula IRRF/CSRF/INSS esperados para uma nota tomada.
     nota: dict com valor_servico, base_inss (opcional), enquadramento, prestador_simples (bool),
-          prestador_mei (bool), prestador_anexo_iv (bool), cessao_mao_obra (bool, opcional)."""
+          prestador_mei (bool), prestador_anexo_iv (bool), cessao_mao_obra (bool, opcional;
+          False explícito tira o INSS de limpeza/vigilância quando não há cessão nem empreitada)."""
     enq = nota.get('enquadramento') or 'sem_retencao'
     ir, cs, inss, desc = RETENCOES.get(enq, (0, 0, 0, 'enquadramento desconhecido'))
     obs = [desc]
     if enq == 'manutencao' and nota.get('cessao_mao_obra'):
         inss = 11
+    if enq in ('limpeza_conservacao', 'seguranca_vigilancia') and nota.get('cessao_mao_obra') is False:
+        inss = 0; obs.append('Sem cessão de mão de obra/empreitada (ex.: monitoramento eletrônico): sem INSS 11%')
     v = float(nota.get('valor_servico') or 0)
     if nota.get('prestador_mei'):
         ir = cs = inss = 0; obs.append('Prestador MEI: sem retenção de IRRF/CSRF/INSS (conferir cessão de mão de obra p/ MEI)')
