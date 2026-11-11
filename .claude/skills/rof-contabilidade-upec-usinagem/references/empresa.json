@@ -1,0 +1,50 @@
+{
+  "razao_social": "UPEC USINAGEM E COMERCIO LTDA",
+  "nome_fantasia": "",
+  "cnpj": "64.847.331/0001-44",
+  "codigo_dominio": "A CONFIRMAR",
+  "regime": "Simples Nacional",
+  "abertura": "2026-02-02",
+  "endereco": "Rua Guilherme Ceolin, 619 - Vargem Grande - Pinhais/PR - CEP 83321-220",
+  "porte": "ME",
+  "capital_social": 50000.0,
+  "capital_integralizado": "não confirmado",
+  "atividade": "Comércio varejista de ferragens e ferramentas (principal), usinagem/tornearia/solda, comércio de peças automotivas, máquinas e peças industriais/agropecuárias, lubrificantes, produtos siderúrgicos e sucata metálica",
+  "cnaes": [
+    {"cnae": "4744-0/01", "tipo": "principal", "descricao": "Comércio varejista de ferragens e ferramentas", "anexo": "I"},
+    {"cnae": "2539-0/01", "tipo": "secundario", "descricao": "Serviços de usinagem, tornearia e solda", "anexo": "II se industrialização por encomenda (ICMS/IPI); III se serviço ao consumidor final (ISS, LC 116 item 14.05) — A CONFIRMAR"},
+    {"cnae": "4530-7/03", "tipo": "secundario", "descricao": "Varejo de peças e acessórios novos para veículos", "anexo": "I", "obs": "PIS/COFINS monofásico (Lei 10.485/2002) e ICMS-ST: segregar no PGDAS-D"},
+    {"cnae": "4530-7/06", "tipo": "secundario", "descricao": "Representante comercial de peças automotivas", "anexo": "III (comissão = serviço, ISS Pinhais)"},
+    {"cnae": "4661-3/00", "tipo": "secundario", "descricao": "Atacado de máquinas e equipamentos agropecuários; partes e peças", "anexo": "I"},
+    {"cnae": "4663-0/00", "tipo": "secundario", "descricao": "Atacado de máquinas e equipamentos industriais; partes e peças", "anexo": "I"},
+    {"cnae": "4669-9/99", "tipo": "secundario", "descricao": "Atacado de outras máquinas e equipamentos; partes e peças", "anexo": "I"},
+    {"cnae": "4681-8/05", "tipo": "secundario", "descricao": "Atacado de lubrificantes", "anexo": "I", "obs": "monofásico PIS/COFINS e ICMS-ST: conferir NCM e segregar"},
+    {"cnae": "4685-1/00", "tipo": "secundario", "descricao": "Atacado de produtos siderúrgicos e metalúrgicos", "anexo": "I"},
+    {"cnae": "4687-7/03", "tipo": "secundario", "descricao": "Atacado de resíduos e sucatas metálicos", "anexo": "I", "obs": "conferir diferimento/tratamento de ICMS no PR"},
+    {"cnae": "4713-0/02", "tipo": "secundario", "descricao": "Lojas de variedades", "anexo": "I"}
+  ],
+  "perfil_custo": "comercio + industria (usinagem)",
+  "simples_consulta": {"optante": true, "inicio": "2026-02-02", "exclusao": null, "mei": false, "consultado_em": "2026-11-11", "fonte": "BrasilAPI"},
+  "contas_vigiadas": ["362", "506", "mutuo FWL"],
+  "anexo_ou_presuncao": "I (comércio) + II/III (usinagem, a confirmar) + III (representação)",
+  "fator_r": false,
+  "regime_receita": "A CONFIRMAR (competência | caixa)",
+  "socios": [
+    {"nome": "FABIANE OLIVEIRA DEMO", "cpf_final": "***273149**", "qualificacao": "Sócia-Administradora", "entrada": "2026-02-02", "pro_labore": "A CONFIRMAR"}
+  ],
+  "grupo": [
+    {"empresa": "FWL IND MEC LTDA", "cnpj": "42.089.203/0001-46", "regime": "Lucro Presumido em 2026", "tratamento": "mútuo (decisão Rosangela 10/11/2026 na FWL); nota fiscal entre elas = 504/506"},
+    {"empresa": "JOGO RAPIDO USINAGEM DE PECAS LTDA", "cnpj": "05.424.870/0001-01", "regime": "Simples", "tratamento": "sem nota = mútuo"},
+    {"empresa": "D M O INDUSTRIA E COMERCIO LTDA", "cnpj": "45.879.023/0001-56", "regime": "Simples", "tratamento": "sem nota = mútuo"}
+  ],
+  "funcionarios": "A CONFIRMAR",
+  "bancos": [],
+  "contas_padrao": {
+    "fornecedores": "506", "servicos_terceiros": "362", "tarifa": "", "rendimento": "",
+    "pro_labore": "", "pro_labore_no_custo": false, "uso_consumo": "", "lucros": "", "adiantamento_socio": "",
+    "mutuo_receber_fwl": "A CRIAR", "mutuo_pagar_fwl": "A CRIAR"
+  },
+  "honorarios": "Contrato RBA de 01/09/2026: R$ 2.450,00/mês para as 4 empresas do grupo; parte da UPEC a confirmar",
+  "responsavel": "A CONFIRMAR (Rosangela | Elen)",
+  "liminares": []
+}
