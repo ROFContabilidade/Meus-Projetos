@@ -66,7 +66,7 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Município de Colombo (exceto ISS retido 9,72 → 183) | 350 |
 | Auto Portão | 533 |
 | CMFER Ferragens | 467 |
-| Google Brasil | 360 Marketing e Propaganda (conta renomeada) |
+| Google Brasil | Com NFS-e (Google emite) → 506; sem nota → 360 Marketing e Propaganda |
 | Honorários contábeis (RBA, Paes e Bastos) | **510 SEMPRE** |
 | AMECIM | 533 |
 | Atseven sem NF | 366 |
@@ -74,3 +74,5 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Lanchonete/restaurante | 521 |
 | CMFER Parafusos COM NF (ex.: NF 199480, 09/2026) | 506 (sem NF → 467) | regra 506 com NF |
 | Vivo fixo (convênio) | 356 Telefone | 09/2026 |
+| 11/2026 | Google Ads (PIX 70,00 em 08/2026) | 506: tem NFS-e 38853284 e 39073512 | sempre que houver NF | Rosangela/Elen, 13/11/2026 |
+| 11/2026 | CDB sem extrato de renda fixa | Aguardar o cliente enviar; não lançar rendimento estimado | — | Rosangela/Elen, 13/11/2026 |
