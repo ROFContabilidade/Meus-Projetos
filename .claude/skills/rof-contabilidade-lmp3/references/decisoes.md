@@ -49,3 +49,4 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Atseven Serviços de Informática (2 PIX/mês: 166,67 + 130/260) | 506, padrão jan-jun/2026 | provável: confirmar NFS-e |
 | Google Brasil | 366 Sistemas · RBA Contabilidade 361 · AMECIM 533 (provável) · Auto Portão 533 | 08/2026 |
 | PIX recebido do Marcos | C 534 (devolução de retirada) | 08/2026 |
+| 11/2026 | Correção de lançamento antigo via TXT | Teste em 13/11/2026: importar TXT NÃO substitui o lote (cria lote novo, duplica). Correções de meses fechados são MANUAIS no Domínio, pela planilha de alterações | sempre | Rosangela/Elen, 13/11/2026 |
