@@ -17,7 +17,7 @@ Windows (cp1252), quebra de linha CRLF:
 | Registro | Conteúdo |
 |---|---|
 | `0000` | CNPJ da empresa, só números (uma vez, no início) |
-| `6000` | abre um lote; `X` = um débito para um crédito |
+| `6000` | abre um lote; `X` = um débito para um crédito; `C` = um crédito (banco, 1ª linha 6100 com o total) para vários débitos; `D` = um débito (banco) para vários créditos |
 | `6100` | data · conta débito · conta crédito · valor (vírgula, sem milhar) · código do histórico (vazio) · complemento · 4 campos vazios |
 
 - Contas = **código reduzido** do plano de contas da empresa.

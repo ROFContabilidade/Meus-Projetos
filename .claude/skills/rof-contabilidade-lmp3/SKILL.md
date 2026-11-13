@@ -57,6 +57,10 @@ Prestação de serviço técnico de manutenção/reparação/calibração:
 ```
 
 - Encoding cp1252, CRLF, valor com vírgula decimal.
+- **Um movimento do banco = um lançamento.** Com mais de uma contrapartida (ex.: PIX do sócio = pró-labore 188 + retirada 534; guia + juros/multa), usar lote de várias partidas:
+  - `|6000|C||||` = 1 crédito (banco, total) e vários débitos — 1ª linha `|6100|data||8|TOTAL||hist||||`, depois `|6100|data|conta||valor||hist||||`;
+  - `|6000|D||||` = 1 débito (banco, total) e vários créditos — o inverso.
+  Padrão do escritório já usado em outras empresas (Ribeiro, GL Car). Gerar com `python scripts/gerar_txt.py lancamentos_MM.csv saida.txt` (coluna `grupo` no CSV agrupa as linhas do mesmo movimento).
 - Um único TXT do mês com tudo, ordenado por data. Nome: `64_LMP3-SOLUCOES_<AAAA-MM>.txt`.
 
 ## Plano de Contas: Contas Operacionais

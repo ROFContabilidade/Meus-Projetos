@@ -76,3 +76,4 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Vivo fixo (convênio) | 356 Telefone | 09/2026 |
 | 11/2026 | Google Ads (PIX 70,00 em 08/2026) | 506: tem NFS-e 38853284 e 39073512 | sempre que houver NF | Rosangela/Elen, 13/11/2026 |
 | 11/2026 | CDB sem extrato de renda fixa | Aguardar o cliente enviar; não lançar rendimento estimado | — | Rosangela/Elen, 13/11/2026 |
+| 11/2026 | Movimento do banco com mais de uma contrapartida | Lote de várias partidas: `|6000|C|` (1 crédito banco, vários débitos) ou `|6000|D|` (1 débito banco, vários créditos). Nunca dividir o PIX em lançamentos X separados | sempre, todas as empresas | Rosangela/Elen, 13/11/2026 |
