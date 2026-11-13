@@ -1,7 +1,7 @@
 ' ============================================================
 ' Planilha "Rotinas tarefas do mes"
 ' Coloca a data de hoje na coluna B (Data da entrega) quando a
-' coluna de status recebe "Realizado". Se o status for apagado,
+' coluna de status recebe "Realizado" ou "S/MOV". Se o status for apagado,
 ' a data também é apagada.
 '
 '   Aba Elen       -> status na coluna H
@@ -29,7 +29,9 @@ Private Sub Workbook_SheetChange(ByVal Sh As Object, ByVal Target As Range)
 
     For Each cel In area.Cells
         If cel.Row > 1 Then
-            If LCase(Trim(CStr(cel.Value))) = "realizado" Then
+            Dim st As String
+            st = LCase(Trim(CStr(cel.Value)))
+            If st = "realizado" Or st = "s/mov" Then
                 ' só preenche se ainda não tiver data (não sobrescreve)
                 If IsEmpty(Sh.Cells(cel.Row, "B").Value) Then
                     Sh.Cells(cel.Row, "B").Value = Date
