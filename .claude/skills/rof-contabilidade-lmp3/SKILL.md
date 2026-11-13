@@ -22,7 +22,7 @@ Toda decisão nova da contadora deve ser registrada em `references/decisoes.md` 
 | Regime tributário | Simples Nacional - Anexo III — optante desde 31/07/2015 (consulta 13/11/2026) |
 | Endereço | Av. Marginal José de Anchieta, 488, salas 11 e 12, Guarani, Colombo/PR |
 | Usa o Domínio | Sim |
-| Banco(s) | **a confirmar** |
+| Banco(s) | Banco Inter 3773258-7 → **8**; CDB DI Liquidez Inter → **11**; Caixa Econômica → 9 (sem movimento em 2026) |
 | Pasta dos arquivos | G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio\64 - LMP3\2026\Automoção Contabil |
 | Responsável pelo lançamento | Elen |
 
@@ -32,8 +32,8 @@ Toda decisão nova da contadora deve ser registrada em `references/decisoes.md` 
 
 | Sócio | CPF | Qualificação | Participação | Pró-labore |
 |---|---|---|---|---|
-| MARCOS APARECIDO PARPINELI PAES | 031.970.619-26 | Sócio-Administrador | 90% | a confirmar |
-| LUCIANA PILZ PAES | 920.308.669-20 | Sócia | 10% | a confirmar |
+| MARCOS APARECIDO PARPINELI PAES | 031.970.619-26 | Sócio-Administrador | 90% | R$ 2.000,00 bruto; INSS R$ 220,00; líquido R$ 1.780,00 — conta 534 |
+| LUCIANA PILZ PAES | 920.308.669-20 | Sócia | 10% | R$ 2.000,00 bruto desde 02/06/2026; líquido R$ 1.780,00 — conta 535 |
 
 Sócios com o mesmo sobrenome: todo PIX para eles ou para familiares precisa de natureza definida (pró-labore, lucro, adiantamento ou reembolso) antes de lançar.
 
@@ -55,9 +55,38 @@ Prestação de serviço técnico de manutenção/reparação/calibração:
 - Encoding cp1252, CRLF, valor com vírgula decimal.
 - Um único TXT do mês com tudo, ordenado por data. Nome: `64_LMP3-SOLUCOES_<AAAA-MM>.txt`.
 
-## Plano de Contas
+## Plano de Contas: Contas Operacionais
 
-**Ainda não recebido.** Pedir o plano de contas do Domínio (Contas.xls) e gravar em `references/empresa.json` → `contas`. Padrões ROF: fornecedores **506**, serviços de terceiros sem nota **362** (vigiada).
+Plano completo (237 analíticas) em `references/empresa.json` → `contas`.
+
+| Cód | Conta | Uso |
+|---|---|---|
+| 8 | BANCO INTER 3773258-7 | banco |
+| 11 | APLICAÇÃO CDB INTER | aplicação/resgate |
+| 504 | CLIENTES DIVERSOS | NFS-e: D 504 / C 411; recebimento: D 8 / C 504 |
+| 411 | SERVIÇOS PRESTADOS | receita |
+| 506 | FORNECEDOR MODELO | pagamento de nota de entrada |
+| 467 | CUSTOS DOS SERVIÇOS PRESTADOS | material/peça aplicada no serviço |
+| 362 | SERVIÇOS PRESTADOS POR TERCEIROS | prestador sem nota (vigiar) |
+| 188 / 191 | PRÓ-LABORE A PAGAR / INSS A RECOLHER | folha |
+| 479 / 480 | SIMPLES A RECOLHER / (-) SIMPLES | DAS: pagamento baixa a 479 |
+| 182 / 183 / 178 | CRF / ISS RETIDO / IRRF A RECOLHER | retenções sobre tomados |
+| 534 / 535 | MARCOS / LUCIANA (conta do sócio) | retiradas → 551 no fim do trimestre |
+| 551 | DISTRIBUIÇÃO DE LUCROS | |
+| 320 / 363 / 354 | ALUGUÉIS / VIGILÂNCIA / ENERGIA | |
+| 370 / 493 / 350 | TARIFAS / CARTÃO DE CRÉDITO / TAXAS DIVERSAS | 350 não é conta de guia |
+
+Não existe conta de **receita financeira** (rendimento do CDB): pedir criação no Domínio.
+
+## Impostos (padrão a seguir daqui em diante)
+
+| Guia | Débito |
+|---|---|
+| DAS Simples | 479 |
+| DARF INSS pró-labore (GPS/DCTFWeb) | 191 |
+| DARF CRF 5952 | 182 |
+| DAM ISS retido | 183 |
+| Juros / multa | 372 / 352 |
 
 ## Fluxo de Trabalho Mensal
 
@@ -69,16 +98,19 @@ Prestação de serviço técnico de manutenção/reparação/calibração:
 
 ## Pendências a Confirmar
 
-- Plano de contas do Domínio (códigos reduzidos).
-- Bancos, contas e conta contábil de cada um.
-- Pró-labore: quem presta o serviço, valores; há funcionários?
-- Receita por competência ou caixa.
-- Mês inicial dos lançamentos e saldo inicial (balancete e razão do último mês fechado).
+Lista completa em `references/empresa.json` → `pendencias`. Principais (razão 01–09/2026):
+- Guias pagas lançadas em 350 Taxas Diversas em vez de baixar 479/191/182/183.
+- PIX mensais ao Marcos sem contrapartida no razão (jan–jun/2026).
+- 504 Clientes com saldo credor de R$ 125.720,90; 551 Distribuição R$ 164.232,89.
+- CDB sem rendimentos lançados; 362 usada para lanches/restaurantes.
+- Bancos de 07 a 10/2026 ainda não lançados.
 
 ## Saldos Conferidos
 
 | Data | Banco | Saldo |
 |---|---|---|
+| 30/06/2026 | 8 Inter | 4.089,39 (razão) |
+| 30/06/2026 | 11 CDB Inter | 39.049,98 (razão, sem rendimentos) |
 
 ## Histórico de Decisões
 
