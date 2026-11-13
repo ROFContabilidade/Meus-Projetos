@@ -39,7 +39,7 @@ Sócios com o mesmo sobrenome: todo PIX para eles ou para familiares precisa de 
 
 ## ATENÇÃO: razão de jan–jun/2026 não serve de referência
 
-A maior parte dos lançamentos de 01 a 06/2026 está errada (será corrigida manualmente pela planilha de alterações). **Nunca** usar o histórico desse período como "padrão recorrente": favorecido sem decisão registrada em  vira pergunta. 506 só com NF de entrada.
+A maior parte dos lançamentos de 01 a 06/2026 está errada (será corrigida manualmente pela planilha de alterações). **Nunca** usar o histórico desse período como "padrão recorrente": favorecido sem decisão registrada em `references/decisoes.md` vira pergunta. 506 só com NF de entrada.
 
 ## Perfil de custo (atividade)
 
