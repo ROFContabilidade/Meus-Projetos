@@ -37,6 +37,10 @@ Toda decisão nova da contadora deve ser registrada em `references/decisoes.md` 
 
 Sócios com o mesmo sobrenome: todo PIX para eles ou para familiares precisa de natureza definida (pró-labore, lucro, adiantamento ou reembolso) antes de lançar.
 
+## ATENÇÃO: razão de jan–jun/2026 não serve de referência
+
+A maior parte dos lançamentos de 01 a 06/2026 está errada (será corrigida manualmente pela planilha de alterações). **Nunca** usar o histórico desse período como "padrão recorrente": favorecido sem decisão registrada em  vira pergunta. 506 só com NF de entrada.
+
 ## Perfil de custo (atividade)
 
 Prestação de serviço técnico de manutenção/reparação/calibração:

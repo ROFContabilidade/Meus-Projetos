@@ -46,7 +46,10 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | 11/2026 | Compra de bem durável (equipamento, notebook etc.) | Imobilizado SÓ com nota fiscal; sem nota → 58 Outros materiais de consumo | sempre | Rosangela/Elen, 13/11/2026 |
 | IMCOPA pago por empresas do grupo (Soycomex, Cervejaria Petrópolis) | 504, baixando a NFS-e da IMCOPA de mesmo valor | padrão observado 07-08/2026 |
 | Terceiro PF pagando NFS-e de cliente (ex.: Diego Oleniki → Leev Marmitaria) | 504 pela NFS-e de mesmo valor | provável |
-| Atseven Serviços de Informática (2 PIX/mês: 166,67 + 130/260) | 506, padrão jan-jun/2026 | provável: confirmar NFS-e |
+| Atseven Serviços de Informática (2 PIX/mês: 166,67 + 130/260) | Sem NF de entrada → 366 Sistemas (com NF → 506) | Rosangela/Elen, 13/11/2026 |
 | Google Brasil | 366 Sistemas · RBA Contabilidade 361 · AMECIM 533 (provável) · Auto Portão 533 | 08/2026 |
 | PIX recebido do Marcos | C 534 (devolução de retirada) | 08/2026 |
 | 11/2026 | Correção de lançamento antigo via TXT | Teste em 13/11/2026: importar TXT NÃO substitui o lote (cria lote novo, duplica). Correções de meses fechados são MANUAIS no Domínio, pela planilha de alterações | sempre | Rosangela/Elen, 13/11/2026 |
+| 11/2026 | Regra geral de fornecedor | 506 SÓ quando existe NF de entrada (Entradas/NFS-e tomadas/pasta Tomados). Sem nota → conta de despesa/custo | sempre | Rosangela/Elen, 13/11/2026 |
+| 11/2026 | Extrato de renda fixa (CDB) ausente | Escritório cobra do cliente; não estimar rendimentos | sempre | Rosangela/Elen, 13/11/2026 |
+| 11/2026 | **Razão jan–jun/2026 NÃO é referência** | A maioria está errada e será corrigida. Nunca classificar "pelo padrão do razão antigo": sempre perguntar à contadora | sempre | Rosangela/Elen, 13/11/2026 |
