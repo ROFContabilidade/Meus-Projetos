@@ -89,9 +89,13 @@ def nota_nacional(inf, arq):
         'trib_issqn': achar(trib_mun, 'tribISSQN') if trib_mun is not None else '',  # 1 tributável 2 imunidade 3 exportação 4 não incidência
         'iss_retido': achar(trib_mun, 'tpRetISSQN') if trib_mun is not None else '',  # 1 não retido 2 retido tomador 3 retido intermediário
         'irrf': num(achar(trib_fed, 'vRetIRRF')) if trib_fed is not None else None,
+        # Layout nacional: vRetCSLL traz o TOTAL retido de PIS+COFINS+CSLL (CSRF 4,65%), conforme tpRetPisCofins.
+        # vPis/vCofins são o PIS/COFINS apurado pelo prestador (débito próprio), NÃO retenção - ficam só informativos.
         'csll': num(achar(trib_fed, 'vRetCSLL')) if trib_fed is not None else None,
-        'pis': num(achar(trib_fed, 'piscofins/vPis', 'vPis')) if trib_fed is not None else None,
-        'cofins': num(achar(trib_fed, 'piscofins/vCofins', 'vCofins')) if trib_fed is not None else None,
+        'pis': None,
+        'cofins': None,
+        'pis_apurado_prestador': num(achar(trib_fed, 'piscofins/vPis', 'vPis')) if trib_fed is not None else None,
+        'cofins_apurado_prestador': num(achar(trib_fed, 'piscofins/vCofins', 'vCofins')) if trib_fed is not None else None,
         'pis_cofins_retido': achar(trib_fed, 'tpRetPisCofins') if trib_fed is not None else '',
         'inss': num(achar(trib_fed, 'vRetCP')) if trib_fed is not None else None,
         'valor_liquido': num(achar(vals_nfse, 'vLiq')) if vals_nfse is not None else None,

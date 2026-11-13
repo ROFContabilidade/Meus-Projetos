@@ -282,7 +282,7 @@ def gerar(tipo, notas, emp, dst, comp=None):
         H = ['Nº', 'Emissão', 'Compet.', 'Situação', 'CPF/CNPJ tomador', 'Tomador', 'Município do tomador', 'Local da prestação',
              'Município de incidência do ISS', 'Item LC 116 / cód.', 'Atividade prestada',
              'Anexo Simples (atividade)', 'Discriminação', 'Informações complementares', 'Valor serviço', 'Base ISS', 'Alíq. ISS %', 'ISS', 'ISS retido?',
-             'IRRF', 'PIS', 'COFINS', 'CSLL', 'INSS', 'Total retido', 'Valor líquido', 'Status']
+             'IRRF', 'PIS', 'COFINS', 'CSLL (nacional: PIS+COFINS+CSLL)', 'INSS', 'Total retido', 'Valor líquido', 'Status']
         cab(ws, 4, H, [7, 10, 9, 10, 17, 30, 16, 16, 16, 10, 30, 14, 45, 40, 12, 12, 7, 10, 10, 9, 9, 9, 9, 9, 10, 12, 10])
         for i, (n, a) in enumerate(linhas, 5):
             n['_part'] = n.get('tomador_nome')
