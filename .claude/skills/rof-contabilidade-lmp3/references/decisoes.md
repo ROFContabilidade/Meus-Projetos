@@ -38,3 +38,5 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Fornecedores com nota (Orsegups, ABA, PUCRS, Colortec, Super Outlet) | 506 | provado |
 | Lanchonete / restaurante | 521 | decisão 13/11/2026 |
 | Paes e Bastos Contabilidade | 359 | provável (não há conta de honorários na despesa) |
+| 11/2026 | Crédito de R$ 50.000 em 26/03/2026 (CREDITO OPERACAO BANCO INTER) | Empréstimo: conta 174 EMPRESTIMO BANCO INTER (lançamento alterado no Domínio, saiu de 504) | — | Rosangela/Elen, 13/11/2026 |
+| 11/2026 | Débito título KG Ref. 326007776 (parcela do empréstimo Inter) | D 174 pelo valor pago; juros separados quando houver o cronograma do contrato | até chegar o contrato | Analista, conforme conta criada em 13/11/2026 |

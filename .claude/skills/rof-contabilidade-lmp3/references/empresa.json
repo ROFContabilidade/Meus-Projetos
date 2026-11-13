@@ -80,7 +80,8 @@
   "cartao_credito": "493",
   "aluguel": "320",
   "vigilancia": "363",
-  "energia": "354"
+  "energia": "354",
+  "emprestimo_inter": "174"
  },
  "contas_vigiadas": [
   "362"
@@ -194,7 +195,7 @@
   "171": "2.1.4.01.001 IPI A RECOLHER",
   "172": "2.1.4.01.002 ICMS A RECOLHER",
   "173": "2.1.4.01.003 ISS A RECOLHER",
-  "174": "2.1.4.01.004 PROVISÃO PARA IMPOSTO DE RENDA",
+  "174": "2.1.1.01.002 EMPRESTIMO BANCO INTER",
   "175": "2.1.4.01.005 PROVISÃO P/ CONTRIBUIÇÃO SOCIAL S/ LUCRO",
   "176": "2.1.4.01.006 IMPOSTO DE RENDA A RECOLHER",
   "177": "2.1.4.01.007 CONTRIBUIÇÃO SOCIAL A RECOLHER",
@@ -367,7 +368,6 @@
   "Guias pagas (DAS, DARF INSS, CRF, ISS) lançadas em 350 Taxas Diversas em vez de baixar 479/191/182/183: despesa em dobro e passivos inflados (479 R$ 14.648,28; 191 R$ 4.559,64 em 30/09)",
   "PIX ao Marcos sem contrapartida no razão (01/08 2.650; 04/02 2.650; 10/03 5.600; 10/04 8.100; 10/05 3.500; 10/06 2.518): conferir se é o pró-labore/retirada e corrigir",
   "188 Pró-labore a pagar com saldo R$ 12.400,67 em 30/09; pró-labore da Luciana (desde 06/2026) sem pagamento lançado",
-  "504 Clientes com saldo CREDOR R$ 125.720,90 (recebimentos maiores que notas lançadas) - investigar",
   "551 Distribuição de lucros R$ 164.232,89 x lucro acumulado R$ 10.787,29 - verificar lastro (lucro contábil do período)",
   "Contas de resultado com saldo anterior em 01/01/2026 (exercício 2025 não encerrado?)",
   "CDB Inter: nenhum rendimento lançado; plano sem conta de receita financeira (criar)",
@@ -375,7 +375,8 @@
   "362 usada para lanches/restaurantes (Lanchonete Trevo, Gransabore, Panela de Ferro): alimentação, não serviço de terceiros",
   "Pró-labore lançado em 274 Salários e Ordenados; usar 275 Pró-labore (custo) ou 332 (despesa) - decidir",
   "Endereço na folha (R. Nhundiaquara, 90, Curitiba) diferente da Receita (Colombo/PR)",
-  "Bancos 07 a 10/2026 a lançar (pastas com OFX, guias e relatórios)"
+  "Bancos 07 a 10/2026 a lançar (pastas com OFX, guias e relatórios)",
+  "Empréstimo Inter R$ 50.000 (26/03/2026) reclassificado de 504 para 174 no Domínio; pedir contrato/cronograma para separar juros das parcelas (título KG 326007776)"
  ],
  "observacoes": [
   "2026-11-13: cadastro iniciado; responsável Elen; código Domínio 64; Anexo III confirmado; sócios Marcos 90% e Luciana 10% (tela do Domínio).",
