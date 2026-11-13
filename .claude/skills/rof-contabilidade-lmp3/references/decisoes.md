@@ -72,3 +72,5 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Atseven sem NF | 366 |
 | Telefônica | 356 |
 | Lanchonete/restaurante | 521 |
+| CMFER Parafusos COM NF (ex.: NF 199480, 09/2026) | 506 (sem NF → 467) | regra 506 com NF |
+| Vivo fixo (convênio) | 356 Telefone | 09/2026 |

@@ -340,7 +340,7 @@
   "354": "3.2.2.04.001 ENERGIA ELÉTRICA",
   "355": "3.2.2.04.002 ÁGUA E ESGOTO",
   "356": "3.2.2.04.003 TELEFONE",
-  "357": "3.2.2.04.004 DESPESAS POSTAIS E TELEGRÁFICAS",
+  "357": "3.2.2.04.004 PLANOS MEDICOS E ODONTOLOGICOS",
   "358": "3.2.2.04.005 SEGUROS",
   "359": "3.2.2.04.006 DESPESAS ADMINISTRATIVAS",
   "360": "3.2.2.04.007 MARKETING E PROPAGANDA",
@@ -465,9 +465,9 @@
  "pendencias": [
   "Correções jan-jun/2026 entregues em planilha (Alteracoes_LMP3_jan-jun_2026.xlsx) para a contadora alterar no Domínio: guias em 350, alimentação em 362, custos de calibração em 533/359, PIX no crédito em 504",
   "Empréstimo Inter (174): pedir contrato/cronograma para separar juros das parcelas",
-  "Pró-labore Luciana: R$ 1.480,67 em aberto na 188 após 08/2026",
-  "Extrato de renda fixa (CDB) de 08/2026 não está na pasta: rendimentos/IRRF de agosto não lançados (resgate de 1.300,00 lançado)",
-  "Atseven: confirmar se há NFS-e (lançado em 506 pelo padrão jan-jun)"
+  "Pró-labore Luciana: R$ 2.592,67 em aberto na 188 após 09/2026",
+  "Extratos de renda fixa (CDB) de 08 e 09/2026: cobrar do cliente; rendimentos/IRRF não lançados",
+  "Google: tem NFS-e (38853284 comp 08 R$ 57,50; 39073512 comp 09 R$ 12,48) - PIX de 70,00 em 08/2026 lançado em 360; confirmar se vai para 506"
  ],
  "observacoes": [
   "2026-11-13: cadastro iniciado; responsável Elen; código Domínio 64; Anexo III confirmado; sócios Marcos 90% e Luciana 10% (tela do Domínio).",
@@ -507,6 +507,12 @@
    "banco": "8 Inter",
    "saldo": "2.822,02",
    "fonte": "extrato PDF, TXT 08/2026"
+  },
+  {
+   "data": "30/09/2026",
+   "banco": "8 Inter",
+   "saldo": "1.810,66",
+   "fonte": "extrato PDF, TXT 09/2026"
   }
  ],
  "meses_lancados": [
@@ -517,7 +523,8 @@
   "2026-05",
   "2026-06",
   "2026-07",
-  "2026-08"
+  "2026-08",
+  "2026-09"
  ],
  "banco": "Banco Inter - CC 3773258-7"
 }
