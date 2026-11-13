@@ -34,9 +34,12 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Receita Federal: DAS / INSS / CRF | 479 / 191 / 182 | decisão 13/11/2026 |
 | Município de Colombo 9,72 (ISS retido Orsegups) | 183 | provado |
 | Município de Colombo outros valores | 350 | provável (perguntar o que é) |
-| Copel | 354 · HDI Seguros 358 · Amil 339 · Maracanã Imobiliária 320 · Telefônica 322 · Fatura cartão Inter 493 | provado |
+| Copel | 354 · HDI Seguros 358 · Amil 339 · Maracanã Imobiliária 320 · Telefônica 356 · Fatura cartão Inter 493 | provado |
 | Fornecedores com nota (Orsegups, ABA, PUCRS, Colortec, Super Outlet) | 506 | provado |
 | Lanchonete / restaurante | 521 | decisão 13/11/2026 |
-| Paes e Bastos Contabilidade | 359 | provável (não há conta de honorários na despesa) |
+| Paes e Bastos Contabilidade | 361 Assistência contábil | provado |
 | 11/2026 | Crédito de R$ 50.000 em 26/03/2026 (CREDITO OPERACAO BANCO INTER) | Empréstimo: conta 174 EMPRESTIMO BANCO INTER (lançamento alterado no Domínio, saiu de 504) | — | Rosangela/Elen, 13/11/2026 |
 | 11/2026 | Débito título KG Ref. 326007776 (parcela do empréstimo Inter) | D 174 pelo valor pago; juros separados quando houver o cronograma do contrato | até chegar o contrato | Analista, conforme conta criada em 13/11/2026 |
+| ECO Technology / Info Technology Ltda (notebook ASUS) | 119 Máquinas e equipamentos (imobilizado, > R$ 1.200) | provável: só pedido de venda, pedir NF-e |
+| Calibração/ensaio por terceiros (TECPAR, Fundação CERTI, Rede Paraná Metrologia, RSL Científica) | 467 custo do serviço | sugestão 13/11/2026 |
+| PIX no crédito (crédito liberado pelo Inter) | 493, não 504 | sugestão 13/11/2026 |
