@@ -462,7 +462,9 @@
  "pendencias": [
   "Correções jan-jun/2026 entregues em planilha (Alteracoes_LMP3_jan-jun_2026.xlsx) para a contadora alterar no Domínio: guias em 350, alimentação em 362, custos de calibração em 533/359, PIX no crédito em 504",
   "Empréstimo Inter (174): pedir contrato/cronograma para separar juros das parcelas",
-  "Pró-labore Luciana: R$ 1.000,67 do líquido de 07/2026 em aberto na 188 após os PIX de julho"
+  "Pró-labore Luciana: R$ 1.480,67 em aberto na 188 após 08/2026",
+  "Extrato de renda fixa (CDB) de 08/2026 não está na pasta: rendimentos/IRRF de agosto não lançados (resgate de 1.300,00 lançado)",
+  "Atseven: confirmar se há NFS-e (lançado em 506 pelo padrão jan-jun)"
  ],
  "observacoes": [
   "2026-11-13: cadastro iniciado; responsável Elen; código Domínio 64; Anexo III confirmado; sócios Marcos 90% e Luciana 10% (tela do Domínio).",
@@ -496,6 +498,12 @@
    "banco": "11 CDB Inter",
    "saldo": "31.630,81",
    "fonte": "contábil; extrato bruto 32.881,81 (dif. 1.251,00 = rendimentos abr-jun não lançados, decisão de não ajustar)"
+  },
+  {
+   "data": "31/08/2026",
+   "banco": "8 Inter",
+   "saldo": "2.822,02",
+   "fonte": "extrato PDF, TXT 08/2026"
   }
  ],
  "meses_lancados": [
@@ -505,7 +513,8 @@
   "2026-04",
   "2026-05",
   "2026-06",
-  "2026-07"
+  "2026-07",
+  "2026-08"
  ],
  "banco": "Banco Inter - CC 3773258-7"
 }

@@ -44,3 +44,8 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | Calibração/ensaio por terceiros (TECPAR, Fundação CERTI, Rede Paraná Metrologia, RSL Científica) | 467 custo do serviço | sugestão 13/11/2026 |
 | PIX no crédito (crédito liberado pelo Inter) | 493, não 504 | sugestão 13/11/2026 |
 | 11/2026 | Compra de bem durável (equipamento, notebook etc.) | Imobilizado SÓ com nota fiscal; sem nota → 58 Outros materiais de consumo | sempre | Rosangela/Elen, 13/11/2026 |
+| IMCOPA pago por empresas do grupo (Soycomex, Cervejaria Petrópolis) | 504, baixando a NFS-e da IMCOPA de mesmo valor | padrão observado 07-08/2026 |
+| Terceiro PF pagando NFS-e de cliente (ex.: Diego Oleniki → Leev Marmitaria) | 504 pela NFS-e de mesmo valor | provável |
+| Atseven Serviços de Informática (2 PIX/mês: 166,67 + 130/260) | 506, padrão jan-jun/2026 | provável: confirmar NFS-e |
+| Google Brasil | 366 Sistemas · RBA Contabilidade 361 · AMECIM 533 (provável) · Auto Portão 533 | 08/2026 |
+| PIX recebido do Marcos | C 534 (devolução de retirada) | 08/2026 |
