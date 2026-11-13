@@ -1,0 +1,109 @@
+{
+ "responsavel_lancamento": "Elen",
+ "usa_dominio": true,
+ "sistema_contabil": "Domínio",
+ "codigo_empresa": "64",
+ "razao_social": "LMP3 SOLUCOES LTDA",
+ "nome_fantasia": "LMP3 SOLUCOES",
+ "cnpj": "22.993.076/0001-06",
+ "regime": "Simples Nacional - Anexo III",
+ "regime_desde": "2015-07-31",
+ "atividade": "CNAE 3312-1/02 Manutenção e reparação de aparelhos e instrumentos de medida, teste e controle (principal). Secundários: 4751-2/01, 6201-5/01, 6202-3/00, 6204-0/00, 6209-1/00, 8211-3/00, 8219-9/99, 8599-6/04.",
+ "perfil_custo": "servico_tecnico (manutenção/reparação): peças e materiais aplicados no serviço, calibração por terceiros e técnicos = custo do serviço; administração = despesa",
+ "simples_consulta": {
+  "optante": true,
+  "inicio": "31/07/2015",
+  "exclusao": null,
+  "consultado_em": "13/11/2026"
+ },
+ "anexo_ou_presuncao": "Anexo III (confirmado pela Rosangela/Elen em 13/11/2026)",
+ "fator_r": false,
+ "regime_receita": "",
+ "socios": [
+  {
+   "nome": "MARCOS APARECIDO PARPINELI PAES",
+   "cpf": "031.970.619-26",
+   "qualificacao": "Sócio-Administrador",
+   "participacao": "90%",
+   "pro_labore": "",
+   "conta_contabil": ""
+  },
+  {
+   "nome": "LUCIANA PILZ PAES",
+   "cpf": "920.308.669-20",
+   "qualificacao": "Sócia",
+   "participacao": "10%",
+   "pro_labore": "",
+   "conta_contabil": ""
+  }
+ ],
+ "empresas_ligadas": [],
+ "bancos": [],
+ "funcionarios": null,
+ "contas_folha": {
+  "salario": "",
+  "adiantamento": "",
+  "rescisao": "",
+  "ferias": "",
+  "pro_labore": "",
+  "fgts": "",
+  "inss": "",
+  "irrf": "",
+  "consignado": ""
+ },
+ "conta_fornecedores": "506",
+ "contas_padrao": {
+  "fornecedores": "506",
+  "servicos_terceiros": "362"
+ },
+ "contas_vigiadas": [
+  "362"
+ ],
+ "contas_impostos": {},
+ "contas_impostos_confirmadas": false,
+ "contas": {},
+ "regras": [],
+ "conta_banco": "",
+ "conta_transitoria": "",
+ "historico_padrao": "",
+ "documento_no_complemento": false,
+ "layout_txt": {
+  "formato": "dominio",
+  "formato_data": "%d/%m/%Y",
+  "decimal": ",",
+  "encoding": "cp1252",
+  "quebra_linha": "\r\n",
+  "tam_max_complemento": 200
+ },
+ "prefixo_complemento": "REF. A ",
+ "separar_pagar_receber": false,
+ "pasta_arquivos": "G:\\Meu Drive\\Trabalho ROF\\Contabilidade\\Arquivos RENATA Dominio\\64 - LMP3\\2026\\Automoção Contabil",
+ "endereco": "Av. Marginal José de Anchieta, 488, salas 11 e 12, Guarani, Colombo/PR, CEP 83.408-010",
+ "capital_social": "20.000,00",
+ "porte": "ME",
+ "inicio_atividade": "31/07/2015",
+ "documentos_recebidos": {
+  "cartao_cnpj": "consulta ReceitaWS 13/11/2026",
+  "balancete": "",
+  "relatorio_entradas": "",
+  "razao": "",
+  "plano_contas": "",
+  "relatorio_folha": ""
+ },
+ "pendencias": [
+  "Plano de contas do Domínio (códigos reduzidos) não recebido",
+  "Bancos e contas contábeis",
+  "Pró-labore dos sócios (quem presta o serviço) e se há funcionários",
+  "Receita por competência ou caixa",
+  "Mês inicial dos lançamentos e saldo inicial (balancete/razão)"
+ ],
+ "observacoes": [
+  "2026-11-13: cadastro iniciado; responsável Elen; código Domínio 64; Anexo III confirmado; sócios Marcos 90% e Luciana 10% (tela do Domínio)."
+ ],
+ "cadastro": {
+  "por": "Rosangela",
+  "data": "2026-11-13"
+ },
+ "saldos_conferidos": [],
+ "meses_lancados": []
+}
