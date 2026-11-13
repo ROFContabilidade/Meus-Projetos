@@ -81,7 +81,8 @@
   "aluguel": "320",
   "vigilancia": "363",
   "energia": "354",
-  "emprestimo_inter": "174"
+  "emprestimo_inter": "174",
+  "rendimento": "432"
  },
  "contas_vigiadas": [
   "362"
@@ -334,7 +335,8 @@
   "351": "3.2.2.03.006 CPMF",
   "352": "3.2.2.03.007 MULTAS DE MORA",
   "354": "3.2.2.04.001 ENERGIA ELÉTRICA",
-  "355": "3.2.2.04.002 ÁGUA E ESGOTO"
+  "355": "3.2.2.04.002 ÁGUA E ESGOTO",
+  "432": "4.1.3.01.001 JUROS DE APLICAÇÕES"
  },
  "regras": [],
  "conta_banco": "8",

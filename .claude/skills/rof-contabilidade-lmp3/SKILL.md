@@ -76,7 +76,7 @@ Plano completo (237 analíticas) em `references/empresa.json` → `contas`.
 | 320 / 363 / 354 | ALUGUÉIS / VIGILÂNCIA / ENERGIA | |
 | 370 / 493 / 350 | TARIFAS / CARTÃO DE CRÉDITO / TAXAS DIVERSAS | 350 não é conta de guia |
 
-Não existe conta de **receita financeira** (rendimento do CDB): pedir criação no Domínio.
+Rendimento de aplicação (CDB): **432** 4.1.3.01.001 JUROS DE APLICAÇÕES. Empréstimo Banco Inter: **174** 2.1.1.01.002.
 
 ## Impostos (padrão a seguir daqui em diante)
 
