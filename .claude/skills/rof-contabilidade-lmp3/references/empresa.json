@@ -82,7 +82,10 @@
   "vigilancia": "363",
   "energia": "354",
   "emprestimo_inter": "174",
-  "rendimento": "432"
+  "rendimento": "432",
+  "honorarios_contabeis": "510",
+  "plano_saude": "357",
+  "marketing": "360"
  },
  "contas_vigiadas": [
   "362"
@@ -340,7 +343,7 @@
   "357": "3.2.2.04.004 DESPESAS POSTAIS E TELEGRÁFICAS",
   "358": "3.2.2.04.005 SEGUROS",
   "359": "3.2.2.04.006 DESPESAS ADMINISTRATIVAS",
-  "360": "3.2.2.04.007 MATERIAL DE HIGIENE E LIMPEZA",
+  "360": "3.2.2.04.007 MARKETING E PROPAGANDA",
   "361": "3.2.2.04.008 ASSISTÊNCIA CONTÁBIL",
   "362": "3.2.2.04.009 SERVIÇOS PRESTADOS POR TERCEIROS",
   "363": "3.2.2.04.010 VIGILANCIA",

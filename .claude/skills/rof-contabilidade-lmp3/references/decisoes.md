@@ -53,3 +53,22 @@ Memória do analista. Buscar pelo favorecido/valor; decisão nova entra no fim, 
 | 11/2026 | Regra geral de fornecedor | 506 SÓ quando existe NF de entrada (Entradas/NFS-e tomadas/pasta Tomados). Sem nota → conta de despesa/custo | sempre | Rosangela/Elen, 13/11/2026 |
 | 11/2026 | Extrato de renda fixa (CDB) ausente | Escritório cobra do cliente; não estimar rendimentos | sempre | Rosangela/Elen, 13/11/2026 |
 | 11/2026 | **Razão jan–jun/2026 NÃO é referência** | A maioria está errada e será corrigida. Nunca classificar "pelo padrão do razão antigo": sempre perguntar à contadora | sempre | Rosangela/Elen, 13/11/2026 |
+
+## Contas confirmadas pela contadora (13/11/2026) — valem para todos os meses
+
+| Favorecido | Conta |
+|---|---|
+| Amil (plano de saúde, sem NF) | 357 |
+| HDI Seguros | 358 |
+| Copel | 354 |
+| Maracanã Imobiliária (aluguel) | 320 |
+| Pagamento fatura cartão Inter | 493 |
+| Município de Colombo (exceto ISS retido 9,72 → 183) | 350 |
+| Auto Portão | 533 |
+| CMFER Ferragens | 467 |
+| Google Brasil | 360 Marketing e Propaganda (conta renomeada) |
+| Honorários contábeis (RBA, Paes e Bastos) | **510 SEMPRE** |
+| AMECIM | 533 |
+| Atseven sem NF | 366 |
+| Telefônica | 356 |
+| Lanchonete/restaurante | 521 |
