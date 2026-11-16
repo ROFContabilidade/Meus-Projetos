@@ -1,0 +1,15 @@
+|0000|43534615000100|
+|6000|X||||
+|6100|04/10/2026|528|8|20000,00||Transferência enviada pelo Pix - LUCAS ROMANO SANTOS - •••.738.999-•• - BANCO BTG PACTUAL S.A. (0208) Agência: 20 Conta: 3064035-3||||
+|6000|X||||
+|6100|04/10/2026|510|8|300,00||Transferência enviada pelo Pix - PAES E BASTOS CONTABILIDADE - 29.650.531/0001-01 - BANCO INTER (0077) Agência: 1 Conta: 25802619-7||||
+|6000|X||||
+|6100|08/10/2026|479|8|4710,61||Pagamento de boleto efetuado - DAS-SIMPLES NACIONAL||||
+|6000|X||||
+|6100|13/10/2026|8|504|21428,96||Transferência recebida pelo Pix - OURIBANK S.A. - 78.632.767/0001-20 - OURIBANK S.A. (0712) Agência: 1 Conta: 1000-6||||
+|6000|X||||
+|6100|13/10/2026|528|8|20000,00||Transferência enviada pelo Pix - LUCAS ROMANO SANTOS - •••.738.999-•• - BANCO BTG PACTUAL S.A. (0208) Agência: 20 Conta: 3064035-3||||
+|6000|X||||
+|6100|29/10/2026|8|504|23012,44||Transferência recebida pelo Pix - OURIBANK S.A. - 78.632.767/0001-20 - OURIBANK S.A. (0712) Agência: 1 Conta: 1000-6||||
+|6000|X||||
+|6100|29/10/2026|528|8|9000,00||Transferência enviada pelo Pix - LUCAS ROMANO SANTOS - •••.738.999-•• - BANCO BTG PACTUAL S.A. (0208) Agência: 20 Conta: 3064035-3||||
