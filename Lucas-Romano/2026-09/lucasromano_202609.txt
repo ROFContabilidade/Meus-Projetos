@@ -1,0 +1,15 @@
+|0000|43534615000100|
+|6000|X||||
+|6100|03/09/2026|510|8|300,00||Transferência enviada pelo Pix - PAES E BASTOS CONTABILIDADE - 29.650.531/0001-01 - BANCO INTER (0077) Agência: 1 Conta: 25802619-7||||
+|6000|X||||
+|6100|06/09/2026|528|8|5000,00||Transferência enviada pelo Pix - Lucas Romano Santos - •••.738.999-•• - Banco XP S.A. (0348) Agência: 1 Conta: 643084-5||||
+|6000|X||||
+|6100|07/09/2026|528|8|15000,00||Transferência enviada pelo Pix - LUCAS ROMANO SANTOS - •••.738.999-•• - BANCO BTG PACTUAL S.A. (0208) Agência: 20 Conta: 3064035-3||||
+|6000|X||||
+|6100|10/09/2026|479|8|5749,33||Transferência enviada pelo Pix - RECEITA FEDERAL - 00.394.460/0058-87 - ITAÚ UNIBANCO S.A. (0341) Agência: 332 Conta: 81010-0||||
+|6000|X||||
+|6100|11/09/2026|8|504|32786,63||Transferência recebida pelo Pix - OURIBANK S.A. - 78.632.767/0001-20 - OURIBANK S.A. (0712) Agência: 1 Conta: 1000-6||||
+|6000|X||||
+|6100|15/09/2026|528|8|29000,00||Transferência enviada pelo Pix - LUCAS ROMANO SANTOS - •••.738.999-•• - BANCO BTG PACTUAL S.A. (0208) Agência: 20 Conta: 3064035-3||||
+|6000|X||||
+|6100|29/09/2026|8|504|22355,09||Transferência recebida pelo Pix - OURIBANK S.A. - 78.632.767/0001-20 - OURIBANK S.A. (0712) Agência: 1 Conta: 1000-6||||
