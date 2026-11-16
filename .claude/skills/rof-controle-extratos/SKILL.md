@@ -29,6 +29,12 @@ As pastas ficam no computador do escritório, no Google Drive para computador:
 - **Não** tente fazer a varredura pelo conector do Google Drive: ele devolve só 5 itens por consulta,
   então seriam milhares de chamadas. Se a sessão não tiver acesso à pasta, diga isso à usuária e peça
   para abrir a conversa no Claude do computador com a pasta `Contabilidade` liberada.
+- Se a usuária insistir em atualizar pelo conector (sessão na nuvem), faça só um recorte
+  (ex.: as empresas com skill): ache as pastas das empresas por `title = '...'`, depois as pastas
+  `MM_2026` e `Extrato` com consultas `parentId = ... or ...` (até ~45 ids por consulta, `pageSize` 50),
+  os TXTs com `mimeType = 'text/plain'` e os demais arquivos só das pastas que ainda não apareceram.
+  Guarde cada id num arquivo do scratchpad a cada consulta. Na planilha, marque o que não foi lido
+  como `Não conferido` e diga isso à usuária.
 - Precisa de Python com `openpyxl` (`pip install openpyxl` se faltar; no Windows o comando pode ser `py`).
 
 ## Passo a passo
@@ -75,6 +81,7 @@ As pastas ficam no computador do escritório, no Google Drive para computador:
   - antes da 1ª pasta de mês da empresa → `—`.
 - **Já lançado**: um TXT de lançamento na pasta do mês, normalmente dentro da Extrato
   (ex.: `64_LMP3-SOLUCOES_2026-07.txt`). Arquivos de SPED, EFD, ECD, REINF, folha etc. **não** contam.
+  O `Extrato-01-09-2026-a-30-09-2026-TXT.txt` (extrato do banco em TXT) é **extrato**, não lançamento.
   Também conta como lançado o que a base já marcava como "Já lançado" (o script nunca rebaixa um
   lançamento) e o que estiver em `lancados` nos ajustes.
 - **Bancos**: o banco sai do nome do arquivo e, no OFX, do código do banco (`<BANKID>`).

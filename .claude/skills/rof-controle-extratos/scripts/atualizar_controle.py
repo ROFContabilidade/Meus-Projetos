@@ -158,7 +158,7 @@ def bancos_do_ofx(caminho):
 
 EXT_EXTRATO = {'ofx', 'ofc', 'pdf', 'csv', 'xls', 'xlsx', 'zip', 'rar', 'qif', 'txt_banco'}
 EXT_IMAGEM = {'png', 'jpg', 'jpeg', 'heic', 'webp', 'gif', 'bmp'}
-PALAVRAS_ESCRITORIO = ['razao', 'razão', 'balancete', 'conciliacao', 'conferencia', 'saldo diario',
+PALAVRAS_ESCRITORIO = ['retirada', 'comprovantes pgto', 'razao', 'razão', 'balancete', 'conciliacao', 'conferencia', 'saldo diario',
                        'saldo_diario', 'lancamentos', 'controle de extratos', 'plano de contas',
                        'relatorio de gestao']
 PALAVRAS_NAO_LANCAMENTO = ['sped', 'efd', 'ecd', 'ecf', 'reinf', 'dctf', 'sintegra', 'folha', 'dirf',
@@ -166,8 +166,13 @@ PALAVRAS_NAO_LANCAMENTO = ['sped', 'efd', 'ecd', 'ecf', 'reinf', 'dctf', 'sinteg
 PASTAS_FORA = ['folha', 'guia', 'fiscal', 'sped', 'nota', 'xml', 'doc', 'societ', 'certificado', 'relatorio']
 
 
+def eh_txt_banco(nome):
+    """Extrato do banco em TXT (ex.: Extrato-01-09-2026-a-30-09-2026-TXT.txt): é extrato, não lançamento."""
+    return bool(re.match(r'(?i)^extrato.*-txt\.txt$', os.path.basename(nome.replace('\\', '/'))))
+
+
 def eh_txt_lancamento(nome):
-    if not nome.lower().endswith('.txt'):
+    if not nome.lower().endswith('.txt') or eh_txt_banco(nome):
         return False
     n = sem_acento(nome)
     return not any(p in n for p in PALAVRAS_NAO_LANCAMENTO)
@@ -177,7 +182,11 @@ def tipo_arquivo(nome):
     n = sem_acento(nome)
     ext = n.rsplit('.', 1)[-1] if '.' in n else ''
     if ext == 'txt':
+        if eh_txt_banco(nome):
+            return 'extrato'
         return 'txt' if eh_txt_lancamento(nome) else 'outro'
+    if ext == 'md':  # conversões feitas pelo Claude (..._extrato.md)
+        return 'escritorio'
     if ext in EXT_IMAGEM:
         return 'imagem'
     if n.startswith('~$') or ext in ('ini', 'tmp', 'lnk', 'db'):
