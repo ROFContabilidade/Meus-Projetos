@@ -311,6 +311,7 @@ RETENCOES = {
     'servico_profissional': (1.5, 4.65, 0, 'Serviço profissional (RIR/2018 art. 714 §1º; Lei 10.833/03 art. 30)'),
     'limpeza_conservacao': (1.0, 4.65, 11, 'Limpeza/conservação (RIR art. 716; Lei 10.833 art. 30; INSS cessão/empreitada)'),
     'seguranca_vigilancia': (1.0, 4.65, 11, 'Segurança/vigilância (RIR art. 716; Lei 10.833 art. 30; INSS cessão)'),
+    'monitoramento_eletronico': (1.0, 4.65, 0, 'Monitoramento eletrônico à distância = segurança/vigilância (RIR art. 716; Lei 10.833 art. 30) - sem INSS: não há cessão de mão de obra'),
     'locacao_mao_obra': (1.0, 4.65, 11, 'Locação/cessão de mão de obra (RIR art. 716; Lei 10.833 art. 30; INSS)'),
     'manutencao': (0, 4.65, 0, 'Manutenção (Lei 10.833 art. 30) - INSS 11% se houver cessão de mão de obra/empreitada'),
     'assessoria_credito_mercadologica': (1.5, 4.65, 0, 'Assessoria creditícia/mercadológica, gestão de crédito, factoring (Lei 10.833 art. 30)'),
