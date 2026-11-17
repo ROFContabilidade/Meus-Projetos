@@ -100,6 +100,12 @@ def nota_nacional(inf, arq):
     }
     n['iss_retido'] = {'1': 'Não', '2': 'Sim (tomador)', '3': 'Sim (intermediário)'}.get(n['iss_retido'], n['iss_retido'])
     n['prestador_regime_sn'] = {'1': 'Não optante', '2': 'MEI', '3': 'ME/EPP Simples'}.get(n['prestador_regime_sn'], n['prestador_regime_sn'])
+    # tpRetPisCofins 0 (ou 2 no leiaute antigo) ou AUSENTE = PIS/COFINS/CSLL NÃO retidos: vPis/vCofins são débito de
+    # apuração própria do prestador, não retenção - não podem entrar como retenção nem no valor líquido.
+    if (n['pis_cofins_retido'] or '') in ('', '0', '2'):
+        n['pis_proprio'], n['cofins_proprio'] = n['pis'], n['cofins']
+        n['pis'] = n['cofins'] = n['csll'] = None
+        n['pis_cofins_retido'] = 'Não retidos'
     return n
 
 

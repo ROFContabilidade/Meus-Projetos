@@ -59,6 +59,7 @@ se continuar a dúvida, dizer que é dúvida.
 
 ## 3. Ler as notas
 
+- **Listar a pasta inteira**: a busca do Drive devolve as notas em páginas - seguir o `nextPageToken` até acabar antes de dizer que falta nota.
 - **XML** (preferir sempre): `python3 -I $S/ler_nfse_xml.py <pasta ou arquivos> --saida notas.json`
   Lê NFS-e **Padrão Nacional** (nfse.gov.br) e **ABRASF/municipais**. Arquivos baixados ficam numa pasta própria; rodar com `-I`.
 - **PDF**: `pdftotext -layout nota.pdf -` (ou a skill `anthropic-skills:pdf`; OCR se for imagem) e preencher o mesmo
