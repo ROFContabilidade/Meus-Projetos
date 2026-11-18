@@ -87,7 +87,8 @@ def checks_comuns(n, emp, comp, lado):
     if str(n.get('iss_retido', '')).startswith('Sim') and len(re.sub(r'\D', '', n.get('tomador_doc') or '')) == 11:
         a.append(('ERRO', 'ISS marcado como retido com tomador pessoa física (CPF) - PF não é substituto tributário'))
     lp, mt = (n.get('municipio_prestacao') or '').strip(), (n.get('tomador_municipio') or '').strip()
-    if lado == 'prestado' and lp and mt and not lp.isdigit() and not mt.isdigit() and lp.lower() != mt.lower():
+    cidade = lambda s: s.split('/')[0].split(' - ')[0].strip().lower()
+    if lado == 'prestado' and lp and mt and not lp.isdigit() and not mt.isdigit() and cidade(lp) != cidade(mt):
         a.append(('ALERTA', f'Local da prestação ({lp}) diferente do município do tomador ({mt}) - confirmar onde o serviço foi feito'))
     if not (n.get('descricao') or '').strip():
         a.append(('ERRO', 'Nota sem discriminação do serviço'))

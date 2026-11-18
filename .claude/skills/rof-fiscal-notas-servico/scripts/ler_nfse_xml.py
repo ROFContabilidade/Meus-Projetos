@@ -100,6 +100,21 @@ def nota_nacional(inf, arq):
     }
     n['iss_retido'] = {'1': 'Não', '2': 'Sim (tomador)', '3': 'Sim (intermediário)'}.get(n['iss_retido'], n['iss_retido'])
     n['prestador_regime_sn'] = {'1': 'Não optante', '2': 'MEI', '3': 'ME/EPP Simples'}.get(n['prestador_regime_sn'], n['prestador_regime_sn'])
+    # vPis/vCofins do layout nacional são sempre informados (débito de apuração própria);
+    # só são RETENÇÃO quando tpRetPisCofins indica retenção (1/3/4...). 0 ou 2 = não retidos.
+    tp = n['pis_cofins_retido']
+    n['apontamentos'] = []
+    if tp in ('0', '2', ''):
+        if n['pis'] or n['cofins']:
+            n['pis_apuracao_propria'], n['cofins_apuracao_propria'] = n['pis'], n['cofins']
+        n['pis'] = n['cofins'] = None
+    elif tp == '3' and n['csll'] and n['valor_servico']:
+        # alguns emissores põem em vRetCSLL a soma PIS+COFINS+CSLL retidos
+        csll_1 = round(n['valor_servico'] * 0.01, 2)
+        if abs(n['csll'] - ((n['pis'] or 0) + (n['cofins'] or 0) + csll_1)) <= 0.02:
+            n['apontamentos'].append(f"ALERTA: campo CSLL retida traz {n['csll']:.2f} = soma PIS+COFINS+CSLL; CSLL correta {csll_1:.2f} (lida assim)")
+            n['csll'] = csll_1
+    n['pis_cofins_retido'] = {'0': 'Não retidos', '1': 'Retidos', '2': 'Não retidos', '3': 'PIS/COFINS/CSLL retidos'}.get(tp, tp)
     return n
 
 
