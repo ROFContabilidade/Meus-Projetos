@@ -15,7 +15,7 @@ from decimal import Decimal
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
-BANCO = "8"
+BANCO = "8"  # padrão; --banco troca (9 = Itaú da matriz até 28/07/2026)
 
 
 def norm(s):
@@ -40,18 +40,28 @@ def main():
     ap.add_argument("--comp", required=True, help="MM/AAAA do extrato")
     ap.add_argument("--regras", default=str(AQUI.parent / "references" / "regras.json"))
     ap.add_argument("--filial", help="extrato normalizado da filial 118 (Itaú 98896-9): gera os espelhos C 544 dos pagamentos feitos pela filial por conta da matriz")
+    ap.add_argument("--banco", default="8", help="conta contábil do banco do extrato")
+    ap.add_argument("--manter", default="", help="contas do razão que ficam como estão (coluna cp_razao do extrato), ex.: 531,188,539 (Reinf)")
+    ap.add_argument("--receita", help="pagamentos_receita.csv (data;receita;pa;principal;multa;juros;total): separa principal/multa/juros")
     ap.add_argument("--saldo-506", help="saldo CREDOR da 506 no início do mês (positivo)")
     ap.add_argument("--notas-506", help="CSV data;valor dos lançamentos da 506 que não são banco (NF = positivo/crédito; devolução = negativo)")
     ap.add_argument("--saida-csv", required=True)
     ap.add_argument("--saida-txt", required=True)
     a = ap.parse_args()
 
+    global BANCO
+    BANCO = a.banco
+    manter = {c for c in a.manter.split(",") if c}
+    guias = []
+    if a.receita:
+        guias = [g for g in csv.DictReader(open(a.receita, encoding="utf-8-sig"), delimiter=";")]
     regras = json.loads(Path(a.regras).read_text(encoding="utf-8"))
     cnpj = regras["cnpj"]
     pl_liq = Decimal(regras["socia"]["pro_labore_liquido"])
 
     folha = list(csv.DictReader(open(a.folha, encoding="utf-8"), delimiter=";"))
     emp = {f["cpf"]: f["nome"] for f in folha if f["tipo"] == "empregado"}
+    emp_nome = {" ".join(norm(n).split()[:2]): c for c, n in emp.items()}  # Itaú não traz CPF no histórico
     liq_ant = {(f["cpf"], Decimal(f["liquido"])) for f in folha
                if f["competencia"] == comp_anterior(a.comp) and f["tipo"] == "empregado"}
     adi_mes = {(f["cpf"], Decimal(f["adiantamento"])) for f in folha
@@ -76,12 +86,28 @@ def main():
         d = norm(m["descricao"])
         d_hist = re.sub(r"\s*/\s*[A-Z0-9_.]+$", "", d)
         cpf = (re.search(r"PIX (\d{11})\b", d) or [None, None])[1]
+        if cpf is None:
+            cpf = next((c for k, c in emp_nome.items() if k in d), None)
         partidas = None  # lista [(conta, valor)] para lote múltiplo
         c506 = False
         conta, status, obs = None, "SEM PROVA", ""
 
-        # 1) Empregados da folha (por CPF no PIX)
-        if v < 0 and cpf in emp:
+        guia = None
+        if v < 0 and guias and any(k in d for k in ("RECEITA FEDERAL", "DARF", "SIMPLES NACIONAL", "TRIB COD BARRAS")):
+            guia = next((g for g in guias if Decimal(g["total"]) == -v), None)
+        # 0) Contas mantidas como no razão (ex.: sócia declarada na Reinf)
+        if m.get("cp_razao") in manter:
+            conta, status, obs = m["cp_razao"], "PROVADO", "Mantido como no razão (já declarado na EFD-Reinf)"
+        elif guia:
+            guias.remove(guia)
+            nome = "parcelamento do Simples" if guia["receita"] == "1124" else "DAS"
+            ps = [("479", Decimal(guia["principal"])), ("352", Decimal(guia["multa"])), ("372", Decimal(guia["juros"]))]
+            ps = [x for x in ps if x[1]]
+            conta, status, obs = "+".join(c for c, _ in ps), "PROVADO", f"{nome} (receita {guia['receita']}, PA {guia['pa']}), relatório de pagamentos da Receita"
+            partidas = ps if len(ps) > 1 else None
+            if not partidas: conta = "479"
+        # 1) Empregados da folha (por CPF no PIX ou nome no Itaú)
+        elif v < 0 and cpf in emp:
             conta, status, obs = classe_empregado(cpf, -v, int(m["data"][:2]))
         # 2) Sócia: pró-labore líquido primeiro (188), excedente 531
         elif cpf == regras["socia"]["cpf"]:
