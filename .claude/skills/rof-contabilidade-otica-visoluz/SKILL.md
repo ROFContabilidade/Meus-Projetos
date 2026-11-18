@@ -14,6 +14,7 @@ description: "ÓTICA VISOLUZ (ADRIANA R. DE PAULA LTDA), CNPJ 24.026.777/0001-93
 - `Extrato\` (PDF Sicredi + `_extrato.md` do Conversor) · `Guias\` (DAS, Extrato do Simples, ICMS antecipado)
 - `Relatorio(s)\` (FAT.<MM>.<AA>_Visoluz.xlsx = faturamento matriz, filial e Mtz+Fl · NF_Entrada) · `Doc's\` (XML) · `DeSTDA\`
 - `<ANO>\Automoção Contabil\`: Contas.xls (plano), Razão.xls, Balancete.pdf, **Extrato Mensal.pdf (folha)**
+- Atenção: em 18/11/2026 a Rosangela salvou relatórios da Visoluz (Razão_Visoluz.xls até 10/2026, Pagamento de Encargos, Resumo de impostos, GR-PR) em `118 - Otica VisouUP\2026\Relatorio Claude`. Conferir sempre o CNPJ do arquivo, não a pasta.
 
 ## Rotina do mês (scripts)
 ```
@@ -37,6 +38,7 @@ e `variacao.py --vigiar 362`. Os itens PROVAVEL e SEM PROVA vão para a tabela d
   enviados e recebidos são mútuo → **152**.
 - **Fornecedores com NF** (Hoya, SC Comércio, Grown, Galáxia, LCB, JKLens, JN, Kenerson, Arteres, Litz, ABA): baixa na **506**;
   a ABA (SST) tem NFS-e de 116,40 e a diferença do boleto vai para 372.
+- **Encargos em aberto (relatório de 18/11/2026):** FGTS de 06 a 11, consignado Crédito do Trabalhador (541) descontado e não repassado, tributos federais 06. Cobrar todo mês.
 - **Vigiar:** 504 credora (recebido × faturado), 187/191/192 sem baixa, 362 (Isabella e Camila fora da folha), caixa 5 credor,
   538 adiantamento de clientes, DAS/FGTS/ICMS antecipado pagos fora do Sicredi, conta Itaú 0098929-8 (conta 9).
 - **Simples:** a Receita mostra exclusão em 31/12/2026 e há estudo de Lucro Presumido na pasta. Confirmar o regime de 2027
