@@ -6,7 +6,7 @@ As regras executáveis ficam em `references/regras.json`. A primeira regra que c
 |---|---|---|
 | RECEBIMENTO REDE, REDECARD, AT/DB0105585564, SENFFNET | C 504 | cartões |
 | PIX recebido de pessoa | C 504 | venda |
-| PIX RECEBIDO ADRIANA R DE PAULA LTDA | C 504 (proposta) | não veio do Sicredi da matriz. Pedir a origem (outra conta/maquininha?) |
+| PIX RECEBIDO ADRIANA R DE PAULA LTDA | C 152 | vem do CNPJ da matriz por conta sem extrato; espelho D 544 na matriz |
 | RENDIMENTOS REND PAGO APLIC AUT | C 432 | |
 | TAR ... | D 525 | tarifa |
 | PIX ENVIADO OTICA VISOLUZ | D 152 | conferir no Sicredi da matriz (mesmo dia, mesmo valor) |

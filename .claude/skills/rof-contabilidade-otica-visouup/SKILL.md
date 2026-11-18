@@ -17,7 +17,7 @@ description: "ÓTICA VISOUUP: ADRIANA R. DE PAULA LTDA, FILIAL CNPJ 24.026.777/0
 1. Pasta `118 - Otica VisouUP/<ANO>/<MM_AAAA>`: `Extrato/*_extrato.md` (Itaú), `Relatorio(s)/FAT.*.xlsx` e `NF_Entrada_*.xlsx`.
 2. `python scripts/extrato_dominio.py ler <extrato.md> -o ext.csv` (tem de dar "confere: sim"; saldo inicial = razão da conta 8).
 3. `python scripts/classificar.py ext.csv references/regras.json cls.csv`. Linha "SEM REGRA" ou PERGUNTA vai para a tabela de perguntas.
-4. **Conferir a 152 com o extrato Sicredi da matriz** (pasta `34 - Otica Visoluz/<ANO>/<MM_AAAA>/Extrato`): cada PIX enviado à Visoluz tem de aparecer lá como "RECEBIMENTO PIX 24026777000274".
+4. **Espelho 152 (filial) × 544 (matriz, empresa 34):** saldo devedor da 152 = saldo credor da 544. **Conferir a 152 com o extrato Sicredi da matriz** (pasta `34 - Otica Visoluz/<ANO>/<MM_AAAA>/Extrato`): cada PIX enviado à Visoluz tem de aparecer lá como "RECEBIMENTO PIX 24026777000274".
 5. Notas de entrada × pagamentos: boleto SC/Arquem/Singular baixa a 506. Compra com NF sem pagamento na filial = perguntar quem pagou (matriz?).
 6. `python scripts/gerar_txt.py cls.csv references/regras.json VISOUUP_118_MM_AAAA.txt [--split=ID=506:161.34,372:3.80]` gera **um TXT** por mês. O líquido da conta 8 tem de bater com o extrato.
 7. Planilha de sócios do cérebro com `--socio "ADRIANA RODRIGUES DE PAULA|032.149.559-42|531,539"`.

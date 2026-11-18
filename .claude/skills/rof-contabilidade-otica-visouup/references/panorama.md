@@ -20,3 +20,9 @@
 | 08/2026 | 7.126,90 | 19.611,27 | 10.218,06 | 0,00 |
 | 09/2026 | 9.688,00 | 19.003,90 | 4.182,48 | 161,34 |
 Recebido é cerca de 2× o faturado: risco de omissão de receita (Lei 9.430/96, art. 42) ou de receita da matriz caindo na filial.
+
+## Ligação com a matriz (alinhado com a sessão Ótica Visoluz em 18/11/2026)
+- A **544 da matriz** espelha a **152 da filial**. Conferir todo mês: saldo credor da 544 = saldo devedor da 152.
+- 07–09/2026 na filial: PIX enviados à Visoluz 4.860 / 2.500 / 2.475; despesas da matriz pagas pela filial 1.463,00 / 4.597,18 / 1.759,67; PIX recebidos do CNPJ da matriz (−) 4.051,57 / 3.647,31 / 2.684,74. A 152 termina o mês em 2.271,43 / 3.449,87 / 1.549,93 D.
+- Matriz: a 544 termina em 6.323,00 / 7.097,18 / 4.234,67 C **sem** o D 544 dos PIX enviados à filial pela conta sem extrato. Quando essa conta for lançada, as duas contas fecham.
+- 01–06/2026: a matriz reclassificou 17 PIX da filial para a 544 (R$ 30.130). Na filial: 4.700 já estavam na 152, 14.380 reclassificados da 527 e 11.050 pendentes (dentro de lotes SISPAG: 20/02 500, 12/03 2.900 no lote de 5.200, 06/04 1.000, 13/04 250, 20/04 1.400, 18/05 1.000, 25/05 4.000).

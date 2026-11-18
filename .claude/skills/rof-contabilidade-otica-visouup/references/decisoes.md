@@ -17,4 +17,6 @@ Buscar pelo favorecido ou valor. Decisão nova entra no fim, com quem validou e 
 | 18/11/2026 | PIX para Adriana (CPF) e gastos pessoais (Renner, Realize, Pefisa, Havan, farmácia, Foccus, Sou Coluna, Maria Aparecida) | D 531 adiantamento à sócia; compensar com lucro no fechamento | até validar | proposta |
 | 18/11/2026 | Sunaga Serviços Médicos | D 366 (padrão 06/2026) | até validar | proposta |
 | 18/11/2026 | Shopping Popular | D 341 aluguel | até validar | proposta |
-| 18/11/2026 | "PIX RECEBIDO ADRIANA R DE PAULA LTDA" (valores quebrados) | C 504. Não saiu do Sicredi da matriz. Em 06/2026 foi para 152 | até validar | proposta |
+| 18/11/2026 | "PIX RECEBIDO ADRIANA R DE PAULA LTDA" (valores quebrados) | C 152. Vem do CNPJ da matriz, de uma conta sem extrato (Itaú 0098929-8 ou maquininha). Espelho na matriz: D 544 quando chegar o extrato | até validar | alinhado com a sessão Ótica Visoluz, 18/11/2026 |
+| 18/11/2026 | **Espelho matriz × filial** | Conta 544 da matriz (34) = conta 152 da filial (118). Saldo credor da 544 = saldo devedor da 152. Todo lançamento numa tem o par na outra | sempre | alinhado com a sessão Ótica Visoluz, 18/11/2026 |
+| 18/11/2026 | Reclassificação 01–06/2026 | 3 PIX já estavam na 152 (R$ 4.700). 7 PIX que estavam na 527 "SISPAG FORNECEDORES" passam para D 152 / C 527 (R$ 14.380, `VISOUUP_118_RECLASSIF_2026-01a06.txt`). 7 PIX (R$ 11.050) estão dentro de lotes SISPAG e ficam pendentes do relatório SISPAG do Itaú | até chegar o SISPAG | proposta |
