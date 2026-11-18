@@ -16,11 +16,18 @@ description: "ÓTICA VISOLUZ (ADRIANA R. DE PAULA LTDA), CNPJ 24.026.777/0001-93
 - `<ANO>\Automoção Contabil\`: Contas.xls (plano), Razão.xls, Balancete.pdf, **Extrato Mensal.pdf (folha)**
 - Atenção: em 18/11/2026 a Rosangela salvou relatórios da Visoluz (Razão_Visoluz.xls até 10/2026, Pagamento de Encargos, Resumo de impostos, GR-PR) em `118 - Otica VisouUP\2026\Relatorio Claude`. Conferir sempre o CNPJ do arquivo, não a pasta.
 
+## Filial = empresa 118 no Domínio (escrituração descentralizada)
+- Filial 0002-74 ("Ótica VisouUP"): empresa **118**, banco Itaú 3702/98896-9, pasta `118 - Otica VisouUP\<ANO>\<MM_AAAA>\Extrato\Entradas_Saidas_ag3702cc988969_*_extrato.md`. Tem skill própria (`rof-contabilidade-otica-visouup`).
+- Conta de ligação: **544 na matriz** e **152 "Empréstimo Ótica Visoluz" na filial**. O saldo credor da 544 é igual ao saldo devedor da 152, e as duas precisam bater todo mês.
+- Despesas da matriz pagas pela filial (VA, Metrocard, salários, FGTS) entram no TXT da matriz como **espelho D despesa / C 544** (`--filial`); na 118 são D 152.
+- PIX que a filial recebe do CNPJ da matriz fora do Sicredi: há uma conta da matriz sem extrato (em aberto).
+
 ## Rotina do mês (scripts)
 ```
 python <rof-analista>/scripts/extrato_dominio.py ler <MM>/Extrato/<arquivo>_extrato.md -o norm.csv
 python scripts/folha_csv.py "Extrato Mensal.pdf" -o folha.csv
 python scripts/classificar_visoluz.py --extrato norm.csv --folha folha.csv --comp MM/AAAA \
+       --filial <extrato normalizado da filial 118> \
        --saida-csv classificado.csv --saida-txt 34_OTICA_VISOLUZ_AAAA-MM.txt
 ```
 Depois: `planilha_socios.py` e `planilha_socio_mes.py` do cérebro (sócia `ADRIANA RODRIGUES DE PAULA|032.149.559-42|531,188`)

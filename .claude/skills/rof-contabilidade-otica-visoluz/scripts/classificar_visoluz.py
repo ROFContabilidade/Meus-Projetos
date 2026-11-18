@@ -39,6 +39,7 @@ def main():
     ap.add_argument("--folha", required=True)
     ap.add_argument("--comp", required=True, help="MM/AAAA do extrato")
     ap.add_argument("--regras", default=str(AQUI.parent / "references" / "regras.json"))
+    ap.add_argument("--filial", help="extrato normalizado da filial 118 (Itaú 98896-9): gera os espelhos C 544 dos pagamentos feitos pela filial por conta da matriz")
     ap.add_argument("--saida-csv", required=True)
     ap.add_argument("--saida-txt", required=True)
     a = ap.parse_args()
@@ -54,6 +55,17 @@ def main():
     adi_mes = {(f["cpf"], Decimal(f["adiantamento"])) for f in folha
                if f["competencia"] == a.comp and f["tipo"] == "empregado"}
 
+    def classe_empregado(cpf, val, dia):
+        if (cpf, val) in liq_ant:
+            return "187", "PROVADO", f"Salário líquido {comp_anterior(a.comp)} (folha)"
+        if (cpf, val) in adi_mes:
+            return "5", "PROVADO", f"Adiantamento {a.comp} (folha lança D25/C5; banco zera o caixa)"
+        if val >= 300 and 15 <= dia <= 25:
+            return "5", "PROVAVEL", f"PIX na janela do adiantamento (dia 15-25) com valor diferente da folha {a.comp}"
+        if val >= Decimal(regras["empregado_limite_salario"]):
+            return "187", "PROVAVEL", "PIX a empregado sem par exato na folha: baixa de salários a pagar"
+        return regras["empregado_pequeno_conta"], "PROVAVEL", "PIX pequeno a empregado: vale/alimentação"
+
     movs = list(csv.DictReader(open(a.extrato, encoding="utf-8-sig"), delimiter=";"))
     pl_pago = Decimal("0")
     saida = []
@@ -67,17 +79,7 @@ def main():
 
         # 1) Empregados da folha (por CPF no PIX)
         if v < 0 and cpf in emp:
-            val = -v
-            if (cpf, val) in liq_ant:
-                conta, status, obs = "187", "PROVADO", f"Salário líquido {comp_anterior(a.comp)} (folha)"
-            elif (cpf, val) in adi_mes:
-                conta, status, obs = "5", "PROVADO", f"Adiantamento {a.comp} (folha lança D25/C5; banco zera o caixa)"
-            elif val >= 300 and 15 <= int(m["data"][:2]) <= 25:
-                conta, status, obs = "5", "PROVAVEL", f"PIX na janela do adiantamento (dia 15-25) com valor diferente da folha {a.comp}"
-            elif val >= Decimal(regras["empregado_limite_salario"]):
-                conta, status, obs = "187", "PROVAVEL", "PIX a empregado sem par exato na folha: baixa de salários a pagar"
-            else:
-                conta, status, obs = regras["empregado_pequeno_conta"], "PROVAVEL", "PIX pequeno a empregado: vale/alimentação"
+            conta, status, obs = classe_empregado(cpf, -v, int(m["data"][:2]))
         # 2) Sócia: pró-labore líquido primeiro (188), excedente 531
         elif cpf == regras["socia"]["cpf"]:
             if v < 0:
@@ -117,13 +119,38 @@ def main():
         saida.append({**m, "conta": conta, "status": status, "obs": obs,
                       "historico": "REF. A " + d_hist[:150], "partidas": partidas})
 
+    pendentes_filial = []
+    if a.filial:
+        for m in csv.DictReader(open(a.filial, encoding="utf-8-sig"), delimiter=";"):
+            v = Decimal(m["valor"]); d = norm(m["descricao"])
+            doc = re.sub(r"\D", "", m.get("documento") or "")
+            conta = None
+            if v < 0 and doc in emp:
+                conta, status, obs = classe_empregado(doc, -v, int(m["data"][:2]))
+            elif v < 0 and "METROCAR" in d:
+                conta, status, obs = "530", "PROVAVEL", "Vale-transporte dos empregados da matriz pago pela filial"
+            elif v < 0 and ("CEF MATRIZ" in d or "FGTS" in d):
+                conta, status, obs = "192", "PROVAVEL", "FGTS da matriz pago pela filial (conferir competência no relatório de encargos)"
+            elif v > 0 and doc == cnpj:
+                pendentes_filial.append(m)
+                continue
+            if conta:
+                saida.append({**m, "valor": str(v), "conta": conta, "status": status, "banco": "544",
+                              "obs": "PAGO PELA FILIAL (Itaú 98896-9; na 118: D 152) - " + obs,
+                              "historico": "REF. A PAGO PELA FILIAL 0002-74 - " + re.sub(r"\s*/\s*", " ", d)[:120], "partidas": None})
+    saida.sort(key=lambda s: (s["data"][6:], s["data"][3:5], s["data"][:2]))
+
     with open(a.saida_csv, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["data", "descricao", "valor", "debito", "credito", "status", "obs", "id"])
         for s in saida:
             v = Decimal(s["valor"])
-            deb, cred = (BANCO, s["conta"]) if v > 0 else (s["conta"], BANCO)
+            bco = s.get("banco", BANCO)
+            deb, cred = (bco, s["conta"]) if v > 0 else (s["conta"], bco)
             w.writerow([s["data"], s["descricao"], br(v) if v > 0 else "-" + br(v), deb, cred, s["status"], s["obs"], s["id"]])
+        for m in pendentes_filial:
+            w.writerow([m["data"], "FILIAL RECEBEU DO CNPJ DA MATRIZ (conta de origem desconhecida): " + m["descricao"], br(Decimal(m["valor"])), "544", "?", "NAO LANCADO", "Falta o extrato da conta da matriz que enviou", ""])
+
 
     linhas = [f"|0000|{cnpj}|"]
     for s in saida:
@@ -136,16 +163,21 @@ def main():
                 linhas += ["|6000|D||||", f"|6100|{dt}|{BANCO}||{br(v)}||{h}||||"]
                 linhas += [f"|6100|{dt}||{c}|{br(x)}||{h}||||" for c, x in s["partidas"]]
         else:
-            deb, cred = (BANCO, s["conta"]) if v > 0 else (s["conta"], BANCO)
+            bco = s.get("banco", BANCO)
+            deb, cred = (bco, s["conta"]) if v > 0 else (s["conta"], bco)
             linhas += ["|6000|X||||", f"|6100|{dt}|{deb}|{cred}|{br(v)}||{h}||||"]
     Path(a.saida_txt).write_bytes(("\r\n".join(linhas) + "\r\n").encode("cp1252", errors="replace"))
 
     tot = {}
     for s in saida:
         tot[s["status"]] = tot.get(s["status"], 0) + 1
-    ent = sum(Decimal(s["valor"]) for s in saida if Decimal(s["valor"]) > 0)
-    sai = sum(Decimal(s["valor"]) for s in saida if Decimal(s["valor"]) < 0)
-    print(f"{a.comp}: {len(saida)} movimentos | entradas {br(ent)} | saídas {br(sai)} | {tot}")
+    banco = [s for s in saida if s.get("banco", BANCO) == BANCO]
+    ent = sum(Decimal(s["valor"]) for s in banco if Decimal(s["valor"]) > 0)
+    sai = sum(Decimal(s["valor"]) for s in banco if Decimal(s["valor"]) < 0)
+    esp = sum(-Decimal(s["valor"]) for s in saida if s.get("banco") == "544")
+    print(f"{a.comp}: {len(banco)} movimentos Sicredi | entradas {br(ent)} | saídas {br(sai)} | "
+          f"{len(saida) - len(banco)} espelhos pagos pela filial (C 544) {br(esp)} | "
+          f"{len(pendentes_filial)} PIX matriz→filial sem origem | {tot}")
 
 
 if __name__ == "__main__":
