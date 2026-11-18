@@ -1,50 +1,409 @@
 {
-  "cnpj": "24026777000193",
-  "socia": {"cpf": "03214955942", "pro_labore_liquido": "1442.69"},
-  "empregado_limite_salario": "200.00",
-  "empregado_pequeno_conta": "521",
-  "padrao_entrada": "504",
-  "padrao_saida": "527",
-  "_nota": "Ordem importa: a primeira regra que casar vale. sinal '+' = só entradas, '-' = só saídas. Status PROVAVEL/SEM PROVA vão para a tabela de perguntas até a contadora validar (registrar em decisoes.md).",
-  "regras": [
-    {"contem": ["SICREDI DEBITO", "SICREDI ANTEC", "SICREDI CREDITO"], "sinal": "+", "conta": "504", "status": "PROVADO", "obs": "Liquidação de cartões (débito/antecipação)"},
-    {"contem": ["24026777000274"], "conta": "544", "status": "PROVADO", "obs": "Transferência entre matriz e filial (mesma PJ; Lei 9.430/96, art. 42, §3º, I): transitória 544, que zera com o extrato da filial (decisão Rosangela, 18/11/2026)"},
-    {"contem": ["24026777000193"], "sinal": "+", "conta": "9", "status": "SEM PROVA", "obs": "PIX do próprio CNPJ (matriz) = transferência entre contas da empresa, nunca 504. Até 28/07/2026 vinha do Itaú (conta 9, inativa depois dessa data); 01-06 tinha 24 casos lançados em 504 (Sicredi) e 362/527 (Itaú), reclassificados em 11/2026"},
-    {"contem": ["49192337000137", "OTICA VISOLUK", "PEDRO JEFFERSON", "03404400909"], "conta": "152", "status": "PROVAVEL", "obs": "Ótica Visoluk / Pedro Jefferson: mútuo (conta 152), sem NF de compra"},
-    {"contem": ["EST CESTA", "ESTORNO TARIFA"], "sinal": "+", "conta": "525", "status": "PROVADO", "obs": "Estorno de tarifa"},
-    {"contem": ["RESG.APLIC", "RESGATE"], "sinal": "+", "conta": "11", "rendimento": "432", "status": "PROVADO", "obs": "Resgate aplicação aviso prévio (centavos = rendimento 432)"},
-    {"contem": ["RECEBIMENTO PIX", "PIX_CRED", "TED", "DEPOSITO"], "sinal": "+", "conta": "504", "status": "PROVAVEL", "obs": "Recebimento de cliente (venda)"},
-
-    {"contem": ["APLICACAO POUPANCA", "APLIC.FINANC"], "sinal": "-", "conta": "11", "status": "PROVADO", "obs": "Aplicação"},
-    {"contem": ["IOF"], "sinal": "-", "conta": "526", "status": "PROVADO"},
-    {"contem": ["JUROS UTILIZ", "JUROS ADTO", "JUROS CHEQUE"], "sinal": "-", "conta": "372", "status": "PROVADO", "obs": "Juros cheque especial (histórico usa 372; existe a 368)"},
-    {"contem": ["CESTA DE RELACIONAMENTO", "TARIFA", "TAR "], "sinal": "-", "conta": "525", "status": "PROVADO"},
-    {"contem": ["CUSTAS DE PROTESTO"], "sinal": "-", "conta": "365", "status": "PROVADO", "obs": "Custas de protesto"},
-    {"contem": ["INTEGR.CAPITAL"], "sinal": "-", "conta": "525", "status": "PROVAVEL", "obs": "Cota-capital Sicredi: histórico 525; correto seria ativo (investimento) - sugerir conta"},
-    {"contem": ["RECARGA CELULAR"], "sinal": "-", "conta": "356", "status": "PROVADO"},
-    {"contem": ["COPEL"], "sinal": "-", "conta": "354", "status": "PROVADO"},
-    {"contem": ["DEB.CTA.FATURA"], "sinal": "-", "conta": "364", "status": "SEM PROVA", "obs": "Fatura do cartão de crédito Sicredi: histórico 364; pedir a fatura para classificar os itens"},
-    {"contem": ["HOYA", "SC COMERCIO", "JKLENS", "LCB COMERCIO", "GROWN OPTICAL", "GALAXIA", "JN DIST", "KENERSON", "ARTERES", "LITZ"], "sinal": "-", "conta": "506", "status": "PROVADO", "obs": "Baixa de fornecedor com NF (506)"},
-    {"contem": ["ABA CONSULTORIA"], "sinal": "-", "conta": "506", "status": "PROVADO", "obs": "NFS-e SST 116,40 em 506 + juros/encargos do boleto em 372", "partidas": {"valor_nota": "116.40", "conta_dif": "372"}},
-    {"contem": ["ARQUEM"], "sinal": "-", "conta": "359", "status": "PROVAVEL", "obs": "Sistema Arquem (software) - histórico 359; NFS-e tomada não aparece no razão 07-09"},
-    {"contem": ["AMIL"], "sinal": "-", "conta": "366", "status": "PROVAVEL", "obs": "Plano de saúde Amil: confirmar se é dos empregados ou da sócia"},
-    {"contem": ["SUNAGA"], "sinal": "-", "conta": "306", "status": "PROVAVEL", "obs": "Sunaga Serviços Médicos - histórico 306"},
-    {"contem": ["METROCAR"], "sinal": "-", "conta": "530", "status": "PROVADO", "obs": "Vale-transporte (Metrocard)"},
-    {"contem": ["PAES E BASTOS", "RBA CONTABILIDA", "29650531000101"], "sinal": "-", "conta": "361", "status": "PROVADO", "obs": "Honorários contábeis (histórico usava 527)"},
-    {"contem": ["SHOPPING POPULAR"], "sinal": "-", "conta": "320", "status": "SEM PROVA", "obs": "Shopping Popular: provável aluguel da loja; histórico 527/362; pedir contrato/boleto"},
-    {"contem": ["DARFC0385"], "sinal": "-", "conta": "479", "status": "PROVADO", "obs": "Parcelamento do Simples (receita 1124, relatório de pagamentos da Receita); razão 04-05 usou 479"},
-    {"contem": ["RECEITA FEDERAL"], "sinal": "-", "conta": "479", "status": "PROVADO", "obs": "DAS em atraso (receita 3333): principal 479 + multa 352 + juros 372 (relatório de pagamentos da Receita)",
-     "partidas_por_valor": {"433.37": [["479", "312.51"], ["352", "62.47"], ["372", "58.39"]]}},
-    {"contem": ["DARF"], "sinal": "-", "conta": "350", "status": "SEM PROVA", "obs": "DARF sem guia: conferir no relatório de pagamentos da Receita"},
-    {"contem": ["ITAU UNIBANCO"], "sinal": "-", "conta": "527", "status": "SEM PROVA", "obs": "Boleto Itaú Unibanco: identificar (conta Itaú, cartão, empréstimo?)"},
-    {"contem": ["SUPERFRETE"], "sinal": "-", "conta": "312", "status": "PROVADO", "obs": "Frete"},
-    {"contem": ["FOCCUS CIRURGIA"], "sinal": "-", "conta": "366", "status": "SEM PROVA", "obs": "Clínica de cirurgia ocular: despesa da empresa ou da sócia?"},
-    {"contem": ["OTICA ISADORA"], "sinal": "-", "conta": "470", "status": "SEM PROVA", "obs": "Outra ótica, sem NF: compra/serviço de montagem?"},
-    {"contem": ["SUPERMERCADO", "PANIFICADORA", "PANIFICADO", "99 FOOD", "ZAMP", "MAS-PRODUTOS ALIMEN", "LELUCANTINA", "BOX 15", "DISTRIBUIDORA WA", "TULIO"], "sinal": "-", "conta": "521", "status": "PROVAVEL", "obs": "Alimentação (histórico 521/527)"},
-    {"contem": ["POSTO", "TAISHANAUTO", "ESTAPAR"], "sinal": "-", "conta": "527", "status": "PROVAVEL", "obs": "Combustível/estacionamento (histórico 527)"},
-    {"contem": ["RENNER", "ESTACAO BRINQUEDOS", "PAROQUIA", "LINARES AGROPECUARIA", "MP DOGDOCLEBER", "FARMACIA", "PSSAOGABRIEL", "RUBIANACHAVES", "RUBIANA CHAVES"], "sinal": "-", "conta": "531", "status": "SEM PROVA", "obs": "Gasto de natureza pessoal: sugestão lançar na conta da sócia (531), não como despesa"},
-    {"contem": ["GIOVANA DE PAULA"], "sinal": "-", "conta": "527", "status": "SEM PROVA", "obs": "PIX recorrente pequeno a familiar? (histórico 527)"},
-    {"contem": ["05358775013", "CAMILA HADASSA", "10374341966", "ISABELLA PAULA"], "sinal": "-", "conta": "362", "status": "SEM PROVA", "obs": "Pessoa paga como empregada (salário/adiantamento) mas FORA DA FOLHA: risco trabalhista/INSS"},
-    {"contem": ["PAGAMENTO PIX"], "sinal": "-", "conta": "362", "status": "SEM PROVA", "obs": "PIX a pessoa física sem documento: 362 com alerta (INSS/IRRF)"}
-  ]
+ "cnpj": "24026777000193",
+ "socia": {
+  "cpf": "03214955942",
+  "pro_labore_liquido": "1442.69"
+ },
+ "empregado_limite_salario": "200.00",
+ "empregado_pequeno_conta": "542",
+ "padrao_entrada": "504",
+ "padrao_saida": "527",
+ "_nota": "Ordem importa: a primeira regra que casar vale. sinal '+' = só entradas, '-' = só saídas. Status PROVAVEL/SEM PROVA vão para a tabela de perguntas até a contadora validar (registrar em decisoes.md).",
+ "regras": [
+  {
+   "contem": [
+    "SICREDI DEBITO",
+    "SICREDI ANTEC",
+    "SICREDI CREDITO"
+   ],
+   "sinal": "+",
+   "conta": "504",
+   "status": "PROVADO",
+   "obs": "Liquidação de cartões (débito/antecipação)"
+  },
+  {
+   "contem": [
+    "24026777000274"
+   ],
+   "conta": "544",
+   "status": "PROVADO",
+   "obs": "Transferência entre matriz e filial (mesma PJ; Lei 9.430/96, art. 42, §3º, I): transitória 544, que zera com o extrato da filial (decisão Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "24026777000193"
+   ],
+   "sinal": "+",
+   "conta": "9",
+   "status": "SEM PROVA",
+   "obs": "PIX do próprio CNPJ (matriz) = transferência entre contas da empresa, nunca 504. Até 28/07/2026 vinha do Itaú (conta 9, inativa depois dessa data); 01-06 tinha 24 casos lançados em 504 (Sicredi) e 362/527 (Itaú), reclassificados em 11/2026"
+  },
+  {
+   "contem": [
+    "49192337000137",
+    "OTICA VISOLUK",
+    "PEDRO JEFFERSON",
+    "03404400909"
+   ],
+   "conta": "152",
+   "status": "PROVADO",
+   "obs": "Ótica Visoluk / Pedro Jefferson: movimentação pela 152, sem contrato (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "EST CESTA",
+    "ESTORNO TARIFA"
+   ],
+   "sinal": "+",
+   "conta": "525",
+   "status": "PROVADO",
+   "obs": "Estorno de tarifa"
+  },
+  {
+   "contem": [
+    "RESG.APLIC",
+    "RESGATE"
+   ],
+   "sinal": "+",
+   "conta": "11",
+   "rendimento": "432",
+   "status": "PROVADO",
+   "obs": "Resgate aplicação aviso prévio (centavos = rendimento 432)"
+  },
+  {
+   "contem": [
+    "RECEBIMENTO PIX",
+    "PIX_CRED",
+    "TED",
+    "DEPOSITO"
+   ],
+   "sinal": "+",
+   "conta": "504",
+   "status": "PROVAVEL",
+   "obs": "Recebimento de cliente (venda)"
+  },
+  {
+   "contem": [
+    "APLICACAO POUPANCA",
+    "APLIC.FINANC"
+   ],
+   "sinal": "-",
+   "conta": "11",
+   "status": "PROVADO",
+   "obs": "Aplicação"
+  },
+  {
+   "contem": [
+    "IOF"
+   ],
+   "sinal": "-",
+   "conta": "526",
+   "status": "PROVADO"
+  },
+  {
+   "contem": [
+    "JUROS UTILIZ",
+    "JUROS ADTO",
+    "JUROS CHEQUE"
+   ],
+   "sinal": "-",
+   "conta": "372",
+   "status": "PROVADO",
+   "obs": "Juros cheque especial (histórico usa 372; existe a 368)"
+  },
+  {
+   "contem": [
+    "CESTA DE RELACIONAMENTO",
+    "TARIFA",
+    "TAR "
+   ],
+   "sinal": "-",
+   "conta": "525",
+   "status": "PROVADO"
+  },
+  {
+   "contem": [
+    "CUSTAS DE PROTESTO"
+   ],
+   "sinal": "-",
+   "conta": "365",
+   "status": "PROVADO",
+   "obs": "Custas de protesto"
+  },
+  {
+   "contem": [
+    "INTEGR.CAPITAL"
+   ],
+   "sinal": "-",
+   "conta": "545",
+   "status": "PROVADO",
+   "obs": "Cota-capital Sicredi: ativo 1.2.3.03.001 COTAS-CAPITAL SICREDI (criar no Domínio; código sugerido 545) (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "RECARGA CELULAR"
+   ],
+   "sinal": "-",
+   "conta": "356",
+   "status": "PROVADO"
+  },
+  {
+   "contem": [
+    "COPEL"
+   ],
+   "sinal": "-",
+   "conta": "354",
+   "status": "PROVADO"
+  },
+  {
+   "contem": [
+    "DEB.CTA.FATURA"
+   ],
+   "sinal": "-",
+   "conta": "364",
+   "status": "PROVAVEL",
+   "obs": "Fatura do cartão Sicredi: 364 até chegarem as faturas (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "HOYA",
+    "SC COMERCIO",
+    "JKLENS",
+    "LCB COMERCIO",
+    "GROWN OPTICAL",
+    "GALAXIA",
+    "JN DIST",
+    "KENERSON",
+    "ARTERES",
+    "LITZ",
+    "OTICA ISADORA"
+   ],
+   "sinal": "-",
+   "conta": "506",
+   "status": "PROVADO",
+   "obs": "Baixa de fornecedor com NF (506)",
+   "controle_506": true
+  },
+  {
+   "contem": [
+    "ABA CONSULTORIA"
+   ],
+   "sinal": "-",
+   "conta": "506",
+   "status": "PROVADO",
+   "obs": "NFS-e SST 116,40 em 506 + juros/encargos do boleto em 372",
+   "partidas": {
+    "valor_nota": "116.40",
+    "conta_dif": "372"
+   },
+   "controle_506": true
+  },
+  {
+   "contem": [
+    "ARQUEM"
+   ],
+   "sinal": "-",
+   "conta": "359",
+   "status": "PROVAVEL",
+   "obs": "Sistema Arquem (software) - histórico 359; NFS-e tomada não aparece no razão 07-09"
+  },
+  {
+   "contem": [
+    "AMIL"
+   ],
+   "sinal": "-",
+   "conta": "366",
+   "status": "PROVADO",
+   "obs": "Plano Amil: 366 (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "SUNAGA"
+   ],
+   "sinal": "-",
+   "conta": "366",
+   "status": "PROVADO",
+   "obs": "Médico sem NF → 366; a 306 só com nota fiscal (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "METROCAR"
+   ],
+   "sinal": "-",
+   "conta": "530",
+   "status": "PROVADO",
+   "obs": "Vale-transporte (Metrocard)"
+  },
+  {
+   "contem": [
+    "PAES E BASTOS",
+    "RBA CONTABILIDA",
+    "29650531000101"
+   ],
+   "sinal": "-",
+   "conta": "361",
+   "status": "PROVADO",
+   "obs": "Honorários contábeis (histórico usava 527)"
+  },
+  {
+   "contem": [
+    "SHOPPING POPULAR"
+   ],
+   "sinal": "-",
+   "conta": "320",
+   "status": "PROVADO",
+   "obs": "Aluguel da loja da matriz: Shopping Popular Ltda fica na R. Arquimedes 214, Loja 3 (mesmo prédio), CNAE 6822-6/00 (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "DARFC0385"
+   ],
+   "sinal": "-",
+   "conta": "479",
+   "status": "PROVADO",
+   "obs": "Parcelamento do Simples (receita 1124, relatório de pagamentos da Receita); razão 04-05 usou 479"
+  },
+  {
+   "contem": [
+    "RECEITA FEDERAL"
+   ],
+   "sinal": "-",
+   "conta": "479",
+   "status": "PROVADO",
+   "obs": "DAS em atraso (receita 3333): principal 479 + multa 352 + juros 372 (relatório de pagamentos da Receita)",
+   "partidas_por_valor": {
+    "433.37": [
+     [
+      "479",
+      "312.51"
+     ],
+     [
+      "352",
+      "62.47"
+     ],
+     [
+      "372",
+      "58.39"
+     ]
+    ]
+   }
+  },
+  {
+   "contem": [
+    "DARF"
+   ],
+   "sinal": "-",
+   "conta": "350",
+   "status": "SEM PROVA",
+   "obs": "DARF sem guia: conferir no relatório de pagamentos da Receita"
+  },
+  {
+   "contem": [
+    "ITAU UNIBANCO"
+   ],
+   "sinal": "-",
+   "conta": "506",
+   "status": "PROVAVEL",
+   "obs": "Boleto Itaú: por ora na 506 (Rosangela, 18/11/2026)",
+   "controle_506": true
+  },
+  {
+   "contem": [
+    "SUPERFRETE"
+   ],
+   "sinal": "-",
+   "conta": "312",
+   "status": "PROVADO",
+   "obs": "Frete"
+  },
+  {
+   "contem": [
+    "FOCCUS CIRURGIA"
+   ],
+   "sinal": "-",
+   "conta": "366",
+   "status": "PROVADO",
+   "obs": "Médico/similar sem NF → 366 (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "SUPERMERCADO",
+    "PANIFICADORA",
+    "PANIFICADO",
+    "99 FOOD",
+    "ZAMP",
+    "MAS-PRODUTOS ALIMEN",
+    "LELUCANTINA",
+    "BOX 15",
+    "DISTRIBUIDORA WA",
+    "TULIO"
+   ],
+   "sinal": "-",
+   "conta": "521",
+   "status": "PROVAVEL",
+   "obs": "Alimentação (histórico 521/527)"
+  },
+  {
+   "contem": [
+    "POSTO",
+    "TAISHANAUTO",
+    "ESTAPAR"
+   ],
+   "sinal": "-",
+   "conta": "527",
+   "status": "PROVAVEL",
+   "obs": "Combustível/estacionamento (histórico 527)"
+  },
+  {
+   "contem": [
+    "RENNER",
+    "ESTACAO BRINQUEDOS",
+    "PAROQUIA",
+    "LINARES AGROPECUARIA",
+    "MP DOGDOCLEBER",
+    "FARMACIA",
+    "PSSAOGABRIEL",
+    "RUBIANACHAVES"
+   ],
+   "sinal": "-",
+   "conta": "527",
+   "status": "PROVADO",
+   "obs": "Só PIX para o CPF da sócia vai para a 531; gastos pessoais pagos pela empresa ficam em despesa (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "GIOVANA DE PAULA"
+   ],
+   "sinal": "-",
+   "conta": "362",
+   "status": "PROVADO",
+   "obs": "Sem nota e não é funcionária → 362 (Rosangela, 18/11/2026)"
+  },
+  {
+   "contem": [
+    "05358775013",
+    "CAMILA HADASSA",
+    "10374341966",
+    "ISABELLA PAULA"
+   ],
+   "sinal": "-",
+   "conta": "362",
+   "status": "PROVADO",
+   "obs": "Fora da folha → 362 (Rosangela, 18/11/2026); alerta trabalhista/INSS mantido"
+  },
+  {
+   "contem": [
+    "PAGAMENTO PIX"
+   ],
+   "sinal": "-",
+   "conta": "362",
+   "status": "PROVADO",
+   "obs": "PIX a pessoa física sem nota e que não é funcionária → 362 (Rosangela, 18/11/2026)"
+  }
+ ],
+ "controle_506": {
+  "conta": "506",
+  "excedente": "470",
+  "obs": "Pagamento a fornecedor só debita a 506 até o saldo credor de notas de entrada registradas; o que passar vai para 470 (Rosangela, 18/11/2026)"
+ }
 }

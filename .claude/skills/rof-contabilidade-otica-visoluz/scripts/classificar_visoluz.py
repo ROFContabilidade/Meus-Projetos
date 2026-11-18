@@ -40,6 +40,8 @@ def main():
     ap.add_argument("--comp", required=True, help="MM/AAAA do extrato")
     ap.add_argument("--regras", default=str(AQUI.parent / "references" / "regras.json"))
     ap.add_argument("--filial", help="extrato normalizado da filial 118 (Itaú 98896-9): gera os espelhos C 544 dos pagamentos feitos pela filial por conta da matriz")
+    ap.add_argument("--saldo-506", help="saldo CREDOR da 506 no início do mês (positivo)")
+    ap.add_argument("--notas-506", help="CSV data;valor dos lançamentos da 506 que não são banco (NF = positivo/crédito; devolução = negativo)")
     ap.add_argument("--saida-csv", required=True)
     ap.add_argument("--saida-txt", required=True)
     a = ap.parse_args()
@@ -75,6 +77,7 @@ def main():
         d_hist = re.sub(r"\s*/\s*[A-Z0-9_.]+$", "", d)
         cpf = (re.search(r"PIX (\d{11})\b", d) or [None, None])[1]
         partidas = None  # lista [(conta, valor)] para lote múltiplo
+        c506 = False
         conta, status, obs = None, "SEM PROVA", ""
 
         # 1) Empregados da folha (por CPF no PIX)
@@ -102,6 +105,7 @@ def main():
                     continue
                 if any(p in d for p in r["contem"]):
                     conta, status, obs = r["conta"], r["status"], r.get("obs", "")
+                    c506 = bool(r.get("controle_506"))
                     if "partidas" in r:  # ex.: boleto com nota + juros
                         base = Decimal(r["partidas"]["valor_nota"])
                         if abs(v) > base:
@@ -117,7 +121,7 @@ def main():
             conta, status, obs = (regras["padrao_entrada"] if v > 0 else regras["padrao_saida"]), "SEM PROVA", "Sem regra: confirmar"
 
         saida.append({**m, "conta": conta, "status": status, "obs": obs,
-                      "historico": "REF. A " + d_hist[:150], "partidas": partidas})
+                      "historico": "REF. A " + d_hist[:150], "partidas": partidas, "c506": c506})
 
     pendentes_filial = []
     if a.filial:
@@ -138,7 +142,40 @@ def main():
                 saida.append({**m, "valor": str(v), "conta": conta, "status": status, "banco": "544",
                               "obs": "PAGO PELA FILIAL (Itaú 98896-9; na 118: D 152) - " + obs,
                               "historico": "REF. A PAGO PELA FILIAL 0002-74 - " + re.sub(r"\s*/\s*", " ", d)[:120], "partidas": None})
-    saida.sort(key=lambda s: (s["data"][6:], s["data"][3:5], s["data"][:2]))
+    chave = lambda dt: (dt[6:], dt[3:5], dt[:2])
+    saida.sort(key=lambda s: chave(s["data"]))
+
+    # Controle da 506: só baixa até o saldo de notas registradas; excedente vai para 470
+    saldo506 = None
+    if a.saldo_506 is not None:
+        saldo506 = Decimal(a.saldo_506)
+        notas = []
+        if a.notas_506:
+            notas = sorted(((n["data"], Decimal(n["valor"])) for n in csv.DictReader(open(a.notas_506, encoding="utf-8-sig"), delimiter=";")),
+                           key=lambda x: chave(x[0]))
+        exc = regras["controle_506"]["excedente"]; i = 0
+        for s_ in saida:
+            while i < len(notas) and chave(notas[i][0]) <= chave(s_["data"]):
+                saldo506 += notas[i][1]; i += 1
+            if not s_.get("c506"):
+                continue
+            pag = -Decimal(s_["valor"])
+            base = s_["partidas"][0][1] if s_["partidas"] else pag
+            disp = max(saldo506, Decimal("0"))
+            if base <= disp:
+                saldo506 -= base
+                continue
+            resto = base - disp
+            outros = s_["partidas"][1:] if s_["partidas"] else []
+            novas = ([("506", disp)] if disp else []) + [(exc, resto)] + outros
+            saldo506 -= disp
+            if len(novas) == 1:
+                s_["conta"], s_["partidas"] = exc, None
+            else:
+                s_["partidas"] = novas; s_["conta"] = "+".join(c for c, _ in novas)
+            s_["obs"] += f" | 506 sem saldo de notas: {br(resto)} em {exc}"
+        while i < len(notas):
+            saldo506 += notas[i][1]; i += 1
 
     with open(a.saida_csv, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f, delimiter=";")
@@ -177,7 +214,8 @@ def main():
     esp = sum(-Decimal(s["valor"]) for s in saida if s.get("banco") == "544")
     print(f"{a.comp}: {len(banco)} movimentos Sicredi | entradas {br(ent)} | saídas {br(sai)} | "
           f"{len(saida) - len(banco)} espelhos pagos pela filial (C 544) {br(esp)} | "
-          f"{len(pendentes_filial)} PIX matriz→filial sem origem | {tot}")
+          f"{len(pendentes_filial)} PIX matriz→filial sem origem | {tot}"
+          + (f" | saldo 506 no fim: {br(saldo506)}{' C' if saldo506 >= 0 else ' D'}" if saldo506 is not None else ""))
 
 
 if __name__ == "__main__":
