@@ -105,3 +105,12 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
      de dezembro pagos em janeiro passam de PROVAVEL a PROVADO). Reentregar o TXT 34 de 01 se algo mudar.
   2. Com os balancetes 2025: análise de fechamento (538 ~R$ 1,2 mi, estoque "produtos acabados/em elaboração", 504 credora), fora dos TXT.
 - Quando chegar o extrato da conta sem extrato: incluir como banco da 34 em `fontes_2026.json` e gerar o 07 (08 e 09 não mudam).
+
+## 10. Conferência com 2025 (pasta 34/2025/Demonstraçoes Contabeis, 18/11/2026)
+- Balancete 2025 (emitido 31/03/2026) × abertura do razão 2026: batem 11 (1.928,87 D), 506 (1.169,09 C), 187 (10.629,56 C), 152 (69.031,84 C).
+  **Sicredi 8 não bate:** balancete -1.128,95; razão 2026 -862,44. O extrato oficial do Sicredi de 01/2026 (sicredi_1775095323502.pdf)
+  abre em -862,44 (fev -3.271,20; mar -3.659,10, iguais ao motor): **a abertura de 2026 está certa, os TXT não mudam**. O balancete
+  da pasta é anterior a um ajuste de 266,51 no banco de 2025, e a DEFIS 2025 foi entregue com o banco final -1.128,95 (estoque 302.064,22).
+  O "Extrato Bancário.pdf" de 01/2026 (saldo inicial -829,89) é outra versão do extrato e não serve de referência.
+- Para o fechamento (fora dos TXT): 538 Adiantamento de clientes 1.215.458,42 C (+483.491,08 em 2025, sem baixa) com receita de vendas
+  de só 136.159,10 e prejuízo de 416.279,26; 362 e 521 credoras em 2025; estoque produtos acabados/em elaboração entrou e saiu (22.278,83).
