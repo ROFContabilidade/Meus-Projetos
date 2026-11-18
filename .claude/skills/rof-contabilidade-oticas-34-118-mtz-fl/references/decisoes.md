@@ -37,3 +37,4 @@ Valor 20% fora do padrão ou favorecido novo = perguntar de novo.
 | 18/11/2026 | ambos | Alimentação (mercado, confeitaria, comércio de alimentos/cereais etc.) | 521 direto | Rosangela |
 | 18/11/2026 | ambos | Cartório / Poder Judiciário (protesto) | 365 DESPESAS LEGAIS E JUDICIAIS | Rosangela |
 | 18/11/2026 | ambos | Demais pagamentos | Identificar ao máximo (extrato original, CNPJ) antes de classificar; achados ficam em `references/identificados.csv` | Rosangela |
+| 18/11/2026 | 34 | Pagamentos à Receita sem par em nenhum relatório (PIX 20/02 94,71 e 20/04 173,71; DARF Itaú 30/04 596,12 e 592,75; 29/05 602,41) | Ficam na 350. Não estão no relatório de pagamentos da Receita, no Pagamento de Encargos nem no Resumo de impostos; a filial não paga guias | Rosangela |
