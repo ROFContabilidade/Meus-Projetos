@@ -100,6 +100,11 @@ def nota_nacional(inf, arq):
     }
     n['iss_retido'] = {'1': 'Não', '2': 'Sim (tomador)', '3': 'Sim (intermediário)'}.get(n['iss_retido'], n['iss_retido'])
     n['prestador_regime_sn'] = {'1': 'Não optante', '2': 'MEI', '3': 'ME/EPP Simples'}.get(n['prestador_regime_sn'], n['prestador_regime_sn'])
+    # No layout nacional, vPis/vCofins são o PIS/COFINS próprio do prestador; só é retenção quando tpRetPisCofins
+    # indica retido (vazio, 0 = PIS/COFINS/CSLL não retidos, 2 = PIS/COFINS não retido -> apuração própria).
+    if str(n.get('pis_cofins_retido') or '').strip() in ('', '0', '2'):
+        n['pis_proprio'], n['cofins_proprio'] = n.pop('pis'), n.pop('cofins')
+        n['pis'] = n['cofins'] = None
     return n
 
 
