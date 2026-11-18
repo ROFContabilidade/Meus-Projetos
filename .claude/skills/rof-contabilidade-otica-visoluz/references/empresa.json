@@ -2,33 +2,134 @@
   "razao_social": "ADRIANA R. DE PAULA LTDA",
   "nome_fantasia": "OTICA VISOLUZ",
   "cnpj": "24.026.777/0001-93",
-  "filiais": [{"cnpj": "24.026.777/0002-74", "endereco": "R. Izabel Capellari Antoniacomi, 24, Colombo/PR", "obs": "faturamento próprio (FAT Filial); DAS único matriz + filial"}],
+  "filiais": [
+    {
+      "cnpj": "24.026.777/0002-74",
+      "endereco": "R. Izabel Capellari Antoniacomi, 24, Colombo/PR",
+      "obs": "faturamento próprio (FAT Filial); DAS único matriz + filial"
+    }
+  ],
   "codigo_dominio": "34",
   "regime": "Simples Nacional - Anexo I (comércio)",
   "atividade": "4774-1/00 Comércio varejista de artigos de óptica",
-  "cnaes": ["4774100"],
+  "cnaes": [
+    "4774100"
+  ],
   "perfil_custo": "comercio",
   "endereco": "Rua Arquimedes, 214, Loja 01, Maracanã, Colombo/PR, CEP 83408-270",
   "inscricao_estadual": "90989691-68",
-  "simples_consulta": {"optante": true, "inicio": "2025-01-01", "exclusao": "2026-12-31", "consultado_em": "2026-11-18", "obs": "exclusão em 31/12/2026 na Receita + planilha 'Planejamento Presumido_Visoluz.xlsx' na pasta: confirmar regime 2027"},
-  "anexo_ou_presuncao": "Anexo I", "fator_r": false, "regime_receita": "competencia",
-  "socios": [{"nome": "ADRIANA RODRIGUES DE PAULA", "cpf_final": "-42", "qualificacao": "Sócia-Administradora", "pro_labore": 1621.00, "pro_labore_liquido": 1442.69, "contas": ["188", "531"]}],
-  "empresas_ligadas": [{"nome": "OTICA VISOLUK", "cnpj": "49.192.337/0001-37", "responsavel": "Pedro Jefferson Luiz", "conta": "152", "natureza": "mútuo (sem NF entre as empresas)"}],
-  "funcionarios": true,
-  "folha": {"fonte": "Extrato Mensal.pdf (Automoção Contabil)", "integrada_no_razao": true,
-            "empregados_06_09_2026": ["Andrea Rodrigues Paula (gerente)", "Gustavo da Silva de Souza", "Jeniffer Gabriela de Lima (licença-maternidade desde 07/2026)", "Karine Ribeiro Alexandrino", "Lais Patricia de Paula Santana", "Maria Eduarda dos Santos"],
-            "fora_da_folha_com_pagamento_recorrente": ["Isabella Paula de Souza", "Camila Hadassa Muller"]},
-  "bancos": [
-    {"banco": "Sicredi", "conta": "44846-8", "conta_contabil": "8"},
-    {"banco": "Itaú", "agencia": "3702", "conta": "0098929-8", "conta_contabil": "9", "obs": "saldo zero em 30/06/2026; sem extrato de 07 a 09"},
-    {"banco": "Aplicação Sicredi (poupança / aviso prévio)", "conta_contabil": "11"}
+  "simples_consulta": {
+    "optante": true,
+    "inicio": "2025-01-01",
+    "exclusao": "2026-12-31",
+    "consultado_em": "2026-11-18",
+    "obs": "exclusão em 31/12/2026 na Receita + planilha 'Planejamento Presumido_Visoluz.xlsx' na pasta: confirmar regime 2027"
+  },
+  "anexo_ou_presuncao": "Anexo I",
+  "fator_r": false,
+  "regime_receita": "competencia",
+  "socios": [
+    {
+      "nome": "ADRIANA RODRIGUES DE PAULA",
+      "cpf_final": "-42",
+      "qualificacao": "Sócia-Administradora",
+      "pro_labore": 1621.0,
+      "pro_labore_liquido": 1442.69,
+      "contas": [
+        "188",
+        "531"
+      ]
+    }
   ],
-  "contas_padrao": {"fornecedores": "506", "servicos_terceiros": "362", "tarifa": "525", "iof": "526", "juros": "372", "rendimento": "432",
-                    "pro_labore": "188", "socia": "531", "salarios_a_pagar": "187", "adiantamento_folha": "5 (folha lança D25/C5)",
-                    "clientes": "504", "venda": "408", "simples": "479", "icms_antecipado": "512", "inss": "191", "fgts": "192",
-                    "mutuo_visoluk": "152", "honorarios": "361", "aluguel": "320", "alimentacao": "521", "vale_transporte": "530",
-                    "plano_saude": "366", "cartao_credito": "364", "telefone": "356", "energia": "354"},
-  "contas_vigiadas": ["362", "504", "187", "191", "192", "5", "531", "538"],
+  "empresas_ligadas": [
+    {
+      "nome": "OTICA VISOLUK",
+      "cnpj": "49.192.337/0001-37",
+      "responsavel": "Pedro Jefferson Luiz",
+      "conta": "152",
+      "natureza": "mútuo (sem NF entre as empresas)"
+    }
+  ],
+  "funcionarios": true,
+  "folha": {
+    "fonte": "Extrato Mensal.pdf (Automoção Contabil)",
+    "integrada_no_razao": true,
+    "empregados_06_09_2026": [
+      "Andrea Rodrigues Paula (gerente)",
+      "Gustavo da Silva de Souza",
+      "Jeniffer Gabriela de Lima (licença-maternidade desde 07/2026)",
+      "Karine Ribeiro Alexandrino",
+      "Lais Patricia de Paula Santana",
+      "Maria Eduarda dos Santos"
+    ],
+    "fora_da_folha_com_pagamento_recorrente": [
+      "Isabella Paula de Souza",
+      "Camila Hadassa Muller"
+    ]
+  },
+  "bancos": [
+    {
+      "banco": "Sicredi",
+      "conta": "44846-8",
+      "conta_contabil": "8"
+    },
+    {
+      "banco": "Itaú",
+      "agencia": "3702",
+      "conta": "0098929-8",
+      "conta_contabil": "9",
+      "obs": "INATIVA no Domínio desde 28/07/2026 (não lançar na 9 depois dessa data)"
+    },
+    {
+      "banco": "Aplicação Sicredi (poupança / aviso prévio)",
+      "conta_contabil": "11"
+    },
+    {
+      "banco": "Numerário em trânsito - transferências entre matriz e filial",
+      "conta_contabil": "544",
+      "classificacao": "1.1.1.04.001",
+      "obs": "criada em 18/11/2026; grupo sintético 543 (1.1.1.04); deve zerar quando o extrato da filial for lançado"
+    }
+  ],
+  "contas_padrao": {
+    "fornecedores": "506",
+    "servicos_terceiros": "362",
+    "tarifa": "525",
+    "iof": "526",
+    "juros": "372",
+    "rendimento": "432",
+    "pro_labore": "188",
+    "socia": "531",
+    "salarios_a_pagar": "187",
+    "adiantamento_folha": "5 (folha lança D25/C5)",
+    "clientes": "504",
+    "venda": "408",
+    "simples": "479",
+    "icms_antecipado": "512",
+    "inss": "191",
+    "fgts": "192",
+    "mutuo_visoluk": "152",
+    "honorarios": "361",
+    "aluguel": "320",
+    "alimentacao": "521",
+    "vale_transporte": "530",
+    "plano_saude": "366",
+    "cartao_credito": "364",
+    "telefone": "356",
+    "energia": "354",
+    "transferencia_filial": "544"
+  },
+  "contas_vigiadas": [
+    "362",
+    "504",
+    "187",
+    "191",
+    "192",
+    "5",
+    "531",
+    "538",
+    "544"
+  ],
   "responsavel": "Rosangela",
   "liminares": [],
   "cadastrado_em": "2026-11-18",

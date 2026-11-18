@@ -28,7 +28,7 @@ e `variacao.py --vigiar 362`. Os itens PROVAVEL e SEM PROVA vão para a tabela d
 
 ## Particularidades
 - **Matriz + filial no mesmo DAS.** O Domínio 34 escritura a matriz; a receita da filial (FAT "Filial") entra no
-  PGDAS, mas não na 408. Os PIX da filial (`24026777000274`) entram no Sicredi da matriz.
+  PGDAS, mas não na 408. Os PIX da filial (`24026777000274`) entram no Sicredi da matriz e vão para a **544 Transferências entre matriz e filial** (transitória, 1.1.1.04.001), nunca para 504. A 544 precisa zerar com o extrato da filial. A conta 9 (Itaú) está inativa desde 28/07/2026.
 - **Folha integrada** no razão (Extrato Mensal): D 274/308/331/278… C 187; INSS 191; FGTS 192; pró-labore
   1.621,00 bruto / **1.442,69 líquido** (188). O adiantamento é lançado pela folha como **D 25 / C 5 (caixa)**, então o PIX
   do adiantamento no banco é **D 5 / C 8**. O líquido da folha pago por PIX é **D 187**.

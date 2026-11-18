@@ -8,8 +8,8 @@
   "_nota": "Ordem importa: a primeira regra que casar vale. sinal '+' = só entradas, '-' = só saídas. Status PROVAVEL/SEM PROVA vão para a tabela de perguntas até a contadora validar (registrar em decisoes.md).",
   "regras": [
     {"contem": ["SICREDI DEBITO", "SICREDI ANTEC", "SICREDI CREDITO"], "sinal": "+", "conta": "504", "status": "PROVADO", "obs": "Liquidação de cartões (débito/antecipação)"},
-    {"contem": ["24026777000274"], "sinal": "+", "conta": "504", "status": "PROVAVEL", "obs": "PIX da FILIAL 0002-74: razão 01-06 lançou em 504; confirmar tratamento (transferência entre estabelecimentos)"},
-    {"contem": ["24026777000193"], "sinal": "+", "conta": "9", "status": "SEM PROVA", "obs": "PIX do próprio CNPJ (matriz): provável transferência da conta Itaú 0098929-8; falta extrato Itaú 07-09"},
+    {"contem": ["24026777000274"], "conta": "544", "status": "PROVADO", "obs": "Transferência entre matriz e filial (mesma PJ; Lei 9.430/96, art. 42, §3º, I): transitória 544, que zera com o extrato da filial (decisão Rosangela, 18/11/2026)"},
+    {"contem": ["24026777000193"], "sinal": "+", "conta": "9", "status": "SEM PROVA", "obs": "PIX do próprio CNPJ (matriz) = transferência entre contas da empresa, nunca 504. Até 28/07/2026 vinha do Itaú (conta 9, inativa depois dessa data); 01-06 tinha 24 casos lançados em 504 (Sicredi) e 362/527 (Itaú), reclassificados em 11/2026"},
     {"contem": ["49192337000137", "OTICA VISOLUK", "PEDRO JEFFERSON", "03404400909"], "conta": "152", "status": "PROVAVEL", "obs": "Ótica Visoluk / Pedro Jefferson: mútuo (conta 152), sem NF de compra"},
     {"contem": ["EST CESTA", "ESTORNO TARIFA"], "sinal": "+", "conta": "525", "status": "PROVADO", "obs": "Estorno de tarifa"},
     {"contem": ["RESG.APLIC", "RESGATE"], "sinal": "+", "conta": "11", "rendimento": "432", "status": "PROVADO", "obs": "Resgate aplicação aviso prévio (centavos = rendimento 432)"},

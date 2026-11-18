@@ -8,7 +8,7 @@ proposta do analista (aguarda validação); ? = sem prova (vai para pergunta). A
 |---|---|---|---|
 | SICREDI DEBITO / ANTEC / ANTECIPACAO (Visa, Master, Elo) | C 504 | P | liquidação de cartões |
 | PIX de pessoa física ou jurídica (cliente), Negresco, Senffnet, Freios Itororó | C 504 | R | venda |
-| PIX de 24026777000274 (FILIAL) | C 504 | R | razão 01-06 usou 504; ver pergunta 1 |
+| PIX de/para 24026777000274 (FILIAL) | 544 | P | transferência entre matriz e filial; zera com o extrato da filial (Rosangela, 18/11/2026) |
 | PIX de 24026777000193 (próprio CNPJ) | C 9 | ? | provável transferência do Itaú |
 | PIX de Ótica Visoluk / Pedro Jefferson | C 152 | R | mútuo |
 | PIX da sócia (CPF 03214955942) | C 531 | R | devolução |
