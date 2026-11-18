@@ -20,5 +20,5 @@
   "ligacao": {"conta": "544", "classificacao": "1.1.1.04.001", "nome": "TRANSFERÊNCIAS ENTRE MATRIZ E FILIAL",
               "regra": "Mesma conta nas duas empresas. Saldo da 544 na 34 + saldo da 544 na 118 = 0 (no balancete unificado a linha zera). Substitui a 152 'Empréstimo Ótica Visoluz' da 118 (decisão Rosangela, 18/11/2026)."},
   "reinf_travado": {"_obs": "Retiradas da sócia já declaradas na EFD-Reinf: não alterar. Líquido da 531 (D - C) no mês.",
-                    "34": {"2026-01": "9148.98", "2026-02": "3987.31", "2026-03": "3407.31", "2026-04": "-13862.69", "2026-05": "11037.84", "2026-06": "-942.62"}}
+                    "34": {"2026-01": "9148.98", "2026-02": "3987.31", "2026-03": "3407.31", "2026-04": "-13862.69", "2026-05": "11037.84", "2026-06": "-942.69"}}
 }

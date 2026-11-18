@@ -91,7 +91,8 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
   0001-93 por conta sem extrato (06: 845,99; 07: 4.051,57; 08: 3.647,31; 09: 2.684,74). Trava (b) passa como "explicada".
 - **506:** controle por empresa, nunca devedora; excedente sem nota vai para 470 (34: 1.630,24; 118: 31.891,54, quase tudo SISPAG).
 - **TXT ainda BLOQUEADOS** (só prévias): (c) conta 545 não existe no plano da 34 (cotas Sicredi, 1 lanç./mês); (c) 07: PIX de 196,98 do
-  próprio CNPJ vindo de conta sem extrato; (g) 06/2026: a 531 do razão dá -942,69 e o decisoes.md diz -942,62 declarado (R$ 0,07).
+  próprio CNPJ vindo de conta sem extrato. A trava (g) de 06/2026 foi resolvida: o Razão_531 emitido pela Rosangela (Relatorio Claude,
+  18/11) dá -942,69; o -942,62 anotado era erro de digitação.
 - Sem prova (perguntar): boletos "SICREDI COS GERAIS" (15/01 9.202,27; 19/02 5.773,81; 12/03 6.385,92; 22/04 10.259,39, hoje 527);
   Poder Judiciário/cartório de protesto (1.769,74; 1.769,70; 1.765,45); 7 PIX do Itaú da matriz sem favorecido no razão (12.050,18);
   Sul Distribuidora (6.382 + 3.096), Gilmar Bontorin 4.500, MSO Indústria 1.643,14, Zoop 1.476; saque 30/04 3.000 "aluguel Ótica VisouUP"
