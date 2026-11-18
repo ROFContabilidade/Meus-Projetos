@@ -104,6 +104,10 @@ def main():
                         base = Decimal(r["partidas"]["valor_nota"])
                         if abs(v) > base:
                             partidas = [(r["conta"], base), (r["partidas"]["conta_dif"], abs(v) - base)]
+                    fixas = r.get("partidas_por_valor", {}).get(f"{abs(v):.2f}")
+                    if fixas:  # guia com principal/multa/juros conhecidos (relatório de pagamentos)
+                        partidas = [(c, Decimal(x)) for c, x in fixas]
+                        conta = "+".join(c for c, _ in fixas)
                     if "rendimento" in r and abs(v) % 100:
                         partidas = [(r["conta"], abs(v) - abs(v) % 100), (r["rendimento"], abs(v) % 100)]
                     break
