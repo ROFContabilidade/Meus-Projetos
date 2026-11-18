@@ -182,6 +182,9 @@ class Motor:
         self.razao = {e: ler_razao(self.base / p) for e, p in self.f["razao"].items()}
         self.folha = list(csv.DictReader(open(self.base / self.f["folha"], encoding="utf-8"), delimiter=";"))
         self.guias = list(csv.DictReader(open(self.base / self.f["receita"], encoding="utf-8-sig"), delimiter=";"))
+        # favorecidos achados no extrato original quando o razão não traz o nome (empresa;banco;data;valor;favorecido;fonte)
+        self.ident = {(r["empresa"], r["banco"], r["data"], D(r["valor"])): r for r in
+                      csv.DictReader(open(REF / "identificados.csv", encoding="utf-8"), delimiter=";")} if (REF / "identificados.csv").exists() else {}
         pj = self.est["pj"]
         self.socia_cpf = pj["socia"]["cpf"]
         self.pl_liq = D(pj["socia"]["pro_labore_liquido"])
@@ -248,6 +251,9 @@ class Motor:
 
     def classificar(self, emp, banco, m, comp, pl):
         """Devolve dict com conta (lógica ou código), status, obs, partidas, c506, ligacao, espelho."""
+        idf = self.ident.get((emp, banco, m["data"], m["valor"]))
+        if idf and not m.get("identificado"):
+            m["descricao"] += " " + idf["favorecido"]; m["identificado"] = idf["fonte"]
         v = m["valor"]; d = norm(m["descricao"]); doc = m.get("documento", "")
         c = {"conta": None, "status": "SEM PROVA", "obs": "", "partidas": None, "c506": False, "ligacao": None, "espelho": None}
         travado = emp == "34" and iso(comp) in self.reinf
@@ -301,8 +307,9 @@ class Motor:
         r = self.regra(emp, d, doc, v)
         if r:
             c.update(conta=r["conta"], status=r["status"], obs=r.get("obs", ""), c506=bool(r.get("controle_506")),
-                     ligacao=r.get("ligacao"), espelho=r.get("espelho_34"))
+                     ligacao=r.get("ligacao"), espelho=r.get("espelho_34") or r.get("espelho_118"))
             if r.get("espelho_34"): c["ligacao"] = "espelho"
+            if r.get("espelho_118"): c["ligacao"] = "espelho_rev"
             if r.get("proprio"): c["ligacao"] = "proprio"
             if "partidas" in r:
                 base = D(r["partidas"]["valor_nota"])
@@ -310,13 +317,19 @@ class Motor:
                     c["partidas"] = [(r["conta"], base), (r["partidas"]["conta_dif"], abs(v) - base)]
             if r["conta"] == "@terceiros":
                 if re.search(r"\b\d{14}\b", d) or re.search(r"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}", doc):
-                    c.update(status="SEM PROVA", obs="PJ sem regra (fornecedor com nota? 506): confirmar")
+                    c.update(conta="@fornecedores", c506=True, status="PROVAVEL",
+                             obs="Pagamento a CNPJ sem regra: 506 até o saldo de notas, excedente 470 (Rosangela 18/11/2026)")
                 elif re.fullmatch(r"(REF\.? A )?(PIX ENVIADO|PAGAMENTOS? PIX( QR-CODE)?)", d):
                     c.update(status="SEM PROVA", obs="Favorecido não aparece no histórico do razão: conferir no extrato")
             if "rendimento" in r and abs(v) % 100:
                 c["partidas"] = [(r["conta"], abs(v) - abs(v) % 100), (r["rendimento"], abs(v) % 100)]
             return c
-        # 5) Sem regra: fica a conta do razão (se houver) para revisão
+        # 5) Pagamento a CNPJ sem regra (boleto, PIX): 506 até o saldo de notas; excedente 470 (Rosangela 18/11/2026)
+        if v < 0 and (re.search(r"\b\d{14}\b", d) or re.search(r"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}", doc)):
+            c.update(conta="@fornecedores", c506=True, status="PROVAVEL",
+                     obs="Pagamento a CNPJ sem regra: 506 até o saldo de notas, excedente 470 (Rosangela 18/11/2026)")
+            return c
+        # 6) Sem regra: fica a conta do razão (se houver) para revisão
         if m.get("cp_razao"):
             c.update(conta=m["cp_razao"], status="SEM PROVA", obs="Sem regra: mantida a conta do razão, revisar")
         else:
@@ -359,15 +372,20 @@ class Motor:
         self.parear_proprias(lanc["34"], pend)
         self.parear_ligacao(lanc, pend, comp)
         espelhos = self.gerar_espelhos(lanc)
+        espelhos_rev = self.gerar_espelhos_rev(lanc)
         for emp in EMPRESAS:
             for m in lanc[emp]:
                 for k in ("conta", "espelho"):
-                    if m.get(k): m[k] = "+".join(self.cod(x, emp if k == "conta" else "34") for x in m[k].split("+"))
+                    alvo = emp if k == "conta" else ("118" if m.get("ligacao") == "espelho_rev" else "34")
+                    if m.get(k): m[k] = "+".join(self.cod(x, alvo) for x in m[k].split("+"))
                 if m.get("partidas"):
                     m["partidas"] = [(self.cod(x, emp), y) for x, y in m["partidas"]]
         for e in espelhos:
             e["conta"] = self.cod(e["conta"], "34")
         lanc["34"] += espelhos
+        for e in espelhos_rev:
+            e["conta"] = self.cod(e["conta"], "118")
+        lanc["118"] += espelhos_rev
         for emp in EMPRESAS:
             lanc[emp].sort(key=lambda m: chave(m["data"]))
             self.controle_506(emp, lanc[emp], comp)
@@ -468,6 +486,18 @@ class Motor:
                 m["par"] = m["id"] + "-E34"
         return out
 
+    def gerar_espelhos_rev(self, lanc):
+        """A matriz pagou despesa da FILIAL: 34 D 544 / C banco; 118 D <conta> / C 544."""
+        out = []
+        for m in lanc["34"]:
+            if m.get("ligacao") == "espelho_rev" and m.get("espelho"):
+                out.append({"data": m["data"], "descricao": "PAGO PELA MATRIZ: " + m["descricao"], "documento": m.get("documento", ""),
+                            "valor": m["valor"], "banco": "@ligacao", "emp": "118", "id": m["id"] + "-E118", "par": m["id"],
+                            "conta": m["espelho"], "status": m["status"], "partidas": None, "c506": False, "ligacao": "espelho_118",
+                            "obs": "Espelho do pagamento feito pela matriz (34 D 544 / C banco): " + m["obs"], "espelho_de": m["id"]})
+                m["par"] = m["id"] + "-E118"
+        return out
+
     # -- 506 nunca devedora (por empresa)
     def controle_506(self, emp, lan, comp):
         bancos = {"8", "9"} if emp == "34" else {"8"}
@@ -550,8 +580,8 @@ class Motor:
         for emp in EMPRESAS:
             for m in lanc[emp]:
                 if m.get("omitido"): continue
-                vistos[m["id"].replace("-E34", "")].append((emp, m.get("ligacao")))
-        dup = [k for k, v in vistos.items() if len(v) > 1 and not all(l in ("espelho", "espelho_34") for _, l in v)]
+                vistos[re.sub(r"-E(34|118)$", "", m["id"])].append((emp, m.get("ligacao")))
+        dup = [k for k, v in vistos.items() if len(v) > 1 and not all(l in ("espelho", "espelho_34", "espelho_rev", "espelho_118") for _, l in v)]
         t.append(("e", "Nenhum movimento nos dois TXT fora as pernas da ligação", not dup, ", ".join(dup) or "ok"))
         # (f) 506
         for emp in EMPRESAS:

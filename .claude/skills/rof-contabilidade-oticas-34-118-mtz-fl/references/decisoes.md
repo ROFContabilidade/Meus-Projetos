@@ -28,5 +28,12 @@ Valor 20% fora do padrão ou favorecido novo = perguntar de novo.
 | 18/11/2026 | ambos | Refazer o banco 01-09/2026 | Refazer tudo (não TXT de ajuste): apagar no Domínio só os lançamentos de banco do período e importar o TXT completo. Folha e fiscal ficam | Rosangela |
 
 ## Propostas ainda não validadas
+- 34 → Saque de 30/04 (3.000) "pagamento aluguel Ótica VisouUP": lançado como aluguel da FILIAL pago pela matriz (34 D 544 / C 8; 118 D 341 / C 544). Confirmar.
+- 34 → Boletos "SICREDI COS GERAIS" (CNPJ 81.466.286/0001-05; 15/01 9.202,27; 19/02 5.773,81; 12/03 6.385,92; 22/04 10.259,39): pela regra do CNPJ foram para 506/470. Se forem empréstimo/consórcio do Sicredi, mudar.
 - 118 → Shopping Popular pago pela filial (2.796,80 em 07; 296,42 em 08): parece aluguel da MATRIZ (o imóvel é o da matriz) → 118 D 544 / 34 D 320 C 544. Confirmar.
 - 34 → 3 DARF pagos pelo Itaú que NÃO estão no relatório da Receita: 30/04 596,12 e 592,75; 29/05 602,41. E PIX à Receita de 94,71 (20/02) e 173,71 (20/04). Pedir as guias.
+| 18/11/2026 | ambos | Pagamento a CNPJ sem regra (PIX ou boleto, inclusive MEI) | 506 até o saldo credor de notas; o que passar vai para a conta de resultado (470) | Rosangela |
+| 18/11/2026 | ambos | Pagamento a pessoa física | 362 se não for nota, sócia ou funcionário | Rosangela |
+| 18/11/2026 | ambos | Alimentação (mercado, confeitaria, comércio de alimentos/cereais etc.) | 521 direto | Rosangela |
+| 18/11/2026 | ambos | Cartório / Poder Judiciário (protesto) | 365 DESPESAS LEGAIS E JUDICIAIS | Rosangela |
+| 18/11/2026 | ambos | Demais pagamentos | Identificar ao máximo (extrato original, CNPJ) antes de classificar; achados ficam em `references/identificados.csv` | Rosangela |

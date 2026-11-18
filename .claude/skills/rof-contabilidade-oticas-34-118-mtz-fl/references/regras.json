@@ -1,5 +1,5 @@
 {
- "_nota": "A primeira regra que casar vale. estab = onde vale (34, 118). sinal '+' entrada, '-' saída. contem = texto do histórico; doc = CPF/CNPJ (só dígitos) do extrato. conta com @ = conta lógica (contas_logicas.json). espelho_34 = a filial pagou algo que é da MATRIZ: na 118 vira D 544 e na 34 vira D <espelho_34> / C 544 (o mesmo movimento gera as duas pernas). 'empregado' = classifica pela folha da matriz. Validado = decisoes.md. 'contem' casa no início de palavra (AMIL não casa com CAMILA; PANIFICADO casa com PANIFICADORA).",
+ "_nota": "A primeira regra que casar vale. estab = onde vale (34, 118). sinal '+' entrada, '-' saída. contem = texto do histórico; doc = CPF/CNPJ (só dígitos) do extrato. conta com @ = conta lógica (contas_logicas.json). espelho_34 = a filial pagou algo que é da MATRIZ: na 118 vira D 544 e na 34 vira D <espelho_34> / C 544 (o mesmo movimento gera as duas pernas). 'empregado' = classifica pela folha da matriz. Validado = decisoes.md. 'contem' casa no início de palavra (AMIL não casa com CAMILA; PANIFICADO casa com PANIFICADORA). espelho_118 = a matriz pagou algo que é da FILIAL: na 34 vira D 544 e na 118 vira D <espelho_118> / C 544.",
  "empregado_limite_salario": "200.00",
  "regras": [
   {
@@ -285,11 +285,17 @@
     "118"
    ],
    "contem": [
-    "CUSTAS DE PROTESTO"
+    "CUSTAS DE PROTESTO",
+    "PODER JUDICIARIO",
+    "PODER J",
+    "CARTORIO",
+    "CAR PROT",
+    "TABELIONATO"
    ],
    "sinal": "-",
    "conta": "@protesto",
-   "status": "PROVADO"
+   "status": "PROVADO",
+   "obs": "Cartório/Poder Judiciário: 365 despesas legais e judiciais (Rosangela 18/11/2026)"
   },
   {
    "estab": [
@@ -335,7 +341,9 @@
    ],
    "contem": [
     "SECRETARIA DE ESTADO DA FAZENDA",
-    "GOVERNO DO PARANA"
+    "GOVERNO DO PARANA",
+    "DEPARTAMENTO DE TRA",
+    "DETRAN"
    ],
    "sinal": "-",
    "conta": "@taxas",
@@ -473,6 +481,33 @@
     "34"
    ],
    "contem": [
+    "ALUGUEL OTICA VISOUUP"
+   ],
+   "sinal": "-",
+   "conta": "@ligacao",
+   "espelho_118": "@aluguel",
+   "status": "PROVAVEL",
+   "obs": "Aluguel da FILIAL pago pela matriz (histórico do razão: saque para o aluguel da VisouUP): 34 D 544 / 118 D 341 C 544. Confirmar"
+  },
+  {
+   "estab": [
+    "34",
+    "118"
+   ],
+   "contem": [
+    "SAQUE DINHEIRO",
+    "SAQUE"
+   ],
+   "sinal": "-",
+   "conta": "@caixa",
+   "status": "PROVAVEL",
+   "obs": "Saque em dinheiro: entra no caixa 5"
+  },
+  {
+   "estab": [
+    "34"
+   ],
+   "contem": [
     "SHOPPING POPULAR"
    ],
    "sinal": "-",
@@ -567,7 +602,19 @@
     "SACOLAO",
     "CONDOR",
     "MILKY MOO",
-    "GULA MANIA"
+    "GULA MANIA",
+    "CONFEITARIA",
+    "ALIMEN",
+    "CEREAIS",
+    "PADARIA",
+    "LANCHONETE",
+    "RESTAURANTE",
+    "PIZZARIA",
+    "ACOUGUE",
+    "HORTIFRUTI",
+    "MERCADO OURO",
+    "MERCEARIA",
+    "MINIMERCADO"
    ],
    "sinal": "-",
    "conta": "@alimentacao",
@@ -642,7 +689,7 @@
    "sinal": "-",
    "conta": "@terceiros",
    "status": "PROVADO",
-   "obs": "Pessoa física sem nota que não é funcionária → 362 (alerta INSS/IRRF)"
+   "obs": "Pessoa física sem nota, que não é sócia nem funcionária → 362; CNPJ sem regra → 506 até o saldo de notas, excedente 470 (Rosangela 18/11/2026)"
   }
  ]
 }
