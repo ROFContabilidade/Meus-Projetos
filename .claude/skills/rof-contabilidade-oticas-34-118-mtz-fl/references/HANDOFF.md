@@ -101,7 +101,7 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
 ## 9. Próximo passo (combinado em 18/11/2026, fim do dia)
 - TXT finais entregues: 01-06, 08 e 09/2026 (34 e 118; a 118 não tem 01). 07 travado só pelo PIX de 196,98 (conta da matriz sem extrato).
 - A Rosangela vai salvar na pasta Relatorio Claude da 34: **Extrato Mensal da folha 12/2025** e **balancetes 31/12/2025 da 34 e da 118**.
-  1. Com a folha 12/2025: acrescentar ao folha.csv (`scripts/folha_csv.py`) e rodar de novo (`periodo`); só janeiro muda (salários
+  1. FEITO (18/11): folha 11-12/2025 incluída; só Karine 267,54 bateu exato. Achado: Jeniffer admitida em 23/02/2026 recebeu 9 PIX antes (362).
      de dezembro pagos em janeiro passam de PROVAVEL a PROVADO). Reentregar o TXT 34 de 01 se algo mudar.
   2. Com os balancetes 2025: análise de fechamento (538 ~R$ 1,2 mi, estoque "produtos acabados/em elaboração", 504 credora), fora dos TXT.
 - Quando chegar o extrato da conta sem extrato: incluir como banco da 34 em `fontes_2026.json` e gerar o 07 (08 e 09 não mudam).

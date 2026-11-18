@@ -1,6 +1,6 @@
 {"saldos_iniciais": {"34": {"8": -862.44, "9": 0, "506": 1169.09}, "118": {"8": 0, "506": 1016.00}},
  "razao": {"34": "razao34_long.csv", "118": "razao118_long.csv"},
- "folha": "folha.csv", "receita": "receita.csv",
+ "folha": "folha_full.csv", "receita": "receita.csv",
  "meses": {
   "01/2026": {"34": {"8": "razao", "9": "razao"}, "118": {"8": "razao"}},
   "02/2026": {"34": {"8": "razao", "9": "razao"}, "118": {"8": "razao"}},

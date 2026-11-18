@@ -207,6 +207,7 @@ class Motor:
     def preparar_folha(self, comp):
         emp = {f["cpf"]: f["nome"] for f in self.folha if f["tipo"] == "empregado"}
         self.emp = emp
+        self.adm = {f["cpf"]: f["admissao"] for f in self.folha if f["tipo"] == "empregado" and f.get("admissao")}
         self.emp_nome = {" ".join(norm(n).split()[:2]): c for c, n in emp.items()}
         ant = comp_anterior(comp)
         self.liq_ant = {(f["cpf"], D(f["liquido"])) for f in self.folha if f["competencia"] == ant and f["tipo"] == "empregado"}
@@ -295,6 +296,11 @@ class Motor:
             return c
         # 3) Empregados da matriz
         cpf = self.acha_empregado(d, doc) if v < 0 else None
+        if (cpf and cpf in self.adm and tupla(m["data"]) < tupla(self.adm[cpf])
+                and (cpf, -v) not in self.liq_ant and (cpf, -v) not in self.adi_mes):  # valor igual ao da folha: vale a folha
+            c.update(conta="@terceiros", status="PROVADO",
+                     obs=f"PIX a {self.emp[cpf]} ANTES da admissão ({self.adm[cpf]}): pessoa física sem vínculo → 362 (alerta trabalhista/INSS)")
+            return c
         if cpf:
             conta, st, ob = self.classe_empregado(cpf, -v, int(m["data"][:2]), comp)
             if emp == "34":

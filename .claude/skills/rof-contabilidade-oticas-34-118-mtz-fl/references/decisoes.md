@@ -38,3 +38,5 @@ Valor 20% fora do padrão ou favorecido novo = perguntar de novo.
 | 18/11/2026 | ambos | Cartório / Poder Judiciário (protesto) | 365 DESPESAS LEGAIS E JUDICIAIS | Rosangela |
 | 18/11/2026 | ambos | Demais pagamentos | Identificar ao máximo (extrato original, CNPJ) antes de classificar; achados ficam em `references/identificados.csv` | Rosangela |
 | 18/11/2026 | 34 | Pagamentos à Receita sem par em nenhum relatório (PIX 20/02 94,71 e 20/04 173,71; DARF Itaú 30/04 596,12 e 592,75; 29/05 602,41) | Ficam na 350. Não estão no relatório de pagamentos da Receita, no Pagamento de Encargos nem no Resumo de impostos; a filial não paga guias | Rosangela |
+| 18/11/2026 | 34 | PIX a quem só foi admitido depois (Jeniffer Gabriela de Lima, adm. 23/02/2026: 9 PIX em 01-02/2026, R$ 2.676,17) | 362 (pessoa física sem vínculo, alerta trabalhista/INSS). Valor igual ao da folha (adiantamento de 750,00 em 20/02) segue a folha | analista, pela regra da PF (Rosangela) |
+| 18/11/2026 | 34 | Folha 11-12/2025 (Extrato Mensal de 2025) | Entra no folha.csv para provar os salários de dezembro pagos em janeiro. Data de admissão lida do Extrato Mensal | Rosangela enviou |
