@@ -1,0 +1,293 @@
+{
+ "conta_banco": "8",
+ "cnpj": "24026777000274",
+ "prefixo": "REF. A ",
+ "regras": [
+  {
+   "t": "C",
+   "c": [
+    "REDECARD",
+    "RECEBIMENTO REDE",
+    "AT0105585564",
+    "DB0105585564",
+    "SENFFNET"
+   ],
+   "conta": "504",
+   "st": "CONFIRMADO",
+   "obs": "cartão (Rede/Senff)"
+  },
+  {
+   "t": "C",
+   "c": [
+    "RENDIMENTOS"
+   ],
+   "conta": "432",
+   "st": "CONFIRMADO",
+   "obs": "rendimento aplic. automática"
+  },
+  {
+   "t": "C",
+   "c": [
+    "ADRIANA R DE PAULA LTDA"
+   ],
+   "conta": "504",
+   "st": "PERGUNTA",
+   "obs": "P2 entrada em nome da própria empresa, não veio do Sicredi da matriz"
+  },
+  {
+   "t": "C",
+   "c": [
+    "PEDRO J"
+   ],
+   "conta": "166",
+   "st": "PERGUNTA",
+   "obs": "P3 Pedro Jefferson = Ótica Visoluk"
+  },
+  {
+   "t": "C",
+   "c": [
+    "PIX"
+   ],
+   "conta": "504",
+   "st": "PROVAVEL",
+   "obs": "PIX de cliente (venda)"
+  },
+  {
+   "t": "D",
+   "c": [
+    "TAR "
+   ],
+   "conta": "525",
+   "st": "CONFIRMADO",
+   "obs": "tarifa bancária"
+  },
+  {
+   "t": "D",
+   "c": [
+    "OTICA VISOLUZ"
+   ],
+   "conta": "152",
+   "st": "CONFIRMADO",
+   "obs": "transferência p/ matriz (confere no Sicredi 34)"
+  },
+  {
+   "t": "D",
+   "c": [
+    "OTICA VISOLUK"
+   ],
+   "conta": "166",
+   "st": "PROVAVEL",
+   "obs": "conta Visoluk, padrão 06/2026"
+  },
+  {
+   "t": "D",
+   "c": [
+    "PEDRO JEFFERSON"
+   ],
+   "conta": "166",
+   "st": "PERGUNTA",
+   "obs": "P3 Pedro Jefferson = Ótica Visoluk"
+  },
+  {
+   "t": "D",
+   "c": [
+    "SC COMERCIO"
+   ],
+   "conta": "506",
+   "st": "CONFIRMADO",
+   "obs": "baixa fornecedor (NF SC Comércio)"
+  },
+  {
+   "t": "D",
+   "c": [
+    "ARQUEM"
+   ],
+   "conta": "506",
+   "st": "CONFIRMADO",
+   "obs": "baixa fornecedor (NFS-e Arquem)"
+  },
+  {
+   "t": "D",
+   "c": [
+    "SINGULAR"
+   ],
+   "conta": "506",
+   "st": "CONFIRMADO",
+   "obs": "baixa fornecedor (NFS-e Singular 185,00)"
+  },
+  {
+   "t": "D",
+   "c": [
+    "HOYA",
+    "SALES VISION",
+    "LITZ ARMAC"
+   ],
+   "conta": "506",
+   "st": "PERGUNTA",
+   "obs": "P5 fornecedor sem nota na filial"
+  },
+  {
+   "t": "D",
+   "c": [
+    "SHOPPING POPULAR"
+   ],
+   "conta": "341",
+   "st": "PERGUNTA",
+   "obs": "P6 aluguel da loja?"
+  },
+  {
+   "t": "D",
+   "c": [
+    "SUNAGA"
+   ],
+   "conta": "366",
+   "st": "PROVAVEL",
+   "obs": "P7 Sunaga (exames), padrão 06/2026"
+  },
+  {
+   "t": "D",
+   "c": [
+    "CEF MATRIZ"
+   ],
+   "conta": "152",
+   "st": "PROVAVEL",
+   "obs": "P1 FGTS/guia da folha da matriz paga pela filial"
+  },
+  {
+   "t": "D",
+   "c": [
+    "METROCARD"
+   ],
+   "conta": "152",
+   "st": "PERGUNTA",
+   "obs": "P1 vale-transporte dos empregados da matriz"
+  },
+  {
+   "t": "D",
+   "c": [
+    "ANDREA RODRIGUES PAULA",
+    "LAIS PATRICIA",
+    "KARINE RIBEIRO",
+    "GUSTAVO DA SILVA",
+    "MARIA EDUARDA DOS SANTOS",
+    "JENIFFER GABRIELA"
+   ],
+   "conta": "152",
+   "st": "PERGUNTA",
+   "obs": "P1 empregado CLT da matriz pago pela filial"
+  },
+  {
+   "t": "D",
+   "c": [
+    "CAMILA HADASSA",
+    "ISABELLA PAULA",
+    "GIOVANA DE PAULA",
+    "REGIANE DA SILVA",
+    "SUSANA KAZUKO",
+    "MARIA EUNICE",
+    "IDIAMARA",
+    "TAIANE",
+    "LEANDRO TEIXEIRA",
+    "HUIZHEN",
+    "CLEUSA"
+   ],
+   "conta": "362",
+   "st": "PERGUNTA",
+   "obs": "P4 pessoa física sem registro (362 vigiada)"
+  },
+  {
+   "t": "D",
+   "c": [
+    "ADRIANA RODRIGUES DE PAULA"
+   ],
+   "conta": "531",
+   "st": "PERGUNTA",
+   "obs": "P8 retirada da sócia"
+  },
+  {
+   "t": "D",
+   "c": [
+    "MARIA APARECIDA DE PAULA",
+    "RENNER",
+    "TORRA TORRA",
+    "REALIZE",
+    "PEFISA",
+    "HAVAN",
+    "FARMACIA",
+    "SOU COLUNA",
+    "FOCCUS CIRURGIA",
+    "DIREITOS CREDITORIOS"
+   ],
+   "conta": "531",
+   "st": "PERGUNTA",
+   "obs": "P9 gasto pessoal da sócia?"
+  },
+  {
+   "t": "D",
+   "c": [
+    "RBA CONTABIL"
+   ],
+   "conta": "361",
+   "st": "CONFIRMADO",
+   "obs": "honorários contábeis"
+  },
+  {
+   "t": "D",
+   "c": [
+    "COPEL"
+   ],
+   "conta": "354",
+   "st": "CONFIRMADO",
+   "obs": "energia"
+  },
+  {
+   "t": "D",
+   "c": [
+    "TIM SAO PAULO"
+   ],
+   "conta": "356",
+   "st": "CONFIRMADO",
+   "obs": "telefone"
+  },
+  {
+   "t": "D",
+   "c": [
+    "MUNICIPIO DE COLOMBO"
+   ],
+   "conta": "350",
+   "st": "CONFIRMADO",
+   "obs": "taxa municipal"
+  },
+  {
+   "t": "D",
+   "c": [
+    "IFOOD",
+    "99 FOOD",
+    "PANIFICADORA",
+    "SUPER MENUDO",
+    "FRUTIBOX",
+    "SACOLAO",
+    "CONDOR",
+    "MILKY MOO",
+    "GULA MANIA",
+    "SUPERMERCADOS"
+   ],
+   "conta": "521",
+   "st": "PROVAVEL",
+   "obs": "alimentação, padrão 06/2026"
+  },
+  {
+   "t": "D",
+   "c": [
+    "ESTAPAR",
+    "POSTO METROPOLE",
+    "ARMARINHOS",
+    "PAGAR.ME",
+    "DEZ PRODUCOES"
+   ],
+   "conta": "359",
+   "st": "PROVAVEL",
+   "obs": "despesa administrativa miúda"
+  }
+ ]
+}
