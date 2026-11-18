@@ -17,7 +17,9 @@ tem o seu TXT. Nenhuma outra empresa entra aqui.
 - `references/regras.json`: regras de classificação comuns (campo `estab`).
 - `references/plano_34.csv`, `references/plano_118.csv`: planos de contas para validar cada código.
 - `references/decisoes.md`: decisões validadas.
-- `scripts/rotina_mes.py`: motor do mês (a escrever; especificação no HANDOFF, seção 5). `scripts/folha_csv.py`: Extrato Mensal da folha → CSV.
+- `scripts/rotina_mes.py`: motor das duas empresas (`razao-xls`, `razao-pdf`, `periodo --fontes references/fontes_2026.json --saida DIR [--previa]`).
+  Sem `--previa` só grava TXT se todas as travas passarem; com `--previa` grava `PREVIA_*.txt` para revisão. `scripts/folha_csv.py`: Extrato Mensal da folha → CSV.
+- `references/fontes_2026.json`: saldos de abertura 01/2026 e a fonte de cada banco/mês (razão 01-06; `_extrato.md` 07-09).
 
 ## Regras de ouro
 1. **Ligação = 544 nas duas empresas** (1.1.1.04.001). Cada operação entre as lojas gera as duas pernas a partir do mesmo

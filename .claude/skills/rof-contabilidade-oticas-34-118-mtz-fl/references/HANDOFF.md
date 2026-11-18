@@ -1,4 +1,4 @@
-# Passagem de bastão (estado em 18/11/2026)
+# Passagem de bastão (estado em 18/11/2026, motor escrito e rodado no fim do dia)
 
 Leia este arquivo inteiro antes de qualquer ação. Ele resume a sessão "Otica visoluz" (que fez a matriz e criou a ligação)
 e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui em diante tudo é feito por esta skill.
@@ -80,3 +80,19 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
 - O Itaú da matriz não traz CPF no histórico: reconhecer empregado pelo nome.
 - O razão antigo não é gabarito: ele tem os erros da seção 3.
 - O cérebro (`rof-analista`) bloqueia misturar empresas na mesma conversa. **Exceção documentada aqui:** 34 e 118 são a mesma PJ.
+
+## 8. Situação depois do motor (18/11/2026, fim do dia)
+- `scripts/rotina_mes.py` escrito e rodado de 01 a 09/2026 (as duas empresas, saldos encadeados). Arquivos de trabalho:
+  razão 34 (.xls → `razao-xls`), razão 118 (.pdf → texto → `razao-pdf`), folha.csv, receita.csv (relatório de pagamentos), `_extrato.md` 07-09.
+- **Bancos fecham em todos os meses**: 34 Sicredi -862,44 → -1.802,79 (06) → -2.267,37 (09); Itaú 9 zera em 06; 118 Itaú 0 → 324,60 (06) → 539,49 (09).
+- **Pareamentos:** 24 Itaú→Sicredi da 34 (lançados uma vez, D 8 / C 9); 16 transferências 34↔118 de mesmo valor; 7 SISPAG da filial com o
+  mesmo valor da entrada no Sicredi; 7 entradas dentro de lote SISPAG (os R$ 11.050 da pendência 2, rateados 544 + 506).
+- **544:** 34 -55.993,03 e 118 +44.763,42 em 30/09; a diferença (11.229,61) é exatamente a soma dos PIX que a filial recebeu do CNPJ
+  0001-93 por conta sem extrato (06: 845,99; 07: 4.051,57; 08: 3.647,31; 09: 2.684,74). Trava (b) passa como "explicada".
+- **506:** controle por empresa, nunca devedora; excedente sem nota vai para 470 (34: 1.630,24; 118: 31.891,54, quase tudo SISPAG).
+- **TXT ainda BLOQUEADOS** (só prévias): (c) conta 545 não existe no plano da 34 (cotas Sicredi, 1 lanç./mês); (c) 07: PIX de 196,98 do
+  próprio CNPJ vindo de conta sem extrato; (g) 06/2026: a 531 do razão dá -942,69 e o decisoes.md diz -942,62 declarado (R$ 0,07).
+- Sem prova (perguntar): boletos "SICREDI COS GERAIS" (15/01 9.202,27; 19/02 5.773,81; 12/03 6.385,92; 22/04 10.259,39, hoje 527);
+  Poder Judiciário/cartório de protesto (1.769,74; 1.769,70; 1.765,45); 7 PIX do Itaú da matriz sem favorecido no razão (12.050,18);
+  Sul Distribuidora (6.382 + 3.096), Gilmar Bontorin 4.500, MSO Indústria 1.643,14, Zoop 1.476; saque 30/04 3.000 "aluguel Ótica VisouUP"
+  (é despesa da FILIAL paga pela matriz? proposta: 34 D 544 / C 8 e 118 D 341 / C 544); DARF sem guia (já em decisoes.md).
