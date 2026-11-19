@@ -20,6 +20,16 @@ Regra de ouro: **nada passa sem ser explicado**. Se não dá para afirmar, vira 
 - **Mostrar o que muda o valor**: base (com ou sem frete), alíquota (4% × 12% pela origem), ST × equalização.
 - Textos já lidos ficam em `referencias/legislacao_sp.md` (literal, com data). Norma nova lida → gravar lá.
 
+## 0.1 Política do escritório (definida pela Rosangela em 19/11/2026 - não questionar a cada nota)
+
+- **Base do DIFAL = base de cálculo do ICMS destacada na nota (vBC)**. Ex.: vBC 5.100,00 × (18% - 4%) = 714,00, mesmo que
+  a nota tenha frete fora da base. Sem vBC (fornecedor do Simples sem destaque, CST 40/41), usa o valor da operação.
+  O agente só registra, como APONTAMENTO, a diferença entre vBC e valor da operação - não recalcula.
+- **NCM, origem (4% × 12%) e CST valem como estão na nota.** Quem vendeu responde pela classificação. Divergências
+  (origem 1 com CFOP 6.102, falta de FCI) saem só como APONTAMENTO informativo, nunca mudam o cálculo.
+- O que continua sendo ERRO/ALERTA: destinatário/IE errados, nota cancelada/duplicada, CST de ST sem ST, ST não retida,
+  regime do fornecedor estranho, destinação não informada, alíquota interna de SP a confirmar.
+
 ## 1. Perguntas obrigatórias (todas juntas, numa mensagem só, antes de ler)
 
 1. **CNPJ e IE da empresa paulista** (destinatária). Consultar o CNPJ (passo 2). Se a empresa tem skill própria
@@ -113,7 +123,7 @@ analista confirma e grava em `aliquota_interna`. Lembrar que a Lei 17.293/2020 c
   Não confundir com o RPA: no RPA a revenda NÃO tem DIFAL.
 - Exceção: mercadoria **sujeita à ST em SP** - aí recolhe a ST/antecipação (art. 426-A ou regra do produto), não a equalização.
   Nunca deixar o item sem um dos dois.
-- **Base única**: `DIFAL = V × (interna - interestadual)` (V inclui frete cobrado na nota e IPI) - SP não põe o ICMS na
+- **Base única**: `DIFAL = base × (interna - interestadual)` - base = vBC da nota (política §0.1) - SP não põe o ICMS na
   própria base para o Simples e **não aceita redução de base** no cálculo do Simples.
 - **DARE-SP código 063-2**, até o **último dia do 2º mês seguinte ao da entrada** (GARE não é mais aceita desde 07/2024).
 - Exemplo PR→SP, R$ 10.000,00 a 12%: 10.000 × 6% = **R$ 600,00**. Importado (4%): 10.000 × 14% = **R$ 1.400,00**.

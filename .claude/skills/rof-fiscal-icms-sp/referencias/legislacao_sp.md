@@ -38,7 +38,13 @@ Art. 1º revoga "os Anexos VII, VIII, XIV, XVIII e XXI e os itens 2 ao 10 e o it
 de autopeças, a que se refere o artigo 313-P". Art. 2º: estoque segue a Portaria CAT 28/20. Art. 3º: "entra em vigor em
 1º de outubro de 2026". Também saíram: pneus (SRE 15/24), tintas/vernizes (SRE 46/24), materiais elétricos (SRE 86/24),
 ferramentas (SRE 78/25), baterias (SRE 10/26) e itens 2 a 11 de eletrônicos/eletrodomésticos (SRE 32/26).
-Pendente de leitura: qual Anexo da CAT 68/19 é cada segmento (fonte secundária: XIV = autopeças).
+
+## Portaria CAT 68/2019 - Anexo XIV - lido em 19/11/2026
+Cabeçalho oficial: "ANEXO XIV (Anexo revogado pela Portaria SRE-34/26, de 29-06-2026; DOE 30-06-2026; em vigor em
+1º de outubro de 2026) AUTOPEÇAS (artigo 313-O do RICMS)". Item 77: "CEST 01.075.00 | NCM 8708 | Partes e acessórios
+dos veículos automóveis das posições 8701 a 8705". O NCM 8708 não aparece em nenhum outro anexo da CAT 68/19
+(só no item 92 do próprio Anexo XIV - fitas refletivas 8708.29.99). Conclusão: autopeça CEST 01.xxx entrada a partir de
+01/10/2026 não tem ST em SP -> Simples paga a equalização do art. 115 XV-A "a".
 
 ## NÃO lidos no texto oficial ainda (só fonte secundária - tratar como "a confirmar")
 - RICMS/SP art. 2º XVI e §6º; art. 117 §5º/§6º; art. 37 VI; art. 49 (base dupla RPA) - via Respostas à Consulta.

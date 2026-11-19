@@ -9,6 +9,7 @@ config.json:
  "destinacao_padrao": null,                       # ou "uso_consumo" / "ativo" / "revenda" / "industrializacao"
  "destinacao": {"<chave ou nº da nota>": "uso_consumo" | {"*": "revenda", "3": "uso_consumo"}},
  "aliquota_interna": {"<NCM ou prefixo>": 12},   # confirmada pela analista (padrão 18%)
+ "politica_base": "vbc_nota",                     # padrão do escritório: base do ICMS da nota; "valor_operacao" p/ V cheio
  "data_entrada": {"<chave ou nº>": "AAAA-MM-DD"} # padrão: data de saída/entrada da NF, senão emissão
 }
 """
@@ -175,18 +176,18 @@ def auditar(dados, cfg):
                                   + ('Crédito limitado a ' + f'{inter_ok:.0f}%; exigir nota correta.' if it['pICMS'] > inter_ok else
                                      'Destaque a menor: conferir benefício na origem.'))
             if it['orig'] in ('1', '6') and cfop in ('6102', '6108', '6106'):
-                add(ALERTA, n, ni, f"Origem {it['orig']} (importação DIRETA pelo emitente) com CFOP {cfop} (mercadoria adquirida de terceiros): "
+                add(APONT, n, ni, f"[informativo - vale a origem da nota] Origem {it['orig']} (importação DIRETA pelo emitente) com CFOP {cfop} (mercadoria adquirida de terceiros): "
                                     f"se o fornecedor comprou de importador no Brasil, a origem certa é {'2' if it['orig'] == '1' else '7'}. "
                                     f"Alíquota não muda (4%), mas o cadastro do fornecedor está errado")
             if it['orig'] in ('3', '5', '8') and 'FCI' not in (it['infAdProd'] + n['infCpl']).upper():
-                add(ALERTA, n, ni, f"Origem {it['orig']} sem número da FCI nas informações do item (Ajuste SINIEF 19/2012)")
+                add(APONT, n, ni, f"[informativo - vale a origem da nota] Origem {it['orig']} sem número da FCI nas informações do item (Ajuste SINIEF 19/2012)")
             if n['emit_crt'] == '3' and it['cst'] in T.CST_SEM_DESTAQUE and it['cst'] != '60':
                 add(ALERTA, n, ni, f"CST {it['cst']} (sem tributação) em venda interestadual de regime normal - qual isenção/benefício? "
                                     f"Exigir dispositivo legal na nota; conferir se SP concede o mesmo (senão DIFAL cheio)")
             if it['pRedBC'] > 0:
                 add(ALERTA, n, ni, f"Redução de base na origem ({it['pRedBC']:.2f}%) - conferir convênio; crédito só do destacado")
             if it['vBC'] > 0 and it['vFrete'] > 0 and n['modFrete'] == '0' and it['vBC'] + 0.01 < it['vProd'] + it['vFrete'] - it['vDesc'] and it['pRedBC'] == 0:
-                add(ALERTA, n, ni, f"Frete CIF de R$ {it['vFrete']:,.2f} cobrado na nota ficou FORA da base do ICMS "
+                add(APONT, n, ni, f"Frete CIF de R$ {it['vFrete']:,.2f} cobrado na nota ficou FORA da base do ICMS "
                                     f"(vBC {it['vBC']:,.2f}) - frete cobrado do destinatário integra a base (LC 87 art. 13 §1º, II, b). "
                                     f"Erro do fornecedor; para RPA o crédito continua limitado ao destacado")
             if n['emit_crt'] == '2':
@@ -227,7 +228,15 @@ def auditar(dados, cfg):
                     add(APONT, n, ni, 'ST retida em mercadoria de uso/consumo/ativo: conferir se o ST já cobre o DIFAL (não pagar em dobro)')
 
             # ---------- DIFAL ----------
-            V = it['vProd'] + it['vFrete'] + it['vSeg'] + it['vOutro'] - it['vDesc'] + it['vIPI']
+            V_oper = it['vProd'] + it['vFrete'] + it['vSeg'] + it['vOutro'] - it['vDesc'] + it['vIPI']
+            # Política do escritório (Rosangela, 19/11/2026): base do DIFAL = base do ICMS destacada na nota (vBC);
+            # sem vBC (Simples/MEI sem destaque, CST 40/41), usa o valor da operação.
+            usa_vbc = cfg.get('politica_base', 'vbc_nota') == 'vbc_nota' and it['vBC'] > 0
+            V = it['vBC'] if usa_vbc else V_oper
+            if usa_vbc and abs(V_oper - it['vBC']) > 0.01:
+                add(APONT, n, ni, f"Base do DIFAL = base do ICMS da nota R$ {it['vBC']:,.2f} (política do escritório). "
+                                   f"Valor da operação na nota R$ {V_oper:,.2f}: se o fisco exigir sobre ele, a diferença de "
+                                   f"base é R$ {V_oper - it['vBC']:,.2f}")
             difal = 0.0; bc_dest = 0.0; icms_orig = 0.0; regra = ''
             if not interestadual:
                 regra = 'Interna - sem DIFAL'
@@ -289,7 +298,7 @@ def auditar(dados, cfg):
                 'crt': n['emit_crt'], 'item': ni, 'codigo': it['codigo'], 'descricao': it['descricao'], 'ncm': it['ncm'],
                 'cest': it['cest'], 'cfop_forn': cfop, 'cfop_entrada': ent_cfop[1] if st_retido else ent_cfop[0],
                 'orig': it['orig'], 'cst': it['cst'] or it['csosn'], 'destinacao': dest or 'NÃO INFORMADA',
-                'valor_operacao': r2(V), 'vIPI': it['vIPI'], 'vBC_orig': it['vBC'], 'p_destacado': it['pICMS'],
+                'valor_operacao': r2(V_oper), 'base_difal': r2(V), 'vIPI': it['vIPI'], 'vBC_orig': it['vBC'], 'p_destacado': it['pICMS'],
                 'p_inter_ok': inter_ok, 'vICMS_destacado': it['vICMS'], 'icms_origem_difal': r2(icms_orig),
                 'p_interna': p_int, 'bc_destino': r2(bc_dest), 'difal': r2(difal), 'vICMSST': it['vICMSST'],
                 'credito_pCredSN': it['pCredSN'], 'vCredICMSSN': it['vCredICMSSN'], 'regra': regra,
@@ -361,19 +370,19 @@ def planilha(notas, itens, incons, cfg, dst):
 
     ws = wb.create_sheet('Itens e DIFAL')
     cab = ['Nota', 'Emissão', 'Emitente', 'UF', 'CRT', 'Item', 'Código', 'Descrição', 'NCM', 'CEST', 'CFOP forn.',
-           'CFOP entrada', 'Orig', 'CST/CSOSN', 'Destinação', 'Valor operação', 'IPI', 'BC origem', '% destacado',
+           'CFOP entrada', 'Orig', 'CST/CSOSN', 'Destinação', 'Valor operação', 'Base DIFAL (vBC nota)', 'IPI', 'BC origem', '% destacado',
            '% interest. correto', 'ICMS destacado', 'ICMS origem p/ DIFAL', '% interna SP', 'BC destino', 'DIFAL', 'ICMS-ST',
            'pCredSN', 'Crédito SN', 'Regra aplicada']
     ks = ['nota', 'emissao', 'emitente', 'uf', 'crt', 'item', 'codigo', 'descricao', 'ncm', 'cest', 'cfop_forn',
-          'cfop_entrada', 'orig', 'cst', 'destinacao', 'valor_operacao', 'vIPI', 'vBC_orig', 'p_destacado', 'p_inter_ok',
+          'cfop_entrada', 'orig', 'cst', 'destinacao', 'valor_operacao', 'base_difal', 'vIPI', 'vBC_orig', 'p_destacado', 'p_inter_ok',
           'vICMS_destacado', 'icms_origem_difal', 'p_interna', 'bc_destino', 'difal', 'vICMSST', 'credito_pCredSN',
           'vCredICMSSN', 'regra']
-    tabela(ws, 1, cab, [[i[x] for x in ks] for i in itens], moedas=(15, 16, 17, 20, 21, 23, 24, 25, 27),
-           larg=[8, 11, 28, 4, 4, 5, 10, 34, 10, 9, 8, 9, 5, 7, 13, 13, 9, 11, 8, 8, 11, 11, 8, 12, 11, 10, 7, 9, 60],
+    tabela(ws, 1, cab, [[i[x] for x in ks] for i in itens], moedas=(15, 16, 17, 18, 21, 22, 24, 25, 26, 28),
+           larg=[8, 11, 28, 4, 4, 5, 10, 34, 10, 9, 8, 9, 5, 7, 13, 13, 13, 9, 11, 8, 8, 11, 11, 8, 12, 11, 10, 7, 9, 60],
            cor=lambda r: F[ALERTA] if r[14] == 'NÃO INFORMADA' else None)
     n = len(itens) + 2
-    ws.cell(n, 24, 'TOTAL').font = Font(bold=True)
-    ws.cell(n, 25, f'=SUM(Y2:Y{n - 1})').number_format = money
+    ws.cell(n, 25, 'TOTAL').font = Font(bold=True)
+    ws.cell(n, 26, f'=SUM(Z2:Z{n - 1})').number_format = money
 
     ws = wb.create_sheet('Notas')
     cab = ['Nota', 'Série', 'Emissão', 'Entrada', 'Emitente', 'CNPJ', 'UF', 'CRT', 'Natureza', 'Valor NF', 'ICMS', 'ICMS-ST',
