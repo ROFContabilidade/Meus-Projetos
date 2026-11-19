@@ -8,97 +8,684 @@
   "fator_r": false,
   "regime_receita": "competencia",
   "atividade": "4781-4/00 Comércio varejista de artigos do vestuário e acessórios",
-  "cnaes": ["4781-4/00", "4713-0/02"],
+  "cnaes": [
+    "4781-4/00",
+    "4713-0/02"
+  ],
   "perfil_custo": "comercio",
   "perfil_custo_obs": "Mercadoria para revenda = fornecedor 506 (baixa pela nota de entrada), nunca despesa. Gasto alheio à loja = despesa administrativa ou sócio.",
-  "simples_consulta": {"optante": true, "inicio": "", "exclusao": null, "consultado_em": "", "obs": "reconsultar todo mês (consulta_cnpj.py)"},
-  "contas_vigiadas": ["362", "493", "506", "539", "548", "555"],
+  "simples_consulta": {
+    "optante": true,
+    "inicio": "",
+    "exclusao": null,
+    "consultado_em": "",
+    "obs": "reconsultar todo mês (consulta_cnpj.py)"
+  },
+  "contas_vigiadas": [
+    "362",
+    "493",
+    "506",
+    "539",
+    "548",
+    "555"
+  ],
   "responsavel": "Rosangela",
   "liminares": [],
   "socios": [
-    {"nome": "EMERSON MOHR", "cpf": "035.870.159-70", "chave": "E", "pro_labore": 1621.00, "conta_pro_labore": "188", "conta_socio": "539",
-     "termos": ["03587015970", "870.159", "EMERSON MOHR"]},
-    {"nome": "SUELI RIBEIRO MOHR", "cpf": "037.687.209-85", "chave": "S", "pro_labore": 1621.00, "conta_pro_labore": "188", "conta_socio": "548",
-     "termos": ["03768720985", "687.209", "SUELI RIBEIRO"]}
+    {
+      "nome": "EMERSON MOHR",
+      "cpf": "035.870.159-70",
+      "chave": "E",
+      "pro_labore": 1621.0,
+      "conta_pro_labore": "188",
+      "conta_socio": "539",
+      "termos": [
+        "03587015970",
+        "870.159",
+        "EMERSON MOHR"
+      ]
+    },
+    {
+      "nome": "SUELI RIBEIRO MOHR",
+      "cpf": "037.687.209-85",
+      "chave": "S",
+      "pro_labore": 1621.0,
+      "conta_pro_labore": "188",
+      "conta_socio": "548",
+      "termos": [
+        "03768720985",
+        "687.209",
+        "SUELI RIBEIRO"
+      ]
+    }
   ],
-  "pro_labore": {"salario_minimo_2026": 1621.00, "inss_pct": 11, "liquido": 1442.69,
-                 "regra": "por sócio, em ordem de data nos 3 bancos: até o líquido D 188; excedente D 539/548. PIX que cruza o limite = um lote C (188 + 539/548)."},
+  "pro_labore": {
+    "salario_minimo_2026": 1621.0,
+    "inss_pct": 11,
+    "liquido": 1442.69,
+    "regra": "por sócio, em ordem de data nos 3 bancos: até o líquido D 188; excedente D 539/548. PIX que cruza o limite = um lote C (188 + 539/548)."
+  },
   "funcionarios": true,
   "funcionarios_obs": "GABRIELE FERREIRA SILVA paga como salário (187) — conferir com a folha do mês.",
   "bancos": [
-    {"banco": "Itaú", "conta": "52610-4", "conta_contabil": "6"},
-    {"banco": "Sicredi", "conta": "47923-9", "conta_contabil": "8", "obs": "mesmo nº informado na skill da Ribeiro — confirmar"},
-    {"banco": "Sicoob", "conta": "67025-1", "conta_contabil": "9", "obs": "mesmo nº informado na skill da Ribeiro — confirmar; preferir OFX/CSV ao PDF"}
+    {
+      "banco": "Itaú",
+      "conta": "3730 / 52610-4",
+      "conta_contabil": "6",
+      "obs": "OFX traz o SALDO TOTAL DISPONÍVEL (conta + Auto Mais); APL/RESGATE não aparecem"
+    },
+    {
+      "banco": "Sicredi",
+      "conta": "coop. 0725 / 07383-3",
+      "conta_contabil": "8",
+      "obs": "confirmado no extrato 09/2026 (o 47923-9 era da Ribeiro)"
+    },
+    {
+      "banco": "Sicoob",
+      "conta": "coop. 4368-0 / 33.683-1",
+      "conta_contabil": "9",
+      "obs": "confirmado no extrato 09/2026 (o 67025-1 era da Ribeiro); PDF: saldo 'D' = negativo; preferir OFX/CSV"
+    }
   ],
   "aplicacoes": [
-    {"nome": "Aplicação Auto Mais Itaú", "conta_contabil": "11", "regra": "APL e RESGATE não entram no TXT (conta IGNORAR); se o líquido do mês não zerar, lançar o líquido D 11 / C 6 ou D 6 / C 11. Rendimento sempre D 6 / C 432."},
-    {"nome": "Aplicação Sicredi (aviso prévio)", "conta_contabil": "71", "regra": "aporte D 71 / C 8"}
+    {
+      "nome": "Aplicação Auto Mais Itaú",
+      "conta_contabil": "11",
+      "regra": "APL e RESGATE não entram no TXT (conta IGNORAR); se o líquido do mês não zerar, lançar o líquido D 11 / C 6 ou D 6 / C 11. Rendimento sempre D 6 / C 432."
+    },
+    {
+      "nome": "Aplicação Sicredi (aviso prévio)",
+      "conta_contabil": "71",
+      "regra": "aporte D 71 / C 8"
+    },
+    {
+      "nome": "Sicredinvest (CDB, coop. 0725/07383-3)",
+      "conta_contabil": "71",
+      "regra": "aporte D 71 / C 8. Rendimento provisionado: pendência P11 (não lançado em 08/2026)"
+    }
   ],
   "contas_padrao": {
-    "fornecedores": "506", "clientes": "504", "servicos_terceiros": "362", "despesas_diversas": "493",
-    "tarifa": "370", "despesa_bancaria": "369", "iof": "373", "irrf_aplicacao": "375", "juros": "372", "multa": "",
-    "rendimento": "432", "simples": "479", "inss": "191", "fgts": "192", "salarios": "187", "pro_labore": "188",
-    "icms_antecipado": "512", "honorarios": "510", "emprestimo_cp": "166", "cartao_credito": "555", "cartao_credito_antiga": "364",
-    "aplicacao_itau": "11", "aplicacao_sicredi": "71",
-    "mutuo_jar_almeida": "152", "mutuo_ribeiro": "167"
+    "fornecedores": "506",
+    "clientes": "504",
+    "servicos_terceiros": "362",
+    "despesas_diversas": "493",
+    "tarifa": "370",
+    "despesa_bancaria": "369",
+    "iof": "373",
+    "irrf_aplicacao": "375",
+    "juros": "372",
+    "multa": "",
+    "rendimento": "432",
+    "simples": "479",
+    "inss": "191",
+    "fgts": "192",
+    "salarios": "187",
+    "pro_labore": "188",
+    "icms_antecipado": "512",
+    "honorarios": "510",
+    "emprestimo_cp": "166",
+    "cartao_credito": "555",
+    "cartao_credito_antiga": "364",
+    "aplicacao_itau": "11",
+    "aplicacao_sicredi": "71",
+    "mutuo_jar_almeida": "152",
+    "mutuo_ribeiro": "167"
   },
   "contas": {
-    "6": "BANCO ITAÚ 52610-4", "8": "BANCO SICREDI 47923-9", "9": "BANCO SICOOB 67025-1", "11": "APLICAÇÃO AUTO MAIS ITAÚ",
-    "71": "APLICAÇÃO SICREDI", "152": "EMPRÉSTIMO J A R DE ALMEIDA LTDA", "166": "EMPRÉSTIMO E FINANCIAMENTO CP",
-    "167": "EMPRÉSTIMO RIBEIRO FAST FASHION LTDA", "187": "SALÁRIOS E ORDENADOS A PAGAR", "188": "PRÓ-LABORE A PAGAR",
-    "191": "INSS A RECOLHER", "192": "FGTS A RECOLHER", "355": "ÁGUA E ESGOTO", "356": "TELEFONE",
-    "357": "PLANOS MÉDICOS E ODONTOLÓGICOS", "358": "SEGUROS", "359": "DESPESAS ADMINISTRATIVAS", "361": "ASSISTÊNCIA CONTÁBIL",
-    "362": "SERVIÇOS PRESTADOS POR TERCEIROS", "364": "DESPESAS COM CARTÃO DE CRÉDITO", "365": "DESPESAS LEGAIS E JUDICIAIS",
-    "369": "DESPESAS BANCÁRIAS", "370": "TARIFAS BANCÁRIAS", "372": "JUROS DE MORA", "373": "IOF", "375": "IRRF SOBRE APLICAÇÃO",
-    "432": "JUROS DE APLICAÇÕES", "479": "SIMPLES NACIONAL A RECOLHER", "493": "DESPESAS DIVERSAS", "504": "CLIENTES DIVERSOS",
-    "506": "FORNECEDOR MODELO", "510": "HONORÁRIOS CONTÁBEIS", "512": "ICMS ANTECIPADO A RECOLHER", "521": "DESPESAS COM ALIMENTAÇÃO",
-    "539": "EMERSON MOHR (ativo sócio)", "540": "DÍZIMOS E OFERTAS", "541": "DESPESAS COM DESLOCAMENTO",
-    "548": "SUELI RIBEIRO MOHR (ativo sócio)", "555": "DESPESA COM CARTÃO DE CRÉDITO (criada 08/2026 — confirmar cadastro no Domínio)"
+    "6": "BANCO ITAÚ 52610-4",
+    "8": "BANCO SICREDI 47923-9",
+    "9": "BANCO SICOOB 67025-1",
+    "11": "APLICAÇÃO AUTO MAIS ITAÚ",
+    "71": "APLICAÇÃO SICREDI",
+    "152": "EMPRÉSTIMO J A R DE ALMEIDA LTDA",
+    "166": "EMPRÉSTIMO E FINANCIAMENTO CP",
+    "167": "EMPRÉSTIMO RIBEIRO FAST FASHION LTDA",
+    "187": "SALÁRIOS E ORDENADOS A PAGAR",
+    "188": "PRÓ-LABORE A PAGAR",
+    "191": "INSS A RECOLHER",
+    "192": "FGTS A RECOLHER",
+    "355": "ÁGUA E ESGOTO",
+    "356": "TELEFONE",
+    "357": "PLANOS MÉDICOS E ODONTOLÓGICOS",
+    "358": "SEGUROS",
+    "359": "DESPESAS ADMINISTRATIVAS",
+    "361": "ASSISTÊNCIA CONTÁBIL",
+    "362": "SERVIÇOS PRESTADOS POR TERCEIROS",
+    "364": "DESPESAS COM CARTÃO DE CRÉDITO",
+    "365": "DESPESAS LEGAIS E JUDICIAIS",
+    "369": "DESPESAS BANCÁRIAS",
+    "370": "TARIFAS BANCÁRIAS",
+    "372": "JUROS DE MORA",
+    "373": "IOF",
+    "375": "IRRF SOBRE APLICAÇÃO",
+    "432": "JUROS DE APLICAÇÕES",
+    "479": "SIMPLES NACIONAL A RECOLHER",
+    "493": "DESPESAS DIVERSAS",
+    "504": "CLIENTES DIVERSOS",
+    "506": "FORNECEDOR MODELO",
+    "510": "HONORÁRIOS CONTÁBEIS",
+    "512": "ICMS ANTECIPADO A RECOLHER",
+    "521": "DESPESAS COM ALIMENTAÇÃO",
+    "539": "EMERSON MOHR (ativo sócio)",
+    "540": "DÍZIMOS E OFERTAS",
+    "541": "DESPESAS COM DESLOCAMENTO",
+    "548": "SUELI RIBEIRO MOHR (ativo sócio)",
+    "555": "DESPESA COM CARTÃO DE CRÉDITO (criada 08/2026 — confirmar cadastro no Domínio)"
   },
-  "layout_txt": {"formato": "dominio", "encoding": "cp1252", "quebra_linha": "\r\n",
-                 "obs": "|0000|17593725000133| · |6000|X|||| + |6100|data|deb|cred|valor||historico||||. Várias partidas: |6000|C|||| (1ª 6100 só C banco e total; seguintes só débitos) ou |6000|D|||| (inverso). Arquivo: MOHR_MM_AAAA.txt"},
+  "layout_txt": {
+    "formato": "dominio",
+    "encoding": "cp1252",
+    "quebra_linha": "\r\n",
+    "obs": "|0000|17593725000133| · |6000|X|||| + |6100|data|deb|cred|valor||historico||||. Várias partidas: |6000|C|||| (1ª 6100 só C banco e total; seguintes só débitos) ou |6000|D|||| (inverso). Arquivo: MOHR_MM_AAAA.txt"
+  },
   "historico_padrao": "",
   "regras": [
-    {"nome": "Transferência própria", "tipo": "ambos", "contem": ["17593725000133", "17.593.725", "MISS MOHR", "MOHR GROUP"], "conta": "", "status": "ANALISTA",
-     "acao": "achar o par no outro banco; na saída pôr a conta do banco destino (6/8/9) e na entrada a do banco origem; o script lança uma vez só"},
-    {"nome": "Sócio Emerson - pagamento", "tipo": "saida", "contem": ["03587015970", "870.159", "EMERSON MOHR"], "conta": "SOCIO:E", "status": "CONFIRMADO"},
-    {"nome": "Sócia Sueli - pagamento", "tipo": "saida", "contem": ["03768720985", "687.209", "SUELI RIBEIRO"], "conta": "SOCIO:S", "status": "CONFIRMADO"},
-    {"nome": "Sócio Emerson - entrada", "tipo": "entrada", "contem": ["03587015970", "870.159", "EMERSON MOHR"], "conta": "539", "status": "CONFIRMADO"},
-    {"nome": "Sócia Sueli - entrada", "tipo": "entrada", "contem": ["03768720985", "687.209", "SUELI RIBEIRO"], "conta": "548", "status": "CONFIRMADO"},
-    {"nome": "Auto Mais - aplicação/resgate", "tipo": "ambos", "contem": ["APL APLIC AUTO MAIS", "RESGATE APL APLIC"], "nao_contem": ["REND"], "conta": "IGNORAR", "status": "CONFIRMADO"},
-    {"nome": "Rendimento Auto Mais", "tipo": "entrada", "contem": ["REND PAGO APLIC AUT MAIS", "RENDIMENTOS REND PAGO"], "conta": "432", "status": "CONFIRMADO"},
-    {"nome": "Sobras Sicoob", "tipo": "entrada", "contem": ["CRED.DIST.SOBRAS", "DIST.SOBRAS"], "conta": "432", "status": "CONFIRMADO"},
-    {"nome": "Aplicação Sicredi", "tipo": "saida", "contem": ["APLIC.FINANC.AVISO PREVIO", "AVISO PREVIO"], "conta": "71", "status": "CONFIRMADO"},
-    {"nome": "IRRF aplicação", "tipo": "saida", "contem": ["IRRF", "IR S/ APLIC", "IMPOSTO DE RENDA"], "conta": "375", "status": "CONFIRMADO"},
-    {"nome": "IOF", "tipo": "saida", "contem": ["IOF"], "conta": "373", "status": "CONFIRMADO"},
-    {"nome": "Receita Federal", "tipo": "saida", "contem": ["00394460005887", "RECEITA FEDERAL", " DAS ", "DEBITO ARRECADACAO", "DARF"], "conta": "", "status": "ANALISTA",
-     "acao": "achar a guia: DAS → 479; INSS (GPS/DCTFWeb) → 191; multa/juros em lote C (juros 372)"},
-    {"nome": "Recebimento Rede", "tipo": "entrada", "contem": ["REDECARD", "REDE MAST", "REDE VISA", "REDE AMEX", "REDE ELO", "CD0049487205"], "conta": "504", "status": "CONFIRMADO"},
-    {"nome": "Antecipação Sicredi", "tipo": "entrada", "contem": ["SICREDI ANTEC MASTER", "ANTEC MASTER"], "conta": "504", "status": "CONFIRMADO"},
-    {"nome": "Cobrança descontada", "tipo": "ambos", "contem": ["CRED COBRANCA DESCONTADA", "COBRANCA DESCONTADA"], "conta": "369", "status": "PROVÁVEL",
-     "obs": "herdado do razão; é crédito — conferir natureza (ver decisoes.md, pendência P5)"},
-    {"nome": "Fatura Mastercard Sicoob", "tipo": "saida", "contem": ["DEB.CONV.DEM.EMPRES", "MASTERCARD"], "conta": "555", "status": "CONFIRMADO"},
-    {"nome": "Cartão Business", "tipo": "saida", "contem": ["BUSINESS"], "conta": "364", "status": "PROVÁVEL", "obs": "364 x 555: ver pendência P3"},
-    {"nome": "Empréstimo", "tipo": "saida", "contem": ["DEB.EMPRESTIMO", "LIQUIDACAO DE PARCELA", "COOPERATIVA CRE"], "conta": "166", "status": "CONFIRMADO"},
-    {"nome": "Juros conta garantida", "tipo": "saida", "contem": ["JUROS CTA GARANTIDA"], "conta": "372", "status": "CONFIRMADO"},
-    {"nome": "Pacote de serviços", "tipo": "saida", "contem": ["DEB PACOTE SERVICOS", "PACOTE SERVICOS"], "conta": "369", "status": "CONFIRMADO"},
-    {"nome": "Cheque compensado", "tipo": "saida", "contem": ["CHQ CMP INTEGRADA", "CHEQUE COMPENSADO"], "conta": "506", "status": "PROVÁVEL",
-     "obs": "baixa de fornecedor só com nota de entrada; sem nota → pergunta"},
-    {"nome": "Seguros", "tipo": "saida", "contem": ["PRUDENTIAL", "SEGURO PRESTAMISTA", "SEGURO"], "conta": "358", "status": "CONFIRMADO"},
-    {"nome": "Telefone", "tipo": "saida", "contem": ["DA VIVO", "VIVO"], "conta": "356", "status": "CONFIRMADO"},
-    {"nome": "Protesto", "tipo": "saida", "contem": ["CUSTAS", "PROTESTO"], "conta": "365", "status": "CONFIRMADO"},
-    {"nome": "Dízimos", "tipo": "saida", "contem": ["COMUNHA CRISTA ABBA", "COMUNHAO CRISTA ABBA"], "conta": "540", "status": "CONFIRMADO"},
-    {"nome": "Deslocamento", "tipo": "saida", "contem": ["UBER DO BRASIL", "UBER", "AUTOPISTA", "PLUXEE FROTA", "GUSTAVO KLEMTZ"], "conta": "541", "status": "CONFIRMADO"},
-    {"nome": "Fornecedores mercadoria", "tipo": "saida", "contem": ["MARTINSCARVALHO", "DELIZ INDUSTRIA", "DS FATIMA COMERCIO"], "conta": "506", "status": "CONFIRMADO",
-     "obs": "baixa pela nota de entrada"},
-    {"nome": "Despesas administrativas", "tipo": "saida", "contem": ["ALCA SERV DE CO", "SUL SYSTEM"], "conta": "359", "status": "CONFIRMADO"},
-    {"nome": "Venisse Bispo Dutra", "tipo": "saida", "contem": ["VENISSE BISPO", "42329751000104"], "conta": "493", "status": "PROVÁVEL", "obs": "493 é genérica: confirmar natureza"},
-    {"nome": "Salário Gabriele", "tipo": "saida", "contem": ["GABRIELE FERREIRA"], "conta": "187", "status": "PROVÁVEL", "obs": "conferir com o líquido da folha"},
-    {"nome": "PF prestadores (vigiar 362)", "tipo": "saida", "contem": ["JACIRA MENDES", "GRACIELI DO MONTE", "ZELIA ANTONIO", "MARCIA BRUSKY", "PAULO CESAR SANTOS"], "conta": "362", "status": "PROVÁVEL",
-     "obs": "prestador PF sem nota: risco INSS 20% + retenção 11% e IRRF. Alertar no parecer"},
-    {"nome": "Tarifas", "tipo": "saida", "contem": ["TAR ", "TARIFA", "TAR PLANO", "TAR SERV.COBR", "TAR INCLUSAO", "TAR EXCLUSAO"], "conta": "370", "status": "CONFIRMADO"},
-    {"nome": "Recebimento PIX/boleto cliente", "tipo": "entrada", "contem": ["PIX RECEBIDO", "RECEBIMENTO PIX", "LIQ.COBRANCA", "LIQUIDACAO BOLETO", "BLINK"], "nao_contem": ["MOHR"], "conta": "504", "status": "PROVÁVEL",
-     "obs": "entrada de cliente; se o pagador for sócio ou a própria empresa, as regras acima já pegaram"}
+    {
+      "nome": "PIX recebido de MOHR GROUP LTDA (conta própria fora dos 3 bancos)",
+      "tipo": "entrada",
+      "contem": [
+        "PIX_CRED 17593725000133 MOHR GROUP"
+      ],
+      "conta": "504",
+      "status": "ANALISTA",
+      "obs": "pendência Q1 09/2026: origem não identificada"
+    },
+    {
+      "nome": "Transferência própria",
+      "tipo": "ambos",
+      "contem": [
+        "MISS MOHR",
+        "Recebimento Pix Mohr Group"
+      ],
+      "conta": "",
+      "status": "ANALISTA",
+      "acao": "achar o par no outro banco; na saída pôr a conta do banco destino (6/8/9) e na entrada a do banco origem; o script lança uma vez só"
+    },
+    {
+      "nome": "Sócio Emerson - pagamento",
+      "tipo": "saida",
+      "contem": [
+        "03587015970",
+        "870.159",
+        "EMERSON MOHR"
+      ],
+      "conta": "SOCIO:E",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Sócia Sueli - pagamento",
+      "tipo": "saida",
+      "contem": [
+        "03768720985",
+        "687.209",
+        "SUELI RIBEIRO"
+      ],
+      "conta": "SOCIO:S",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Sócio Emerson - entrada",
+      "tipo": "entrada",
+      "contem": [
+        "03587015970",
+        "870.159",
+        "EMERSON MOHR"
+      ],
+      "conta": "539",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Sócia Sueli - entrada",
+      "tipo": "entrada",
+      "contem": [
+        "03768720985",
+        "687.209",
+        "SUELI RIBEIRO"
+      ],
+      "conta": "548",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Auto Mais - aplicação/resgate",
+      "tipo": "ambos",
+      "contem": [
+        "APL APLIC AUTO MAIS",
+        "RESGATE APL APLIC"
+      ],
+      "nao_contem": [
+        "REND"
+      ],
+      "conta": "IGNORAR",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Rendimento Auto Mais",
+      "tipo": "entrada",
+      "contem": [
+        "REND PAGO APLIC AUT MAIS",
+        "RENDIMENTOS REND PAGO"
+      ],
+      "conta": "432",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Sobras Sicoob",
+      "tipo": "entrada",
+      "contem": [
+        "CRED.DIST.SOBRAS",
+        "DIST.SOBRAS"
+      ],
+      "conta": "432",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Aplicação Sicredi",
+      "tipo": "saida",
+      "contem": [
+        "APLIC.FINANC.AVISO PREVIO",
+        "AVISO PREVIO"
+      ],
+      "conta": "71",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "IRRF aplicação",
+      "tipo": "saida",
+      "contem": [
+        "IRRF",
+        "IR S/ APLIC",
+        "IMPOSTO DE RENDA"
+      ],
+      "conta": "375",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "IOF",
+      "tipo": "saida",
+      "contem": [
+        "IOF"
+      ],
+      "conta": "373",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "INSS pró-labore (Receita, PIX)",
+      "tipo": "saida",
+      "contem": [
+        "PIX_DEB 00394460005887 RECEITA FEDERAL"
+      ],
+      "conta": "191",
+      "status": "PROVÁVEL",
+      "obs": "2 x 178,31 = 356,62; outro valor → ver guia"
+    },
+    {
+      "nome": "MED PIX (bloqueio/devolução)",
+      "tipo": "ambos",
+      "contem": [
+        "MED PIX F DEB",
+        "MED PIX F CRED"
+      ],
+      "conta": "IGNORAR",
+      "status": "CONFIRMADO",
+      "obs": "conferir se o par zera no mês"
+    },
+    {
+      "nome": "Pedágio",
+      "tipo": "saida",
+      "contem": [
+        "PASSAGEM PEDAGIO"
+      ],
+      "conta": "541",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Tarifas Sicredi cobrança/cesta/tag",
+      "tipo": "saida",
+      "contem": [
+        "MANUTENCAO DE TITULOS",
+        "CESTA DE RELACIONAMENTO",
+        "MENSALID TAG",
+        "TARIFA DE PROTESTO",
+        "ADIANT.DEPOSITANTE"
+      ],
+      "conta": "370",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Juros adiantamento a depositante",
+      "tipo": "saida",
+      "contem": [
+        "JUROS ADIANT.DEPOS"
+      ],
+      "conta": "372",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Cheque Sicredi compensado",
+      "tipo": "saida",
+      "contem": [
+        "CHEQUE COMPE SICREDI"
+      ],
+      "conta": "506",
+      "status": "PROVÁVEL",
+      "obs": "cheque devolvido no mesmo dia: excluir o par"
+    },
+    {
+      "nome": "Recebimentos Sicredi diversos",
+      "tipo": "entrada",
+      "contem": [
+        "COB HIBRIDA",
+        "SICREDI ANTECIPACAO VISA",
+        "PIX QRS"
+      ],
+      "conta": "504",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Fatura cartão Sicredi",
+      "tipo": "saida",
+      "contem": [
+        "DEB.CTA.FATURA"
+      ],
+      "conta": "555",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Empréstimos Itaú/Fomento",
+      "tipo": "saida",
+      "contem": [
+        "PARCELA GIRO",
+        "AGENCIA DE FOMENTO"
+      ],
+      "conta": "166",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Honorários ROF",
+      "tipo": "saida",
+      "contem": [
+        "37.264.420",
+        "37264420000195",
+        "ROF CONTABILIDADE"
+      ],
+      "conta": "510",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Sanepar",
+      "tipo": "saida",
+      "contem": [
+        "SANEPAR"
+      ],
+      "conta": "355",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Fornecedores mercadoria (2)",
+      "tipo": "saida",
+      "contem": [
+        "FOLINI",
+        "OUTLINE COM",
+        "MAZZE SEMI JOIAS",
+        "MAMO CONFECCOES",
+        "CIANITAS"
+      ],
+      "conta": "506",
+      "status": "PROVÁVEL",
+      "obs": "baixa pela nota de entrada"
+    },
+    {
+      "nome": "Receita Federal",
+      "tipo": "saida",
+      "contem": [
+        "00394460005887",
+        "RECEITA FEDERAL",
+        " DAS ",
+        "DEBITO ARRECADACAO",
+        "DARF"
+      ],
+      "conta": "",
+      "status": "ANALISTA",
+      "acao": "achar a guia: DAS → 479; INSS (GPS/DCTFWeb) → 191; multa/juros em lote C (juros 372)"
+    },
+    {
+      "nome": "Recebimento Rede",
+      "tipo": "entrada",
+      "contem": [
+        "REDECARD",
+        "REDE MAST",
+        "REDE VISA",
+        "REDE AMEX",
+        "REDE ELO",
+        "CD0049487205"
+      ],
+      "conta": "504",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Antecipação Sicredi",
+      "tipo": "entrada",
+      "contem": [
+        "SICREDI ANTEC MASTER",
+        "ANTEC MASTER"
+      ],
+      "conta": "504",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Cobrança descontada",
+      "tipo": "ambos",
+      "contem": [
+        "CRED COBRANCA DESCONTADA",
+        "COBRANCA DESCONTADA"
+      ],
+      "conta": "369",
+      "status": "PROVÁVEL",
+      "obs": "herdado do razão; é crédito — conferir natureza (ver decisoes.md, pendência P5)"
+    },
+    {
+      "nome": "Fatura Mastercard Sicoob",
+      "tipo": "saida",
+      "contem": [
+        "DEB.CONV.DEM.EMPRES",
+        "MASTERCARD"
+      ],
+      "conta": "555",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Cartão Business",
+      "tipo": "saida",
+      "contem": [
+        "BUSINESS"
+      ],
+      "conta": "364",
+      "status": "PROVÁVEL",
+      "obs": "364 x 555: ver pendência P3"
+    },
+    {
+      "nome": "Empréstimo",
+      "tipo": "saida",
+      "contem": [
+        "DEB.EMPRESTIMO",
+        "LIQUIDACAO DE PARCELA",
+        "COOPERATIVA CRE"
+      ],
+      "conta": "166",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Juros conta garantida",
+      "tipo": "saida",
+      "contem": [
+        "JUROS CTA GARANTIDA"
+      ],
+      "conta": "372",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Pacote de serviços",
+      "tipo": "saida",
+      "contem": [
+        "DEB PACOTE SERVICOS",
+        "PACOTE SERVICOS"
+      ],
+      "conta": "369",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Cheque compensado",
+      "tipo": "saida",
+      "contem": [
+        "CHQ CMP INTEGRADA",
+        "CHEQUE COMPENSADO"
+      ],
+      "conta": "506",
+      "status": "PROVÁVEL",
+      "obs": "baixa de fornecedor só com nota de entrada; sem nota → pergunta"
+    },
+    {
+      "nome": "Seguros",
+      "tipo": "saida",
+      "contem": [
+        "PRUDENTIAL",
+        "SEGURO PRESTAMISTA",
+        "SEGURO"
+      ],
+      "conta": "358",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Telefone",
+      "tipo": "saida",
+      "contem": [
+        "DA VIVO",
+        "VIVO"
+      ],
+      "conta": "356",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Protesto",
+      "tipo": "saida",
+      "contem": [
+        "CUSTAS",
+        "PROTESTO"
+      ],
+      "conta": "365",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Dízimos",
+      "tipo": "saida",
+      "contem": [
+        "COMUNHA CRISTA ABBA",
+        "COMUNHAO CRISTA ABBA"
+      ],
+      "conta": "540",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Deslocamento",
+      "tipo": "saida",
+      "contem": [
+        "UBER DO BRASIL",
+        "UBER",
+        "AUTOPISTA",
+        "PLUXEE FROTA",
+        "GUSTAVO KLEMTZ"
+      ],
+      "conta": "541",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Fornecedores mercadoria",
+      "tipo": "saida",
+      "contem": [
+        "MARTINSCARVALHO",
+        "DELIZ INDUSTRIA",
+        "DS FATIMA COMERCIO"
+      ],
+      "conta": "506",
+      "status": "CONFIRMADO",
+      "obs": "baixa pela nota de entrada"
+    },
+    {
+      "nome": "Despesas administrativas",
+      "tipo": "saida",
+      "contem": [
+        "ALCA SERV DE CO",
+        "SUL SYSTEM"
+      ],
+      "conta": "359",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Venisse Bispo Dutra",
+      "tipo": "saida",
+      "contem": [
+        "VENISSE BISPO",
+        "42329751000104"
+      ],
+      "conta": "493",
+      "status": "PROVÁVEL",
+      "obs": "493 é genérica: confirmar natureza"
+    },
+    {
+      "nome": "Salário Gabriele",
+      "tipo": "saida",
+      "contem": [
+        "GABRIELE FERREIRA"
+      ],
+      "conta": "187",
+      "status": "PROVÁVEL",
+      "obs": "conferir com o líquido da folha"
+    },
+    {
+      "nome": "PF prestadores (vigiar 362)",
+      "tipo": "saida",
+      "contem": [
+        "JACIRA MENDES",
+        "GRACIELI DO MONTE",
+        "ZELIA ANTONIO",
+        "MARCIA BRUSKY",
+        "PAULO CESAR SANTOS"
+      ],
+      "conta": "362",
+      "status": "PROVÁVEL",
+      "obs": "prestador PF sem nota: risco INSS 20% + retenção 11% e IRRF. Alertar no parecer"
+    },
+    {
+      "nome": "Tarifas",
+      "tipo": "saida",
+      "contem": [
+        "TAR ",
+        "TARIFA",
+        "TAR PLANO",
+        "TAR SERV.COBR",
+        "TAR INCLUSAO",
+        "TAR EXCLUSAO"
+      ],
+      "conta": "370",
+      "status": "CONFIRMADO"
+    },
+    {
+      "nome": "Recebimento PIX/boleto cliente",
+      "tipo": "entrada",
+      "contem": [
+        "PIX RECEBIDO",
+        "RECEBIMENTO PIX",
+        "LIQ.COBRANCA",
+        "LIQUIDACAO BOLETO",
+        "BLINK"
+      ],
+      "nao_contem": [
+        "MOHR"
+      ],
+      "conta": "504",
+      "status": "PROVÁVEL",
+      "obs": "entrada de cliente; se o pagador for sócio ou a própria empresa, as regras acima já pegaram"
+    }
   ],
   "tabela_completa": "references/classificacao.md"
 }

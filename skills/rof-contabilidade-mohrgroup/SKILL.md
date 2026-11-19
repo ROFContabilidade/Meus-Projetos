@@ -10,7 +10,7 @@ description: "MOHR GROUP LTDA (Miss Mohr Boutique), CNPJ 17.593.725/0001-33, có
 - Favorecido → conta: `references/classificacao.md` (buscar pelo nome, não ler inteiro)
 - Decisões já tomadas e pendências abertas: `references/decisoes.md` (buscar, não ler inteiro)
 
-**Pasta do mês:** localizar pelo código 1005 em `G:\Meu Drive\Trabalho ROF\Contabilidade\Arquivos RENATA Dominio\` (caminho exato não confirmado).
+**Pasta do mês (Drive):** `1005_Mohr Group Ltda\Fiscal_Contabil\<ANO>\<MM_AAAA>\` (Extrato, Guias, Relatórios). Os `_extrato.md` já vêm prontos do Conversor ROF.
 Scripts do cérebro em `../rof-analista/scripts/`. Sicoob: sempre OFX/CSV; PDF só se não houver outro.
 
 ## Particularidades (o que foge do padrão ROF)

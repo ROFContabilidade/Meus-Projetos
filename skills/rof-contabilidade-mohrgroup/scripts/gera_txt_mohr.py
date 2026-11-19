@@ -157,7 +157,7 @@ def main():
         i, f = saldos[b]
         dif_ext = i + extrato[b] - f
         dif_txt = i + efeito[b] - f
-        print(f"  {b}: ini {brl(i)} | extrato {i + extrato[b]:.2f} | TXT {i + efeito[b]:.2f} | final {brl(f)}"
+        print(f"  {b}: ini {i:.2f} | extrato {i + extrato[b]:.2f} | TXT {i + efeito[b]:.2f} | final {f:.2f}"
               f" | dif extrato {dif_ext:.2f} | dif TXT {dif_txt:.2f}")
         if dif_ext:
             erros.append(f"banco {b}: extrato não fecha ({dif_ext:.2f}) — falta ou sobra movimento no CSV")
