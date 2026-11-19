@@ -59,6 +59,13 @@ se continuar a dúvida, dizer que é dúvida.
 
 ## 3. Ler as notas
 
+- **Buscar no Drive** (`Arquivos RENATA Dominio > <NUM_Empresa> > <ANO> > MM_AAAA > Doc's > Tomados|Prestados`):
+  a busca devolve as notas **em páginas**. Seguir o `nextPageToken` até o fim e contar os arquivos antes de ler.
+  Uma página só NÃO é a pasta inteira (erro de 19/11/2026, D C Grup 10/2026: li 5 notas de 144 arquivos).
+- Conferir a **competência de cada nota**: a pasta do mês pode ter notas da competência anterior (ex.: Google emitido no dia 1º-3
+  com competência do mês anterior). Nota de outra competência sai da planilha do mês e vira apontamento geral.
+- Benefício municipal (`<BM>` / `vRedBCBM`, ex.: plano de saúde em Curitiba) reduz a base do ISS: gravar `base_iss` reduzida.
+
 - **XML** (preferir sempre): `python3 -I $S/ler_nfse_xml.py <pasta ou arquivos> --saida notas.json`
   Lê NFS-e **Padrão Nacional** (nfse.gov.br) e **ABRASF/municipais**. Arquivos baixados ficam numa pasta própria; rodar com `-I`.
 - **PDF**: `pdftotext -layout nota.pdf -` (ou a skill `anthropic-skills:pdf`; OCR se for imagem) e preencher o mesmo
