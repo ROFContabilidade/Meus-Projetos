@@ -174,6 +174,10 @@ def auditar(dados, cfg):
                                   f"(origem {it['orig']} - {orig_desc}; Res. Senado 22/89 e 13/2012). "
                                   + ('Crédito limitado a ' + f'{inter_ok:.0f}%; exigir nota correta.' if it['pICMS'] > inter_ok else
                                      'Destaque a menor: conferir benefício na origem.'))
+            if it['orig'] in ('1', '6') and cfop in ('6102', '6108', '6106'):
+                add(ALERTA, n, ni, f"Origem {it['orig']} (importação DIRETA pelo emitente) com CFOP {cfop} (mercadoria adquirida de terceiros): "
+                                    f"se o fornecedor comprou de importador no Brasil, a origem certa é {'2' if it['orig'] == '1' else '7'}. "
+                                    f"Alíquota não muda (4%), mas o cadastro do fornecedor está errado")
             if it['orig'] in ('3', '5', '8') and 'FCI' not in (it['infAdProd'] + n['infCpl']).upper():
                 add(ALERTA, n, ni, f"Origem {it['orig']} sem número da FCI nas informações do item (Ajuste SINIEF 19/2012)")
             if n['emit_crt'] == '3' and it['cst'] in T.CST_SEM_DESTAQUE and it['cst'] != '60':
@@ -181,6 +185,13 @@ def auditar(dados, cfg):
                                     f"Exigir dispositivo legal na nota; conferir se SP concede o mesmo (senão DIFAL cheio)")
             if it['pRedBC'] > 0:
                 add(ALERTA, n, ni, f"Redução de base na origem ({it['pRedBC']:.2f}%) - conferir convênio; crédito só do destacado")
+            if it['vBC'] > 0 and it['vFrete'] > 0 and n['modFrete'] == '0' and it['vBC'] + 0.01 < it['vProd'] + it['vFrete'] - it['vDesc'] and it['pRedBC'] == 0:
+                add(ALERTA, n, ni, f"Frete CIF de R$ {it['vFrete']:,.2f} cobrado na nota ficou FORA da base do ICMS "
+                                    f"(vBC {it['vBC']:,.2f}) - frete cobrado do destinatário integra a base (LC 87 art. 13 §1º, II, b). "
+                                    f"Erro do fornecedor; para RPA o crédito continua limitado ao destacado")
+            if n['emit_crt'] == '2':
+                add(ALERTA, n, ni, 'Emitente CRT 2 (Simples com excesso de sublimite): conferir na Receita se ainda é optante na data '
+                                    '(se excluído, deveria ser CRT 3 e sem a frase do Simples)')
             if n['emit_crt'] == '3' and it['cst'] in ('00', '20') and it['vBC'] > 0 and abs(it['vBC'] * it['pICMS'] / 100 - it['vICMS']) > 0.05:
                 add(ERRO, n, ni, f"vICMS {it['vICMS']:.2f} ≠ vBC × alíquota ({it['vBC'] * it['pICMS'] / 100:.2f})")
 
@@ -192,6 +203,15 @@ def auditar(dados, cfg):
                 add(ALERTA, n, ni, f"NCM {it['ncm']}: {a_aliq}. DIFAL calculado com 18% até a analista confirmar")
             a_st = T.busca_prefixo(it['ncm'], T.NCM_ST_ALERTA)
             st_retido = it['vICMSST'] > 0
+            fora_st = T.saiu_st(it['cest'], n['emissao'])
+            if fora_st:
+                a_st = None
+                add(APONT, n, ni, fora_st)
+            cst_st = it['cst'] in ('10', '30', '70') or it['csosn'] in ('201', '202', '203')
+            if cst_st and not st_retido:
+                add(ERRO, n, ni, f"CST/CSOSN {it['cst'] or it['csosn']} indica ICMS cobrado por ST, mas a nota não tem ST "
+                                  f"(vBCST/vICMSST zerados)" + (' - produto já fora da ST em SP: deveria ser CST 00/CSOSN 101-102'
+                                  if fora_st else ' - ST não retida ou CST errado') + '. Pedir carta de correção ao fornecedor')
             if a_st and not it['cest']:
                 add(ALERTA, n, ni, f"NCM {it['ncm']} ({a_st}) sem CEST - mercadoria com cara de ST exige CEST (Conv. 142/2018)")
             if a_st and dest_calc in ('revenda', 'industrializacao') and not st_retido and interestadual:

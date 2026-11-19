@@ -69,8 +69,7 @@ NCM_ST_ALERTA = [
     ('3402', 'Detergentes/limpeza (art. 426-A §2º)'), ('4818', 'Papel higiênico/fraldas (art. 426-A §2º)'),
     ('9619', 'Fraldas/absorventes (art. 426-A §2º)'),
     ('4011', 'Pneus'), ('4013', 'Câmaras de ar'),
-    ('8708', 'Autopeças'), ('8407', 'Motores (autopeças)'), ('8409', 'Partes de motores (autopeças)'),
-    ('8511', 'Autopeças elétricas'), ('8512', 'Autopeças elétricas'), ('8507', 'Baterias/acumuladores'),
+    ('8507', 'Baterias/acumuladores (conferir vigência: SRE 10/2026)'),
     ('2710', 'Lubrificantes/combustíveis'), ('2523', 'Cimento'),
     ('3208', 'Tintas e vernizes'), ('3209', 'Tintas e vernizes'), ('3210', 'Tintas e vernizes'),
     ('3214', 'Massas/vedantes'), ('8539', 'Lâmpadas'), ('2105', 'Sorvetes'), ('1806', 'Chocolates (conferir vigência)'),
@@ -78,6 +77,23 @@ NCM_ST_ALERTA = [
     ('8544', 'Fios/cabos (conferir)'), ('7214', 'Vergalhões (conferir)'), ('3917', 'Tubos plásticos - construção (conferir)'),
     ('6907', 'Revestimentos cerâmicos (conferir)'), ('7318', 'Parafusos (conferir)'),
 ]
+
+
+# Segmentos que SAÍRAM da ST em SP (não alertar ST; alertar CST/CFOP de ST indevidos e estoque).
+# Autopeças (CEST 01.xxx, Anexo XIV da Portaria CAT 68/2019): fora da ST em SP desde 01/10/2026 (Portaria SRE 34/2026)
+# e SP excluído do Protocolo ICMS 41/2008 (Protocolo ICMS 93/2026). Estoque: Portaria CAT 28/2020.
+SAIRAM_ST = [
+    {'cest_prefixo': '01', 'desde': '2026-10-01',
+     'texto': 'Autopeças (CEST 01) fora da ST em SP desde 01/10/2026 (Portaria SRE 34/2026; SP fora do Prot. ICMS 41/2008 '
+              'pelo Prot. 93/2026): sem ST e sem antecipação na entrada'},
+]
+
+
+def saiu_st(cest, data_iso):
+    for r in SAIRAM_ST:
+        if (cest or '').startswith(r['cest_prefixo']) and (data_iso or '') >= r['desde']:
+            return r['texto']
+    return None
 
 
 def busca_prefixo(ncm, tabela):
