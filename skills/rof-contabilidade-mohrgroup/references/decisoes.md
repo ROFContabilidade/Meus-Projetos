@@ -15,6 +15,10 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | 13/11/2026 | Movimento com mais de uma contrapartida | Um lançamento em lote C/D (nunca vários X) | sempre | Rosangela/Elen (cérebro, todas as empresas) |
 | 19/11/2026 | Código no Domínio | 1005 | sempre | Rosangela |
 | 19/11/2026 | Contas bancárias | Itaú 3730/52610-4 (6), Sicredi 0725/07383-3 (8), Sicoob 4368-0/33.683-1 (9) — conferido nos extratos 09/2026; P1 resolvida | sempre | Extratos 09/2026 |
+| 07-08/2026 | PIX recebido de "MOHR GROUP LTDA" (17593725000133) no Sicredi | D 8 / C 504 (razão 09/07, 20/07, 17/08); origem da conta ainda não identificada (P12) | mesmo padrão | Razão validado 07-08/2026 |
+| 07-08/2026 | ELINEU OZORIO VIEIRA, R$ 5.000/mês | D 362 (razão 15/07, 17/08); natureza a confirmar (aluguel? → IRRF) | mesmo valor | Razão validado 07-08/2026 |
+| 07-08/2026 | ISADORA RIBEIRO MOHR (familiar) | D 362 (razão 07/07, 20/07, 06/08); entidade a confirmar | mesmo padrão | Razão validado 07-08/2026 |
+| 07-08/2026 | Sueli sem pagamento de pró-labore; só Emerson recebe | INSS dos dois na 191; 188 da Sueli acumula | até decisão | Razão validado 07-08/2026 |
 | 09/2026 | Cheque devolvido e reapresentado (Sicoob 000.258) | Par compensado + devolvido no mesmo dia fora do TXT; tarifa 370; reapresentação = 506 | sempre | Analista (padrão ROF) |
 | 09/2026 | MED PIX (débito e devolução) | Par fora do TXT quando zera no mês | sempre | Analista (padrão ROF) |
 
@@ -22,7 +26,7 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 
 | # | Assunto | Por que importa | Sugestão |
 |---|---|---|---|
-| P1 | ~~Contas iguais às da Ribeiro~~ RESOLVIDA 19/11/2026 (Mohr: Sicredi 07383-3, Sicoob 33.683-1) | — | — |
+| P1 | No Domínio as contas 8 e 9 se chamam "SICRED - CONTA 47923-9" e "SICOOB - CONTA 67025-1", mas os extratos da Mohr são Sicredi 07383-3 e Sicoob 33.683-1 (saldos batem com o razão) | Nome errado no plano confunde com a Ribeiro | Renomear as contas 8 e 9 no Domínio |
 | P2 | A conta 555 já foi cadastrada no Domínio? | Sem cadastro, a importação do TXT rejeita a linha | Confirmar antes do primeiro TXT |
 | P3 | Fatura de cartão em duas contas (364 "BUSINESS" e 555 Mastercard) | Mesma natureza em duas contas distorce a análise; fatura lançada inteira como despesa esconde mercadoria, sócio e IOF | Usar uma só (555) e abrir a fatura pelos itens quando passar de R$ 1.000 |
 | P4 | Anexo do Simples não confirmado (CNAE indica Anexo I) | DAS e CPP dependem do anexo (LC 123/2006, art. 18) | Confirmar pelo PGDAS-D |
