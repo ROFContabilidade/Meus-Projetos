@@ -50,3 +50,17 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | P14 | Sicredinvest: rendimento do mês | O balancete 03–05/2026 usou a conta 94 (rendimento a apropriar) | Pedir o extrato "Detalhado" do mês (o "Simplificado" não traz o mês) |
 | P15 | Gustavo Klemtz (07/2026 1.161,07 e 08/2026 699,32), LWSA (07–08 362) e ROF (08 510) foram para despesa, mas têm nota no fiscal (C 506) | Despesa em dobro e 506 sem baixa | Reclassificar para 506 nos meses anteriores |
 | P16 | Conta 11 Auto Mais: 31/05 = 11.847,09; em 06/2026 o razão do 6 sobe exatamente 11.847,09 sem linha no TXT → ajuste manual 11→6 | Se a 11 não foi zerada, a aplicação conta em dobro | Confirmar saldo zero da 11 no balancete |
+
+## Revisão combinada: 01 a 08/2026 (fazer depois do fechamento de 09/2026)
+
+Combinado com Rosangela em 19/11/2026: setembro fechado já no critério correto; janeiro a agosto serão revistos depois, mês a mês, com o mesmo critério.
+
+| Item | O que revisar nos meses 01–08/2026 |
+|---|---|
+| R1 | Elineu Ozorio Vieira (R$ 5.000/mês): está na 362 → reclassificar para 320 aluguel |
+| R2 | Fornecedor com nota no fiscal lançado em despesa (Gustavo Klemtz 541, LWSA 362, ROF 510…) → 506 |
+| R3 | Inova Assessoria (R$ 1.369,19/mês) na 362 → 470 |
+| R4 | Pagamentos ao sócio divididos em dois X (188 + 539) → conferir valores; formato novo é lote C |
+| R5 | Conta 11 Auto Mais: confirmar ajuste de 11.847,09 em 06/2026 e saldo zero |
+| R6 | Rendimentos do Sicredinvest nunca apropriados (578,52 até 08/2026) |
+| R7 | InfinitePay (CloudWalk): depósitos desde 31/08/2026 fora da contabilidade |
