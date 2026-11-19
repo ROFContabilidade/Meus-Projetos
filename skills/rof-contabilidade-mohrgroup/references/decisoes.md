@@ -26,6 +26,7 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | 19/11/2026 | PF sem NF que não é sócio (Isadora, Adenilton, Gracieli etc.) | 362; não há folha de funcionários, só os 2 sócios | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Pagamento a fornecedor sem nota (cheques, Inova, títulos da Deliz sem nota, Mazze, Mamo, Outline…) | D 506 até o limite da 506 no mês (saldo credor inicial + notas de entrada do mês + devoluções); excedente → 470 CMV. Script `limite_506.py`; o excedente sai dos pagamentos sem nota mais recentes | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Sueli | Sem pagamento e sem retirada: pró-labore fica em aberto na 188. INSS dos dois sai na guia única (191) | até mudar | Rosangela, 19/11/2026 |
+| 19/11/2026 | Sicredinvest (CDB Sicredi 0725/07383-3) | Todo mês: D 94 (rendimento de aplicação a apropriar) / C 432 pelo "Rendimentos Provisionados No Mês" do extrato **Detalhado**; 71 = só o principal (= "Saldo Atual"). 09/2026: R$ 74,30 (acumulado 652,82; principal 8.000,00). IRRF provisionado (146,25 em 19/11) só no resgate → 375 | sempre | Analista, extrato detalhado 19/11/2026 |
 | 19/11/2026 | Aluguel Elineu | R$ 5.000/mês, sem contrato escrito; conta 320 | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Títulos protestados Deliz 09/2026 | Confirmados como identificados (nominal 506 + emolumentos 365) | — | Rosangela, 19/11/2026 |
 | 19/11/2026 | Tabelionato de protesto | 506 pelo valor nominal do título (duplicata do XML) + diferença na 365 (lote C). 09/2026: 4 títulos Deliz | sempre | Rosangela, 19/11/2026 |
@@ -65,7 +66,7 @@ Combinado com Rosangela em 19/11/2026: setembro fechado já no critério correto
 | R3 | Inova Assessoria (R$ 1.369,19/mês) na 362 → 470 |
 | R4 | Pagamentos ao sócio divididos em dois X (188 + 539) → conferir valores; formato novo é lote C |
 | R5 | Conta 11 Auto Mais: confirmar ajuste de 11.847,09 em 06/2026 e saldo zero |
-| R6 | Rendimentos do Sicredinvest nunca apropriados (578,52 até 08/2026) |
+| R6 | Rendimentos do Sicredinvest nunca apropriados: 2025 = 137,48; 01/26 39,35 · 02 38,03 · 03 51,47 · 04 50,87 · 05 55,12 · 06 62,19 · 07 73,03 · 08 70,98 (acum. 578,52) → D 94 / C 432 (2025 em ajuste de exercício anterior) |
 | R8 | 506 devedora em 31/08/2026 (estimada −19.138,95: pagamentos jul–ago acima das notas) → excedente de jul e ago para 470, deixando a 506 em zero; set/2026 já partiu de zero |
 | R7 | InfinitePay (CloudWalk): depósitos desde 31/08/2026 fora da contabilidade |
 | P17 | CDB InfinitePay: R$ 1.000,00 aplicado em 16/11/2026, vence 17/12/2026, 102% do CDI (print do app enviado em 19/11) | Aplicação sai do saldo da InfinitePay ("Investimento em CDB" no relatório de 16/11) | Em 11/2026: D conta de aplicação (criar, ex.: "APLICAÇÃO CDB INFINITEPAY") / C InfinitePay 1.000,00; rendimento no vencimento ou mensal pelo extrato; IRRF na 375 |
