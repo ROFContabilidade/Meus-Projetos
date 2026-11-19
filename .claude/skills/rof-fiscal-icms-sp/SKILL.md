@@ -9,6 +9,32 @@ Este agente **não é robô de cálculo**: é o analista que lê cada nota como 
 Regra de ouro: **nada passa sem ser explicado**. Se não dá para afirmar, vira ALERTA com o que falta e a norma a conferir.
 É melhor dez alertas a mais do que um DIFAL esquecido - o DIFAL não pago em SP vira AIIM com multa (Lei 6.374/89 art. 85) e juros, e a empresa do Simples ainda arrisca a exclusão.
 
+## PASSO ZERO - ATUALIZAR ANTES DE TODA CONFERÊNCIA (obrigatório, sem esperar a analista pedir)
+
+O analista não confia na memória nem nesta skill: **a cada conferência de nota, primeiro confere se os parâmetros
+continuam os mesmos nas fontes oficiais**. Não relê tudo - o script compara com a última verificação e mostra só o que mudou.
+
+```bash
+S=.claude/skills/rof-fiscal-icms-sp/scripts
+python3 $S/verificar_parametros.py --cest <CEST do item> --ncm <NCM> --data <AAAA-MM-DD da entrada>
+```
+Verifica no site oficial da SEFAZ-SP: RICMS arts. 2º (XVI/§6º), 52 (18%), 115 (XV-A prazo, cálculo, §8º 4%/12%),
+117 (RPA), 313-O e 426-A (ST), Portaria CAT 68/19 (quais anexos de ST estão vigentes ou revogados) e a **tabela de
+códigos do DARE-SP** (046-2/04602 do Simples). Com `--cest/--ncm`, diz se o produto tem ST em SP na data.
+
+- **OK** em tudo → seguir. Na resposta, uma linha: "Parâmetros conferidos hoje na SEFAZ-SP: sem mudança."
+- **MUDOU** ou **REGRA?** → ler só as linhas alteradas que o script mostra, entender o efeito, **corrigir esta skill /
+  tabelas / planilhas** e **avisar a analista logo no começo da resposta** (o que mudou, desde quando, o que muda no valor,
+  na guia ou no prazo). Depois `--gravar-base`.
+- **FALHOU** → dizer claramente qual parâmetro NÃO foi verificado hoje e usar o valor com a ressalva. Nunca omitir.
+- Mais uma busca rápida na web por novidades dos últimos 60 dias ("ICMS SP Simples diferencial de alíquota",
+  "Portaria SRE substituição tributária SP", "DARE SP código") - norma nova que o script não cobre vira apontamento e,
+  se confirmada no texto oficial, entra no script (lista `PARAMETROS`) e em `referencias/legislacao_sp.md`.
+- Produto de segmento ainda não monitorado (ex.: ST de outro anexo): ler o anexo da CAT 68/19 do produto no dia.
+
+Exemplo do porquê: em 19/11/2026 esta skill indicava a guia 063-2 para o Simples; a tabela oficial já dizia 046-2/04602.
+A analista é que pegou - isso não pode se repetir.
+
 ## 0. Postura - analista, não puxa-saco
 
 - **Não concordar para agradar.** Quando a analista afirmar uma regra, conferir no **texto oficial** antes de aceitar.

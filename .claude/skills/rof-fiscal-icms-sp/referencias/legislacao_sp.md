@@ -46,6 +46,20 @@ dos veículos automóveis das posições 8701 a 8705". O NCM 8708 não aparece e
 (só no item 92 do próprio Anexo XIV - fitas refletivas 8708.29.99). Conclusão: autopeça CEST 01.xxx entrada a partir de
 01/10/2026 não tem ST em SP -> Simples paga a equalização do art. 115 XV-A "a".
 
+## RICMS/SP art. 2º, XVI e § 6º - lido em 19/11/2026 (Decreto 52.104/2007)
+"XVI - na entrada em estabelecimento de contribuinte sujeito às normas do Regime Especial Unificado [...] "Simples
+Nacional", de mercadorias, oriundas de outro Estado ou do Distrito Federal."
+"§ 6º - Na hipótese do inciso XVI, a obrigação do contribuinte consiste, afinal, em pagar o imposto correspondente à
+diferença de cargas tributárias entre a operação interna e a interestadual precedente."
+-> o fato gerador do Simples não depende da destinação: toda entrada de mercadoria de outra UF.
+
+## RICMS/SP art. 52, I - lido em 19/11/2026
+"I - nas operações ou prestações internas, ainda que iniciadas no exterior, 18% (dezoito por cento);"
+
+## Monitoramento automático
+`scripts/verificar_parametros.py` guarda em `referencias/base_oficial/` o texto oficial de cada parâmetro e avisa quando
+mudar. Rodar antes de toda conferência (PASSO ZERO da SKILL.md).
+
 ## Códigos do DARE-SP - portal oficial SEFAZ-SP ("Como pagar valor total ou parcial - DARE ICMS") - lido em 19/11/2026
 "Para os contribuintes do Simples Nacional, foram criados os novos códigos de serviço 04602 (DeSTDA-DIF), 14602 (DeSTDA-ST)
 e 14603 (DeSTDA-RAST). Na emissão do DARE diretamente pelo PFE [...] o documento já está sendo emitido com os novos códigos."
@@ -60,7 +74,7 @@ Portaria CAT 125/2011 art. 7º-M (red. Portaria SRE 76/2023): 046-2 e 063-2 só 
 ERRO anterior desta skill (corrigido em 19/11/2026 pela Rosangela): indicava 063-2 para o Simples.
 
 ## NÃO lidos no texto oficial ainda (só fonte secundária - tratar como "a confirmar")
-- RICMS/SP art. 2º XVI e §6º; art. 117 §5º/§6º; art. 37 VI; art. 49 (base dupla RPA) - via Respostas à Consulta.
+- RICMS/SP art. 117 §5º/§6º; art. 37 VI; art. 49 (base dupla RPA) - via Respostas à Consulta.
 - "SEFAZ-SP veda redução de base no DIFAL do Simples" - notícia de 2026, sem a RC lida.
 - Alíquotas internas por NCM em tabelas_icms.py (cerveja, fumo, perfumes, máquinas) - todas "conferir".
 - Lei 6.374/89: se a equalização do Simples tem previsão em LEI estadual (relevante para o STF Tema 456).

@@ -1,0 +1,39 @@
+ATENÇÃO: Para os contribuintes do Simples Nacional, foram criados os novos códigos de serviço 04602 (DeSTDA-DIF), 14602 (DeSTDA-ST) e 14603 (DeSTDA-RAST). Na emissão do DARE diretamente pelo PFE, como explicado aqui, o documento já está sendo emitido com os novos códigos. Sugerimos que sempre emitam o DARE pelo Posto Fiscal Eletrônico, pois minimiza a chance de erros e posterior necessidade de retificação.
+046-2 04601 ICMS - Operações Próprias - RPA
+046-2 04602 ICMS - Diferencial de Alíquota (DeSTDA - DIF) - Simples Nacional
+046-2 04603 ICMS - OPP - RPA - Regime Especial
+146-6 14601 ICMS - Substituição Tributária - RPA
+146-6 14602 ICMS - Substituição Tributária (DeSTDA - ST) - Simples Nacional
+146-6 14603 ICMS - Recolhimento Antecipado de Substituição Tributária (DeSTDA - RAST) - Simples Nacional
+146-6 14604 ICMS - Substituição Tributária - RPA - Regime Especial
+063-2 06304 ICMS - Outros Recolhimentos Especiais - RPA
+063-2 06305 ICMS - Outros Recolhimentos Especiais - Leilão
+063-2 06306 ICMS - Outros Recolhimentos Especiais - Produtor rural e Pessoa Física
+063-2 06307 ICMS - OPP - Outros Recolhimentos Especiais - Regime Especial
+063-2 06308 ICMS - ST - Outros Recolhimentos Especiais - Regime Especial
+101-6 10101 DIFAL (outra UF) - RPA - contribuinte sem cadastro em SP (antigo código GNRE 10010-2)
+102-8 10201 DIFAL (outra UF) - RPA - contribuinte com cadastro em SP (antigo código GNRE 10011-0)
+103-0 1030 FECOEP - DIFAL (outra UF) - RPA - Contribuintes sem cadastro em SP
+104-1 1041 FECOEP - Substituição Tributária - RPA
+104-1 1042 FECOEP - Operações Próprias - RPA
+100-4 10001 ICMS - Recolhimento Antecipado
+110-7 11001 ICMS - Transporte - Transportador Autônomo do Estado de SP
+112-0 11101 ICMS - Transporte - Outra UF (antigo código GNRE 10003-0)
+112-0 11201 ICMS - Comunicação no Estado de SP
+112-0 11301 ICMS - Comunicação - Outra UF (antigo código GNRE 10001-3)
+114-4 11401 ICMS - Mercadorias destinadas a consumo ou ativo imobilizado
+115-6 11501 ICMS - Energia elétrica no Estado de São Paulo
+115-6 11601 ICMS - Energia elétrica - outra UF (antigo código GNRE 10002-1)
+117-0 11701 ICMS - Combustível no Estado de São Paulo
+119-0 11901 ICMS - Recolhimentos Especiais - Outra UF (antigo código GNRE 10008-0)
+123-5 12301 ICMS - Exportação de café cru
+128-4 12801 ICMS - Operações internas e interestaduais com café cru
+137-5 13701 ICMS - Abate de gado
+141-7 14101 ICMS - Operações com feijão
+246-0 24601 ICMS - Substituição tributária por apuração - outra UF (antigo código GNRE 10004-8)
+247-1 24701 ICMS - Substituição tributária por operação - outra UF (antigo código GNRE 10009-9)
+892-8 89201 ICMS - Outros valores não discriminados
+892-8 89202 ICMS - Operações DIFIS
+081-4 08101 ICMS - Parcelamento de débito fiscal não inscrito
+104-1 1044 FECOEP - Parcelamento de débito fiscal não inscrito
+Secretaria da Fazenda e Planejamento do Estado de São Paulo | Av. Rangel Pestana, 300 - São Paulo / SP | 01017-911 | CNPJ: 46.377.222/0001-29 | Fale Conosco: 0800-0170110 (telefone fixo) e 11-2930-3750 (telefone móvel) |
