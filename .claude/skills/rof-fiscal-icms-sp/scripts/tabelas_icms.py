@@ -156,8 +156,9 @@ REGIMES = {
 }
 
 # Recolhimento
-GUIA_SIMPLES = ('DARE-SP, código 063-2 (recolhimentos especiais - diferencial de alíquota do Simples Nacional), '
-                'até o último dia do 2º mês subsequente ao da entrada (RICMS/SP art. 115, XV-A, "a"). '
+GUIA_SIMPLES = ('DARE-SP, código 063-2 (recolhimentos especiais - diferencial de alíquota/equalização do Simples Nacional), '
+                'até o último dia do 2º mês subsequente ao da entrada, em TODA compra interestadual não sujeita a ST, '
+                'qualquer que seja a destinação (RICMS/SP art. 115, XV-A, "a"; RC 26911/2023). '
                 'Fora do DAS - o DAS NÃO cobre o DIFAL (LC 123 art. 13 §1º XIII "h").')
 GUIA_RPA = ('Lançar na apuração do mês da entrada (EFD ICMS/IPI): débito pela alíquota interna sobre a base "por dentro" '
             'e crédito pela alíquota interestadual - RICMS/SP art. 117 e art. 37, VI (Lei 6.374/89 art. 24). '

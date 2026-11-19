@@ -233,10 +233,14 @@ def auditar(dados, cfg):
                 regra = 'Interna - sem DIFAL'
             elif sem_difal_cfop:
                 regra = f'CFOP {cfop} - remessa/retorno/devolução, sem DIFAL'
-            elif dest_calc in ('revenda', 'industrializacao') and regime != 'nao_contribuinte':
-                regra = f'{dest_calc} - sem DIFAL (conferir ST/antecipação)'
-            elif st_retido and dest_calc in ('uso_consumo', 'ativo'):
-                regra = 'ST retida pelo fornecedor - conferir se já cobre o DIFAL (não calculado)'
+            elif dest_calc in ('revenda', 'industrializacao') and regime == 'rpa':
+                regra = f'RPA - {dest_calc}: sem DIFAL (débito na saída; conferir ST/antecipação)'
+            elif st_retido:
+                regra = 'ST retida pelo fornecedor - conferir se já cobre o DIFAL/antecipação (não calculado)'
+            elif regime in ('simples', 'mei') and a_st and dest_calc in ('revenda', 'industrializacao'):
+                regra = 'Simples - possível ST em SP: se o produto tem ST, recolhe a ST/antecipação (art. 426-A) e não a equalização'
+                add(ALERTA, n, ni, 'Produto com cara de ST em SP: confirmar. Se tiver ST, recolhe ST/antecipação na entrada; '
+                                    'se NÃO tiver, é devida a equalização do Simples (art. 115 XV-A "a") - não deixar sem nenhum dos dois')
             else:
                 if it['pICMS'] > 0 and n['emit_crt'] == '3':
                     icms_orig = min(it['vICMS'], (it['vBC'] or V) * inter_ok / 100)
@@ -251,7 +255,9 @@ def auditar(dados, cfg):
                 elif regime in ('simples', 'mei'):
                     bc_dest = V
                     difal = V * (p_int - inter_ok) / 100
-                    regra = f'Simples - base única: V × ({p_int:g}% - {inter_ok:g}%) - art. 2º XVI e 115 XV-A (RC 29508/2024)'
+                    regra = (f'Simples - base única: V × ({p_int:g}% - {inter_ok:g}%) - '
+                             + ('equalização na entrada p/ ' + dest_calc + ' - art. 115 XV-A "a" (RC 26911/2023, 29508/2024)'
+                                if dest_calc in ('revenda', 'industrializacao') else 'DIFAL uso/consumo/ativo - art. 2º XVI e §6º'))
                     if regime == 'mei':
                         add(ALERTA, n, ni, 'Empresa MEI: confirmar se o DIFAL é exigido do MEI no caso (calculado como Simples, para conferência)')
                 else:  # não contribuinte: DIFAL é do REMETENTE (EC 87/2015, LC 190/2022)
@@ -393,11 +399,11 @@ def planilha(notas, itens, incons, cfg, dst):
         ('DIFAL - contribuinte RPA', 'Uso/consumo e ativo: base dupla ("por dentro") desde 03/2022 - RICMS/SP art. 2º VI, art. 37 VI, '
                                      'art. 117 (Lei 6.374/89 art. 24; Decreto 66.559/2022). Lança débito/crédito na apuração do mês da entrada'),
         ('DIFAL - remetente do Simples', 'Calcular como se o remetente não fosse optante, com 4%/12% (art. 117 §5º e §6º; RC 31674/2025)'),
-        ('DIFAL - optante do Simples em SP', 'Uso/consumo e ativo: base única, V × (interna - interestadual), sem redução de base; '
-                                             'DARE-SP 063-2 até o último dia do 2º mês seguinte à entrada (art. 2º XVI, 115 XV-A; RC 29508/2024)'),
+        ('DIFAL - optante do Simples em SP', 'QUALQUER destinação (revenda, industrialização, uso/consumo, ativo), salvo mercadoria com ST: base única, V × (interna - interestadual), sem redução de base; '
+                                             'DARE-SP 063-2 até o último dia do 2º mês seguinte à entrada (art. 2º XVI, 115 XV-A "a"; RC 26911/2023, 29508/2024)'),
         ('DIFAL - não contribuinte', 'Devido pelo REMETENTE a SP (CF art. 155 §2º VII/VIII "b", EC 87/2015, LC 190/2022), base dupla; '
                                      'remetente do Simples dispensado (STF ADI 5464)'),
-        ('Revenda / industrialização', 'Sem DIFAL. Conferir ST: sem retenção pelo remetente, o destinatário paulista pode responder '
+        ('Revenda / industrialização', 'RPA: sem DIFAL. SIMPLES: equalização devida (ver acima). Conferir ST: sem retenção pelo remetente, o destinatário paulista pode responder '
                                        '(art. 426-A - medicamentos, bebidas alcoólicas, perfumaria, higiene e limpeza - e regras de cada produto)'),
         ('Crédito', 'Uso/consumo: sem crédito até 2032 (LC 87 art. 33, I). Ativo: 1/48 no CIAP. Revenda/industrialização: crédito do destacado '
                     'limitado à alíquota interestadual correta; Simples remetente: crédito do pCredSN (CSOSN 101) - LC 123 art. 23'),

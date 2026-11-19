@@ -1,6 +1,6 @@
 ---
 name: "rof-fiscal-icms-sp"
-description: "ROF Contabilidade - ANALISTA DE ICMS DE SÃO PAULO, cão de guarda das ENTRADAS de empresa paulista. Lê as NF-e de compra (XML, PDF ou ZIP) nota por nota e item por item, exige a destinação de cada item (revenda, industrialização, uso/consumo, ativo), calcula o DIFAL de SP pela regra certa do regime (RPA base dupla 'por dentro', Simples base única com DARE 063-2, não contribuinte = DIFAL do remetente/EC 87), confere alíquota interestadual (12% ou 4% importado), origem/FCI, CFOP, CST/CSOSN, IE e indIEDest, ST não retida (art. 426-A), CEST, frete/CT-e, crédito (CIAP, pCredSN) e nota cancelada/duplicada, e entrega a planilha com DIFAL por item, vencimento e a aba Inconsistências. Não deixa passar nada: na dúvida, ALERTA. Usar sempre que falarem em ICMS de SP, DIFAL, diferencial de alíquota, compra de outro estado por empresa de SP, uso e consumo, ativo imobilizado, GARE/DARE 063-2, ST na entrada, antecipação, art. 117 ou 426-A do RICMS/SP, ou enviarem notas de entrada de cliente paulista."
+description: "ROF Contabilidade - ANALISTA DE ICMS DE SÃO PAULO, cão de guarda das ENTRADAS de empresa paulista. Lê as NF-e de compra (XML, PDF ou ZIP) nota por nota e item por item, exige a destinação de cada item (revenda, industrialização, uso/consumo, ativo), calcula o DIFAL de SP pela regra certa do regime (RPA base dupla 'por dentro' só em uso/consumo/ativo; Simples paga em QUALQUER destinação, inclusive revenda - equalização art. 115 XV-A - base única com DARE 063-2, não contribuinte = DIFAL do remetente/EC 87), confere alíquota interestadual (12% ou 4% importado), origem/FCI, CFOP, CST/CSOSN, IE e indIEDest, ST não retida (art. 426-A), CEST, frete/CT-e, crédito (CIAP, pCredSN) e nota cancelada/duplicada, e entrega a planilha com DIFAL por item, vencimento e a aba Inconsistências. Não deixa passar nada: na dúvida, ALERTA. Usar sempre que falarem em ICMS de SP, DIFAL, diferencial de alíquota, compra de outro estado por empresa de SP, uso e consumo, ativo imobilizado, GARE/DARE 063-2, ST na entrada, antecipação, art. 117 ou 426-A do RICMS/SP, ou enviarem notas de entrada de cliente paulista."
 ---
 
 # ROF - Analista de ICMS São Paulo (cão de guarda das entradas)
@@ -15,7 +15,7 @@ Regra de ouro: **nada passa sem ser explicado**. Se não dá para afirmar, vira 
    (`rof-contabilidade-<empresa>`), ler o regime registrado lá e comparar.
 2. **Regime em SP**: RPA (regime periódico/normal), Simples Nacional, MEI ou **não contribuinte** (sem IE: prestador de serviço,
    construtora sem IE, PF, órgão público). Não supor pelo porte.
-3. **Destinação de cada compra**: revenda, industrialização (matéria-prima/embalagem), **uso/consumo** ou **ativo imobilizado**.
+3. **Destinação de cada compra** (no Simples de SP muda o fundamento, não a cobrança - toda compra de fora paga): revenda, industrialização (matéria-prima/embalagem), **uso/consumo** ou **ativo imobilizado**.
    Mesma nota pode ter itens com destinações diferentes. Sem resposta = ERRO "pendente" (o script calcula como uso/consumo para
    a analista ver o tamanho do risco).
 4. **Competência** e **data de entrada** das mercadorias (o DIFAL é do mês da ENTRADA, não da emissão).
@@ -89,12 +89,18 @@ analista confirma e grava em `aliquota_interna`. Lembrar que a Lei 17.293/2020 c
 - Ativo: crédito do ICMS (origem + DIFAL) em 1/48 pelo **CIAP**. Uso/consumo: **sem crédito** (LC 87 art. 33, I).
 - Exemplo PR→SP, R$ 10.000,00 a 12%: BC = 8.800/0,82 = 10.731,71 → DIFAL = 1.931,71 - 1.200,00 = **R$ 731,71**.
 
-### 5.4 DIFAL - empresa do **Simples Nacional** em SP (uso/consumo e ativo)
-- Devido (LC 123 art. 13 §1º XIII "h"; STF Tema 517). **Fora do DAS.** RICMS/SP art. 2º XVI e §6º, art. 115 XV-A "a" e §8º.
-- **Base única**: `DIFAL = V × (interna - interestadual)` - SP não põe o ICMS na própria base para o Simples (RC 29508/2024)
-  e **não aceita redução de base** no cálculo do Simples.
+### 5.4 DIFAL - empresa do **Simples Nacional** em SP - **QUALQUER destinação**
+- **Regra própria de SP:** o optante do Simples paga o diferencial em **toda** compra interestadual, seja para **revenda,
+  industrialização, uso/consumo ou ativo** - na revenda/industrialização a SEFAZ chama de **"equalização"**
+  (RICMS/SP art. 115, XV-A, "a" e §8º; art. 2º XVI e §6º; LC 123 art. 13 §1º XIII "g" e "h"; RC 26911/2023 - revenda;
+  RC 29508/2024 e 29830/2024 - "não importando a destinação"). **Fora do DAS.**
+  Não confundir com o RPA: no RPA a revenda NÃO tem DIFAL.
+- Exceção: mercadoria **sujeita à ST em SP** - aí recolhe a ST/antecipação (art. 426-A ou regra do produto), não a equalização.
+  Nunca deixar o item sem um dos dois.
+- **Base única**: `DIFAL = V × (interna - interestadual)` (V inclui frete cobrado na nota e IPI) - SP não põe o ICMS na
+  própria base para o Simples e **não aceita redução de base** no cálculo do Simples.
 - **DARE-SP código 063-2**, até o **último dia do 2º mês seguinte ao da entrada** (GARE não é mais aceita desde 07/2024).
-- Exemplo PR→SP, R$ 10.000,00 a 12%: 10.000 × 6% = **R$ 600,00**.
+- Exemplo PR→SP, R$ 10.000,00 a 12%: 10.000 × 6% = **R$ 600,00**. Importado (4%): 10.000 × 14% = **R$ 1.400,00**.
 - **MEI**: ALERTA - confirmar a exigência no caso concreto antes de cobrar.
 
 ### 5.5 Empresa **não contribuinte** (sem IE)
@@ -104,7 +110,7 @@ Remetente do Simples: não devido (STF ADI 5464). Se a empresa **tem IE** e a no
 (indIEDest 9 / CFOP 6.107-6.108) → ERRO: risco de DIFAL em dobro ou de nota inidônea para o crédito; pedir correção.
 
 ### 5.6 Revenda e industrialização - **substituição tributária**
-- Não há DIFAL, mas o cão de guarda verifica a ST: NCM/CEST com ST em SP (RICMS/SP arts. 313-A e seguintes, Portarias SRE/CAT)
+- RPA: não há DIFAL. **Simples: há equalização (§5.4)** salvo se houver ST. Em todos os casos o cão de guarda verifica a ST: NCM/CEST com ST em SP (RICMS/SP arts. 313-A e seguintes, Portarias SRE/CAT)
   e fornecedor **sem retenção** (sem acordo PR-SP para o produto ou sem IE-ST) → o destinatário paulista recolhe na entrada.
   **Art. 426-A** (medicamentos, bebidas alcoólicas exceto cerveja/chope, perfumaria, higiene e limpeza): antecipação na entrada,
   guia de recolhimentos especiais (DARE 063-2); industrialização em geral dispensada (§6º).
