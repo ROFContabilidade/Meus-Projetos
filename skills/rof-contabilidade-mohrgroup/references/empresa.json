@@ -214,9 +214,9 @@
         "11826552000170",
         "INOVA ASSESSORIA"
       ],
-      "conta": "470",
+      "conta": "506",
       "status": "CONFIRMADO",
-      "obs": "PJ sem nota → custo das mercadorias vendidas (470 = 3.1.7.01.001 no plano padrão; confirmar na 1005)"
+      "obs": "fornecedor sem nota: entra no limite da 506 (limite_506.py); excedente 470"
     },
     {
       "nome": "Tabelionato de protesto",
@@ -427,8 +427,8 @@
         "CHEQUE COMPE SICREDI"
       ],
       "conta": "506",
-      "status": "PROVÁVEL",
-      "obs": "cheque devolvido no mesmo dia: excluir o par"
+      "status": "CONFIRMADO",
+      "obs": "cheques = fornecedores (maioria sem nota): 506 até o limite, excedente 470"
     },
     {
       "nome": "Recebimentos Sicredi diversos",
@@ -602,8 +602,8 @@
         "CHEQUE COMPENSADO"
       ],
       "conta": "506",
-      "status": "PROVÁVEL",
-      "obs": "baixa de fornecedor só com nota de entrada; sem nota → pergunta"
+      "status": "CONFIRMADO",
+      "obs": "cheques = fornecedores (maioria sem nota): 506 até o limite, excedente 470"
     },
     {
       "nome": "Seguros",

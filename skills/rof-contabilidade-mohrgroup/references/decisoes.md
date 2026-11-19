@@ -24,7 +24,10 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 
 | 19/11/2026 | ELINEU OZORIO VIEIRA R$ 5.000/mês | ALUGUEL conta 320 (não é 362); sem IRRF, isento até R$ 5 mil; meses anteriores serão retificados pela contadora | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | PF sem NF que não é sócio (Isadora, Adenilton, Gracieli etc.) | 362; não há folha de funcionários, só os 2 sócios | sempre | Rosangela, 19/11/2026 |
-| 19/11/2026 | INOVA ASSESSORIA EM COBRANCA (PJ) | Sem nota → 470 custo das mercadorias vendidas. PF sem nota → 362 | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | Pagamento a fornecedor sem nota (cheques, Inova, títulos da Deliz sem nota, Mazze, Mamo, Outline…) | D 506 até o limite da 506 no mês (saldo credor inicial + notas de entrada do mês + devoluções); excedente → 470 CMV. Script `limite_506.py`; o excedente sai dos pagamentos sem nota mais recentes | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | Sueli | Sem pagamento e sem retirada: pró-labore fica em aberto na 188. INSS dos dois sai na guia única (191) | até mudar | Rosangela, 19/11/2026 |
+| 19/11/2026 | Aluguel Elineu | R$ 5.000/mês, sem contrato escrito; conta 320 | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | Títulos protestados Deliz 09/2026 | Confirmados como identificados (nominal 506 + emolumentos 365) | — | Rosangela, 19/11/2026 |
 | 19/11/2026 | Tabelionato de protesto | 506 pelo valor nominal do título (duplicata do XML) + diferença na 365 (lote C). 09/2026: 4 títulos Deliz | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Fornecedor com nota no fiscal | A integração fiscal já credita a 506: o pagamento é D 506 e a devolução é C 506, nunca despesa (Gustavo Klemtz, LWSA, ROF, Deliz, Folini…). Cruzar CNPJ do favorecido × emitentes dos XML/NFS-e | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Estorno / devolução | Na mesma conta do pagamento original (Eliauto 374,75 → C 506, NF 749 Gustavo Klemtz) | sempre | Rosangela, 19/11/2026 |
@@ -63,4 +66,5 @@ Combinado com Rosangela em 19/11/2026: setembro fechado já no critério correto
 | R4 | Pagamentos ao sócio divididos em dois X (188 + 539) → conferir valores; formato novo é lote C |
 | R5 | Conta 11 Auto Mais: confirmar ajuste de 11.847,09 em 06/2026 e saldo zero |
 | R6 | Rendimentos do Sicredinvest nunca apropriados (578,52 até 08/2026) |
+| R8 | 506 devedora em 31/08/2026 (estimada −19.138,95: pagamentos jul–ago acima das notas) → excedente de jul e ago para 470, deixando a 506 em zero; set/2026 já partiu de zero |
 | R7 | InfinitePay (CloudWalk): depósitos desde 31/08/2026 fora da contabilidade |

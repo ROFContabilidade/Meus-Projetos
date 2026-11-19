@@ -34,7 +34,8 @@ Scripts do cérebro em `../rof-analista/scripts/`. Sicoob: sempre OFX/CSV; PDF s
 1. Cérebro, etapas 0 e 1: `consulta_cnpj.py 17593725000133` (Simples todo mês); meses N−1 a N−3; saldo inicial de cada banco = razão anterior.
 2. Para cada banco: `extrato_dominio.py ler` → `extrato_dominio.py classificar -e references/empresa.json` → `conferir.py`
    (guias, folha, notas, razão, `--socios "EMERSON MOHR;SUELI RIBEIRO MOHR"`). Resolva os pendentes pela árvore do cérebro.
-3. Junte os 3 bancos num CSV `data;banco;descricao;valor;conta;partidas;status` e gere o TXT:
+3. Fornecedor: rode `python scripts/limite_506.py classificado.csv --limite <saldo 506 + notas do mês + devoluções>`; o que passar do limite vai para a 470.
+   Junte os 3 bancos num CSV `data;banco;descricao;valor;conta;partidas;status` e gere o TXT:
    ```
    python scripts/gera_txt_mohr.py classificado.csv --empresa references/empresa.json --competencia MM/AAAA \
      --saldos "6=ini:fim;8=ini:fim;9=ini:fim" -o MOHR_MM_AAAA.txt
