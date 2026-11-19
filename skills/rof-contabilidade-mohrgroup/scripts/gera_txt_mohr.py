@@ -55,6 +55,8 @@ def main():
     a = ap.parse_args()
 
     emp = json.load(open(a.empresa, encoding="utf-8"))
+    global BANCOS
+    BANCOS = {b["conta_contabil"] for b in emp.get("bancos", []) if b.get("conta_contabil")} or BANCOS
     cnpj = re.sub(r"\D", "", emp["cnpj"])
     socios = {s["chave"]: s for s in emp["socios"]}
     liq = Decimal(str(emp["pro_labore"]["liquido"]))
