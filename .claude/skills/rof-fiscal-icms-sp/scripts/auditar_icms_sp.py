@@ -219,7 +219,7 @@ def auditar(dados, cfg):
                 add(ALERTA if dest_calc == 'revenda' else APONT, n, ni,
                     f"NCM {it['ncm']} - {a_st}: possível ST em SP e o fornecedor NÃO reteve. "
                     f"Se houver ST em SP p/ esse NCM/CEST, o destinatário paulista recolhe na entrada "
-                    f"(RICMS/SP art. 426-A ou regra do produto; DARE 063-2). Industrialização costuma ser dispensada (art. 426-A §6º)")
+                    f"(RICMS/SP art. 426-A ou regra do produto; DARE Simples 146-6/14603 RAST, RPA 063-2/06304). Industrialização costuma ser dispensada (art. 426-A §6º)")
             if st_retido:
                 if not n['emit_iest']:
                     add(ALERTA, n, ni, f"ICMS-ST R$ {it['vICMSST']:,.2f} retido e emitente SEM IE de substituto em SP: "
@@ -409,7 +409,7 @@ def planilha(notas, itens, incons, cfg, dst):
                                      'art. 117 (Lei 6.374/89 art. 24; Decreto 66.559/2022). Lança débito/crédito na apuração do mês da entrada'),
         ('DIFAL - remetente do Simples', 'Calcular como se o remetente não fosse optante, com 4%/12% (art. 117 §5º e §6º; RC 31674/2025)'),
         ('DIFAL - optante do Simples em SP', 'QUALQUER destinação (revenda, industrialização, uso/consumo, ativo), salvo mercadoria com ST: base única, V × (interna - interestadual), sem redução de base; '
-                                             'DARE-SP 063-2 até o último dia do 2º mês seguinte à entrada (art. 2º XVI, 115 XV-A "a"; RC 26911/2023, 29508/2024)'),
+                                             'DARE-SP 046-2 / serviço 04602 (DeSTDA-DIF) até o último dia do 2º mês seguinte à entrada (art. 2º XVI, 115 XV-A "a"; RC 26911/2023, 29508/2024)'),
         ('DIFAL - não contribuinte', 'Devido pelo REMETENTE a SP (CF art. 155 §2º VII/VIII "b", EC 87/2015, LC 190/2022), base dupla; '
                                      'remetente do Simples dispensado (STF ADI 5464)'),
         ('Revenda / industrialização', 'RPA: sem DIFAL. SIMPLES: equalização devida (ver acima). Conferir ST: sem retenção pelo remetente, o destinatário paulista pode responder '

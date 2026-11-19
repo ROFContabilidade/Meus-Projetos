@@ -46,6 +46,19 @@ dos veículos automóveis das posições 8701 a 8705". O NCM 8708 não aparece e
 (só no item 92 do próprio Anexo XIV - fitas refletivas 8708.29.99). Conclusão: autopeça CEST 01.xxx entrada a partir de
 01/10/2026 não tem ST em SP -> Simples paga a equalização do art. 115 XV-A "a".
 
+## Códigos do DARE-SP - portal oficial SEFAZ-SP ("Como pagar valor total ou parcial - DARE ICMS") - lido em 19/11/2026
+"Para os contribuintes do Simples Nacional, foram criados os novos códigos de serviço 04602 (DeSTDA-DIF), 14602 (DeSTDA-ST)
+e 14603 (DeSTDA-RAST). Na emissão do DARE diretamente pelo PFE [...] o documento já está sendo emitido com os novos códigos."
+| Receita | Serviço | Descrição |
+| 046-2 | 04601 | ICMS - Operações Próprias - RPA |
+| 046-2 | 04602 | ICMS - Diferencial de Alíquota (DeSTDA - DIF) - Simples Nacional |  <- equalização/DIFAL do Simples
+| 146-6 | 14602 | ICMS - Substituição Tributária (DeSTDA - ST) - Simples Nacional |
+| 146-6 | 14603 | ICMS - Recolhimento Antecipado de ST (DeSTDA - RAST) - Simples Nacional |  <- art. 426-A no Simples
+| 063-2 | 06304 | ICMS - Outros Recolhimentos Especiais - RPA |
+| 063-2 | 06305/06306/06307/06308 | Leilão / Produtor rural e PF / Regime especial OPP / Regime especial ST |
+Portaria CAT 125/2011 art. 7º-M (red. Portaria SRE 76/2023): 046-2 e 063-2 só por DARE-SP desde 01/07/2024.
+ERRO anterior desta skill (corrigido em 19/11/2026 pela Rosangela): indicava 063-2 para o Simples.
+
 ## NÃO lidos no texto oficial ainda (só fonte secundária - tratar como "a confirmar")
 - RICMS/SP art. 2º XVI e §6º; art. 117 §5º/§6º; art. 37 VI; art. 49 (base dupla RPA) - via Respostas à Consulta.
 - "SEFAZ-SP veda redução de base no DIFAL do Simples" - notícia de 2026, sem a RC lida.

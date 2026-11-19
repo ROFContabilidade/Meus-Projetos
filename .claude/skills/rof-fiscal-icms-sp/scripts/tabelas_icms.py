@@ -156,7 +156,8 @@ REGIMES = {
 }
 
 # Recolhimento
-GUIA_SIMPLES = ('DARE-SP, código 063-2 (recolhimentos especiais - diferencial de alíquota/equalização do Simples Nacional), '
+GUIA_SIMPLES = ('DARE-SP, código de receita 046-2, código de serviço 04602 - "ICMS - Diferencial de Alíquota (DeSTDA - DIF) - '
+                'Simples Nacional" (tabela oficial SEFAZ-SP; NÃO usar 063-2, que hoje é RPA/leilão/produtor), emitido pelo PFE, '
                 'até o último dia do 2º mês subsequente ao da entrada, em TODA compra interestadual não sujeita a ST, '
                 'qualquer que seja a destinação (RICMS/SP art. 115, XV-A, "a"; RC 26911/2023). '
                 'Fora do DAS - o DAS NÃO cobre o DIFAL (LC 123 art. 13 §1º XIII "h").')

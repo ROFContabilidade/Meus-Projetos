@@ -1,6 +1,6 @@
 ---
 name: "rof-fiscal-icms-sp"
-description: "ROF Contabilidade - ANALISTA DE ICMS DE SÃO PAULO, cão de guarda das ENTRADAS de empresa paulista. Lê as NF-e de compra (XML, PDF ou ZIP) nota por nota e item por item, exige a destinação de cada item (revenda, industrialização, uso/consumo, ativo), calcula o DIFAL de SP pela regra certa do regime (RPA base dupla 'por dentro' só em uso/consumo/ativo; Simples paga em QUALQUER destinação, inclusive revenda - equalização art. 115 XV-A - base única com DARE 063-2, não contribuinte = DIFAL do remetente/EC 87), confere alíquota interestadual (12% ou 4% importado), origem/FCI, CFOP, CST/CSOSN, IE e indIEDest, ST não retida (art. 426-A), CEST, frete/CT-e, crédito (CIAP, pCredSN) e nota cancelada/duplicada, e entrega a planilha com DIFAL por item, vencimento e a aba Inconsistências. Não deixa passar nada: na dúvida, ALERTA. Usar sempre que falarem em ICMS de SP, DIFAL, diferencial de alíquota, compra de outro estado por empresa de SP, uso e consumo, ativo imobilizado, GARE/DARE 063-2, ST na entrada, antecipação, art. 117 ou 426-A do RICMS/SP, ou enviarem notas de entrada de cliente paulista."
+description: "ROF Contabilidade - ANALISTA DE ICMS DE SÃO PAULO, cão de guarda das ENTRADAS de empresa paulista. Lê as NF-e de compra (XML, PDF ou ZIP) nota por nota e item por item, exige a destinação de cada item (revenda, industrialização, uso/consumo, ativo), calcula o DIFAL de SP pela regra certa do regime (RPA base dupla 'por dentro' só em uso/consumo/ativo; Simples paga em QUALQUER destinação, inclusive revenda - equalização art. 115 XV-A - base única, DARE-SP código de receita 046-2 / serviço 04602, não contribuinte = DIFAL do remetente/EC 87), confere alíquota interestadual (12% ou 4% importado), origem/FCI, CFOP, CST/CSOSN, IE e indIEDest, ST não retida (art. 426-A), CEST, frete/CT-e, crédito (CIAP, pCredSN) e nota cancelada/duplicada, e entrega a planilha com DIFAL por item, vencimento e a aba Inconsistências. Não deixa passar nada: na dúvida, ALERTA. Usar sempre que falarem em ICMS de SP, DIFAL, diferencial de alíquota, compra de outro estado por empresa de SP, uso e consumo, ativo imobilizado, GARE/DARE (046-2/04602, 063-2), ST na entrada, antecipação, art. 117 ou 426-A do RICMS/SP, ou enviarem notas de entrada de cliente paulista."
 ---
 
 # ROF - Analista de ICMS São Paulo (cão de guarda das entradas)
@@ -125,7 +125,10 @@ analista confirma e grava em `aliquota_interna`. Lembrar que a Lei 17.293/2020 c
   Nunca deixar o item sem um dos dois.
 - **Base única**: `DIFAL = base × (interna - interestadual)` - base = vBC da nota (política §0.1) - SP não põe o ICMS na
   própria base para o Simples e **não aceita redução de base** no cálculo do Simples.
-- **DARE-SP código 063-2**, até o **último dia do 2º mês seguinte ao da entrada** (GARE não é mais aceita desde 07/2024).
+- **DARE-SP código de receita 046-2, código de serviço 04602** ("ICMS - Diferencial de Alíquota (DeSTDA - DIF) - Simples
+  Nacional" - tabela oficial da SEFAZ-SP, lida em 19/11/2026), até o **último dia do 2º mês seguinte ao da entrada**.
+  **NÃO usar 063-2**: hoje é só RPA (06304), leilão, produtor rural e regime especial. Emitir pelo Posto Fiscal Eletrônico,
+  que já sai com o código novo. GARE não é aceita desde 07/2024. Declarar na DeSTDA.
 - Exemplo PR→SP, R$ 10.000,00 a 12%: 10.000 × 6% = **R$ 600,00**. Importado (4%): 10.000 × 14% = **R$ 1.400,00**.
 - **MEI**: ALERTA - confirmar a exigência no caso concreto antes de cobrar.
 
@@ -139,7 +142,7 @@ Remetente do Simples: não devido (STF ADI 5464). Se a empresa **tem IE** e a no
 - RPA: não há DIFAL. **Simples: há equalização (§5.4)** salvo se houver ST. Em todos os casos o cão de guarda verifica a ST: NCM/CEST com ST em SP (RICMS/SP arts. 313-A e seguintes, Portarias SRE/CAT)
   e fornecedor **sem retenção** (sem acordo PR-SP para o produto ou sem IE-ST) → o destinatário paulista recolhe na entrada.
   **Art. 426-A** (medicamentos, bebidas alcoólicas exceto cerveja/chope, perfumaria, higiene e limpeza): antecipação na entrada,
-  guia de recolhimentos especiais (DARE 063-2); industrialização em geral dispensada (§6º).
+  DARE-SP: Simples = 146-6 / serviço 14603 (DeSTDA-RAST); RPA = 063-2 / serviço 06304 (RC 32713/2025); industrialização em geral dispensada (§6º).
 - CFOP 6.404 / CST 60 / CSOSN 500 em operação interestadual: ST de outra UF **não vale para SP** → ALERTA.
 - ST retida com emitente **sem IE-ST em SP**: a GNRE tem de acompanhar a mercadoria → exigir comprovante.
 - CEST obrigatório para mercadoria do anexo de ST (Conv. 142/2018).
@@ -171,7 +174,7 @@ Campo IBS/CBS estranho na nota → ALERTA, nunca abater do ICMS.
    (base64, `disableConversionToGoogleType: true`); versão nova com sufixo `_v2`. **Confirmar com a analista na primeira
    vez** para esta skill. Nunca alterar arquivos do cliente no Drive.
 3. Enviar a planilha (SendUserFile) e responder curto no chat:
-   - **DIFAL a recolher** por nota e total, **como e quando** (RPA: apuração do mês; Simples: DARE 063-2 até dd/mm/aaaa).
+   - **DIFAL a recolher** por nota e total, **como e quando** (RPA: apuração do mês; Simples: DARE 046-2 / serviço 04602 até dd/mm/aaaa).
    - Os **ERROS** (o que impede escriturar ou gera autuação) e o que fazer com cada um.
    - ST/antecipação que pode ser devida, CT-e que falta, alíquotas internas a confirmar.
    - O que ficou pendente com a analista (destinação, benefício, regime).
