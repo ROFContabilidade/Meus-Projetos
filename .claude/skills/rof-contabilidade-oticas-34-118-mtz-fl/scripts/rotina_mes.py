@@ -411,10 +411,10 @@ class Motor:
             elif s.get("cp_razao") == "9":
                 s.update(conta="@itau_matriz", status="PROVADO", obs="Transferência entre contas da matriz (lote 8↔9 do razão)")
             else:
-                s.update(conta="@conta_sem_extrato", status="SEM PROVA",
-                         obs="PIX do próprio CNPJ 0001-93 vindo de conta SEM EXTRATO (pendência 1)")
-                pend.append({"tipo": "Conta da matriz sem extrato", "empresa": "34", "data": s["data"], "valor": s["valor"],
-                             "descricao": s["descricao"], "acao": "Pedir o extrato; a conta entra como banco da 34 (C <banco>)"})
+                s.update(conta="@clientes", status="PROVAVEL", ligacao=None,
+                         descricao="RECEBIMENTO CARTAO DE TODOS (repasse da conta digital do convenio) " + s["descricao"],
+                         obs="Repasse da conta digital do Cartão de Todos (conta transitória no CNPJ 0001-93, sem saldo): "
+                             "recebimento de cliente (Rosangela/cliente 19/11/2026). Guardar o relatório de repasses (Lei 9.430 art. 42)")
         # Itaú → Sicredi pelo lado do Itaú: some do TXT (o Sicredi já lançou)
         for t in ita:
             if t.get("par"):
