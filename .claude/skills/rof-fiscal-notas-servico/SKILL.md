@@ -63,7 +63,9 @@ se continuar a dúvida, dizer que é dúvida.
   a busca devolve as notas **em páginas**. Seguir o `nextPageToken` até o fim e contar os arquivos antes de ler.
   Uma página só NÃO é a pasta inteira (erro de 19/11/2026, D C Grup 10/2026: li 5 notas de 144 arquivos).
 - Conferir a **competência de cada nota**: a pasta do mês pode ter notas da competência anterior (ex.: Google emitido no dia 1º-3
-  com competência do mês anterior). Nota de outra competência sai da planilha do mês e vira apontamento geral.
+  com competência do mês anterior). **Critério do escritório (Rosangela, 19/11/2026): a nota que está na pasta do mês é lançada
+  nesse mês, pela data de emissão** - incluir na planilha com `"lancar_no_mes": true` (vira APONTAMENTO, não ERRO) e avisar
+  das notas emitidas no mês seguinte com competência deste mês, para não lançar duas vezes.
 - Benefício municipal (`<BM>` / `vRedBCBM`, ex.: plano de saúde em Curitiba) reduz a base do ISS: gravar `base_iss` reduzida.
 
 - **XML** (preferir sempre): `python3 -I $S/ler_nfse_xml.py <pasta ou arquivos> --saida notas.json`

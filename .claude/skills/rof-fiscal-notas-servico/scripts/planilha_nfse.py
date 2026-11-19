@@ -9,6 +9,7 @@ notas.json      lista gerada por ler_nfse_xml.py (ou montada à mão a partir do
                   (prestado) "anexo": anexo decidido para a atividade da nota (senão usa a tabela pelo item da LC 116)
                   (tomado) "enquadramento": chave de tabelas.RETENCOES (senão usa o sugerido pelo item, com alerta),
                   "prestador_simples"/"prestador_mei"/"prestador_anexo_iv": bool (senão lê do regime/texto da nota),
+                  "lancar_no_mes": true = nota de outra competência lançada no mês por decisão da analista (vira APONTAMENTO),
                   "cessao_mao_obra": bool, "base_inss": valor
 empresa.json    saída de consulta_cnpj.py --json, opcionalmente com "conclusao_anexo": "anexo de cada atividade e o porquê"
                   e "apontamentos_gerais": ["ALERTA: ...", ...] (cruzamento com relatórios da prefeitura/portal etc.)
@@ -69,7 +70,10 @@ def checks_comuns(n, emp, comp, lado):
     if n.get('substituida'):
         a.append(('ALERTA', f"Nota substitui outra ({n['substituida']}) - conferir se a substituída não foi lançada"))
     if comp and n.get('competencia') and n['competencia'][:7] != comp:
-        a.append(('ERRO', f"Competência {n['competencia'][:7]} diferente do mês em análise {comp}"))
+        if n.get('lancar_no_mes'):  # decisão da analista (ex.: critério pela data de emissão)
+            a.append(('APONTAMENTO', f"Competência {n['competencia'][:7]} lançada em {comp} por decisão da analista (data de emissão)"))
+        else:
+            a.append(('ERRO', f"Competência {n['competencia'][:7]} diferente do mês em análise {comp}"))
     if comp and n.get('data_emissao') and n['data_emissao'][:7] != comp and not (n.get('competencia') or '').startswith(comp):
         a.append(('ALERTA', f"Emitida em {data(n['data_emissao'])}, fora do mês {comp}"))
     vs = v(n.get('valor_servico'))
