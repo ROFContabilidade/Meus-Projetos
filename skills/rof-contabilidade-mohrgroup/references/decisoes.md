@@ -22,11 +22,12 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | 09/2026 | Cheque devolvido e reapresentado (Sicoob 000.258) | Par compensado + devolvido no mesmo dia fora do TXT; tarifa 370; reapresentação = 506 | sempre | Analista (padrão ROF) |
 | 09/2026 | MED PIX (débito e devolução) | Par fora do TXT quando zera no mês | sempre | Analista (padrão ROF) |
 
-| 19/11/2026 | ELINEU OZORIO VIEIRA R$ 5.000/mês | ALUGUEL (não é 362); sem IRRF, isento até R$ 5 mil; meses anteriores serão retificados pela contadora | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | ELINEU OZORIO VIEIRA R$ 5.000/mês | ALUGUEL conta 320 (não é 362); sem IRRF, isento até R$ 5 mil; meses anteriores serão retificados pela contadora | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | PF sem NF que não é sócio (Isadora, Adenilton, Gracieli etc.) | 362; não há folha de funcionários, só os 2 sócios | sempre | Rosangela, 19/11/2026 |
-| 19/11/2026 | INOVA ASSESSORIA EM COBRANCA | Sem NF/NFS-e em 03–09/2026 → 362. Se aparecer nota → acordo de pagamento | até aparecer nota | Rosangela, 19/11/2026 |
+| 19/11/2026 | INOVA ASSESSORIA EM COBRANCA (PJ) | Sem nota → 470 custo das mercadorias vendidas. PF sem nota → 362 | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Tabelionato de protesto | 506 pelo valor nominal do título (duplicata do XML) + diferença na 365 (lote C). 09/2026: 4 títulos Deliz | sempre | Rosangela, 19/11/2026 |
-| 19/11/2026 | Estorno / devolução | Sempre na mesma conta que foi debitada (ex.: Eliauto 374,75 → C 541, gasolina NF 749) | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | Fornecedor com nota no fiscal | A integração fiscal já credita a 506: o pagamento é D 506 e a devolução é C 506, nunca despesa (Gustavo Klemtz, LWSA, ROF, Deliz, Folini…). Cruzar CNPJ do favorecido × emitentes dos XML/NFS-e | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | Estorno / devolução | Na mesma conta do pagamento original (Eliauto 374,75 → C 506, NF 749 Gustavo Klemtz) | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Receita declarada a menor / guias em atraso | Cliente ciente; guias sem pagamento ficam como estão | — | Rosangela, 19/11/2026 |
 
 ## Pendências abertas (perguntar uma vez, em lote, no próximo mês trabalhado)
@@ -47,3 +48,5 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | P12 | Receita no banco muito acima da declarada no PGDAS (09/2026: R$ 47,6 mil × R$ 14,6 mil) | Lei 9.430/96 art. 42: depósito sem origem = receita omitida; Simples por competência | Confirmar se NFC-e/cupons entram no PGDAS |
 | P13 | InfinitePay (CloudWalk 25443696-1): conta da empresa sem conta contábil; 09/2026 = R$ 19.317,48 de vendas | Banco fora da contabilidade = receita e saldo omitidos | Criar a conta no Domínio e lançar D InfinitePay / C 504 |
 | P14 | Sicredinvest: rendimento do mês | O balancete 03–05/2026 usou a conta 94 (rendimento a apropriar) | Pedir o extrato "Detalhado" do mês (o "Simplificado" não traz o mês) |
+| P15 | Gustavo Klemtz (07/2026 1.161,07 e 08/2026 699,32), LWSA (07–08 362) e ROF (08 510) foram para despesa, mas têm nota no fiscal (C 506) | Despesa em dobro e 506 sem baixa | Reclassificar para 506 nos meses anteriores |
+| P16 | Conta 11 Auto Mais: 31/05 = 11.847,09; em 06/2026 o razão do 6 sobe exatamente 11.847,09 sem linha no TXT → ajuste manual 11→6 | Se a 11 não foi zerada, a aplicação conta em dobro | Confirmar saldo zero da 11 no balancete |

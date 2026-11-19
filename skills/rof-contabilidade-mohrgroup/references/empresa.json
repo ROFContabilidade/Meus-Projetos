@@ -128,14 +128,16 @@
     "salarios": "187",
     "pro_labore": "188",
     "icms_antecipado": "512",
-    "honorarios": "510",
+    "honorarios": "506 (tem NFS-e)",
     "emprestimo_cp": "166",
     "cartao_credito": "555",
     "cartao_credito_antiga": "364",
     "aplicacao_itau": "11",
     "aplicacao_sicredi": "71",
     "mutuo_jar_almeida": "152",
-    "mutuo_ribeiro": "167"
+    "mutuo_ribeiro": "167",
+    "aluguel": "320",
+    "cmv": "470"
   },
   "contas": {
     "6": "BANCO ITAÚ 52610-4",
@@ -176,7 +178,10 @@
     "540": "DÍZIMOS E OFERTAS",
     "541": "DESPESAS COM DESLOCAMENTO",
     "548": "SUELI RIBEIRO MOHR (ativo sócio)",
-    "555": "DESPESA COM CARTÃO DE CRÉDITO (criada 08/2026 — confirmar cadastro no Domínio)"
+    "555": "DESPESA COM CARTÃO DE CRÉDITO (criada 08/2026 — confirmar cadastro no Domínio)",
+    "320": "ALUGUEL",
+    "470": "CUSTO DAS MERCADORIAS VENDIDAS (confirmar código na 1005)",
+    "94": "RENDIMENTO APLICAÇÃO FINANC. A APROPRIAR"
   },
   "layout_txt": {
     "formato": "dominio",
@@ -186,6 +191,33 @@
   },
   "historico_padrao": "",
   "regras": [
+    {
+      "nome": "Fornecedor com nota no fiscal (C 506 pela integração)",
+      "tipo": "ambos",
+      "contem": [
+        "10533244000193",
+        "GUSTAVO KLEMTZ",
+        "02351877001124",
+        "LWSA",
+        "37264420000195",
+        "37.264.420",
+        "ROF CONTABILIDADE"
+      ],
+      "conta": "506",
+      "status": "CONFIRMADO",
+      "obs": "tem NF/NFS-e no fiscal → o pagamento baixa a 506 e a devolução volta na 506. Antes de classificar, cruzar o CNPJ do favorecido com os emitentes dos XML/NFS-e do mês e dos anteriores"
+    },
+    {
+      "nome": "Inova (PJ sem nota)",
+      "tipo": "saida",
+      "contem": [
+        "11826552000170",
+        "INOVA ASSESSORIA"
+      ],
+      "conta": "470",
+      "status": "CONFIRMADO",
+      "obs": "PJ sem nota → custo das mercadorias vendidas (470 = 3.1.7.01.001 no plano padrão; confirmar na 1005)"
+    },
     {
       "nome": "Tabelionato de protesto",
       "tipo": "saida",
@@ -204,9 +236,9 @@
         "01587452995",
         "ELINEU OZORIO"
       ],
-      "conta": "ALUGUEL",
+      "conta": "320",
       "status": "CONFIRMADO",
-      "obs": "aluguel R$ 5.000/mês, sem IRRF (isenção até R$ 5 mil); trocar ALUGUEL pelo código da conta no Domínio"
+      "obs": "aluguel R$ 5.000/mês, sem IRRF (isento até R$ 5 mil) — Rosangela 19/11/2026"
     },
     {
       "nome": "PIX recebido de MOHR GROUP LTDA (conta própria fora dos 3 bancos)",
@@ -436,8 +468,9 @@
         "37264420000195",
         "ROF CONTABILIDADE"
       ],
-      "conta": "510",
-      "status": "CONFIRMADO"
+      "conta": "506",
+      "status": "CONFIRMADO",
+      "obs": "NFS-e da R O F no fiscal → 506"
     },
     {
       "nome": "Sanepar",
@@ -620,8 +653,7 @@
         "UBER DO BRASIL",
         "UBER",
         "AUTOPISTA",
-        "PLUXEE FROTA",
-        "GUSTAVO KLEMTZ"
+        "PLUXEE FROTA"
       ],
       "conta": "541",
       "status": "CONFIRMADO"
