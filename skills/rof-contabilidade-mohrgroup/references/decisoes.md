@@ -68,3 +68,4 @@ Combinado com Rosangela em 19/11/2026: setembro fechado já no critério correto
 | R6 | Rendimentos do Sicredinvest nunca apropriados (578,52 até 08/2026) |
 | R8 | 506 devedora em 31/08/2026 (estimada −19.138,95: pagamentos jul–ago acima das notas) → excedente de jul e ago para 470, deixando a 506 em zero; set/2026 já partiu de zero |
 | R7 | InfinitePay (CloudWalk): depósitos desde 31/08/2026 fora da contabilidade |
+| P17 | CDB InfinitePay: R$ 1.000,00 aplicado em 16/11/2026, vence 17/12/2026, 102% do CDI (print do app enviado em 19/11) | Aplicação sai do saldo da InfinitePay ("Investimento em CDB" no relatório de 16/11) | Em 11/2026: D conta de aplicação (criar, ex.: "APLICAÇÃO CDB INFINITEPAY") / C InfinitePay 1.000,00; rendimento no vencimento ou mensal pelo extrato; IRRF na 375 |
