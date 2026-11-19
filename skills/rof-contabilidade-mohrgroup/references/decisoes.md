@@ -22,6 +22,13 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | 09/2026 | Cheque devolvido e reapresentado (Sicoob 000.258) | Par compensado + devolvido no mesmo dia fora do TXT; tarifa 370; reapresentação = 506 | sempre | Analista (padrão ROF) |
 | 09/2026 | MED PIX (débito e devolução) | Par fora do TXT quando zera no mês | sempre | Analista (padrão ROF) |
 
+| 19/11/2026 | ELINEU OZORIO VIEIRA R$ 5.000/mês | ALUGUEL (não é 362); sem IRRF, isento até R$ 5 mil; meses anteriores serão retificados pela contadora | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | PF sem NF que não é sócio (Isadora, Adenilton, Gracieli etc.) | 362; não há folha de funcionários, só os 2 sócios | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | INOVA ASSESSORIA EM COBRANCA | Sem NF/NFS-e em 03–09/2026 → 362. Se aparecer nota → acordo de pagamento | até aparecer nota | Rosangela, 19/11/2026 |
+| 19/11/2026 | Tabelionato de protesto | 506 pelo valor nominal do título (duplicata do XML) + diferença na 365 (lote C). 09/2026: 4 títulos Deliz | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | Estorno / devolução | Sempre na mesma conta que foi debitada (ex.: Eliauto 374,75 → C 541, gasolina NF 749) | sempre | Rosangela, 19/11/2026 |
+| 19/11/2026 | Receita declarada a menor / guias em atraso | Cliente ciente; guias sem pagamento ficam como estão | — | Rosangela, 19/11/2026 |
+
 ## Pendências abertas (perguntar uma vez, em lote, no próximo mês trabalhado)
 
 | # | Assunto | Por que importa | Sugestão |
@@ -38,3 +45,5 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | P10 | ~~Pasta do mês~~ RESOLVIDA: Drive `1005_Mohr Group Ltda/Fiscal_Contabil/<ANO>/<MM_AAAA>/Extrato` (+ Guias, Relatórios) | — | — |
 | P11 | Sicredinvest: rendimentos provisionados (578,52 em 08/2026) nunca lançados | Competência: rendimento do mês é receita do mês (D 71 / C 432), IRRF provisionado | Pedir a posição de 30/09 em XLS e lançar mensalmente |
 | P12 | Receita no banco muito acima da declarada no PGDAS (09/2026: R$ 47,6 mil × R$ 14,6 mil) | Lei 9.430/96 art. 42: depósito sem origem = receita omitida; Simples por competência | Confirmar se NFC-e/cupons entram no PGDAS |
+| P13 | InfinitePay (CloudWalk 25443696-1): conta da empresa sem conta contábil; 09/2026 = R$ 19.317,48 de vendas | Banco fora da contabilidade = receita e saldo omitidos | Criar a conta no Domínio e lançar D InfinitePay / C 504 |
+| P14 | Sicredinvest: rendimento do mês | O balancete 03–05/2026 usou a conta 94 (rendimento a apropriar) | Pedir o extrato "Detalhado" do mês (o "Simplificado" não traz o mês) |

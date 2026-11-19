@@ -65,8 +65,8 @@
     "liquido": 1442.69,
     "regra": "por sócio, em ordem de data nos 3 bancos: até o líquido D 188; excedente D 539/548. PIX que cruza o limite = um lote C (188 + 539/548)."
   },
-  "funcionarios": true,
-  "funcionarios_obs": "GABRIELE FERREIRA SILVA paga como salário (187) — conferir com a folha do mês.",
+  "funcionarios": false,
+  "funcionarios_obs": "Sem folha de funcionários: só os 2 sócios (Rosangela, 19/11/2026). PF sem NF que não é sócio = 362.",
   "bancos": [
     {
       "banco": "Itaú",
@@ -85,6 +85,12 @@
       "conta": "coop. 4368-0 / 33.683-1",
       "conta_contabil": "9",
       "obs": "confirmado no extrato 09/2026 (o 67025-1 era da Ribeiro); PDF: saldo 'D' = negativo; preferir OFX/CSV"
+    },
+    {
+      "banco": "InfinitePay (CloudWalk)",
+      "conta": "0001 / 25443696-1",
+      "conta_contabil": "",
+      "obs": "conta da maquininha, sem conta contábil até 09/2026; depósitos de vendas = D InfinitePay / C 504"
     }
   ],
   "aplicacoes": [
@@ -180,6 +186,28 @@
   },
   "historico_padrao": "",
   "regras": [
+    {
+      "nome": "Tabelionato de protesto",
+      "tipo": "saida",
+      "contem": [
+        "10670919000146",
+        "TABELIONATO DE PROTESTO"
+      ],
+      "conta": "506",
+      "status": "ANALISTA",
+      "acao": "lote C: valor nominal do título (casar com a duplicata do XML de entrada) na 506 e a diferença (emolumentos) na 365"
+    },
+    {
+      "nome": "Aluguel (Elineu)",
+      "tipo": "saida",
+      "contem": [
+        "01587452995",
+        "ELINEU OZORIO"
+      ],
+      "conta": "ALUGUEL",
+      "status": "CONFIRMADO",
+      "obs": "aluguel R$ 5.000/mês, sem IRRF (isenção até R$ 5 mil); trocar ALUGUEL pelo código da conta no Domínio"
+    },
     {
       "nome": "PIX recebido de MOHR GROUP LTDA (conta própria fora dos 3 bancos)",
       "tipo": "entrada",
@@ -638,8 +666,8 @@
         "GABRIELE FERREIRA"
       ],
       "conta": "187",
-      "status": "PROVÁVEL",
-      "obs": "conferir com o líquido da folha"
+      "status": "ANALISTA",
+      "obs": "não há folha de funcionários: confirmar natureza"
     },
     {
       "nome": "PF prestadores (vigiar 362)",
