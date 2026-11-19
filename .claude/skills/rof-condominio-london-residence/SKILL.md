@@ -133,7 +133,7 @@ Histórico de valores: R$ 100 + R$ 100 por reincidência até 10× (Reg. 2021, a
 | Instalação | 1ª convocação: **2/3 das unidades** (arts. 11 e 12); 2ª: qualquer número. Os editais vêm dizendo "metade" — ajustar para "2/3" |
 | Votos | 1 voto por unidade; maioria dos presentes (arts. 8º e 14) |
 | Procuração | Poderes especiais; procurador **não pode** ser o síndico, membro do Conselho Consultivo ou parente deles até 3º grau; **voto por carta proibido** (art. 9º) |
-| Quóruns especiais | Alterar convenção ou fazer alterações no edifício: **2/3** dos proprietários (art. 14 § ú "a"; art. 39); modificar estrutura/aspecto arquitetônico e benfeitorias: **unanimidade** (art. 14 § ú "c" — o CC 1.341/1.342 hoje admite 2/3 para voluptuárias e maioria para úteis); mudar destinação: unanimidade (§ ú "d"); destituir síndico: **metade + 1** (§ ú "e"; CC 1.349: maioria absoluta); multa do art. 1.337: **3/4** (art. 38); alterar regimento: 2/3 (CC 1.351) |
+| Quóruns especiais | Alterar convenção ou fazer alterações no edifício: **2/3** dos proprietários (art. 14 § ú "a"; art. 39); modificar estrutura/aspecto arquitetônico e benfeitorias: **unanimidade** (art. 14 § ú "c" — o CC 1.341/1.342 hoje admite 2/3 para voluptuárias e maioria para úteis); mudar destinação: unanimidade (§ ú "d"); destituir síndico: **metade + 1** (§ ú "e"; CC 1.349: maioria absoluta); multa do art. 1.337: **3/4** (art. 38); alterar regimento: **maioria dos presentes** (Conv. art. 14 caput — a convenção não fixa quórum especial; desde a Lei 10.931/2004 o CC 1.351 não exige mais 2/3 para o regimento) |
 | Pós-assembleia | Em **8 dias** afixar as deliberações em local visível por **10 dias** e enviar cópia a todos (art. 15 § único) |
 | Ata | Livro próprio, assinada por presidente, secretário e presentes (art. 16). Prática: firma reconhecida no Tabelionato de Fazenda Rio Grande e registro no RTD |
 
@@ -160,7 +160,7 @@ Histórico de valores: R$ 100 + R$ 100 por reincidência até 10× (Reg. 2021, a
 
 ## Pendências e alertas abertos (resumo — detalhes em `references/alertas.md`)
 
-1. **Falta no Drive a ata da AGE de 03/06/2026** que aprovou o regimento novo (e a lista de presença com o quórum). Sem ela, a validade do regimento pode ser contestada.
+1. **Falta no Drive a ata da AGE de 03/06/2026** que aprovou o regimento novo (e a lista de presença). Quórum exigido: maioria dos presentes. Sem a ata, a aprovação não está provada — proposta de ratificação na AGO 26/11/2026 (`London-Residence/Roteiro_AGO_26-11-2026.docx`).
 2. **Mandato anual do síndico** (AGO 12/2025) altera a convenção e exige 2/3 (14 das 20 unidades); votaram 9. Tratar como pendente de ratificação.
 3. **Multa**: o regimento de 2026 (1 taxa condominial) substituiu os R$ 300 da AGE 01/2026.
 4. **Pets de inquilinos** proibidos (AGO 12/2025) × regimento 2026 (art. 38, permite animais) × convenção art. 5º "m" (proíbe animais): risco de anulação (STJ, REsp 1.783.076/DF).

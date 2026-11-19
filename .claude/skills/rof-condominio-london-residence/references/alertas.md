@@ -4,8 +4,12 @@ Levantamento feito em 19/11/2026 sobre os documentos do Drive. Ao responder qual
 
 ## 1. Ata da AGE de 03/06/2026 não está no Drive (ALTA)
 O regimento vigente diz ter sido aprovado na AGE de 03/06/2026, mas a ata, o edital e a lista de presença não foram encontrados.
-- Por que importa: o CC art. 1.351 exige **2/3 dos votos dos condôminos** para alterar o regimento (o próprio Reg. 2026 art. 72 remete ao quórum da convenção; o Reg. 2021 art. 70 aceitava os presentes em 2ª chamada). Multas aplicadas com base no Reg. 2026 podem ser contestadas se o quórum não estiver provado.
-- Ação: localizar/arquivar ata + lista de presença; se o quórum não tiver sido 2/3 (14 unidades), levar à ratificação na AGO de 26/11/2026 ou colher assinaturas.
+- Quórum: desde a Lei 10.931/2004 o CC art. 1.351 exige 2/3 só para alterar a **convenção**; para o regimento vale o que a convenção disser. A Convenção do London não fixa quórum especial para o regimento → **maioria dos presentes** (art. 14 caput); o Reg. 2026 art. 72 remete à convenção.
+- Por que importa: sem a ata e a lista de presença não há prova da aprovação; multas aplicadas com base no Reg. 2026 podem ser contestadas.
+- Ação: localizar/arquivar ata + lista de presença; não encontrando, ratificar o regimento em assembleia (proposta no roteiro da AGO 26/11/2026, item D).
+
+## 1-A. Regra de cobrança judicial
+A AGO 22/12/2022 (2º assunto) fixou tolerância de 3 meses e "medida mais incisiva", sem dizer expressamente "execução a partir da 3ª taxa" (a execução só foi prevista para os débitos de 12/2022). Proposta de redação expressa no roteiro da AGO 26/11/2026, item C2.
 
 ## 2. Mandato anual do síndico (AGO 01/12/2025, 4º assunto) (ALTA)
 A Convenção (art. 17) fixa mandato de **2 anos** (máximo legal: CC 1.347). Mudar para 1 ano é **alteração da convenção** → **2/3 dos condôminos** (Conv. arts. 14 § ú "a" e 39; CC 1.351) e deveria constar expressamente da ordem do dia. Votaram 9 de 20 unidades.
@@ -58,6 +62,6 @@ O Reg. 2026 não repetiu a proibição do art. 16 do Reg. 2021. Continua valendo
 - CC 1.341: obras — voluptuárias 2/3, úteis maioria, necessárias o síndico pode fazer.
 - CC 1.345: adquirente responde pelos débitos do alienante.
 - CC 1.347–1.349: síndico (mandato até 2 anos; destituição pela maioria absoluta).
-- CC 1.350: AGO anual obrigatória. CC 1.351: 2/3 para alterar convenção e regimento; unanimidade para mudar destinação.
+- CC 1.350: AGO anual obrigatória. CC 1.351: 2/3 para alterar a convenção (regimento: conforme a convenção, desde a Lei 10.931/2004); unanimidade para mudar destinação.
 - CC 1.352–1.355: votos, convocação de todos, 2ª convocação, AGE por 1/4.
 - Lei 8.245/91 art. 23 XII: locatário paga as despesas ordinárias; art. 22 X: locador paga as extraordinárias (pintura de fachada, fundo de reserva para obras etc.).
