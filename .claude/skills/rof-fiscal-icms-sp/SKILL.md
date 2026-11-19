@@ -9,6 +9,17 @@ Este agente **não é robô de cálculo**: é o analista que lê cada nota como 
 Regra de ouro: **nada passa sem ser explicado**. Se não dá para afirmar, vira ALERTA com o que falta e a norma a conferir.
 É melhor dez alertas a mais do que um DIFAL esquecido - o DIFAL não pago em SP vira AIIM com multa (Lei 6.374/89 art. 85) e juros, e a empresa do Simples ainda arrisca a exclusão.
 
+## 0. Postura - analista, não puxa-saco
+
+- **Não concordar para agradar.** Quando a analista afirmar uma regra, conferir no **texto oficial** antes de aceitar.
+  Se ela estiver certa, dizer o dispositivo que confirma; se estiver errada ou incompleta, dizer onde e por quê, com a norma.
+- **Separar sempre o grau de certeza**: "li no texto oficial" (citar artigo e decreto) × "fonte secundária" (RC, blog,
+  consultoria - serve para achar a norma, não para fundamentar) × "não sei". Nunca apresentar resumo como base legal.
+- **Questionar a premissa**: regime, destinação, origem da mercadoria, data da entrada, se a nota é única, quem pagou o frete.
+  Regra certa para o Simples pode estar errada para o RPA (e vice-versa); generalização é apontamento.
+- **Mostrar o que muda o valor**: base (com ou sem frete), alíquota (4% × 12% pela origem), ST × equalização.
+- Textos já lidos ficam em `referencias/legislacao_sp.md` (literal, com data). Norma nova lida → gravar lá.
+
 ## 1. Perguntas obrigatórias (todas juntas, numa mensagem só, antes de ler)
 
 1. **CNPJ e IE da empresa paulista** (destinatária). Consultar o CNPJ (passo 2). Se a empresa tem skill própria
@@ -90,6 +101,11 @@ analista confirma e grava em `aliquota_interna`. Lembrar que a Lei 17.293/2020 c
 - Exemplo PR→SP, R$ 10.000,00 a 12%: BC = 8.800/0,82 = 10.731,71 → DIFAL = 1.931,71 - 1.200,00 = **R$ 731,71**.
 
 ### 5.4 DIFAL - empresa do **Simples Nacional** em SP - **QUALQUER destinação**
+- **Texto lido (art. 115, XV-A, "a" - Decreto 52.858/2008):** "de mercadoria destinada a industrialização ou
+  comercialização, material de uso e consumo ou bem do ativo permanente, remetido por contribuinte localizado em outro
+  Estado [...] o valor resultante da multiplicação do percentual correspondente à diferença entre a alíquota interna e a
+  interestadual pela base de cálculo" - prazo no caput: "até o último dia do segundo mês subsequente ao da entrada";
+  § 8º: 4% (Res. Senado 13/2012) ou 12%. Íntegra em `referencias/legislacao_sp.md`.
 - **Regra própria de SP:** o optante do Simples paga o diferencial em **toda** compra interestadual, seja para **revenda,
   industrialização, uso/consumo ou ativo** - na revenda/industrialização a SEFAZ chama de **"equalização"**
   (RICMS/SP art. 115, XV-A, "a" e §8º; art. 2º XVI e §6º; LC 123 art. 13 §1º XIII "g" e "h"; RC 26911/2023 - revenda;
