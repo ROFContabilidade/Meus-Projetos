@@ -28,7 +28,6 @@ Valor 20% fora do padrão ou favorecido novo = perguntar de novo.
 | 18/11/2026 | ambos | Refazer o banco 01-09/2026 | Refazer tudo (não TXT de ajuste): apagar no Domínio só os lançamentos de banco do período e importar o TXT completo. Folha e fiscal ficam | Rosangela |
 
 ## Propostas ainda não validadas
-- 118 → PIX recebidos do CNPJ 0001-93 (06-09: 11.229,61): se também forem repasses do Cartão de Todos de vendas da FILIAL → 118 D 8 / C 504 (sai da 544). Rosangela perguntou ao cliente em 19/11.
 - 34 → Saque de 30/04 (3.000) "pagamento aluguel Ótica VisouUP": lançado como aluguel da FILIAL pago pela matriz (34 D 544 / C 8; 118 D 341 / C 544). Confirmar.
 - 34 → Boletos "SICREDI COS GERAIS" (CNPJ 81.466.286/0001-05; 15/01 9.202,27; 19/02 5.773,81; 12/03 6.385,92; 22/04 10.259,39): pela regra do CNPJ foram para 506/470. Se forem empréstimo/consórcio do Sicredi, mudar.
 - 118 → Shopping Popular pago pela filial (2.796,80 em 07; 296,42 em 08): parece aluguel da MATRIZ (o imóvel é o da matriz) → 118 D 544 / 34 D 320 C 544. Confirmar.
@@ -42,3 +41,4 @@ Valor 20% fora do padrão ou favorecido novo = perguntar de novo.
 | 18/11/2026 | 34 | PIX a quem só foi admitido depois (Jeniffer Gabriela de Lima, adm. 23/02/2026: 9 PIX em 01-02/2026, R$ 2.676,17) | 362 (pessoa física sem vínculo, alerta trabalhista/INSS). Valor igual ao da folha (adiantamento de 750,00 em 20/02) segue a folha | analista, pela regra da PF (Rosangela) |
 | 18/11/2026 | 34 | Folha 11-12/2025 (Extrato Mensal de 2025) | Entra no folha.csv para provar os salários de dezembro pagos em janeiro. Data de admissão lida do Extrato Mensal | Rosangela enviou |
 | 19/11/2026 | 34 | PIX do próprio CNPJ 0001-93 no Sicredi sem par no Itaú da matriz (ex.: 01/07 196,98) | Repasse da conta digital do convênio CARTÃO DE TODOS (conta transitória, só recebe e repassa no mesmo dia): D 8 / C 504 recebimento de clientes. Sem conta contábil própria. Pedir o relatório de repasses como prova | Rosangela (falou com o cliente) |
+| 21/11/2026 | 118 | PIX recebidos do CNPJ 0001-93 sem par na matriz (06-09: 11.229,61) | Repasse da conta digital "Visouup" do Cartão de Todos (CNPJ 0001-93): vendas da FILIAL. 118 D 8 / C 504. Não é ligação (sai da 544). Prova: Extrato para todos.pdf (34/2026/09_2026/Extrato), repasses em references/cartao_todos_repasses.csv | Rosangela (extrato do cliente) |

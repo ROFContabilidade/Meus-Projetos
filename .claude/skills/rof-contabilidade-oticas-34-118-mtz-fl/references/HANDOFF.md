@@ -105,6 +105,7 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
      de dezembro pagos em janeiro passam de PROVAVEL a PROVADO). Reentregar o TXT 34 de 01 se algo mudar.
   2. Com os balancetes 2025: análise de fechamento (538 ~R$ 1,2 mi, estoque "produtos acabados/em elaboração", 504 credora), fora dos TXT.
 - Quando chegar o extrato da conta sem extrato: incluir como banco da 34 em `fontes_2026.json` e gerar o 07 (08 e 09 não mudam).
+  → RESOLVIDO em 21/11, ver seção 11.
 
 ## 10. Conferência com 2025 (pasta 34/2025/Demonstraçoes Contabeis, 18/11/2026)
 - Balancete 2025 (emitido 31/03/2026) × abertura do razão 2026: batem 11 (1.928,87 D), 506 (1.169,09 C), 187 (10.629,56 C), 152 (69.031,84 C).
@@ -114,3 +115,13 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
   O "Extrato Bancário.pdf" de 01/2026 (saldo inicial -829,89) é outra versão do extrato e não serve de referência.
 - Para o fechamento (fora dos TXT): 538 Adiantamento de clientes 1.215.458,42 C (+483.491,08 em 2025, sem baixa) com receita de vendas
   de só 136.159,10 e prejuízo de 416.279,26; 362 e 521 credoras em 2025; estoque produtos acabados/em elaboração entrou e saiu (22.278,83).
+
+## 11. Pendência 1 resolvida (21/11/2026)
+- A "conta da matriz sem extrato" é a conta digital **Visouup** do convênio Cartão de Todos, aberta no CNPJ 0001-93. Só recebe da
+  Administradora Cartão de Crédito Todos / MaisTodos (28.101.795/0001-43) e repassa no mesmo dia (saldo zero). Extrato 19/07-19/11 em
+  34/2026/09_2026/Extrato ("Extrato para todos.pdf"); repasses em `references/cartao_todos_repasses.csv`.
+- Repasses à filial (06-09: 11.229,61) = vendas da filial: 118 D 8 / C 504 (14 conferidos no extrato; os de 06 e 13/07 são anteriores
+  ao período do extrato, mesmo padrão). Repasse ao Sicredi da matriz (01/07 196,98) = 34 D 8 / C 504.
+- Resultado: 01-09/2026 todos liberados; 544 da 34 (-52.993,03) + 544 da 118 (+52.993,03) = 0; bancos fecham.
+- Ainda útil: extrato da conta digital de 06 e 01-18/07 (prova dos 4 repasses anteriores) e extrato Itaú 0098929-8 de 01-28/07
+  (salários de 07 e parcelamento de 31/07).

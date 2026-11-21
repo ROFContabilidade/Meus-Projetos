@@ -183,6 +183,8 @@ class Motor:
         self.folha = list(csv.DictReader(open(self.base / self.f["folha"], encoding="utf-8"), delimiter=";"))
         self.guias = list(csv.DictReader(open(self.base / self.f["receita"], encoding="utf-8-sig"), delimiter=";"))
         # favorecidos achados no extrato original quando o razão não traz o nome (empresa;banco;data;valor;favorecido;fonte)
+        cdt = REF / "cartao_todos_repasses.csv"
+        self.cdt = {(r["data"], D(r["valor"])) for r in csv.DictReader(open(cdt, encoding="utf-8"), delimiter=";")} if cdt.exists() else set()
         self.ident = {(r["empresa"], r["banco"], r["data"], D(r["valor"])): r for r in
                       csv.DictReader(open(REF / "identificados.csv", encoding="utf-8"), delimiter=";")} if (REF / "identificados.csv").exists() else {}
         pj = self.est["pj"]
@@ -473,9 +475,13 @@ class Motor:
             if b.get("par"):
                 continue
             if b["valor"] > 0:
-                b["obs"] = "PIX do CNPJ 0001-93 por conta da matriz SEM EXTRATO: na 34 entra D 544 / C <conta> quando o extrato chegar"
-                pend.append({"tipo": "Matriz → filial por conta sem extrato", "empresa": "118", "data": b["data"], "valor": b["valor"],
-                             "descricao": b["descricao"], "acao": "Pendência 1: extrato da conta da matriz", "falta_34": b["valor"]})
+                # PIX do CNPJ 0001-93 sem par na matriz = repasse da conta digital "Visouup" do Cartão de Todos (vendas da filial)
+                prova = (b["data"], b["valor"]) in self.cdt
+                b.update(conta="@clientes", ligacao=None, status="PROVADO" if prova else "PROVAVEL",
+                         descricao="RECEBIMENTO CARTAO DE TODOS (repasse conta digital Visouup) " + b["descricao"],
+                         obs="Venda da filial pelo Cartão de Todos: repasse da conta digital Visouup (CNPJ 0001-93, só recebe da "
+                             "Administradora Cartão de Crédito Todos e repassa à filial)" + (" - conferido no extrato da conta digital"
+                             if prova else " - data anterior ao extrato da conta digital (19/07): mesmo padrão"))
             else:
                 pend.append({"tipo": "Transferência da filial sem par na matriz", "empresa": "118", "data": b["data"], "valor": b["valor"],
                              "descricao": b["descricao"], "acao": "Achar a entrada na matriz", "falta_34": b["valor"]})
