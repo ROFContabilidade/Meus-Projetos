@@ -73,3 +73,17 @@ Combinado com Rosangela em 19/11/2026: setembro fechado já no critério correto
 | R8 | 506 devedora em 31/08/2026 (estimada −19.138,95: pagamentos jul–ago acima das notas) → excedente de jul e ago para 470, deixando a 506 em zero; set/2026 já partiu de zero |
 | R7 | InfinitePay (CloudWalk): depósitos desde 31/08/2026 fora da contabilidade |
 | P17 | CDB InfinitePay: R$ 1.000,00 aplicado em 16/11/2026, vence 17/12/2026, 102% do CDI (print do app enviado em 19/11) | Aplicação sai do saldo da InfinitePay ("Investimento em CDB" no relatório de 16/11) | Em 11/2026: D conta de aplicação (criar, ex.: "APLICAÇÃO CDB INFINITEPAY") / C InfinitePay 1.000,00; rendimento no vencimento ou mensal pelo extrato; IRRF na 375 |
+
+## 10/2026 – em andamento (parado em 21/11/2026, retomar após conversa com o Emerson)
+
+Status completo e perguntas: Drive `2026/10_2026/MOHR_10_2026_PENDENTE.md`; classificação: `MOHR_10_2026_classificado.csv` (mesma pasta).
+Saldos de abertura = fechamento 09/2026 (6 = 5.352,43 · 8 = 11.658,51 · 9 = −1.077,43 · 14 = 19.327,49). Sicredinvest 10/2026 = 79,19.
+
+| # | Pendência 10/2026 |
+|---|---|
+| Q10-1 | Falta extrato Sicoob 10/2026 |
+| Q10-2 | Faltam notas de entrada de mercadoria 10/2026 (limite da 506) |
+| Q10-3 | PIX InfinitePay 05/10 R$ 3.500 para "MOHR GROUP LTDA" – conta de destino (mesma de P12/Q1) |
+| Q10-4 | Protestos 22/10 R$ 1.966,70 e 28/10 R$ 1.989,20 – valor do título (22/10 R$ 1.728,73 = Deliz 707440/004 1.547,84 + 180,89) |
+| Q10-5 | HILDA BAGGIO R$ 1.595,33 (PF, 16/10) – natureza |
+| Q10-6 | APB Etiquetas R$ 124 e ISAAC R$ 295,67 – têm nota? |
