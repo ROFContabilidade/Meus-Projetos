@@ -15,9 +15,10 @@ Scripts do cérebro em `../rof-analista/scripts/`. Sicoob: sempre OFX/CSV; PDF s
 
 **O TXT é cópia do extrato (Rosangela, 21/11/2026):** todo movimento do banco entra no TXT, inclusive pares que se anulam
 (cheque compensado e devolvido = D 506 / C banco e D banco / C 506). Nunca deixar movimento de fora.
-**Plano de contas:** a skill só tem as contas vistas no balancete (`empresa.json` > `contas`). 470 = CUSTOS DAS MERCADORIAS VENDIDAS e
+470 = CUSTOS DAS MERCADORIAS VENDIDAS e
 14 = INFINITEPAY CLOUDWALK 25443696-1 (D 14 / C 504 nos depósitos de vendas) — confirmados por Rosangela em 21/11/2026.
-Plano completo da 1005: a Rosangela vai exportar do Domínio; ao receber, gravar todas as contas em `empresa.json` > `contas`.
+**Plano de contas completo da 1005:** `references/plano_contas.json` (525 contas, 326 analíticas; exportado do Domínio em 21/11/2026).
+Antes de gerar o TXT, confira que toda conta usada existe e não é sintética. Conta nova no Domínio → atualizar esse arquivo.
 
 ## Particularidades (o que foge do padrão ROF)
 

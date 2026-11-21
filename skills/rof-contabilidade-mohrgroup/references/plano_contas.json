@@ -1,0 +1,3680 @@
+{
+ "fonte": "Plano de Contas.pdf exportado do Domínio pela Rosangela em 21/11/2026 (Drive 09_2026/Extrato)",
+ "contas": [
+  {
+   "codigo": "1",
+   "sintetica": true,
+   "classificacao": "1",
+   "nome": "ATIVO",
+   "grau": 1
+  },
+  {
+   "codigo": "2",
+   "sintetica": true,
+   "classificacao": "1.1",
+   "nome": "ATIVO CIRCULANTE",
+   "grau": 2
+  },
+  {
+   "codigo": "3",
+   "sintetica": true,
+   "classificacao": "1.1.1",
+   "nome": "DISPONÍVEL",
+   "grau": 3
+  },
+  {
+   "codigo": "4",
+   "sintetica": true,
+   "classificacao": "1.1.1.01",
+   "nome": "CAIXA",
+   "grau": 4
+  },
+  {
+   "codigo": "5",
+   "sintetica": false,
+   "classificacao": "1.1.1.01.001",
+   "nome": "CAIXA GERAL",
+   "grau": 5
+  },
+  {
+   "codigo": "7",
+   "sintetica": true,
+   "classificacao": "1.1.1.02",
+   "nome": "BANCOS CONTA MOVIMENTO",
+   "grau": 4
+  },
+  {
+   "codigo": "8",
+   "sintetica": false,
+   "classificacao": "1.1.1.02.001",
+   "nome": "BANCO SICRED - CONTA 47923-9",
+   "grau": 5
+  },
+  {
+   "codigo": "9",
+   "sintetica": false,
+   "classificacao": "1.1.1.02.002",
+   "nome": "BANCO SICOOB - CONTA 67025-1",
+   "grau": 5
+  },
+  {
+   "codigo": "6",
+   "sintetica": false,
+   "classificacao": "1.1.1.02.003",
+   "nome": "BANCO ITAU - CONTA 52610-4",
+   "grau": 5
+  },
+  {
+   "codigo": "14",
+   "sintetica": false,
+   "classificacao": "1.1.1.02.004",
+   "nome": "INFINITEPAY CLOUDWALK - 25443696-1",
+   "grau": 5
+  },
+  {
+   "codigo": "10",
+   "sintetica": true,
+   "classificacao": "1.1.1.03",
+   "nome": "APLICAÇÕES FINANCEIRAS LIQUIDEZ IMEDIATA",
+   "grau": 4
+  },
+  {
+   "codigo": "11",
+   "sintetica": false,
+   "classificacao": "1.1.1.03.001",
+   "nome": "APLICAÇÃO AUTO MAIS ITAU",
+   "grau": 5
+  },
+  {
+   "codigo": "12",
+   "sintetica": true,
+   "classificacao": "1.1.2",
+   "nome": "CLIENTES",
+   "grau": 3
+  },
+  {
+   "codigo": "13",
+   "sintetica": true,
+   "classificacao": "1.1.2.01",
+   "nome": "DUPLICATAS A RECEBER",
+   "grau": 4
+  },
+  {
+   "codigo": "504",
+   "sintetica": false,
+   "classificacao": "1.1.2.01.001",
+   "nome": "CLIENTES DIVERSOS",
+   "grau": 5
+  },
+  {
+   "codigo": "16",
+   "sintetica": true,
+   "classificacao": "1.1.2.02",
+   "nome": "(-) DUPLICATAS DESCONTADAS",
+   "grau": 4
+  },
+  {
+   "codigo": "17",
+   "sintetica": true,
+   "classificacao": "1.1.2.03",
+   "nome": "CRÉDITOS VENCIDOS E NÃO LIQUIDADOS",
+   "grau": 4
+  },
+  {
+   "codigo": "18",
+   "sintetica": true,
+   "classificacao": "1.1.3",
+   "nome": "OUTROS CRÉDITOS",
+   "grau": 3
+  },
+  {
+   "codigo": "19",
+   "sintetica": true,
+   "classificacao": "1.1.3.01",
+   "nome": "BANCOS CONTA VINCULADA",
+   "grau": 4
+  },
+  {
+   "codigo": "20",
+   "sintetica": true,
+   "classificacao": "1.1.3.02",
+   "nome": "TÍTULOS A RECEBER",
+   "grau": 4
+  },
+  {
+   "codigo": "21",
+   "sintetica": true,
+   "classificacao": "1.1.3.03",
+   "nome": "CHEQUES EM COBRANÇA",
+   "grau": 4
+  },
+  {
+   "codigo": "22",
+   "sintetica": true,
+   "classificacao": "1.1.3.04",
+   "nome": "DIVIDENDOS A RECEBER",
+   "grau": 4
+  },
+  {
+   "codigo": "520",
+   "sintetica": false,
+   "classificacao": "1.1.3.04.001",
+   "nome": "DIVIDENDOS A RECEBER",
+   "grau": 5
+  },
+  {
+   "codigo": "23",
+   "sintetica": true,
+   "classificacao": "1.1.3.05",
+   "nome": "ADIANTAMENTOS A FORNECEDORES",
+   "grau": 4
+  },
+  {
+   "codigo": "24",
+   "sintetica": true,
+   "classificacao": "1.1.3.06",
+   "nome": "ADIANTAMENTO A EMPREGADOS",
+   "grau": 4
+  },
+  {
+   "codigo": "25",
+   "sintetica": false,
+   "classificacao": "1.1.3.06.001",
+   "nome": "ADIANTAMENTO DE SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "26",
+   "sintetica": false,
+   "classificacao": "1.1.3.06.002",
+   "nome": "ADIANTAMENTO DE 13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "27",
+   "sintetica": true,
+   "classificacao": "1.1.3.07",
+   "nome": "EMPRÉSTIMO A EMPREGADOS",
+   "grau": 4
+  },
+  {
+   "codigo": "28",
+   "sintetica": true,
+   "classificacao": "1.1.3.08",
+   "nome": "TRIBUTOS A RECUPERAR/COMPENSAR",
+   "grau": 4
+  },
+  {
+   "codigo": "29",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.001",
+   "nome": "IPI A RECUPERAR",
+   "grau": 5
+  },
+  {
+   "codigo": "30",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.002",
+   "nome": "ICMS A RECUPERAR",
+   "grau": 5
+  },
+  {
+   "codigo": "31",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.003",
+   "nome": "IRRF A RECUPERAR",
+   "grau": 5
+  },
+  {
+   "codigo": "32",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.004",
+   "nome": "IMPOSTO DE RENDA PAGO POR ESTIMATIVA",
+   "grau": 5
+  },
+  {
+   "codigo": "33",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.005",
+   "nome": "CONTRIBUIÇÃO SOCIAL PAGA ESTIMATIVA",
+   "grau": 5
+  },
+  {
+   "codigo": "34",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.006",
+   "nome": "TRIBUTOS PAGOS A MAIOR OU INDEVIDAMENTE",
+   "grau": 5
+  },
+  {
+   "codigo": "35",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.007",
+   "nome": "CONTRIBUIÇÃO SOCIAL RETIDO A COMPENSAR",
+   "grau": 5
+  },
+  {
+   "codigo": "36",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.008",
+   "nome": "COFINS RETIDO A COMPENSAR",
+   "grau": 5
+  },
+  {
+   "codigo": "37",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.009",
+   "nome": "PIS RETIDO A COMPENSAR",
+   "grau": 5
+  },
+  {
+   "codigo": "38",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.010",
+   "nome": "INSS A COMPENSAR",
+   "grau": 5
+  },
+  {
+   "codigo": "39",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.011",
+   "nome": "BÔNUS DE ADIMPLÊNCIA FISCAL A COMPENSAR",
+   "grau": 5
+  },
+  {
+   "codigo": "40",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.012",
+   "nome": "COFINS A RECUPERAR",
+   "grau": 5
+  },
+  {
+   "codigo": "41",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.013",
+   "nome": "PIS A RECUPERAR",
+   "grau": 5
+  },
+  {
+   "codigo": "42",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.014",
+   "nome": "COFINS A RECUPERAR - CRÉDITO PRESUMIDO",
+   "grau": 5
+  },
+  {
+   "codigo": "43",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.015",
+   "nome": "PIS RECUPERAR - CRÉDITO PRESUMIDO",
+   "grau": 5
+  },
+  {
+   "codigo": "476",
+   "sintetica": false,
+   "classificacao": "1.1.3.08.016",
+   "nome": "ISS A RECUPERAR",
+   "grau": 5
+  },
+  {
+   "codigo": "44",
+   "sintetica": true,
+   "classificacao": "1.1.3.09",
+   "nome": "JUROS SOBRE O CAPITAL PRÓPRIO",
+   "grau": 4
+  },
+  {
+   "codigo": "45",
+   "sintetica": false,
+   "classificacao": "1.1.3.09.001",
+   "nome": "JUROS SOBRE O CAPITAL PRÓPRIO A RECEBER",
+   "grau": 5
+  },
+  {
+   "codigo": "552",
+   "sintetica": true,
+   "classificacao": "1.1.3.10",
+   "nome": "OUTROS EMPRESTIMOS DE MUTUOS",
+   "grau": 4
+  },
+  {
+   "codigo": "167",
+   "sintetica": false,
+   "classificacao": "1.1.3.10.001",
+   "nome": "EMPRESTIMO RIBEIRO FAST FASHION LTDA (CNPJ: 19.957.768/0001-86)",
+   "grau": 5
+  },
+  {
+   "codigo": "46",
+   "sintetica": true,
+   "classificacao": "1.1.4",
+   "nome": "APLICAÇÕES FINANCEIRAS",
+   "grau": 3
+  },
+  {
+   "codigo": "47",
+   "sintetica": true,
+   "classificacao": "1.1.4.01",
+   "nome": "APLICAÇÕES FINANCEIRAS REND. PREFIXADOS",
+   "grau": 4
+  },
+  {
+   "codigo": "48",
+   "sintetica": false,
+   "classificacao": "1.1.4.01.001",
+   "nome": "INVESTIMENTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "71",
+   "sintetica": false,
+   "classificacao": "1.1.4.01.002",
+   "nome": "APLICAÇÃO SICREDI",
+   "grau": 5
+  },
+  {
+   "codigo": "94",
+   "sintetica": false,
+   "classificacao": "1.1.4.01.003",
+   "nome": "RENDIMENTO APLICAÇÃO FINANC. A APROPRIAR",
+   "grau": 5
+  },
+  {
+   "codigo": "49",
+   "sintetica": true,
+   "classificacao": "1.1.4.03",
+   "nome": "AÇÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "50",
+   "sintetica": true,
+   "classificacao": "1.1.4.04",
+   "nome": "DEBÊNTURES",
+   "grau": 4
+  },
+  {
+   "codigo": "51",
+   "sintetica": false,
+   "classificacao": "1.1.4.04.001",
+   "nome": "VALOR NOMINAL",
+   "grau": 5
+  },
+  {
+   "codigo": "52",
+   "sintetica": false,
+   "classificacao": "1.1.4.04.002",
+   "nome": "(-) DESÁGIO A APROPRIAR",
+   "grau": 5
+  },
+  {
+   "codigo": "53",
+   "sintetica": true,
+   "classificacao": "1.1.5",
+   "nome": "ESTOQUE",
+   "grau": 3
+  },
+  {
+   "codigo": "54",
+   "sintetica": true,
+   "classificacao": "1.1.5.01",
+   "nome": "MERCADORIAS, PRODUTOS E INSUMOS",
+   "grau": 4
+  },
+  {
+   "codigo": "55",
+   "sintetica": false,
+   "classificacao": "1.1.5.01.001",
+   "nome": "MERCADORIAS PARA REVENDA",
+   "grau": 5
+  },
+  {
+   "codigo": "56",
+   "sintetica": false,
+   "classificacao": "1.1.5.01.002",
+   "nome": "MATÉRIA-PRIMA",
+   "grau": 5
+  },
+  {
+   "codigo": "57",
+   "sintetica": false,
+   "classificacao": "1.1.5.01.003",
+   "nome": "MATERIAL DE ACONDICIONAMENTO",
+   "grau": 5
+  },
+  {
+   "codigo": "59",
+   "sintetica": false,
+   "classificacao": "1.1.5.01.005",
+   "nome": "PRODUTOS ACABADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "60",
+   "sintetica": false,
+   "classificacao": "1.1.5.01.006",
+   "nome": "PRODUTOS EM ELABORAÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "61",
+   "sintetica": true,
+   "classificacao": "1.1.5.02",
+   "nome": "ALMOXARIFADO",
+   "grau": 4
+  },
+  {
+   "codigo": "62",
+   "sintetica": false,
+   "classificacao": "1.1.5.02.001",
+   "nome": "ALMOXARIFADO DE MANUTENÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "63",
+   "sintetica": false,
+   "classificacao": "1.1.5.02.002",
+   "nome": "ALMOXARIFADO ADMINISTRATIVO",
+   "grau": 5
+  },
+  {
+   "codigo": "64",
+   "sintetica": true,
+   "classificacao": "1.1.5.03",
+   "nome": "(-) PROVISÃO PARA AJUSTES DO ESTOQUE",
+   "grau": 4
+  },
+  {
+   "codigo": "65",
+   "sintetica": true,
+   "classificacao": "1.1.6",
+   "nome": "DESPESAS PAGAS ANTECIPADAMENTE",
+   "grau": 3
+  },
+  {
+   "codigo": "66",
+   "sintetica": true,
+   "classificacao": "1.1.6.01",
+   "nome": "DESPESAS DE MESES SEGUINTES",
+   "grau": 4
+  },
+  {
+   "codigo": "67",
+   "sintetica": false,
+   "classificacao": "1.1.6.01.001",
+   "nome": "PRÊMIOS DE SEGUROS A APROPRIAR",
+   "grau": 5
+  },
+  {
+   "codigo": "68",
+   "sintetica": false,
+   "classificacao": "1.1.6.01.002",
+   "nome": "ASSINATURAS E ANUIDADES",
+   "grau": 5
+  },
+  {
+   "codigo": "501",
+   "sintetica": true,
+   "classificacao": "1.2",
+   "nome": "ATIVO NÃO-CIRCULANTE",
+   "grau": 2
+  },
+  {
+   "codigo": "69",
+   "sintetica": true,
+   "classificacao": "1.2.1",
+   "nome": "ATIVO REALIZÁVEL A LONGO PRAZO",
+   "grau": 3
+  },
+  {
+   "codigo": "70",
+   "sintetica": true,
+   "classificacao": "1.2.1.01",
+   "nome": "CLIENTES",
+   "grau": 4
+  },
+  {
+   "codigo": "72",
+   "sintetica": false,
+   "classificacao": "1.2.1.01.001",
+   "nome": "CLIENTE B",
+   "grau": 5
+  },
+  {
+   "codigo": "73",
+   "sintetica": false,
+   "classificacao": "1.2.1.01.002",
+   "nome": "CLIENTE C",
+   "grau": 5
+  },
+  {
+   "codigo": "511",
+   "sintetica": false,
+   "classificacao": "1.2.1.01.003",
+   "nome": "CONSUMIDOR FINAL",
+   "grau": 5
+  },
+  {
+   "codigo": "74",
+   "sintetica": true,
+   "classificacao": "1.2.1.02",
+   "nome": "(-) DUPLICATAS DESCONTADAS",
+   "grau": 4
+  },
+  {
+   "codigo": "75",
+   "sintetica": true,
+   "classificacao": "1.2.1.03",
+   "nome": "(-) CRÉDITOS VENCIDOS E NÃO LIQUIDADOS",
+   "grau": 4
+  },
+  {
+   "codigo": "76",
+   "sintetica": true,
+   "classificacao": "1.2.2",
+   "nome": "OUTROS CRÉDITOS",
+   "grau": 3
+  },
+  {
+   "codigo": "77",
+   "sintetica": true,
+   "classificacao": "1.2.2.01",
+   "nome": "TÍTULOS A RECEBER",
+   "grau": 4
+  },
+  {
+   "codigo": "78",
+   "sintetica": true,
+   "classificacao": "1.2.2.02",
+   "nome": "BANCOS CONTA VINCULADA",
+   "grau": 4
+  },
+  {
+   "codigo": "79",
+   "sintetica": true,
+   "classificacao": "1.2.2.03",
+   "nome": "CONTROLADORA, CONTROLADAS E COLIGADAS",
+   "grau": 4
+  },
+  {
+   "codigo": "80",
+   "sintetica": true,
+   "classificacao": "1.2.2.04",
+   "nome": "SÓCIOS, ADMINISTRADORES E PESSOAS LIGADA",
+   "grau": 4
+  },
+  {
+   "codigo": "539",
+   "sintetica": false,
+   "classificacao": "1.2.2.04.001",
+   "nome": "EMERSON MOHR (CPF)",
+   "grau": 5
+  },
+  {
+   "codigo": "548",
+   "sintetica": false,
+   "classificacao": "1.2.2.04.002",
+   "nome": "SUELI RIBEIRO MOHR (CPF)",
+   "grau": 5
+  },
+  {
+   "codigo": "81",
+   "sintetica": true,
+   "classificacao": "1.2.2.05",
+   "nome": "APLICAÇÕES FINANCEIRAS",
+   "grau": 4
+  },
+  {
+   "codigo": "82",
+   "sintetica": true,
+   "classificacao": "1.2.2.06",
+   "nome": "DEPÓSITOS JUDICIAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "83",
+   "sintetica": true,
+   "classificacao": "1.2.2.07",
+   "nome": "EMPRÉSTIMOS COMPULSÓRIOS",
+   "grau": 4
+  },
+  {
+   "codigo": "84",
+   "sintetica": true,
+   "classificacao": "1.2.2.08",
+   "nome": "TRIBUTOS A RECUPERAR",
+   "grau": 4
+  },
+  {
+   "codigo": "85",
+   "sintetica": true,
+   "classificacao": "1.2.2.09",
+   "nome": "DESPESAS PAGAS ANTECIPADAS",
+   "grau": 4
+  },
+  {
+   "codigo": "86",
+   "sintetica": true,
+   "classificacao": "1.2.2.10",
+   "nome": "DEPÓSITOS POR INCENTIVOS FISCAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "88",
+   "sintetica": true,
+   "classificacao": "1.2.3",
+   "nome": "INVESTIMENTOS",
+   "grau": 3
+  },
+  {
+   "codigo": "89",
+   "sintetica": true,
+   "classificacao": "1.2.3.01",
+   "nome": "CONTROLADAS E COLIGADAS - EQUIV. PATRIM.",
+   "grau": 4
+  },
+  {
+   "codigo": "90",
+   "sintetica": false,
+   "classificacao": "1.2.3.01.001",
+   "nome": "CONTROLADA A - VALOR PATRIMONIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "91",
+   "sintetica": false,
+   "classificacao": "1.2.3.01.002",
+   "nome": "CONTROLADA A - ÁGIO AQUISIÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "92",
+   "sintetica": false,
+   "classificacao": "1.2.3.01.003",
+   "nome": "(-) CONTROLADA A - AMORTIZAÇÃO DO ÁGIL",
+   "grau": 5
+  },
+  {
+   "codigo": "93",
+   "sintetica": false,
+   "classificacao": "1.2.3.01.004",
+   "nome": "(-) CONTROLADA A - DESÁGIO NA AQUISIÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "95",
+   "sintetica": true,
+   "classificacao": "1.2.3.02",
+   "nome": "CONTROLADAS E COLIGADAS CUSTO CORRIGIDO",
+   "grau": 4
+  },
+  {
+   "codigo": "96",
+   "sintetica": true,
+   "classificacao": "1.2.3.03",
+   "nome": "OUTRAS PARTICIPAÇÕES SOCIETÁRIAS",
+   "grau": 4
+  },
+  {
+   "codigo": "97",
+   "sintetica": true,
+   "classificacao": "1.2.3.04",
+   "nome": "PARTICIPAÇÕES POR INCENTIVOS FISCAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "98",
+   "sintetica": false,
+   "classificacao": "1.2.3.04.001",
+   "nome": "FINOR",
+   "grau": 5
+  },
+  {
+   "codigo": "99",
+   "sintetica": false,
+   "classificacao": "1.2.3.04.002",
+   "nome": "FINAM",
+   "grau": 5
+  },
+  {
+   "codigo": "100",
+   "sintetica": true,
+   "classificacao": "1.2.3.05",
+   "nome": "IMÓVEIS NÃO DESTINADOS AO USO",
+   "grau": 4
+  },
+  {
+   "codigo": "101",
+   "sintetica": true,
+   "classificacao": "1.2.3.06",
+   "nome": "OUTROS INVESTIMENTOS PERMANENTES",
+   "grau": 4
+  },
+  {
+   "codigo": "102",
+   "sintetica": false,
+   "classificacao": "1.2.3.06.001",
+   "nome": "OBJETOS DE ARTE",
+   "grau": 5
+  },
+  {
+   "codigo": "103",
+   "sintetica": false,
+   "classificacao": "1.2.3.06.002",
+   "nome": "CAUÇÕES PERMANENTES",
+   "grau": 5
+  },
+  {
+   "codigo": "104",
+   "sintetica": true,
+   "classificacao": "1.2.3.07",
+   "nome": "(-) PROVISÃO PARA PERDAS PERMANENTE",
+   "grau": 4
+  },
+  {
+   "codigo": "105",
+   "sintetica": false,
+   "classificacao": "1.2.3.07.001",
+   "nome": "(-) CONTROLADAS E COLIGADAS EQUI. PATRIM",
+   "grau": 5
+  },
+  {
+   "codigo": "106",
+   "sintetica": false,
+   "classificacao": "1.2.3.07.002",
+   "nome": "(-) CONTROLADAS COLIGADAS CUSTO CORRIGID",
+   "grau": 5
+  },
+  {
+   "codigo": "107",
+   "sintetica": false,
+   "classificacao": "1.2.3.07.003",
+   "nome": "(-) OUTRAS PARTICIPAÇÕES SOCIETÁRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "108",
+   "sintetica": false,
+   "classificacao": "1.2.3.07.004",
+   "nome": "(-) PARTICIPAÇÕES POR INCENTIVOS FISCAIS",
+   "grau": 5
+  },
+  {
+   "codigo": "109",
+   "sintetica": false,
+   "classificacao": "1.2.3.07.005",
+   "nome": "(-) IMÓVEIS NÃO DESTINADOS A USO",
+   "grau": 5
+  },
+  {
+   "codigo": "110",
+   "sintetica": false,
+   "classificacao": "1.2.3.07.006",
+   "nome": "(-) OUTROS INVESTIMENTOS PERMANENTES",
+   "grau": 5
+  },
+  {
+   "codigo": "111",
+   "sintetica": true,
+   "classificacao": "1.2.4",
+   "nome": "IMOBILIZADO",
+   "grau": 3
+  },
+  {
+   "codigo": "112",
+   "sintetica": true,
+   "classificacao": "1.2.4.01",
+   "nome": "IMÓVEIS",
+   "grau": 4
+  },
+  {
+   "codigo": "113",
+   "sintetica": false,
+   "classificacao": "1.2.4.01.001",
+   "nome": "TERRENOS",
+   "grau": 5
+  },
+  {
+   "codigo": "115",
+   "sintetica": false,
+   "classificacao": "1.2.4.01.002",
+   "nome": "CONSTRUÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "114",
+   "sintetica": false,
+   "classificacao": "1.2.4.01.002",
+   "nome": "EDIFÍCIOS",
+   "grau": 5
+  },
+  {
+   "codigo": "116",
+   "sintetica": true,
+   "classificacao": "1.2.4.02",
+   "nome": "MÓVEIS E UTENSÍLIOS",
+   "grau": 4
+  },
+  {
+   "codigo": "117",
+   "sintetica": false,
+   "classificacao": "1.2.4.02.001",
+   "nome": "MÓVEIS E UTENSÍLIOS",
+   "grau": 5
+  },
+  {
+   "codigo": "118",
+   "sintetica": true,
+   "classificacao": "1.2.4.03",
+   "nome": "MÁQUINAS, EQUIPAMENTOS E FERRAMENTAS",
+   "grau": 4
+  },
+  {
+   "codigo": "119",
+   "sintetica": false,
+   "classificacao": "1.2.4.03.001",
+   "nome": "MÁQUINAS E EQUIPAMENTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "120",
+   "sintetica": true,
+   "classificacao": "1.2.4.04",
+   "nome": "VEÍCULOS",
+   "grau": 4
+  },
+  {
+   "codigo": "121",
+   "sintetica": false,
+   "classificacao": "1.2.4.04.001",
+   "nome": "VEÍCULOS",
+   "grau": 5
+  },
+  {
+   "codigo": "122",
+   "sintetica": true,
+   "classificacao": "1.2.4.05",
+   "nome": "RECURSOS NATURAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "124",
+   "sintetica": true,
+   "classificacao": "1.2.4.06",
+   "nome": "IMOBILIZADO EM ANDAMENTO",
+   "grau": 4
+  },
+  {
+   "codigo": "125",
+   "sintetica": true,
+   "classificacao": "1.2.4.07",
+   "nome": "(-) DEPRECIAÇÕES, AMORT. E EXAUS. ACUMUL",
+   "grau": 4
+  },
+  {
+   "codigo": "126",
+   "sintetica": false,
+   "classificacao": "1.2.4.07.001",
+   "nome": "(-) DEPRECIAÇÕES DE EDIFÍCIOS",
+   "grau": 5
+  },
+  {
+   "codigo": "127",
+   "sintetica": false,
+   "classificacao": "1.2.4.07.002",
+   "nome": "(-) DEPRECIAÇÕES DE MÓVEIS E UTENSÍLIOS",
+   "grau": 5
+  },
+  {
+   "codigo": "128",
+   "sintetica": false,
+   "classificacao": "1.2.4.07.003",
+   "nome": "(-) DEPRECIAÇÕES DE MÁQUINAS, EQUIP. FER",
+   "grau": 5
+  },
+  {
+   "codigo": "129",
+   "sintetica": false,
+   "classificacao": "1.2.4.07.004",
+   "nome": "(-) DEPRECIAÇÕES DE VEÍCULOS",
+   "grau": 5
+  },
+  {
+   "codigo": "130",
+   "sintetica": false,
+   "classificacao": "1.2.4.07.005",
+   "nome": "(-) EXAUSTÕES E DEPREC. DE REC. NATURAIS",
+   "grau": 5
+  },
+  {
+   "codigo": "131",
+   "sintetica": false,
+   "classificacao": "1.2.4.07.006",
+   "nome": "(-) AMORTIZAÇÃO DE MARCAS, DIR. PATENTES",
+   "grau": 5
+  },
+  {
+   "codigo": "502",
+   "sintetica": true,
+   "classificacao": "1.2.5",
+   "nome": "INTANGÍVEL",
+   "grau": 3
+  },
+  {
+   "codigo": "123",
+   "sintetica": true,
+   "classificacao": "1.2.5.01",
+   "nome": "MARCAS, DIREITOS E PATENTES",
+   "grau": 4
+  },
+  {
+   "codigo": "149",
+   "sintetica": true,
+   "classificacao": "2",
+   "nome": "PASSIVO",
+   "grau": 1
+  },
+  {
+   "codigo": "150",
+   "sintetica": true,
+   "classificacao": "2.1",
+   "nome": "PASSIVO CIRCULANTE",
+   "grau": 2
+  },
+  {
+   "codigo": "382",
+   "sintetica": true,
+   "classificacao": "2.1.1",
+   "nome": "EMPRÉSTIMOS E FINANCIAMENTOS",
+   "grau": 3
+  },
+  {
+   "codigo": "151",
+   "sintetica": true,
+   "classificacao": "2.1.1.01",
+   "nome": "EMPRÉSTIMOS",
+   "grau": 4
+  },
+  {
+   "codigo": "152",
+   "sintetica": false,
+   "classificacao": "2.1.1.01.001",
+   "nome": "EMPRESTIMO J A R DE ALMEIDA LTDA (CNPJ: 59.888.774/0001-43)",
+   "grau": 5
+  },
+  {
+   "codigo": "166",
+   "sintetica": false,
+   "classificacao": "2.1.1.01.002",
+   "nome": "EMPRESTIMO E FINANCIAMENTO A CURTO PRAZO",
+   "grau": 5
+  },
+  {
+   "codigo": "153",
+   "sintetica": true,
+   "classificacao": "2.1.1.02",
+   "nome": "EMPRÉSTIMO ESTRANGEIRO",
+   "grau": 4
+  },
+  {
+   "codigo": "154",
+   "sintetica": true,
+   "classificacao": "2.1.1.03",
+   "nome": "FINANCIAMENTOS",
+   "grau": 4
+  },
+  {
+   "codigo": "155",
+   "sintetica": false,
+   "classificacao": "2.1.1.03.001",
+   "nome": "FINANCIAMENTO BANCO FINASA",
+   "grau": 5
+  },
+  {
+   "codigo": "156",
+   "sintetica": true,
+   "classificacao": "2.1.1.04",
+   "nome": "FINANCIAMENTOS ESTRANGEIROS",
+   "grau": 4
+  },
+  {
+   "codigo": "157",
+   "sintetica": true,
+   "classificacao": "2.1.1.05",
+   "nome": "TÍTULOS A PAGAR",
+   "grau": 4
+  },
+  {
+   "codigo": "158",
+   "sintetica": true,
+   "classificacao": "2.1.1.06",
+   "nome": "ADIANTAMENTOS SOBRE CONTRATOS DE CÂMBIO",
+   "grau": 4
+  },
+  {
+   "codigo": "159",
+   "sintetica": true,
+   "classificacao": "2.1.1.07",
+   "nome": "CONTROLADORA, CONTROLADAS E COLIGADAS",
+   "grau": 4
+  },
+  {
+   "codigo": "160",
+   "sintetica": true,
+   "classificacao": "2.1.2",
+   "nome": "DEBÊNTURES",
+   "grau": 3
+  },
+  {
+   "codigo": "161",
+   "sintetica": true,
+   "classificacao": "2.1.2.01",
+   "nome": "DEBÊNTURES CONVERSÍVEIS EM AÇÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "162",
+   "sintetica": true,
+   "classificacao": "2.1.2.02",
+   "nome": "DEBÊNTURES NÃO CONVERSÍVEIS",
+   "grau": 4
+  },
+  {
+   "codigo": "163",
+   "sintetica": true,
+   "classificacao": "2.1.2.03",
+   "nome": "(-) DESÁGIO A APROPRIAR",
+   "grau": 4
+  },
+  {
+   "codigo": "164",
+   "sintetica": true,
+   "classificacao": "2.1.3",
+   "nome": "FORNECEDORES",
+   "grau": 3
+  },
+  {
+   "codigo": "165",
+   "sintetica": true,
+   "classificacao": "2.1.3.01",
+   "nome": "FORNECEDORES",
+   "grau": 4
+  },
+  {
+   "codigo": "506",
+   "sintetica": false,
+   "classificacao": "2.1.3.01.001",
+   "nome": "FORNECEDOR MODELO",
+   "grau": 5
+  },
+  {
+   "codigo": "505",
+   "sintetica": false,
+   "classificacao": "2.1.3.01.001",
+   "nome": "FORNECEDOR PARA NOTAS CANCELADAS",
+   "grau": 5
+  },
+  {
+   "codigo": "168",
+   "sintetica": true,
+   "classificacao": "2.1.3.02",
+   "nome": "FORNECEDORES ESTRANGEIROS",
+   "grau": 4
+  },
+  {
+   "codigo": "169",
+   "sintetica": true,
+   "classificacao": "2.1.4",
+   "nome": "OBRIGAÇÕES TRIBUTÁRIAS",
+   "grau": 3
+  },
+  {
+   "codigo": "170",
+   "sintetica": true,
+   "classificacao": "2.1.4.01",
+   "nome": "IMPOSTOS E CONTRIBUIÇÕES A RECOLHER",
+   "grau": 4
+  },
+  {
+   "codigo": "171",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.001",
+   "nome": "IPI A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "172",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.002",
+   "nome": "ICMS A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "173",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.003",
+   "nome": "ISS A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "174",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.004",
+   "nome": "PROVISÃO PARA IMPOSTO DE RENDA",
+   "grau": 5
+  },
+  {
+   "codigo": "175",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.005",
+   "nome": "PROVISÃO P/ CONTRIBUIÇÃO SOCIAL S/ LUCRO",
+   "grau": 5
+  },
+  {
+   "codigo": "176",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.006",
+   "nome": "IMPOSTO DE RENDA A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "177",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.007",
+   "nome": "CONTRIBUIÇÃO SOCIAL A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "178",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.008",
+   "nome": "IRRF A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "179",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.009",
+   "nome": "PIS A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "180",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.010",
+   "nome": "COFINS A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "181",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.011",
+   "nome": "PROVISÃO PARA IOF",
+   "grau": 5
+  },
+  {
+   "codigo": "182",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.012",
+   "nome": "CRF A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "183",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.013",
+   "nome": "ISS RETIDO A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "184",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.014",
+   "nome": "INSS RETIDO A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "479",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.015",
+   "nome": "SIMPLES NACIONAL A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "481",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.016",
+   "nome": "SUBSTITUIÇÃO TRIBUTÁRIA A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "483",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.017",
+   "nome": "PARCELAMENTO SIMPLES NACIONAL",
+   "grau": 5
+  },
+  {
+   "codigo": "485",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.018",
+   "nome": "FIA A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "487",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.019",
+   "nome": "PIS RETIDO A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "488",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.020",
+   "nome": "COFINS RETIDO A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "489",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.021",
+   "nome": "CONTRIBUIÇÃO SOCIAL RETIDA A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "490",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.022",
+   "nome": "FUNRURAL A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "491",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.023",
+   "nome": "CONTRIBUIÇÃO SINDICAL A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "508",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.024",
+   "nome": "INSS RECEITA BRUTA A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "512",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.025",
+   "nome": "ICMS ANTECIPADO A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "513",
+   "sintetica": false,
+   "classificacao": "2.1.4.01.026",
+   "nome": "ICMS ANTECIPAÇÃO TOTAL ST A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "185",
+   "sintetica": true,
+   "classificacao": "2.1.5",
+   "nome": "OBRIGAÇÕES TRABALHISTA E PREVIDENCIÁRIA",
+   "grau": 3
+  },
+  {
+   "codigo": "186",
+   "sintetica": true,
+   "classificacao": "2.1.5.01",
+   "nome": "OBRIGAÇÕES COM O PESSOAL",
+   "grau": 4
+  },
+  {
+   "codigo": "187",
+   "sintetica": false,
+   "classificacao": "2.1.5.01.001",
+   "nome": "SALÁRIOS E ORDENADOS A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "188",
+   "sintetica": false,
+   "classificacao": "2.1.5.01.002",
+   "nome": "PRÓ-LABORE A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "189",
+   "sintetica": false,
+   "classificacao": "2.1.5.01.003",
+   "nome": "GRATIFICAÇÕES A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "542",
+   "sintetica": false,
+   "classificacao": "2.1.5.01.004",
+   "nome": "FERIAS A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "543",
+   "sintetica": false,
+   "classificacao": "2.1.5.01.005",
+   "nome": "RESCISÃO A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "546",
+   "sintetica": false,
+   "classificacao": "2.1.5.01.006",
+   "nome": "13º SALARIO A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "190",
+   "sintetica": true,
+   "classificacao": "2.1.5.02",
+   "nome": "OBRIGAÇÕES SOCIAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "191",
+   "sintetica": false,
+   "classificacao": "2.1.5.02.001",
+   "nome": "INSS A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "192",
+   "sintetica": false,
+   "classificacao": "2.1.5.02.002",
+   "nome": "FGTS A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "494",
+   "sintetica": false,
+   "classificacao": "2.1.5.02.003",
+   "nome": "IRRF S/ FOLHA A RECOLHER",
+   "grau": 5
+  },
+  {
+   "codigo": "193",
+   "sintetica": true,
+   "classificacao": "2.1.5.03",
+   "nome": "PROVISÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "194",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.001",
+   "nome": "PROVISÕES PARA FÉRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "195",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.002",
+   "nome": "PROVISÕES PARA 13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "196",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.003",
+   "nome": "INSS SOBRE PROVISÕES PARA FÉRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "197",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.004",
+   "nome": "INSS SOBRE PROVISÕES PARA 13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "198",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.005",
+   "nome": "FGTS SOBRE PROVISÕES PARA FÉRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "199",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.006",
+   "nome": "FGTS SOBRE PROVISÕES PARA 13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "495",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.007",
+   "nome": "PIS SOBRE PROVISÕES PARA FÉRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "496",
+   "sintetica": false,
+   "classificacao": "2.1.5.03.008",
+   "nome": "PIS SOBRE PROVISÕES PARA 13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "200",
+   "sintetica": true,
+   "classificacao": "2.1.6",
+   "nome": "OUTRAS OBRIGAÇÕES",
+   "grau": 3
+  },
+  {
+   "codigo": "201",
+   "sintetica": true,
+   "classificacao": "2.1.6.01",
+   "nome": "ADIANTAMENTOS A CLIENTES",
+   "grau": 4
+  },
+  {
+   "codigo": "549",
+   "sintetica": false,
+   "classificacao": "2.1.6.01.001",
+   "nome": "ADIANTAMENTO DE CLIENTES",
+   "grau": 5
+  },
+  {
+   "codigo": "202",
+   "sintetica": true,
+   "classificacao": "2.1.6.02",
+   "nome": "CONTAS A PAGAR",
+   "grau": 4
+  },
+  {
+   "codigo": "510",
+   "sintetica": false,
+   "classificacao": "2.1.6.02.001",
+   "nome": "HONORÁRIOS CONTÁBEIS",
+   "grau": 5
+  },
+  {
+   "codigo": "203",
+   "sintetica": true,
+   "classificacao": "2.1.6.03",
+   "nome": "ENERGIA ELÉTRICA, ÁGUA E TELEFONE A PAGA",
+   "grau": 4
+  },
+  {
+   "codigo": "204",
+   "sintetica": true,
+   "classificacao": "2.1.6.04",
+   "nome": "CONTAS CORRENTES",
+   "grau": 4
+  },
+  {
+   "codigo": "205",
+   "sintetica": true,
+   "classificacao": "2.1.6.05",
+   "nome": "SEGUROS",
+   "grau": 4
+  },
+  {
+   "codigo": "206",
+   "sintetica": true,
+   "classificacao": "2.1.6.06",
+   "nome": "OUTRAS OBRIGAÇÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "207",
+   "sintetica": true,
+   "classificacao": "2.1.7",
+   "nome": "DIVIDENDOS, PART. E JURO SOBRE O CAPITAL",
+   "grau": 3
+  },
+  {
+   "codigo": "208",
+   "sintetica": true,
+   "classificacao": "2.1.7.01",
+   "nome": "DIVIDENDOS",
+   "grau": 4
+  },
+  {
+   "codigo": "209",
+   "sintetica": false,
+   "classificacao": "2.1.7.01.001",
+   "nome": "DIVIDENDOS PROPOSTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "210",
+   "sintetica": false,
+   "classificacao": "2.1.7.01.002",
+   "nome": "DIVIDENDOS A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "211",
+   "sintetica": true,
+   "classificacao": "2.1.7.02",
+   "nome": "PARTICIPAÇÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "212",
+   "sintetica": false,
+   "classificacao": "2.1.7.02.001",
+   "nome": "PARTICIPAÇÕES PROPOSTA A ADMINISTRADORES",
+   "grau": 5
+  },
+  {
+   "codigo": "213",
+   "sintetica": false,
+   "classificacao": "2.1.7.02.002",
+   "nome": "PARTICIPAÇÕES PROPOSTA A EMPREGADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "214",
+   "sintetica": false,
+   "classificacao": "2.1.7.02.003",
+   "nome": "PARTICIPAÇÕES A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "215",
+   "sintetica": true,
+   "classificacao": "2.1.7.03",
+   "nome": "JUROS SOBRE CAPITAL PRÓPRIO",
+   "grau": 4
+  },
+  {
+   "codigo": "216",
+   "sintetica": false,
+   "classificacao": "2.1.7.03.001",
+   "nome": "JUROS SOBRE CAPITAL PRÓPRIO A PAGAR",
+   "grau": 5
+  },
+  {
+   "codigo": "503",
+   "sintetica": true,
+   "classificacao": "2.2",
+   "nome": "PASSIVO NÃO-CIRCULANTE",
+   "grau": 2
+  },
+  {
+   "codigo": "217",
+   "sintetica": true,
+   "classificacao": "2.2.1",
+   "nome": "PASSIVO EXIGÍVEL A LONGO PRAZO",
+   "grau": 3
+  },
+  {
+   "codigo": "219",
+   "sintetica": true,
+   "classificacao": "2.2.1.01",
+   "nome": "EMPRÉSTIMOS",
+   "grau": 4
+  },
+  {
+   "codigo": "550",
+   "sintetica": false,
+   "classificacao": "2.2.1.01.001",
+   "nome": "EMPRESTIMO BANCO ITAU",
+   "grau": 5
+  },
+  {
+   "codigo": "220",
+   "sintetica": true,
+   "classificacao": "2.2.1.02",
+   "nome": "EMPRÉSTIMOS ESTRANGEIROS",
+   "grau": 4
+  },
+  {
+   "codigo": "221",
+   "sintetica": true,
+   "classificacao": "2.2.1.03",
+   "nome": "FINANCIAMENTOS",
+   "grau": 4
+  },
+  {
+   "codigo": "222",
+   "sintetica": false,
+   "classificacao": "2.2.1.03.001",
+   "nome": "BANCO FINASA S/A",
+   "grau": 5
+  },
+  {
+   "codigo": "223",
+   "sintetica": true,
+   "classificacao": "2.2.1.04",
+   "nome": "FINANCIAMENTOS ESTRANGEIROS",
+   "grau": 4
+  },
+  {
+   "codigo": "225",
+   "sintetica": true,
+   "classificacao": "2.2.1.05",
+   "nome": "CONTROLADORA, CONTROLADAS E COLIGADAS",
+   "grau": 4
+  },
+  {
+   "codigo": "226",
+   "sintetica": true,
+   "classificacao": "2.2.1.06",
+   "nome": "OUTROS DÉBITOS COM SÓCIOS, ADM, PESSOAS",
+   "grau": 4
+  },
+  {
+   "codigo": "227",
+   "sintetica": true,
+   "classificacao": "2.2.1.08",
+   "nome": "FORNECEDORES",
+   "grau": 4
+  },
+  {
+   "codigo": "229",
+   "sintetica": false,
+   "classificacao": "2.2.1.08.001",
+   "nome": "FORNECEDOR A",
+   "grau": 5
+  },
+  {
+   "codigo": "230",
+   "sintetica": false,
+   "classificacao": "2.2.1.08.002",
+   "nome": "FORNECEDOR B",
+   "grau": 5
+  },
+  {
+   "codigo": "232",
+   "sintetica": true,
+   "classificacao": "2.2.1.09",
+   "nome": "OBRIGAÇÕES TRIBUTÁRIAS",
+   "grau": 4
+  },
+  {
+   "codigo": "234",
+   "sintetica": false,
+   "classificacao": "2.2.1.09.001",
+   "nome": "PROVISÃO PARA IR SOBRE LUCROS DIFERIDOS",
+   "grau": 5
+  },
+  {
+   "codigo": "235",
+   "sintetica": false,
+   "classificacao": "2.2.1.09.002",
+   "nome": "CRÉDITOS DA CSLL SOBRE BENS DO ATIVO",
+   "grau": 5
+  },
+  {
+   "codigo": "236",
+   "sintetica": true,
+   "classificacao": "2.2.1.10",
+   "nome": "OUTRAS OBRIGAÇÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "224",
+   "sintetica": true,
+   "classificacao": "2.2.1.7",
+   "nome": "TÍTULOS A PAGAR",
+   "grau": 4
+  },
+  {
+   "codigo": "242",
+   "sintetica": true,
+   "classificacao": "2.3",
+   "nome": "PATRIMÔNIO LÍQUIDO",
+   "grau": 2
+  },
+  {
+   "codigo": "243",
+   "sintetica": true,
+   "classificacao": "2.3.1",
+   "nome": "CAPITAL SOCIAL",
+   "grau": 3
+  },
+  {
+   "codigo": "244",
+   "sintetica": true,
+   "classificacao": "2.3.1.01",
+   "nome": "CAPITAL SUBSCRITO",
+   "grau": 4
+  },
+  {
+   "codigo": "245",
+   "sintetica": false,
+   "classificacao": "2.3.1.01.001",
+   "nome": "CAPITAL SOCIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "246",
+   "sintetica": true,
+   "classificacao": "2.3.1.02",
+   "nome": "(-) CAPITAL A INTEGRALIZAR",
+   "grau": 4
+  },
+  {
+   "codigo": "247",
+   "sintetica": false,
+   "classificacao": "2.3.1.02.001",
+   "nome": "CAPITAL A INTEGRALIZAR",
+   "grau": 5
+  },
+  {
+   "codigo": "524",
+   "sintetica": true,
+   "classificacao": "2.3.2",
+   "nome": "RESERVAS",
+   "grau": 3
+  },
+  {
+   "codigo": "249",
+   "sintetica": true,
+   "classificacao": "2.3.2.01",
+   "nome": "RESERVAS DE CAPITAL",
+   "grau": 4
+  },
+  {
+   "codigo": "251",
+   "sintetica": false,
+   "classificacao": "2.3.2.01.001",
+   "nome": "ÁGIO NA EMISSÃO DE AÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "252",
+   "sintetica": false,
+   "classificacao": "2.3.2.01.002",
+   "nome": "DOAÇÕES E SUBVENÇÕES PARA INVESTIMENTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "253",
+   "sintetica": false,
+   "classificacao": "2.3.2.01.003",
+   "nome": "(-) AÇÕES/QUOTAS EM TESOURARIA",
+   "grau": 5
+  },
+  {
+   "codigo": "250",
+   "sintetica": false,
+   "classificacao": "2.3.2.01.004",
+   "nome": "CORREÇÃO MONETÁRIA DO CAP. INTEGRALIZADO",
+   "grau": 5
+  },
+  {
+   "codigo": "254",
+   "sintetica": true,
+   "classificacao": "2.3.2.02",
+   "nome": "RESERVA DE REAVALIAÇÃO",
+   "grau": 4
+  },
+  {
+   "codigo": "256",
+   "sintetica": false,
+   "classificacao": "2.3.2.02.001",
+   "nome": "REAVALIAÇÃO DE ATIVOS COLIGADAS",
+   "grau": 5
+  },
+  {
+   "codigo": "255",
+   "sintetica": false,
+   "classificacao": "2.3.2.02.002",
+   "nome": "REAVALIAÇÃO DE ATIVOS PRÓPRIOS",
+   "grau": 5
+  },
+  {
+   "codigo": "257",
+   "sintetica": true,
+   "classificacao": "2.3.2.03",
+   "nome": "RESERVAS DE LUCROS",
+   "grau": 4
+  },
+  {
+   "codigo": "259",
+   "sintetica": false,
+   "classificacao": "2.3.2.03.001",
+   "nome": "RESERVA ESTATUTÁRIA",
+   "grau": 5
+  },
+  {
+   "codigo": "260",
+   "sintetica": false,
+   "classificacao": "2.3.2.03.002",
+   "nome": "RESERVA PARA CONTINGÊNCIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "261",
+   "sintetica": false,
+   "classificacao": "2.3.2.03.003",
+   "nome": "RESERVA DE LUCROS A REALIZAR",
+   "grau": 5
+  },
+  {
+   "codigo": "262",
+   "sintetica": false,
+   "classificacao": "2.3.2.03.004",
+   "nome": "RESERVA ESPECIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "263",
+   "sintetica": false,
+   "classificacao": "2.3.2.03.005",
+   "nome": "(-) AÇÕES/QUOTAS EM TESOURARIA",
+   "grau": 5
+  },
+  {
+   "codigo": "258",
+   "sintetica": false,
+   "classificacao": "2.3.2.03.006",
+   "nome": "RESERVA LEGAL",
+   "grau": 5
+  },
+  {
+   "codigo": "264",
+   "sintetica": true,
+   "classificacao": "2.3.5",
+   "nome": "LUCROS OU PREJUÍZOS ACUMULADOS",
+   "grau": 3
+  },
+  {
+   "codigo": "265",
+   "sintetica": true,
+   "classificacao": "2.3.5.01",
+   "nome": "LUCROS OU PREJUÍZOS ACUMULADOS",
+   "grau": 4
+  },
+  {
+   "codigo": "266",
+   "sintetica": false,
+   "classificacao": "2.3.5.01.001",
+   "nome": "LUCROS ACUMULADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "267",
+   "sintetica": false,
+   "classificacao": "2.3.5.01.002",
+   "nome": "(-) PREJUÍZOS ACUMULADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "268",
+   "sintetica": false,
+   "classificacao": "2.3.5.01.003",
+   "nome": "RESULTADO DO EXERCÍCIO EM CURSO",
+   "grau": 5
+  },
+  {
+   "codigo": "522",
+   "sintetica": false,
+   "classificacao": "2.3.5.01.004",
+   "nome": "LUCRO ACUMULADO DO EXERCÍCIO",
+   "grau": 5
+  },
+  {
+   "codigo": "523",
+   "sintetica": false,
+   "classificacao": "2.3.5.01.005",
+   "nome": "(-) PREJUÍZO ACUMULADO DO EXERCÍCIO",
+   "grau": 5
+  },
+  {
+   "codigo": "544",
+   "sintetica": false,
+   "classificacao": "2.3.5.01.006",
+   "nome": "AJUSTE DE EXERCICIO ANTERIOR",
+   "grau": 5
+  },
+  {
+   "codigo": "551",
+   "sintetica": false,
+   "classificacao": "2.3.5.01.007",
+   "nome": "DISTRIBUIÇÃO DE LUCROS",
+   "grau": 5
+  },
+  {
+   "codigo": "269",
+   "sintetica": true,
+   "classificacao": "3",
+   "nome": "CONTAS DE RESULTADOS - CUSTOS E DESPESAS",
+   "grau": 1
+  },
+  {
+   "codigo": "500",
+   "sintetica": true,
+   "classificacao": "3.1",
+   "nome": "CUSTOS",
+   "grau": 2
+  },
+  {
+   "codigo": "270",
+   "sintetica": true,
+   "classificacao": "3.1.1",
+   "nome": "CUSTOS DIRETOS DE PRODUÇÃO",
+   "grau": 3
+  },
+  {
+   "codigo": "271",
+   "sintetica": true,
+   "classificacao": "3.1.1.01",
+   "nome": "MATERIAL APLICADO",
+   "grau": 4
+  },
+  {
+   "codigo": "272",
+   "sintetica": false,
+   "classificacao": "3.1.1.01.001",
+   "nome": "MATÉRIA-PRIMA",
+   "grau": 5
+  },
+  {
+   "codigo": "273",
+   "sintetica": true,
+   "classificacao": "3.1.1.02",
+   "nome": "MÃO-DE-OBRA DIRETA",
+   "grau": 4
+  },
+  {
+   "codigo": "274",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.001",
+   "nome": "SALÁRIOS E ORDENADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "275",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.002",
+   "nome": "PRÓ-LABORE",
+   "grau": 5
+  },
+  {
+   "codigo": "276",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.003",
+   "nome": "PRÊMIOS DE GRATIFICAÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "277",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.004",
+   "nome": "13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "278",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.005",
+   "nome": "FÉRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "279",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.006",
+   "nome": "INSS",
+   "grau": 5
+  },
+  {
+   "codigo": "280",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.007",
+   "nome": "FGTS",
+   "grau": 5
+  },
+  {
+   "codigo": "281",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.008",
+   "nome": "INDENIZAÇÕES E AVISO PRÉVIO",
+   "grau": 5
+  },
+  {
+   "codigo": "282",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.009",
+   "nome": "ASSISTÊNCIA MÉDICA E SOCIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "497",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.010",
+   "nome": "PIS S/ FOLHA",
+   "grau": 5
+  },
+  {
+   "codigo": "534",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.011",
+   "nome": "UNIFORMES / EPI",
+   "grau": 5
+  },
+  {
+   "codigo": "536",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.012",
+   "nome": "VALE TRANSPORTE",
+   "grau": 5
+  },
+  {
+   "codigo": "537",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.013",
+   "nome": "VA/VR",
+   "grau": 5
+  },
+  {
+   "codigo": "538",
+   "sintetica": false,
+   "classificacao": "3.1.1.02.014",
+   "nome": "HORAS EXTRAS",
+   "grau": 5
+  },
+  {
+   "codigo": "283",
+   "sintetica": true,
+   "classificacao": "3.1.2",
+   "nome": "CUSTOS INDIRETOS DE PRODUÇÃO",
+   "grau": 3
+  },
+  {
+   "codigo": "284",
+   "sintetica": true,
+   "classificacao": "3.1.2.01",
+   "nome": "MÃO-DE-OBRA INDIRETA",
+   "grau": 4
+  },
+  {
+   "codigo": "285",
+   "sintetica": true,
+   "classificacao": "3.1.2.02",
+   "nome": "MATERIAIS DE CONSUMO INDIRETO",
+   "grau": 4
+  },
+  {
+   "codigo": "287",
+   "sintetica": true,
+   "classificacao": "3.1.2.03",
+   "nome": "MATERIAIS DE MANUTENÇÃO E REPARO",
+   "grau": 4
+  },
+  {
+   "codigo": "286",
+   "sintetica": true,
+   "classificacao": "3.1.2.04",
+   "nome": "UTILIDADES E SERVIÇOS",
+   "grau": 4
+  },
+  {
+   "codigo": "288",
+   "sintetica": true,
+   "classificacao": "3.1.2.05",
+   "nome": "ALUGUEIS E ARRENDAMENTOS",
+   "grau": 4
+  },
+  {
+   "codigo": "289",
+   "sintetica": true,
+   "classificacao": "3.1.2.06",
+   "nome": "DEPRECIAÇÕES, AMORTIZAÇÕES E EXAUSTÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "291",
+   "sintetica": false,
+   "classificacao": "3.1.2.06.001",
+   "nome": "DEPRECIAÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "290",
+   "sintetica": true,
+   "classificacao": "3.1.2.07",
+   "nome": "COMBUSTÍVEIS E ENERGIA ELÉTRICA",
+   "grau": 4
+  },
+  {
+   "codigo": "292",
+   "sintetica": false,
+   "classificacao": "3.1.2.07.001",
+   "nome": "COMBUSTÍVEL",
+   "grau": 5
+  },
+  {
+   "codigo": "293",
+   "sintetica": true,
+   "classificacao": "3.1.3",
+   "nome": "CUSTOS DIRETOS DA PRODUÇÃO DE SERVIÇOS",
+   "grau": 3
+  },
+  {
+   "codigo": "294",
+   "sintetica": true,
+   "classificacao": "3.1.3.01",
+   "nome": "MÃO-DE-OBRA DIRETA",
+   "grau": 4
+  },
+  {
+   "codigo": "514",
+   "sintetica": true,
+   "classificacao": "3.1.4",
+   "nome": "CUSTOS DE MERCADORIAS",
+   "grau": 3
+  },
+  {
+   "codigo": "515",
+   "sintetica": true,
+   "classificacao": "3.1.4.01",
+   "nome": "CUSTOS DE MERCADORIAS ADQUIRIDAS",
+   "grau": 4
+  },
+  {
+   "codigo": "516",
+   "sintetica": false,
+   "classificacao": "3.1.4.01.001",
+   "nome": "ICMS ANTECIPAÇÃO PARCIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "517",
+   "sintetica": false,
+   "classificacao": "3.1.4.01.002",
+   "nome": "ICMS ANTECIPAÇÃO TOTAL - ST",
+   "grau": 5
+  },
+  {
+   "codigo": "518",
+   "sintetica": false,
+   "classificacao": "3.1.4.01.003",
+   "nome": "BONIFICAÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "462",
+   "sintetica": true,
+   "classificacao": "3.1.5",
+   "nome": "CUSTOS DOS PRODUTOS VENDIDOS",
+   "grau": 3
+  },
+  {
+   "codigo": "463",
+   "sintetica": true,
+   "classificacao": "3.1.5.01",
+   "nome": "CUSTOS DOS PRODUTOS VENDIDOS",
+   "grau": 4
+  },
+  {
+   "codigo": "464",
+   "sintetica": false,
+   "classificacao": "3.1.5.01.001",
+   "nome": "CUSTOS DOS PRODUTOS VENDIDOS",
+   "grau": 5
+  },
+  {
+   "codigo": "465",
+   "sintetica": true,
+   "classificacao": "3.1.6",
+   "nome": "CUSTOS DOS SERVIÇOS PRESTADOS",
+   "grau": 3
+  },
+  {
+   "codigo": "466",
+   "sintetica": true,
+   "classificacao": "3.1.6.01",
+   "nome": "CUSTOS DOS SERVIÇOS PRESTADOS",
+   "grau": 4
+  },
+  {
+   "codigo": "467",
+   "sintetica": false,
+   "classificacao": "3.1.6.01.001",
+   "nome": "CUSTOS DOS SERVIÇOS PRESTADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "468",
+   "sintetica": true,
+   "classificacao": "3.1.7",
+   "nome": "CUSTOS DAS MERCADORIAS VENDIDAS",
+   "grau": 3
+  },
+  {
+   "codigo": "469",
+   "sintetica": true,
+   "classificacao": "3.1.7.01",
+   "nome": "CUSTOS DAS MERCADORIAS VENDIDAS",
+   "grau": 4
+  },
+  {
+   "codigo": "470",
+   "sintetica": false,
+   "classificacao": "3.1.7.01.001",
+   "nome": "CUSTOS DAS MERCADORIAS VENDIDAS",
+   "grau": 5
+  },
+  {
+   "codigo": "295",
+   "sintetica": true,
+   "classificacao": "3.2",
+   "nome": "DESPESAS OPERACIONAIS",
+   "grau": 2
+  },
+  {
+   "codigo": "296",
+   "sintetica": true,
+   "classificacao": "3.2.1",
+   "nome": "DESPESAS COM VENDAS",
+   "grau": 3
+  },
+  {
+   "codigo": "297",
+   "sintetica": true,
+   "classificacao": "3.2.1.01",
+   "nome": "DESPESAS COM PESSOAL",
+   "grau": 4
+  },
+  {
+   "codigo": "298",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.001",
+   "nome": "SALÁRIOS E ORDENADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "299",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.002",
+   "nome": "PRÓ-LABORE",
+   "grau": 5
+  },
+  {
+   "codigo": "300",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.003",
+   "nome": "PRÊMIOS E GRATIFICAÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "301",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.004",
+   "nome": "13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "302",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.005",
+   "nome": "FÉRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "303",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.006",
+   "nome": "INSS",
+   "grau": 5
+  },
+  {
+   "codigo": "304",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.007",
+   "nome": "FGTS",
+   "grau": 5
+  },
+  {
+   "codigo": "305",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.008",
+   "nome": "INDENIZAÇÕES E AVISO PRÉVIO",
+   "grau": 5
+  },
+  {
+   "codigo": "306",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.009",
+   "nome": "ASSISTÊNCIA MÉDICA E SOCIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "498",
+   "sintetica": false,
+   "classificacao": "3.2.1.01.010",
+   "nome": "PIS S/ FOLHA",
+   "grau": 5
+  },
+  {
+   "codigo": "307",
+   "sintetica": true,
+   "classificacao": "3.2.1.02",
+   "nome": "COMISSÕES SOBRE VENDAS",
+   "grau": 4
+  },
+  {
+   "codigo": "308",
+   "sintetica": false,
+   "classificacao": "3.2.1.02.001",
+   "nome": "COMISSÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "309",
+   "sintetica": true,
+   "classificacao": "3.2.1.03",
+   "nome": "PROPAGANDA E PUBLICIDADE",
+   "grau": 4
+  },
+  {
+   "codigo": "310",
+   "sintetica": false,
+   "classificacao": "3.2.1.03.002",
+   "nome": "AMOSTRAS GRÁTIS",
+   "grau": 5
+  },
+  {
+   "codigo": "311",
+   "sintetica": true,
+   "classificacao": "3.2.1.04",
+   "nome": "DESPESAS COM ENTREGA",
+   "grau": 4
+  },
+  {
+   "codigo": "312",
+   "sintetica": false,
+   "classificacao": "3.2.1.04.001",
+   "nome": "FRETES E CARRETOS",
+   "grau": 5
+  },
+  {
+   "codigo": "313",
+   "sintetica": false,
+   "classificacao": "3.2.1.04.002",
+   "nome": "MANUTENÇÃO DE VEÍCULOS",
+   "grau": 5
+  },
+  {
+   "codigo": "314",
+   "sintetica": true,
+   "classificacao": "3.2.1.05",
+   "nome": "DESPESAS ENTREGA E RETIRADA DE BOLSAS BEGS",
+   "grau": 4
+  },
+  {
+   "codigo": "315",
+   "sintetica": false,
+   "classificacao": "3.2.1.05.001",
+   "nome": "VIAGENS TERRESTRES",
+   "grau": 5
+  },
+  {
+   "codigo": "316",
+   "sintetica": false,
+   "classificacao": "3.2.1.05.002",
+   "nome": "VIAGENS AÉREAS",
+   "grau": 5
+  },
+  {
+   "codigo": "317",
+   "sintetica": false,
+   "classificacao": "3.2.1.05.003",
+   "nome": "HOSPEDAGEM",
+   "grau": 5
+  },
+  {
+   "codigo": "318",
+   "sintetica": false,
+   "classificacao": "3.2.1.05.004",
+   "nome": "REFEIÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "366",
+   "sintetica": false,
+   "classificacao": "3.2.1.05.005",
+   "nome": "DESPESAS COM DESLOCAMENTO",
+   "grau": 5
+  },
+  {
+   "codigo": "319",
+   "sintetica": true,
+   "classificacao": "3.2.1.06",
+   "nome": "DESPESAS GERAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "320",
+   "sintetica": false,
+   "classificacao": "3.2.1.06.001",
+   "nome": "ALUGUÉIS",
+   "grau": 5
+  },
+  {
+   "codigo": "321",
+   "sintetica": false,
+   "classificacao": "3.2.1.06.002",
+   "nome": "MANUTENÇÃO E REPARO",
+   "grau": 5
+  },
+  {
+   "codigo": "322",
+   "sintetica": false,
+   "classificacao": "3.2.1.06.003",
+   "nome": "TELEFONE",
+   "grau": 5
+  },
+  {
+   "codigo": "323",
+   "sintetica": false,
+   "classificacao": "3.2.1.06.004",
+   "nome": "DESPESAS COM ALIMENTAÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "324",
+   "sintetica": false,
+   "classificacao": "3.2.1.06.005",
+   "nome": "DEPRECIAÇÕES E AMORTIZAÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "325",
+   "sintetica": false,
+   "classificacao": "3.2.1.06.006",
+   "nome": "SERVIÇOS PRESTADOS POR TERCEIROS",
+   "grau": 5
+  },
+  {
+   "codigo": "326",
+   "sintetica": false,
+   "classificacao": "3.2.1.06.007",
+   "nome": "SEGUROS",
+   "grau": 5
+  },
+  {
+   "codigo": "327",
+   "sintetica": true,
+   "classificacao": "3.2.1.07",
+   "nome": "PERDAS NO RECEBIMENTO DE CRÉDITOS",
+   "grau": 4
+  },
+  {
+   "codigo": "328",
+   "sintetica": false,
+   "classificacao": "3.2.1.07.001",
+   "nome": "CRÉDITOS VENCIDOS E NÃO LIQUIDADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "329",
+   "sintetica": true,
+   "classificacao": "3.2.2",
+   "nome": "DESPESAS ADMINISTRATIVAS",
+   "grau": 3
+  },
+  {
+   "codigo": "330",
+   "sintetica": true,
+   "classificacao": "3.2.2.01",
+   "nome": "DESPESAS COM PESSOAL",
+   "grau": 4
+  },
+  {
+   "codigo": "331",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.001",
+   "nome": "SALÁRIOS E ORDENADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "332",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.002",
+   "nome": "PRÓ-LABORE",
+   "grau": 5
+  },
+  {
+   "codigo": "333",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.003",
+   "nome": "PRÊMIOS E GRATIFICAÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "334",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.004",
+   "nome": "13º SALÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "335",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.005",
+   "nome": "FÉRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "336",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.006",
+   "nome": "INSS",
+   "grau": 5
+  },
+  {
+   "codigo": "337",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.007",
+   "nome": "FGTS",
+   "grau": 5
+  },
+  {
+   "codigo": "338",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.008",
+   "nome": "INDENIZAÇÕES E AVISO PRÉVIO",
+   "grau": 5
+  },
+  {
+   "codigo": "339",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.009",
+   "nome": "ASSISTÊNCIA MÉDICA E SOCIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "492",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.010",
+   "nome": "VALE TRANSPORTE",
+   "grau": 5
+  },
+  {
+   "codigo": "499",
+   "sintetica": false,
+   "classificacao": "3.2.2.01.011",
+   "nome": "DESPESAS COM ALIMENTAÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "340",
+   "sintetica": true,
+   "classificacao": "3.2.2.02",
+   "nome": "ALUGUÉIS E ARRENDAMENTOS",
+   "grau": 4
+  },
+  {
+   "codigo": "341",
+   "sintetica": false,
+   "classificacao": "3.2.2.02.001",
+   "nome": "ALUGUÉIS DE IMÓVEIS",
+   "grau": 5
+  },
+  {
+   "codigo": "342",
+   "sintetica": false,
+   "classificacao": "3.2.2.02.002",
+   "nome": "ALUGUÉIS DE MÁQUINAS E EQUIPAMENTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "343",
+   "sintetica": false,
+   "classificacao": "3.2.2.02.003",
+   "nome": "ARRENDAMENTO DE IMÓVEIS",
+   "grau": 5
+  },
+  {
+   "codigo": "344",
+   "sintetica": false,
+   "classificacao": "3.2.2.02.004",
+   "nome": "ARRENDAMENTO MERCANTIL (LEASING)",
+   "grau": 5
+  },
+  {
+   "codigo": "345",
+   "sintetica": true,
+   "classificacao": "3.2.2.03",
+   "nome": "IMPOSTOS, TAXAS E CONTRIBUIÇÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "346",
+   "sintetica": false,
+   "classificacao": "3.2.2.03.001",
+   "nome": "PIS",
+   "grau": 5
+  },
+  {
+   "codigo": "347",
+   "sintetica": false,
+   "classificacao": "3.2.2.03.002",
+   "nome": "COFINS",
+   "grau": 5
+  },
+  {
+   "codigo": "348",
+   "sintetica": false,
+   "classificacao": "3.2.2.03.003",
+   "nome": "IPTU",
+   "grau": 5
+  },
+  {
+   "codigo": "349",
+   "sintetica": false,
+   "classificacao": "3.2.2.03.004",
+   "nome": "IPVA",
+   "grau": 5
+  },
+  {
+   "codigo": "350",
+   "sintetica": false,
+   "classificacao": "3.2.2.03.005",
+   "nome": "TAXAS DIVERSAS",
+   "grau": 5
+  },
+  {
+   "codigo": "351",
+   "sintetica": false,
+   "classificacao": "3.2.2.03.006",
+   "nome": "CPMF",
+   "grau": 5
+  },
+  {
+   "codigo": "352",
+   "sintetica": false,
+   "classificacao": "3.2.2.03.007",
+   "nome": "MULTAS DE MORA",
+   "grau": 5
+  },
+  {
+   "codigo": "353",
+   "sintetica": true,
+   "classificacao": "3.2.2.04",
+   "nome": "DESPESAS GERAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "354",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.001",
+   "nome": "ENERGIA ELÉTRICA",
+   "grau": 5
+  },
+  {
+   "codigo": "355",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.002",
+   "nome": "ÁGUA E ESGOTO",
+   "grau": 5
+  },
+  {
+   "codigo": "356",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.003",
+   "nome": "TELEFONE",
+   "grau": 5
+  },
+  {
+   "codigo": "357",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.004",
+   "nome": "PLANOS MEDICOS E ODONTOLOGICOS",
+   "grau": 5
+  },
+  {
+   "codigo": "358",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.005",
+   "nome": "SEGUROS",
+   "grau": 5
+  },
+  {
+   "codigo": "359",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.006",
+   "nome": "DESPESAS ADMINISTRATIVAS",
+   "grau": 5
+  },
+  {
+   "codigo": "360",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.007",
+   "nome": "MATERIAL DE HIGIENE E LIMPEZA",
+   "grau": 5
+  },
+  {
+   "codigo": "361",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.008",
+   "nome": "ASSISTÊNCIA CONTÁBIL",
+   "grau": 5
+  },
+  {
+   "codigo": "362",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.009",
+   "nome": "SERVIÇOS PRESTADOS POR TERCEIROS",
+   "grau": 5
+  },
+  {
+   "codigo": "363",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.010",
+   "nome": "DEPRECIAÇÕES E AMORTIZAÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "364",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.011",
+   "nome": "DESPESAS COM CARTÃO DE CREDITO",
+   "grau": 5
+  },
+  {
+   "codigo": "365",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.012",
+   "nome": "DESPESAS LEGAIS E JUDICIAIS",
+   "grau": 5
+  },
+  {
+   "codigo": "493",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.014",
+   "nome": "DESPESAS DIVERSAS",
+   "grau": 5
+  },
+  {
+   "codigo": "58",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.015",
+   "nome": "OUTROS MATERIAIS DE CONSUMO",
+   "grau": 5
+  },
+  {
+   "codigo": "535",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.016",
+   "nome": "FRANQUIA",
+   "grau": 5
+  },
+  {
+   "codigo": "540",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.017",
+   "nome": "DIZIMOS E OFERTAS",
+   "grau": 5
+  },
+  {
+   "codigo": "541",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.018",
+   "nome": "DESPESAS COM DESLOCAMENTO",
+   "grau": 5
+  },
+  {
+   "codigo": "545",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.019",
+   "nome": "DESPESA COM ASSESSORIA E CONSULTORIA",
+   "grau": 5
+  },
+  {
+   "codigo": "547",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.020",
+   "nome": "DESPESAS COM SUPORTE TÉCNICO",
+   "grau": 5
+  },
+  {
+   "codigo": "521",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.021",
+   "nome": "DESPESAS COM ALIMENTAÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "555",
+   "sintetica": false,
+   "classificacao": "3.2.2.04.022",
+   "nome": "DESPESA COM CARTÃO DE CREDITO",
+   "grau": 5
+  },
+  {
+   "codigo": "367",
+   "sintetica": true,
+   "classificacao": "3.2.2.05",
+   "nome": "DESPESAS FINANCEIRAS",
+   "grau": 4
+  },
+  {
+   "codigo": "368",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.001",
+   "nome": "JUROS PASSIVOS",
+   "grau": 5
+  },
+  {
+   "codigo": "369",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.002",
+   "nome": "DESPESAS BANCARIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "370",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.003",
+   "nome": "TARIFAS BANCARIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "371",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.004",
+   "nome": "DESCONTO CONCEDIDOS",
+   "grau": 5
+  },
+  {
+   "codigo": "372",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.005",
+   "nome": "JUROS DE MORA",
+   "grau": 5
+  },
+  {
+   "codigo": "373",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.006",
+   "nome": "IOF",
+   "grau": 5
+  },
+  {
+   "codigo": "374",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.007",
+   "nome": "JUROS E COMISSÕES BANCÁRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "375",
+   "sintetica": false,
+   "classificacao": "3.2.2.05.008",
+   "nome": "IRRF SOBRE APLICAÇÃO",
+   "grau": 5
+  },
+  {
+   "codigo": "376",
+   "sintetica": true,
+   "classificacao": "3.2.2.06",
+   "nome": "OUTRAS DESPESAS OPERACIONAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "377",
+   "sintetica": false,
+   "classificacao": "3.2.2.06.001",
+   "nome": "PROVISÕES P/ PERDAS E A JUSTES DE ATIVOS",
+   "grau": 5
+  },
+  {
+   "codigo": "378",
+   "sintetica": false,
+   "classificacao": "3.2.2.06.002",
+   "nome": "EQUIVALÊNCIA PATRIMONIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "379",
+   "sintetica": false,
+   "classificacao": "3.2.2.06.003",
+   "nome": "AMORTIZAÇÃO DE ÁGIO",
+   "grau": 5
+  },
+  {
+   "codigo": "380",
+   "sintetica": true,
+   "classificacao": "3.3",
+   "nome": "DESPESAS NÃO OPERACIONAIS",
+   "grau": 2
+  },
+  {
+   "codigo": "381",
+   "sintetica": true,
+   "classificacao": "3.3.1",
+   "nome": "RESULTADOS NÃO OPERACIONAIS",
+   "grau": 3
+  },
+  {
+   "codigo": "383",
+   "sintetica": true,
+   "classificacao": "3.3.1.01",
+   "nome": "RESULTADOS NEGATIVOS NA ALIEN. DE INVEST",
+   "grau": 4
+  },
+  {
+   "codigo": "384",
+   "sintetica": false,
+   "classificacao": "3.3.1.01.001",
+   "nome": "PERDAS NA ALIENAÇÃO EM PAR. EM COLIGADAS",
+   "grau": 5
+  },
+  {
+   "codigo": "385",
+   "sintetica": true,
+   "classificacao": "3.3.1.02",
+   "nome": "RESULTADO NEGATIVO NA ALIENAÇÃO DO IMOB.",
+   "grau": 4
+  },
+  {
+   "codigo": "386",
+   "sintetica": false,
+   "classificacao": "3.3.1.02.001",
+   "nome": "PERDAS NA ALIENAÇÃO DE IMÓVEIS",
+   "grau": 5
+  },
+  {
+   "codigo": "387",
+   "sintetica": false,
+   "classificacao": "3.3.1.02.002",
+   "nome": "PERDAS NA ALIENAÇÃO DE MÓVEIS E UTENS.",
+   "grau": 5
+  },
+  {
+   "codigo": "388",
+   "sintetica": false,
+   "classificacao": "3.3.1.02.003",
+   "nome": "PERDAS NA ALIENAÇÃO DE MAQ. EQUIPAMENTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "389",
+   "sintetica": false,
+   "classificacao": "3.3.1.02.004",
+   "nome": "PERDAS NA ALIENAÇÃO DE VEÍCULOS",
+   "grau": 5
+  },
+  {
+   "codigo": "390",
+   "sintetica": true,
+   "classificacao": "3.3.1.03",
+   "nome": "RESULTADO NEGATIVO DE SINISTRO COM IMOB.",
+   "grau": 4
+  },
+  {
+   "codigo": "391",
+   "sintetica": false,
+   "classificacao": "3.3.1.03.001",
+   "nome": "PERDAS EM SINISTROS COM IMOBILIZADO",
+   "grau": 5
+  },
+  {
+   "codigo": "392",
+   "sintetica": true,
+   "classificacao": "3.3.1.04",
+   "nome": "OUTRAS BAIXAS DO ATIVO PERMANENTE",
+   "grau": 4
+  },
+  {
+   "codigo": "393",
+   "sintetica": false,
+   "classificacao": "3.3.1.04.001",
+   "nome": "BAIXAS DE INVESTIMENTOS PERMANENTES",
+   "grau": 5
+  },
+  {
+   "codigo": "394",
+   "sintetica": false,
+   "classificacao": "3.3.1.04.002",
+   "nome": "BAIXAS DE IMOBILIZADO",
+   "grau": 5
+  },
+  {
+   "codigo": "395",
+   "sintetica": false,
+   "classificacao": "3.3.1.04.003",
+   "nome": "BAIXAS DE ATIVO DIFERIDO",
+   "grau": 5
+  },
+  {
+   "codigo": "396",
+   "sintetica": true,
+   "classificacao": "3.3.1.05",
+   "nome": "PROVISÕES PARA PERDAS PERMANENTE",
+   "grau": 4
+  },
+  {
+   "codigo": "397",
+   "sintetica": false,
+   "classificacao": "3.3.1.05.001",
+   "nome": "CONTROLADAS E COLIGADAS - EQUIV. PATRIM.",
+   "grau": 5
+  },
+  {
+   "codigo": "398",
+   "sintetica": false,
+   "classificacao": "3.3.1.05.002",
+   "nome": "CONTROLAS E COLIGADAS - CUSTO CORRIGIDO",
+   "grau": 5
+  },
+  {
+   "codigo": "399",
+   "sintetica": false,
+   "classificacao": "3.3.1.05.003",
+   "nome": "OUTRAS PARTICIPAÇÕES SOCIETÁRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "400",
+   "sintetica": true,
+   "classificacao": "3.3.1.06",
+   "nome": "PERDAS",
+   "grau": 4
+  },
+  {
+   "codigo": "401",
+   "sintetica": false,
+   "classificacao": "3.3.1.06.001",
+   "nome": "PERDAS POR FALTA NO INVENTÁRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "507",
+   "sintetica": false,
+   "classificacao": "3.3.1.06.002",
+   "nome": "PERDA DE CRÉDITO DE ICMS S/ IMOBILIZADO",
+   "grau": 5
+  },
+  {
+   "codigo": "402",
+   "sintetica": true,
+   "classificacao": "4",
+   "nome": "CONTAS DE RESULTADO - RECEITAS",
+   "grau": 1
+  },
+  {
+   "codigo": "403",
+   "sintetica": true,
+   "classificacao": "4.1",
+   "nome": "RECEITAS OPERACIONAIS",
+   "grau": 2
+  },
+  {
+   "codigo": "404",
+   "sintetica": true,
+   "classificacao": "4.1.1",
+   "nome": "RECEITA BRUTA DE VENDAS E SERVIÇOS",
+   "grau": 3
+  },
+  {
+   "codigo": "405",
+   "sintetica": true,
+   "classificacao": "4.1.1.01",
+   "nome": "RECEITA BRUTAS DE VENDAS E MERCADORIAS",
+   "grau": 4
+  },
+  {
+   "codigo": "406",
+   "sintetica": false,
+   "classificacao": "4.1.1.01.001",
+   "nome": "VENDA DE PRODUTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "407",
+   "sintetica": false,
+   "classificacao": "4.1.1.01.002",
+   "nome": "VENDA DE PRODUTOS NO MERCADO EXTERNO",
+   "grau": 5
+  },
+  {
+   "codigo": "408",
+   "sintetica": false,
+   "classificacao": "4.1.1.01.003",
+   "nome": "VENDA DE MERCADORIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "409",
+   "sintetica": false,
+   "classificacao": "4.1.1.01.004",
+   "nome": "VENDA DE MERCADORIAS NO MERCADO EXTERNO",
+   "grau": 5
+  },
+  {
+   "codigo": "410",
+   "sintetica": true,
+   "classificacao": "4.1.1.02",
+   "nome": "RECEITA DE PRESTAÇÃO DE SERVIÇOS",
+   "grau": 4
+  },
+  {
+   "codigo": "411",
+   "sintetica": false,
+   "classificacao": "4.1.1.02.001",
+   "nome": "SERVIÇOS PRESTADOS",
+   "grau": 5
+  },
+  {
+   "codigo": "412",
+   "sintetica": false,
+   "classificacao": "4.1.1.02.002",
+   "nome": "SERVIÇOS PRESTADO MERCADO EXTERNO",
+   "grau": 5
+  },
+  {
+   "codigo": "413",
+   "sintetica": true,
+   "classificacao": "4.1.2",
+   "nome": "(-) DEDUÇÕES DA RECEITA BRUTA",
+   "grau": 3
+  },
+  {
+   "codigo": "414",
+   "sintetica": true,
+   "classificacao": "4.1.2.01",
+   "nome": "(-) CANCELAMENTO E DEVOLUÇÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "415",
+   "sintetica": false,
+   "classificacao": "4.1.2.01.001",
+   "nome": "(-) DEVOLUÇÃO DE VENDA DE PRODUTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "416",
+   "sintetica": false,
+   "classificacao": "4.1.2.01.002",
+   "nome": "(-) DEV. VENDA DE PRODUTOS MERCADO EXT.",
+   "grau": 5
+  },
+  {
+   "codigo": "417",
+   "sintetica": false,
+   "classificacao": "4.1.2.01.003",
+   "nome": "(-) DEVOLUÇÃO DE VENDA DE MERCADORIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "418",
+   "sintetica": false,
+   "classificacao": "4.1.2.01.004",
+   "nome": "(-) DEV. VENDA DE MERCADORIAS MERC. EXT",
+   "grau": 5
+  },
+  {
+   "codigo": "419",
+   "sintetica": true,
+   "classificacao": "4.1.2.02",
+   "nome": "(-) DESCONTOS INCONDICIONAIS",
+   "grau": 4
+  },
+  {
+   "codigo": "420",
+   "sintetica": false,
+   "classificacao": "4.1.2.02.001",
+   "nome": "(-) DESCONTO VENDA DE PRODUTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "421",
+   "sintetica": false,
+   "classificacao": "4.1.2.02.002",
+   "nome": "(-) DESCONTO VENDA DE PRODUTO MERC. EXT",
+   "grau": 5
+  },
+  {
+   "codigo": "422",
+   "sintetica": false,
+   "classificacao": "4.1.2.02.003",
+   "nome": "(-) DESCONTO VENDA DE MERCADORIA",
+   "grau": 5
+  },
+  {
+   "codigo": "423",
+   "sintetica": false,
+   "classificacao": "4.1.2.02.004",
+   "nome": "(-) DESC. VENDA DE MERCADORIAS MERC. EXT",
+   "grau": 5
+  },
+  {
+   "codigo": "424",
+   "sintetica": true,
+   "classificacao": "4.1.2.03",
+   "nome": "(-) IMPOSTOS SOBRE VENDAS E SERVIÇOS",
+   "grau": 4
+  },
+  {
+   "codigo": "425",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.001",
+   "nome": "(-) IPI",
+   "grau": 5
+  },
+  {
+   "codigo": "426",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.002",
+   "nome": "(-) ICMS",
+   "grau": 5
+  },
+  {
+   "codigo": "427",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.003",
+   "nome": "(-) ISS",
+   "grau": 5
+  },
+  {
+   "codigo": "428",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.004",
+   "nome": "(-) COFINS",
+   "grau": 5
+  },
+  {
+   "codigo": "429",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.005",
+   "nome": "(-) PIS",
+   "grau": 5
+  },
+  {
+   "codigo": "477",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.006",
+   "nome": "(-) CONTRIBUIÇÃO SOCIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "478",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.007",
+   "nome": "(-) IMPOSTO DE RENDA",
+   "grau": 5
+  },
+  {
+   "codigo": "480",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.008",
+   "nome": "(-) SIMPLES NACIONAL",
+   "grau": 5
+  },
+  {
+   "codigo": "482",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.009",
+   "nome": "(-) SUBSTITUIÇÃO TRIBUTÁRIA",
+   "grau": 5
+  },
+  {
+   "codigo": "484",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.010",
+   "nome": "(-) JUROS PARCELAMENTO SIMPLES NACIONAL",
+   "grau": 5
+  },
+  {
+   "codigo": "486",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.011",
+   "nome": "(-) FIA",
+   "grau": 5
+  },
+  {
+   "codigo": "509",
+   "sintetica": false,
+   "classificacao": "4.1.2.03.012",
+   "nome": "(-) INSS RECEITA BRUTA",
+   "grau": 5
+  },
+  {
+   "codigo": "430",
+   "sintetica": true,
+   "classificacao": "4.1.3",
+   "nome": "RECEITAS FINANCEIRAS",
+   "grau": 3
+  },
+  {
+   "codigo": "431",
+   "sintetica": true,
+   "classificacao": "4.1.3.01",
+   "nome": "JUROS E DESCONTOS",
+   "grau": 4
+  },
+  {
+   "codigo": "432",
+   "sintetica": false,
+   "classificacao": "4.1.3.01.001",
+   "nome": "JUROS DE APLICAÇÕES",
+   "grau": 5
+  },
+  {
+   "codigo": "433",
+   "sintetica": false,
+   "classificacao": "4.1.3.01.002",
+   "nome": "JUROS",
+   "grau": 5
+  },
+  {
+   "codigo": "434",
+   "sintetica": false,
+   "classificacao": "4.1.3.01.003",
+   "nome": "DESCONTOS FINANCEIROS OBTIDOS",
+   "grau": 5
+  },
+  {
+   "codigo": "435",
+   "sintetica": false,
+   "classificacao": "4.1.3.01.004",
+   "nome": "JUROS SOBRE O CAPITAL PRÓPRIO",
+   "grau": 5
+  },
+  {
+   "codigo": "475",
+   "sintetica": false,
+   "classificacao": "4.1.3.01.005",
+   "nome": "MULTA",
+   "grau": 5
+  },
+  {
+   "codigo": "436",
+   "sintetica": true,
+   "classificacao": "4.1.3.02",
+   "nome": "VARIAÇÕES MONETÁRIAS",
+   "grau": 4
+  },
+  {
+   "codigo": "437",
+   "sintetica": false,
+   "classificacao": "4.1.3.02.001",
+   "nome": "VARIAÇÕES MONETÁRIAS ATIVAS",
+   "grau": 5
+  },
+  {
+   "codigo": "438",
+   "sintetica": false,
+   "classificacao": "4.1.3.02.002",
+   "nome": "VARIAÇÕES CAMBIAIS ATIVAS",
+   "grau": 5
+  },
+  {
+   "codigo": "439",
+   "sintetica": true,
+   "classificacao": "4.1.4",
+   "nome": "RECUPERAÇÃO DE DESPESAS",
+   "grau": 3
+  },
+  {
+   "codigo": "440",
+   "sintetica": true,
+   "classificacao": "4.1.4.01",
+   "nome": "RECUP. CRÉDITOS CONSIDERADOS INCOBRÁVEIS",
+   "grau": 4
+  },
+  {
+   "codigo": "441",
+   "sintetica": true,
+   "classificacao": "4.1.4.02",
+   "nome": "REVERSÃO DE PROVISÕES",
+   "grau": 4
+  },
+  {
+   "codigo": "442",
+   "sintetica": true,
+   "classificacao": "4.1.5",
+   "nome": "OUTRAS RECEITAS OPERACIONAIS",
+   "grau": 3
+  },
+  {
+   "codigo": "443",
+   "sintetica": true,
+   "classificacao": "4.1.5.01",
+   "nome": "RECEITAS DIVERSAS",
+   "grau": 4
+  },
+  {
+   "codigo": "444",
+   "sintetica": false,
+   "classificacao": "4.1.5.01.001",
+   "nome": "ALUGUÉIS E ARRENDAMENTOS",
+   "grau": 5
+  },
+  {
+   "codigo": "445",
+   "sintetica": false,
+   "classificacao": "4.1.5.01.002",
+   "nome": "VENDAS ACESSÓRIAS",
+   "grau": 5
+  },
+  {
+   "codigo": "446",
+   "sintetica": false,
+   "classificacao": "4.1.5.01.003",
+   "nome": "RECEITA DE EQUIVALÊNCIA PATRIMONIAL",
+   "grau": 5
+  },
+  {
+   "codigo": "447",
+   "sintetica": false,
+   "classificacao": "4.1.5.01.004",
+   "nome": "DIVIDENDOS E LUCROS RECEBIDOS",
+   "grau": 5
+  },
+  {
+   "codigo": "448",
+   "sintetica": false,
+   "classificacao": "4.1.5.01.005",
+   "nome": "AMORTIZAÇÃO DE DESÁGIO",
+   "grau": 5
+  },
+  {
+   "codigo": "553",
+   "sintetica": false,
+   "classificacao": "4.1.5.01.006",
+   "nome": "BONIFICAÇAO RECEBIDA",
+   "grau": 5
+  },
+  {
+   "codigo": "554",
+   "sintetica": false,
+   "classificacao": "4.1.5.01.006",
+   "nome": "BONIFICAÇÃO RECEBIDA",
+   "grau": 5
+  },
+  {
+   "codigo": "449",
+   "sintetica": true,
+   "classificacao": "4.2",
+   "nome": "RECEITAS NÃO OPERACIONAIS",
+   "grau": 2
+  },
+  {
+   "codigo": "450",
+   "sintetica": true,
+   "classificacao": "4.2.1",
+   "nome": "RESULTADOS NÃO OPERACIONAIS",
+   "grau": 3
+  },
+  {
+   "codigo": "451",
+   "sintetica": true,
+   "classificacao": "4.2.1.01",
+   "nome": "RESULTADOS POSIT. NA ALIEN. DE INVESTIM",
+   "grau": 4
+  },
+  {
+   "codigo": "452",
+   "sintetica": false,
+   "classificacao": "4.2.1.01.001",
+   "nome": "LUCROS NA ALIENAÇÃO DE PART. EM COLIGADA",
+   "grau": 5
+  },
+  {
+   "codigo": "453",
+   "sintetica": true,
+   "classificacao": "4.2.1.02",
+   "nome": "LUCROS NA ALIENAÇÃO DE IMOBILIZADO",
+   "grau": 4
+  },
+  {
+   "codigo": "454",
+   "sintetica": false,
+   "classificacao": "4.2.1.02.001",
+   "nome": "LUCROS NA ALIENAÇÃO DE IMÓVEIS",
+   "grau": 5
+  },
+  {
+   "codigo": "455",
+   "sintetica": false,
+   "classificacao": "4.2.1.02.002",
+   "nome": "LUCROS NA ALIENAÇÃO DE MÓVEIS E UTENS.",
+   "grau": 5
+  },
+  {
+   "codigo": "456",
+   "sintetica": false,
+   "classificacao": "4.2.1.02.003",
+   "nome": "LUCROS NA ALIEN. DE MÁQ. EQUIP. FERRAMEN",
+   "grau": 5
+  },
+  {
+   "codigo": "457",
+   "sintetica": false,
+   "classificacao": "4.2.1.02.004",
+   "nome": "LUCROS NA ALIENAÇÃO DE VEÍCULOS",
+   "grau": 5
+  },
+  {
+   "codigo": "458",
+   "sintetica": true,
+   "classificacao": "4.2.1.03",
+   "nome": "RESULTADO DE SINISTROS COM IMOBILIZADO",
+   "grau": 4
+  },
+  {
+   "codigo": "459",
+   "sintetica": false,
+   "classificacao": "4.2.1.03.002",
+   "nome": "SINISTROS COM IMOBILIZADO",
+   "grau": 5
+  },
+  {
+   "codigo": "460",
+   "sintetica": true,
+   "classificacao": "5",
+   "nome": "CONTAS DE APURAÇÃO",
+   "grau": 1
+  },
+  {
+   "codigo": "461",
+   "sintetica": true,
+   "classificacao": "5.1",
+   "nome": "CUSTOS DOS PRODUTOS E SERVIÇOS VENDIDOS",
+   "grau": 2
+  },
+  {
+   "codigo": "471",
+   "sintetica": true,
+   "classificacao": "5.1.4",
+   "nome": "APURAÇÃO DO RESULTADO DO EXERCÍCIO",
+   "grau": 3
+  },
+  {
+   "codigo": "472",
+   "sintetica": true,
+   "classificacao": "5.1.4.01",
+   "nome": "APURAÇÃO DO RESULTADO DO EXERCÍCIO",
+   "grau": 4
+  },
+  {
+   "codigo": "473",
+   "sintetica": false,
+   "classificacao": "5.1.4.01.001",
+   "nome": "RESULTADO DO EXERCÍCIO",
+   "grau": 5
+  },
+  {
+   "codigo": "474",
+   "sintetica": false,
+   "classificacao": "5.1.4.01.002",
+   "nome": "GANHOS/PERDAS NA ALIENAÇÃO DE IMOB.",
+   "grau": 5
+  },
+  {
+   "codigo": "525",
+   "sintetica": true,
+   "classificacao": "6",
+   "nome": "CONTAS DE COMPENSAÇAO",
+   "grau": 1
+  },
+  {
+   "codigo": "526",
+   "sintetica": true,
+   "classificacao": "6.1",
+   "nome": "COMPENSAÇAO ATIVA",
+   "grau": 2
+  },
+  {
+   "codigo": "527",
+   "sintetica": true,
+   "classificacao": "6.1.1",
+   "nome": "REMESSAS",
+   "grau": 3
+  },
+  {
+   "codigo": "528",
+   "sintetica": false,
+   "classificacao": "6.1.1.00.1",
+   "nome": "ENTRADA DE REMESSA EM COMODATO",
+   "grau": 5
+  },
+  {
+   "codigo": "532",
+   "sintetica": false,
+   "classificacao": "6.1.1.00.2",
+   "nome": "OUTRAS ENTRADAS",
+   "grau": 5
+  },
+  {
+   "codigo": "529",
+   "sintetica": true,
+   "classificacao": "6.2",
+   "nome": "COMPENSAÇÃO PASSIVA",
+   "grau": 2
+  },
+  {
+   "codigo": "530",
+   "sintetica": true,
+   "classificacao": "6.2.1",
+   "nome": "REMESSAS",
+   "grau": 3
+  },
+  {
+   "codigo": "531",
+   "sintetica": false,
+   "classificacao": "6.2.1.00.1",
+   "nome": "SAIDA DE REMESSA EM COMODATO",
+   "grau": 5
+  },
+  {
+   "codigo": "533",
+   "sintetica": false,
+   "classificacao": "6.2.1.00.2",
+   "nome": "OUTRAS SAIDAS",
+   "grau": 5
+  }
+ ]
+}
