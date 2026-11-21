@@ -305,6 +305,7 @@ class Motor:
             return c
         if cpf:
             conta, st, ob = self.classe_empregado(cpf, -v, int(m["data"][:2]), comp)
+            c["empregado"] = cpf  # a conta final sai de alocar_folha (regra dos prazos)
             if emp == "34":
                 c.update(conta=conta, status=st, obs=ob)
             else:
@@ -381,6 +382,7 @@ class Motor:
         self.parear_ligacao(lanc, pend, comp)
         espelhos = self.gerar_espelhos(lanc)
         espelhos_rev = self.gerar_espelhos_rev(lanc)
+        self.alocar_folha(lanc["34"] + espelhos, comp)
         for emp in EMPRESAS:
             for m in lanc[emp]:
                 for k in ("conta", "espelho"):
@@ -389,7 +391,8 @@ class Motor:
                 if m.get("partidas"):
                     m["partidas"] = [(self.cod(x, emp), y) for x, y in m["partidas"]]
         for e in espelhos:
-            e["conta"] = self.cod(e["conta"], "34")
+            e["conta"] = "+".join(self.cod(x, "34") for x in e["conta"].split("+"))
+            if e.get("partidas"): e["partidas"] = [(self.cod(x, "34"), y) for x, y in e["partidas"]]
         lanc["34"] += espelhos
         for e in espelhos_rev:
             e["conta"] = self.cod(e["conta"], "118")
@@ -487,6 +490,48 @@ class Motor:
                              "descricao": b["descricao"], "acao": "Achar a entrada na matriz", "falta_34": b["valor"]})
 
     # -- espelhos: a filial pagou despesa/obrigação da matriz -> 34 D <conta> / C 544
+    def alocar_folha(self, itens, comp):
+        """Regra da Rosangela (21/11/2026) para PIX a empregados da matriz (pagos pela matriz ou pela filial):
+        do dia 1 até o 5º dia útil (mínimo dia 8) abate o líquido da folha do mês anterior (187);
+        do dia 9 ao 20 abate o adiantamento da folha do mês (caixa 5, que a folha credita com D25/C5);
+        o que exceder esses valores, ou cair depois do dia 20, vai para VA/VR (542). Valor igual ao da folha segue a folha."""
+        import datetime
+        ant = comp_anterior(comp)
+        if not hasattr(self, "aberto_liq"):  # saldos por empregado que passam de um mês para o outro
+            self.aberto_liq = defaultdict(lambda: Z); self.aberto_adi = defaultdict(lambda: Z)
+        liq = self.aberto_liq; adi = self.aberto_adi
+        for f in self.folha:
+            if f["tipo"] != "empregado": continue
+            if f["competencia"] == ant: liq[f["cpf"]] += D(f["liquido"])
+            if f["competencia"] == comp: adi[f["cpf"]] += D(f["adiantamento"])
+        mes, ano = int(comp[:2]), int(comp[3:]); uteis = 0; quinto = 8
+        for dia in range(1, 15):
+            if datetime.date(ano, mes, dia).weekday() < 5:
+                uteis += 1
+                if uteis == 5: quinto = dia; break
+        limite = max(8, quinto)
+        alvo = sorted((m for m in itens if m.get("empregado") and not m.get("omitido") and m["valor"] < 0),
+                      key=lambda m: (chave(m["data"]), m["id"]))
+        for m in alvo:
+            cpf = m["empregado"]; val = -m["valor"]; dia = int(m["data"][:2])
+            if (cpf, val) in self.liq_ant and liq[cpf] >= val: ordem = ["@salarios_pagar"]
+            elif (cpf, val) in self.adi_mes and adi[cpf] >= val: ordem = ["@caixa"]
+            elif dia <= limite: ordem = ["@salarios_pagar", "@caixa"]
+            else: ordem = ["@caixa", "@salarios_pagar"]   # dia 9-20 e depois: adiantamento primeiro, depois líquido em atraso
+            resto = val; ps = []
+            for b in ordem:
+                sd = liq if b == "@salarios_pagar" else adi
+                u = min(resto, sd[cpf])
+                if u > 0: ps.append((b, u)); sd[cpf] -= u; resto -= u
+            if resto > 0: ps.append(("@va", resto))
+            nomes = {"@salarios_pagar": f"líquido {ant} (187)", "@caixa": f"adiantamento {comp} (caixa 5)", "@va": "excedente VA/VR (542)"}
+            m["conta"] = "+".join(c for c, _ in ps); m["partidas"] = ps if len(ps) > 1 else None
+            m["status"] = "PROVADO"
+            m["obs"] = (f"Folha {self.emp.get(cpf, cpf)}: " + "; ".join(f"{nomes[c]} {br(x)}" for c, x in ps)
+                        + f" [prazos: até dia {limite} abate primeiro o líquido; depois do dia 8, primeiro o adiantamento; o que exceder a folha vai para 542]"
+                        + (" (" + m["obs"].split(":")[0] + ")" if m.get("banco") == "@ligacao" else ""))
+            if m.get("banco") == "@ligacao": m["obs"] = "Espelho do pagamento feito pela filial (118 D 544 / C 8). " + m["obs"]
+
     def gerar_espelhos(self, lanc):
         out = []
         for m in lanc["118"]:
@@ -494,7 +539,8 @@ class Motor:
                 out.append({"data": m["data"], "descricao": "PAGO PELA FILIAL: " + m["descricao"], "documento": m.get("documento", ""),
                             "valor": m["valor"], "banco": "@ligacao", "emp": "34", "id": m["id"] + "-E34", "par": m["id"],
                             "conta": m["espelho"], "status": m["status"], "partidas": None, "c506": False, "ligacao": "espelho_34",
-                            "obs": "Espelho do pagamento feito pela filial (118 D 544 / C 8): " + m["obs"], "espelho_de": m["id"]})
+                            "obs": "Espelho do pagamento feito pela filial (118 D 544 / C 8): " + m["obs"], "espelho_de": m["id"],
+                            "empregado": m.get("empregado")})
                 m["par"] = m["id"] + "-E34"
         return out
 
