@@ -1,6 +1,6 @@
 ---
 name: rof-contabilidade-mohrgroup
-description: "MOHR GROUP LTDA (Miss Mohr Boutique), CNPJ 17.593.725/0001-33, código 1005 no Domínio, Simples Nacional (varejo de vestuário), bancos Itaú (6), Sicredi (8) e Sicoob (9), sócios Emerson Mohr e Sueli Ribeiro Mohr. Analista da empresa: concilia os 3 bancos, cruza extrato × folha × guias × notas × razão, separa pró-labore e retirada dos sócios, gera o TXT único do Domínio e as planilhas de retiradas. Usar quando mencionar Mohr, Mohr Group, Miss Mohr, Emerson Mohr, Sueli Mohr, o CNPJ 17.593.725/0001-33, a empresa 1005, ou enviar extrato, OFX, razão, balancete, folha ou guias dela — sempre junto com o rof-analista."
+description: "MOHR GROUP LTDA (Miss Mohr Boutique), CNPJ 17.593.725/0001-33, código 1005 no Domínio, Simples Nacional (varejo de vestuário), bancos Itaú (6), Sicredi (8), Sicoob (9) e InfinitePay (14), sócios Emerson Mohr e Sueli Ribeiro Mohr. Analista da empresa: concilia os 3 bancos, cruza extrato × folha × guias × notas × razão, separa pró-labore e retirada dos sócios, gera o TXT único do Domínio e as planilhas de retiradas. Usar quando mencionar Mohr, Mohr Group, Miss Mohr, Emerson Mohr, Sueli Mohr, o CNPJ 17.593.725/0001-33, a empresa 1005, ou enviar extrato, OFX, razão, balancete, folha ou guias dela — sempre junto com o rof-analista."
 ---
 # MOHR GROUP (1005)
 
@@ -15,8 +15,9 @@ Scripts do cérebro em `../rof-analista/scripts/`. Sicoob: sempre OFX/CSV; PDF s
 
 **O TXT é cópia do extrato (Rosangela, 21/11/2026):** todo movimento do banco entra no TXT, inclusive pares que se anulam
 (cheque compensado e devolvido = D 506 / C banco e D banco / C 506). Nunca deixar movimento de fora.
-**Plano de contas:** a skill só tem as contas vistas no balancete (`empresa.json` > `contas`). A 470 (CMV) veio do plano da Ribeiro
-e ainda não foi confirmada na 1005 — confirmar antes de importar.
+**Plano de contas:** a skill só tem as contas vistas no balancete (`empresa.json` > `contas`). 470 = CUSTOS DAS MERCADORIAS VENDIDAS e
+14 = INFINITEPAY CLOUDWALK 25443696-1 (D 14 / C 504 nos depósitos de vendas) — confirmados por Rosangela em 21/11/2026.
+Plano completo da 1005: a Rosangela vai exportar do Domínio; ao receber, gravar todas as contas em `empresa.json` > `contas`.
 
 ## Particularidades (o que foge do padrão ROF)
 

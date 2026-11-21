@@ -89,8 +89,8 @@
     {
       "banco": "InfinitePay (CloudWalk)",
       "conta": "0001 / 25443696-1",
-      "conta_contabil": "",
-      "obs": "conta da maquininha, sem conta contábil até 09/2026; depósitos de vendas = D InfinitePay / C 504"
+      "conta_contabil": "14",
+      "obs": "conta 14 INFINITEPAY CLOUDWALK - 25443696-1 (criada por Rosangela em 21/11/2026); depósitos de vendas = D 14 / C 504; extrato = relatório PDF do app"
     }
   ],
   "aplicacoes": [
@@ -180,8 +180,9 @@
     "548": "SUELI RIBEIRO MOHR (ativo sócio)",
     "555": "DESPESA COM CARTÃO DE CRÉDITO (criada 08/2026 — confirmar cadastro no Domínio)",
     "320": "ALUGUEL",
-    "470": "CUSTO DAS MERCADORIAS VENDIDAS (confirmar código na 1005)",
-    "94": "RENDIMENTO APLICAÇÃO FINANC. A APROPRIAR"
+    "470": "CUSTOS DAS MERCADORIAS VENDIDAS (confirmado por Rosangela 21/11/2026)",
+    "94": "RENDIMENTO APLICAÇÃO FINANC. A APROPRIAR",
+    "14": "INFINITEPAY CLOUDWALK - 25443696-1"
   },
   "layout_txt": {
     "formato": "dominio",
@@ -191,6 +192,16 @@
   },
   "historico_padrao": "",
   "regras": [
+    {
+      "nome": "InfinitePay depósito de vendas",
+      "tipo": "entrada",
+      "contem": [
+        "Depósito de vendas",
+        "Depósito InfinitePay"
+      ],
+      "conta": "504",
+      "status": "CONFIRMADO"
+    },
     {
       "nome": "Fornecedor com nota no fiscal (C 506 pela integração)",
       "tipo": "ambos",
