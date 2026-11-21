@@ -19,7 +19,7 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | 07-08/2026 | ELINEU OZORIO VIEIRA, R$ 5.000/mês | D 362 (razão 15/07, 17/08); natureza a confirmar (aluguel? → IRRF) | mesmo valor | Razão validado 07-08/2026 |
 | 07-08/2026 | ISADORA RIBEIRO MOHR (familiar) | D 362 (razão 07/07, 20/07, 06/08); entidade a confirmar | mesmo padrão | Razão validado 07-08/2026 |
 | 07-08/2026 | Sueli sem pagamento de pró-labore; só Emerson recebe | INSS dos dois na 191; 188 da Sueli acumula | até decisão | Razão validado 07-08/2026 |
-| 09/2026 | Cheque devolvido e reapresentado (Sicoob 000.258) | Par compensado + devolvido no mesmo dia fora do TXT; tarifa 370; reapresentação = 506 | sempre | Analista (padrão ROF) |
+| 09/2026 | Cheque devolvido e reapresentado (Sicoob 000.258) | O TXT é cópia do extrato: **todo movimento entra, nada fica de fora**. Compensação D 506 / C banco e devolução D banco / C 506 (se anulam); tarifa 370; reapresentação = 506 | sempre | Rosangela, 21/11/2026 |
 | 09/2026 | MED PIX (débito e devolução) | Par fora do TXT quando zera no mês | sempre | Analista (padrão ROF) |
 
 | 19/11/2026 | ELINEU OZORIO VIEIRA R$ 5.000/mês | ALUGUEL conta 320 (não é 362); sem IRRF, isento até R$ 5 mil; meses anteriores serão retificados pela contadora | sempre | Rosangela, 19/11/2026 |
@@ -32,6 +32,7 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | 19/11/2026 | Aluguel Elineu | R$ 5.000/mês, sem contrato escrito; conta 320 | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Títulos protestados Deliz 09/2026 | Confirmados como identificados (nominal 506 + emolumentos 365) | — | Rosangela, 19/11/2026 |
 | 19/11/2026 | Tabelionato de protesto | 506 pelo valor nominal do título (duplicata do XML) + diferença na 365 (lote C). 09/2026: 4 títulos Deliz | sempre | Rosangela, 19/11/2026 |
+| 21/11/2026 | Protestos Deliz 09/2026 (valores aprovados) | 22/09 1.281,68 = 506 1.109,96 + 365 171,72 · 25/09 2.647,42 = 506 2.453,21 + 365 194,21 · 25/09 1.725,08 = 506 1.547,87 + 365 177,21 · 25/09 1.314,67 = 506 1.141,90 + 365 172,77 (custas 715,91) | 09/2026 | Rosangela, 19/11 e 21/11/2026 |
 | 19/11/2026 | Fornecedor com nota no fiscal | A integração fiscal já credita a 506: o pagamento é D 506 e a devolução é C 506, nunca despesa (Gustavo Klemtz, LWSA, ROF, Deliz, Folini…). Cruzar CNPJ do favorecido × emitentes dos XML/NFS-e | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Estorno / devolução | Na mesma conta do pagamento original (Eliauto 374,75 → C 506, NF 749 Gustavo Klemtz) | sempre | Rosangela, 19/11/2026 |
 | 19/11/2026 | Receita declarada a menor / guias em atraso | Cliente ciente; guias sem pagamento ficam como estão | — | Rosangela, 19/11/2026 |

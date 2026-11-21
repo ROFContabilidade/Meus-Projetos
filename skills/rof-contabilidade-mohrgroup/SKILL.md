@@ -13,6 +13,11 @@ description: "MOHR GROUP LTDA (Miss Mohr Boutique), CNPJ 17.593.725/0001-33, có
 **Pasta do mês (Drive):** `1005_Mohr Group Ltda\Fiscal_Contabil\<ANO>\<MM_AAAA>\` (Extrato, Guias, Relatórios). Os `_extrato.md` já vêm prontos do Conversor ROF.
 Scripts do cérebro em `../rof-analista/scripts/`. Sicoob: sempre OFX/CSV; PDF só se não houver outro.
 
+**O TXT é cópia do extrato (Rosangela, 21/11/2026):** todo movimento do banco entra no TXT, inclusive pares que se anulam
+(cheque compensado e devolvido = D 506 / C banco e D banco / C 506). Nunca deixar movimento de fora.
+**Plano de contas:** a skill só tem as contas vistas no balancete (`empresa.json` > `contas`). A 470 (CMV) veio do plano da Ribeiro
+e ainda não foi confirmada na 1005 — confirmar antes de importar.
+
 ## Particularidades (o que foge do padrão ROF)
 
 1. **Sócios com pró-labore de 1 salário mínimo** (R$ 1.621,00; líquido R$ 1.442,69 após INSS 11%), cada um.
