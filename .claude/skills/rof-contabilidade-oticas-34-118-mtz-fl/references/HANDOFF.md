@@ -130,5 +130,5 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
 - A Rosangela EXCLUIU no Domínio todos os lançamentos de 01 a 09/2026. Daqui em diante entra só o que for gerado nesta skill
   (TXT do banco por empresa) + a reintegração da folha e do fiscal pelos módulos do Domínio. A duplicidade da conta 6 saiu junto.
 - O razão antigo (razao34_long / razao118_long) continua sendo FONTE de dados (movimentos 01-06, notas da 506, folha), não gabarito.
-- Antes de reintegrar o fiscal: ajustar os acumuladores de remessa/retorno (5949/6949/1949/2949) para não lançarem D 59 / C 60.
-- NF 832 (Hoya, 279.157,02): confirmar a situação pela chave antes de excluir da escrituração.
+- Remessas em D 59 / C 60: mantido (uma anula a outra), decisão da Rosangela 21/11.
+- NF 832 (Hoya, 279.157,02): autorizada e correta, mantida.
