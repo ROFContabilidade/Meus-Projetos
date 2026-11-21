@@ -293,6 +293,16 @@ class Motor:
                     c.update(conta="@pro_labore_pagar", status="PROVAVEL", obs="Pró-labore líquido")
                 else:
                     c.update(conta="@socia", status="PROVAVEL", obs="Retirada da sócia (conta corrente)")
+            elif v < 0 and emp == "118" and iso(comp) not in self.reinf and self.pl_liq - pl[0] > 0:
+                # filial pagou a sócia: completa primeiro o pró-labore do mês (folha da matriz) -> 118 D 544 / 34 D 188 C 544
+                p188 = min(self.pl_liq - pl[0], -v); pl[0] += p188; resto = -v - p188
+                c.update(ligacao="espelho", espelho="@pro_labore_pagar", espelho_valor=-p188, status="PROVAVEL",
+                         obs=f"Sócia paga pela filial: pró-labore líquido {br(p188)} (folha da matriz, espelho 34 D 188 / C 544)"
+                             + (f" + retirada {br(resto)} (531 da filial)" if resto else ""))
+                if resto:
+                    c.update(conta="@ligacao+@socia", partidas=[("@ligacao", p188), ("@socia", resto)])
+                else:
+                    c.update(conta="@ligacao")
             else:
                 c.update(conta="@socia", status="PROVAVEL", obs="Retirada/devolução da sócia")
             return c
@@ -352,8 +362,8 @@ class Motor:
         lanc = {e: [] for e in EMPRESAS}       # lançamentos (linhas do TXT)
         bancos_chk = []                         # trava (a)
         pend = []                               # pendências do mês
+        pl = [Z]  # pró-labore líquido já pago no mês (matriz + filial: mesma PJ)
         for emp in EMPRESAS:
-            pl = [Z]
             for banco, fonte in fm.get(emp, {}).items():
                 if fonte == "razao":
                     movs = movs_razao(self.razao[emp], banco, comp, {"8", "9"} if emp == "34" else {"8"})
@@ -537,7 +547,7 @@ class Motor:
         for m in lanc["118"]:
             if m.get("ligacao") == "espelho" and m.get("espelho"):
                 out.append({"data": m["data"], "descricao": "PAGO PELA FILIAL: " + m["descricao"], "documento": m.get("documento", ""),
-                            "valor": m["valor"], "banco": "@ligacao", "emp": "34", "id": m["id"] + "-E34", "par": m["id"],
+                            "valor": m.get("espelho_valor", m["valor"]), "banco": "@ligacao", "emp": "34", "id": m["id"] + "-E34", "par": m["id"],
                             "conta": m["espelho"], "status": m["status"], "partidas": None, "c506": False, "ligacao": "espelho_34",
                             "obs": "Espelho do pagamento feito pela filial (118 D 544 / C 8): " + m["obs"], "espelho_de": m["id"],
                             "empregado": m.get("empregado")})
