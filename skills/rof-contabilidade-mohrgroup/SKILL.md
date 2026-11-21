@@ -54,5 +54,12 @@ Scripts do cérebro em `../rof-analista/scripts/`. Sicoob: sempre OFX/CSV; PDF s
      --cnpj 17.593.725/0001-33 --socio "EMERSON MOHR|035.870.159-70|188E,539" --banco 6,8,9 --anual MOHR_Retiradas_Socios_AAAA.xlsx -o MOHR_Emerson_MM_AAAA.xlsx
    ```
    Repita o segundo comando para a Sueli (`188S,548`).
+4b. **Planilha de retiradas para a EFD-Reinf (LAYOUT APROVADO em 21/11/2026 – NÃO MUDAR):**
+   monte o JSON (formato no topo do script; CPFs só no JSON do scratchpad, nunca no git) e rode
+   `python3 scripts/planilha_retiradas.py dados.json 1005_MOHR_Retiradas_socio_MM_AAAA.xlsx`.
+   Partes fixas: 1) pagamentos ao CPF do sócio (data, banco, histórico, valor pago, pró-labore líquido D 188,
+   retirada de lucros D 539/548, saldo de pró-labore); 2) total por banco; 3) pró-labore do mês (bruto, INSS,
+   líquido, pago, em aberto na 188); 4) resumo R-4010 (lucros, teste R$ 50 mil, IRRF); "Não entram".
+   Salvar no Drive em `<ANO>/<MM+1_AAAA>/EFD Reinf` (uma versão só; a antiga vai para a lixeira).
 5. Entrega: **um único TXT** + `retiradas_socios_AAAAMM_mohrgroup.xlsx` + planilha anual + planilha mensal de cada sócio + parecer de até 5 linhas.
    Registre as respostas novas em `references/decisoes.md` (quem validou e quando).
