@@ -147,8 +147,8 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
   (só o excedente vai para 542); PIX da filial à sócia completa primeiro o pró-labore do mês (espelho 34 D 188 / C 544);
   repasses da conta digital Visouup (Cartão de Todos) = vendas da filial (118 D 8 / C 504); PIX do próprio CNPJ sem par = 504;
   CNPJ sem regra = 506 até o saldo de notas (excedente 470); PF = 362; alimentação = 521; cartório = 365.
-- **Reinf:** 01-06 travados (estabelecimentos.json). 07-09 a enviar pela Rosangela com `reinf_retiradas.py` (retirada líquida:
-  07 14.044,31; 08 11.808,31; 09 6.764,31). Depois de enviados, acrescentar 07-09 em `reinf_travado`.
+- **Reinf:** 01-06 travados (só matriz) e 07-09 ENVIADOS em 21/11 e travados como "34+118" (07 14.044,31; 08 11.808,31; 09 6.764,31).
+  A partir de 10, gerar com `reinf_retiradas.py` e, depois de enviado, acrescentar o mês em `reinf_travado["34+118"]`.
   Em aberto: os 531 da filial de 01-06 (ex.: 17/06 600,00) não entraram na Reinf declarada (só a 531 da matriz).
 - **Para tratar com o cliente (auditoria de 21/11; planilha entregue à Rosangela):** recebimentos bem acima das notas emitidas
   (omissão de receita), encargos da folha e consignado sem recolhimento, notas rejeitadas sem reemissão, 5 notas MaisTodos e a

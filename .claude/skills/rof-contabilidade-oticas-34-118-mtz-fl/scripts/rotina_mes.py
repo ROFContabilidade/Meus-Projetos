@@ -190,7 +190,8 @@ class Motor:
         pj = self.est["pj"]
         self.socia_cpf = pj["socia"]["cpf"]
         self.pl_liq = D(pj["socia"]["pro_labore_liquido"])
-        self.reinf = self.est["reinf_travado"]["34"]
+        self.reinf = self.est["reinf_travado"]["34"]  # 01-06/2026: só a 531 da matriz (mantida como no razão)
+        self.reinf_ambos = {k: v for k, v in self.est["reinf_travado"].get("34+118", {}).items() if not k.startswith("_")}
         si = self.f["saldos_iniciais"]
         self.saldo = {e: {k: D(str(v)) for k, v in si[e].items() if k != "506"} for e in EMPRESAS}
         self.s506 = {e: D(str(si[e].get("506", 0))) for e in EMPRESAS}
@@ -668,6 +669,16 @@ class Motor:
                     if c == "531": liq += x
             dec = D(self.reinf[iso(comp)])
             t.append(("g", f"34: 531 líquido do mês = declarado na EFD-Reinf ({br(dec)})", liq == dec,
+                      f"lançado {'-' if liq < 0 else ''}{br(liq)} | declarado {'-' if dec < 0 else ''}{br(dec)}"))
+        if iso(comp) in self.reinf_ambos:  # a partir de 07/2026: matriz + filial
+            liq = Z
+            for emp in EMPRESAS:
+                for m in lanc[emp]:
+                    if m.get("omitido") or m["banco"] not in ("8", "9"): continue
+                    for c, x in self.pernas(m, emp):
+                        if c == "531": liq += x
+            dec = D(self.reinf_ambos[iso(comp)])
+            t.append(("g", f"34+118: 531 líquido do mês = declarado na EFD-Reinf ({br(dec)})", liq == dec,
                       f"lançado {'-' if liq < 0 else ''}{br(liq)} | declarado {'-' if dec < 0 else ''}{br(dec)}"))
         return t
 

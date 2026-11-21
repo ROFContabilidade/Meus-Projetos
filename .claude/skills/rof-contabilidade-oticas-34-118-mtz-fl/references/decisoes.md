@@ -47,3 +47,4 @@ Valor 20% fora do padrão ou favorecido novo = perguntar de novo.
 | 21/11/2026 | 34 | NF-e 832 (28/05/2026, remessa CFOP 6949 para Hoya, 279.157,02) | Autorizada e correta (remessa real). Manter | Rosangela |
 | 21/11/2026 | ambos | Remessas/retornos integrando D 59 / C 60 | Mantido de propósito: uma conta anula a outra (estoque total e resultado não mudam). Não estornar nem apontar como erro | Rosangela |
 | 21/11/2026 | ambos | PIX da FILIAL para a sócia (a partir de 07/2026, fora da Reinf já declarada) | Completa primeiro o pró-labore líquido do mês que a matriz não pagou: 118 D 544 / C 8 e 34 D 188 / C 544. O restante é retirada (531 da filial). Reinf = retirada líquida das duas lojas, sem o pró-labore | Rosangela |
+| 21/11/2026 | ambos | EFD-Reinf 07-09/2026 | Enviada com a retirada líquida das duas lojas: 07 14.044,31; 08 11.808,31; 09 6.764,31. Travado em estabelecimentos.json ("34+118"): não alterar | Rosangela |

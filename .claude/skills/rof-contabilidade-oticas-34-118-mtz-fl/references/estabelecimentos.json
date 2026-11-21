@@ -1,24 +1,79 @@
 {
-  "pj": {"razao_social": "ADRIANA R. DE PAULA LTDA", "cnpj_basico": "24.026.777", "regime": "Simples Nacional - Anexo I (comércio óptico, CNAE 4774-1/00); DAS único (matriz + filial) pago pela matriz",
-         "simples": {"optante": true, "inicio": "2025-01-01", "exclusao": "2026-12-31", "obs": "confirmar regime 2027 (há planejamento de Lucro Presumido)"},
-         "socia": {"nome": "ADRIANA RODRIGUES DE PAULA", "cpf": "03214955942", "pro_labore_bruto": "1621.00", "pro_labore_liquido": "1442.69", "folha_em": "34"},
-         "ligada": {"nome": "OTICA VISOLUK", "cnpj": "49192337000137", "responsavel": "Pedro Jefferson Luiz", "cpf_responsavel": "03404400909"}},
-  "estabelecimentos": {
-    "34": {"nome": "ÓTICA VISOLUZ (MATRIZ)", "cnpj": "24026777000193", "codigo_dominio": "34",
-           "endereco": "R. Arquimedes, 214, Loja 01, Maracanã, Colombo/PR", "folha": true,
-           "bancos": {"8": "Sicredi 44846-8", "9": "Itaú 3702/0098929-8 (INATIVA no Domínio desde 28/07/2026)", "11": "Aplicação Sicredi"},
-           "plano": "references/plano_34.csv",
-           "pasta": "G:/Meu Drive/Trabalho ROF/Contabilidade/Arquivos RENATA Dominio/34 - Otica Visoluz/<ANO>/<MM_AAAA>/{Extrato,Guias,Relatorio(s),Doc's}; <ANO>/Automoção Contabil (plano, razão, balancete, Extrato Mensal da folha)",
-           "txt": "34_VISOLUZ_<AAAA-MM>.txt"},
-    "118": {"nome": "ÓTICA VISOUUP (FILIAL)", "cnpj": "24026777000274", "codigo_dominio": "118",
-            "endereco": "R. Izabel Capellari Antoniacomi, 24, Maracanã, Colombo/PR", "folha": false,
-            "bancos": {"8": "Itaú 3702/98896-9"},
-            "plano": "references/plano_118.csv",
-            "pasta": "G:/Meu Drive/Trabalho ROF/Contabilidade/Arquivos RENATA Dominio/118 - Otica VisouUP/<ANO>/<MM_AAAA>/{Extrato,Relatorio(s),Doc's,Guias}; <ANO>/Relatorios Claude (plano, razão, balancete)",
-            "txt": "118_VISOUUP_<AAAA-MM>.txt"}
+  "pj": {
+    "razao_social": "ADRIANA R. DE PAULA LTDA",
+    "cnpj_basico": "24.026.777",
+    "regime": "Simples Nacional - Anexo I (comércio óptico, CNAE 4774-1/00); DAS único (matriz + filial) pago pela matriz",
+    "simples": {
+      "optante": true,
+      "inicio": "2025-01-01",
+      "exclusao": "2026-12-31",
+      "obs": "confirmar regime 2027 (há planejamento de Lucro Presumido)"
+    },
+    "socia": {
+      "nome": "ADRIANA RODRIGUES DE PAULA",
+      "cpf": "03214955942",
+      "pro_labore_bruto": "1621.00",
+      "pro_labore_liquido": "1442.69",
+      "folha_em": "34"
+    },
+    "ligada": {
+      "nome": "OTICA VISOLUK",
+      "cnpj": "49192337000137",
+      "responsavel": "Pedro Jefferson Luiz",
+      "cpf_responsavel": "03404400909"
+    }
   },
-  "ligacao": {"conta": "544", "classificacao": "1.1.1.04.001", "nome": "TRANSFERÊNCIAS ENTRE MATRIZ E FILIAL",
-              "regra": "Mesma conta nas duas empresas. Saldo da 544 na 34 + saldo da 544 na 118 = 0 (no balancete unificado a linha zera). Substitui a 152 'Empréstimo Ótica Visoluz' da 118 (decisão Rosangela, 18/11/2026)."},
-  "reinf_travado": {"_obs": "Retiradas da sócia já declaradas na EFD-Reinf: não alterar. Líquido da 531 (D - C) no mês.",
-                    "34": {"2026-01": "9148.98", "2026-02": "3987.31", "2026-03": "3407.31", "2026-04": "-13862.69", "2026-05": "11037.84", "2026-06": "-942.69"}}
+  "estabelecimentos": {
+    "34": {
+      "nome": "ÓTICA VISOLUZ (MATRIZ)",
+      "cnpj": "24026777000193",
+      "codigo_dominio": "34",
+      "endereco": "R. Arquimedes, 214, Loja 01, Maracanã, Colombo/PR",
+      "folha": true,
+      "bancos": {
+        "8": "Sicredi 44846-8",
+        "9": "Itaú 3702/0098929-8 (INATIVA no Domínio desde 28/07/2026)",
+        "11": "Aplicação Sicredi"
+      },
+      "plano": "references/plano_34.csv",
+      "pasta": "G:/Meu Drive/Trabalho ROF/Contabilidade/Arquivos RENATA Dominio/34 - Otica Visoluz/<ANO>/<MM_AAAA>/{Extrato,Guias,Relatorio(s),Doc's}; <ANO>/Automoção Contabil (plano, razão, balancete, Extrato Mensal da folha)",
+      "txt": "34_VISOLUZ_<AAAA-MM>.txt"
+    },
+    "118": {
+      "nome": "ÓTICA VISOUUP (FILIAL)",
+      "cnpj": "24026777000274",
+      "codigo_dominio": "118",
+      "endereco": "R. Izabel Capellari Antoniacomi, 24, Maracanã, Colombo/PR",
+      "folha": false,
+      "bancos": {
+        "8": "Itaú 3702/98896-9"
+      },
+      "plano": "references/plano_118.csv",
+      "pasta": "G:/Meu Drive/Trabalho ROF/Contabilidade/Arquivos RENATA Dominio/118 - Otica VisouUP/<ANO>/<MM_AAAA>/{Extrato,Relatorio(s),Doc's,Guias}; <ANO>/Relatorios Claude (plano, razão, balancete)",
+      "txt": "118_VISOUUP_<AAAA-MM>.txt"
+    }
+  },
+  "ligacao": {
+    "conta": "544",
+    "classificacao": "1.1.1.04.001",
+    "nome": "TRANSFERÊNCIAS ENTRE MATRIZ E FILIAL",
+    "regra": "Mesma conta nas duas empresas. Saldo da 544 na 34 + saldo da 544 na 118 = 0 (no balancete unificado a linha zera). Substitui a 152 'Empréstimo Ótica Visoluz' da 118 (decisão Rosangela, 18/11/2026)."
+  },
+  "reinf_travado": {
+    "_obs": "Retiradas da sócia já declaradas na EFD-Reinf: não alterar. Líquido da 531 (D - C) no mês.",
+    "34": {
+      "2026-01": "9148.98",
+      "2026-02": "3987.31",
+      "2026-03": "3407.31",
+      "2026-04": "-13862.69",
+      "2026-05": "11037.84",
+      "2026-06": "-942.69"
+    },
+    "34+118": {
+      "_obs": "A partir de 07/2026 a Reinf é a retirada líquida das DUAS lojas (531 da 34 + 531 da 118, já sem o pró-labore e com as devoluções descontadas). Enviada pela Rosangela em 21/11/2026.",
+      "2026-07": "14044.31",
+      "2026-08": "11808.31",
+      "2026-09": "6764.31"
+    }
+  }
 }
