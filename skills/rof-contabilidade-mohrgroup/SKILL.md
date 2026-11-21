@@ -31,7 +31,7 @@ Antes de gerar o TXT, confira que toda conta usada existe e não é sintética. 
 3. **Aplicação Sicredi:** aporte mensal (APLIC.FINANC.AVISO PREVIO) D 71 / C 8. Sobras do Sicoob: D 9 / C 432.
 4. **Transferência própria** (CNPJ 17593725000133, "MISS MOHR BOUTIQUE"): lançar uma vez só, D destino / C origem.
    Recebimento que passa pela **blink** é cliente (504), não transferência.
-5. **IOF (373) e IRRF (375)** em linha própria, nunca embutidos. Guia com juros vai em lote C (juros 372). A conta de multa não existe no plano (pendência P7).
+5. **IOF (373) e IRRF (375)** em linha própria, nunca embutidos. Guia com juros vai em lote C (juros 372). Multa de guia em atraso: 352 MULTAS DE MORA (plano de 21/11/2026).
 6. **Fatura Mastercard do Sicoob → 555**; o cartão "BUSINESS" está na 364 (pendência P3).
 7. **Contas vigiadas:** 362 (prestador PF sem nota), 493, 506, 539, 548 e 555. Rode `variacao.py --vigiar 362` e comente no parecer.
 8. **Comércio:** mercadoria = baixa do fornecedor (506) pela nota de entrada, nunca despesa. CMV/estoque: pendência P6.

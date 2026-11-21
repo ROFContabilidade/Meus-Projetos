@@ -47,7 +47,7 @@ As decisões de 04–08/2026 vieram da skill anterior (acordo com a contadora); 
 | P4 | Anexo do Simples não confirmado (CNAE indica Anexo I) | DAS e CPP dependem do anexo (LC 123/2006, art. 18) | Confirmar pelo PGDAS-D |
 | P5 | CRED COBRANCA DESCONTADA classificado em 369 (despesa) | É crédito: desconto de títulos é empréstimo (166) ou recebimento antecipado (504), não redução de despesa | Ver o borderô e reclassificar |
 | P6 | CMV/estoque: não há regra de baixa da mercadoria | Comércio: sem CMV o resultado sai inflado (NBC TG 16) | Definir com a contadora (a Ribeiro usa 40% do faturamento) |
-| P7 | Não existe conta de multa no plano | Multa de guia em atraso não pode ir para o imposto | Criar "multas fiscais" ou indicar a conta |
+| P7 | ~~RESOLVIDA: 352 MULTAS DE MORA~~ Não existe conta de multa no plano | Multa de guia em atraso não pode ir para o imposto | Criar "multas fiscais" ou indicar a conta |
 | P8 | Parcela de empréstimo inteira na 166 | Os juros da parcela são despesa do mês (competência), não amortização | Separar juros (372 ou conta própria) pelo contrato |
 | P9 | Cinco PF na 362 sem nota (Jacira, Gracieli, Zelia, Marcia, Paulo Cesar) | Prestador PF: INSS 20% da empresa + 11% retido e IRRF (Lei 8.212/91; RIR/2018) | Pedir RPA/nota ou confirmar se é funcionário |
 | P10 | ~~Pasta do mês~~ RESOLVIDA: Drive `1005_Mohr Group Ltda/Fiscal_Contabil/<ANO>/<MM_AAAA>/Extrato` (+ Guias, Relatórios) | — | — |
