@@ -37,5 +37,5 @@ for r in sem:
         r["nota"], exc = "parte até o limite da 506, resto CMV", D(0)
     print("  ->", r["data"], r["valor"], r["descricao"][:50], r["conta"], r.get("partidas", ""))
 if exc > 0: print(f"ATENÇÃO: sobrou {exc} sem pagamento sem nota para reclassificar")
-w = csv.DictWriter(open(a.csv, "w", encoding="utf-8-sig", newline=""), fieldnames=list(rows[0].keys()), delimiter=";")
+w = csv.DictWriter(open(a.csv, "w", encoding="utf-8-sig", newline=""), fieldnames=list(rows[0].keys()), delimiter=";", extrasaction="ignore")
 w.writeheader(); w.writerows(rows)
