@@ -194,7 +194,11 @@ class Motor:
         si = self.f["saldos_iniciais"]
         self.saldo = {e: {k: D(str(v)) for k, v in si[e].items() if k != "506"} for e in EMPRESAS}
         self.s506 = {e: D(str(si[e].get("506", 0))) for e in EMPRESAS}
-        self.s544 = {e: Z for e in EMPRESAS}
+        # Continuação de um período já fechado (ex.: 10/2026 a partir do estado de 30/09/2026)
+        self.s544 = {e: D(str(self.f.get("saldo_544_inicial", {}).get(e, 0))) for e in EMPRESAS}
+        fa = self.f.get("folha_aberto", {})  # cpf -> {"liquido": x, "adiantamento": y} ainda não pagos
+        self.aberto_liq = defaultdict(lambda: Z, {c: D(str(v.get("liquido", 0))) for c, v in fa.items()})
+        self.aberto_adi = defaultdict(lambda: Z, {c: D(str(v.get("adiantamento", 0))) for c, v in fa.items()})
         self.pend_544 = []  # pernas que faltam (acumulado): {"empresa_faltando", "valor" (efeito na 544 dela), ...}
         self.usadas_guias = set()
         self.resumo = []
@@ -777,6 +781,9 @@ class Motor:
         estado = {"saldos_bancos": {e: {k: str(v) for k, v in self.saldo[e].items()} for e in EMPRESAS},
                   "saldo_506_credor": {e: str(self.s506[e]) for e in EMPRESAS},
                   "saldo_544": {e: str(self.s544[e]) for e in EMPRESAS},
+                  "folha_aberto": {c: {"liquido": str(self.aberto_liq[c]), "adiantamento": str(self.aberto_adi[c])}
+                                   for c in sorted(set(self.aberto_liq) | set(self.aberto_adi))
+                                   if self.aberto_liq[c] or self.aberto_adi[c]},
                   "pendencias_544": [{"empresa_faltando": e, "valor": str(x), "data": p["data"], "tipo": p["tipo"]} for e, x, p in self.pend_544]}
         (self.saida / "estado_final.json").write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
 

@@ -1,0 +1,43 @@
+{
+ "_obs": "Estado em 30/09/2026 depois dos TXT 01-09 (zip v6) importados em 21/11/2026. folha_aberto = líquido/adiantamento da folha ainda não pago por empregado (CPF).",
+ "saldos_bancos": {
+  "34": {
+   "8": "-2267.37",
+   "9": "0.00"
+  },
+  "118": {
+   "8": "539.49"
+  }
+ },
+ "saldo_506_credor": {
+  "34": "38682.92",
+  "118": "18409.06"
+ },
+ "saldo_544": {
+  "34": "-53235.72",
+  "118": "53235.72"
+ },
+ "folha_aberto": {
+  "05727916909": {
+   "liquido": "399.95",
+   "adiantamento": "0.00"
+  },
+  "08153621963": {
+   "liquido": "1374.34",
+   "adiantamento": "152.89"
+  },
+  "11705948910": {
+   "liquido": "7502.79",
+   "adiantamento": "677.92"
+  },
+  "12557654965": {
+   "liquido": "3111.75",
+   "adiantamento": "0.00"
+  },
+  "44381602862": {
+   "liquido": "588.12",
+   "adiantamento": "790.20"
+  }
+ },
+ "pendencias_544": []
+}

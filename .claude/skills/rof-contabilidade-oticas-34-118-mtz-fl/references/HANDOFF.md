@@ -132,3 +132,24 @@ e a sessão "VisouUP" (que fez a filial 07-09). As duas foram encerradas e daqui
 - O razão antigo (razao34_long / razao118_long) continua sendo FONTE de dados (movimentos 01-06, notas da 506, folha), não gabarito.
 - Remessas em D 59 / C 60: mantido (uma anula a outra), decisão da Rosangela 21/11.
 - NF 832 (Hoya, 279.157,02): autorizada e correta, mantida.
+
+## 14. Fechamento 01-09/2026 e como seguir no mês 10 (21/11/2026)
+- **Importado no Domínio:** zip v6 (TXT do banco 01-09 da 34 e 02-09 da 118). Antes disso a Rosangela excluiu só os lançamentos
+  de banco de 01-09; folha e fiscal continuam os da integração. A duplicidade da conta 6 também foi excluída.
+  Folha de 01/2026 reintegrada: agora tem o adiantamento (D 25 / C 5 e D 187 / C 25, 4.200,00). A 25 tem 75,00 D vindos de 2025 (ver).
+- **Estado em 30/09/2026:** `references/estado_2026-09.json` (Sicredi 34 -2.267,37; Itaú 34 zerado e inativo; Itaú 118 539,49;
+  506 credora 34 e 118; 544 34 -53.235,72 / 118 +53.235,72 = 0; folha em aberto por empregado).
+- **Mês 10:** `references/fontes_2026-10.json` já tem a abertura. Seguir a "Rotina do mês" do SKILL.md. Testado: rodar 09 a partir
+  do estado de 31/08 gera exatamente o mesmo TXT que rodar 01-09 de uma vez.
+- **Fonte de 01-06:** o Razão_Visoluz.xls antigo (Relatorio Claude, id 133H_wlLJ03fWWePyNH6MH1Mvc7XC3tPo) é anterior à limpeza:
+  NÃO sobrescrever. Uma razão exportada agora já traz os lançamentos dos nossos TXT.
+- **Regras novas de 21/11 (decisoes.md):** PIX a empregados abatem 187/5 pelos prazos com saldo em aberto carregado entre meses
+  (só o excedente vai para 542); PIX da filial à sócia completa primeiro o pró-labore do mês (espelho 34 D 188 / C 544);
+  repasses da conta digital Visouup (Cartão de Todos) = vendas da filial (118 D 8 / C 504); PIX do próprio CNPJ sem par = 504;
+  CNPJ sem regra = 506 até o saldo de notas (excedente 470); PF = 362; alimentação = 521; cartório = 365.
+- **Reinf:** 01-06 travados (estabelecimentos.json). 07-09 a enviar pela Rosangela com `reinf_retiradas.py` (retirada líquida:
+  07 14.044,31; 08 11.808,31; 09 6.764,31). Depois de enviados, acrescentar 07-09 em `reinf_travado`.
+  Em aberto: os 531 da filial de 01-06 (ex.: 17/06 600,00) não entraram na Reinf declarada (só a 531 da matriz).
+- **Para tratar com o cliente (auditoria de 21/11; planilha entregue à Rosangela):** recebimentos bem acima das notas emitidas
+  (omissão de receita), encargos da folha e consignado sem recolhimento, notas rejeitadas sem reemissão, 5 notas MaisTodos e a
+  NF 78780 no fiscal. Detalhes por nota em Notas_para_conferir_Oticas_2026.xlsx.

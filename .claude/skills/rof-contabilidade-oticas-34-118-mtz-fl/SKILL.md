@@ -20,6 +20,26 @@ tem o seu TXT. Nenhuma outra empresa entra aqui.
 - `scripts/rotina_mes.py`: motor das duas empresas (`razao-xls`, `razao-pdf`, `periodo --fontes references/fontes_2026.json --saida DIR [--previa]`).
   Sem `--previa` só grava TXT se todas as travas passarem; com `--previa` grava `PREVIA_*.txt` para revisão. `scripts/folha_csv.py`: Extrato Mensal da folha → CSV.
 - `references/fontes_2026.json`: saldos de abertura 01/2026 e a fonte de cada banco/mês (razão 01-06; `_extrato.md` 07-09).
+- `references/estado_2026-09.json`: **estado em 30/09/2026** (bancos, 506, 544 e folha em aberto por empregado) depois do v6 importado.
+- `references/fontes_2026-10.json`: fontes do mês 10 já com a abertura de 30/09 (`saldo_544_inicial`, `folha_aberto`).
+- `references/identificados.csv`: favorecidos achados no extrato original quando o histórico não traz o nome.
+- `references/cartao_todos_repasses.csv`: repasses da conta digital Visouup (Cartão de Todos) à filial (prova da 504).
+- `scripts/reinf_retiradas.py`: retiradas da sócia para a EFD-Reinf (pró-labore deduzido das duas lojas; devoluções à parte).
+- `scripts/auditoria/`: auditoria fiscal (emissor × Domínio × 408; SEFAZ × Domínio × 506) e da folha (por conta e por empregado). Ver o README.
+
+## Rotina do mês (10/2026 em diante)
+1. **Baixar do Drive** (pastas na seção 6 do HANDOFF): `_extrato.md` do Sicredi (34) e do Itaú (118) do mês; Extrato Mensal da
+   folha (com o mês anterior); razão 2026 atualizado (só para as notas da 506); FAT e NF Entrada do mês (34 e 118); relatório de
+   pagamentos da Receita; extrato da conta digital do Cartão de Todos (atualizar `cartao_todos_repasses.csv`).
+2. **Preparar:** `folha_csv.py` → `folha_full.csv` (junte as competências); `rotina_mes.py razao-xls/razao-pdf` → razão longo;
+   `receita.csv` (data;receita;pa;principal;multa;juros;total).
+3. **Rodar o mês** a partir do estado anterior: copie `fontes_AAAA-MM.json`, ajuste os nomes dos arquivos e rode
+   `python -I rotina_mes.py periodo --fontes fontes_2026-10.json --saida DIR`. O motor devolve `estado_final.json`: grave-o como
+   `references/estado_AAAA-MM.json` e monte o `fontes` do mês seguinte (saldos_iniciais = bancos e 506; saldo_544_inicial; folha_aberto).
+4. **Travas** todas OK → entregar `34_VISOLUZ_AAAA-MM.txt` (empresa 34) e `118_VISOUUP_AAAA-MM.txt` (empresa 118) separados por empresa,
+   mais a `Conferencia_Mtz_Fl_AAAA-MM.xlsx`. "Sem prova" vai para perguntas; decisão nova entra em `decisoes.md`.
+5. **Conferir:** `scripts/auditoria/` (vendas × banco, entradas × SEFAZ, folha × pagamentos) e `reinf_retiradas.py` para a Reinf do mês.
+6. **Depois da importação:** pedir o balancete e conferir bancos = extratos, 544(34) + 544(118) = 0, 188 zerada, 506 credora.
 
 ## Regras de ouro
 1. **Ligação = 544 nas duas empresas** (1.1.1.04.001). Cada operação entre as lojas gera as duas pernas a partir do mesmo

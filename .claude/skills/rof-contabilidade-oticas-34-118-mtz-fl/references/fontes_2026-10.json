@@ -1,0 +1,55 @@
+{
+ "_obs": "Fontes do mês 10/2026 (continuação do estado de 30/09/2026). Antes de rodar: baixar os _extrato.md de 10 (Sicredi 34 e Itaú 118), exportar a razão 2026 até 10 (34 em .xls -> razao-xls; 118 em .pdf -> razao-pdf), gerar folha_full.csv com o Extrato Mensal até 10, atualizar receita.csv e cartao_todos_repasses.csv.",
+ "saldos_iniciais": {
+  "34": {
+   "8": -2267.37,
+   "506": 38682.92
+  },
+  "118": {
+   "8": 539.49,
+   "506": 18409.06
+  }
+ },
+ "saldo_544_inicial": {
+  "34": "-53235.72",
+  "118": "53235.72"
+ },
+ "folha_aberto": {
+  "05727916909": {
+   "liquido": "399.95",
+   "adiantamento": "0.00"
+  },
+  "08153621963": {
+   "liquido": "1374.34",
+   "adiantamento": "152.89"
+  },
+  "11705948910": {
+   "liquido": "7502.79",
+   "adiantamento": "677.92"
+  },
+  "12557654965": {
+   "liquido": "3111.75",
+   "adiantamento": "0.00"
+  },
+  "44381602862": {
+   "liquido": "588.12",
+   "adiantamento": "790.20"
+  }
+ },
+ "razao": {
+  "34": "razao34_long.csv",
+  "118": "razao118_long.csv"
+ },
+ "folha": "folha_full.csv",
+ "receita": "receita.csv",
+ "meses": {
+  "10/2026": {
+   "34": {
+    "8": "34_10.md"
+   },
+   "118": {
+    "8": "118_10.md"
+   }
+  }
+ }
+}
