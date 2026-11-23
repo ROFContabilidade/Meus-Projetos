@@ -50,11 +50,14 @@ foreach ($sub in @('programa', 'docs', 'modelos')) {
 }
 Get-ChildItem $Aqui -Filter '*.bat' | Copy-Item -Destination $Destino -Force
 Get-ChildItem $Aqui -Filter '*.ps1' | Copy-Item -Destination $Destino -Force
+foreach ($arq in @('CLAUDE.md', 'LEIA-ME.md', 'COMECE AQUI.txt')) { Copy-Item -Force (Join-Path $Aqui $arq) $Destino }
+New-Item -ItemType Directory -Force -Path (Join-Path $Destino 'andamentos') | Out-Null
 Set-Content -Path (Join-Path $Destino 'python.txt') -Value $py -Encoding ASCII
 
 Passo '3/5 Bibliotecas'
 Py -m pip install --upgrade pip --quiet
 Py -m pip install -r (Join-Path $Destino 'programa\requirements.txt')
+Py -m pip install openpyxl --quiet   # leitura das planilhas de faturamento no G:
 
 Passo '4/5 Testes automaticos (devem dar OK)'
 Push-Location (Join-Path $Destino 'programa')

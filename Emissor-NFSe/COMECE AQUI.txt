@@ -1,0 +1,14 @@
+EMISSOR ROF DE NFS-e - COMO COLOCAR NO SEU PC
+
+1) Extraia este zip (por exemplo na Area de Trabalho).
+2) Dois cliques em 1_INSTALAR.bat. Espere aparecer "PRONTO" (os testes devem dar OK).
+3) Dois cliques em 2_INSTALAR_CERTIFICADO.bat. Escolha o .pfx da empresa e digite voce a senha.
+   Anote a "impressao digital" que aparece. Repita para cada empresa.
+4) Abra o Claude no PC > Claude Code > escolha a pasta C:\EmissorROF
+5) Cole este primeiro pedido:
+
+   Leia o CLAUDE.md desta pasta e os documentos da pasta docs. Depois confira se a instalacao esta ok
+   (testes e certificados) e vamos preparar as notas de <MES>/2026 da Soares Advocacia FRG.
+   Mostre a lista antes de emitir.
+
+Depois da instalacao, o programa fica em C:\EmissorROF (esta pasta extraida pode ser apagada).
