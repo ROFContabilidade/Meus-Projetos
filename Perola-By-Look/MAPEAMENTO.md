@@ -57,7 +57,7 @@ Os meses 07 a 10/2026 têm tudo o que é preciso para trabalhar: extrato dos 2 b
 | 5 | Caixa geral | 1.000,00 D | n/a | ⚠️ |
 
 Conferência de 07/2026 pelo `_extrato.md`: Itaú 151,75 → 2.092,83 (créditos 19.533,74, débitos 17.592,66, fecha). PagBank 1.673,02 → 1.244,93 (créditos 9.996,21, débitos 10.424,30, fecha).
-O PDF do Itaú (emitido em 01/09) mostra **R$ 17.000,00 em "investimentos automáticos"**. Não existe conta no plano para aplicação do Itaú.
+~~O PDF do Itaú mostra R$ 17.000,00 em investimentos automáticos~~. **Corrigido:** os R$ 17.000 são o limite da conta. A aplicação automática do Itaú só começa em 14/10/2026 (saldo de 882,33 em 31/10). Saldos de todos os meses estão em `BASE_2026.md`.
 
 ## 4. Plano de contas usado (contas com movimento em 2026)
 
@@ -98,26 +98,27 @@ Hoje essas compras estão espalhadas entre **362, 493, 470 e 506**. Só uma part
 
 **Folha:** pró-labore mensal de R$ 1.621,00, INSS de 11% (R$ 178,31), líquido de R$ 1.442,69. Lançamento: D 275 / C 188 e D 188 / C 191. A sócia recebe por PIX, para a 188 ou a 551.
 
-## 6. Alertas: precisam de decisão antes de lançar 07/2026
+## 6. Alertas depois da varredura completa (detalhes em `BASE_2026.md`)
 
-| # | O que vi | Valores | Por que importa | Sugestão |
-|---|---|---|---|---|
-| 1 | **Recebimentos de cartão e PIX muito acima da receita declarada no PGDAS** | 01–06/2026: R$ 36.171 declarados × R$ 155.426 recebidos (3,3 a 8,4 vezes). 07/2026: R$ 4.254,69 (31 NFC-e) × ≈ R$ 29.400 recebidos | Lei 9.430/96, art. 42: crédito sem origem é presunção de omissão de receita. A Receita e a SEFAZ cruzam com a DIMP das maquininhas (Rede, PagBank, Senff). Por isso a 504 tem saldo credor de 252.711 | Falar com a cliente: todas as vendas precisam de NFC-e. Avaliar com a contadora se retifica o PGDAS. Até lá, lançar as entradas na 504 como hoje e registrar a pendência |
-| 2 | Compras de mercadoria sem nota, lançadas como serviço (362) ou despesa (493) | 362 = 142.095 e 493 = 58.340 no acumulado | Distorce o CMV e o estoque. Se o pagamento a PF for serviço, cabe INSS de 20% | Para 07/2026 em diante, pagamento a confecção ou atacadista vai para a 55 (estoque), mesmo sem nota, com alerta. Pedir as notas aos fornecedores |
-| 3 | Arlete Aparecida Barbosa Coelho recebe com frequência | 10.033,94 em 2026 | Pode ser vínculo de emprego informal (CLT art. 3º), com risco trabalhista e de INSS | Perguntar à cliente quem é e qual a função |
-| 4 | O DARF do INSS do pró-labore vai para a 350, não para a 191 | 191 acumula 3.107,61 C. O relatório "Pagamento de Encargos" mostra 01 a 11/2026 em aberto | A despesa conta duas vezes e o passivo fica falso | De 07/2026 em diante: D 191 / C banco. Reclassificar 01–06 (6 × 178,31) |
-| 5 | O ICMS antecipado (SEFAZ-PR) vai para a 350, não para a 512 | 512 = 554,05 C | O mesmo problema do item 4 | D 512 / C banco |
-| 6 | Resgate do CDB PagBank lançado na 11 (Poupança CEF) | 11 = 19.188,33 C, 48 = 22.666,55 D parada | A conta de aplicação fica com saldo credor, o que não pode existir | Reclassificar 19.188,33 da 11 para a 48 e conferir o saldo da 48 com o extrato da aplicação |
-| 7 | Aplicação automática do Itaú (R$ 17.000) sem conta no plano | n/a | O saldo do banco fica diferente do patrimônio real | Criar a conta "Aplicação automática Itaú" e pedir o extrato da aplicação em XLS ou OFX (existe `Aplicação.png` em 09 e 10) |
-| 8 | Distribuição de lucros de 9.867,19 (06/2026) com prejuízo acumulado | PL negativo (−209 mil) | Sem lucro apurado, a retirada não é lucro isento (LC 123, art. 14). Vira adiantamento ou mútuo da sócia | Reclassificar para 551 (adiantamento à sócia) |
-| 9 | Resultado de 2025 aparentemente não encerrado | O balancete de 2026 traz saldo anterior nas contas de resultado (ex.: 320 = 76.984) | O resultado de 2026 sai inflado | Conferir no Domínio se o encerramento de 2025 foi feito |
-| 10 | Saldos parados | 547 Adiantamento de clientes 312.388,89 C · 510 Honorários 1.298 D (pagou sem provisionar) · 5 Caixa 1.000 D | Balanço distorcido | Analisar a origem com a contadora |
-| 11 | Plano de saúde pago pela empresa | 366 = 22.681 no ano | Se for da sócia, pode ser remuneração indireta | Confirmar quem são os beneficiários |
-| 12 | Pró-labore como custo (275) numa empresa de comércio | 14.589 no ano | Classificação: no comércio é despesa | Decisão da contadora |
+Resolvido pelos documentos (não é mais pergunta): retiradas de 06 (WhatsApp: CDB → PagBank CPF da sócia), saldos do CDB (prints de 02, 03, 06, 09 e 10), aluguel de 10 (pago em 30/09 com desconto), o "R$ 17 mil" do Itaú (é limite), pagamentos a fornecedor com NF (cruzados por CNPJ: David Rojas = Modas Carol), padrão da Sul América (o mês M quita as NFS-e de M−1).
 
-## 7. Por onde começar 07/2026
+**Riscos para a contadora decidir (não são dúvidas de lançamento):**
+1. **Omissão de receita.** De 07 a 10: R$ 96,5 mil recebidos × R$ 12,4 mil declarados. De 01 a 06: R$ 155 mil × R$ 36 mil. Lei 9.430/96, art. 42, mais a DIMP das maquininhas enviada à SEFAZ-PR.
+2. **Compras sem nota:** R$ 40,9 mil de 07 a 10 (78% das compras). Mercadoria sem documento fiscal no estoque é infração de ICMS (RICMS-PR) e confirma a venda sem nota.
+3. **Lucros de 9.867,19 informados na EFD-Reinf de 07** com PL negativo. Sugestão: reclassificar para a 551 e retificar o R-4010.
+4. **DAS 09/2026 (56,73) estornado** em 15/10, em aberto desde 20/10.
+5. **ICMS antecipado zerado de 08 a 10** com compras de SP e GO (CFOP 2102). Em 05 foi recolhido. Conferir o enquadramento no RICMS-PR antes de deixar de recolher.
+6. Ajustes de 01 a 06 (período já lançado): DARF na 350 em vez da 191 (6 × 178,31) · ICMS antecipado na 350 em vez da 512 · resgate do CDB na 11 em vez da 48 · rendimento não contabilizado de 3.029,32 · 10.000 de retirada na 188 · Sul América paga direto na 366 com a NFS-e também escriturada (despesa em dobro) · resultado de 2025 aparentemente não encerrado.
 
-1. Fontes: `07_2026/Extratos/Itau_07.26_extrato.md` e `Pagbank 07.26_extrato.md` (os dois fecham) mais OFX, `Guias/DAS_07.26` e `Extrato S.N_07.26` (RPA 4.254,69, DAS 112,33, vencimento 20/08), `Relatorios/FAT. 07.26` e NFC-e, NF de entrada (Norte Vest 926,28 e serviço 15.01 de 51,20 da Senff).
-2. O DAS pago em 07 é o de 06/2026 (R$ 237,26, PagBank). O DARF de 178,31 é o INSS de 06.
-3. Gerar um TXT por mês (tudo no mesmo arquivo, em ordem de data, no leiaute `|0000|30582416000126|` e `|6000|X|` / `|6100|`, igual aos TXT de 06/2026). Usar os lotes `|6000|D|` ou `|6000|C|` quando houver mais de uma partida.
-4. Antes de gerar, preciso das respostas aos itens 1, 2, 3, 6, 7 e 8 acima.
+## 7. Documentos que faltam na pasta
+
+- NFS-e da Sul América de 07/2026 (2 notas, pagas em 13/08: 187,22 e 1.171,09)
+- Michael Fashion NF-e 336 (1.500,00, vencimento 08/11): o XML está na pasta, mas **não foi escriturada** no Domínio (o relatório de entradas de 10 só tem a Modas Carol)
+- Print do saldo do CDB em 31/07 e 31/08 (sem ele, o rendimento de 07 a 09 entra em 30/09)
+
+## 8. Únicas perguntas que dependem da cliente
+
+| # | O que vi | Pergunta |
+|---|---|---|
+| 1 | **Arlete Aparecida Barbosa Coelho** (CPF 419.813.679-34): de 07 a 10 **depositou** R$ 5.034,50 na empresa e recebeu R$ 892,10. De 01 a 06 recebeu R$ 10.033,94 (lançados na 362) | Ela é vendedora ou revendedora (recebe roupa, vende e repassa)? Se for, as entradas são venda (504) e as saídas são comissão. Se trabalha na loja, há risco de vínculo de emprego |
+| 2 | Pagamentos sem identificação (R$ 4,5 mil): Rubesnei Rodrigues de Mello 1.040, "Pagamento e Serviços de" 912,19 (7×), Pedro Henrique Sena Pinho 850, Laudemira Maria Lucas 760, Maree 416,28, Elisangela Grochevski 239,99, Mooz 149,79, Fábio Júnio 100 | Mercadoria, serviço ou pessoal? |
