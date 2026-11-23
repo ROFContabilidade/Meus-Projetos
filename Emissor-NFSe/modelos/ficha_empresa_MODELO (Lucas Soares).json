@@ -1,0 +1,37 @@
+{
+  "cnpj": "49325547000156",
+  "razao": "LUCAS SOARES SOCIEDADE INDIVIDUAL DE ADVOCACIA",
+  "municipio_ibge": "4106902",
+  "municipio_nome": "Curitiba",
+  "op_simp_nac": 3,
+  "reg_ap_trib_sn": 1,
+  "reg_esp_trib": 0,
+  "certificado_proprio": true,
+  "procuracao_validade": "",
+  "fone": "",
+  "email": "",
+  "pasta_notas": "",
+  "producao_liberada": true,
+  "servicos": [
+    {
+      "apelido": "Advocacia",
+      "c_trib_nac": "171401",
+      "c_trib_mun": "",
+      "c_nbs": "113012000",
+      "descricao_modelo": "Prestação de serviços jurídicos (Honorários Contratuais)",
+      "trib_issqn": 1,
+      "tp_ret_issqn": 1,
+      "p_aliq": null,
+      "tot_trib": {
+        "tipo": "pTotTribSN",
+        "valor": "4,50"
+      },
+      "exige_tomador": true
+    }
+  ],
+  "atualizado_em": "2026-11-21T23:30:00",
+  "atualizado_por": "MODELO",
+  "dps_ja_usadas": {
+    "1": 671
+  }
+}

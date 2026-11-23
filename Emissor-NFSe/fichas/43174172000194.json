@@ -1,0 +1,39 @@
+{
+  "cnpj": "43174172000194",
+  "razao": "EVERTON SOARES SOCIEDADE INDIVIDUAL DE ADVOCACIA",
+  "municipio_ibge": "4107652",
+  "municipio_nome": "Fazenda Rio Grande",
+  "op_simp_nac": 3,
+  "reg_ap_trib_sn": 1,
+  "reg_esp_trib": 0,
+  "certificado_proprio": true,
+  "procuracao_validade": "",
+  "fone": "41997841964",
+  "email": "everton@advocaciasoares.adv.br",
+  "pasta_notas": "",
+  "producao_liberada": true,
+  "servicos": [
+    {
+      "apelido": "Advocacia",
+      "c_trib_nac": "171401",
+      "c_trib_mun": "",
+      "c_nbs": "113012000",
+      "descricao_modelo": "Prestação de serviços jurídicos (Honorários Contratuais)",
+      "trib_issqn": 1,
+      "tp_ret_issqn": 1,
+      "p_aliq": null,
+      "tot_trib": {
+        "tipo": "pTotTrib",
+        "fed": "13,45",
+        "est": "0,00",
+        "mun": "4,55"
+      },
+      "exige_tomador": true
+    }
+  ],
+  "atualizado_em": "2026-11-23T00:00:00",
+  "atualizado_por": "Instalador ROF",
+  "dps_ja_usadas": {
+    "1": 24
+  }
+}

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emissor ROF de NFS-e</title>
+<style>
+:root{--fundo:#f4f5f2;--papel:#fff;--tinta:#1d2a26;--suave:#5d6b66;--linha:#d9ddd6;--marca:#0f5c4a;--marca2:#e6f1ed;
+--erro:#a3261b;--erro2:#fbeceb;--aviso:#8a5a00;--aviso2:#fdf3dc;--ok:#1c6b3a;--ok2:#e5f4ea;--teste:#6b3fa0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
+header{background:var(--marca);color:#fff;padding:14px 24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header h1{font-size:18px;margin:0;font-weight:600;letter-spacing:.2px}
+header .sel{margin-left:auto;font-size:13px;display:flex;gap:8px;flex-wrap:wrap}
+.selo{padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.16);white-space:nowrap}
+.selo.teste{background:#fff;color:var(--teste);font-weight:600}.selo.prod{background:#ffd9d4;color:var(--erro);font-weight:700}
+nav{display:flex;gap:4px;padding:0 24px;background:var(--papel);border-bottom:1px solid var(--linha);flex-wrap:wrap}
+nav button{border:0;background:none;padding:12px 16px;font:inherit;color:var(--suave);cursor:pointer;border-bottom:3px solid transparent}
+nav button.on{color:var(--marca);border-color:var(--marca);font-weight:600}
+main{max-width:1000px;margin:0 auto;padding:24px 16px 80px}
+section{display:none}section.on{display:block}
+.cx{background:var(--papel);border:1px solid var(--linha);border-radius:10px;padding:18px 20px;margin-bottom:16px}
+.cx h2{font-size:16px;margin:0 0 12px;color:var(--marca)}.cx h3{font-size:14px;margin:14px 0 8px}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:10px 12px}
+.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c8{grid-column:span 8}.c9{grid-column:span 9}.c12{grid-column:span 12}
+@media(max-width:720px){.c2,.c3,.c4,.c5,.c6,.c8,.c9{grid-column:span 12}}
+label{display:block;font-size:12.5px;color:var(--suave);margin-bottom:3px}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid #bfc6bd;border-radius:6px;font:inherit;background:#fff;color:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--marca);outline-offset:1px}
+textarea{min-height:84px;resize:vertical}
+input[type=checkbox]{width:auto;margin-right:6px}
+.lin{display:flex;gap:6px;align-items:flex-end}.lin>div{flex:1}
+button.b{border:1px solid var(--marca);background:var(--marca);color:#fff;padding:9px 16px;border-radius:6px;font:inherit;font-weight:600;cursor:pointer}
+button.b:disabled{opacity:.45;cursor:not-allowed}
+button.s{border:1px solid #bfc6bd;background:#fff;color:var(--tinta);padding:8px 12px;border-radius:6px;font:inherit;cursor:pointer;white-space:nowrap}
+button.p{background:var(--erro);border-color:var(--erro)}
+.msg{padding:10px 12px;border-radius:6px;margin:6px 0;border-left:4px solid}
+.msg.erro{background:var(--erro2);border-color:var(--erro);color:var(--erro)}
+.msg.aviso{background:var(--aviso2);border-color:var(--aviso);color:#5e3d00}
+.msg.ok{background:var(--ok2);border-color:var(--ok);color:var(--ok)}
+.msg.info{background:var(--marca2);border-color:var(--marca)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{font-size:12px;color:var(--suave);font-weight:600}
+td.k{width:34%;color:var(--suave)}
+.tela{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--marca);font-weight:700;margin:14px 0 2px}
+.dica{font-size:12.5px;color:var(--suave);margin-top:3px}
+.sit{padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.sit.AUTORIZADA{background:var(--ok2);color:var(--ok)}.sit.REJEITADA,.sit.INCERTA{background:var(--erro2);color:var(--erro)}
+.sit.NAO_ENVIADA,.sit.PREPARADA,.sit.NAO_GEROU_NOTA{background:#eee;color:#555}
+pre{background:#f1f3ef;padding:10px;border-radius:6px;overflow:auto;font-size:12px;max-height:260px;white-space:pre-wrap;word-break:break-all}
+.serv{border:1px dashed #bfc6bd;border-radius:8px;padding:12px;margin-bottom:10px}
+.fim{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.oculto{display:none}
+</style>
+</head>
+<body>
+<header><h1>Emissor ROF de NFS-e</h1><div class="sel" id="selos"></div></header>
+<nav id="nav">
+  <button data-a="emitir" class="on">Emitir nota</button><button data-a="empresas">Fichas dos clientes</button>
+  <button data-a="historico">Histórico</button><button data-a="config">Configuração</button>
+</nav>
+<main>
+<div id="alerta"></div>
+
+<section id="emitir" class="on">
+  <div class="cx"><h2>1. Quem emite e o que foi feito</h2>
+    <div class="g">
+      <div class="c8"><label>Empresa que emite</label><select id="n_emp"></select></div>
+      <div class="c4"><label>Serviço (da ficha do cliente)</label><select id="n_serv"></select></div>
+      <div class="c12" id="n_resumo_emp"></div>
+    </div></div>
+  <div class="cx"><h2>2. Tomador (quem paga)</h2>
+    <div class="g">
+      <div class="c12"><label>Tomadores já usados nesta empresa</label><select id="n_tom_sel"><option value="">novo tomador</option></select></div>
+      <div class="c4 lin"><div><label>CPF ou CNPJ</label><input id="t_doc" inputmode="numeric" autocomplete="off"></div><button class="s" id="b_cnpj_t" type="button">Buscar CNPJ</button></div>
+      <div class="c8"><label>Nome ou razão social</label><input id="t_nome"></div>
+      <div class="c6"><label>E-mail</label><input id="t_email" type="email"></div>
+      <div class="c6"><label>Telefone (com DDD)</label><input id="t_fone" inputmode="numeric"></div>
+      <div class="c3 lin"><div><label>CEP</label><input id="t_cep" inputmode="numeric"></div><button class="s" id="b_cep" type="button">Buscar</button></div>
+      <div class="c6"><label>Logradouro</label><input id="t_log"></div>
+      <div class="c3"><label>Número (ou S/N)</label><input id="t_num"></div>
+      <div class="c4"><label>Complemento</label><input id="t_cpl"></div>
+      <div class="c4"><label>Bairro</label><input id="t_bai"></div>
+      <div class="c4"><label>Código IBGE do município</label><input id="t_mun" inputmode="numeric"><div class="dica" id="t_mun_nome">preenchido pela busca do CEP</div></div>
+    </div>
+    <div class="dica">Endereço é obrigatório para tomador com CNPJ. Para CPF é opcional (se preencher, preencha completo).</div></div>
+  <div class="cx"><h2>3. Serviço e valor</h2>
+    <div class="g">
+      <div class="c6"><label>Paciente / beneficiário (se houver)</label><input id="n_benef"></div>
+      <div class="c6"><label>Data(s) do serviço</label><input id="n_datas" placeholder="ex.: 03, 10, 17 e 24/11/2026"></div>
+      <div class="c12"><label>Descrição que vai na nota</label><textarea id="n_desc" maxlength="2000"></textarea>
+        <div class="fim" style="margin-top:4px"><button class="s" id="b_modelo" type="button">Montar pelo modelo da ficha</button><span class="dica" id="n_desc_cont"></span></div>
+        <div class="dica">Nunca escreva diagnóstico, CID ou condição de saúde. O programa bloqueia os termos da lista da ficha.</div></div>
+      <div class="c3"><label>Valor (R$)</label><input id="n_valor" inputmode="decimal" placeholder="0,00"></div>
+      <div class="c3"><label>Desconto incondicionado (R$)</label><input id="n_descinc" inputmode="decimal" placeholder="em branco = nenhum"></div>
+      <div class="c3"><label>Data de competência</label><input id="n_comp" type="date"></div>
+      <div class="c3"><label>Município da prestação (IBGE)</label><input id="n_mun" inputmode="numeric"><div class="dica">online = cidade da empresa</div></div>
+    </div>
+    <div class="fim"><button class="b" id="b_conferir" type="button">Conferir antes de emitir</button><span class="dica">Nada é enviado nesta etapa.</span></div></div>
+  <div id="n_conf"></div>
+  <div id="n_result"></div>
+</section>
+
+<section id="empresas">
+  <div class="cx"><h2>Fichas dos clientes</h2>
+    <div class="g"><div class="c8"><label>Abrir ficha</label><select id="e_sel"></select></div>
+    <div class="c4" style="display:flex;align-items:flex-end"><button class="s" id="b_nova" type="button">Nova ficha</button></div></div></div>
+  <div class="cx" id="e_form">
+    <h2>Dados da empresa</h2>
+    <div class="g">
+      <div class="c4 lin"><div><label>CNPJ</label><input id="e_cnpj" inputmode="numeric"></div><button class="s" id="b_cnpj_e" type="button">Buscar</button></div>
+      <div class="c8"><label>Razão social</label><input id="e_razao"></div>
+      <div class="c3"><label>Código IBGE do município</label><input id="e_mun" inputmode="numeric"></div>
+      <div class="c3"><label>Município</label><input id="e_munnome"></div>
+      <div class="c3"><label>Inscrição municipal</label><input id="e_im"><div class="dica">só se o município exigir no cadastro (CNC)</div></div>
+      <div class="c3"><label>Telefone</label><input id="e_fone" inputmode="numeric"></div>
+      <div class="c6"><label>E-mail da empresa</label><input id="e_email"></div>
+      <div class="c6"><label>Pasta do cliente para salvar as notas</label><input id="e_pasta" placeholder="G:\Meu Drive\...\Cliente\NFS-e"></div>
+      <div class="c4"><label>Simples Nacional</label><select id="e_op"></select></div>
+      <div class="c4"><label>Regime de apuração (só ME/EPP)</label><select id="e_reg"></select></div>
+      <div class="c4"><label>Regime especial de tributação</label><select id="e_esp"></select></div>
+      <div class="c4"><label>Procuração eletrônica (NFS-e) válida até</label><input id="e_proc" type="date"></div>
+      <div class="c8" style="display:flex;flex-direction:column;justify-content:flex-end;gap:4px">
+        <label style="font-size:14px;color:inherit"><input type="checkbox" id="e_certproprio">A empresa emite com certificado próprio (sem procuração)</label>
+        <label style="font-size:14px;color:inherit"><input type="checkbox" id="e_prod">Produção liberada (só depois de um teste aprovado em Produção Restrita)</label></div>
+      <div class="c12"><label>Termos que nunca podem aparecer na descrição (um por linha; em branco = lista padrão de saúde)</label><textarea id="e_termos"></textarea></div>
+    </div>
+    <h2 style="margin-top:18px">Serviços que esta empresa pode faturar</h2>
+    <div id="e_servs"></div>
+    <button class="s" id="b_addserv" type="button">Acrescentar serviço</button>
+    <div class="fim"><button class="b" id="b_salvar_emp" type="button">Salvar ficha</button><span class="dica">A versão anterior da ficha fica guardada automaticamente.</span></div>
+    <div id="e_msgs"></div>
+  </div>
+</section>
+
+<section id="historico">
+  <div class="cx"><h2>Histórico de emissões</h2>
+    <div class="g"><div class="c8"><label>Empresa</label><select id="h_sel"></select></div></div>
+    <div id="h_lista" style="margin-top:12px"></div></div>
+</section>
+
+<section id="config">
+  <div class="cx"><h2>Certificado digital (A1)</h2>
+    <div class="g">
+      <div class="c8"><label>Arquivo do certificado (.pfx ou .p12) — caminho completo</label><input id="c_pfx" placeholder="C:\Certificados\ROF.pfx"></div>
+      <div class="c4"><label>Senha do certificado</label><input id="c_senha" type="password" autocomplete="off"></div>
+    </div>
+    <div class="fim"><button class="b" id="b_cert" type="button">Abrir certificado</button><button class="s" id="b_cert_fechar" type="button">Fechar certificado</button>
+      <span class="dica">A senha não é gravada: vale só enquanto o programa está aberto.</span></div>
+    <div id="c_cert"></div></div>
+  <div class="cx"><h2>Este computador</h2>
+    <div class="g">
+      <div class="c4"><label>Quem usa este computador</label><input id="c_usuario" placeholder="ex.: Rosângela"></div>
+      <div class="c2"><label>Série deste computador</label><input id="c_serie" inputmode="numeric"></div>
+      <div class="c6"><label>Ambiente</label><select id="c_amb"><option value="2">Produção Restrita — TESTES, sem valor fiscal</option><option value="1">PRODUÇÃO — notas de verdade</option></select></div>
+      <div class="c12"><label>Pasta de dados compartilhada (fichas e histórico) — em branco = só neste computador</label><input id="c_dados" placeholder="G:\Meu Drive\...\Emissor ROF - dados"></div>
+    </div>
+    <div class="dica">Cada computador precisa de uma série DIFERENTE (1, 2, 3, 4...). É isso que impede duas pessoas de gerarem o mesmo número de DPS.</div></div>
+  <div class="cx"><h2>Conexão (só mexer se o teste de conexão falhar)</h2>
+    <div class="g">
+      <div class="c6"><label>Endereço da Sefin Nacional (em branco = padrão)</label><input id="c_sefin"></div>
+      <div class="c6"><label>Endereço do ADN (em branco = padrão)</label><input id="c_adn"></div>
+      <div class="c4"><label>Algoritmo da assinatura</label><select id="c_alg"><option value="sha1">RSA-SHA1 (manual oficial)</option><option value="sha256">RSA-SHA256</option></select></div>
+      <div class="c8"><label>Arquivo da cadeia de certificados do servidor (opcional)</label><input id="c_ca"></div>
+    </div>
+    <div class="fim"><button class="b" id="b_salvar_cfg" type="button">Salvar configuração</button><button class="s" id="b_testar" type="button">Testar conexão</button></div>
+    <div id="c_msgs"></div></div>
+</section>
+</main>
+
+<script>
+"use strict";
+const TOKEN="__TOKEN__"; let EST=null, EMP=null, FICHA=null;
+const $=id=>document.getElementById(id);
+function el(tag,attrs,...filhos){const e=document.createElement(tag);for(const k in (attrs||{})){if(k==="class")e.className=attrs[k];else if(k==="text")e.textContent=attrs[k];else if(k.startsWith("on"))e.addEventListener(k.slice(2),attrs[k]);else e.setAttribute(k,attrs[k]);}
+  for(const f of filhos){if(f==null)continue;e.append(f.nodeType?f:document.createTextNode(String(f)));}return e;}
+function limpa(n){while(n.firstChild)n.removeChild(n.firstChild);return n;}
+function msg(tipo,texto){return el("div",{class:"msg "+tipo,text:texto});}
+async function api(caminho,corpo){const r=await fetch(caminho,{method:corpo===undefined?"GET":"POST",headers:{"X-Token":TOKEN,"Content-Type":"application/json"},body:corpo===undefined?undefined:JSON.stringify(corpo)});
+  const j=await r.json().catch(()=>({msg:"Resposta ilegível do programa."}));if(!r.ok)throw new Error(j.msg||("Erro "+r.status));return j;}
+function digs(s){return String(s||"").replace(/\D/g,"");}
+function fmtDoc(d){d=digs(d);if(d.length===14)return d.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,"$1.$2.$3/$4-$5");if(d.length===11)return d.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/,"$1.$2.$3-$4");return d;}
+function opcoes(sel,mapa,vazio){limpa(sel);if(vazio!==undefined)sel.append(el("option",{value:"",text:vazio}));for(const k in mapa)sel.append(el("option",{value:k,text:k+" - "+mapa[k]}));}
+function hoje(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+async function tenta(fn,onde){try{await fn();}catch(e){(onde||$("alerta")).append(msg("erro",e.message));}}
+
+// ---------- estado geral ----------
+async function carregar(){EST=await api("/api/estado");const s=limpa($("selos"));const c=EST.config;
+  s.append(el("span",{class:"selo "+(c.ambiente==="1"?"prod":"teste"),text:c.ambiente==="1"?"PRODUÇÃO":"AMBIENTE DE TESTE"}));
+  s.append(el("span",{class:"selo",text:"série "+c.serie}));
+  s.append(el("span",{class:"selo",text:EST.certificado?("certificado: "+EST.certificado.titular.slice(0,34)):"sem certificado aberto"}));
+  s.append(el("span",{class:"selo",text:"v"+EST.versao}));
+  for(const id of ["n_emp","e_sel","h_sel"]){const sel=$(id),ant=sel.value;limpa(sel);sel.append(el("option",{value:"",text:EST.empresas.length?"escolha a empresa":"nenhuma ficha cadastrada"}));
+    for(const e of EST.empresas)sel.append(el("option",{value:e.cnpj,text:e.razao+" — "+fmtDoc(e.cnpj)+(e.erros?"  (ficha com "+e.erros+" erro(s))":"")}));sel.value=ant;}
+  const a=limpa($("alerta"));for(const m of EST.config_erros)a.append(msg("erro",m));
+  if(!EST.certificado)a.append(msg("aviso","Certificado digital ainda não aberto. Abra na aba Configuração para poder emitir."));
+  else if(EST.certificado.dias_para_vencer<=30)a.append(msg("aviso","O certificado digital vence em "+EST.certificado.dias_para_vencer+" dia(s)."));
+  for(const e of EST.empresas)for(const m of e.avisos)a.append(msg("aviso",e.razao+": "+m));
+  $("c_pfx").value=c.caminho_pfx||"";$("c_usuario").value=c.usuario||"";$("c_serie").value=c.serie;$("c_amb").value=c.ambiente;$("c_dados").value=c.pasta_dados||"";
+  $("c_sefin").value=(c.urls||{}).sefin||"";$("c_adn").value=(c.urls||{}).adn||"";$("c_alg").value=c.algoritmo_assinatura;$("c_ca").value=c.ca_bundle||"";
+  mostraCert();}
+function mostraCert(){const d=limpa($("c_cert"));const c=EST.certificado;if(!c)return;
+  d.append(msg(c.vigente?"ok":"erro","Certificado aberto: "+c.titular+" — documento "+fmtDoc(c.documento)+" — válido de "+c.valido_de+" até "+c.valido_ate+(c.vigente?"":" (VENCIDO)")));}
+$("nav").addEventListener("click",ev=>{const a=ev.target.dataset.a;if(!a)return;for(const b of $("nav").children)b.classList.toggle("on",b===ev.target);
+  for(const s of document.querySelectorAll("main>section"))s.classList.toggle("on",s.id===a);if(a==="historico")carregaHist();});
+
+// ---------- emitir ----------
+$("n_comp").value=hoje();
+$("n_emp").addEventListener("change",()=>tenta(async()=>{limpa($("n_conf"));limpa($("n_result"));EMP=null;limpa($("n_serv"));limpa($("n_resumo_emp"));
+  const sel=limpa($("n_tom_sel"));sel.append(el("option",{value:"",text:"novo tomador"}));if(!$("n_emp").value)return;
+  EMP=(await api("/api/empresa?cnpj="+$("n_emp").value)).empresa;if(!EMP)return;
+  for(const s of EMP.servicos||[])$("n_serv").append(el("option",{value:s.apelido,text:s.apelido+" ("+s.c_trib_nac+")"}));
+  (EMP.tomadores||[]).forEach((t,i)=>sel.append(el("option",{value:String(i),text:t.nome+" — "+fmtDoc(t.doc)})));
+  $("n_mun").value=EMP.municipio_ibge||"";
+  $("n_resumo_emp").append(el("div",{class:"dica",text:"Simples: "+(EST.rotulos.op_simp_nac[EMP.op_simp_nac]||"?")+" · município "+(EMP.municipio_nome||"")+" ("+(EMP.municipio_ibge||"")+") · procuração até "+(EMP.certificado_proprio?"(certificado próprio)":(EMP.procuracao_validade||"NÃO REGISTRADA"))}));}));
+$("n_tom_sel").addEventListener("change",()=>{const t=(EMP&&EMP.tomadores||[])[$("n_tom_sel").value];poeTomador(t||{});});
+function poeTomador(t){const e=t.endereco||{};$("t_doc").value=fmtDoc(t.doc||"");$("t_nome").value=t.nome||"";$("t_email").value=t.email||"";$("t_fone").value=t.fone||"";
+  $("t_cep").value=e.cep||"";$("t_log").value=e.logradouro||"";$("t_num").value=e.numero||"";$("t_cpl").value=e.complemento||"";$("t_bai").value=e.bairro||"";$("t_mun").value=e.cod_mun||"";$("t_mun_nome").textContent=e.municipio?(e.municipio+"/"+(e.uf||"")):"preenchido pela busca do CEP";}
+function leTomador(){const d=digs($("t_doc").value);if(!d&&!$("t_nome").value.trim())return null;
+  return {doc:d,nome:$("t_nome").value,email:$("t_email").value.trim(),fone:digs($("t_fone").value),
+    endereco:{cep:digs($("t_cep").value),logradouro:$("t_log").value,numero:$("t_num").value,complemento:$("t_cpl").value,bairro:$("t_bai").value,cod_mun:digs($("t_mun").value)}};}
+$("b_cep").addEventListener("click",()=>tenta(async()=>{const r=await api("/api/cep?cep="+digs($("t_cep").value));if(!r.ok)throw new Error(r.msg);
+  if(!$("t_log").value)$("t_log").value=r.logradouro;if(!$("t_bai").value)$("t_bai").value=r.bairro;$("t_mun").value=r.cod_mun;$("t_mun_nome").textContent=r.municipio+"/"+r.uf;},$("n_conf")));
+$("b_cnpj_t").addEventListener("click",()=>tenta(async()=>{const r=await api("/api/cnpj?cnpj="+digs($("t_doc").value));if(!r.ok)throw new Error(r.msg);
+  poeTomador({doc:r.cnpj,nome:r.razao,email:r.email,fone:r.fone,endereco:r.endereco});
+  if(r.situacao&&r.situacao.toUpperCase()!=="ATIVA")limpa($("n_conf")).append(msg("aviso","Situação cadastral do tomador na Receita: "+r.situacao));},$("n_conf")));
+$("b_modelo").addEventListener("click",()=>{if(!EMP)return;const s=(EMP.servicos||[]).find(x=>x.apelido===$("n_serv").value);if(!s)return;
+  let t=(s.descricao_modelo||"").replace(/\{beneficiario\}/gi,$("n_benef").value.trim()).replace(/\{datas\}/gi,$("n_datas").value.trim());
+  if(!/\{beneficiario\}/i.test(s.descricao_modelo||"")&&$("n_benef").value.trim())t+="\nBeneficiário: "+$("n_benef").value.trim()+".";
+  if(!/\{datas\}/i.test(s.descricao_modelo||"")&&$("n_datas").value.trim())t+="\nData(s) do serviço: "+$("n_datas").value.trim()+".";
+  $("n_desc").value=t.trim();contaDesc();});
+function contaDesc(){$("n_desc_cont").textContent=$("n_desc").value.length+" de 2000 caracteres";}
+$("n_desc").addEventListener("input",contaDesc);
+function leNota(){return {cnpj_emitente:$("n_emp").value,servico:$("n_serv").value,tomador:leTomador(),descricao:$("n_desc").value,valor:$("n_valor").value,
+  desconto_incondicionado:$("n_descinc").value.trim(),competencia:$("n_comp").value,cod_mun_prestacao:digs($("n_mun").value)};}
+$("b_conferir").addEventListener("click",()=>{limpa($("n_result"));tenta(async()=>{const c=limpa($("n_conf"));if(!$("n_emp").value){c.append(msg("erro","Escolha a empresa que emite."));return;}
+  const nota=leNota();const r=await api("/api/conferir",nota);FICHA={nota,r};const cx=el("div",{class:"cx"},el("h2",{text:"4. Ficha de emissão — confira campo a campo"}));
+  for(const t of r.ficha){cx.append(el("div",{class:"tela",text:t.tela}));const tb=el("table");for(const [k,v] of t.campos)tb.append(el("tr",null,el("td",{class:"k",text:k}),el("td",{text:v})));cx.append(tb);}
+  const er=r.itens.filter(i=>i.nivel==="erro"),av=r.itens.filter(i=>i.nivel==="aviso");
+  if(er.length)cx.append(el("h3",{text:"Erros (bloqueiam a emissão)"}));for(const i of er)cx.append(msg("erro",i.msg));
+  if(av.length)cx.append(el("h3",{text:"Avisos (leia antes de emitir)"}));for(const i of av)cx.append(msg("aviso",i.msg));
+  const podeDup=!r.ok&&r.so_duplicidade;
+  if(r.ok||podeDup){if(r.ok&&!av.length)cx.append(msg("ok","Conferência sem erros."));
+    const prod=EST.config.ambiente==="1";cx.append(msg(prod?"erro":"info",prod?"ATENÇÃO: ambiente de PRODUÇÃO. Esta nota terá valor fiscal e não pode ser apagada, só cancelada.":"Ambiente de TESTE (Produção Restrita): a nota não tem valor fiscal."));
+    let chk=null;if(podeDup){chk=el("input",{type:"checkbox",id:"n_dup"});cx.append(el("label",{style:"font-size:14px;color:inherit"},chk,"Confirmo que é OUTRA prestação e quero emitir mesmo assim."));}
+    const inp=el("input",{placeholder:"digite "+EST.palavra,style:"max-width:200px",autocomplete:"off"});
+    const bt=el("button",{class:"b"+(prod?" p":""),type:"button",text:"Emitir NFS-e",disabled:"disabled"});
+    const libera=()=>{bt.disabled=!(inp.value.trim()===EST.palavra&&(!chk||chk.checked));};inp.addEventListener("input",libera);if(chk)chk.addEventListener("change",libera);
+    bt.addEventListener("click",()=>emitir(bt,inp.value.trim(),!!(chk&&chk.checked)));
+    cx.append(el("div",{class:"fim"},inp,bt,el("span",{class:"dica",text:"Se mudar qualquer campo acima, clique em Conferir de novo."})));}
+  if(r.xml_previa){const d=el("details",null,el("summary",{text:"Ver o XML que será enviado (prévia, antes de numerar e assinar)"}),el("pre",{text:r.xml_previa}));cx.append(d);}
+  c.append(cx);cx.scrollIntoView({behavior:"smooth"});},$("n_conf"));});
+async function emitir(bt,palavra,dup){bt.disabled=true;bt.textContent="Enviando...";const d=limpa($("n_result"));
+  try{if(JSON.stringify(leNota())!==JSON.stringify(FICHA.nota)){d.append(msg("erro","Os campos mudaram depois da conferência. Clique em Conferir de novo."));bt.textContent="Emitir NFS-e";return;}
+    const r=await api("/api/emitir",{nota:FICHA.nota,confirmacao:palavra,confirmo_duplicidade:dup});mostraResultado(d,r);
+    if(r.situacao==="AUTORIZADA"){limpa($("n_conf"));await guardaTomador();}else{bt.textContent="Emitir NFS-e";}
+  }catch(e){d.append(msg("erro",e.message+" Antes de tentar de novo, olhe o Histórico."));bt.textContent="Emitir NFS-e";}}
+function mostraResultado(d,r){const cx=el("div",{class:"cx"},el("h2",{text:"Resultado"}));const tipo=r.situacao==="AUTORIZADA"?"ok":"erro";cx.append(msg(tipo,r.situacao+": "+r.msg));
+  for(const p of r.passos||[])cx.append(el("div",{class:"dica",text:"✓ "+p}));
+  for(const i of (r.itens||[]).filter(i=>i.nivel==="erro"))cx.append(msg("erro",i.msg));
+  for(const e of r.erros||[])cx.append(msg("erro",(e.codigo?e.codigo+" — ":"")+e.descricao+(e.complemento?" ("+e.complemento+")":"")));
+  for(const x of r.divergencias||[])cx.append(msg("erro","DIVERGÊNCIA entre o pedido e a nota devolvida: "+x));
+  if(r.situacao==="AUTORIZADA"){const tb=el("table");tb.append(el("tr",null,el("td",{class:"k",text:"Número da NFS-e"}),el("td",{text:r.n_nfse||"?"})));
+    tb.append(el("tr",null,el("td",{class:"k",text:"Chave de acesso"}),el("td",{text:r.chave})));
+    for(const a of r.arquivos||[])tb.append(el("tr",null,el("td",{class:"k",text:"Arquivo salvo"}),el("td",null,a," ",el("button",{class:"s",type:"button",text:"abrir pasta",onclick:()=>api("/api/abrir_pasta",{caminho:a})}))));
+    cx.append(tb);cx.append(el("h3",{text:"Ainda falta você fazer"}));for(const p of r.pendencias||[])cx.append(msg("aviso",p));
+    const ta=el("textarea",{readonly:"readonly"});ta.value=r.mensagem_tomador||"";cx.append(el("label",{text:"Mensagem pronta para o tomador"}),ta,
+      el("div",{class:"fim"},el("button",{class:"s",type:"button",text:"Copiar mensagem",onclick:()=>{ta.select();navigator.clipboard.writeText(ta.value);}})));}
+  if(r.resposta)cx.append(el("details",null,el("summary",{text:"Resposta completa do servidor"}),el("pre",{text:r.resposta})));
+  d.append(cx);cx.scrollIntoView({behavior:"smooth"});}
+async function guardaTomador(){const t=FICHA.nota.tomador;if(!t||!t.doc||!EMP)return;const e=(await api("/api/empresa?cnpj="+EMP.cnpj)).empresa;e.tomadores=e.tomadores||[];
+  const i=e.tomadores.findIndex(x=>digs(x.doc)===t.doc);if(i>=0)e.tomadores[i]=t;else e.tomadores.push(t);await api("/api/empresa",e);EMP=e;}
+
+// ---------- fichas ----------
+function blocoServ(s){s=s||{trib_issqn:1,tp_ret_issqn:1,exige_tomador:true,tot_trib:{tipo:"pTotTribSN",valor:""}};const b=el("div",{class:"serv"});const g=el("div",{class:"g"});
+  const campo=(cls,rot,nome,val,extra)=>{const i=el("input",Object.assign({"data-k":nome},extra||{}));i.value=val==null?"":val;g.append(el("div",{class:cls},el("label",{text:rot}),i));return i;};
+  const lista=(cls,rot,nome,mapa,val)=>{const sl=el("select",{"data-k":nome});opcoes(sl,mapa);sl.value=String(val);g.append(el("div",{class:cls},el("label",{text:rot}),sl));return sl;};
+  campo("c4","Nome do serviço (apelido)","apelido",s.apelido);
+  const ctn=campo("c3","Cód. tributação nacional (6 dígitos)","c_trib_nac",s.c_trib_nac,{inputmode:"numeric",maxlength:"6"});
+  campo("c2","Cód. municipal (3)","c_trib_mun",s.c_trib_mun,{inputmode:"numeric",maxlength:"3"});
+  campo("c3","NBS (9 dígitos)","c_nbs",s.c_nbs,{inputmode:"numeric"});
+  const dsc=el("div",{class:"c12 dica"});g.append(dsc);const mostra=async()=>{if(digs(ctn.value).length===6){const r=await api("/api/servico?codigo="+digs(ctn.value));dsc.textContent=r.descricao?("Lista nacional: "+r.descricao):"CÓDIGO NÃO EXISTE na lista nacional de serviços";}else dsc.textContent="";};
+  ctn.addEventListener("change",()=>tenta(mostra));tenta(mostra);
+  lista("c4","Tributação do ISSQN","trib_issqn",EST.rotulos.trib_issqn,s.trib_issqn||1);
+  lista("c4","Retenção do ISSQN","tp_ret_issqn",{1:EST.rotulos.tp_ret_issqn[1],2:EST.rotulos.tp_ret_issqn[2]},s.tp_ret_issqn||1);
+  campo("c4","Alíquota do ISSQN % (em branco = não informar)","p_aliq",s.p_aliq,{inputmode:"decimal"});
+  lista("c6","Valor aproximado dos tributos","tot_tipo",{pTotTribSN:"alíquota nominal do Simples (ME/EPP)",indTotTrib:"não informar (obrigatório para MEI)"},(s.tot_trib||{}).tipo||"pTotTribSN");
+  campo("c3","Alíquota nominal do Simples %","tot_valor",(s.tot_trib||{}).valor,{inputmode:"decimal",placeholder:"ex.: 6,00"});
+  const ck=el("input",{type:"checkbox","data-k":"exige_tomador"});ck.checked=s.exige_tomador!==false;g.append(el("div",{class:"c3",style:"display:flex;align-items:flex-end"},el("label",{style:"font-size:14px;color:inherit"},ck,"Exigir tomador")));
+  const ta=el("textarea",{"data-k":"descricao_modelo"});ta.value=s.descricao_modelo||"";g.append(el("div",{class:"c12"},el("label",{text:"Modelo de descrição — use {beneficiario} e {datas} onde esses dados entram"}),ta));
+  b.append(g,el("button",{class:"s",type:"button",text:"Remover este serviço",onclick:()=>b.remove()}));return b;}
+function leServs(){return [...$("e_servs").children].map(b=>{const v=k=>b.querySelector('[data-k="'+k+'"]');const tipo=v("tot_tipo").value;
+  return {apelido:v("apelido").value.trim(),c_trib_nac:digs(v("c_trib_nac").value),c_trib_mun:digs(v("c_trib_mun").value),c_nbs:digs(v("c_nbs").value),
+    trib_issqn:+v("trib_issqn").value,tp_ret_issqn:+v("tp_ret_issqn").value,p_aliq:v("p_aliq").value.trim()||null,
+    tot_trib:tipo==="pTotTribSN"?{tipo,valor:v("tot_valor").value.trim()}:{tipo},exige_tomador:v("exige_tomador").checked,descricao_modelo:v("descricao_modelo").value};});}
+let TOMS=[];
+function poeEmpresa(e){e=e||{op_simp_nac:3,reg_ap_trib_sn:1,reg_esp_trib:0};TOMS=e.tomadores||[];$("e_cnpj").value=fmtDoc(e.cnpj||"");$("e_razao").value=e.razao||"";$("e_mun").value=e.municipio_ibge||"";$("e_munnome").value=e.municipio_nome||"";
+  $("e_im").value=e.im||"";$("e_fone").value=e.fone||"";$("e_email").value=e.email||"";$("e_pasta").value=e.pasta_notas||"";$("e_op").value=String(e.op_simp_nac||3);$("e_reg").value=e.reg_ap_trib_sn?String(e.reg_ap_trib_sn):"";
+  $("e_esp").value=String(e.reg_esp_trib||0);$("e_proc").value=e.procuracao_validade||"";$("e_certproprio").checked=!!e.certificado_proprio;$("e_prod").checked=!!e.producao_liberada;$("e_termos").value=(e.termos_proibidos||[]).join("\n");
+  const s=limpa($("e_servs"));for(const x of e.servicos||[])s.append(blocoServ(x));if(!(e.servicos||[]).length)s.append(blocoServ());limpa($("e_msgs"));}
+function leEmpresa(){return {cnpj:digs($("e_cnpj").value),razao:$("e_razao").value.trim(),municipio_ibge:digs($("e_mun").value),municipio_nome:$("e_munnome").value.trim(),im:$("e_im").value.trim(),fone:digs($("e_fone").value),email:$("e_email").value.trim(),
+  pasta_notas:$("e_pasta").value.trim().replace(/^"|"$/g,""),op_simp_nac:+$("e_op").value,reg_ap_trib_sn:$("e_reg").value?+$("e_reg").value:null,reg_esp_trib:+$("e_esp").value,procuracao_validade:$("e_proc").value||null,
+  certificado_proprio:$("e_certproprio").checked,producao_liberada:$("e_prod").checked,termos_proibidos:$("e_termos").value.split("\n").map(x=>x.trim()).filter(Boolean),servicos:leServs(),tomadores:TOMS};}
+$("e_sel").addEventListener("change",()=>tenta(async()=>{if(!$("e_sel").value)return poeEmpresa();poeEmpresa((await api("/api/empresa?cnpj="+$("e_sel").value)).empresa);}));
+$("b_nova").addEventListener("click",()=>{$("e_sel").value="";poeEmpresa();});
+$("b_addserv").addEventListener("click",()=>$("e_servs").append(blocoServ()));
+$("b_cnpj_e").addEventListener("click",()=>tenta(async()=>{const r=await api("/api/cnpj?cnpj="+digs($("e_cnpj").value));if(!r.ok)throw new Error(r.msg);
+  $("e_razao").value=r.razao;$("e_mun").value=r.endereco.cod_mun;$("e_munnome").value=r.endereco.municipio;if(!$("e_email").value)$("e_email").value=r.email;if(!$("e_fone").value)$("e_fone").value=r.fone;
+  const m=limpa($("e_msgs"));if(r.op_simp_nac_sugerido){$("e_op").value=String(r.op_simp_nac_sugerido);m.append(msg("aviso","A consulta pública indica: "+EST.rotulos.op_simp_nac[r.op_simp_nac_sugerido]+". CONFIRME no Portal do Simples Nacional antes de salvar: essa informação pode estar desatualizada."));}
+  if(r.situacao&&r.situacao.toUpperCase()!=="ATIVA")m.append(msg("erro","Situação cadastral na Receita: "+r.situacao));},$("e_msgs")));
+$("b_salvar_emp").addEventListener("click",()=>tenta(async()=>{const e=leEmpresa();const r=await api("/api/empresa",e);const m=limpa($("e_msgs"));
+  m.append(msg(r.ok?"ok":"erro",r.ok?"Ficha salva.":"Ficha NÃO salva: CNPJ inválido."));for(const i of r.itens)m.append(msg(i.nivel,i.msg));
+  if(r.ok&&r.itens.some(i=>i.nivel==="erro"))m.append(msg("aviso","A ficha foi salva, mas com erros: não será possível emitir até corrigir."));await carregar();$("e_sel").value=e.cnpj;},$("e_msgs")));
+
+// ---------- histórico ----------
+async function carregaHist(){const d=limpa($("h_lista"));if(!$("h_sel").value)return;const r=await api("/api/historico?cnpj="+$("h_sel").value);
+  if(!r.itens.length){d.append(el("div",{class:"dica",text:"Nenhuma emissão registrada para esta empresa."}));return;}
+  const tb=el("table");tb.append(el("tr",null,...["Quando","Situação","Nº NFS-e","DPS","Tomador","Valor","Competência","Amb.",""].map(t=>el("th",{text:t}))));
+  for(const h of r.itens){const ac=el("td");
+    if(h.situacao==="INCERTA"||h.situacao==="PREPARADA")ac.append(el("button",{class:"s",type:"button",text:"Conferir no servidor",onclick:()=>tenta(async()=>{const x=await api("/api/conferir_no_servidor",{cnpj:$("h_sel").value,id_dps:h.id_dps});limpa($("alerta")).append(msg(x.situacao==="AUTORIZADA"||x.situacao==="NAO_GEROU_NOTA"?"ok":"erro",x.msg));carregaHist();})}));
+    if((h.arquivos||[]).length)ac.append(el("button",{class:"s",type:"button",text:"pasta",onclick:()=>api("/api/abrir_pasta",{caminho:h.arquivos[h.arquivos.length-1]})}));
+    const tr=el("tr",null,el("td",{text:(h.gravado_em||"").replace("T"," ")}),el("td",null,el("span",{class:"sit "+h.situacao,text:h.situacao})),el("td",{text:h.n_nfse||""}),el("td",{text:(h.serie||"")+"/"+(h.n_dps||"")}),
+      el("td",{text:(h.tomador_nome||"")+" "+fmtDoc(h.tomador_doc||"")}),el("td",{text:h.valor||""}),el("td",{text:h.competencia||""}),el("td",{text:h.ambiente==="1"?"produção":"teste"}),ac);tb.append(tr);
+    const det=[...(h.erros||[]).map(e=>e.codigo+" — "+e.descricao),...(h.divergencias||[]),h.detalhe,h.chave?("chave "+h.chave):null].filter(Boolean);
+    if(det.length)tb.append(el("tr",null,el("td",{colspan:"9",class:"dica",text:det.join(" · ")})));}
+  d.append(tb);}
+$("h_sel").addEventListener("change",()=>tenta(carregaHist));
+
+// ---------- configuração ----------
+$("b_cert").addEventListener("click",()=>tenta(async()=>{const d=limpa($("c_cert"));const r=await api("/api/certificado",{caminho:$("c_pfx").value.trim(),senha:$("c_senha").value});$("c_senha").value="";
+  if(!r.ok){d.append(msg("erro",r.msg));return;}await carregar();for(const a of r.avisos)$("c_cert").append(msg("aviso",a));},$("c_cert")));
+$("b_cert_fechar").addEventListener("click",()=>tenta(async()=>{await api("/api/certificado/fechar",{});await carregar();}));
+$("b_salvar_cfg").addEventListener("click",()=>tenta(async()=>{const m=limpa($("c_msgs"));const urls={};if($("c_sefin").value.trim())urls.sefin=$("c_sefin").value.trim().replace(/\/+$/,"");if($("c_adn").value.trim())urls.adn=$("c_adn").value.trim().replace(/\/+$/,"");
+  if($("c_amb").value==="1"&&EST.config.ambiente!=="1"&&!confirm("Mudar para PRODUÇÃO? A partir daqui as notas têm valor fiscal."))return;
+  const r=await api("/api/config",{usuario:$("c_usuario").value.trim(),serie:$("c_serie").value,ambiente:$("c_amb").value,pasta_dados:$("c_dados").value.trim().replace(/^"|"$/g,""),urls,algoritmo_assinatura:$("c_alg").value,ca_bundle:$("c_ca").value.trim()});
+  if(!r.ok){for(const e of r.erros)m.append(msg("erro",e));return;}await carregar();$("c_msgs").append(msg("ok","Configuração salva."));},$("c_msgs")));
+$("b_testar").addEventListener("click",()=>tenta(async()=>{const m=limpa($("c_msgs"));m.append(msg("info","Testando a conexão com a Sefin Nacional (não emite nada)..."));const r=await api("/api/testar_conexao",{});limpa(m);
+  if(r.msg){m.append(msg("erro",r.msg));return;}for(const x of r.resultados)m.append(msg(x.ok?"ok":"erro",x.base+" → "+(x.status_http?("HTTP "+x.status_http+", "):"")+x.obs));
+  const bom=r.resultados.find(x=>x.ok);if(bom&&bom.base!==r.configurado)m.append(msg("aviso","O endereço que respondeu é diferente do configurado. Copie-o para o campo 'Endereço da Sefin Nacional' e salve."));
+  if(!bom)m.append(msg("aviso","Nenhum endereço respondeu. Anote as mensagens acima: elas dizem se o problema é de rede, de certificado ou de endereço."));},$("c_msgs")));
+
+(async()=>{try{await carregar();opcoes($("e_op"),EST.rotulos.op_simp_nac);opcoes($("e_reg"),EST.rotulos.reg_ap_trib_sn,"não se aplica");opcoes($("e_esp"),EST.rotulos.reg_esp_trib);poeEmpresa();contaDesc();
+  if(!EST.empresas.length)$("alerta").append(msg("info","Primeiro uso: 1) aba Configuração — abra o certificado e defina a série deste computador; 2) aba Fichas dos clientes — cadastre a primeira empresa; 3) volte aqui para emitir."));}
+  catch(e){$("alerta").append(msg("erro","Não foi possível iniciar: "+e.message));}})();
+</script>
+</body>
+</html>
