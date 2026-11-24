@@ -6,7 +6,7 @@
 
 ## Antes de importar 01 a 06
 1. No Domínio, **excluir os lançamentos de 01/01 a 30/06/2026 que movimentam as contas 8 e 9** (os lotes importados dos extratos). São 1.211 movimentos; os totais estão no razão de 23/10.
-2. Excluir também o lançamento **D 576 / C 551 de 9.867,19 (30/06, "RETIRADA DE SÓCIO")**. Com o PL negativo não há lucro a distribuir. As retiradas agora estão na 188 e na 551.
+2. **Manter** o lançamento **D 576 / C 551 de 9.867,19 (30/06, "RETIRADA DE SÓCIO")**. Ele já foi informado na EFD-Reinf (R-4010) e não será alterado (decisão Rosangela, 24/11/2026). O TXT de junho reproduz a mesma composição na 551: 9.188,33 (09/06, PagBank) + 678,86 (29/06, Itaú, no lote com 821,14 na 188). O PIX de 10.000,00 de 08/06 fica na 188, como já estava.
 3. **Não excluir** os lançamentos que vêm da integração fiscal (NF de entrada D 55/366/359 C 506), nem os da folha e do Simples. Eles continuam valendo.
 4. Outubro: trocar `APLIC_ITAU` pelo código da conta "Aplicação automática Itaú" que for criada (13 linhas).
 
@@ -20,7 +20,7 @@
 - Pagamento a fornecedor com NF: D 506 até o saldo em aberto da nota (casamento pelo CNPJ ou nome, valor exato primeiro, depois a nota mais antiga). O excedente vai para a **470**.
 - PJ sem NF: CNAE consultado na Receita. Vestuário, cosméticos ou bijuteria → 470. Confeitaria → 521. Agência de viagens (excursão) → 312. Intermediador de pagamento → 493. Etiquetas → 58. Apoio administrativo → 359.
 - PF sem NF, fora da folha, que não é a sócia → 362. Família da sócia → 551.
-- Sócia: 188 até zerar o pró-labore líquido acumulado; o excesso → 551.
+- Sócia: 188 até zerar o pró-labore líquido acumulado; o excesso → 551. **Exceção, junho:** mantida a divisão original, que compõe os lucros de 9.867,19 informados na EFD-Reinf.
 - DARF → 191 · SEFAZ → 512 · DAS → 479 (o de 08/2025 em lote: 185,12 + multa 37,02 na 352 + juros 8,42 na 372).
 - Senff: a comissão é descontada do repasse → D 506 / C 504.
 - Transferências entre PagBank e Itaú: um único lançamento (D banco que recebe / C banco que paga).

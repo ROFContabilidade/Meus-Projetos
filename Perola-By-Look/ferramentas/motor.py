@@ -107,6 +107,10 @@ def lanc(x,partes,h):
     tot=round(abs(x['v']),2)
     L.append(dict(d=x['d'],banco=x['banco'],entrada=x['v']>0,total=tot,partes=partes,hist=h,orig=x['t'][:60]))
 fdates=sorted(folha)
+# Junho/2026: manter a divisao ja lancada e informada na EFD-Reinf (R-4010, lucros 9.867,19 = 9.188,33 + 678,86) - decisao Rosangela 24/11/2026
+OVERRIDE={('08/06/2026','8',10000.00):[('188',10000.00,'PAGAMENTO PRO-LABORE')],
+          ('09/06/2026','8',9188.33):[('551',9188.33,'RETIRADA DA SOCIA (LUCROS INFORMADOS NA EFD-REINF)')],
+          ('29/06/2026','9',1500.00):[('188',821.14,'PAGAMENTO PRO-LABORE'),('551',678.86,'RETIRADA DA SOCIA (LUCROS INFORMADOS NA EFD-REINF)')]}
 def acum_folha(ate):
     global s188
     while fdates and fdates[0]<=ate: s188+=folha[fdates.pop(0)]
@@ -130,6 +134,11 @@ for x in mv:
     # ---- saidas ----
     if re.search(r'APLICACAO EM CDB',t): lanc(x,[('48',a,'APLICACAO CDB PAGBANK')],''); continue
     if re.search(r'APL APLIC AUT',t): lanc(x,[('APLIC_ITAU',a,'APLICACAO AUTOMATICA ITAU')],''); continue
+    ov=OVERRIDE.get((x['data'],x['banco'],round(a,2)))
+    if ov and re.search(r'PEROLA CRISTINA',t):
+        for c,vv,h in ov:
+            if c=='188': s188-=vv
+        lanc(x,[(c,vv,f'{h} - {nm}') for c,vv,h in ov],''); continue
     if re.search(r'PEROLA CRISTINA',t) or re.search(OWN,t):
         p=round(min(a,max(s188,0)),2); r=round(a-p,2); partes=[]
         if p>0: partes.append(('188',p,f'PAGAMENTO PRO-LABORE - {nm}'))

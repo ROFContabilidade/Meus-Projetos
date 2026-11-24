@@ -105,7 +105,7 @@ Resolvido pelos documentos (não é mais pergunta): retiradas de 06 (WhatsApp: C
 **Riscos para a contadora decidir (não são dúvidas de lançamento):**
 1. **Omissão de receita.** De 07 a 10: R$ 96,5 mil recebidos × R$ 12,4 mil declarados. De 01 a 06: R$ 155 mil × R$ 36 mil. Lei 9.430/96, art. 42, mais a DIMP das maquininhas enviada à SEFAZ-PR.
 2. **Compras sem nota:** R$ 40,9 mil de 07 a 10 (78% das compras). Mercadoria sem documento fiscal no estoque é infração de ICMS (RICMS-PR) e confirma a venda sem nota.
-3. **Lucros de 9.867,19 informados na EFD-Reinf de 07** com PL negativo. Sugestão: reclassificar para a 551 e retificar o R-4010.
+3. ~~Lucros de 9.867,19 com PL negativo~~ **mantido como está**: já informado na EFD-Reinf (decisão Rosangela, 24/11/2026).
 4. **DAS 09/2026 (56,73) em aberto**, confirmado no relatório de pagamentos do e-CAC (o pagamento de 15/10 foi estornado). Venceu em 20/10. Gerar DAS com multa e juros. O e-CAC também mostra (a provisão do DAS 04/2026 já foi feita pela Rosangela em 23/11) que os 45,44 de multa e juros do DAS 08/2025 foram para a 479.
 5. **ICMS antecipado zerado de 08 a 10** com compras de SP e GO (CFOP 2102). Em 05 foi recolhido. Conferir o enquadramento no RICMS-PR antes de deixar de recolher.
 6. Ajustes de 01 a 06 (período já lançado): DARF na 350 em vez da 191 (6 × 178,31) · ICMS antecipado na 350 em vez da 512 · resgate do CDB na 11 em vez da 48 · rendimento não contabilizado de 3.029,32 · 10.000 de retirada na 188 · Sul América paga direto na 366 com a NFS-e também escriturada (despesa em dobro) · resultado de 2025 aparentemente não encerrado.
