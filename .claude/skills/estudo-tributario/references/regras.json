@@ -1,0 +1,31 @@
+{
+  "_sobre": "Base de regras do motor de estudo tributário. Atualizada pela rotina semanal. Valores 'a_confirmar' aparecem como alerta no relatório.",
+  "atualizado_em": "2026-11-24",
+  "ano_referencia": 2027,
+  "cbs": {"aliquota": 0.112, "status": "a_confirmar", "obs": "TCU 11,3% - 0,1 p.p. em 2027; Resolução do Senado até 15/12/2026"},
+  "ibs": {"aliquota": 0.001, "status": "vigente"},
+  "reducao_restaurante": 0.40,
+  "irpj": 0.15, "adicional_irpj": 0.10, "limite_adicional_anual": 240000, "csll": 0.09,
+  "inss_patronal": 0.20, "rat_ajustado": 0.02, "terceiros": 0.058, "fgts": 0.08,
+  "iss_padrao": 0.05,
+  "credito_aluguel_pj_fracao": 0.30,
+  "credito_fornecedor_simples": 0.02,
+  "presuncao_extra_acima_5mi": {"valor": 0.0, "status": "a_confirmar", "obs": "LC 224/2025"},
+  "limite_simples": 4800000, "sublimite_icms_iss": 3600000,
+  "funrural_pf": 0.015,
+  "simples": {
+    "limites_inferiores": [0, 180000.01, 360000.01, 720000.01, 1800000.01, 3600000.01],
+    "I":   {"aliq": [0.04, 0.073, 0.095, 0.107, 0.143, 0.19], "deduz": [0, 5940, 13860, 22500, 87300, 378000], "icms": [0.34, 0.34, 0.335, 0.335, 0.335, 0]},
+    "II":  {"aliq": [0.045, 0.078, 0.10, 0.112, 0.147, 0.30], "deduz": [0, 5940, 13860, 22500, 85500, 720000], "icms": [0.32, 0.32, 0.32, 0.32, 0.32, 0]},
+    "III": {"aliq": [0.06, 0.112, 0.135, 0.16, 0.21, 0.33], "deduz": [0, 9360, 17640, 35640, 125640, 648000], "icms": [0, 0, 0, 0, 0, 0]}
+  },
+  "carga_icms_padrao": {"_obs": "Estimativa de carga efetiva no regime normal (débito - crédito)/receita. Confirmar por empresa.",
+    "cafe_pacote": 0.07, "cafe_atacado": 0.07, "servido": 0.04, "alcoolica": 0.0, "bebida_fria": 0.0,
+    "outras_revenda": 0.07, "cafe_torrado_proprio": 0.07, "eventos_alimentacao": 0.04,
+    "eventos_servico": 0.0, "cursos": 0.0, "aluguel_maquinas": 0.0},
+  "imposto_seletivo_2027": {"status": "a_confirmar", "norma": "MP 1.399/2026",
+    "2203": 0.042, "2204": 0.08, "2208.40": 0.24, "2202.10": 0.026},
+  "cesta_basica_zero_ncm_prefixos": ["0901", "21011", "0401", "0402", "1701", "1006", "071333", "071339", "0713", "1507", "1106", "1102", "1101", "1902", "190520", "1104", "0405", "1517"],
+  "palavras_servido": ["espresso", "expresso", "cappuc", "capuc", "latte", "late ", "macchiato", "mocha", "coado", "xicara", "xícara", "pingado", "cafe com leite", "café com leite", "cold brew copo", "affogato", "chocolate quente", "cha ", "chá ", "suco", "smoothie", "frappe", "frapê", "mocaccino", "flat white", "cortado", "drink", "caipir", "dose"],
+  "palavras_pacote": ["250g", "500g", "1kg", "kg", "pacote", "grao", "grão", "moido", "moído", "capsula", "cápsula", "drip", "sache", "sachê", "lata ", "pote"]
+}

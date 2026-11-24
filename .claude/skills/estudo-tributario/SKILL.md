@@ -1,6 +1,6 @@
 ---
 name: "estudo-tributario"
-description: "ROF Contabilidade - ESTUDO TRIBUTÁRIO / planejamento de regime para 2027 (Simples Nacional × Lucro Presumido × Lucro Real) com a reforma tributária (CBS, IBS, Imposto Seletivo). Consulta o CNPJ, levanta sozinho o que dá com procuração/certificado (e-CAC, PGDAS, eSocial, Reinf, XMLs), pede ao cliente só o mínimo, preenche o simulador em Excel, aponta riscos (CNAE, Funrural, ICMS, limite do grupo, NCM) e entrega checklist de visita, relatório e proposta de honorários. Usar quando falarem em estudo tributário, planejamento tributário, mudar de regime, sair do Simples, Simples x Presumido x Real, simulação de regime, reforma tributária para um cliente, visita a cliente novo, proposta de honorários de estudo ou de terceirização (Renata), ou citarem Castelo Cafés / Royalty Cafés."
+description: "ROF Contabilidade - SISTEMA DE ESTUDO TRIBUTÁRIO: a Rosangela joga os relatórios (XML, PGDAS, OFX, PDV, ficha) na pasta ESTUDOS TRIBUTÁRIOS do Drive e o motor lê, classifica, simula e devolve relatório PDF, planilha e pendências. ESTUDO TRIBUTÁRIO / planejamento de regime para 2027 (Simples Nacional × Lucro Presumido × Lucro Real) com a reforma tributária (CBS, IBS, Imposto Seletivo). Consulta o CNPJ, levanta sozinho o que dá com procuração/certificado (e-CAC, PGDAS, eSocial, Reinf, XMLs), pede ao cliente só o mínimo, preenche o simulador em Excel, aponta riscos (CNAE, Funrural, ICMS, limite do grupo, NCM) e entrega checklist de visita, relatório e proposta de honorários. Usar quando falarem em estudo tributário, planejamento tributário, mudar de regime, sair do Simples, Simples x Presumido x Real, simulação de regime, reforma tributária para um cliente, visita a cliente novo, proposta de honorários de estudo ou de terceirização (Renata), ou citarem Castelo Cafés / Royalty Cafés, ou pedirem para processar os estudos, atualizar as regras tributárias ou ver o painel de estudos."
 ---
 
 # Estudo Tributário — Simples × Presumido × Real (2027)
@@ -16,10 +16,41 @@ Arquivos desta skill:
 | `references/ncm-cafe-bebidas.md` | NCMs de café e bebidas com o tratamento 2027 |
 | `references/honorarios.md` | Valores, horas e o formato de proposta que a Rosangela aprovou |
 | `references/caso-castelo-royalty.md` | 1º caso (cafeteria + atacado de café) — usar como exemplo |
+| `scripts/motor/` | Motor automático: lê a pasta, classifica, simula, gera relatório (ver seção 0) |
+| `references/regras.json` | Base única de alíquotas e regras usada pelo motor |
 | `scripts/consulta_cnpj.py` | Consulta CNPJ: Simples, CNAEs, sócios |
 | `scripts/gerar_simulador.py` | Gera o simulador Excel (`python3 gerar_simulador.py saida.xlsx`) |
 | `scripts/html_para_pdf.js` | Converte HTML em PDF (Playwright): `node html_para_pdf.js /abs/entrada.html /abs/saida.pdf` |
 | `modelos/` | Simulador pronto, checklist de visita, proposta e mensagem ao cliente (exemplos aprovados) |
+
+## 0. MODO PASTA (padrão) — "processa os estudos tributários"
+A Rosangela só joga relatórios na pasta; o sistema faz o resto.
+
+**Drive:** `Trabalho ROF › ESTUDOS TRIBUTÁRIOS` (id `1pkSKGYGLuEqaTzMPL9W5tUuFSfuXLPGJ`)
+- `<Empresa - CNPJ>/ENTRADA` e `/RESULTADO` — uma empresa
+- `Grupo <nome>/<Empresa - CNPJ>/ENTRADA` — empresas dos mesmos sócios (receita somada no limite do Simples)
+- `_MODELO (copiar para cliente novo)` · `COMO USAR — Estudos Tributários` · `PAINEL` (gerado)
+- Já criados: `Grupo Castelo-Royalty` (Castelo `1l_KpuZow0Awv3W0DillHOqibb2fQNWPp`, Royalty `1zfotpfF3eh25rEVFEk_AZaJkwuAvf6Lt`)
+
+**Passo a passo:**
+1. Google Drive MCP: `search_files` com `'1pkSKGYGLuEqaTzMPL9W5tUuFSfuXLPGJ' in ancestors` para montar a árvore; processar só pastas cuja ENTRADA tenha arquivo mais novo que o RESULTADO (ou todas, se pedirem).
+2. `download_file_content` de cada arquivo da ENTRADA para `<scratchpad>/estudos/<grupo>/<empresa>/ENTRADA/` (mesma árvore; decodificar base64; Google Sheets exportar como xlsx).
+3. Rodar: `python3 scripts/motor/processar_pasta.py <scratchpad>/estudos` (ou `motor_estudo.py ENTRADA RESULTADO` para uma empresa).
+4. Conferir a saída: `resultado.json` → `conferencia_excel_diferenca` ≈ 0; olhar o PDF (pdftoppm) antes de subir.
+5. `create_file` de cada arquivo de RESULTADO na pasta RESULTADO do Drive (`disableConversionToGoogleType: true`; arquivos grandes com referência `sha256:<hash>:<caminho>`) e o `PAINEL.md` na raiz (como texto).
+6. Responder em poucas linhas: por empresa → melhor regime, economia, alertas altos, pendências. Nada de despejar o relatório no chat.
+
+**O motor (scripts/motor/):** `leitor.py` (XML NF-e/NFC-e, cancelamentos, PGDAS-D em PDF, OFX, PDV xlsx/csv, ficha) →
+`classificador.py` (NCM/CFOP/descrição → linhas de receita e tipos de crédito; sinais de risco) →
+`calculo.py` (Simples × Presumido × Real; mesma lógica do Excel) → `motor_estudo.py` (alertas, simulador preenchido,
+relatório PDF, PENDENCIAS.txt, FICHA_ESTUDO.xlsx quando faltar dado, resultado.json).
+Ao melhorar o motor, testar com dados fictícios e confirmar que Python e Excel batem.
+
+## 0.1 Regras sempre atualizadas
+Todas as alíquotas ficam em **`references/regras.json`** (fonte única do motor). Itens com `"status": "a_confirmar"` viram alerta no relatório.
+Ao ser acionado para "atualizar as regras" (ou na rotina semanal): pesquisar (WebSearch) Resolução do Senado da CBS,
+MP 1.399/2026 e lei do Imposto Seletivo, leiaute PGDAS-D 2027/CGSN, Receita Federal e SEFA-PR; atualizar `regras.json`
+(`atualizado_em`, valores, `status`) e `references/reforma-2027.md`; listar o que mudou e quais estudos do Drive devem ser reprocessados.
 
 ## 1. Início — o que perguntar (uma mensagem só)
 1. **CNPJ(s)** de todas as empresas do grupo (mesmos sócios contam juntos no limite do Simples).
