@@ -16,6 +16,7 @@ Arquivos desta skill:
 | `references/ncm-cafe-bebidas.md` | NCMs de café e bebidas com o tratamento 2027 |
 | `references/honorarios.md` | Valores, horas e o formato de proposta que a Rosangela aprovou |
 | `references/caso-castelo-royalty.md` | 1º caso (cafeteria + atacado de café) — usar como exemplo |
+| `scripts/consulta_cnpj.py` | Consulta CNPJ: Simples, CNAEs, sócios |
 | `scripts/gerar_simulador.py` | Gera o simulador Excel (`python3 gerar_simulador.py saida.xlsx`) |
 | `scripts/html_para_pdf.js` | Converte HTML em PDF (Playwright): `node html_para_pdf.js /abs/entrada.html /abs/saida.pdf` |
 | `modelos/` | Simulador pronto, checklist de visita, proposta e mensagem ao cliente (exemplos aprovados) |
@@ -27,7 +28,7 @@ Arquivos desta skill:
 
 ## 2. Consulta do CNPJ (sempre, antes de qualquer análise)
 ```bash
-python3 .claude/skills/rof-fiscal-notas-servico/scripts/consulta_cnpj.py <CNPJ>
+python3 scripts/consulta_cnpj.py <CNPJ>
 ```
 Conferir e **apontar**: Simples (data de opção), CNAE principal × atividade real, **CNAEs faltando** (ex.: 5611-2/05 bar, 5620-1/02 bufê, 8230-0/01 eventos, 1081-3/02 torrefação), sócios em comum (limite global R$ 4,8 mi — LC 123, art. 3º, §4º, III), vedações (atacado de bebida alcoólica no Simples — LC 123, art. 17, X).
 
