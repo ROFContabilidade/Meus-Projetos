@@ -16,6 +16,8 @@ addnf(dt.date(2026,10,19),'105484','SUL AMERICA PARANA CLINICAS','02866602000909
 addnf(dt.date(2026,10,20),'110473','SUL AMERICA PARANA CLINICAS','02866602000909',1273.47,'NFS-e')
 addnf(dt.date(2026,10,19),'6393','SINGULAR SOLUCOES EM TECNOLOGIA','27101405000172',185,'NFS-e')
 addnf(dt.date(2026,10,8),'336','MICHAEL FASHION CONFECCOES (NAO ESCRITURADA)','54111912000160',1500,'NF-e','XML na pasta, falta escriturar')
+addnf(dt.date(2026,7,18),'69877','SUL AMERICA PARANA CLINICAS','02866602000909',187.22,'NFS-e','escriturada pela Rosangela em 24/11/2026')
+addnf(dt.date(2026,7,20),'75109','SUL AMERICA PARANA CLINICAS','02866602000909',1171.09,'NFS-e','escriturada pela Rosangela em 24/11/2026')
 # 4º tri 2025 (podem compor o saldo inicial da 506)
 for em,n,f,c,v in [((2025,10,2),'18681','KESSEY COMERCIO E CONFEC','00962735000104',1910.37),((2025,10,8),'3088','FASHION LUZ 21 ATACADO','46289572000133',2500),
                    ((2025,11,11),'17558','VICTTORIA DESIGN','30910999000177',1040),((2025,11,29),'17860','VICTTORIA DESIGN','30910999000177',1500),
@@ -68,7 +70,6 @@ def regra_saida(t,ds,v):
     if re.search(r'PAGAMENTO E SERVICOS DE|PAGAMENTOS E SERVICOS DE|MOOZ|MAREE|STAFEBANK|SHPP|CAKTO',t): return '493','PAGAMENTO VIA INTERMEDIADOR (SEM DOCUMENTO)'
     for d in ds:
         if len(d)==14 and d[:8] in CNAE: return CNAE[d[:8]]
-    if re.search(FAMILIA,t): return '551','PIX PESSOA LIGADA A SOCIA'
     if re.search(MERC,t): return '470','COMPRA DE MERCADORIA SEM NF'
     tp=tipo_pessoa(t,ds)
     if tp=='PF': return '362','PAGAMENTO PESSOA FISICA SEM NF'
@@ -107,6 +108,11 @@ def lanc(x,partes,h):
     tot=round(abs(x['v']),2)
     L.append(dict(d=x['d'],banco=x['banco'],entrada=x['v']>0,total=tot,partes=partes,hist=h,orig=x['t'][:60]))
 fdates=sorted(folha)
+PFPAGO=collections.Counter(); PFEST=collections.Counter()
+def pfkey(t):
+    for k in ['ARLETE','GUILHERME LUDOVICO','EMERSON LUIZ LUDOVICO','NADIA DE ARAUJO LUDOVICO']:
+        if k in t: return k
+    return None
 # Junho/2026: manter a divisao ja lancada e informada na EFD-Reinf (R-4010, lucros 9.867,19 = 9.188,33 + 678,86) - decisao Rosangela 24/11/2026
 OVERRIDE={('08/06/2026','8',10000.00):[('188',10000.00,'PAGAMENTO PRO-LABORE')],
           ('09/06/2026','8',9188.33):[('551',9188.33,'RETIRADA DA SOCIA (LUCROS INFORMADOS NA EFD-REINF)')],
@@ -126,20 +132,28 @@ for x in mv:
         elif re.search(r'RESGATE DE CDB',t): c,h='48','RESGATE CDB PAGBANK'
         elif re.search(r'RES APLIC AUT',t): c,h='APLIC_ITAU','RESGATE APLICACAO AUTOMATICA ITAU'
         elif re.search(r'ESTORNO',t) and 'SIMPLES' in t: c,h='479','ESTORNO PAGAMENTO DAS'
-        elif re.search(r'PEROLA CRISTINA',t) or re.search(OWN,t): c,h='551','PIX RECEBIDO DA SOCIA'
-        elif re.search(FAMILIA,t): c,h='551','PIX RECEBIDO PESSOA LIGADA A SOCIA'
+        elif re.search(r'PEROLA CRISTINA',t) or '02807791948' in ''.join(ds): c,h='551','PIX RECEBIDO DA SOCIA'
+        elif re.search(OWN,t): c,h='PENDENTE','PIX RECEBIDO PEROLA BY LOOK SEM PAR'
+        elif re.search(r'ARLETE|'+FAMILIA,t):
+            k=pfkey(t); cap=round(PFPAGO[k]-PFEST[k],2); e=round(min(a,max(cap,0)),2); r=round(a-e,2); partes=[]
+            if e>0: partes.append(('362',e,f'DEVOLUCAO/ESTORNO DE PAGAMENTO PF - {nm}')); PFEST[k]+=e
+            if r>0: partes.append(('504',r,f'PIX RECEBIDO (ACIMA DO VALOR PAGO A PF) - {nm}'))
+            lanc(x,partes,''); continue
         elif re.search(r'REDE|REDECARD|01425787|VENDAS - DISPONIVEL|SENFF|PAGAMENTO S\.A',t+''.join(ds)): c,h='504','RECEBIMENTO DE CARTOES'
         else: c,h='504','PIX RECEBIDO DE CLIENTE'
         lanc(x,[(c,a,f"{h} - {nm}")],''); continue
     # ---- saidas ----
     if re.search(r'APLICACAO EM CDB',t): lanc(x,[('48',a,'APLICACAO CDB PAGBANK')],''); continue
     if re.search(r'APL APLIC AUT',t): lanc(x,[('APLIC_ITAU',a,'APLICACAO AUTOMATICA ITAU')],''); continue
+    SOCIA=re.search(r'PEROLA CRISTINA',t) or '02807791948' in ''.join(ds)
     ov=OVERRIDE.get((x['data'],x['banco'],round(a,2)))
-    if ov and re.search(r'PEROLA CRISTINA',t):
+    if ov and SOCIA:
         for c,vv,h in ov:
             if c=='188': s188-=vv
         lanc(x,[(c,vv,f'{h} - {nm}') for c,vv,h in ov],''); continue
-    if re.search(r'PEROLA CRISTINA',t) or re.search(OWN,t):
+    if re.search(OWN,t) and not SOCIA:
+        pend.append(x); lanc(x,[('PENDENTE',a,f'TRANSFERENCIA PEROLA BY LOOK SEM PAR - {nm}')],''); continue
+    if SOCIA:
         p=round(min(a,max(s188,0)),2); r=round(a-p,2); partes=[]
         if p>0: partes.append(('188',p,f'PAGAMENTO PRO-LABORE - {nm}'))
         if r>0: partes.append(('551',r,f'RETIRADA DA SOCIA - {nm}'))
@@ -161,12 +175,15 @@ for x in mv:
             if root=='02866602':
                 ref='12/2025 (SALDO INICIAL 506)' if x['d'].month==1 else '07/2026 - NFS-E A ESCRITURAR'
                 partes.append(('506',resto,f'PAGTO NFS-E {ref} SUL AMERICA'))
+            elif root=='72457054':
+                partes.append(('506',resto,'PAGTO EM DUPLICIDADE NF 490380 PARESCHI - CREDITO COM FORNECEDOR'))
             elif root=='29650531':
                 partes.append(('361',resto,'HONORARIOS CONTABEIS PAES E BASTOS'))
             else:
                 partes.append(('470',resto,f'PAGTO ACIMA DA NF - MERCADORIA SEM NF {nm[:30]}'))
         lanc(x,partes,''); continue
     c,h=regra_saida(t,ds,a)
+    if c=='362' and pfkey(t): PFPAGO[pfkey(t)]+=a
     if c=='479' and abs(a-230.56)<.01:
         lanc(x,[('479',185.12,'DAS 08/2025 PRINCIPAL'),('352',37.02,'MULTA DAS 08/2025'),('372',8.42,'JUROS DAS 08/2025')],''); continue
     lanc(x,[(c,a,f'{h} - {nm}')],'')

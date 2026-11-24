@@ -19,7 +19,9 @@
 ## Regras aplicadas (decisões em `../decisoes.md`)
 - Pagamento a fornecedor com NF: D 506 até o saldo em aberto da nota (casamento pelo CNPJ ou nome, valor exato primeiro, depois a nota mais antiga). O excedente vai para a **470**.
 - PJ sem NF: CNAE consultado na Receita. Vestuário, cosméticos ou bijuteria → 470. Confeitaria → 521. Agência de viagens (excursão) → 312. Intermediador de pagamento → 493. Etiquetas → 58. Apoio administrativo → 359.
-- PF sem NF, fora da folha, que não é a sócia → 362. Família da sócia → 551.
+- PF sem NF, fora da folha, que não é a sócia → 362, **inclusive a família da sócia**. Depósito de PF que recebeu pela 362 (Arlete, família) → estorno a crédito da 362 até o total já pago; o excesso → 504.
+- Retirada da sócia: **somente PIX para o CPF 028.077.919-48**.
+- Notas sem pagamento em banco: ficam abertas na 506. Pagamento em duplicidade (Pareschi): segundo pagamento na 506.
 - Sócia: 188 até zerar o pró-labore líquido acumulado; o excesso → 551. **Exceção, junho:** mantida a divisão original, que compõe os lucros de 9.867,19 informados na EFD-Reinf.
 - DARF → 191 · SEFAZ → 512 · DAS → 479 (o de 08/2025 em lote: 185,12 + multa 37,02 na 352 + juros 8,42 na 372).
 - Senff: a comissão é descontada do repasse → D 506 / C 504.
