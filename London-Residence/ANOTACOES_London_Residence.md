@@ -101,30 +101,8 @@ O levantamento está correto em cerca de 85% dos pontos. **Base firme**: juros/m
 
 **Encaminhamento sugerido (sem alterar o regimento):** deliberações simples de assembleia (maioria dos presentes) para padrão da sacada, regras do playground, aviso de vaga cedida e posição do ar-condicionado, como o próprio Dr. Everton indica no item 5 da curadoria.
 
-## 7. Reavaliação interna de 23/11/2026 (`Reavaliacao_Prestacao_Contas_2026_London.pdf`) – pontos ainda abertos
-
-Consolidado em 25/11/2026, quando as conversas do London foram unificadas numa sessão só.
-
-**Antes de enviar aos condôminos:**
-- LGPD: o razão diário (Excel e PDF) mostra nome e CPF de moradores e prestadores e deixa ver quem paga parcela de acordo → retirar.
-- Datas: o período diz "até 30/11", mas os dados vão até 23/11 (Copel de 26/11 fora); novembro só foi conferido com o extrato até 19/11.
-- Multas: o quadro mostra R$ 100, mas há mais R$ 413 misturados nas taxas (total R$ 513). Pela Convenção (art. 41 § ú) multas vão para o fundo de reserva.
-
-**Conclusões que mudam a apresentação:**
-- Saldo livre ≈ **R$ 16,6 mil**, não R$ 28,5 mil (tirando fundo de reserva R$ 7.877,50, fundo de pintura e a Copel). Se o fundo de pintura for os −R$ 3.950 da planilha da Rosangela, refazer esse cálculo.
-- Os R$ 11.200 dos corredores foram consumidos pelo excesso na garagem e na fachada e pela tinta avulsa: hoje não há dinheiro para pintar os corredores. A assembleia precisa saber.
-- O "resultado sem pintura, R$ 61 mil" inclui fundo de pintura, fundo de reserva e acordos; sem os acordos, o caixa do dia a dia fechou em cerca de −R$ 375/mês (motor, câmeras, telhado, advogado).
-- Falta a **proposta de orçamento 2027** (Conv. art. 6º § 2º: vai junto com o edital da AGO).
-
-**Perguntas feitas à Rosangela em 23/11:**
-1. ✔ R$ 40 da ROF = complemento do pagamento da Luciane Moro (respondido, ver item 2).
-2. O apto 210 já tinha sido notificado antes da multa de R$ 100 (fato de abril/2026)? Desde a AGE de 12/01/2026, multa após notificação = R$ 300.
-3. O acordo de R$ 13.279,29 (apto 210, 06/11/2026) veio já descontado dos 10% do advogado?
-4. Motivo da devolução de R$ 570 ao Dilervaldo.
-5. Como explicar os R$ 400 (12/2025) e R$ 800 (01/2026) pagos à ROF.
-
-## 8. Arquivos de 19 a 23/11 que ficaram em outros branches (juntados aqui em 25/11)
+## 7. Arquivos de 19 a 23/11 que ficaram em outros branches (juntados aqui em 25/11)
 - `Roteiro_AGO_26-11-2026.docx` – roteiro da AGO com os textos originais (itens A, B, C, C2, D–G).
 - `Divergencias_Regimento_2021x2026_London.pdf` – comparativo regimento 2021 × 2026.
-- `Reavaliacao_Prestacao_Contas_2026_London.pdf` – reavaliação interna (item 7).
+- `Reavaliacao_Prestacao_Contas_2026_London.pdf` – reavaliação interna de 23/11 (histórico; o que vale é o que está acima).
 - ⚠️ `Validacao_Fundo_Pintura_2023-2026.xlsx`, citado nas anotações de 19/11, **não está em nenhum branch** do GitHub. Os números dele estão resumidos na skill (`trabalho-em-andamento.md`, seção 4) e foram superados pela aba "Conciliado" da planilha da Rosangela (item 3).
