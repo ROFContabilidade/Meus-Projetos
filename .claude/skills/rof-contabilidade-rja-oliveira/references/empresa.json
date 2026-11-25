@@ -1,0 +1,120 @@
+{
+  "razao_social": "R J A OLIVEIRA LTDA",
+  "nome_fantasia": "VOCE ENTREGA TECNOLOGIA",
+  "cnpj": "24.725.950/0001-41",
+  "codigo_dominio": "83",
+  "regime": "Simples Nacional",
+  "regime_obs": "Optante desde 01/01/2025; MEI de 04/05/2016 a 31/12/2023; regime de 2024 não confirmado",
+  "atividade": "74.90-1-04 Intermediação e agenciamento de serviços e negócios em geral (principal); plataforma de entregas (software Gaudium)",
+  "cnaes": [
+    "7490104",
+    "4752100",
+    "4753900",
+    "4759899",
+    "4789001",
+    "4923002",
+    "5320202",
+    "6201501",
+    "6202300",
+    "6209100",
+    "6319400",
+    "7020400",
+    "7119704",
+    "7319002",
+    "7319003",
+    "8211300",
+    "8599604"
+  ],
+  "perfil_custo": "servico_intelectual",
+  "perfil_custo_obs": "Combustível em 364 Despesa com deslocamento (Elen, 25/11/2026)",
+  "simples_consulta": {
+    "optante": true,
+    "inicio": "2025-01-01",
+    "exclusao": null,
+    "consultado_em": "2026-11-25"
+  },
+  "mei_consulta": {
+    "optante": false,
+    "inicio": "2016-05-04",
+    "exclusao": "2023-12-31"
+  },
+  "contas_vigiadas": [
+    "362",
+    "493",
+    "504",
+    "530"
+  ],
+  "anexo_ou_presuncao": "Anexos III e V (Elen, 25/11/2026). PGDAS-D de 05 a 10/2026 entregues com receita zero; cliente não emite NFS-e",
+  "fator_r": false,
+  "regime_receita": "não confirmado",
+  "socios": [
+    {
+      "nome": "RAUL JOSE ALVES DE OLIVEIRA",
+      "participacao": "100%",
+      "qualificacao": "Sócio-Administrador",
+      "pro_labore": 0.0,
+      "conta_adiantamento": "530"
+    }
+  ],
+  "funcionarios": false,
+  "bancos": [
+    {
+      "banco": "Banco Inter",
+      "conta": "11010929-5",
+      "conta_contabil": "8"
+    },
+    {
+      "banco": "Mercado Pago",
+      "conta": "37145088328",
+      "conta_contabil": "9"
+    },
+    {
+      "banco": "Mercado Pago - poupança",
+      "conta": "",
+      "conta_contabil": "11"
+    },
+    {
+      "banco": "Nu Pagamentos",
+      "conta": "21535714-6",
+      "conta_contabil": "6"
+    },
+    {
+      "banco": "Cora",
+      "conta": "não informada",
+      "conta_contabil": "não cadastrada"
+    }
+  ],
+  "contas_padrao": {
+    "clientes": "504",
+    "receita_servicos": "411",
+    "fornecedores": "506",
+    "servicos_terceiros": "362",
+    "tarifa": "374",
+    "rendimento": "432",
+    "simples_a_recolher": "479",
+    "simples_deducao": "480",
+    "honorarios_a_pagar": "510",
+    "honorarios_despesa": "361",
+    "pro_labore": "",
+    "pro_labore_no_custo": false,
+    "lucros": "532",
+    "adiantamento_socio": "530",
+    "ajuste_exercicio_anterior": "531",
+    "combustivel": "364",
+    "manutencao_veiculos": "313",
+    "ipva": "349",
+    "telefone": "322",
+    "diversas": "493",
+    "deslocamento": "364",
+    "receita_sem_nota": "411 (direto, sem 504)"
+  },
+  "responsavel": "Elen",
+  "cadastro": {
+    "por": "Elen",
+    "data": "2026-11-25"
+  },
+  "pasta": "G:\\Meu Drive\\Trabalho ROF\\Contabilidade\\Arquivos RENATA Dominio\\83 - R J A",
+  "pasta_drive_id": "16FOAL0bnE3y6ykyV_DsINyEl0Up654CV",
+  "contador_anterior": "PAES E BASTOS CONTABILIDADE LTDA (honorários pagos em 23/04/2026)",
+  "liminares": []
+}
