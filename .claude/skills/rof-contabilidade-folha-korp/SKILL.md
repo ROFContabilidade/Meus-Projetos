@@ -181,6 +181,8 @@ Erros novos em 08/2026 (Filial): rescisão (CC 7) com verbas creditadas em 2521/
 
 Rescisões inteiras podem não sair no TXT (06/2026: Antônio Henrique, CC 7, demitido em 30/06) — conferir cada funcionário "Demitido" do extrato. O FGTS da rescisão está no "Valor FGTS" da linha do funcionário e no "Valor FGTS Rescisório" do total do extrato (fica fora do "Valor do FGTS" geral).
 
+**Como o escritório configura a integração (confirmado em 25/11/2026):** **um lançamento por rubrica** — Nº do lançamento = código da rubrica (ex.: 8783), Descrição e Histórico = nome da rubrica, conta débito e crédito, e a própria rubrica selecionada. Rubricas de **férias vão na aba Folha**; **não usar as abas de Provisão** (Férias/13º). Rescisão na aba Rescisão; encargos patronais (INSS/FGTS) na aba Empresa. Toda planilha de correção/criação deve vir assim: CC · aba · Nº lançamento (= código da rubrica) · histórico · débito · crédito.
+
 No Domínio a integração é por **centro de custo → lançamento (conta débito, conta crédito, histórico) → rubricas selecionadas**; abas Folha (rubricas), Rescisão, Empresa (encargos patronais), Provisão de Férias/13º etc. A planilha de correções indica CC + rubrica + aba para o usuário corrigir lá.
 
 ## Histórico e status (atualizar a cada mês)
@@ -194,7 +196,7 @@ No Domínio a integração é por **centro de custo → lançamento (conta débi
 | 07/2026 | TXT corrigido entregue | Contém a rescisão do Antônio (09/07, competência 06) e as férias da Fernanda pagas em 31/07 (gozo em 08); faltou a rescisão de estágio da Isabele (veio no TXT de 08); reembolso 617 mantido em 2891; CC 1 GERAL = CC320 |
 | 08/2026 | TXT corrigido entregue | Consignado da Ana: estorno (459,65) e provisão de férias (919,30) excluídos; rescisão Alyson/Wendel reclassificada para 2523; adiantamentos (Matheus, Ana, Fernanda) incluídos; Isabele recontratada em 03/08 como celetista no CC 10 (contas ADM 2994/2996/2997/3144) |
 
-**Rubricas não configuradas (relatório do Domínio "Relação de rubricas/itens não configurados"):** em 25/11/2026 a Filial tinha 82 (CCs 7, 12, 13, 15 e 17). Entregue `Korp/Filial/2026-10/Rubricas_Nao_Configuradas_Filial.xlsx` (27 lançamentos para criar, gerado por `config/gera_rubricas_nao_configuradas.py`). Contas pelo grupo do CC; CS (15) com contas do Comercial; FGTS de rescisão do Comercial em **2335**; rubrica não configurada = não sai no TXT, então conferir no próximo TXT se essas rubricas passaram a sair.
+**Rubricas não configuradas (relatório do Domínio "Relação de rubricas/itens não configurados"):** em 25/11/2026 a Filial tinha 82 (CCs 7, 12, 13, 15 e 17). Entregue `Korp/Filial/2026-10/Rubricas_Nao_Configuradas_Filial.xlsx` (82 lançamentos, um por rubrica, gerado por `config/gera_rubricas_nao_configuradas.py`). Contas pelo grupo do CC; CS (15) com contas do Comercial; FGTS de rescisão do Comercial em **2335**; rubrica não configurada = não sai no TXT, então conferir no próximo TXT se essas rubricas passaram a sair.
 
 **Pendências para 09/2026 (Filial) — conferir no TXT de setembro:**
 - Rescisões de **Guilherme Tinti (CC 4, 24/08)**, **Enzo Muniz (CC 8, 27/08)** e **Wellington Cordeiro (CC 8, 28/08)** não saíram no TXT de 08: líquido 9.151,01 / 6.958,54 / 8.591,25; FGTS 1.669,39 / 1.988,87 / 595,93; INSS 311,41 / 344,70 / 367,54; consignado do Enzo 2.416,71. Devem vir no TXT de 09 — lançar em 2523 (CC379 / CC345) e tratar como "competência de outros meses".

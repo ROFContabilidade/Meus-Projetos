@@ -42,40 +42,28 @@ g(15,'Rescisão','IRRF RESCISÃO',2523,2533,[(828,'IRRF SOBRE RESCISÃO.')],'CS 
 ORD={'Folha':0,'Empresa':1,'Férias':2,'Rescisão':3}
 G.sort(key=lambda x:(x[0],ORD[x[1]]))
 
+# Padrão do escritório: um lançamento por rubrica (Nº lançamento = código da rubrica, histórico = nome da rubrica);
+# férias vão na aba Folha; não usar as abas de Provisão.
+ABA={'Folha':'Folha','Férias':'Folha','Rescisão':'Rescisão','Empresa':'Empresa'}
 wb=Workbook(); ws=wb.active; ws.title='Lançamentos a criar'
-ws['A1']='KORP FILIAL (145) — Rubricas não configuradas: lançamentos para criar na integração do Domínio'; ws['A1'].font=F(bold=True,size=14)
-ws['A2']='Uma linha = um lançamento: CC → aba → "Novo" → Débito e Crédito em verde → selecionar as rubricas da coluna "Rubricas". Se já existir no CC um lançamento com o mesmo débito/crédito, basta incluir as rubricas nele.'; ws['A2'].font=F(italic=True,color='444444')
-H=['CC','Nome do CC','Aba','Descrição / histórico','Conta DÉBITO','Conta CRÉDITO','Rubricas (código - nome)','Qtde','Feito?','Observação']
+ws['A1']='KORP FILIAL (145) — Rubricas não configuradas: um lançamento por rubrica na integração do Domínio'; ws['A1'].font=F(bold=True,size=14)
+ws['A2']='Como fazemos: CC → aba indicada → Novo → Nº do lançamento = código da rubrica → Descrição e Histórico = nome da rubrica → Débito/Crédito em verde → selecionar a rubrica. Férias vão na aba FOLHA. Não usar Provisão.'; ws['A2'].font=F(italic=True,color='444444')
+H=['CC','Nome do CC','Aba (integração)','Nº Lançamento','Descrição / Histórico','Conta DÉBITO','Conta CRÉDITO','Rubrica a selecionar','Feito?','Observação']
 for c,h in enumerate(H,1):
   x=ws.cell(4,c,h); x.font=F(bold=True,color='FFFFFF'); x.fill=HEAD; x.border=B; x.alignment=Alignment(horizontal='center',vertical='center',wrap_text=True)
-r=5; tot=0
-for cc,aba,h,d,c,rubs,nota in G:
-  txt='\n'.join(f'{k} - {n}' for k,n in rubs); tot+=len(rubs)
-  for col,v in enumerate([cc,CCN[cc],aba,h,d,c,txt,len(rubs),'',nota],1):
-    x=ws.cell(r,col,v); x.font=F(); x.border=B; x.alignment=Alignment(horizontal='left' if col in (2,4,7,10) else 'center',vertical='center',wrap_text=col in (7,10))
-    if col in (1,2): x.fill=CCF; x.font=F(bold=True)
-    if col in (5,6): x.fill=CONTA; x.font=F(bold=True,size=13)
-    if col==9: x.fill=EDIT
-    if col==10 and not nota: x.fill=EDIT
-  ws.row_dimensions[r].height=max(18,15*len(rubs)+4); r+=1
-last=r-1
-ws.cell(r+1,7,f'Total: {tot} rubricas em {last-4} lançamentos').font=F(bold=True)
-ws.cell(r+1,9,f'=COUNTIF(I5:I{last},"Sim")&" de {last-4}"').font=F(bold=True)
-dv=DataValidation(type='list',formula1='"Sim,Não"',allow_blank=True); ws.add_data_validation(dv); dv.add(f'I5:I{last}')
-for c,w in zip('ABCDEFGHIJ',[6,22,11,34,12,12,46,7,9,40]): ws.column_dimensions[c].width=w
-ws.freeze_panes='E5'; ws.auto_filter.ref=f'A4:J{last}'
-
-w2=wb.create_sheet('Por rubrica')
-H2=['CC','Nome do CC','Aba','Rubrica','Descrição','Conta DÉBITO','Conta CRÉDITO']
-for c,h in enumerate(H2,1):
-  x=w2.cell(1,c,h); x.font=F(bold=True,color='FFFFFF'); x.fill=HEAD; x.border=B; x.alignment=Alignment(horizontal='center')
-r=2
+r=5
 for cc,aba,h,d,c,rubs,nota in G:
   for k,n in rubs:
-    for col,v in enumerate([cc,CCN[cc],aba,k,n,d,c],1):
-      x=w2.cell(r,col,v); x.font=F(); x.border=B; x.alignment=Alignment(horizontal='left' if col in (2,5) else 'center')
-      if col in (6,7): x.fill=CONTA; x.font=F(bold=True)
+    for col,v in enumerate([cc,CCN[cc],ABA[aba],k,n,d,c,k,'',nota],1):
+      x=ws.cell(r,col,v); x.font=F(); x.border=B; x.alignment=Alignment(horizontal='left' if col in (2,5,10) else 'center',vertical='center',wrap_text=col==10)
+      if col in (1,2): x.fill=CCF; x.font=F(bold=True)
+      if col in (6,7): x.fill=CONTA; x.font=F(bold=True,size=13)
+      if col==9 or (col==10 and not nota): x.fill=EDIT
     r+=1
-for c,w in zip('ABCDEFG',[6,22,11,10,42,13,13]): w2.column_dimensions[c].width=w
-w2.freeze_panes='D2'; w2.auto_filter.ref=f'A1:G{r-1}'
-wb.save('Rubricas_Nao_Configuradas_Filial.xlsx'); print(tot,'rubricas,',last-4,'lançamentos')
+last=r-1
+ws.cell(r+1,5,'Feitos:').font=F(bold=True); ws.cell(r+1,5).alignment=Alignment(horizontal='right')
+ws.cell(r+1,6,f'=COUNTIF(I5:I{last},"Sim")&" de {last-4}"').font=F(bold=True)
+dv=DataValidation(type='list',formula1='"Sim,Não"',allow_blank=True); ws.add_data_validation(dv); dv.add(f'I5:I{last}')
+for c,w in zip('ABCDEFGHIJ',[6,22,12,13,40,12,12,11,9,40]): ws.column_dimensions[c].width=w
+ws.freeze_panes='F5'; ws.auto_filter.ref=f'A4:J{last}'
+wb.save('Rubricas_Nao_Configuradas_Filial.xlsx'); print(last-4,'lançamentos (um por rubrica)')
