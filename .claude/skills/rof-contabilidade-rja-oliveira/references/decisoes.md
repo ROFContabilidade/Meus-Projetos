@@ -18,3 +18,4 @@
 | 11/2026 | PAES E BASTOS CONTABILIDADE (contador anterior) | Assistência contábil, 361 (lanç. 6 alterado) | sempre | Elen, 25/11/2026 |
 | 11/2026 | Correções 01 a 06/2026 | Feitas no Domínio: SEFAZ para a 493, PJBank para a 506, combustível para a 364, Paes e Bastos para a 361, lanç. 27 para D 9 / C 504. Receitas continuam na 504 e Nubank na 493 | — | Elen, 25/11/2026 |
 | 11/2026 | ELISANDRA CRISTINA BARROSO (Pix recebido R$ 2.848,00 em 02/07) | Clientes, 504 (mesmo saindo ao sócio no mesmo dia) | este padrão | Elen, 25/11/2026 |
+| 11/2026 | Rendimento líquido Nubank (conta 6) | D 6 / C 432 Juros de aplicações, no último dia do mês | sempre | regra ROF (rendimento decide sozinho) |
