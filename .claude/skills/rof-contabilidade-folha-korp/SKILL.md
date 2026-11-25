@@ -85,7 +85,7 @@ Tabela da Korp: 320 ADM GERAL · 337 DESENVOLVIMENTO EM GERAL · 345 SUPORTE EM 
 |---|---|---|
 | 4, 5 | COM HANTERS, COM BRUNO ECKS | CC379 |
 | 15 | CS CUSTOMER SUCCESS (usa contas do Comercial) | CC379 |
-| 7, 11, 12, 13, 17 | DES TECNOLOGIA / WEB / BACKOFFICE / PRODUÇÃO / FISCAL CONTABIL | CC337 |
+| 6, 7, 11, 12, 13, 17 | DES LOGISTICA / TECNOLOGIA / WEB / BACKOFFICE / PRODUÇÃO / FISCAL CONTABIL | CC337 |
 | 8, 16 | SD SUPORTE, SD INFRAESTRUTURA | CC345 |
 | 9 | CONSULTORIA INTERNA E GP | CC644 |
 | 10 | ADM FINANCEIRO | CC320 |
@@ -197,6 +197,11 @@ No Domínio a integração é por **centro de custo → lançamento (conta débi
 | 08/2026 | TXT corrigido entregue | Consignado da Ana: estorno (459,65) e provisão de férias (919,30) excluídos; rescisão Alyson/Wendel reclassificada para 2523; adiantamentos (Matheus, Ana, Fernanda) incluídos; Isabele recontratada em 03/08 como celetista no CC 10 (contas ADM 2994/2996/2997/3144) |
 
 **Rubricas não configuradas (relatório do Domínio "Relação de rubricas/itens não configurados"):** em 25/11/2026 a Filial tinha 82 (CCs 7, 12, 13, 15 e 17). Entregue `Korp/Filial/2026-10/Rubricas_Nao_Configuradas_Filial.xlsx` (82 lançamentos, um por rubrica, gerado por `config/gera_rubricas_nao_configuradas.py`). Contas pelo grupo do CC; CS (15) com contas do Comercial; FGTS de rescisão do Comercial em **2335**; rubrica não configurada = não sai no TXT, então conferir no próximo TXT se essas rubricas passaram a sair.
+
+| 09/2026 | Feito fora deste repositório (`Folha_Korp_145_Filial_09-2026.txt` no Drive, pasta KORP/Folha TXT) | Não conferido aqui |
+| 10/2026 | 3 entregas em `Korp/Filial/2026-10/` | Usuária configurou as rubricas não configuradas: bolsas, 9750, 821, INSS patronal CC 5, afastamento CC 8 e rescisões já saíram certos. Erros restantes: 8781 do CC 5 C 2531; 853 C 2524; 8813 do CC 10 C 2521; contas digitadas erradas **0251** (812 INSS férias CC 12; INSS Terc. 13º indenizado CC 15), **0252** (511 CC 13), **2823** (9601 CC 13); 989 CC 13 C 2888; 9601 CC 15 D 2524; 937 não exportado; ajuda de custo de estagiário na rescisão (Erik) vai para 2526 (só no TXT). Férias do Jhonatan (CC 12) pagas inteiras em 05/10: parte de 11 (838,58 férias / 83,24 INSS) já está no TXT de 10 — **não lançar de novo em 11/2026** |
+
+Erros recorrentes que continuam em 10/2026 (Filial): 8781 do CC 5 (agora C 2531), 853 do CC 5 C 2524, 937 não exportado, históricos trocados (302 CC 5 "50%", 8781 CC 13 "DESC VALE REFEIÇÃO", 8550 CC 15 "13 SALARIO ADIANTADO", item 24 CC 13 "INSS Terceiros 13º Indenizado"). Conta com código inexistente (0251, 0252, 2823) = erro de digitação na integração: conferir sempre se toda conta do TXT existe no plano.
 
 **Pendências para 09/2026 (Filial) — conferir no TXT de setembro:**
 - Rescisões de **Guilherme Tinti (CC 4, 24/08)**, **Enzo Muniz (CC 8, 27/08)** e **Wellington Cordeiro (CC 8, 28/08)** não saíram no TXT de 08: líquido 9.151,01 / 6.958,54 / 8.591,25; FGTS 1.669,39 / 1.988,87 / 595,93; INSS 311,41 / 344,70 / 367,54; consignado do Enzo 2.416,71. Devem vir no TXT de 09 — lançar em 2523 (CC379 / CC345) e tratar como "competência de outros meses".

@@ -1,0 +1,71 @@
+{
+"titulo": "KORP Filial (145) - Fechamento da folha - Contas patrimoniais",
+"meses": {
+"10-2026": {
+"nota": "Folha 10/2026. Rescisões no mês: Marcos (CC 13, 15/10) e Felipe (CC 15, 22/10); rescisões de estágio: Icaro (CC 7, 09/10, readmitido CLT em 13/10) e Erik (CC 13). Outros meses no TXT: parte de novembro das férias do Jhonatan (CC 12), pagas inteiras em 05/10 — não lançar de novo em 11.",
+"2521": [
+91241.37,
+87374.14,
+3867.23,
+"Folha = Líquido Geral 99.586,53 - bolsas do mês em 2526 (8.345,16). Correções: +3.339,00 dias normais do Bruno creditados em 2531; +570,17 reflexo comissões DSR do Bruno em 2524; -41,94 bolsa afastamento da Rebecca para 2526",
+0
+],
+"2523": [
+17745.46,
+18041.18,
+-295.72,
+"Folha = líquido das rescisões: Marcos 9.937,61 + Felipe 7.807,85. Correções: -165,00 ajuda de custo do Erik (estagiário) para 2526; -133,06 desconto ajuda de custo (D 0252 → 2523); +2,34 média 13º (C 2823 → 2523)",
+0
+],
+"2524": [
+0,
+4978.02,
+-4222.68,
+"Correções: -570,17 reflexo comissões DSR para 2521; -3.653,94 adiantamento de férias do Jhonatan (937) não exportado; +1,43 média 13º do Felipe debitada em 2524. Outros meses: +755,34 parte de novembro das férias do Jhonatan (838,58 de férias - 83,24 de INSS)",
+755.34
+],
+"2526": [
+11173.6,
+10966.66,
+206.94,
+"Folha = bolsas do mês 8.345,16 + rescisões de estágio Icaro 1.643,01 e Erik 1.185,43. Correções: +41,94 bolsa afastamento Rebecca; +165,00 ajuda de custo do Erik na rescisão de estágio",
+0
+],
+"2530": [
+11330.96,
+11330.96,
+0,
+"Valor do FGTS 8.673,13 + FGTS rescisório 2.657,83 (Marcos 1.478,44; Felipe 1.179,39)",
+0
+],
+"2531": [
+41693.57,
+44440.5,
+-2664.14,
+"Total INSS do extrato. Correções: -3.339,00 dias normais do Bruno; +486,97 INSS férias (C 0251 → 2531); +170,84 INSS 13º rescisão do Marcos (C 2888 → 2531); +17,05 INSS terceiros 13º indenizado do Felipe (C 0251 → 2531). Outros meses: +83,24 INSS da parte de novembro das férias do Jhonatan. Diferença de 0,45 = arredondamento",
+83.24
+],
+"2533": [
+3630.83,
+3630.83,
+0,
+"IRRF mensal 3.606,91 + IRRF rescisão do Felipe 23,92",
+0
+],
+"3137": [
+1798.82,
+1798.82,
+0,
+"Consignado 9750: Lucas 653,47; Ana Paula 919,30; Jhonatan 226,05",
+0
+],
+"2463": [
+3653.94,
+0,
+3653.94,
+"Adiantamento de férias (937) do Jhonatan descontado na folha, não exportado pelo Domínio",
+0
+]
+}
+}
+}
