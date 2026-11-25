@@ -68,7 +68,7 @@ Os nomes de conta do **balancete do Domínio estão desatualizados** (ex.: 3078 
 
 Tabela da Korp: 320 ADM GERAL · 337 DESENVOLVIMENTO EM GERAL · 345 SUPORTE EM GERAL · 379 COMERCIAL GERAL · 506 QUALIDADE · 644 CONSULTORIA.
 
-**Matriz** (pelo número, que vem no registro 05):
+**Matriz** (pelo número, que vem no registro 05). O **extrato** da Matriz usa outra numeração (igual à da Filial, por descrição): 2/4/13/16/35 DES → Dom. CC 1; 31 DES PRODUÇÃO/SUPORTE → Dom. CC 1, mas é Qualidade (CC506); 18 SD INFRA e 30 SD SUPORTE → Dom. CC 3; 10 CONSULTORIA → Dom. CC 4; 15 ADM → Dom. CC 5; 41 COM HANTERS → Dom. CC 6. O TXT vem em blocos na ordem do extrato (cada bloco termina no INSS patronal); confirmar pelo I.N.S.S. descontado.
 
 | Domínio | Descrição | Korp |
 |---|---|---|
@@ -121,6 +121,17 @@ Decisões já confirmadas pelo usuário:
 - VR/VA/ajuda de custo não utilizados na rescisão: **D 2523 / C Ajuda de Custo do grupo** (DES 2888; Suporte 3146).
 - Consignado (crédito do trabalhador) com provisão/estorno (9752/9754) e "PROVISAO DESC. EMP. CRED. TRAB." no cálculo de férias: **excluir do TXT** a provisão e o estorno; manter só os descontos efetivos (9750/9751, 714/717/721/730) — o 3137 tem de fechar com o extrato (confirmado em 08/2026).
 - Diferença de férias paga na folha (940/8112/8189): D conta de férias do grupo / **C 2521**.
+- INSS diferença de férias (821) descontado no recibo mensal: **D 2521** / C 2531 (o Domínio manda D 2524; assim a 2524 zera quando as férias são pagas no mês).
+- Vale-transporte (346) é desconto: **D 2521 / C 3144** (ADM). Em 10/2026 (Matriz) veio invertido.
+
+**Matriz — decisões de 10/2026 (contas pelo grupo do CC do extrato, não pelo que o Domínio manda):**
+- CC 2 DES BACKOFFICE: INSS patronal 3142 → **2885**.
+- CC 15 ADM FINANCEIRO (Dom. CC 5 → CC320): contas do DES → ADM (2884→2994, 2904→3004, 2905→3145, 2886→2997).
+- CC 18 SD INFRAESTRUTURA (Dom. CC 3 → CC345): contas do DES → **Suporte** (2884→2891, 2904→2917, 2905→2923, 2886→2913, 2885→3078, 3019→2918).
+- CC 31 DES PRODUÇÃO/SUPORTE (Gustavo): é **Qualidade** — contas da Qualidade (2900, 2928, 3080, 2924, 2929), INSS patronal 3078→**3142** e **CC Korp CC506** (o Domínio manda CC 1; no config: `"cc_blocos": [[ini, fim, "CC506"]]`, que tem prioridade sobre o `cc_map`).
+- CC 41 COM HANTERS (Dom. CC 6 → CC379): contas do DES → Comercial (2884→2323, 2904→2577, 2888→2578, 2905→3148, 2886→2334, 2885→2332); 2867 Comissão mantida.
+- Consignado 732 creditado em 2891 → **C 3137**.
+- Contas válidas no plano Korp: 3077 Plano Odontológico DES; 3147 Comissão do Suporte.
 
 ## Conferência obrigatória (extrato × TXT × balancete)
 
@@ -194,7 +205,9 @@ No Domínio a integração é por **centro de custo → lançamento (conta débi
 |---|---|---|
 | até 08/2026 | Importados na Korp pelo padrão antigo (só troca de CC 1–6 → Korp) | Contrapartidas sem CC não entraram e foram **lançadas à mão** pela usuária — **não gerar complemento** para esses meses (duplicaria) |
 | 08/2026 | `Folha_Korp_140_corrigida.txt` (cópia em `Korp/Matriz/2026-08/config/`) | 248 de 251 lançamentos com CC nos 2 lados; 3 sem nenhum 05 ficaram fora e foram lançados à mão: compensação de salário-maternidade D 2531 / C 2996 8.124,60 (CC644) e INSS de rescisão D 2523 / C 2531 319,41 + 230,81 (CC337). Observação a revisar: rescisão com conta 3012 (Provisões Qualidade) e CC337 (Desenvolvimento) — conta e CC de grupos diferentes |
-| 09/2026 em diante | Gerar pelo padrão completo (3 entregas) com `cc_map` 1–6 e CC nos dois lados | Config de exemplo: `{"empresa":"0000140","cnpj":"03623045000100","cc_map":{"0000001":"CC337","0000002":"CC506","0000003":"CC345","0000004":"CC644","0000005":"CC320","0000006":"CC379"}}` |
+| 09/2026 | `Folha_Korp_140_Matriz_09-2026.txt` (Drive, pasta Folha TXT) | Feito fora deste repositório: só troca de CC + CC nos 2 lados, **sem corrigir contas** (3142 no DES, ADM/Comercial/SD Infra com contas do DES ficaram como vieram) |
+| 10/2026 | 3 entregas em `Korp/Matriz/2026-10/` | 1º mês no padrão completo: 50 lançamentos com conta corrigida (grupos acima), VT e média horas férias invertidos, consignado 732 → 3137, 821 → 2521. Sem rescisões nem outros meses. Passivos fecham (INSS 0,26 de arredondamento). TXT do Domínio no Drive: `KORP/Folha TXT/Folha_10.Mtz.txt` |
+| 11/2026 em diante | Gerar pelo padrão completo (3 entregas) com `cc_map` 1–6 e CC nos dois lados | Config de exemplo: `{"empresa":"0000140","cnpj":"03623045000100","cc_map":{"0000001":"CC337","0000002":"CC506","0000003":"CC345","0000004":"CC644","0000005":"CC320","0000006":"CC379"}}` |
 
 ## Formato das planilhas
 

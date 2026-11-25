@@ -1,0 +1,11 @@
+{"titulo": "KORP Matriz (140) - Fechamento da folha - Contas patrimoniais", "meses": {"10-2026": {
+"nota": "Folha 10/2026 (Folha Mensal). Sem rescisões, sem estagiários e sem competência de outros meses no TXT. Contas de resultado corrigidas para o grupo de cada CC (não afetam as patrimoniais).",
+"2521": [76365.00, 76863.17, -498.17, "Folha = Líquido Geral do extrato. Correções: -445,20 vale-transporte do ADM lançado invertido (222,60 x 2); -52,97 INSS diferença de férias (821) do CC 10 (11,88) e do CC 30 (41,09) passou de 2524 para 2521", 0],
+"2523": [0, 0, 0, "Sem rescisões no mês", 0],
+"2524": [0, -57.77, 57.77, "Férias da Carolina (CC 10) e do CC 30 pagas no mês, líquido zerado pelo adiantamento (2463). Correções: +4,80 média horas férias do CC 10 invertida (2,40 x 2); +52,97 INSS diferença de férias para 2521", 0],
+"2526": [0, 0, 0, "Sem estagiários", 0],
+"2530": [8054.26, 8054.26, 0, "Valor do FGTS do extrato (sem FGTS rescisório)", 0],
+"2531": [37435.06, 37434.80, 0, "Total INSS do extrato. Diferença de 0,26 = arredondamento do patronal por CC", 0],
+"2533": [9580.67, 9580.67, 0, "IRRF mensal 9.397,99 + IRRF férias 182,68", 0],
+"3137": [927.48, 884.83, 42.65, "Rubricas 714/717/721/730/732/9750. Correção: +42,65 consignado 732 do Gustavo (CC 31) creditado em 2891", 0],
+"2463": [2404.00, 2404.00, 0, "Adiantamento de férias (937) descontado: CC 10 294,00 + CC 30 2.110,00", 0]}}}
