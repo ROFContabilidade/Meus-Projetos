@@ -1,0 +1,4106 @@
+[
+{
+"data": "01/12/2025",
+"desc": "PAGAMENTO PIX 07841394900 Dilervaldo Cavalcante",
+"doc": "PIX_DEB",
+"valor": -301.72,
+"saldo": 7067.97,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "01/12/2025",
+"desc": "RECEBIMENTO PIX SICREDI 54302293934 MARCOS ANTON",
+"doc": "CX16775",
+"valor": 600.0,
+"saldo": 7667.97,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "01/12/2025",
+"desc": "TARIFA BAIXA DE TITULOS",
+"doc": "COB000001",
+"valor": -1.88,
+"saldo": 7666.09,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "02/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -4.12,
+"saldo": 7661.97,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "03/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 397.03,
+"saldo": 8059.0,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "05/12/2025",
+"desc": "PAGAMENTO PIX 54886661000195 UPY-UPY FESTAS E CO",
+"doc": "PIX_DEB",
+"valor": -95.0,
+"saldo": 7964.0,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "05/12/2025",
+"desc": "PAGAMENTO PIX 24217332000190 ECOLIMP PRODUTOS SA",
+"doc": "PIX_DEB",
+"valor": -51.5,
+"saldo": 7912.5,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "08/12/2025",
+"desc": "DEBITO CONVENIOS ID LONDON RESIDEN00434500000 HD",
+"doc": "HDISEGU",
+"valor": -274.48,
+"saldo": 7638.02,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "08/12/2025",
+"desc": "PAGAMENTO PIX SICREDI 54302293934 MARCOS ANTONIO",
+"doc": "CX51532",
+"valor": -1518.0,
+"saldo": 6120.02,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "09/12/2025",
+"desc": "PAGAMENTO PIX SICREDI 54302293934 MARCOS ANTONIO",
+"doc": "CX722888",
+"valor": -268.22,
+"saldo": 5851.8,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "09/12/2025",
+"desc": "PAGAMENTO PIX 79296262968 ANTONIO PEREIRA LIMA",
+"doc": "PIX_DEB",
+"valor": -541.0,
+"saldo": 5310.8,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "09/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 5308.0,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "10/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 472.62,
+"saldo": 5780.62,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "10/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000006",
+"valor": -16.8,
+"saldo": 5763.82,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "11/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000006",
+"valor": 2349.29,
+"saldo": 8113.11,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "11/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 8101.91,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "12/12/2025",
+"desc": "DEBITO CONVENIOS ID 30481011 SANEPAR 76484013000",
+"doc": "SANEPARF",
+"valor": -1222.46,
+"saldo": 6879.45,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "12/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000004",
+"valor": 1727.44,
+"saldo": 8606.89,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "12/12/2025",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000009",
+"valor": -25.2,
+"saldo": 8581.69,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "12/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 8578.89,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "12/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 8573.29,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "15/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 565.92,
+"saldo": 9139.21,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "15/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 923.05,
+"saldo": 10062.26,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "15/12/2025",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 10059.46,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "15/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 10053.86,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "16/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 838.03,
+"saldo": 10891.89,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "16/12/2025",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -400.0,
+"saldo": 10491.89,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "16/12/2025",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -765.0,
+"saldo": 9726.89,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "16/12/2025",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -400.03,
+"saldo": 9326.86,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "16/12/2025",
+"desc": "DEBITO ARRECADACAO 00394460005887 DARFC0385",
+"doc": "DARFC0385",
+"valor": -19.44,
+"saldo": 9307.42,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "16/12/2025",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOFTWARE",
+"doc": "",
+"valor": -177.17,
+"saldo": 9130.25,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "16/12/2025",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -112.12,
+"saldo": 9018.13,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "19/12/2025",
+"desc": "RECEBIMENTO PIX 43174172000194 EVERTON SOARES SO",
+"doc": "PIX_CRED",
+"valor": 571.5,
+"saldo": 9589.63,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "22/12/2025",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 9586.83,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "23/12/2025",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 421.82,
+"saldo": 10008.65,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "23/12/2025",
+"desc": "PAGAMENTO PIX SICREDI 02064664000140 BR DISTRIBU",
+"doc": "CX714397",
+"valor": -435.0,
+"saldo": 9573.65,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "26/12/2025",
+"desc": "DEBITO CONVENIOS ID 0000100249540 COPEL DISTRIBU",
+"doc": "COPEL",
+"valor": -456.25,
+"saldo": 9117.4,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "26/12/2025",
+"desc": "COMPRAS NACIONAIS ECOLIMP FAZENDA RIO GBR",
+"doc": "VE0527227",
+"valor": -70.0,
+"saldo": 9047.4,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "26/12/2025",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -59.0,
+"saldo": 8988.4,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "26/12/2025",
+"desc": "PAGAMENTO PIX 67873960900 GILVAN JOSE DE LIRA",
+"doc": "PIX_DEB",
+"valor": -150.0,
+"saldo": 8838.4,
+"ok": true,
+"arq": "01.pdf"
+},
+{
+"data": "02/01/2026",
+"desc": "COMPRAS NACIONAIS ECOLIMP FAZENDA RIO GBR",
+"doc": "VE0719420",
+"valor": -70.0,
+"saldo": 8768.4,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "06/01/2026",
+"desc": "PAGAMENTO PIX 20609151000159 ARGEMIRO BREIKO BEN",
+"doc": "PIX_DEB",
+"valor": -250.0,
+"saldo": 8518.4,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "07/01/2026",
+"desc": "DEBITO CONVENIOS ID LONDON RESIDEN00434500000 HD",
+"doc": "HDISEGU",
+"valor": -274.52,
+"saldo": 8243.88,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "07/01/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 8235.48,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1596.71,
+"saldo": 9832.19,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOTWARE",
+"doc": "",
+"valor": -173.59,
+"saldo": 9658.6,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "DEBITO ARRECADACAO 00394460005887 DARFC0385",
+"doc": "DARFC0385",
+"valor": -19.44,
+"saldo": 9639.16,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -398.43,
+"saldo": 9240.73,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "PAGAMENTO PIX 13447789000175 DIRECT INTERNET",
+"doc": "PIX_DEB",
+"valor": -99.9,
+"saldo": 9140.83,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "PAGAMENTO PIX SICREDI 54302293934 MARCOS ANTONIO",
+"doc": "CX594023",
+"valor": -1518.0,
+"saldo": 7622.83,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -400.0,
+"saldo": 7222.83,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -765.0,
+"saldo": 6457.83,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "08/01/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 6443.83,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "09/01/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 2169.64,
+"saldo": 8613.47,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "09/01/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 8610.67,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "12/01/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 568.98,
+"saldo": 9179.65,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "12/01/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000009",
+"valor": -25.2,
+"saldo": 9154.45,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "12/01/2026",
+"desc": "DEBITO CONVENIOS ID 30481011 SANEPAR 76484013000",
+"doc": "SANEPARF",
+"valor": -1189.52,
+"saldo": 7964.93,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "12/01/2026",
+"desc": "PAGAMENTO PIX 02803001000108 FIDELIDADE DRYWALL",
+"doc": "PIX_DEB",
+"valor": -1500.0,
+"saldo": 6464.93,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "12/01/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 6462.13,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "12/01/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 6448.13,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "13/01/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 549.06,
+"saldo": 6997.19,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "13/01/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 2310.48,
+"saldo": 9307.67,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "13/01/2026",
+"desc": "PAGAMENTO PIX 06709978974 LUIZ MARCELO DE GODOY",
+"doc": "PIX_DEB",
+"valor": -265.0,
+"saldo": 9042.67,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "13/01/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 9037.07,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "14/01/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 921.25,
+"saldo": 9958.32,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "16/01/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 9947.12,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "19/01/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000004",
+"valor": 1733.82,
+"saldo": 11680.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "19/01/2026",
+"desc": "PAGAMENTO PIX 54886661000195 UPY-UPY FESTAS E CO",
+"doc": "PIX_DEB",
+"valor": -75.0,
+"saldo": 11605.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "19/01/2026",
+"desc": "PAGAMENTO PIX 24217332000190 ECOLIMP PRODUTOS SA",
+"doc": "PIX_DEB",
+"valor": -110.0,
+"saldo": 11495.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "PAGAMENTO PIX 06709978974 LUIZ MARCELO DE GODOY",
+"doc": "PIX_DEB",
+"valor": -300.0,
+"saldo": 11195.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "PAGAMENTO PIX 41208537000129 SANTOS ALELUIA LTDA",
+"doc": "PIX_DEB",
+"valor": -10000.0,
+"saldo": 1195.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 1523.47,
+"saldo": 2719.41,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 1539.42,
+"saldo": 4258.83,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 1555.55,
+"saldo": 5814.38,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 1563.69,
+"saldo": 7378.07,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 1579.67,
+"saldo": 8957.74,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 1587.15,
+"saldo": 10544.89,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 157.99,
+"saldo": 10702.88,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#65947",
+"valor": 493.06,
+"saldo": 11195.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "20/01/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -400.0,
+"saldo": 10795.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "22/01/2026",
+"desc": "PAGAMENTO PIX 18757720000161 RODRIGUES AGUA POTA",
+"doc": "PIX_DEB",
+"valor": -650.0,
+"saldo": 10145.94,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "26/01/2026",
+"desc": "DEBITO CONVENIOS ID 0000100249540 COPEL DISTRIBU",
+"doc": "COPEL",
+"valor": -435.42,
+"saldo": 9710.52,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "26/01/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -59.0,
+"saldo": 9651.52,
+"ok": true,
+"arq": "02.pdf"
+},
+{
+"data": "04/02/2026",
+"desc": "PAGAMENTO PIX SICREDI 54302293934 MARCOS ANTONIO",
+"doc": "CX977108",
+"valor": -1621.0,
+"saldo": 8030.52,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "06/02/2026",
+"desc": "PAGAMENTO PIX 06709978974 LUIZ MARCELO DE GODOY",
+"doc": "PIX_DEB",
+"valor": -340.0,
+"saldo": 7690.52,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "09/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 7682.12,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "10/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1484.12,
+"saldo": 9166.24,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "10/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 9152.24,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "11/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 2397.99,
+"saldo": 11550.23,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "11/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 11539.03,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "12/02/2026",
+"desc": "DEBITO CONVENIOS ID 30481011 SANEPAR 76484013000",
+"doc": "SANEPARF",
+"valor": -1226.62,
+"saldo": 10312.41,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "12/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000004",
+"valor": 1799.29,
+"saldo": 12111.7,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "12/02/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000011",
+"valor": -30.8,
+"saldo": 12080.9,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "12/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 12078.1,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "12/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 12072.5,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "13/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 535.11,
+"saldo": 12607.61,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "13/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 931.8,
+"saldo": 13539.41,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "13/02/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 12674.41,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "RECEBIMENTO PIX 43174172000194 EVERTON SOARES SO",
+"doc": "PIX_CRED",
+"valor": 447.0,
+"saldo": 13121.41,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 966.37,
+"saldo": 14087.78,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 970.68,
+"saldo": 15058.46,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 974.94,
+"saldo": 16033.4,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 979.3,
+"saldo": 17012.7,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 987.98,
+"saldo": 18000.68,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 992.48,
+"saldo": 18993.16,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1001.02,
+"saldo": 19994.18,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1005.69,
+"saldo": 20999.87,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1014.09,
+"saldo": 22013.96,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1018.62,
+"saldo": 23032.58,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1028.02,
+"saldo": 24060.6,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1032.98,
+"saldo": 25093.58,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1037.91,
+"saldo": 26131.49,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 1043.71,
+"saldo": 27175.2,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#69102",
+"valor": 946.21,
+"saldo": 28121.41,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "18/02/2026",
+"desc": "PAGAMENTO PIX 41208537000129 SANTOS ALELUIA LTDA",
+"doc": "PIX_DEB",
+"valor": -15000.0,
+"saldo": 13121.41,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "19/02/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 13118.61,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "19/02/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -404.83,
+"saldo": 12713.78,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "19/02/2026",
+"desc": "LIQUIDACAO BOLETO 23033595000187 Dedetizadora Vi",
+"doc": "",
+"valor": -590.0,
+"saldo": 12123.78,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "19/02/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOTWARE",
+"doc": "",
+"valor": -177.42,
+"saldo": 11946.36,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "19/02/2026",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -112.23,
+"saldo": 11834.13,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "19/02/2026",
+"desc": "PAGAMENTO PIX 00394460005887 RECEITA FEDERAL",
+"doc": "PIX_DEB",
+"valor": -19.44,
+"saldo": 11814.69,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "19/02/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 11328.39,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "23/02/2026",
+"desc": "PAGAMENTO PIX SICREDI 02064664000140 DISTRIBUIDO",
+"doc": "PIX_DEB",
+"valor": -435.0,
+"saldo": 10893.39,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "23/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 10890.59,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "24/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 443.81,
+"saldo": 11334.4,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "25/02/2026",
+"desc": "PAGAMENTO PIX 24217332000190 ECOLIMP PRODUTOS SA",
+"doc": "PIX_DEB",
+"valor": -94.0,
+"saldo": 11240.4,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "25/02/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -59.0,
+"saldo": 11181.4,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "25/02/2026",
+"desc": "PAGAMENTO PIX 85014793000150 ELETRORASTRO COMERC",
+"doc": "PIX_DEB",
+"valor": -134.99,
+"saldo": 11046.41,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "25/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 11040.81,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "26/02/2026",
+"desc": "DEBITO CONVENIOS ID 0000100249540 COPEL DISTRIBU",
+"doc": "COPEL",
+"valor": -413.36,
+"saldo": 10627.45,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "26/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 629.54,
+"saldo": 11256.99,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "26/02/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 11254.19,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "27/02/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 346.14,
+"saldo": 11600.33,
+"ok": true,
+"arq": "03.pdf"
+},
+{
+"data": "02/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 11597.53,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "03/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 679.11,
+"saldo": 12276.64,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "06/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 12271.04,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "09/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 1778.76,
+"saldo": 14049.8,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "09/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 14035.8,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "10/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 3977.98,
+"saldo": 18013.78,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "10/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 18008.18,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 626.51,
+"saldo": 18634.69,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "PAGAMENTO PIX 13447789000175 DIRECT INTERNET",
+"doc": "PIX_DEB",
+"valor": -99.9,
+"saldo": 18534.79,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -398.43,
+"saldo": 18136.36,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "PAGAMENTO PIX 00394460005887 RECEITA FEDERAL",
+"doc": "PIX_DEB",
+"valor": -19.44,
+"saldo": 18116.92,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOTWARE",
+"doc": "",
+"valor": -173.59,
+"saldo": 17943.33,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 17457.03,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 16592.03,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "PAGAMENTO PIX SICREDI 54302293934 MARCOS ANTONIO",
+"doc": "CX436287",
+"valor": -1621.0,
+"saldo": 14971.03,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 14968.23,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "11/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 14965.43,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "12/03/2026",
+"desc": "DEBITO CONVENIOS ID 30481011 SANEPAR 76484013000",
+"doc": "SANEPARF",
+"valor": -1226.62,
+"saldo": 13738.81,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "12/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 1038.52,
+"saldo": 14777.33,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "12/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 856.56,
+"saldo": 15633.89,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "12/03/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000014",
+"valor": -39.2,
+"saldo": 15594.69,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "12/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 15591.89,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "12/03/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000006",
+"valor": -16.8,
+"saldo": 15575.09,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "13/03/2026",
+"desc": "DEBITO CONVENIOS ID LONDON RESIDEN00522400000 HD",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 15257.32,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "13/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 966.2,
+"saldo": 16223.52,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "13/03/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000006",
+"valor": 6002.84,
+"saldo": 22226.36,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "13/03/2026",
+"desc": "PAGAMENTO PIX 41208537000129 SANTOS ALELUIA LTDA",
+"doc": "PIX_DEB",
+"valor": -5000.0,
+"saldo": 17226.36,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "20/03/2026",
+"desc": "PAGAMENTO PIX 41208537000129 SANTOS ALELUIA LTDA",
+"doc": "PIX_DEB",
+"valor": -5000.0,
+"saldo": 12226.36,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "24/03/2026",
+"desc": "PAGAMENTO PIX 85014793000150 ELETRORASTRO COMERC",
+"doc": "PIX_DEB",
+"valor": -25.58,
+"saldo": 12200.78,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "25/03/2026",
+"desc": "LIQUIDACAO BOLETO 11498262000144 PLATINA COMERCI",
+"doc": "",
+"valor": -422.96,
+"saldo": 11777.82,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "25/03/2026",
+"desc": "APLICACAO POUPANCA",
+"doc": "",
+"valor": -5600.0,
+"saldo": 6177.82,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "25/03/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -59.0,
+"saldo": 6118.82,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "26/03/2026",
+"desc": "DEBITO CONVENIOS ID 0000100249540 COPEL DISTRIBU",
+"doc": "COPEL",
+"valor": -418.12,
+"saldo": 5700.7,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "27/03/2026",
+"desc": "PAGAMENTO PIX 24217332000190 ECOLIMP PRODUTOS SA",
+"doc": "PIX_DEB",
+"valor": -100.0,
+"saldo": 5600.7,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "30/03/2026",
+"desc": "PAGAMENTO PIX 02803001000108 FIDELIDADE DRYWALL",
+"doc": "PIX_DEB",
+"valor": -1680.0,
+"saldo": 3920.7,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "31/03/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#63389",
+"valor": 5600.0,
+"saldo": 9520.7,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "31/03/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#63389",
+"valor": 1547.51,
+"saldo": 11068.21,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "31/03/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#63389",
+"valor": 1588.31,
+"saldo": 12656.52,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "31/03/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#63389",
+"valor": 1264.18,
+"saldo": 13920.7,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "31/03/2026",
+"desc": "PAGAMENTO PIX 41208537000129 SANTOS ALELUIA LTDA",
+"doc": "PIX_DEB",
+"valor": -8000.0,
+"saldo": 5920.7,
+"ok": true,
+"arq": "04.pdf"
+},
+{
+"data": "02/04/2026",
+"desc": "PAGAMENTO PIX 43174172000194 EVERTON SOARES SOCI",
+"doc": "PIX_DEB",
+"valor": -1621.0,
+"saldo": 4299.7,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "02/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 4296.9,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "06/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 654.3,
+"saldo": 4951.2,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "06/04/2026",
+"desc": "PAGAMENTO PIX 29794032000198 29.794.032 LUCAS AU",
+"doc": "PIX_DEB",
+"valor": -580.0,
+"saldo": 4371.2,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#44880",
+"valor": 267.29,
+"saldo": 4638.49,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#44880",
+"valor": 1563.78,
+"saldo": 6202.27,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#44880",
+"valor": 530.78,
+"saldo": 6733.05,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#44880",
+"valor": 988.62,
+"saldo": 7721.67,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#44880",
+"valor": 109.03,
+"saldo": 7830.7,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "TRANSFERENCIA DA POUPANCA",
+"doc": "#44880",
+"valor": 1049.16,
+"saldo": 8879.86,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "PAGAMENTO PIX 41208537000129 SANTOS ALELUIA LTDA",
+"doc": "PIX_DEB",
+"valor": -4500.0,
+"saldo": 4379.86,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "07/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 4377.06,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "08/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 552.69,
+"saldo": 4929.75,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "08/04/2026",
+"desc": "PAGAMENTO PIX 22870820000177 22.870.820 DILERVAL",
+"doc": "PIX_DEB",
+"valor": -400.0,
+"saldo": 4529.75,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "08/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 4524.15,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "09/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 989.9,
+"saldo": 5514.05,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "09/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 5500.05,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "10/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 2493.84,
+"saldo": 7993.89,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "10/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 7991.09,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "10/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 7985.49,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 576.88,
+"saldo": 8562.37,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 1154.46,
+"saldo": 9716.83,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000017",
+"valor": -47.6,
+"saldo": 9669.23,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "DEBITO CONVENIOS ID LONDON RESIDEN00522400000 HD",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 9351.46,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "DEBITO CONVENIOS ID 30481011 SANEPAR 76484013000",
+"doc": "SANEPARF",
+"valor": -1367.06,
+"saldo": 7984.4,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 7776.09,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "LIQUIDACAO BOLETO SICREDI 02064664000140 BR DIST",
+"doc": "261000345",
+"valor": -435.0,
+"saldo": 7341.09,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -99.9,
+"saldo": 7241.19,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -398.43,
+"saldo": 6842.76,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 6356.46,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "PAGAMENTO PIX SICREDI 54302293934 MARCOS ANTONIO",
+"doc": "CX951215",
+"valor": -1621.0,
+"saldo": 4735.46,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "PAGAMENTO PIX 00394460005887 RECEITA FEDERAL",
+"doc": "PIX_DEB",
+"valor": -19.44,
+"saldo": 4716.02,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 3851.02,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "LIQUIDACAO BOLETO 11498262000144 PLATINA COMERCI",
+"doc": "",
+"valor": -410.5,
+"saldo": 3440.52,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "RECEBIMENTO PIX SICREDI 06622394903 VITOR MARCEL",
+"doc": "CX295447",
+"valor": 773.0,
+"saldo": 4213.52,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 4210.72,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "13/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 4196.72,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "14/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 694.19,
+"saldo": 4890.91,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "14/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 2284.61,
+"saldo": 7175.52,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "14/04/2026",
+"desc": "RECEBIMENTO PIX 87395495934 Luciane do Rocio Mor",
+"doc": "PIX_CRED",
+"valor": 280.0,
+"saldo": 7455.52,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "15/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 7452.72,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "16/04/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 336.32,
+"saldo": 7789.04,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "22/04/2026",
+"desc": "PAGAMENTO PIX SICREDI 02064664000140 DISTRIBUIDO",
+"doc": "PIX_DEB",
+"valor": -445.0,
+"saldo": 7344.04,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "27/04/2026",
+"desc": "DEBITO CONVENIOS ID 0000100249540 COPEL DISTRIBU",
+"doc": "COPEL",
+"valor": -400.56,
+"saldo": 6943.48,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "27/04/2026",
+"desc": "PAGAMENTO PIX SICREDI 95344503000190 ASSOCIACAO",
+"doc": "CX153543",
+"valor": -125.0,
+"saldo": 6818.48,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "27/04/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -59.0,
+"saldo": 6759.48,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "28/04/2026",
+"desc": "PAGAMENTO PIX 22870820000177 22.870.820 DILERVAL",
+"doc": "PIX_DEB",
+"valor": -426.0,
+"saldo": 6333.48,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "30/04/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 6330.68,
+"ok": true,
+"arq": "05.pdf"
+},
+{
+"data": "04/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 752.54,
+"saldo": 7083.22,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "04/05/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 7074.82,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "05/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1344.16,
+"saldo": 8418.98,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "06/05/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 8413.38,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "07/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 1778.06,
+"saldo": 10191.44,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "07/05/2026",
+"desc": "COMPRAS NACIONAIS 49894780Leandro FAZENDA RIO GB",
+"doc": "VE0361952",
+"valor": -24.0,
+"saldo": 10167.44,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "07/05/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 10164.64,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 965.29,
+"saldo": 11129.93,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 10643.63,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "PAGAMENTO PIX 54302293934 MARCOS ANTONIO SARTORI",
+"doc": "CX475344",
+"valor": -1621.0,
+"saldo": 9022.63,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 8157.63,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "PAGAMENTO PIX 00394460005887 RECEITA FEDERAL",
+"doc": "PIX_DEB",
+"valor": -19.44,
+"saldo": 8138.19,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 7929.88,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -99.9,
+"saldo": 7829.98,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -398.43,
+"saldo": 7431.55,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "PAGAMENTO PIX 10573521000191 PIX Marketplace",
+"doc": "PIX_DEB",
+"valor": -114.42,
+"saldo": 7317.13,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "08/05/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 7308.73,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "11/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 2269.52,
+"saldo": 9578.25,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "11/05/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000006",
+"valor": -16.8,
+"saldo": 9561.45,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "12/05/2026",
+"desc": "DEBITO CONVENIOS ID LONDON RESIDEN00522400000 HD",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 9243.68,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "12/05/2026",
+"desc": "DEBITO CONVENIOS ID 30481011 SANEPAR 76484013000",
+"doc": "SANEPARF",
+"valor": -1692.71,
+"saldo": 7550.97,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "12/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000006",
+"valor": 5589.06,
+"saldo": 13140.03,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "12/05/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000015",
+"valor": -42.0,
+"saldo": 13098.03,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "12/05/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 13086.83,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "13/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000004",
+"valor": 3392.1,
+"saldo": 16478.93,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "13/05/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 16473.33,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "18/05/2026",
+"desc": "PAGAMENTO PIX 24217332000190 ECOLIMP PRODUTOS SA",
+"doc": "PIX_DEB",
+"valor": -104.0,
+"saldo": 16369.33,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "21/05/2026",
+"desc": "PAGAMENTO PIX 29794032000198 29.794.032 LUCAS AU",
+"doc": "PIX_DEB",
+"valor": -300.0,
+"saldo": 16069.33,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "25/05/2026",
+"desc": "PAGAMENTO PIX 02803001000108 FIDELIDADE DRYWALL",
+"doc": "PIX_DEB",
+"valor": -6000.0,
+"saldo": 10069.33,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "25/05/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -61.0,
+"saldo": 10008.33,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "25/05/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 10005.53,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "26/05/2026",
+"desc": "DEBITO CONVENIOS ID 0000100249540 COPEL DISTRIBU",
+"doc": "COPEL",
+"valor": -450.98,
+"saldo": 9554.55,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "26/05/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 272.64,
+"saldo": 9827.19,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "28/05/2026",
+"desc": "PAGAMENTO PIX 85014793000150 ELETRORASTRO COMERC",
+"doc": "PIX_DEB",
+"valor": -69.96,
+"saldo": 9757.23,
+"ok": true,
+"arq": "06.pdf"
+},
+{
+"data": "05/06/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 9754.43,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "08/06/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 958.11,
+"saldo": 10712.54,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "08/06/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 10698.54,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "09/06/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 4301.87,
+"saldo": 15000.41,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "09/06/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 14989.21,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "10/06/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000004",
+"valor": 3598.96,
+"saldo": 18588.17,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "10/06/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 18579.77,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "11/06/2026",
+"desc": "DEBITO CONVENIOS ID LONDON RESIDEN00522400000 HD",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 18262.0,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "11/06/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 2837.7,
+"saldo": 21099.7,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "12/06/2026",
+"desc": "DEBITO CONVENIOS ID 30481011 SANEPAR 76484013000",
+"doc": "SANEPARF",
+"valor": -1811.94,
+"saldo": 19287.76,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "12/06/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000019",
+"valor": -53.2,
+"saldo": 19234.56,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "12/06/2026",
+"desc": "PAGAMENTO PIX 43174172000194 EVERTON SOARES SOCI",
+"doc": "PIX_DEB",
+"valor": -1000.0,
+"saldo": 18234.56,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "12/06/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 18231.76,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "12/06/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 18220.56,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 1042.62,
+"saldo": 19263.18,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000004",
+"valor": 3435.02,
+"saldo": 22698.2,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 22692.6,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 22484.29,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "LIQUIDACAO BOLETO SICREDI 02064664000140 BR DIST",
+"doc": "261000663",
+"valor": -482.38,
+"saldo": 22001.91,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -398.43,
+"saldo": 21603.48,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -99.9,
+"saldo": 21503.58,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "DEBITO ARRECADACAO 00394460005887 DARFC0385",
+"doc": "DARFC0385",
+"valor": -19.44,
+"saldo": 21484.14,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 20997.84,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "PAGAMENTO PIX 54302293934 MARCOS ANTONIO SARTORI",
+"doc": "CX01390",
+"valor": -1621.0,
+"saldo": 19376.84,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 18511.84,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "15/06/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 18509.04,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "16/06/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 445.16,
+"saldo": 18954.2,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "16/06/2026",
+"desc": "PAGAMENTO PIX 51028984000150 ASSET SOLUTION APP",
+"doc": "PIX_DEB",
+"valor": -700.0,
+"saldo": 18254.2,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "18/06/2026",
+"desc": "PAGAMENTO PIX 02803001000108 FIDELIDADE DRYWALL",
+"doc": "PIX_DEB",
+"valor": -10000.0,
+"saldo": 8254.2,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "23/06/2026",
+"desc": "RECEBIMENTO PIX 02635255970 Neli Aparecida Ortiz",
+"doc": "PIX_CRED",
+"valor": 500.0,
+"saldo": 8754.2,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "25/06/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -61.0,
+"saldo": 8693.2,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "26/06/2026",
+"desc": "DEBITO CONVENIOS ID 0000100249540 COPEL DISTRIBU",
+"doc": "COPEL",
+"valor": -511.18,
+"saldo": 8182.02,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "26/06/2026",
+"desc": "PAGAMENTO PIX 51028984000150 ASSET SOLUTION APP",
+"doc": "PIX_DEB",
+"valor": -610.3,
+"saldo": 7571.72,
+"ok": true,
+"arq": "07.pdf"
+},
+{
+"data": "02/07/2026",
+"desc": "PAGAMENTO PIX 02803001000108 FIDELIDADE DRYWALL",
+"doc": "PIX_DEB",
+"valor": -3000.0,
+"saldo": 4571.72,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "03/07/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 4566.12,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "06/07/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 1095.25,
+"saldo": 5661.37,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "06/07/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 5652.97,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "07/07/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1794.42,
+"saldo": 7447.39,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "09/07/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 7438.99,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "10/07/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1329.1,
+"saldo": 8768.09,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "10/07/2026",
+"desc": "PAGAMENTO PIX 02803001000108 FIDELIDADE DRYWALL",
+"doc": "PIX_DEB",
+"valor": -6000.0,
+"saldo": 2768.09,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "10/07/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 2759.69,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "13/07/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1566.76,
+"saldo": 4326.45,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "13/07/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000025",
+"valor": -70.0,
+"saldo": 4256.45,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "13/07/2026",
+"desc": "DEBITO CONVENIOS 76484013000145 SANEPAR ID 30481",
+"doc": "SANEPARF",
+"valor": -1762.64,
+"saldo": 2493.81,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "13/07/2026",
+"desc": "DEBITO CONVENIOS 29980158000157 HDI SEGUROS S/A",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 2176.04,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "13/07/2026",
+"desc": "RECEBIMENTO PIX 54302293934 MARCOS ANTONIO SARTO",
+"doc": "PIX_CRE",
+"valor": 985.3,
+"saldo": 3161.34,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "13/07/2026",
+"desc": "PAGAMENTO PIX 54302293934 MARCOS ANTONIO SARTORI",
+"doc": "CX801617",
+"valor": -1621.0,
+"saldo": 1540.34,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "13/07/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000006",
+"valor": -16.8,
+"saldo": 1523.54,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000006",
+"valor": 3704.33,
+"saldo": 5227.87,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 4741.57,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 3876.57,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "LIQUIDACAO BOLETO SICREDI 02064664000140 BR DIST",
+"doc": "261000825",
+"valor": -481.78,
+"saldo": 3394.79,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -99.9,
+"saldo": 3294.89,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOFTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 3086.58,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "LIQUIDACAO BOLETO 51028984000150 ASSET SOLUTION",
+"doc": "",
+"valor": -610.3,
+"saldo": 2476.28,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -398.43,
+"saldo": 2077.85,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "14/07/2026",
+"desc": "DEBITO ARRECADACAO 00394460005887 DARFC0385",
+"doc": "DARFC0385",
+"valor": -19.44,
+"saldo": 2058.41,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "16/07/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 2052.81,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "17/07/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 609.17,
+"saldo": 2661.98,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "20/07/2026",
+"desc": "PAGAMENTO PIX 29794032000198 L.A JARDINAGEM E PA",
+"doc": "PIX_DEB",
+"valor": -300.0,
+"saldo": 2361.98,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "20/07/2026",
+"desc": "PAGAMENTO PIX 24217332000190 ECOLIMP PRODUTOS SA",
+"doc": "PIX_DEB",
+"valor": -130.0,
+"saldo": 2231.98,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "24/07/2026",
+"desc": "RECEBIMENTO PIX 02635255970 Neli Aparecida Ortiz",
+"doc": "PIX_CRED",
+"valor": 411.27,
+"saldo": 2643.25,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "27/07/2026",
+"desc": "DEBITO CONVENIOS 04368898000106 COPEL DISTRIBUIC",
+"doc": "COPEL",
+"valor": -525.61,
+"saldo": 2117.64,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "27/07/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -61.0,
+"saldo": 2056.64,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "31/07/2026",
+"desc": "RECEBIMENTO PIX 41156380000135 GRAZZIOTIN SOCIED",
+"doc": "CX640059",
+"valor": 1237.8,
+"saldo": 3294.44,
+"ok": true,
+"arq": "08.pdf"
+},
+{
+"data": "05/08/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 3288.84,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "06/08/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000002",
+"valor": 989.11,
+"saldo": 4277.95,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "06/08/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 4275.15,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "07/08/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 624.13,
+"saldo": 4899.28,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "07/08/2026",
+"desc": "PAGAMENTO PIX 84866342000189 TINTAS VERGINIA",
+"doc": "PIX_DEB",
+"valor": -1200.0,
+"saldo": 3699.28,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "07/08/2026",
+"desc": "PAGAMENTO PIX 41482143000164 41.482.143 BRENER N",
+"doc": "PIX_DEB",
+"valor": -200.0,
+"saldo": 3499.28,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "10/08/2026",
+"desc": "DEBITO CONVENIOS 29980158000157 HDI SEGUROS S/A",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 3181.51,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "10/08/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 3167.51,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "11/08/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 2538.93,
+"saldo": 5706.44,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "11/08/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 5698.04,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "12/08/2026",
+"desc": "DEBITO CONVENIOS 76484013000145 SANEPAR ID 30481",
+"doc": "SANEPARF",
+"valor": -1779.72,
+"saldo": 3918.32,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "12/08/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1681.46,
+"saldo": 5599.78,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "12/08/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000022",
+"valor": -61.6,
+"saldo": 5538.18,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "12/08/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 5524.18,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000005",
+"valor": 2897.29,
+"saldo": 8421.47,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 8407.47,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOFTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 8199.16,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "LIQUIDACAO BOLETO 51028984000150 ASSET SOLUTION",
+"doc": "",
+"valor": -610.3,
+"saldo": 7588.86,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -99.9,
+"saldo": 7488.96,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "PAGAMENTO PIX 54302293934 MARCOS ANTONIO SARTORI",
+"doc": "CX973202",
+"valor": -1621.0,
+"saldo": 5867.96,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -398.43,
+"saldo": 5469.53,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "PAGAMENTO PIX 00394460005887 RECEITA FEDERAL",
+"doc": "PIX_DEB",
+"valor": -19.44,
+"saldo": 5450.09,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 4963.79,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 4098.79,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "13/08/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 4095.99,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "14/08/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 798.9,
+"saldo": 4894.89,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "14/08/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 4886.49,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "17/08/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 2205.94,
+"saldo": 7092.43,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "19/08/2026",
+"desc": "PAGAMENTO PIX 29794032000198 L.A JARDINAGEM E PA",
+"doc": "PIX_DEB",
+"valor": -280.0,
+"saldo": 6812.43,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "19/08/2026",
+"desc": "PAGAMENTO PIX 19500837000128 TELHADAO TELHAS E M",
+"doc": "PIX_DEB",
+"valor": -455.0,
+"saldo": 6357.43,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "20/08/2026",
+"desc": "PAGAMENTO PIX 51028984000150 ASSET SOLUTION APP",
+"doc": "PIX_DEB",
+"valor": -109.0,
+"saldo": 6248.43,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "25/08/2026",
+"desc": "RECEBIMENTO PIX 02635255970 NELI APARECIDA ORTIZ",
+"doc": "PIX_CRED",
+"valor": 411.27,
+"saldo": 6659.7,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "25/08/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -61.0,
+"saldo": 6598.7,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "26/08/2026",
+"desc": "DEBITO CONVENIOS 04368898000106 COPEL DISTRIBUIC",
+"doc": "COPEL",
+"valor": -537.07,
+"saldo": 6061.63,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "27/08/2026",
+"desc": "PAGAMENTO PIX 84866342000189 TINTAS VERGINIA",
+"doc": "PIX_DEB",
+"valor": -400.0,
+"saldo": 5661.63,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "27/08/2026",
+"desc": "PAGAMENTO PIX 41482143000164 41.482.143 BRENER N",
+"doc": "PIX_DEB",
+"valor": -550.0,
+"saldo": 5111.63,
+"ok": true,
+"arq": "09.pdf"
+},
+{
+"data": "09/09/2026",
+"desc": "DEBITO CONVENIOS 29980158000157 HDI SEGUROS S/A",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 4793.86,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "09/09/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 4785.46,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "10/09/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000003",
+"valor": 1456.17,
+"saldo": 6241.63,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "10/09/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000008",
+"valor": -22.4,
+"saldo": 6219.23,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "11/09/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000008",
+"valor": 4386.82,
+"saldo": 10606.05,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "11/09/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 10603.25,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 626.68,
+"saldo": 11229.93,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "MANUTENCAO DE TITULOS",
+"doc": "COB000021",
+"valor": -58.8,
+"saldo": 11171.13,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "DEBITO CONVENIOS 76484013000145 SANEPAR ID 30481",
+"doc": "SANEPARF",
+"valor": -1367.2,
+"saldo": 9803.93,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOFTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 9595.62,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "LIQUIDACAO BOLETO 13447789000175 DIRECT INTERNET",
+"doc": "",
+"valor": -109.9,
+"saldo": 9485.72,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "PAGAMENTO PIX 54302293934 MARCOS ANTONIO SARTORI",
+"doc": "CX902302",
+"valor": -1621.0,
+"saldo": 7864.72,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "DEBITO ARRECADACAO 00394460005887 DARFC0385",
+"doc": "DARFC0385",
+"valor": -20.83,
+"saldo": 7843.89,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 6978.89,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 6492.59,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -427.25,
+"saldo": 6065.34,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "14/09/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000006",
+"valor": -16.8,
+"saldo": 6048.54,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "15/09/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000006",
+"valor": 3806.6,
+"saldo": 9855.14,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "15/09/2026",
+"desc": "PAGAMENTO PIX 19500837000128 TELHADAO TELHAS E M",
+"doc": "PIX_DEB",
+"valor": -670.0,
+"saldo": 9185.14,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "15/09/2026",
+"desc": "PAGAMENTO PIX 06709978974 LUIZ MARCELO DE GODOY",
+"doc": "PIX_DEB",
+"valor": -1500.0,
+"saldo": 7685.14,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "15/09/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 7673.94,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "16/09/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000004",
+"valor": 2047.16,
+"saldo": 9721.1,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "16/09/2026",
+"desc": "PAGAMENTO PIX 60809371000140 CAZAMA MATERIAIS DE",
+"doc": "PIX_DEB",
+"valor": -115.0,
+"saldo": 9606.1,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "21/09/2026",
+"desc": "TARIFA COM R LIQUIDACAO",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 9603.3,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "22/09/2026",
+"desc": "LIQ.COBRANCA SIMPLES",
+"doc": "COB000001",
+"valor": 725.21,
+"saldo": 10328.51,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "22/09/2026",
+"desc": "PAGAMENTO PIX 85014793000150 ELETRORASTRO COMERC",
+"doc": "PIX_DEB",
+"valor": -199.18,
+"saldo": 10129.33,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "23/09/2026",
+"desc": "RECEBIMENTO PIX 02635255970 NELI APARECIDA ORTIZ",
+"doc": "PIX_CRED",
+"valor": 411.27,
+"saldo": 10540.6,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "25/09/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -61.0,
+"saldo": 10479.6,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "28/09/2026",
+"desc": "DEBITO CONVENIOS 04368898000106 COPEL DISTRIBUIC",
+"doc": "COPEL",
+"valor": -623.07,
+"saldo": 9856.53,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "29/09/2026",
+"desc": "PAGAMENTO PIX 24217332000190 ECOLIMP PRODUTOS SA",
+"doc": "PIX_DEB",
+"valor": -242.5,
+"saldo": 9614.03,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "30/09/2026",
+"desc": "PAGAMENTO PIX 22870820000177 22.870.820 DILERVAL",
+"doc": "PIX_DEB",
+"valor": -180.0,
+"saldo": 9434.03,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "30/09/2026",
+"desc": "PAGAMENTO PIX 22870820000177 22.870.820 DILERVAL",
+"doc": "PIX_DEB",
+"valor": -360.0,
+"saldo": 9074.03,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "30/09/2026",
+"desc": "PAGAMENTO PIX 22870820000177 22.870.820 DILERVAL",
+"doc": "PIX_DEB",
+"valor": -210.0,
+"saldo": 8864.03,
+"ok": true,
+"arq": "10.pdf"
+},
+{
+"data": "01/10/2026",
+"desc": "RECEBIMENTO PIX 07841394900 DILERVALDO LIMA CAVA",
+"doc": "PIX_CRED",
+"valor": 570.0,
+"saldo": 9434.03,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "02/10/2026",
+"desc": "LIQUIDACAO BOLETO SICREDI 02064664000140 BR DIST",
+"doc": "261001090",
+"valor": -445.0,
+"saldo": 8989.03,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "05/10/2026",
+"desc": "PAGAMENTO PIX 26015070000107 MELIPONARIO BINI LT",
+"doc": "PIX_DEB",
+"valor": -500.0,
+"saldo": 8489.03,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "06/10/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000003",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 8480.63,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "07/10/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000003",
+"doc": "COB000003",
+"valor": 1657.08,
+"saldo": 10137.71,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "07/10/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000002",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 10132.11,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "08/10/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000002",
+"doc": "COB000002",
+"valor": 1288.35,
+"saldo": 11420.46,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "08/10/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000003",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 11412.06,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "09/10/2026",
+"desc": "DEBITO CONVENIOS 29980158000157 HDI SEGUROS S/A",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 11094.29,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "09/10/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000003",
+"doc": "COB000003",
+"valor": 1672.62,
+"saldo": 12766.91,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "09/10/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000003",
+"doc": "COB000003",
+"valor": -8.4,
+"saldo": 12758.51,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000003",
+"doc": "COB000003",
+"valor": 1575.63,
+"saldo": 14334.14,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "MANUTENCAO DE TITULOS COB000020",
+"doc": "COB000020",
+"valor": -56.0,
+"saldo": 14278.14,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOFTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 14069.83,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "PAGAMENTO PIX 13447789000175 DIRECT INTERNET",
+"doc": "PIX_DEB",
+"valor": -109.9,
+"saldo": 13959.93,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -108.39,
+"saldo": 13851.54,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "PAGAMENTO PIX 54302293934 MARCOS ANTONIO SARTORI",
+"doc": "CX744268",
+"valor": -1621.0,
+"saldo": 12230.54,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -427.25,
+"saldo": 11803.29,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 11316.99,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 10451.99,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "DEBITO CONVENIOS 76484013000145 SANEPAR ID 30481",
+"doc": "SANEPARF",
+"valor": -1899.3,
+"saldo": 8552.69,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "DEBITO ARRECADACAO 00394460005887 DARFC0385",
+"doc": "DARFC0385",
+"valor": -20.83,
+"saldo": 8531.86,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000002",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 8526.26,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "13/10/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000006",
+"doc": "COB000006",
+"valor": -16.8,
+"saldo": 8509.46,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "14/10/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000006",
+"doc": "COB000006",
+"valor": 3742.19,
+"saldo": 12251.65,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "14/10/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000002",
+"doc": "COB000002",
+"valor": 1477.41,
+"saldo": 13729.06,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "14/10/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000001",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 13726.26,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "15/10/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000001",
+"doc": "COB000001",
+"valor": 612.83,
+"saldo": 14339.09,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "15/10/2026",
+"desc": "PAGAMENTO PIX 51028984000150 ASSET SOLUTION APP",
+"doc": "PIX_DEB",
+"valor": -720.0,
+"saldo": 13619.09,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "15/10/2026",
+"desc": "PAGAMENTO PIX 51028984000150 ASSET SOLUTION APP",
+"doc": "PIX_DEB",
+"valor": -180.0,
+"saldo": 13439.09,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "19/10/2026",
+"desc": "RECEBIMENTO PIX 02635255970 NELI APARECIDA ORTIZ",
+"doc": "PIX_CRED",
+"valor": 411.27,
+"saldo": 13850.36,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "21/10/2026",
+"desc": "LIQUIDACAO BOLETO SICREDI 02064664000140 BR DIST",
+"doc": "261001139",
+"valor": -445.0,
+"saldo": 13405.36,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "22/10/2026",
+"desc": "PAGAMENTO PIX 85014793000150 ELETRORASTRO COMERC",
+"doc": "PIX_DEB",
+"valor": -63.3,
+"saldo": 13342.06,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "26/10/2026",
+"desc": "DEBITO CONVENIOS 04368898000106 COPEL DISTRIBUIC",
+"doc": "COPEL",
+"valor": -570.73,
+"saldo": 12771.33,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "26/10/2026",
+"desc": "CESTA DE RELACIONAMENTO",
+"doc": "",
+"valor": -61.0,
+"saldo": 12710.33,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "30/10/2026",
+"desc": "PAGAMENTO PIX 51028984000150 ASSET SOLUTION APP",
+"doc": "PIX_DEB",
+"valor": -150.0,
+"saldo": 12560.33,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "30/10/2026",
+"desc": "PAGAMENTO PIX 29794032000198 L.A JARDINAGEM E PA",
+"doc": "PIX_DEB",
+"valor": -350.0,
+"saldo": 12210.33,
+"ok": true,
+"arq": "11.pdf"
+},
+{
+"data": "06/11/2026",
+"desc": "RECEBIMENTO PIX 43174172000194 EVERTON SOARES SO",
+"doc": "PIX_CRED",
+"valor": 13279.29,
+"saldo": 25489.62,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "09/11/2026",
+"desc": "DEBITO CONVENIOS 29980158000157 HDI SEGUROS S/A",
+"doc": "HDISEGU",
+"valor": -317.77,
+"saldo": 25171.85,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "09/11/2026",
+"desc": "PAGAMENTO PIX 27729852000170 CHAVEIRO PIONEIROS",
+"doc": "PIX_DEB",
+"valor": -12.0,
+"saldo": 25159.85,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "09/11/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000002",
+"doc": "COB000002",
+"valor": -5.6,
+"saldo": 25154.25,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "10/11/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000002",
+"doc": "COB000002",
+"valor": 939.78,
+"saldo": 26094.03,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "10/11/2026",
+"desc": "RECEBIMENTO PIX 87395495934 Luciane do Rocio Mor",
+"doc": "PIX_CRED",
+"valor": 348.53,
+"saldo": 26442.56,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "10/11/2026",
+"desc": "RECEBIMENTO PIX 37264420000195 R O F DA SILVA LT",
+"doc": "PIX_CRED",
+"valor": 40.0,
+"saldo": 26482.56,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "10/11/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000007",
+"doc": "COB000007",
+"valor": -19.6,
+"saldo": 26462.96,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "11/11/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000007",
+"doc": "COB000007",
+"valor": 3617.85,
+"saldo": 30080.81,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "11/11/2026",
+"desc": "PAGAMENTO PIX 51028984000150 ASSET SOLUTION APP",
+"doc": "PIX_DEB",
+"valor": -2427.0,
+"saldo": 27653.81,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "11/11/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000005",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 27639.81,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "DEBITO CONVENIOS 76484013000145 SANEPAR ID 30481",
+"doc": "SANEPARF",
+"valor": -1975.95,
+"saldo": 25663.86,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000005",
+"doc": "COB000005",
+"valor": 2633.12,
+"saldo": 28296.98,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "MANUTENCAO DE TITULOS COB000006",
+"doc": "COB000006",
+"valor": -16.8,
+"saldo": 28280.18,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "PAGAMENTO PIX 37264420000195 ROF CONTABILIDADE",
+"doc": "PIX_DEB",
+"valor": -486.3,
+"saldo": 27793.88,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "PAGAMENTO PIX 54302293934 MARCOS ANTONIO SARTORI",
+"doc": "CX807156",
+"valor": -1621.0,
+"saldo": 26172.88,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "PAGAMENTO PIX 02429970902 ARACELI DE FATIMA TABO",
+"doc": "PIX_DEB",
+"valor": -865.0,
+"saldo": 25307.88,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000005",
+"doc": "COB000005",
+"valor": -14.0,
+"saldo": 25293.88,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "12/11/2026",
+"desc": "TARIFA COM R LIQUIDACAO COB000004",
+"doc": "COB000004",
+"valor": -11.2,
+"saldo": 25282.68,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000004",
+"doc": "COB000004",
+"valor": 2214.22,
+"saldo": 27496.9,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "LIQ.COBRANCA SIMPLES COB000005",
+"doc": "COB000005",
+"valor": 1011.22,
+"saldo": 28508.12,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "MANUTENCAO DE TITULOS COB000001",
+"doc": "COB000001",
+"valor": -2.8,
+"saldo": 28505.32,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "PAGAMENTO PIX 13447789000175 DIRECT INTERNET",
+"doc": "PIX_DEB",
+"valor": -109.9,
+"saldo": 28395.42,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "LIQUIDACAO BOLETO 90347840000118 TK ELEVADORES B",
+"doc": "",
+"valor": -427.25,
+"saldo": 27968.17,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "DEBITO ARRECADACAO 00394460005887 DARFC0385",
+"doc": "DARFC0385",
+"valor": -20.83,
+"saldo": 27947.34,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "PAGAMENTO PIX 23033595000187 DEDETIZADORA VIP",
+"doc": "PIX_DEB",
+"valor": -500.0,
+"saldo": 27447.34,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "13/11/2026",
+"desc": "LIQUIDACAO BOLETO 01413092000102 GROUP SOFTWARE",
+"doc": "",
+"valor": -208.31,
+"saldo": 27239.03,
+"ok": true,
+"arq": "12.pdf"
+},
+{
+"data": "16/11/2026",
+"desc": "PAGAMENTO PIX 29794032000198 L.A JARDINAGEM E PA",
+"doc": "PIX_DEB",
+"valor": -450.0,
+"saldo": 26789.03,
+"ok": true,
+"arq": "12.pdf"
+}
+]
