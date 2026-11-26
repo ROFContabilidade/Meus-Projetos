@@ -122,3 +122,8 @@ Documento: https://claude.ai/artifact/RchqNDSkQ3BeoWYwzPoYGs
 - Planilha lança 12/2023 a R$ 45; AGO 30/11/2023 fixou R$ 70 a partir de 12/2023 (diferença R$ 500) — conferir no boleto de 12/2023.
 - **Decisão da Rosangela (26/11):** a prestação do fundo mostra só os gastos de 2026 (R$ 74.100), sem os R$ 10.850 de 2024. Saldo 10/2026 R$ 6.900 + complementar R$ 4.200 + nov R$ 1.400 = R$ 12.500, cobrindo os R$ 11.200 dos corredores.
 - 26/11/2026: prestação de contas aprovada na AGO. Fontes removidas das abas Arrecadacao mensal e Pagamentos 2026 da planilha do fundo.
+
+## 10. Decisão (26/11/2026) – fundo de pintura na prestação de contas do condomínio
+- A prestação específica do fundo de pintura (`Prestacao_Contas_Fundo_Pintura_2023-2026.xlsx` / `.pdf`) foi **aprovada na AGO de 26/11/2026**.
+- **Não é preciso incluir uma seção própria do fundo de pintura na prestação de contas geral do condomínio.** Os valores já aparecem lá porque fazem parte da movimentação (receitas do boleto e pagamentos de pintura); não abrir quadro, aba ou relatório separado só para isso.
+- Pendente para os próximos boletos: lançar as três taxas de R$ 70 (02, 04 e 05/2026) = R$ 210 por unidade, R$ 4.200 no total, para completar a reserva dos corredores (AGO 01/12/2025, 7º assunto).
