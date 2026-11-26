@@ -121,10 +121,10 @@ Documento: https://claude.ai/artifact/RchqNDSkQ3BeoWYwzPoYGs
 - **Prestação do fundo de pintura** (https://claude.ai/artifact/QQqeXcjs3QCjqKmNFkTnE5 — `Prestacao_Contas_Fundo_Pintura_2023-2026.pdf`): arrecadado R$ 81.000 (05/2023–10/2026); gasto R$ 84.950 (muros/portão 2024 R$ 10.850 + fachada R$ 47.500 + garagem R$ 25.000 + tinta R$ 1.600); saldo −R$ 3.950; + cobrança complementar R$ 210/unidade (R$ 70 de 02, 04 e 05/2026 não cobrados; base AGO 01/12/2025, 7º) R$ 4.200 + nov/2026 R$ 1.400 → R$ 1.650 para os corredores, faltam R$ 9.550 dos R$ 11.200. A conta da Rosangela (6.900 + 4.200 = 11.100) não desconta os R$ 10.850 de 2024 (AGE 21/03/2024, pagos pelo fundo segundo a Plan1).
 - Planilha lança 12/2023 a R$ 45; AGO 30/11/2023 fixou R$ 70 a partir de 12/2023 (diferença R$ 500) — conferir no boleto de 12/2023.
 - **Decisão da Rosangela (26/11):** a prestação do fundo mostra só os gastos de 2026 (R$ 74.100), sem os R$ 10.850 de 2024. Saldo 10/2026 R$ 6.900 + complementar R$ 4.200 + nov R$ 1.400 = R$ 12.500, cobrindo os R$ 11.200 dos corredores.
-- 26/11/2026: prestação de contas aprovada na AGO. Fontes removidas das abas Arrecadacao mensal e Pagamentos 2026 da planilha do fundo.
+- 26/11/2026: prestação do fundo de pintura aprovada pela Rosangela (versão final para a AGO). Fontes removidas das abas Arrecadacao mensal e Pagamentos 2026 da planilha do fundo.
 
 ## 10. Decisão (26/11/2026) – fundo de pintura na prestação de contas do condomínio
-- A prestação específica do fundo de pintura (`Prestacao_Contas_Fundo_Pintura_2023-2026.xlsx` / `.pdf`) foi **aprovada na AGO de 26/11/2026**.
+- A prestação específica do fundo de pintura (`Prestacao_Contas_Fundo_Pintura_2023-2026.xlsx` / `.pdf`) foi **aprovada pela Rosangela como versão final** para apresentar na AGO de 26/11/2026 (a aprovação dos condôminos é na assembleia).
 - **Não é preciso incluir uma seção própria do fundo de pintura na prestação de contas geral do condomínio.** Os valores já aparecem lá porque fazem parte da movimentação (receitas do boleto e pagamentos de pintura); não abrir quadro, aba ou relatório separado só para isso.
 - Pendente para os próximos boletos: lançar as três taxas de R$ 70 (02, 04 e 05/2026) = R$ 210 por unidade, R$ 4.200 no total, para completar a reserva dos corredores (AGO 01/12/2025, 7º assunto).
 
@@ -135,3 +135,4 @@ Documento: https://claude.ai/artifact/RchqNDSkQ3BeoWYwzPoYGs
 - Aba "Obras e pintura" removida (a pintura tem prestação própria). Mantidas: Mês a mês, Detalhe por fornecedor, Razão diário, Razão por conta (reconstruído), Conciliação bancária, Inadimplência.
 - 26/11/2026: capa "Saldo em conta e aplicação" = extrato da conta R$ 17.786,84 + aplicação R$ 6.965,07 = R$ 24.751,91. O "fundo de reserva" de R$ 284,50 do AcolWeb foi retirado de todas as abas (valor antigo, sem localização). Saldo inicial passa a R$ 40.826,34 (conta + poupança). O saldo da aplicação vem do AcolWeb; falta o extrato da poupança para conferir.
 - 26/11/2026: aba Inadimplência removida (o valor de R$ 280,54 fica só na Visão geral e no Resumo). Versão pronta para impressão.
+- Roteiro de fala da AGO: https://claude.ai/artifact/EUVboGRVKDpVJfUZ25m7Jd — `Roteiro_Fala_AGO_26-11-2026.pdf`
