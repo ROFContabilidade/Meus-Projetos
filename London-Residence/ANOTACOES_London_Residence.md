@@ -136,3 +136,8 @@ Documento: https://claude.ai/artifact/RchqNDSkQ3BeoWYwzPoYGs
 - 26/11/2026: capa "Saldo em conta e aplicação" = extrato da conta R$ 17.786,84 + aplicação R$ 6.965,07 = R$ 24.751,91. O "fundo de reserva" de R$ 284,50 do AcolWeb foi retirado de todas as abas (valor antigo, sem localização). Saldo inicial passa a R$ 40.826,34 (conta + poupança). O saldo da aplicação vem do AcolWeb; falta o extrato da poupança para conferir.
 - 26/11/2026: aba Inadimplência removida (o valor de R$ 280,54 fica só na Visão geral e no Resumo). Versão pronta para impressão.
 - Roteiro de fala da AGO: https://claude.ai/artifact/EUVboGRVKDpVJfUZ25m7Jd — `Roteiro_Fala_AGO_26-11-2026.pdf`
+
+## 12. Dados pessoais fora do GitHub (26/11/2026)
+- Este repositório é **público**. Arquivos com CPF foram retirados daqui e guardados no Google Drive da Rosangela, pasta "London Residence – arquivos com dados pessoais (não compartilhar)": ata da AGE 03/06/2026, prestação de contas 2026 (PDF e Excel, o razão diário traz CPFs nos históricos de PIX) e a reavaliação de 23/11.
+- Não salvar aqui CPF, RG, telefone ou e-mail de condôminos. A fonte é a planilha "Proprietarios e Inqulinos" no Drive.
+- Os arquivos continuam no histórico do Git e em outros branches de sessões anteriores: o que resolve é tornar o repositório privado (Settings → General → Change visibility → Private).
