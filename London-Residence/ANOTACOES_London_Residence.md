@@ -106,3 +106,9 @@ O levantamento está correto em cerca de 85% dos pontos. **Base firme**: juros/m
 - `Divergencias_Regimento_2021x2026_London.pdf` – comparativo regimento 2021 × 2026.
 - `Reavaliacao_Prestacao_Contas_2026_London.pdf` – reavaliação interna de 23/11 (histórico; o que vale é o que está acima).
 - ⚠️ `Validacao_Fundo_Pintura_2023-2026.xlsx`, citado nas anotações de 19/11, **não está em nenhum branch** do GitHub. Os números dele estão resumidos na skill (`trabalho-em-andamento.md`, seção 4) e foram superados pela aba "Conciliado" da planilha da Rosangela (item 3).
+
+## 8. Estudo: condomínio e notas fiscais (26/11/2026)
+Documento: https://claude.ai/artifact/RchqNDSkQ3BeoWYwzPoYGs
+- Até 31/12/2026: sem nota pelas taxas (rateio, não serviço).
+- A partir de 01/01/2027: NFS-e obrigatória na cobrança de taxas e outras receitas (Ato Conjunto RFB/CGIBS nº 4/2026, art. 1º, III, "f", redação do Ato nº 7/2026). Continua não contribuinte de IBS/CBS (LC 214/2025, art. 26, I), salvo opção pelo regime regular ou taxas < 80% da receita (art. 26, § 2º).
+- London: INSS 11% não retido (Santos Aleluia), NFS-e 23 com ISS em Araucária, Fidelidade/Tintas Verginia/instalação do motor sem nota. Preparar a emissão com a Group Software (AcolWeb).
