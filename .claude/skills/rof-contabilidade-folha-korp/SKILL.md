@@ -230,7 +230,10 @@ No Domínio a integração é por **centro de custo → lançamento (conta débi
 
 Erros recorrentes que continuam em 10/2026 (Filial): 8781 do CC 5 (agora C 2531), 853 do CC 5 C 2524, 937 não exportado, históricos trocados (302 CC 5 "50%", 8781 CC 13 "DESC VALE REFEIÇÃO", 8550 CC 15 "13 SALARIO ADIANTADO", item 24 CC 13 "INSS Terceiros 13º Indenizado"). Conta com código inexistente (0251, 0252, 2823) = erro de digitação na integração: conferir sempre se toda conta do TXT existe no plano.
 
+**Revisão de 10/2026 (26/11/2026):** a 2521 ficou 825,00 a mais e a 2526 825,00 a menos — ajuda de custo 499 de 5 estagiários (CC 7: Carlos, Davi, Marcelo, no lançamento de 1.320,00; CC 13: João Vitor, Wagner, no de 495,00) creditada em 2521. Total 2521+2526 correto (102.414,97). Correção: reclassificar **D 2521 / C 2526 825,00 CC337** (ou dividir os lançamentos se o TXT não foi importado). **Regra para o fechamento:** 2526 pela folha = Σ líquido dos funcionários com vínculo Estagiário + 8517; 2521 = Σ líquido dos Celetistas — nunca calcular uma como sobra da outra (escondeu a diferença com "Confere = Sim").
+
 **Pendências para 11/2026 (Filial) — conferir no TXT de novembro:**
+- Ajuda de custo 499 dos estagiários dos CC 7 e 13: conferir se veio C 2526 (separar da dos CLT).
 - Férias do **Jhonatan (CC 12)** pagas inteiras em 05/10: a parte de 11 (838,58 férias / 83,24 INSS) já está no TXT de 10 — **não lançar de novo**.
 - A usuária informou em 25/11/2026 que todas as correções da integração foram feitas no Domínio — conferir se o TXT de 11 já vem certo (erros recorrentes acima, contas 0251/0252/2823, 937).
 - Conferir se as 82 rubricas não configuradas passaram a sair no TXT.
