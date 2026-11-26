@@ -4,10 +4,10 @@
 "10-2026": {
 "nota": "Folha 10/2026. Rescisões no mês: Marcos (CC 13, 15/10) e Felipe (CC 15, 22/10); rescisões de estágio: Icaro (CC 7, 09/10, readmitido CLT em 13/10) e Erik (CC 13). Outros meses no TXT: parte de novembro das férias do Jhonatan (CC 12), pagas inteiras em 05/10 — não lançar de novo em 11.",
 "2521": [
-91241.37,
+90416.37,
 87374.14,
-3867.23,
-"Folha = Líquido Geral 99.586,53 - bolsas do mês em 2526 (8.345,16). Correções: +3.339,00 dias normais do Bruno creditados em 2531; +570,17 reflexo comissões DSR do Bruno em 2524; -41,94 bolsa afastamento da Rebecca para 2526",
+3042.23,
+"Folha = líquido dos celetistas 90.416,37. Correções no TXT: +3.339,00 dias normais do Bruno creditados em 2531; +570,17 reflexo comissões DSR do Bruno em 2524; -41,94 bolsa afastamento da Rebecca para 2526. Reclassificação manual na Korp (26/11/2026): -825,00 ajuda de custo home office de estagiários (D 2521 / C 2526: 495,00 CC 7 Carlos, Davi, Marcelo; 330,00 CC 13 João Vitor, Wagner)",
 0
 ],
 "2523": [
@@ -25,10 +25,10 @@
 755.34
 ],
 "2526": [
-11173.6,
+11998.6,
 10966.66,
-206.94,
-"Folha = bolsas do mês 8.345,16 + rescisões de estágio Icaro 1.643,01 e Erik 1.185,43. Correções: +41,94 bolsa afastamento Rebecca; +165,00 ajuda de custo do Erik na rescisão de estágio",
+1031.94,
+"Folha = líquido dos estagiários 9.170,16 (bolsas + ajuda de custo) + rescisões de estágio Icaro 1.643,01 e Erik 1.185,43. Correções no TXT: +41,94 bolsa afastamento Rebecca; +165,00 ajuda de custo do Erik na rescisão. Reclassificação manual na Korp (26/11/2026): +825,00 ajuda de custo home office de estagiários vinda da 2521 (495,00 CC 7; 330,00 CC 13)",
 0
 ],
 "2530": [
