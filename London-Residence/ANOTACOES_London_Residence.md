@@ -127,3 +127,9 @@ Documento: https://claude.ai/artifact/RchqNDSkQ3BeoWYwzPoYGs
 - A prestação específica do fundo de pintura (`Prestacao_Contas_Fundo_Pintura_2023-2026.xlsx` / `.pdf`) foi **aprovada na AGO de 26/11/2026**.
 - **Não é preciso incluir uma seção própria do fundo de pintura na prestação de contas geral do condomínio.** Os valores já aparecem lá porque fazem parte da movimentação (receitas do boleto e pagamentos de pintura); não abrir quadro, aba ou relatório separado só para isso.
 - Pendente para os próximos boletos: lançar as três taxas de R$ 70 (02, 04 e 05/2026) = R$ 210 por unidade, R$ 4.200 no total, para completar a reserva dos corredores (AGO 01/12/2025, 7º assunto).
+
+## 11. Prestação de contas 2026 atualizada (26/11/2026, com novembro fechado)
+- Fonte nova: extrato Sicredi 61921-3 até 26/11 (saldo R$ 17.786,84), relatório AcolWeb 01–30/11, aplicação de R$ 6.900 na poupança em 24/11 (saldo do fundo de pintura) e balancete mensal de 26/11 (total R$ 25.036,41).
+- Novembro: despesas R$ 13.020,72 (bancárias 150,60; áreas comuns 1.849,90 = Asset 1.154,90 + lavagem Brener 695; dedetização 1.000; Copel 603,91; gás 495). A lavagem de R$ 695 está em "Manutenção de áreas comuns" (no AcolWeb está em Serviços gerais).
+- **Capa (Visão geral) e Resumo sem a pintura:** receitas do condomínio = total − fundo de pintura recebido (R$ 43.577,88, balancete detalhado); despesas sem a pintura R$ 107.267,38; resultado R$ 13.930,61; saldo do condomínio (conta + fundo de reserva) R$ 18.071,34. No Resumo a pintura aparece só numa linha "(±) Fundo de pintura (prestação à parte)" = −R$ 30.005,04, para o saldo bater com os extratos.
+- Aba "Obras e pintura" removida (a pintura tem prestação própria). Mantidas: Mês a mês, Detalhe por fornecedor, Razão diário, Razão por conta (reconstruído), Conciliação bancária, Inadimplência.
