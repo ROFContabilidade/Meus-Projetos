@@ -112,3 +112,8 @@ Documento: https://claude.ai/artifact/RchqNDSkQ3BeoWYwzPoYGs
 - Até 31/12/2026: sem nota pelas taxas (rateio, não serviço).
 - A partir de 01/01/2027: NFS-e obrigatória na cobrança de taxas e outras receitas (Ato Conjunto RFB/CGIBS nº 4/2026, art. 1º, III, "f", redação do Ato nº 7/2026). Continua não contribuinte de IBS/CBS (LC 214/2025, art. 26, I), salvo opção pelo regime regular ou taxas < 80% da receita (art. 26, § 2º).
 - London: INSS 11% não retido (Santos Aleluia), NFS-e 23 com ISS em Araucária, Fidelidade/Tintas Verginia/instalação do motor sem nota. Preparar a emissão com a Group Software (AcolWeb).
+
+## 9. 26/11/2026 – comunicado e roteiro da AGO
+- **Correção:** o London tem **20 unidades** (201–210 e 301–310) → 20 boletos e 20 NFS-e por mês. (A base de conhecimento citava as vagas 17 e 22 como unidades autônomas; a Rosangela confirmou que são 20 unidades.)
+- Comunicado aos proprietários (boleto em nome do proprietário + NFS-e a partir de 01/01/2027; atualizar cadastro até 15/12/2026): https://claude.ai/artifact/2hPzuhZNkUtLtYWrhdAhjQ — `Comunicado_Proprietarios_Boleto_NFSe_2026.pdf`
+- Cronograma e roteiro da AGO de hoje (pente fino da prestação à tarde, com o extrato atualizado; NFS-e e boleto entram como **informe, sem votação**, porque não estão no edital de 17/11 e decorrem de lei; custo do certificado digital vai no orçamento 2027, item B): https://claude.ai/artifact/DHr3a62KaY7nxsfgPCX4Ln — `AGO_26-11-2026_Cronograma_Roteiro.pdf`
